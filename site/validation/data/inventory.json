@@ -51,7 +51,7 @@
     "docs/data-licences.md:14-15",
     "crc_sdk/connectors/adapters.py:309",
     "crc_sdk/workflows/jrc.py:521-534",
-    "check records jrc-flood/provenance[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "check records jrc-flood/provenance[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-11",
@@ -244,7 +244,7 @@
    "evidence": [
     "crc_sdk/connectors/adapters.py:420, 432-433, 702-716",
     "crc_sdk/workflows/jrc.py:53",
-    "check records jrc-flood/curves[glofas-tx], curves[glofas-houston], curves[glofas-fremont], curves[efas-rhine] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "check records jrc-flood/curves[glofas-tx], curves[glofas-houston], curves[glofas-fremont], curves[efas-rhine] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
     "optimizer in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
     "tests/validation/test_data_source_check_jrc_flood.py: test_depths_the_optimizer_does_not_converge_on_are_seen"
    ],
@@ -266,7 +266,7 @@
    "evidence": [
     "crc_sdk/connectors/adapters.py:658-663, 702-716",
     "crc_sdk/workflows/jrc.py:53, 57-81",
-    "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
     "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17"
    ],
    "fixed_in": "",
@@ -287,8 +287,8 @@
    "evidence": [
     "docs/sources/jrc.md:38-39",
     "crc_sdk/workflows/jrc.py:50-56",
-    "exploration tables 'How far the fitted curve lies from the published depths' and 'Curve where the publisher is dry, and curve below zero' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
-    "check records jrc-flood/values[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "exploration tables 'How far the fitted curve lies from the published depths' and 'Curve where the publisher is dry, and curve below zero' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
+    "check records jrc-flood/values[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
@@ -308,7 +308,7 @@
    "evidence": [
     "crc_sdk/workflows/jrc.py:156-159, 439-441, 516-517",
     "crc_sdk/connectors/duckdb/geotiff.py:289-292",
-    "check records jrc-flood/coverage[efas-tx], coverage[efas-fremont] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "check records jrc-flood/coverage[efas-tx], coverage[efas-fremont] (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
@@ -328,7 +328,7 @@
    "evidence": [
     "crc_sdk/providers/jrc.py:83-110, 155-176",
     "crc_sdk/workflows/jrc.py:109-132, 362-365, 449-465",
-    "check records jrc-flood/files[glofas], files[efas], manifest[*] and exploration table 'The publisher's releases' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "check records jrc-flood/files[glofas], files[efas], manifest[*] and exploration table 'The publisher's releases' (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
@@ -349,7 +349,7 @@
     "docs/sources/jrc.md:5-6",
     "docs/data-licences.md:31",
     "publisher files README.txt and copyright.txt of CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard, read 2026-11-17 (checksums in the draft records)",
-    "check records jrc-flood/provenance[*] and exploration table 'The publisher's releases' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "check records jrc-flood/provenance[*] and exploration table 'The publisher's releases' (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
@@ -369,7 +369,7 @@
    "evidence": [
     "crc_sdk/providers/jrc.py:186-246",
     "publisher file README.txt of CEMS-GLOFAS/flood_hazard, lines 38-49, read 2026-11-17",
-    "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
     "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17"
    ],
    "fixed_in": "",
@@ -390,7 +390,7 @@
    "evidence": [
     "crc_sdk/connectors/adapters.py:299-301, 741-743",
     "crc_sdk/workflows/jrc.py:502-511",
-    "check records jrc-flood/source-id[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "check records jrc-flood/source-id[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
     "same_pixel_in_two_areas in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17"
    ],
    "fixed_in": "",
@@ -431,7 +431,7 @@
    "evidence": [
     "crc_sdk/connectors/adapters.py:640-803",
     "crc_sdk/connectors/parquet.py:232",
-    "exploration table 'crc-sdk's runs' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "exploration table 'crc-sdk's runs' (site/validation/data/records/jrc-flood.json), run of 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
@@ -633,7 +633,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-17T15:55:02Z",
+ "generated": "2026-11-17T17:03:43Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -1426,7 +1426,7 @@
     "HazardDataset.efas",
     "HazardDataset.jrc"
    ],
-   "explorer": "",
+   "explorer": "explore/#tab=crc&source=jrc_flood",
    "framework": "crc-sdk",
    "id": "jrc-flood",
    "kind": "fitted curves",
@@ -1440,7 +1440,7 @@
    "original": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard",
    "publisher": "European Commission JRC, Copernicus Emergency Management Service",
    "purpose": "River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells.",
-   "records": "",
+   "records": "records/jrc-flood.json",
    "reviewed_by": "",
    "reviewed_on": "",
    "statement": [
@@ -1448,112 +1448,112 @@
      "code_ref": "crc_sdk/providers/jrc.py:83-110, 155-176",
      "id": "release",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Reads the release from the publisher's README.txt (the text after 'Dataset version') and refuses to run when it is not the one written in the code (GloFAS 2.1.2, EFAS 3.1.1). The file addresses hold no version."
     },
     {
      "code_ref": "crc_sdk/providers/jrc.py:93, 102; crc_sdk/workflows/jrc.py:92-106",
      "id": "periods",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Offers the return periods written in the code: 10, 20, 50, 75, 100, 200 and 500 years for GloFAS, and also 30 and 40 for EFAS. The publisher's directory is not read."
     },
     {
      "code_ref": "crc_sdk/providers/jrc.py:186-246",
      "id": "tiles",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "For GloFAS, takes every tile of the publisher's tile index whose extent meets the box, tiles that only touch it included; one depth file per tile and return period. For EFAS, takes the one raster of Europe per return period, whatever the box."
     },
     {
      "code_ref": "crc_sdk/workflows/jrc.py:151-161, 396-447; crc_sdk/connectors/duckdb/geotiff.py:283-312, 434-462",
      "id": "crop",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "With a cache, copies from each file the window of every pixel the box touches into a local GeoTIFF, values unchanged, and fits from those copies. A tile the box does not reach is left out."
     },
     {
      "code_ref": "crc_sdk/workflows/jrc.py:109-132, 362-365, 449-465",
      "id": "manifest",
      "note": "The contents of the manifest and its checksums are confirmed. That a later run does not ask the publisher again is read in the code; it was not run with the network off.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Writes a manifest in the cache with the release, the time it was resolved, the box, the return periods, each file's address and the SHA-256 of each local copy. No checksum of the publisher's file is taken, and a later run that finds the manifest does not ask the publisher again."
     },
     {
      "code_ref": "crc_sdk/workflows/jrc.py:156-159, 439-441, 516-517; crc_sdk/connectors/duckdb/geotiff.py:289-292",
      "id": "coverage",
      "note": "Run with a cache. Without one (stream mode) the code raises a different error, ValueError 'bounds do not intersect the raster'; that mode was not run.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "A box outside the raster gives no crop; when no file reaches the box the run ends with LookupError 'no JRC resources intersect area' (with a cache). The message does not name the dataset's extent."
     },
     {
      "code_ref": "crc_sdk/connectors/duckdb/geotiff.py:676-687",
      "id": "nodata",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "differs",
      "text": "A pixel equal to the file's nodata value (-9999), or not finite, has no depth at that return period. A pixel with no depth at any return period is skipped."
     },
     {
      "code_ref": "crc_sdk/connectors/adapters.py:658-663; crc_sdk/workflows/jrc.py:57-81",
      "id": "knots",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "differs",
      "text": "Fits a curve only to a pixel that has a depth at four or more return periods. Other pixels get no row and no message (the curated policy writes no diagnostics file)."
     },
     {
      "code_ref": "crc_sdk/connectors/adapters.py:392-459, 696-701; crc_sdk/workflows/jrc.py:50-56",
      "id": "fit",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "differs",
      "text": "Fits a Gumbel distribution by least squares to the pixel's depths at their return periods (probability 1 - 1/T). The curated policy sets no limit on the misfit."
     },
     {
      "code_ref": "crc_sdk/connectors/adapters.py:702-726; crc_sdk/workflows/jrc.py:53",
      "id": "fit-failure",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "differs",
      "text": "A pixel whose depths are all equal, or decrease from one return period to the next, cannot be fitted and is skipped without a message (`on_fit_failure = \"skip\"`)."
     },
     {
      "code_ref": "crc_sdk/connectors/adapters.py:743-803; crc_sdk/geometry/h3.py:236-260; crc_sdk/workflows/jrc.py:70",
      "id": "cells",
      "note": "Compared for a seeded sample of pixels in each area, not for every pixel.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Gives each fitted pixel one row for every H3 cell its square overlaps, at the resolution asked for (`native` means 10). Rows of one cell are not combined: reducing them to one value per cell is left to the caller."
     },
     {
      "code_ref": "crc_sdk/connectors/adapters.py:299-301, 741-743; crc_sdk/providers/jrc.py:248-262; crc_sdk/workflows/jrc.py:502-511",
      "id": "source-id",
      "note": "Compared for a seeded sample of pixels in each area.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Identifies a pixel by the SHA-256 of the dataset name, the tile and the pixel's row and column. With a cache the row and column are those of the local crop, not of the publisher's file."
     },
     {
      "code_ref": "crc_sdk/providers/jrc.py:43-48, 248-262; crc_sdk/connectors/adapters.py:306-345",
      "id": "labels",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Labels every row hazard `RiverineInundation`, pathway `historical`, horizon 0, curve type `gumbel_r`, and the file with the unit m, the release and the return-period range of the inputs."
     },
     {
      "code_ref": "crc_sdk/workflows/jrc.py:135-148, 518-534; crc_sdk/connectors/adapters.py:306-345",
      "id": "provenance",
      "note": "",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Writes in the output file a uri naming the dataset, the box (to twelve significant digits), the tiles that gave a curve and the return periods. Licence, attribution, retrieval time and checksum are left empty."
     },
     {
      "code_ref": "docs/sources/jrc.md:36-40; crc_sdk/connectors/adapters.py:1-40",
      "id": "evaluation",
      "note": "Confirmed in so far as crc-framework's values of the fitted curves equal the reference's at the published return periods and at 25 and 250 years, for a seeded sample of pixels. How far the curve lies from the published depths is reported as exploration, not as a check.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Depths at any return period, the published ones included, are read from the fitted curve; the published depths are not kept."
     }
    ],
    "status": {
-    "exploration": "in progress",
+    "exploration": "assessed",
     "validation": "not assessed",
-    "verification": "in progress"
+    "verification": "assessed"
    },
    "symbols": [
     "JRCAreaPlan",

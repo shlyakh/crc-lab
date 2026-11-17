@@ -53,7 +53,8 @@ none of them).
   `reports/V<n>-*.md`, `references/` texts that are cited, each with checksum and passages: SR 26-2, NASA's NEX v2 note), page `site/validation/` (data
   and `data/records/<id>.json` committed), tests `tests/validation/`, `just validation` (offline
   rebuild), `just validation-assess <id>` (live run; caches under `data/cache/validation/`),
-  `tools/smoke-validation.mjs`. Assessed so far: IBTrACS (V1), GHCNh (V2), NEX-GDDP-CMIP6 (V3; its
+  `tools/smoke-validation.mjs`. Assessed so far: IBTrACS (V1), GHCNh (V2), JRC flood (V8; accepted onto the
+  page as an unreviewed draft on 2026-11-17 at Yuri's word), NEX-GDDP-CMIP6 (V3; its
   temperature recipes are also run against the fixed clone `../forks/crc-sdk`, labelled as such).
   Monitoring (V4): `just validation-monitor` (HEAD requests; writes `docs/validation/monitoring.md`),
   `just validation-monitor-rerun` (stages a re-run), `just validation-accept <id>` (a person publishes
@@ -63,7 +64,7 @@ none of them).
   never the page), `just validation-draft-check <id>` (gate), `just validation-draft-accept <id>` (a
   person publishes); notes in `docs/validation/drafts/`.
   JRC flood, GloFAS and EFAS (V8, plan of 2026-11-17, three stages): Stage 1 drafted `jrc-flood`
-  (`docs/validation/reports/V8.1-jrc-flood-verification.md`; draft, not accepted; findings CRC-013
+  (`docs/validation/reports/V8.1-jrc-flood-verification.md`; findings CRC-013
   to CRC-022 entered by the drafter at Yuri's request, see `method.md` §7); Stages 2 (map layers,
   regions) and 3 (FEMA, gauges, Harvey marks) followed at his go the same day: Stage 2 report
   `V8.2-jrc-flood-regions-and-maps.md` (regions `texas`, `fremont`, `rhine` in `site/layers.json`,

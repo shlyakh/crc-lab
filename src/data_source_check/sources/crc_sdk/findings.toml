@@ -56,7 +56,7 @@ evidence = [
   "docs/data-licences.md:14-15",
   "crc_sdk/connectors/adapters.py:309",
   "crc_sdk/workflows/jrc.py:521-534",
-  "check records jrc-flood/provenance[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/provenance[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"
@@ -213,7 +213,7 @@ consequence = "A small share of pixels (about 3 in 10,000 here) that have depths
 evidence = [
   "crc_sdk/connectors/adapters.py:420, 432-433, 702-716",
   "crc_sdk/workflows/jrc.py:53",
-  "check records jrc-flood/curves[glofas-tx], curves[glofas-houston], curves[glofas-fremont], curves[efas-rhine] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/curves[glofas-tx], curves[glofas-houston], curves[glofas-fremont], curves[efas-rhine] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
   "optimizer in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
   "tests/validation/test_data_source_check_jrc_flood.py: test_depths_the_optimizer_does_not_converge_on_are_seen",
 ]
@@ -233,7 +233,7 @@ consequence = "A place the publisher's map floods only at long return periods (1
 evidence = [
   "crc_sdk/connectors/adapters.py:658-663, 702-716",
   "crc_sdk/workflows/jrc.py:53, 57-81",
-  "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
   "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
 ]
 basis = "reproduced"
@@ -252,8 +252,8 @@ consequence = "Evaluated at 10 to 50 years, the output shows water where the pub
 evidence = [
   "docs/sources/jrc.md:38-39",
   "crc_sdk/workflows/jrc.py:50-56",
-  "exploration tables 'How far the fitted curve lies from the published depths' and 'Curve where the publisher is dry, and curve below zero' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
-  "check records jrc-flood/values[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "exploration tables 'How far the fitted curve lies from the published depths' and 'Curve where the publisher is dry, and curve below zero' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/values[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"
@@ -271,7 +271,7 @@ consequence = "The user learns that nothing intersects but not why; a caller tha
 evidence = [
   "crc_sdk/workflows/jrc.py:156-159, 439-441, 516-517",
   "crc_sdk/connectors/duckdb/geotiff.py:289-292",
-  "check records jrc-flood/coverage[efas-tx], coverage[efas-fremont] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/coverage[efas-tx], coverage[efas-fremont] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"
@@ -289,7 +289,7 @@ consequence = "If the publisher replaces a depth file without changing the READM
 evidence = [
   "crc_sdk/providers/jrc.py:83-110, 155-176",
   "crc_sdk/workflows/jrc.py:109-132, 362-365, 449-465",
-  "check records jrc-flood/files[glofas], files[efas], manifest[*] and exploration table 'The publisher's releases' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/files[glofas], files[efas], manifest[*] and exploration table 'The publisher's releases' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"
@@ -308,7 +308,7 @@ evidence = [
   "docs/sources/jrc.md:5-6",
   "docs/data-licences.md:31",
   "publisher files README.txt and copyright.txt of CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard, read 2026-11-17 (checksums in the draft records)",
-  "check records jrc-flood/provenance[*] and exploration table 'The publisher's releases' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/provenance[*] and exploration table 'The publisher's releases' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"
@@ -326,7 +326,7 @@ consequence = "Depths the publisher itself marks as doubtful reach the user unma
 evidence = [
   "crc_sdk/providers/jrc.py:186-246",
   "publisher file README.txt of CEMS-GLOFAS/flood_hazard, lines 38-49, read 2026-11-17",
-  "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
   "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
 ]
 basis = "reproduced"
@@ -345,7 +345,7 @@ consequence = "Outputs for two boxes cannot be joined, compared or de-duplicated
 evidence = [
   "crc_sdk/connectors/adapters.py:299-301, 741-743",
   "crc_sdk/workflows/jrc.py:502-511",
-  "check records jrc-flood/source-id[*] (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "check records jrc-flood/source-id[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
   "same_pixel_in_two_areas in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
 ]
 basis = "reproduced"
@@ -382,7 +382,7 @@ consequence = "A user asking for a state or a country should expect tens of minu
 evidence = [
   "crc_sdk/connectors/adapters.py:640-803",
   "crc_sdk/connectors/parquet.py:232",
-  "exploration table 'crc-sdk's runs' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+  "exploration table 'crc-sdk's runs' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
 status = "open"

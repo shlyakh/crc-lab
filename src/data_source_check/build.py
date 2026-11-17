@@ -28,7 +28,7 @@ REPO = Path(__file__).resolve().parents[2]
 PAGE_DATA = REPO / "site" / "validation" / "data"
 DOCS = REPO / "docs" / "validation"
 CACHE = REPO / "data" / "cache" / "validation"
-ASSESSMENTS = ("ibtracs", "ghcnh", "nex-gddp-cmip6")
+ASSESSMENTS = ("ibtracs", "ghcnh", "nex-gddp-cmip6", "jrc-flood")
 #: where a drafted assessment writes its records until a person accepts it (git-ignored)
 DRAFTS = CACHE / "drafts"
 #: a local clone of crc-sdk carrying fixes not yet released; used only where a check says so
@@ -115,6 +115,10 @@ def assess_source(
             fixed_clone=FIXED_CLONE if (FIXED_CLONE / "crc_sdk").is_dir() else None,
             log=print,
         )
+    elif source_id == "jrc-flood":
+        from .assessments import jrc_flood
+
+        run = jrc_flood.assess(folder, live=live, versions=offered["versions"], log=print)
     else:
         from .assessments import ghcnh
 

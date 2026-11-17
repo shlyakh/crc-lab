@@ -8,6 +8,7 @@ original = "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_h
 purpose = "River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells."
 entry_points = ["HazardDataset.glofas", "HazardDataset.efas", "HazardDataset.jrc"]
 symbols = ["JRCAreaPlan", "JRCCanonicalizationPlan", "JRCSourcePlan"]
+explorer = "explore/#tab=crc&source=jrc_flood"
 drafted_by = "agent (Claude, with Yuri's plan of 2026-11-17), 2026-11-17"
 notes = "GloFAS is assessed in the Texas box, in close-ups of Houston and Austin and in a box around Fremont, California; EFAS in the Rhine box of crc-docs' flood_risk_by_province notebook. Every run uses all published return periods, the curated policy and a cache. A stream run (no cache), a subset of return periods, other policies and `for_assets` were not run."
 
@@ -18,8 +19,8 @@ dataset = ["efas", "glofas"]
 dataset = ["efas", "glofas"]
 
 [status]
-exploration = "in progress"
-verification = "in progress"
+exploration = "assessed"
+verification = "assessed"
 validation = "not assessed"
 
 [[statement]]
