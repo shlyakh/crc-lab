@@ -48,3 +48,8 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/crc_lab", "src/crc_data_explorer", "src/data_source_check", "src/lab_common"]
+
+[tool.uv]
+# rasterio 1.5.2 ships no macOS 14 wheel, so uv compiled it against Homebrew's GDAL, whose own copy of
+# Arrow breaks pyarrow in the same process. 1.5.1 has a self-contained macOS 14 wheel.
+constraint-dependencies = ["rasterio<1.5.2 ; sys_platform == 'darwin'"]

@@ -155,6 +155,10 @@ drafts as drafts.
   when a person runs `just validation-draft-accept <id>`. A deterministic gate
   (`just validation-draft-check <id>`) says whether a draft is complete; it does not say whether the
   framework is right. A draft adds no finding: it lists candidates in its note for the person to enter.
+  Exception (Yuri, 2026-11-17, for `jrc-flood`): where the person asks for every issue met to be
+  reported, the drafter enters the findings itself, each with its basis and evidence, and still lists
+  them in the note; how to reproduce, study and fix each one is kept in `local/upstream-review.md` and
+  in the stage report, not in the finding.
 
 ## 8. Independence
 

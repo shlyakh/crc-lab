@@ -5,10 +5,99 @@ tier = 2
 tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result depends on it yet."
 publisher = "European Commission JRC, Copernicus Emergency Management Service"
 original = "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard"
-purpose = "River flood depth at published return periods, fitted to a curve per cell."
+purpose = "River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells."
 entry_points = ["HazardDataset.glofas", "HazardDataset.efas", "HazardDataset.jrc"]
 symbols = ["JRCAreaPlan", "JRCCanonicalizationPlan", "JRCSourcePlan"]
-notes = "Could not be run on the build Mac: rasterio fails to load (report S1)."
+drafted_by = "agent (Claude, with Yuri's plan of 2026-11-17), 2026-11-17"
+notes = "GloFAS is assessed in the Texas box, in close-ups of Houston and Austin and in a box around Fremont, California; EFAS in the Rhine box of crc-docs' flood_risk_by_province notebook. Every run uses all published return periods, the curated policy and a cache. A stream run (no cache), a subset of return periods, other policies and `for_assets` were not run."
 
 [options]
 dataset = ["efas", "glofas"]
+
+[assessed_options]
+dataset = ["efas", "glofas"]
+
+[status]
+exploration = "in progress"
+verification = "in progress"
+validation = "not assessed"
+
+[[statement]]
+id = "release"
+text = "Reads the release from the publisher's README.txt (the text after 'Dataset version') and refuses to run when it is not the one written in the code (GloFAS 2.1.2, EFAS 3.1.1). The file addresses hold no version."
+code_ref = "crc_sdk/providers/jrc.py:83-110, 155-176"
+
+[[statement]]
+id = "periods"
+text = "Offers the return periods written in the code: 10, 20, 50, 75, 100, 200 and 500 years for GloFAS, and also 30 and 40 for EFAS. The publisher's directory is not read."
+code_ref = "crc_sdk/providers/jrc.py:93, 102; crc_sdk/workflows/jrc.py:92-106"
+
+[[statement]]
+id = "tiles"
+text = "For GloFAS, takes every tile of the publisher's tile index whose extent meets the box, tiles that only touch it included; one depth file per tile and return period. For EFAS, takes the one raster of Europe per return period, whatever the box."
+code_ref = "crc_sdk/providers/jrc.py:186-246"
+
+[[statement]]
+id = "crop"
+text = "With a cache, copies from each file the window of every pixel the box touches into a local GeoTIFF, values unchanged, and fits from those copies. A tile the box does not reach is left out."
+code_ref = "crc_sdk/workflows/jrc.py:151-161, 396-447; crc_sdk/connectors/duckdb/geotiff.py:283-312, 434-462"
+
+[[statement]]
+id = "manifest"
+text = "Writes a manifest in the cache with the release, the time it was resolved, the box, the return periods, each file's address and the SHA-256 of each local copy. No checksum of the publisher's file is taken, and a later run that finds the manifest does not ask the publisher again."
+code_ref = "crc_sdk/workflows/jrc.py:109-132, 362-365, 449-465"
+note = "The contents of the manifest and its checksums are confirmed. That a later run does not ask the publisher again is read in the code; it was not run with the network off."
+
+[[statement]]
+id = "coverage"
+text = "A box outside the raster gives no crop; when no file reaches the box the run ends with LookupError 'no JRC resources intersect area' (with a cache). The message does not name the dataset's extent."
+code_ref = "crc_sdk/workflows/jrc.py:156-159, 439-441, 516-517; crc_sdk/connectors/duckdb/geotiff.py:289-292"
+note = "Run with a cache. Without one (stream mode) the code raises a different error, ValueError 'bounds do not intersect the raster'; that mode was not run."
+
+[[statement]]
+id = "nodata"
+text = "A pixel equal to the file's nodata value (-9999), or not finite, has no depth at that return period. A pixel with no depth at any return period is skipped."
+code_ref = "crc_sdk/connectors/duckdb/geotiff.py:676-687"
+
+[[statement]]
+id = "knots"
+text = "Fits a curve only to a pixel that has a depth at four or more return periods. Other pixels get no row and no message (the curated policy writes no diagnostics file)."
+code_ref = "crc_sdk/connectors/adapters.py:658-663; crc_sdk/workflows/jrc.py:57-81"
+
+[[statement]]
+id = "fit"
+text = "Fits a Gumbel distribution by least squares to the pixel's depths at their return periods (probability 1 - 1/T). The curated policy sets no limit on the misfit."
+code_ref = "crc_sdk/connectors/adapters.py:392-459, 696-701; crc_sdk/workflows/jrc.py:50-56"
+
+[[statement]]
+id = "fit-failure"
+text = "A pixel whose depths are all equal, or decrease from one return period to the next, cannot be fitted and is skipped without a message (`on_fit_failure = \"skip\"`)."
+code_ref = "crc_sdk/connectors/adapters.py:702-726; crc_sdk/workflows/jrc.py:53"
+
+[[statement]]
+id = "cells"
+text = "Gives each fitted pixel one row for every H3 cell its square overlaps, at the resolution asked for (`native` means 10). Rows of one cell are not combined: reducing them to one value per cell is left to the caller."
+code_ref = "crc_sdk/connectors/adapters.py:743-803; crc_sdk/geometry/h3.py:236-260; crc_sdk/workflows/jrc.py:70"
+note = "Compared for a seeded sample of pixels in each area, not for every pixel."
+
+[[statement]]
+id = "source-id"
+text = "Identifies a pixel by the SHA-256 of the dataset name, the tile and the pixel's row and column. With a cache the row and column are those of the local crop, not of the publisher's file."
+code_ref = "crc_sdk/connectors/adapters.py:299-301, 741-743; crc_sdk/providers/jrc.py:248-262; crc_sdk/workflows/jrc.py:502-511"
+note = "Compared for a seeded sample of pixels in each area."
+
+[[statement]]
+id = "labels"
+text = "Labels every row hazard `RiverineInundation`, pathway `historical`, horizon 0, curve type `gumbel_r`, and the file with the unit m, the release and the return-period range of the inputs."
+code_ref = "crc_sdk/providers/jrc.py:43-48, 248-262; crc_sdk/connectors/adapters.py:306-345"
+
+[[statement]]
+id = "provenance"
+text = "Writes in the output file a uri naming the dataset, the box (to twelve significant digits), the tiles that gave a curve and the return periods. Licence, attribution, retrieval time and checksum are left empty."
+code_ref = "crc_sdk/workflows/jrc.py:135-148, 518-534; crc_sdk/connectors/adapters.py:306-345"
+
+[[statement]]
+id = "evaluation"
+text = "Depths at any return period, the published ones included, are read from the fitted curve; the published depths are not kept."
+code_ref = "docs/sources/jrc.md:36-40; crc_sdk/connectors/adapters.py:1-40"
+note = "Confirmed in so far as crc-framework's values of the fitted curves equal the reference's at the published return periods and at 25 and 250 years, for a seeded sample of pixels. How far the curve lies from the published depths is reported as exploration, not as a check."

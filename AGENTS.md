@@ -61,6 +61,11 @@ none of them).
   `just validation-brief <id>`, `just validation-draft <id>` (records to `data/cache/validation/drafts/`,
   never the page), `just validation-draft-check <id>` (gate), `just validation-draft-accept <id>` (a
   person publishes); notes in `docs/validation/drafts/`.
+  JRC flood, GloFAS and EFAS (V8, plan of 2026-11-17, three stages): Stage 1 drafted `jrc-flood`
+  (`docs/validation/reports/V8.1-jrc-flood-verification.md`; draft, not accepted; findings CRC-013
+  to CRC-022 entered by the drafter at Yuri's request, see `method.md` §7); Stages 2 (map layers,
+  regions) and 3 (FEMA, gauges, Harvey marks) wait for his go. Probes behind findings:
+  `tools/probes/jrc_flood_probes.py`. rasterio is held below 1.5.2 on macOS (`pyproject.toml`).
   Rules of its own: `core/` and `reference/` never import crc-sdk; the package imports nothing from
   `crc_lab`; the page and reports are generated from records, never typed; findings are worded neutrally
   (documented, observed, consequence) with no grades; an assessment is a draft until Yuri signs it;
