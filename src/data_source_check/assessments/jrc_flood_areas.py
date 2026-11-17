@@ -166,6 +166,15 @@ FIELDS = (
     ("no_curve_share", "Flooded pixels without a curve, share", "%",
      "share of the cell's pixels flooded at this return period that get no curve under "
      "crc-sdk's rules (fewer than four depths, equal depths, a decreasing depth)"),
+    ("no_curve_land", "Flooded land without a curve (fewer than four depths), share", "%",
+     "share of the cell's pixels flooded at this return period that have a depth at fewer than "
+     "four return periods and so get no curve; none of them is permanent water"),
+    ("no_curve_water", "Water bodies without a curve (equal or decreasing depths), share", "%",
+     "share of the cell's pixels flooded at this return period whose depths are all equal or "
+     "decrease, and so get no curve; these lie in the publisher's permanent water"),
+    ("not_converged", "Pixels the fit does not converge on", "pixels",
+     "pixels that have depths at four or more return periods, not all equal and not decreasing, "
+     "for which crc-sdk's output has no curve; the same at every return period"),
     ("dry_curve", "Dry in the published map, curve gives 0.1 m or more", "pixels",
      "pixels with no published depth at this return period whose fitted curve gives 0.1 m or "
      "more there"),
@@ -178,16 +187,25 @@ FIELDS = (
      "pixels whose published depth at this return period is above 10 m"),
     ("deep_in_mask", "Pixels deeper than 10 m inside JRC's spurious-depth mask", "pixels",
      "pixels above 10 m at this return period that lie in the publisher's spurious-depth mask"),
+    ("water_share", "Flooded pixels that are permanent water, share", "%",
+     "share of the cell's pixels flooded at this return period that lie in the publisher's "
+     "permanent-water layer, where the maps hold a patch value"),
 )  # fmt: skip
-COUNTS = ("wet", "none", "dry_curve", "below_zero", "deep", "deep_in_mask")
+COUNTS = ("wet", "none", "dry_curve", "below_zero", "deep", "deep_in_mask", "few", "flat",
+          "unfitted", "water")  # fmt: skip
 LARGEST = ("published", "misfit")
 
 
 class Cells:
     """Per-cell sums over an area's flooded pixels; a pixel belongs to the cell of its centre."""
 
-    def __init__(self, resolution: int, periods: Sequence[int]) -> None:
+    def __init__(self, resolution: int, periods: Sequence[int],
+                 water: dict[tuple[float, float], np.ndarray] | None = None,
+                 fitted: dict[tuple[float, float], np.ndarray] | None = None) -> None:  # fmt: skip
+        """``water``: the permanent-water layer per tile, keyed by the tile's west and north edge.
+        ``fitted``: per tile, the sorted positions (row * KEY + column) crc-sdk has a curve for."""
         self.resolution = resolution
+        self.water, self.fitted = water, fitted
         self.shown = [p for p in MAP_PERIODS if p in periods]
         self.at = [list(periods).index(p) for p in self.shown]
         self.parts: list[tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]] = []
@@ -210,6 +228,15 @@ class Cells:
         counts = np.zeros((len(COUNTS), len(self.shown), size))
         largest = np.full((len(LARGEST), len(self.shown), size), -np.inf)
         self.masked = self.masked or inside is not None
+        tile = (round(grid.left, 3), round(grid.top, 3))
+        knots = held.sum(axis=0)
+        few = knots < 4
+        flat = ~few & ~good  # equal or decreasing depths
+        wet_body = (self.water[tile][rows, columns] if self.water is not None
+                    else np.zeros(len(rows), dtype=bool))  # fmt: skip
+        unfitted = np.zeros(len(rows), dtype=bool)
+        if self.fitted is not None:
+            unfitted = good & ~np.isin(rows * base.KEY + columns, self.fitted[tile])
         for j, (period, i) in enumerate(zip(self.shown, self.at, strict=True)):
             wet, depth = held[i], values[i]
             curve = np.full(len(rows), np.nan)
@@ -220,6 +247,8 @@ class Cells:
                 ("dry_curve", good & ~wet & (curve >= 0.1)), ("below_zero", good & (curve < 0)),
                 ("deep", deep),
                 ("deep_in_mask", deep & inside if inside is not None else np.zeros_like(wet)),
+                ("few", wet & few), ("flat", wet & flat), ("unfitted", unfitted),
+                ("water", wet & wet_body),
             ):  # fmt: skip
                 counts[COUNTS.index(name), j] = np.bincount(inverse[chosen], minlength=size)
             np.maximum.at(largest[0, j], inverse[wet], depth[wet])
@@ -244,16 +273,26 @@ class Cells:
         for k in range(len(LARGEST)):
             for j in range(len(self.shown)):
                 np.maximum.at(largest[k, j], inverse, joined_largest[k, j])
-        wet, none = counts[COUNTS.index("wet")], counts[COUNTS.index("none")]
-        with np.errstate(invalid="ignore", divide="ignore"):
-            share = np.where(wet > 0, 100.0 * none / wet, np.nan)
+        wet = counts[COUNTS.index("wet")]
+
+        def share(name: str) -> np.ndarray:
+            with np.errstate(invalid="ignore", divide="ignore"):
+                return np.where(wet > 0, 100.0 * counts[COUNTS.index(name)] / wet, np.nan)
+
         fields = {
-            "published": largest[0], "misfit": largest[1], "no_curve_share": share,
+            "published": largest[0], "misfit": largest[1], "no_curve_share": share("none"),
+            "no_curve_land": share("few"), "no_curve_water": share("flat"),
+            "not_converged": counts[COUNTS.index("unfitted")],
+            "water_share": share("water"),
             **{name: counts[COUNTS.index(name)] for name in
                ("dry_curve", "below_zero", "deep", "deep_in_mask")},
         }  # fmt: skip
         if not self.masked:
             del fields["deep_in_mask"]
+        if self.water is None:
+            del fields["water_share"]
+        if self.fitted is None:
+            del fields["not_converged"]
         return {"cells": cells, "pixels": pixels, "fields": fields}
 
 
@@ -268,6 +307,41 @@ def _column(values: np.ndarray, shown: Sequence[int], digits: int) -> list[list[
                        (int(value) if digits == 0 else round(float(value), digits)))  # fmt: skip
         out.append(row)
     return out
+
+
+def _layers(copy: reference.Copy, area: base.Area, periods: Sequence[int], tiles: Sequence[str],
+            cache: Path, rules: reference.Rules, *, with_runs: bool,
+            ) -> tuple[dict[tuple[float, float], np.ndarray] | None,
+                       dict[tuple[float, float], np.ndarray] | None]:  # fmt: skip
+    """Per tile of the area: the publisher's permanent-water layer (GloFAS), and the positions
+    crc-sdk's stored output of the assessment has a curve for (when that output exists)."""
+    described = []
+    water: dict[tuple[float, float], np.ndarray] = {}
+    for tile in tiles:
+        with reference.Tiff(copy.file(reference.depth_name(copy.layout, periods[0], tile))) as t:
+            described.append({"tile": tile, "window": t.window(area.bounds, rules),
+                              "grid": t.describe()})  # fmt: skip
+            edge = (round(t.left, 3), round(t.top, 3))
+        if copy.layout == "tiled" and not copy.local:  # constructed publishers hold no such layer
+            name = f"Permanent_WaterBodies/{tile}_permanent_water.tif"
+            with reference.Tiff(copy.file(name)) as w:
+                data = w.read()
+                water[edge] = (data != 0) if w.nodata is None else (
+                    (data != 0) & (data != np.asarray(w.nodata, dtype=data.dtype)))  # fmt: skip
+    run = cache / "framework" / f"{area.id}-r{base._resolution(area.resolution)}"
+    fitted = None
+    if with_runs and (run / "hazard.parquet").exists():
+        theirs = base._framework_pixels(run, tiles, base._grids(described))
+        pixel = theirs["pixel"][theirs["pixel"] >= 0]
+        fitted = {}
+        for number, entry in enumerate(described):
+            with reference.Tiff(
+                copy.file(reference.depth_name(copy.layout, periods[0], entry["tile"]))
+            ) as t:
+                edge = (round(t.left, 3), round(t.top, 3))
+            here = pixel[pixel // (base.KEY * base.KEY) == number]
+            fitted[edge] = np.sort(here % (base.KEY * base.KEY))
+    return (water if len(water) == len(tiles) else None), fitted
 
 
 def review_maps(cache: Path, target: Path = MAPS, *, live: bool = False,
@@ -287,11 +361,14 @@ def review_maps(cache: Path, target: Path = MAPS, *, live: bool = False,
                  if copy.layout == "tiled" else ["continental"])  # fmt: skip
         resolution = REVIEW_RESOLUTION.get(area.id, base._resolution(area.resolution))
         log(f"{area.id}: review map at resolution {resolution}")
-        collector = Cells(resolution, periods)
+        water, fitted = _layers(copy, area, periods, tiles, cache, rules,
+                                with_runs=publisher is None)  # fmt: skip
+        collector = Cells(resolution, periods, water, fitted)
         read = base._read_reference(copy, area, periods, tiles, {}, rules, base.STRIP_ROWS,
                                     collect=collector)  # fmt: skip
         found = collector.result()
-        digits = {"published": 3, "misfit": 3, "no_curve_share": 1}
+        digits = {"published": 3, "misfit": 3, "no_curve_share": 1, "no_curve_land": 1,
+                  "no_curve_water": 1, "water_share": 1}  # fmt: skip
         payload = {
             "hazard": f"jrc-review-{area.id}",
             "horizon": 0,

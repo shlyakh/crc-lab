@@ -62,6 +62,12 @@ if (withRecords.length) {
   const barsNA = await ev("document.querySelectorAll('#assessments svg.chart rect.bar').length");
   check("the chart follows the file selector", barsNA > 20 && barsNA !== bars, barsNA);
 }
+check("findings the map shows link to it, one link per area; the source's other findings say so", await ev(`(() => {
+  const body = (id) => { const d = [...document.querySelectorAll('#findings details.finding')].find((x) => x.querySelector('.fid').textContent === id); return d ? d.querySelector('.body') : null; };
+  const links = [...body('CRC-014-JRC').querySelectorAll('a.maplink')].map((a) => a.getAttribute('href'));
+  return links.length === 5 && links[0] === 'explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share' && body('CRC-013-FWK').querySelectorAll('a.maplink').length === 5
+    && body('CRC-018-JRC').textContent.includes('Not a finding with a place on the map') && !body('CRC-010-IBT').textContent.includes('On the map');
+})()`), (await ev("document.body.dataset.mapped")));
 await shot("validation-1440");
 await size(390, 844); await open();
 const overflow = await ev("document.documentElement.scrollWidth - document.documentElement.clientWidth");

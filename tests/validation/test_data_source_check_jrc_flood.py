@@ -393,6 +393,12 @@ def test_review_maps_count_what_the_reference_reads(tmp_path: Path, publisher: d
         deepest = max(v for v in column("published") if v is not None)
         assert deepest <= round(numbers["largest_depth"], 3)
     assert all(len(row) == len(shown) for row in fields["published"]["values"])
+    # the two kinds of pixel without a curve add up to all of them
+    for land, body, both in zip(fields["no_curve_land"]["values"],
+                                fields["no_curve_water"]["values"],
+                                fields["no_curve_share"]["values"], strict=True):  # fmt: skip
+        for a, b, c in zip(land, body, both, strict=True):
+            assert (a is None) == (c is None) and (c is None or abs(a + b - c) <= 0.11)
 
 
 def test_charts_name_their_finding_and_cover_every_area(tmp_path: Path, publisher: dict) -> None:
@@ -403,6 +409,10 @@ def test_charts_name_their_finding_and_cover_every_area(tmp_path: Path, publishe
         assert set(chart["series"]) == set(titles) and chart["default"] == titles[0]
         assert all(isinstance(v, int | float) for rows in chart["series"].values() for _, v in rows)
     assert "by_area" not in run["exploration"]  # needs real boundary files
+    # every table and chart says where its numbers come from
+    assert {t["origin"] for t in run["tables"]} == {"crc-sdk", "publisher"}
+    assert [t["origin"] for t in run["tables"] if t["title"] == "crc-sdk's runs"] == ["crc-sdk"]
+    assert all(c["origin"] == "publisher" for c in [run["chart"], *run["charts"]])
 
 
 # --------------------------------------------------------------- outside evidence (no verdict)

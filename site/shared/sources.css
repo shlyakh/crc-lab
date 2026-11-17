@@ -169,3 +169,20 @@
   #tab-sources { grid-template-columns: 260px minmax(0, 1fr); }
   #tab-sources .col-detail { display: none; }
 }
+
+/* where a layer comes from (explorer page): a tag beside titles, a mark in the source list */
+#tab-sources .ptag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+#tab-sources .ptag::before { content: ""; width: 7px; height: 7px; background: var(--c, var(--mute)); flex: none; }
+#tab-sources .legend .ptag { margin: 2px 0 4px; }
+#tab-sources .pdot { display: inline-block; width: 7px; height: 7px; background: var(--c, var(--mute)); margin-right: 3px; vertical-align: baseline; }
+/* stepping through the layers of a source, and the finding a layer shows */
+#tab-sources .steps { display: flex; align-items: center; gap: var(--s2); margin: var(--s1) 0 var(--s2); }
+#tab-sources .steps .step { height: 24px; padding: 0 var(--s2); border: 1px solid var(--rule-2); border-radius: 3px; background: #fff; font-size: var(--f-s); cursor: pointer; }
+#tab-sources .steps .step:hover { background: var(--hover); }
+#tab-sources .steps #layer-count { margin-left: auto; }
+#tab-sources .finding-box { font-size: var(--f-s); }
+#tab-sources .finding-box .f-one { margin: var(--s1) 0 var(--s2); }
+#tab-sources .finding-box .f-title { margin: 2px 0; font-weight: 600; }
+#tab-sources .finding-box details p { margin: var(--s1) 0; }
+#tab-sources .finding-box > :not(.sec-head) { padding: 0 var(--s3); }
+#tab-sources .finding-box .f-one { padding-top: var(--s1); }

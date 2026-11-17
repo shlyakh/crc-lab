@@ -1044,10 +1044,15 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
                 "head": ["Number", "Notebook, saved output", "This run"],
                 "rows": rows,
             })  # fmt: skip
+    # where each table's numbers come from: crc-sdk's output, or the publisher's files read here
+    from_crc_sdk = ("crc-sdk's runs", "River flood depth at", "The crc-docs notebook")
+    for table in tables:
+        table["origin"] = "crc-sdk" if table["title"].startswith(from_crc_sdk) else "publisher"
     run["tables"] = tables
     if areas:
         run["charts"] = _charts(run, areas)
         run["chart"] = {
+            "origin": "publisher",
             "title": "Published wet pixels without a curve in crc-sdk, by return period",
             "unit": "% of the pixels wet at that return period",
             "x": "Return period",
@@ -1075,7 +1080,8 @@ def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[s
 
     def per_area(title: str, unit: str, x: str, rows: Callable[[dict[str, Any]], list[Any]],
                  finding: str) -> dict[str, Any]:  # fmt: skip
-        return {"title": title, "finding": finding, "unit": unit, "x": x, "select": "Area",
+        return {"title": title, "finding": finding, "origin": "publisher", "unit": unit, "x": x,
+                "select": "Area",
                 "default": areas[0]["title"],
                 "series": {a["title"]: rows(a) for a in areas}}  # fmt: skip
 
@@ -1114,7 +1120,8 @@ def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[s
             "title": f"Mean flood depth at {entry['return_period']} years of the cells at or "
                      f"above {entry['threshold_m']} m, by {entry['unit']}: {entry['title']}"
                      + (f" (first 15 of {len(entry['rows'])})" if len(entry["rows"]) > 15 else ""),
-            "finding": "", "unit": "m", "x": entry["unit"].capitalize(), "ranked": True,
+            "finding": "", "origin": "crc-sdk", "unit": "m", "x": entry["unit"].capitalize(),
+            "ranked": True,
             "select": "", "default": "all",
             "series": {"all": [[r["name"], round(r["mean_depth_m"], 2)] for r in top]},
         })  # fmt: skip

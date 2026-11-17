@@ -12,6 +12,10 @@ export const state = {
   origin: null, byOrigin: {}, // shown group of sources, and the last source picked in each
   region: "texas",           // registry.regions[].id; a source or layer without a region belongs to Texas
   view: null,                // the bounds the map was last fitted to (a region, or a layer's own box)
+  tags: false,               // show where each layer comes from (opt-in by the page)
+  primary: null,             // the layer the legend and the detail panel speak for
+  findings: null,            // findings of the validation project, loaded when a layer names one
+  wanted: null,              // a layer named in the address, until its source is opened
   source: null,              // active source id (registry.sources[].id)
   hazard: null, horizon: null, rp: null,   // active h3-cells layer and its view
   files: new Map(),          // "hazard/horizon" -> payload; "geo:<id>" -> GeoJSON
@@ -105,6 +109,12 @@ export const regionById = (id) => regions().find((r) => r.id === id) || regions(
 export const regionsOfSource = (s) => s.regions || ["texas"];
 export const inRegion = (l) => (l.region || "texas") === state.region;
 export const horizonLabel = (layer, y) => (layer && layer.horizon_label) || String(y);
+// where a layer's values come from (registry.provenances): stated on the layer, else by its source's origin
+export const provenanceId = (l) => (l && l.provenance) || ((sourceById(l && l.source_id) || {}).origin === "crc-lab" ? "crc-lab" : "crc-sdk");
+export const provenanceOf = (l) => ((state.registry.provenances || {})[provenanceId(l)] || null);
+export const tagHtml = (l) => { const p = state.tags && l ? provenanceOf(l) : null; return p ? `<span class="ptag" style="--c:${p.color}" title="${esc(p.blurb)}">${esc(p.title)}</span>` : ""; };
+// layers of a source that are picked through Area and Show (those that name a `group` and a `what`)
+export const picked = () => layersOfSource(state.source).filter((l) => l.kind === "h3-cells" && inRegion(l) && l.group && l.what);
 export const compareLayerOf = (sourceId) => layersOfSource(sourceId).find((l) => l.kind === "h3-compare");
 export const latLon = (lat, lon) => `${Math.abs(lat).toFixed(3)}° ${lat < 0 ? "S" : "N"}, ${Math.abs(lon).toFixed(3)}° ${lon < 0 ? "W" : "E"}`;
 
@@ -115,7 +125,7 @@ export function kv(rows, raw = false) {
 }
 export function openDetail(title, sub = "") {
   $("src-empty").classList.add("hidden"); $("detail").classList.remove("hidden");
-  $("detail-title").textContent = title; $("detail-sub").textContent = sub;
+  $("detail-title").textContent = title; $("detail-sub").innerHTML = `${esc(sub)} ${tagHtml(state.primary)}`;
   document.body.dataset.picked = state.pick ? state.pick.kind : state.storm !== null ? "storm" : "";
 }
 export function closeDetail() {
@@ -147,6 +157,7 @@ export function renderLegend(sections) {
   const tick = (t, i, n) => `<span style="left:${((i / (n - 1)) * 100).toFixed(1)}%" class="${i === 0 ? "first" : i === n - 1 ? "last" : ""}">${esc(t)}</span>`;
   $("src-legend").innerHTML = sections.filter(Boolean).map((s) => [
     s.title ? `<h3>${esc(s.title)}</h3>` : "",
+    s.tag || "",
     s.unit ? `<div class="unit">${esc(s.unit)}</div>` : "",
     ...(s.ramps || []).map((r) => `${r.label ? `<div class="ramp-label">${esc(r.label)}</div>` : ""}<div class="ramp"><div class="bar" style="background:${r.css}"></div><div class="ticks num">${r.ticks.map((t, i) => tick(t, i, r.ticks.length)).join("")}</div></div>`),
     ...(s.rows || []).map((r) => `<div class="row"><span class="${r.shape || "dot"}" style="${(r.shape || "").startsWith("ring") ? "border-color" : "background"}:${r.color}"></span>${esc(r.label)}${r.n !== undefined && r.n !== null ? `<span class="n num">${esc(typeof r.n === "number" ? r.n.toLocaleString("en-US") : r.n)}</span>` : ""}</div>`),

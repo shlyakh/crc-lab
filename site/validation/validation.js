@@ -75,6 +75,27 @@ function renderInventory(data, filters) {
   if (!rows.length) body.append(el("tr", {}, el("td", { class: "l empty", colspan: "7", text: "No source matches the filters." })));
 }
 
+// Layers of the map explorer that show a finding (registry: a layer names its `finding`), by finding id.
+let mapped = {}, mappedSources = new Set();
+async function loadMapped() {
+  try {
+    const r = await fetch("../layers.json"); if (!r.ok) return;
+    const registry = await r.json(); const by = {};
+    for (const l of registry.layers) for (const id of (l.finding || "").split(/,\s*/).filter(Boolean)) (by[id] ||= []).push(l);
+    mapped = by;
+  } catch { /* the map explorer is optional for this page */ }
+}
+// One link per area for a finding the map shows; a note for the other findings of a source that has such layers.
+function mapLinks(f) {
+  const layers = mapped[f.id];
+  if (!layers) return mappedSources.has(f.source) ? "Not a finding with a place on the map." : null;
+  const first = new Map(); for (const l of layers) if (!first.has(l.group)) first.set(l.group, l);
+  const box = el("span", {});
+  [...first.values()].forEach((l, i) => { if (i) box.append(" · "); box.append(el("a", { class: "maplink", href: `explore/#tab=crc&layer=${l.id}`, text: l.group })); });
+  box.append(el("span", { class: "mute small", text: ` (${layers.length} layers in the CRC data explorer)` }));
+  return box;
+}
+
 function renderFindings(data, filters) {
   const box = document.getElementById("findings");
   box.replaceChildren();
@@ -96,6 +117,7 @@ function renderFindings(data, filters) {
         ["Consequence", f.consequence],
         ["Evidence", codes(f.evidence)],
         ["Basis", f.basis],
+        ["On the map", mapLinks(f)],
         ["Reported", f.upstream_ref],
         ["Found", `${f.found_on}, at ${data.framework} ${f.framework_version}`],
       ]))));
@@ -154,6 +176,9 @@ function barChart(pairs, unit, xName, readout) {
   return svg;
 }
 
+// Where the numbers of a table or chart come from (the same three origins as on the map explorer).
+const ORIGINS = { "crc-sdk": ["crc-sdk output", "#2a78d6"], publisher: ["Publisher's files, read by us", "#b3620a"], evidence: ["Outside evidence", "#1a7a55"] };
+const originTag = (id) => (ORIGINS[id] ? el("span", { class: "ptag", style: `--c:${ORIGINS[id][1]}`, text: ORIGINS[id][0] }) : null);
 const fmtShort = (v) => (v >= 1e6 ? `${Number((v / 1e6).toFixed(1))}M` : v >= 1e4 ? `${Math.round(v / 1e3)}k` : String(Math.round(v)));
 // Ranked values, largest first: one row per name with a bar and the number (plain HTML, read by a screen reader as a list).
 function rankChart(pairs, unit) {
@@ -169,7 +194,7 @@ function chartBlock(chart) {
   const holder = el("div", { class: "chart-box" });
   const draw = () => holder.replaceChildren(chart.ranked ? rankChart(chart.series[pick.value], chart.unit) : barChart(chart.series[pick.value], chart.unit, chart.x, readout));
   pick.addEventListener("change", draw); draw();
-  return [el("div", { class: "chart-head" }, el("b", { text: chart.title }), chart.finding ? el("span", { class: "tag", text: chart.finding }) : null,
+  return [el("div", { class: "chart-head" }, el("b", { text: chart.title }), chart.finding ? el("span", { class: "tag", text: chart.finding }) : null, originTag(chart.origin),
     names.length > 1 ? el("label", {}, `${chart.select} `, pick) : null, chart.ranked ? null : el("span", { class: "mute small", text: chart.unit }), chart.ranked ? null : readout), holder];
 }
 
@@ -185,8 +210,8 @@ function renderAssessment(source, rec, findings, watch) {
   const long = (t) => t.rows.length > 12;
   for (const t of rec.tables || []) {
     const made = table(t.head, t.rows.map((r) => r.map((c) => (typeof c === "number" ? fmt(c) : c))));
-    if (long(t)) body.append(el("details", { class: "fold" }, el("summary", { text: `${t.title} (${t.rows.length} rows)` }), t.note ? el("p", { class: "mute small", text: t.note }) : null, made));
-    else body.append(el("h3", { text: t.title }), t.note ? el("p", { class: "mute small", text: t.note }) : null, made);
+    if (long(t)) body.append(el("details", { class: "fold" }, el("summary", {}, `${t.title} (${t.rows.length} rows) `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, made));
+    else body.append(el("h3", {}, `${t.title} `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, made);
   }
   if (rec.chart) body.append(...chartBlock(rec.chart));
   if (rec.charts && rec.charts.length) {
@@ -194,7 +219,7 @@ function renderAssessment(source, rec, findings, watch) {
     for (const chart of rec.charts) body.append(...chartBlock(chart));
   }
   if (rec.comparisons && rec.comparisons.length) {
-    body.append(el("h3", { text: "Comparisons with outside evidence (no verdict)" }),
+    body.append(el("h3", {}, "Comparisons with outside evidence (no verdict) ", originTag("evidence")),
       el("p", { class: "mute small", text: "Numbers set beside data from other publishers, with their limits. They are not checks: they have no outcome and are not counted above. They describe the publisher's maps, not the framework's fidelity." }));
     for (const c of rec.comparisons) {
       const inner = el("div", { class: "comparison" },
@@ -279,6 +304,10 @@ async function main() {
     document.body.dataset.error = error.message;
     return;
   }
+  await loadMapped();
+  // sources with a finding on the map: "framework" findings shown through a source count for that source
+  mappedSources = new Set(data.findings.filter((f) => mapped[f.id]).map((f) => f.source));
+  document.body.dataset.mapped = Object.keys(mapped).sort().join(" ");
   document.getElementById("framework").textContent = data.framework;
   const pins = Object.entries(data.versions).map(([k, v]) => `${k} ${v}`).join(", ");
   document.getElementById("stamp").textContent = `Generated ${data.generated.slice(0, 10)} against ${pins}. Record format ${data.schema}.`;

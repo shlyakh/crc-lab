@@ -100,3 +100,6 @@ ol.rank li { display: contents; }
 ol.rank .track { height: 10px; background: var(--hover); } ol.rank .track i { display: block; height: 100%; background: var(--accent); }
 ol.rank .num { text-align: right; font-variant-numeric: tabular-nums; }
 .chart-head .tag { color: var(--mute); }
+/* where a table's or chart's numbers come from */
+.ptag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 400; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); white-space: nowrap; vertical-align: middle; }
+.ptag::before { content: ""; width: 7px; height: 7px; background: var(--c, var(--mute)); flex: none; }

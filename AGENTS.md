@@ -71,7 +71,10 @@ none of them).
   by-area summary in `assessments/jrc_flood_areas.py`, `just validation-maps`; a draft is read
   with `just validation-draft-preview <id>`); Stage 3 report `V8.3-jrc-flood-outside-evidence.md`
   (`evidence/` fetchers for FEMA zones, USGS peaks and Harvey marks; `assessments/jrc_flood_evidence.py`;
-  `comparisons` in a record carry numbers and limits and never an outcome). Probes behind findings:
+  `comparisons` in a record carry numbers and limits and never an outcome); Stage 4 report
+  `V8.4-explorer-layers-origins-findings.md` (a source with many cell layers is picked through Area,
+  Show and Layer: layers name `group`, `what`, `provenance` and, for a finding's layer, `finding`;
+  `provenances` and `whats` in `site/layers.json`; tags are opt-in by the explorer page). Probes behind findings:
   `tools/probes/jrc_flood_probes.py`. rasterio is held below 1.5.2 on macOS (`pyproject.toml`).
   Rules of its own: `core/` and `reference/` never import crc-sdk; the package imports nothing from
   `crc_lab`; the page and reports are generated from records, never typed; findings are worded neutrally

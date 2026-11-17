@@ -20,7 +20,7 @@ export async function showTab(tab) {
   document.body.dataset.tab = shell.tab; document.body.dataset.project = "crc";
   try {
     if (t.origin) {
-      if (!sources) { sources = await import("../../shared/sources.js"); await sources.initSources({ dataUrl: DATA, address, onChange: syncAddress, regions: true }); }
+      if (!sources) { sources = await import("../../shared/sources.js"); await sources.initSources({ dataUrl: DATA, address, onChange: syncAddress, regions: true, tags: true }); }
       await sources.showSources(t.origin);
     } else {
       if (!about) about = await import("./about.js");

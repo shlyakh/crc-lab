@@ -1,5 +1,5 @@
 // H3 cell layers (CRC Open hazards, ERA5 baseline, hail and gust curves), moved from site/app.js.
-import { $, state, api, esc, H3HexagonLayer, layerById, layersOfSource, inRegion, horizonLabel, fileKey, display, unitOf, fmt, fmtTick, quantile, fetchJSON, horizonsOf, ramp, colorAt, gradient, rgbCss, NODATA, kv, openDetail, latLon, ticksBetween } from "./core.js";
+import { $, state, api, esc, H3HexagonLayer, layerById, layersOfSource, inRegion, horizonLabel, picked, fileKey, display, unitOf, fmt, fmtTick, quantile, fetchJSON, horizonsOf, ramp, colorAt, gradient, rgbCss, NODATA, kv, openDetail, latLon, ticksBetween } from "./core.js";
 import { drawCurve } from "./charts.js";
 
 export async function loadFile(hazard, horizon) {
@@ -25,16 +25,24 @@ export function buildCellControls() {
     const g2 = document.createElement("optgroup"); g2.label = `In the release, not loaded yet (${rest.length})`;
     for (const id of rest) { const o = new Option(`${id} · ${catalog.hazards[id].value_semantics} (not loaded yet)`, id); o.disabled = true; g2.append(o); }
     sel.append(g1, g2);
-  } else {
-    // layers that name a `group` are listed under it (one group per area of a source)
+  } else if (picked().length) {
+    // a source with many layers: first the area, then what to show, then the few layers that are left
+    const all = picked(); const now = layerById(state.hazard); const whats = state.registry.whats || {};
+    const area = $("area"); area.innerHTML = ""; for (const g of [...new Set(all.map((l) => l.group))]) area.append(new Option(g, g)); area.value = now.group;
+    const inArea = all.filter((l) => l.group === now.group);
+    const what = $("what"); what.innerHTML = ""; for (const w of [...new Set(inArea.map((l) => l.what))]) what.append(new Option(whats[w] || w, w)); what.value = now.what;
     const groups = new Map();
-    for (const l of own) {
-      if (!l.group) { sel.append(new Option(l.title, l.id)); continue; }
-      if (!groups.has(l.group)) { const g = document.createElement("optgroup"); g.label = l.group; groups.set(l.group, g); sel.append(g); }
-      groups.get(l.group).append(new Option(l.title, l.id));
+    for (const l of inArea.filter((x) => x.what === now.what)) {
+      if (!l.finding) { sel.append(new Option(l.title, l.id)); continue; }
+      if (!groups.has(l.finding)) { const g = document.createElement("optgroup"); g.label = l.finding; groups.set(l.finding, g); sel.append(g); }
+      groups.get(l.finding).append(new Option(l.title, l.id));
     }
-  }
+  } else for (const l of own) sel.append(new Option(l.title, l.id));
   sel.value = state.hazard;
+  const grouped = picked().length > 0;
+  $("pick-row").classList.toggle("hidden", !grouped); $("layer-steps").classList.toggle("hidden", !grouped || sel.options.length < 2);
+  $("hazard-label").firstElementChild.textContent = grouped ? "Layer" : "Hazard";
+  $("layer-count").textContent = grouped ? `${[...sel.options].findIndex((o) => o.value === state.hazard) + 1} of ${sel.options.length}` : "";
   const hz = $("horizon"); hz.innerHTML = "";
   for (const y of horizonsOf(layerById(state.hazard))) hz.append(new Option(horizonLabel(layerById(state.hazard), y), y));
   hz.value = state.horizon;

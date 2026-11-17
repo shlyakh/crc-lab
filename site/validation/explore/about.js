@@ -14,7 +14,7 @@ export async function showCrcAbout(el, dataUrl) {
   el.innerHTML = `<div class="doc-in">
     <h2>About the CRC data explorer</h2>
     <p class="lead">A look at what Climate Risk Commons' SDK already reaches, shown as the SDK returns it. Texas is the main region; river flood depth is also shown for Fremont, California, and for the Rhine between Bonn and Mainz (pick the region above the map).</p>
-    <p>${esc(group.blurb)} Nothing on the Data tab is modelled here: every value is read through <code>crc-sdk</code>${versions ? ` (${esc(versions)})` : ""} and drawn as its source publishes it. The <a href="${root}hail/">Texas hail risk</a> project is new and experimental; this part is an explorer. What crc-sdk does to each source between the publisher&#39;s files and its output is checked in <a href="../">Source validation</a>.</p>
+    <p>${esc(group.blurb)} Nothing on the Data tab is modelled here. Layers tagged <i>crc-sdk output</i> are read through <code>crc-sdk</code>${versions ? ` (${esc(versions)})` : ""} and drawn as the SDK returns them; the other layers are read from a publisher's files by the source validation project and are tagged as such. The <a href="${root}hail/">Texas hail risk</a> project is new and experimental; this part is an explorer. What crc-sdk does to each source between the publisher&#39;s files and its output is checked in <a href="../">Source validation</a>.</p>
     <h3>Shown on the Data tab</h3>
     <table class="plain"><thead><tr><th>Source</th><th>What it is</th><th>Licence</th></tr></thead><tbody>
       ${shown.map((s) => `<tr><td>${esc(s.title)}</td><td>${esc(s.short || s.returns || "")}</td><td>${esc(s.licence || "")}</td></tr>`).join("")}
@@ -27,7 +27,7 @@ export async function showCrcAbout(el, dataUrl) {
     <h3>Reading the data</h3>
     <ul>
       <li>Cell values are regional screening: a resolution-5 cell is about 253 km².</li>
-      <li>River flood layers marked <i>Review</i> are not crc-sdk output: the source validation project computes them from the publisher's files, to show where its findings apply.</li>
+      <li>Every layer carries a tag that says where its values come from: <i>crc-sdk output</i>, <i>publisher's files, read by us</i> (computed by the source validation project, for example to show where its findings apply) or <i>outside evidence</i> (other publishers, such as FEMA and USGS).</li>
       <li>CRC Open projections are CC BY-NC 4.0: non-commercial use, with attribution.</li>
       <li>Curves are evaluated by the SDK and shipped as values; the page never re-implements a curve.</li>
     </ul>

@@ -160,6 +160,16 @@ def test_registry_lists_the_sources_layers() -> None:
         review = layer["id"].startswith(("jrc_review_", "jrc_evidence_"))
         assert review == ("field" in layer)
         assert layer["file"].startswith("validation/data/review/" if review else "data/sources/")
+        # every layer says what it shows and where its values come from
+        assert layer["what"] in registry["whats"] and layer["provenance"] in registry["provenances"]
+        assert (layer["provenance"] == "crc-sdk") == (not review)
+        assert (layer["what"] == "findings") == ("finding" in layer)
+    inventory = json.loads((root / "validation" / "data" / "inventory.json").read_text())
+    known = {finding["id"] for finding in inventory["findings"]}
+    shown = {layer["finding"] for layer in flood if "finding" in layer}
+    assert shown == {"CRC-013-FWK", "CRC-014-JRC", "CRC-015-JRC", "CRC-019-JRC"} and shown <= known
+    for layer in registry["layers"]:
+        assert layer.get("provenance", "crc-sdk") in registry["provenances"]
     for layer in registry["layers"]:
         assert layer["source_id"] is None or layer["source_id"] in declared
     groups = {g["id"] for g in registry["groups"]}

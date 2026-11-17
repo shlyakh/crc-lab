@@ -4,7 +4,7 @@
 import * as maplibregl from "https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.mjs";
 // The view modules are loaded in three small waves, not seven files at once: python's http.server (`just serve`, the smoke
 // test) queues five waiting connections and resets the rest, which made this tab fail to open now and then.
-const { $, state, api, esc, MapboxOverlay, GeoJsonLayer, layerById, sourceById, groupOf, layersOfSource, horizonsOf, cellSource, regions, regionById, regionsOfSource, inRegion, compareLayerOf, fetchJSON, unitOf, rgbCss, renderLegend, closeDetail } = await import("./views/core.js");
+const { $, state, api, esc, MapboxOverlay, GeoJsonLayer, layerById, sourceById, groupOf, layersOfSource, horizonsOf, cellSource, regions, regionById, regionsOfSource, inRegion, provenanceId, tagHtml, picked, compareLayerOf, fetchJSON, unitOf, rgbCss, renderLegend, closeDetail } = await import("./views/core.js");
 const [cells, tracks, events] = await Promise.all([import("./views/cells.js"), import("./views/tracks.js"), import("./views/events.js")]);
 const [stations, compare, time] = await Promise.all([import("./views/stations.js"), import("./views/compare.js"), import("./views/time.js")]);
 const { loadFile, buildCellControls, cellsLayer, cellsLegend, cellHover, showDetail } = cells;
@@ -76,7 +76,12 @@ const PANE = `
       </div>
 
       <div id="ctl-cells" class="ctl hidden">
+        <div class="frow hidden" id="pick-row">
+          <label class="f"><span>Area</span><select id="area"></select></label>
+          <label class="f"><span>Show</span><select id="what"></select></label>
+        </div>
         <label class="f" id="hazard-label"><span>Hazard</span><select id="hazard"></select></label>
+        <div class="steps hidden" id="layer-steps"><button id="layer-prev" class="step" title="Previous layer (Arrow up)">‹ previous</button><button id="layer-next" class="step" title="Next layer (Arrow down)">next ›</button><span id="layer-count" class="mute small num"></span></div>
         <div class="frow">
           <label class="f"><span>Horizon</span><select id="horizon"></select></label>
           <label class="f"><span>Return period</span><select id="rp"></select></label>
@@ -90,6 +95,8 @@ const PANE = `
       <div id="overlays"></div>
     </details>
 
+    <div id="finding-box" class="sec finding-box hidden"></div>
+
     <div class="sec caveats">
       <div class="sec-head"><span class="label">Read this first</span></div>
       <p id="source-blurb"></p>
@@ -100,7 +107,7 @@ const PANE = `
 
 <section class="col src-mid">
   <div class="toolbar">
-    <span class="label">Source</span><b id="src-title"></b><span id="src-sub" class="mute"></span>
+    <span class="label">Source</span><b id="src-title"></b><span id="src-tag"></span><span id="src-sub" class="mute"></span>
     <label id="src-region-label" class="region hidden"><span class="label">Region</span><select id="src-region" aria-label="Region"></select></label>
     <button id="src-reset" class="btn" title="Fit the map to the region">Texas</button>
   </div>
@@ -161,7 +168,9 @@ function buildSourceList() {
   for (const s of sourcesOf(state.origin)) {
     const b = document.createElement("button"); b.className = "src-row"; b.dataset.id = s.id; b.setAttribute("role", "option"); b.setAttribute("aria-selected", String(s.id === state.source));
     b.title = `${s.short} Licence: ${s.licence}`;
-    b.innerHTML = `<span class="t">${esc(s.title)}</span><span class="m">${esc(s.status)}<span class="lic"> · ${esc(licenceShort(s.licence))}</span></span>`;
+    // where the source's layers come from: one small mark per provenance among its layers of this region
+    const marks = state.tags ? [...new Set(layersOfSource(s.id).filter(inRegion).map(provenanceId))].map((id) => (state.registry.provenances || {})[id]).filter(Boolean).map((p) => `<i class="pdot" style="--c:${p.color}" title="${esc(p.title)}"></i>`).join("") : "";
+    b.innerHTML = `<span class="t">${esc(s.title)}</span><span class="m">${marks}${esc(s.status)}<span class="lic"> · ${esc(licenceShort(s.licence))}</span></span>`;
     b.onclick = () => selectSource(s.id);
     box.append(b);
   }
@@ -178,7 +187,8 @@ function selectSource(id, force = false) {
   state.source = id; state.byOrigin[sourceById(id).origin] = id; clearSelection(false);
   const cells = layersOfSource(id).filter((l) => l.kind === "h3-cells" && inRegion(l));
   if (cells.length) {
-    state.hazard = id === "crc_open" ? state.registry.defaults.crc_hazard : cells[0].id;
+    state.hazard = id === "crc_open" ? state.registry.defaults.crc_hazard : cells.some((l) => l.id === state.wanted) ? state.wanted : cells[0].id;
+    state.wanted = null;
     const hs = horizonsOf(layerById(state.hazard)); if (!hs.includes(state.horizon)) state.horizon = hs.includes(state.registry.defaults.horizon) ? state.registry.defaults.horizon : hs[0];
     state.domain = null;
   }
@@ -190,7 +200,7 @@ function buildSourcePanel() {
   const s = sourceById(state.source); const kind = kindOf(state.source);
   $("src-title").textContent = s.title; $("src-sub").textContent = s.provider;
   $("source-blurb").innerHTML = `<b>${esc(s.title)}</b> · ${esc(s.provider)}. ${esc(s.returns)} <span>Coverage: ${esc(s.coverage)}. Licence: ${esc(s.licence)}.</span>`;
-  $("src-empty-text").textContent = EMPTY_HINT[kind];
+  $("src-empty-text").textContent = kind === "h3-cells" && provenanceId(layerById(state.hazard)) !== "crc-sdk" && state.tags ? "Click a cell for its values at every return period. This layer is not crc-sdk's output; its tag says where it comes from. The cell is outlined on the map." : EMPTY_HINT[kind];
   const show = { tracks: "ctl-ibtracs", "points-binary": "ctl-storm_events", "h3-compare": "ctl-compare", "h3-cells": "ctl-cells", points: "ctl-stations" }[kind];
   for (const el of document.querySelectorAll("#source-panel .ctl")) el.classList.toggle("hidden", el.id !== show);
   if (kind === "tracks") buildTracksControls();
@@ -262,6 +272,7 @@ async function render() {
   const started = performance.now(); const token = ++rendering; document.body.dataset.sourcesReady = "";
   const src = state.source; const layers = []; let payload = null; let fetched = started; let count = "";
   const legend = []; const also = [];
+  state.primary = cellSource(src) ? layerById(state.hazard) : layersOfSource(src).find(inRegion) || null;
   $("src-msg").classList.add("hidden"); delete document.body.dataset.sourcesError; $("src-hover").classList.add("hidden");
   try {
     if (cellSource(src)) {
@@ -298,7 +309,9 @@ async function render() {
   if (token !== rendering) return;
   state.baseLayers = layers; drawFrame();
   buildSourcePanel(); buildOverlays(); buildCaveats(payload); buildTimebar(); placeSwipe(); fitView();
-  renderLegend([...legend.map((f) => f()), also.length ? { title: "Also shown", rows: also } : null]);
+  const sections = legend.map((f) => f()); if (sections[0]) sections[0].tag = tagHtml(state.primary);
+  renderLegend([...sections, also.length ? { title: "Also shown", rows: also } : null]);
+  $("src-tag").innerHTML = tagHtml(state.primary); showFinding();
   if (state.selected && (state.selected.hazard !== state.hazard || state.selected.horizon !== state.horizon)) clearSelection();
   else if (state.selected && cellSource(src)) showDetail(state.selected.index);
   await new Promise((done) => requestAnimationFrame(() => {
@@ -311,6 +324,28 @@ async function render() {
   }));
 }
 api.render = render; api.clearSelection = clearSelection;
+
+// ---------- layers of a source with many: area, what to show, stepping; the finding a layer shows ----------
+function setLayer(id) {
+  if (!layerById(id) || id === state.hazard) return;
+  state.hazard = id; state.selected = null; state.pick = null; closeDetail();
+  const horizons = horizonsOf(layerById(id)); if (!horizons.includes(state.horizon)) state.horizon = horizons[0];
+  notify(); render();
+}
+// the same view in another area where it exists, else the first layer of the same kind, else the area's first
+const roleOf = (l) => `${l.what}/${l.field || ""}`;
+function setArea(group) { const now = layerById(state.hazard); const all = picked().filter((l) => l.group === group); const next = all.find((l) => roleOf(l) === roleOf(now)) || all.find((l) => l.what === now.what) || all[0]; if (next) setLayer(next.id); }
+function setWhat(what) { const now = layerById(state.hazard); const next = picked().find((l) => l.group === now.group && l.what === what); if (next) setLayer(next.id); }
+function stepLayer(by) { const ids = [...$("hazard").options].filter((o) => !o.disabled).map((o) => o.value); const i = ids.indexOf(state.hazard); if (i >= 0 && ids.length > 1) setLayer(ids[(i + by + ids.length) % ids.length]); }
+async function showFinding() {
+  const box = $("finding-box"); const l = cellSource(state.source) ? layerById(state.hazard) : null;
+  if (!l || !l.finding) { box.classList.add("hidden"); delete document.body.dataset.finding; return; }
+  if (!state.findings) { try { state.findings = (await fetchJSON("validation/data/inventory.json")).findings; } catch { state.findings = []; } }
+  if (layerById(state.hazard) !== l) return;
+  const found = l.finding.split(/,\s*/).map((id) => state.findings.find((f) => f.id === id)).filter(Boolean);
+  box.innerHTML = `<div class="sec-head"><span class="label">Finding shown by this layer</span></div>` + (found.length ? found.map((f) => `<div class="f-one"><b>${esc(f.id)}</b> <span class="mute small">${esc(f.kind)} · ${esc(f.basis)} · ${esc(f.status)}</span><p class="f-title">${esc(f.title)}</p><details><summary>Observed, and the consequence</summary><p>${esc(f.observed)}</p><p><b>Consequence.</b> ${esc(f.consequence)}</p><p class="mute"><b>Documented.</b> ${esc(f.documented)}</p></details></div>`).join("") : `<p class="mute small">${esc(l.finding)}: not in the inventory.</p>`) + `<p class="small"><a href="${esc(state.root)}validation/#findings">All findings on the assessments page</a></p>`;
+  box.classList.remove("hidden"); document.body.dataset.finding = l.finding;
+}
 
 // ---------- map ----------
 function texasBounds() { const b = state.manifest.texas.bounds; return [[b[0] - 1.5, b[1] - 1], [b[2] + 1.5, b[3] + 0.5]]; }
@@ -376,13 +411,16 @@ function initMap() {
 }
 
 // ---------- the three exports main.js uses ----------
-export async function initSources({ dataUrl = "data/", address = {}, onChange, regions: withRegions = false } = {}) {
+export async function initSources({ dataUrl = "data/", address = {}, onChange, regions: withRegions = false, tags = false } = {}) {
   state.root = dataUrl.replace(/data\/?$/, ""); if (onChange) notify = onChange;
   $("tab-sources").innerHTML = PANE;
   const [registry, catalog, manifest, texas] = await Promise.all([fetchJSON("layers.json"), fetchJSON("data/catalog.json"), fetchJSON("data/manifest.json"), fetchJSON("data/texas.geojson")]);
   Object.assign(state, { registry, catalog, manifest, texas });
   state.hazard = registry.defaults.crc_hazard; state.horizon = registry.defaults.horizon; state.rp = registry.defaults.return_period;
   for (const l of registry.layers) state.overlays.set(l.id, l.on === true);
+  state.tags = tags && !!registry.provenances;
+  // an address may name a layer: its source and region follow from it
+  const named = layerById(address.layer); if (named && named.kind === "h3-cells" && named.source_id) { state.wanted = named.id; address = { ...address, source: named.source_id, region: address.region || named.region }; }
   const linked = sourceById(address.source); if (linked && !HIDDEN_SOURCES.has(linked.id)) state.byOrigin[linked.origin] = linked.id;
   // the region: named in the address, else the first region of the linked source, else the default (pages without regions stay in Texas)
   if (withRegions) {
@@ -393,10 +431,16 @@ export async function initSources({ dataUrl = "data/", address = {}, onChange, r
   document.addEventListener("crc:region", (e) => setRegion(e.detail));
 
   $("hazard").onchange = (e) => {
-    state.hazard = e.target.value; state.selected = null; state.pick = null; closeDetail();
+    state.hazard = e.target.value; state.selected = null; state.pick = null; closeDetail(); notify();
     const horizons = horizonsOf(layerById(state.hazard)); if (!horizons.includes(state.horizon)) state.horizon = horizons[0];
     render();
   };
+  $("area").onchange = (e) => setArea(e.target.value);
+  $("what").onchange = (e) => setWhat(e.target.value);
+  $("layer-prev").onclick = () => stepLayer(-1); $("layer-next").onclick = () => stepLayer(1);
+  // Arrow up and down step through the layers when no field, list or map has the focus
+  document.addEventListener("keydown", (e) => { if ((e.key !== "ArrowDown" && e.key !== "ArrowUp") || e.altKey || e.ctrlKey || e.metaKey) return; const t = document.activeElement; if ($("tab-sources").classList.contains("hidden") || !picked().length || (t && t !== document.body && !t.classList.contains("step"))) return; e.preventDefault(); stepLayer(e.key === "ArrowDown" ? 1 : -1); });
+  document.addEventListener("crc:layer", (e) => setLayer(e.detail));
   $("horizon").onchange = (e) => { state.horizon = Number(e.target.value); render(); };
   $("rp").onchange = (e) => { state.rp = Number(e.target.value); render(); };
   $("lock").onchange = (e) => { state.locked = e.target.checked; render(); };
@@ -422,4 +466,4 @@ export async function showSources(origin) {
   state.map.resize();
   if (changed || state.source !== id) { stopPlay(); buildSourceList(); await selectSource(id, true); }
 }
-export function sourcesAddress() { return state.source ? { source: state.source, ...(state.region !== "texas" ? { region: state.region } : {}) } : {}; }
+export function sourcesAddress() { return state.source ? { source: state.source, ...(state.region !== "texas" ? { region: state.region } : {}), ...(cellSource(state.source) && picked().length ? { layer: state.hazard } : {}) } : {}; }
