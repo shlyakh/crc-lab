@@ -135,8 +135,8 @@ const escape = async () => { await ev("document.dispatchEvent(new KeyboardEvent(
 const fits = () => J("({ page: document.documentElement.scrollWidth <= innerWidth && document.body.scrollWidth <= innerWidth, pane: (() => { const p = document.getElementById('tab-sources'); return p.scrollWidth <= p.clientWidth + 1; })(), cols: [...document.querySelectorAll('#tab-sources > .col')].every((c) => c.scrollWidth <= c.clientWidth + 1) })");
 // every control of the selected source sits above the fold, without scrolling the column
 const controlsVisible = () => J("(() => { const ctl = document.querySelector('#source-panel .ctl:not(.hidden)'); const els = [...ctl.querySelectorAll('input, select, button')].filter((e) => e.offsetParent && !e.closest('.list') && !e.closest('#events-types')); const bottom = Math.max(0, ...els.map((e) => e.getBoundingClientRect().bottom)); const lists = [...ctl.querySelectorAll('.list, #events-types')].filter((e) => e.offsetParent).map((e) => e.getBoundingClientRect().top); return { n: els.length, bottom: Math.round(bottom), listTop: Math.round(Math.max(0, ...lists)), h: innerHeight, scrolled: document.querySelector('.src-scroll').scrollTop }; })()");
-const UNIT = { storm_events: /inches/, storm_curves: /\bmm\b/, hail_compare: /hail days per year/, ibtracs: /\bkt\b/, coops: /\bm\b/, ghcnh: /degC|°C/, era5: /°C/, crc_open: /°C/, jrc_flood: /\bm\b/ };
-const KIND = { storm_events: "events", storm_curves: "cells", hail_compare: "compare", ibtracs: "tracks", coops: "stations", ghcnh: "stations", era5: "cells", crc_open: "cells", jrc_flood: "cells" };
+const UNIT = { storm_events: /inches/, storm_curves: /\bmm\b/, hail_compare: /hail days per year/, ibtracs: /\bkt\b/, coops: /\bm\b/, ghcnh: /degC|°C/, era5: /°C/, crc_open: /°C/, jrc_flood: /\bm\b/, flood_evidence: /gauges/ };
+const KIND = { storm_events: "events", storm_curves: "cells", hail_compare: "compare", ibtracs: "tracks", coops: "stations", ghcnh: "stations", era5: "cells", crc_open: "cells", jrc_flood: "cells", flood_evidence: "stations" };
 const walk = async (tab, origin) => {
   await openTab(tab);
   const want = registry.sources.filter((s) => s.origin === origin && s.id !== "solar_plants").map((s) => s.id);
@@ -310,6 +310,7 @@ const perSource = {
   ghcnh: () => stationClick("ghcnh"),
   era5: () => cellClick("era5", "cells"),
   jrc_flood: () => cellClick("jrc_flood", "cells"),
+  flood_evidence: async () => { const lg = await legendText(); check("flood_evidence: both point layers are in the legend", /stream gauges/.test(lg) && /high-water marks/.test(lg), lg); },
   crc_open: async () => {
     check("crc_open: three horizons and the loaded hazards are offered", (await ev("document.getElementById('horizon').options.length")) === 3 && (await ev("document.querySelectorAll('#hazard optgroup:first-child option').length")) === 8);
     await setValue("horizon", 2080); let lg = await legendText();

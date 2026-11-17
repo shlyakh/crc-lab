@@ -145,6 +145,31 @@ def source_markdown(source: Source, records: dict[str, Any], findings: list[Find
             ],
         )
         lines.append("")
+    if records.get("comparisons"):
+        lines += [
+            "## Comparisons with outside evidence (no verdict)",
+            "",
+            "Numbers beside data from other publishers, with their limits. They are not checks "
+            "and carry no outcome.",
+            "",
+        ]
+        for item in records["comparisons"]:
+            lines += [f"### {item['title']}", "", item["method"], ""]
+            lines += _table(
+                ["Number", "Value"],
+                [
+                    [k, "none" if v is None else f"{v:,}" if isinstance(v, int) else v]
+                    for k, v in item["numbers"]
+                ],
+            )
+            lines += ["", "Limits:", ""] + [f"- {limit}" for limit in item["limits"]]
+            evidence = item["evidence"]
+            lines += [
+                "",
+                f"Evidence: {evidence['name']}; retrieved {evidence['retrieved_at'][:10]}; "
+                f"{evidence['licence']}.",
+                "",
+            ]
     if source.notes:
         lines += [source.notes, ""]
 

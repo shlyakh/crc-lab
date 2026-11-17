@@ -1,0 +1,38 @@
+[
+ {
+  "id": 22,
+  "last_updated": null,
+  "name": "Storm-September 2010",
+  "start_date": "2010-08-31T04:00:00Z",
+  "end_date": "2010-09-08T04:00:00Z",
+  "description": "",
+  "last_updated_by": 1,
+  "event_type": 1,
+  "event_status": 2,
+  "event_coordinator": 515
+ },
+ {
+  "id": 180,
+  "last_updated": "2022-09-09T17:27:26.943616Z",
+  "name": "2017 Harvey",
+  "start_date": "2017-08-24T04:00:00Z",
+  "end_date": "2017-09-24T04:00:00Z",
+  "description": "Hurricane Harvey Texas Coast August 2017",
+  "last_updated_by": 2062,
+  "event_type": 2,
+  "event_status": 2,
+  "event_coordinator": 1817
+ },
+ {
+  "id": 125,
+  "last_updated": "2022-09-09T16:11:50.762769Z",
+  "name": "2016 Jun WV Flood",
+  "start_date": "2016-06-24T04:00:00Z",
+  "end_date": "2016-07-04T04:00:00Z",
+  "description": "Intense rains caused large floods in the mountains of WV.",
+  "last_updated_by": 2062,
+  "event_type": 1,
+  "event_status": 2,
+  "event_coordinator": 36
+ }
+]

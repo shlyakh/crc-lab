@@ -193,6 +193,19 @@ function renderAssessment(source, rec, findings, watch) {
     body.append(el("h3", { text: "Charts for reviewing the findings" }));
     for (const chart of rec.charts) body.append(...chartBlock(chart));
   }
+  if (rec.comparisons && rec.comparisons.length) {
+    body.append(el("h3", { text: "Comparisons with outside evidence (no verdict)" }),
+      el("p", { class: "mute small", text: "Numbers set beside data from other publishers, with their limits. They are not checks: they have no outcome and are not counted above. They describe the publisher's maps, not the framework's fidelity." }));
+    for (const c of rec.comparisons) {
+      const inner = el("div", { class: "comparison" },
+        el("p", { class: "small", text: c.method }),
+        table(["Number", "Value"], c.numbers.map(([k, v]) => [k, v === null ? "none" : typeof v === "number" ? fmt(v) : v])),
+        c.table ? el("details", { class: "fold" }, el("summary", { text: `${c.table.title} (${c.table.rows.length} rows)` }), table(c.table.head, c.table.rows.map((r) => r.map((x) => (x === null ? "" : typeof x === "number" ? fmt(x) : x))))) : null,
+        el("p", { class: "small" }, el("b", { text: "Limits. " }), c.limits.join(" ")),
+        el("p", { class: "mute small", text: `Evidence: ${c.evidence.name}; ${fmt(c.evidence.features)} records, retrieved ${c.evidence.retrieved_at.slice(0, 10)}; ${c.evidence.licence}.${c.evidence.panel_effective_dates ? ` Map panels effective ${c.evidence.panel_effective_dates}.` : ""}` }));
+      body.append(el("details", { class: "fold comparison-fold" }, el("summary", { text: c.title }), inner));
+    }
+  }
   if (source.notes) body.append(el("p", { class: "small", text: source.notes }));
 
   body.append(el("h3", { text: "What the framework does, step by step" }));

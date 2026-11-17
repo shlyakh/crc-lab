@@ -115,6 +115,22 @@
       ]
     },
     {
+      "id": "flood_evidence",
+      "title": "Flood evidence: gauges and Harvey marks",
+      "provider": "U.S. Geological Survey: annual peaks at stream gauges (NWIS) with NOAA NWS flood stages, and surveyed high-water marks of Hurricane Harvey, 2017 (Short-Term Network). Not read through crc-sdk: fetched by the source validation project",
+      "short": "Stream gauges and Harvey's high-water marks, set beside JRC's flood depth at the same place.",
+      "returns": "Per gauge: number of annual peaks, highest stage, NWS flood stage and JRC's depth nearby. Per mark: height above ground and JRC's depth on its pixel.",
+      "coverage": "Stream gauges in the Houston and Austin boxes; high-water marks with a height above ground in the Houston box",
+      "licence": "U.S. government work (USGS, NOAA); attribution requested",
+      "status": "prototype",
+      "origin": "crc-sdk",
+      "caveats": [
+        "This source is outside evidence for the river flood maps, not an output of crc-sdk. It is listed here so that it can be shown over the flood layers (Also show).",
+        "A gauge stage is a height above the gauge's datum, not a depth over land; a mark's height above ground is at one point, a map pixel is about 90 m.",
+        "The numbers and their limits are in docs/validation/reports/V8.3-jrc-flood-outside-evidence.md. They carry no verdict."
+      ]
+    },
+    {
       "id": "crc_open",
       "title": "CRC Open climate projections",
       "provider": "RiskThinking.AI CMIP6-based projections (CRC Open release), read through crc-sdk",
@@ -1547,6 +1563,494 @@
       "style": {
         "hue": 350,
         "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_evidence_glofas_houston_jrc",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded land in JRC's map, share of cell",
+      "field": "jrc",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_houston_fema",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: FEMA 1% zone (A or V), share of cell",
+      "field": "fema",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 150,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_houston_jrc_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded in JRC's map, outside FEMA's 1% zone",
+      "field": "jrc_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_houston_fema_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: in FEMA's 1% zone, dry in JRC's map",
+      "field": "fema_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_houston_water",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Review: JRC's permanent water, share of cell",
+      "field": "water",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 210,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_austin_jrc",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded land in JRC's map, share of cell",
+      "field": "jrc",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_austin_fema",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: FEMA 1% zone (A or V), share of cell",
+      "field": "fema",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 150,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_austin_jrc_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded in JRC's map, outside FEMA's 1% zone",
+      "field": "jrc_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_austin_fema_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: in FEMA's 1% zone, dry in JRC's map",
+      "field": "fema_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_austin_water",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Review: JRC's permanent water, share of cell",
+      "field": "water",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 8",
+      "style": {
+        "hue": 210,
+        "chroma": 0.15
+      },
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ]
+    },
+    {
+      "id": "jrc_evidence_glofas_fremont_jrc",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded land in JRC's map, share of cell",
+      "field": "jrc",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 9",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_evidence_glofas_fremont_fema",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: FEMA 1% zone (A or V), share of cell",
+      "field": "fema",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 9",
+      "style": {
+        "hue": 150,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_evidence_glofas_fremont_jrc_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: flooded in JRC's map, outside FEMA's 1% zone",
+      "field": "jrc_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 9",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_evidence_glofas_fremont_fema_only",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Evidence: in FEMA's 1% zone, dry in JRC's map",
+      "field": "fema_only",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 9",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_evidence_glofas_fremont_water",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0 for JRC's maps (see finding CRC-018-JRC); FEMA: U.S. federal government work, no licence stated by the service",
+      "title": "Review: JRC's permanent water, share of cell",
+      "field": "water",
+      "file": "validation/data/review/jrc-flood/evidence-glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 and FEMA flood zones as served on 2026-11-17",
+      "rp_label": "of the cell's pixels; the same at every return period",
+      "kind_label": "Computed by",
+      "param_label": "Pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre. Cells with nothing to show are left out.",
+      "detail_foot": "Computed by the source validation project from JRC's files and FEMA's flood hazard zones; not an output of crc-sdk. FEMA zones also cover small streams and storm surge, which JRC's maps do not model.",
+      "source": "JRC GloFAS 2.1.2 and FEMA National Flood Hazard Layer, compared by the source validation project, H3 resolution 9",
+      "style": {
+        "hue": 210,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "flood_evidence",
+      "source_id": "flood_evidence",
+      "kind": "points",
+      "title": "USGS stream gauges with annual peaks",
+      "file": "validation/data/review/jrc-flood/gauges.geojson",
+      "source": "USGS NWIS annual peaks and NOAA NWPS flood stages, retrieved 2026-11-17; JRC GloFAS 2.1.2 depth near the gauge",
+      "licence": "U.S. government work (USGS, NOAA); attribution requested",
+      "caveat": "The curve is JRC's published depth near the gauge (largest within about 270 m), not the gauge's record. Stages are feet above the gauge's own datum; 'above minor' is a peak stage minus the NWS minor flood stage, in metres.",
+      "style": {
+        "fill": [
+          20,
+          110,
+          90,
+          220
+        ],
+        "radius": 5
+      }
+    },
+    {
+      "id": "harvey_marks",
+      "source_id": "flood_evidence",
+      "kind": "points",
+      "title": "Hurricane Harvey high-water marks, 2017",
+      "file": "validation/data/review/jrc-flood/harvey-marks.geojson",
+      "source": "USGS Short-Term Network, event 2017 Harvey, retrieved 2026-11-17; JRC GloFAS 2.1.2 depth on the mark's pixel",
+      "licence": "U.S. government work (USGS); attribution requested",
+      "caveat": "Height above ground at the mark, in metres, beside JRC's published depth on the 90 m pixel that holds it (empty where JRC's map is dry). Harvey was a rainfall flood; many marks lie away from the rivers JRC models.",
+      "style": {
+        "fill": [
+          200,
+          70,
+          40,
+          210
+        ],
+        "radius": 4
       }
     },
     {

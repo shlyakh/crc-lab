@@ -403,3 +403,84 @@ def test_charts_name_their_finding_and_cover_every_area(tmp_path: Path, publishe
         assert set(chart["series"]) == set(titles) and chart["default"] == titles[0]
         assert all(isinstance(v, int | float) for rows in chart["series"].values() for _, v in rows)
     assert "by_area" not in run["exploration"]  # needs real boundary files
+
+
+# --------------------------------------------------------------- outside evidence (no verdict)
+def _part() -> dict:
+    depth = np.full((2, 4, 5), np.nan)
+    depth[0, 1, 1:3] = [0.5, 2.0]  # 100 years
+    depth[1, 1, 1:4] = [1.0, 3.0, 0.4]  # 500 years
+    water = np.zeros((4, 5), dtype=bool)
+    water[3, 4] = True
+    return {"tile": "t", "west": -95.0, "north": 30.0, "dx": STEP, "dy": STEP, "shape": (4, 5),
+            "depth": depth, "water": water}  # fmt: skip
+
+
+def test_evidence_helpers_place_points_and_polygons_on_the_pixel_grid() -> None:
+    from shapely.geometry import box
+
+    from data_source_check.assessments import jrc_flood_evidence as evidence
+
+    part = _part()
+    assert evidence.at(part, -95.0 + 2.5 * STEP, 30.0 - 1.5 * STEP) == (1, 2)
+    assert evidence.at(part, -95.0 - STEP, 30.0) is None
+    # a polygon covering the centres of columns 1 and 2 of row 1 only
+    square = box(-95.0 + 1.2 * STEP, 30.0 - 1.8 * STEP, -95.0 + 2.8 * STEP, 30.0 - 1.2 * STEP)
+    mask = evidence.rasterize([square], part)
+    assert mask.sum() == 2 and mask[1, 1] and mask[1, 2]
+    assert not evidence.rasterize([], part).any()
+
+
+def test_the_usgs_report_table_is_read_by_station() -> None:
+    from data_source_check.assessments import jrc_flood_evidence as evidence
+
+    text = (
+        "      3        08029500        8/30/2017            21.08            39,500"
+        "              2          66          1.0          1.1           4.8\n"
+        "      9        08041500        8/31/2017            40.00           100,000"
+        "              1          90         <0.2         <0.2           0.9\n"
+        "      7        08040600        8/31/2017            80.70            91,000          1\n"
+    )
+    table = evidence.sir_table(text)
+    assert set(table) == {"08029500", "08041500"}  # a row broken across lines is left out
+    assert table["08029500"] == {"date": "8/30/2017", "rank": 2, "years": 66,
+                                 "aep_percent": 1.0, "below": False}  # fmt: skip
+    assert table["08041500"]["below"] and table["08041500"]["aep_percent"] == 0.2
+
+
+def test_a_comparison_carries_numbers_and_limits_and_no_outcome(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from data_source_check.assessments import jrc_flood_evidence as evidence
+
+    def mark(number: int, lon: float, lat: float, height: float | None) -> dict:
+        return {"id": number, "longitude": lon, "latitude": lat, "environment": "Riverine",
+                "type": "Mud", "quality": "Good", "waterbody": "w", "county": "c",
+                "site_description": "s", "elevation_ft": 10.0, "vertical_datum": "NAVD88",
+                "height_above_ground_ft": height}  # fmt: skip
+
+    marks = [
+        mark(1, -95.0 + 2.5 * STEP, 30.0 - 1.5 * STEP, 10.0),  # 3.05 m on a pixel of 2.0 / 3.0 m
+        mark(2, -95.0 + 3.5 * STEP, 30.0 - 1.5 * STEP, 1.0),  # dry at 100 years, 0.4 m at 500
+        mark(3, -95.0 + 0.5 * STEP, 30.0 - 0.5 * STEP, 2.0),  # dry at both
+        mark(4, -95.0 + 1.5 * STEP, 30.0 - 1.5 * STEP, None),  # no height: not compared
+        mark(5, -90.0, 30.0, 5.0),  # outside the box
+    ]
+    record = {"service": "u", "retrieved_at": "2026-11-17T00:00:00Z", "bytes": 1, "marks": 5}
+    monkeypatch.setattr(evidence.usgs_stn, "fetch", lambda folder, live: record)
+    monkeypatch.setattr(evidence.usgs_stn, "read", lambda r: marks)
+    area = assessment.Area("x", "glofas", (-95.0, 29.99, -94.99, 30.0), 9, "a box")
+    entry, rows = evidence.harvey(area, [_part()], (100, 500), tmp_path, live=False)
+    numbers = dict(entry["numbers"])
+    assert numbers["High-water marks of Harvey in the box"] == 4
+    assert numbers["With a height above ground"] == 3
+    assert numbers["... on a pixel GloFAS floods at 100 years"] == 1
+    assert numbers["... on a pixel GloFAS floods at 500 years"] == 2
+    assert numbers["... on a pixel dry in GloFAS at 500 years"] == 1
+    assert numbers["Marks on a 500-year pixel: mark higher than GloFAS"] == "1 of 2"
+    assert [r["glofas_500_m"] for r in rows] == [3.0, 0.4, None, 1.0]
+    # a comparison is not a check: nothing in it is an outcome or feeds the tallies
+    assert not {"outcome", "agrees", "steps", "tolerance"} & set(entry)
+    assert entry["limits"] and entry["method"] and entry["evidence"]["licence"]
+    assert "comparisons" not in [c["check"] for c in _run(tmp_path, {**build_publisher(
+        tmp_path / "publisher")})["checks"]]  # fmt: skip

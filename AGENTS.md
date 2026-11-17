@@ -69,7 +69,9 @@ none of them).
   `V8.2-jrc-flood-regions-and-maps.md` (regions `texas`, `fremont`, `rhine` in `site/layers.json`,
   opt-in by the explorer page only; `build_jrc` in `crc_data_explorer/sources.py`; review maps and
   by-area summary in `assessments/jrc_flood_areas.py`, `just validation-maps`; a draft is read
-  with `just validation-draft-preview <id>`). Probes behind findings:
+  with `just validation-draft-preview <id>`); Stage 3 report `V8.3-jrc-flood-outside-evidence.md`
+  (`evidence/` fetchers for FEMA zones, USGS peaks and Harvey marks; `assessments/jrc_flood_evidence.py`;
+  `comparisons` in a record carry numbers and limits and never an outcome). Probes behind findings:
   `tools/probes/jrc_flood_probes.py`. rasterio is held below 1.5.2 on macOS (`pyproject.toml`).
   Rules of its own: `core/` and `reference/` never import crc-sdk; the package imports nothing from
   `crc_lab`; the page and reports are generated from records, never typed; findings are worded neutrally

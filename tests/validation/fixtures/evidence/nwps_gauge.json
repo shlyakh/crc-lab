@@ -1,0 +1,45 @@
+{
+ "lid": "BBST2",
+ "usgsId": "08074000",
+ "name": "Buffalo Bayou at Shepherd Drive",
+ "flood": {
+  "stageUnits": "ft",
+  "flowUnits": "cfs",
+  "categories": {
+   "major": {
+    "stage": 32,
+    "flow": -9999
+   },
+   "moderate": {
+    "stage": 29.5,
+    "flow": -9999
+   },
+   "minor": {
+    "stage": 28,
+    "flow": -9999
+   },
+   "action": {
+    "stage": 17,
+    "flow": -9999
+   }
+  }
+ },
+ "datums": {
+  "vertical": {
+   "value": [
+    {
+     "label": "North American Vertical Datum of 1988",
+     "abbrev": "NAVD88",
+     "description": "A fixed reference for elevations determined by geodetic leve",
+     "value": 0
+    }
+   ]
+  },
+  "horizontal": {
+   "value": []
+  },
+  "notes": {
+   "value": []
+  }
+ }
+}

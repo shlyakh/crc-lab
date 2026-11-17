@@ -1,0 +1,70 @@
+{
+ "displayFieldName": "DFIRM_ID",
+ "fieldAliases": {
+  "OBJECTID": "OBJECTID",
+  "DFIRM_ID": "DFIRM_ID",
+  "FIRM_PAN": "FIRM_PAN",
+  "PANEL_TYP": "PANEL_TYP",
+  "EFF_DATE": "EFF_DATE"
+ },
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "DFIRM_ID",
+   "type": "esriFieldTypeString",
+   "alias": "DFIRM_ID",
+   "length": 6
+  },
+  {
+   "name": "FIRM_PAN",
+   "type": "esriFieldTypeString",
+   "alias": "FIRM_PAN",
+   "length": 11
+  },
+  {
+   "name": "PANEL_TYP",
+   "type": "esriFieldTypeString",
+   "alias": "PANEL_TYP",
+   "length": 30
+  },
+  {
+   "name": "EFF_DATE",
+   "type": "esriFieldTypeDate",
+   "alias": "EFF_DATE",
+   "length": 8
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID": 145866,
+    "DFIRM_ID": "48071C",
+    "FIRM_PAN": "48071C0020F",
+    "PANEL_TYP": "Countywide, Panel Printed",
+    "EFF_DATE": 1516320000000
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 145869,
+    "DFIRM_ID": "48071C",
+    "FIRM_PAN": "48071C0160F",
+    "PANEL_TYP": "Countywide, Panel Printed",
+    "EFF_DATE": 1516320000000
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 145877,
+    "DFIRM_ID": "48071C",
+    "FIRM_PAN": "48071C0325E",
+    "PANEL_TYP": "Countywide, Not Printed",
+    "EFF_DATE": 1430697600000
+   }
+  }
+ ]
+}

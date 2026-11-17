@@ -127,7 +127,9 @@ def test_registry_lists_the_sources_layers() -> None:
     assert "{horizon}" in era5["file"] and era5["file"].startswith("data/sources/")
     for layer in registry["layers"]:
         if layer["kind"] in ("points", "lines"):
-            assert layer["file"].startswith(("data/sources/", "data/assets/"))
+            assert layer["file"].startswith(
+                ("data/sources/", "data/assets/", "validation/data/review/")
+            )
             assert layer["licence"] and layer["source"] and layer["caveat"]
     declared = {source["id"] for source in registry["sources"]}
     assert registry["defaults"]["source"] == "ibtracs"
@@ -142,6 +144,7 @@ def test_registry_lists_the_sources_layers() -> None:
         "solar_plants",
         "hail_compare",
         "jrc_flood",
+        "flood_evidence",
     } == declared
     # regions are optional: a source or layer without one belongs to Texas
     regions = {region["id"] for region in registry["regions"]}
@@ -154,7 +157,7 @@ def test_registry_lists_the_sources_layers() -> None:
     assert {layer["region"] for layer in flood} == regions
     assert all(layer["horizons"] == [0] and layer["group"] for layer in flood)
     for layer in flood:  # a review layer names a field of a file of the validation project
-        review = layer["id"].startswith("jrc_review_")
+        review = layer["id"].startswith(("jrc_review_", "jrc_evidence_"))
         assert review == ("field" in layer)
         assert layer["file"].startswith("validation/data/review/" if review else "data/sources/")
     for layer in registry["layers"]:

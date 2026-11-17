@@ -687,6 +687,11 @@ def assess(
         from . import jrc_flood_areas
 
         explored["by_area"] = jrc_flood_areas.by_area(cache, areas, live=live, log=log)
+        from . import jrc_flood_evidence
+
+        outside_evidence = jrc_flood_evidence.comparisons(cache, live=live, log=log)
+    else:
+        outside_evidence = []
 
     return present({
         "source": SOURCE,
@@ -701,6 +706,8 @@ def assess(
         "options_assessed": {"dataset": sorted({a.dataset for a in areas})},
         "checks": [check.to_dict() for check in checks],
         "exploration": explored,
+        # numbers beside outside evidence; a comparison carries no outcome and feeds no tally
+        "comparisons": outside_evidence,
     })  # fmt: skip
 
 
