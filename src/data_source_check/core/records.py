@@ -100,6 +100,10 @@ class Source:
     notes: str = ""
     #: address of a view of this source in a data explorer, relative to the page; empty if none
     explorer: str = ""
+    #: for the summary of an assessment: what the framework's output holds that the publisher's
+    #: data do not, and how the assessment compares the two (plain sentences, written by hand)
+    adds: str = ""
+    compared: str = ""
     #: who or what wrote the draft, e.g. "agent (draft-source-assessment skill), 2026-11-12"
     drafted_by: str = ""
     reviewed_by: str = ""

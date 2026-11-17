@@ -3,6 +3,8 @@
 Generated from the records of the run of 2026-11-17T15:54:08Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
+- **What the framework adds:** From JRC's maps of flood depth at fixed return periods crc-sdk makes one fitted curve per map pixel (a Gumbel distribution by least squares), so that a depth can be read at any return period, and places each pixel on the H3 cells it overlaps. The published depths themselves are not kept, and a pixel with fewer than four depths gets no curve.
+- **How it is compared:** JRC's files are downloaded whole and read by an independent reader. In five areas (Texas, Houston, Austin, Fremont, the Rhine) every pixel of crc-sdk's local copies is compared with them bit for bit, every curve is refitted and compared, and samples of the curve values, cells and identifiers are recomputed.
 - **Purpose (the framework's documentation):** River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells.
 - **Publisher:** European Commission JRC, Copernicus Emergency Management Service · https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard
 - **Entry points:** `HazardDataset.glofas`, `HazardDataset.efas`, `HazardDataset.jrc`
@@ -17,15 +19,15 @@ Counted from the publisher's files by the reference reader. A pixel is wet at a 
 
 | Area | Dataset | H3 | Tiles | Pixels in box | Wet at the shortest | Wet at the longest | Wet at any | With a curve | Deepest (m) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Texas box | glofas | 7 | 4 | 201,757,502 | 9,255,575 | 11,686,209 | 11,686,210 | 9,853,959 | 108.23 |
-| Houston | glofas | 9 | 2 | 1,298,281 | 186,964 | 278,654 | 278,654 | 212,949 | 10.14 |
-| Austin | glofas | 9 | 2 | 361,201 | 20,396 | 25,494 | 25,494 | 22,201 | 21.83 |
-| Fremont, California | glofas | 10 | 1 | 87,001 | 7,972 | 10,603 | 10,603 | 7,869 | 20.55 |
-| Rhine, Bonn to Mainz | efas | 7 | 1 | 2,595,241 | 123,586 | 161,898 | 161,898 | 143,074 | 22.86 |
+| Texas box | glofas | 7 | 4 | 201,757,502 | 9,255,575 | 10,744,960 | 11,686,210 | 9,853,959 | 108.23 |
+| Houston | glofas | 9 | 2 | 1,298,281 | 186,964 | 233,922 | 278,654 | 212,949 | 10.14 |
+| Austin | glofas | 9 | 2 | 361,201 | 20,396 | 23,584 | 25,494 | 22,201 | 21.83 |
+| Fremont, California | glofas | 10 | 1 | 87,001 | 7,972 | 9,636 | 10,603 | 7,869 | 20.55 |
+| Rhine, Bonn to Mainz | efas | 7 | 1 | 2,595,241 | 123,586 | 146,732 | 161,898 | 143,074 | 22.86 |
 
 ### Wet pixels that get no curve
 
-crc-sdk fits a pixel only when it has a depth at four or more return periods that are not all equal and never decrease. Share is of the pixels wet at any return period. The publisher patches permanent water bodies into the maps; whether the pixels at exactly 1 m are those was not checked.
+crc-sdk fits a pixel only when it has a depth at four or more return periods that are not all equal and never decrease. Share is of the pixels wet at any return period. The publisher patches permanent water bodies into the maps: in the GloFAS areas every pixel with equal depths lies in the publisher's permanent-water layer and none with fewer than four depths does (probe, finding CRC-014-JRC).
 
 | Area | Wet at any | Fewer than four depths | All depths equal | Of those, all exactly 1 m | A depth decreases | No curve | Share |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -393,15 +395,15 @@ Notebook outputs as saved at crc-docs c6f78fb. Same box, dataset, policy, resolu
 | --- | --- | --- |
 | Curve rows crc-sdk returned | 154,532 | 154,825 |
 | Cells at or above 0.5 m | 742 | 743 |
-| Rheinland-Pfalz: mean depth (m) | 7.68 | 7.68 |
-| Rheinland-Pfalz: largest depth (m) | 21.86 | 21.86 |
-| Rheinland-Pfalz: cells | 508 | 508 |
-| Nordrhein-Westfalen: mean depth (m) | 7.27 | 7.27 |
-| Nordrhein-Westfalen: largest depth (m) | 16.05 | 16.05 |
-| Nordrhein-Westfalen: cells | 98 | 98 |
 | Hessen: mean depth (m) | 5.36 | 5.34 |
 | Hessen: largest depth (m) | 15.39 | 15.39 |
 | Hessen: cells | 205 | 206 |
+| Nordrhein-Westfalen: mean depth (m) | 7.27 | 7.27 |
+| Nordrhein-Westfalen: largest depth (m) | 16.05 | 16.05 |
+| Nordrhein-Westfalen: cells | 98 | 98 |
+| Rheinland-Pfalz: mean depth (m) | 7.68 | 7.68 |
+| Rheinland-Pfalz: largest depth (m) | 21.86 | 21.86 |
+| Rheinland-Pfalz: cells | 508 | 508 |
 | Places in those cells | 62,717 Overture places (release 2026-08-19.0, no longer hosted): not reproduced | not computed |
 
 ## Comparisons with outside evidence (no verdict)

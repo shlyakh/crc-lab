@@ -143,6 +143,7 @@ all: data storm-events curves assets sources site
 
 # Serve the site locally (http://127.0.0.1:8000)
 serve:
+    mkdir -p site/explainers && cp docs/explainers/*.html docs/explainers/README.md site/explainers/
     python3 -m http.server 8000 --bind 127.0.0.1 --directory site
 
 # Serve the site from one container (http://127.0.0.1:8080)

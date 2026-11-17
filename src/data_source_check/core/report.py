@@ -118,6 +118,8 @@ def source_markdown(source: Source, records: dict[str, Any], findings: list[Find
         f"Generated from the records of the run of {records['run_at']} against {pins}. {signed}",
         "Do not edit: change the source file or re-run the assessment and rebuild.",
         "",
+        *([f"- **What the framework adds:** {source.adds}"] if source.adds else []),
+        *([f"- **How it is compared:** {source.compared}"] if source.compared else []),
         f"- **Purpose (the framework's documentation):** {source.purpose}",
         f"- **Publisher:** {source.publisher} · {source.original}",
         f"- **Entry points:** {', '.join(f'`{name}`' for name in source.entry_points)}",

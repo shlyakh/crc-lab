@@ -237,6 +237,12 @@ function buildCaveats(payload) {
   const { catalog, manifest } = state; const s = sourceById(state.source);
   const g = groupOf(s);
   const items = [`<b>${esc(g.title)}.</b> ${esc(g.blurb)}`, ...(s.caveats || []).map((t) => `<b>${esc(s.title)}:</b> ${esc(t)}`)];
+  // the assessment of this source by the source validation project, where the inventory names this view
+  const inv = (state.inventory || []).find((x) => x.explorer && x.explorer.endsWith(`source=${s.id}`));
+  if (inv) {
+    const n = (state.findings || []).filter((f) => f.source === inv.id).length;
+    items.unshift(`<b>Assessment:</b> ${inv.records ? `verification ${esc(inv.status.verification)}${inv.draft ? " (draft, not reviewed)" : ""}; ${n} finding${n === 1 ? "" : "s"}. <a id="assessment-link" href="${esc(state.root)}validation/#assessment-${esc(inv.id)}">Read the assessment of this source</a>` : `not assessed yet. <a id="assessment-link" href="${esc(state.root)}validation/#inventory-section">See the inventory</a>`}`);
+  }
   for (const l of layersOfSource(state.source)) if (l.caveat) items.push(`<b>${esc(l.title)}:</b> ${esc(l.caveat)}`);
   if (payload && cellSource(state.source)) {
     const layer = layerById(state.hazard); const res = payload.h3_resolution;
@@ -419,6 +425,8 @@ export async function initSources({ dataUrl = "data/", address = {}, onChange, r
   state.hazard = registry.defaults.crc_hazard; state.horizon = registry.defaults.horizon; state.rp = registry.defaults.return_period;
   for (const l of registry.layers) state.overlays.set(l.id, l.on === true);
   state.tags = tags && !!registry.provenances;
+  // the validation project's inventory and findings: links from a source to its assessment, and the finding a layer shows
+  if (tags) { try { const inv = await fetchJSON("validation/data/inventory.json"); state.inventory = inv.sources; state.findings = inv.findings; } catch { state.inventory = []; } }
   // an address may name a layer: its source and region follow from it
   const named = layerById(address.layer); if (named && named.kind === "h3-cells" && named.source_id) { state.wanted = named.id; address = { ...address, source: named.source_id, region: address.region || named.region }; }
   const linked = sourceById(address.source); if (linked && !HIDDEN_SOURCES.has(linked.id)) state.byOrigin[linked.origin] = linked.id;

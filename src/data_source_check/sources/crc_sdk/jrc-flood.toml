@@ -6,6 +6,8 @@ tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result d
 publisher = "European Commission JRC, Copernicus Emergency Management Service"
 original = "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard"
 purpose = "River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells."
+adds = "From JRC's maps of flood depth at fixed return periods crc-sdk makes one fitted curve per map pixel (a Gumbel distribution by least squares), so that a depth can be read at any return period, and places each pixel on the H3 cells it overlaps. The published depths themselves are not kept, and a pixel with fewer than four depths gets no curve."
+compared = "JRC's files are downloaded whole and read by an independent reader. In five areas (Texas, Houston, Austin, Fremont, the Rhine) every pixel of crc-sdk's local copies is compared with them bit for bit, every curve is refitted and compared, and samples of the curve values, cells and identifiers are recomputed."
 entry_points = ["HazardDataset.glofas", "HazardDataset.efas", "HazardDataset.jrc"]
 symbols = ["JRCAreaPlan", "JRCCanonicalizationPlan", "JRCSourcePlan"]
 explorer = "explore/#tab=crc&source=jrc_flood"

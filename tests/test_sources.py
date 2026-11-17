@@ -170,6 +170,28 @@ def test_registry_lists_the_sources_layers() -> None:
     assert shown == {"CRC-013-FWK", "CRC-014-JRC", "CRC-015-JRC", "CRC-019-JRC"} and shown <= known
     for layer in registry["layers"]:
         assert layer.get("provenance", "crc-sdk") in registry["provenances"]
+    # every map link of the JRC assessment names a layer or a source of the registry
+    records = json.loads((root / "validation" / "data" / "records" / "jrc-flood.json").read_text())
+    ids = {layer["id"] for layer in registry["layers"]}
+    linked = [
+        link["href"]
+        for part in (
+            records["tables"],
+            records["charts"],
+            records["comparisons"],
+            [records["chart"]],
+        )
+        for item in part
+        for link in item.get("map", ())
+    ]
+    assert len(linked) > 40
+    for href in linked:
+        kind, _, name = href.removeprefix("explore/#tab=crc&").partition("=")
+        assert (kind == "layer" and name in ids) or (kind == "source" and name in declared), href
+    # every assessed source says what the framework adds and how it is compared
+    for source in inventory["sources"]:
+        if source["records"]:
+            assert len(source["adds"]) > 60 and len(source["compared"]) > 60, source["id"]
     for layer in registry["layers"]:
         assert layer["source_id"] is None or layer["source_id"] in declared
     groups = {g["id"] for g in registry["groups"]}

@@ -3,6 +3,8 @@
 Generated from the records of the run of 2026-11-12T04:51:25Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
+- **What the framework adds:** From NASA's daily files crc-sdk makes one value per grid cell and year: the largest one-day or five-day rainfall, or the hottest and the coldest day, after converting units and selecting the cells of a box. Nothing is fitted and nothing is cached.
+- **How it is compared:** For one model and member in the Texas box, two years and two file versions, the whole NASA file is read independently and the annual value of every grid cell is recomputed and compared with crc-sdk's rows. Units, labels and the file versions NASA serves are checked separately. The temperature recipes fail at this version and are compared on a local copy that carries the fix.
 - **Purpose (the framework's documentation):** Annual extremes from bias-adjusted, downscaled daily model output at 0.25 degree, one model and member at a time.
 - **Publisher:** NASA NCCS · https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6
 - **Entry points:** `HazardDataset.nex_gddp_cmip6`

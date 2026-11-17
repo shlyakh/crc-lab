@@ -3,6 +3,8 @@
 Generated from the records of the run of 2026-11-12T04:34:47Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
+- **What the framework adds:** From NOAA's hourly station reports crc-sdk makes, per station and year, the highest and the lowest temperature of the year, using its own rules for which reports, days and years count. It then fits a curve per station: a generalized extreme value distribution to the maxima, a Gumbel distribution to the minima. The hourly reports themselves are not kept.
+- **How it is compared:** Every station-year of forty Texas stations, 2000 to 2024, is recomputed in Python from NOAA's files with the stated rules and compared with crc-sdk's annual table, field by field; a sample is recomputed again from NOAA's second file format. Which stations get a curve is compared with the stated minimum of complete years. The parameters of the fitted curves are not recomputed.
 - **Purpose (the framework's documentation):** Annual extremes of hourly station temperature, fitted per station, as a local check on gridded curves.
 - **Publisher:** NOAA NCEI · https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year
 - **Entry points:** `HazardDataset.ghcnh`

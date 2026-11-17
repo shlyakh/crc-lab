@@ -873,6 +873,10 @@ def _summary(check: dict[str, Any]) -> str:
     return check.get("note", "")
 
 
+def n_(value: int) -> str:
+    return f"{value:,}"
+
+
 def present(run: dict[str, Any]) -> dict[str, Any]:
     """Add what the page and the report show: summaries, headline numbers, tables."""
     for check in run["checks"]:
@@ -883,6 +887,19 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
     curves = [c["result"] for c in run["checks"]
               if c["check"].startswith("curves[")
               and "curves_reference" in c["result"]]  # fmt: skip
+    unfitted = sum(r["only_in_reference"] for r in curves)
+    refitted = sum(r["curves_reference"] for r in curves)
+    differing = sorted({s for c in run["checks"] if c["outcome"] == "differs" for s in c["steps"]})
+    if differing and unfitted:
+        # one check per area bears on several steps; say what the difference is made of
+        run["summary_note"] = (
+            f"The {len(differing)} steps that differ ({', '.join(differing)}) rest on one check "
+            f"per area, which bears on all of them. The difference is {n_(unfitted)} of "
+            f"{n_(refitted)} curves ({100 * unfitted / refitted:.2f}%) that the reference fits "
+            "and crc-framework's fit does not converge on (finding CRC-013-FWK), and "
+            f"{sum(r['values_differing'] for r in curves)} curve parameters beyond the tolerance. "
+            "Every other pixel, curve, value, cell and label compared agrees."
+        )
     run["headline"] = [
         [sum(r["pixels_compared"] for r in crops), "pixel values compared bit for bit"],
         [sum(r["pixels_differing"] for r in crops), "pixel values that differ"],
@@ -915,7 +932,9 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
             "note": "crc-sdk fits a pixel only when it has a depth at four or more return "
             "periods that are not all equal and never decrease. Share is of the pixels wet "
             "at any return period. The publisher patches permanent water bodies into the "
-            "maps; whether the pixels at exactly 1 m are those was not checked.",
+            "maps: in the GloFAS areas every pixel with equal depths lies in the publisher's "
+            "permanent-water layer and none with fewer than four depths does (probe, finding "
+            "CRC-014-JRC).",
             "head": ["Area", "Wet at any", "Fewer than four depths", "All depths equal",
                      "Of those, all exactly 1 m", "A depth decreases", "No curve", "Share"],
             "rows": [
@@ -1044,6 +1063,21 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
                 "head": ["Number", "Notebook, saved output", "This run"],
                 "rows": rows,
             })  # fmt: skip
+    # the map layers that show a table's numbers, one link per area
+    fields = {
+        "What was read": "published",
+        "Wet pixels that get no curve": "no_curve_share",
+        "Published wet pixels without a curve, by return period": "no_curve_share",
+        "How far the fitted curve lies from the published depths": "misfit",
+        "Curve where the publisher is dry, and curve below zero": "dry_curve",
+        "Depths above 10 m and the publisher's spurious-depth mask": "deep",
+    }
+    for table in tables:
+        if table["title"] in fields:
+            table["map"] = map_links(areas, fields[table["title"]])
+        for entry in explored.get("by_area", ()):
+            if table["title"].endswith(f": {entry['title']}"):
+                table["map"] = map_links([entry], None)
     # where each table's numbers come from: crc-sdk's output, or the publisher's files read here
     from_crc_sdk = ("crc-sdk's runs", "River flood depth at", "The crc-docs notebook")
     for table in tables:
@@ -1053,6 +1087,7 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
         run["charts"] = _charts(run, areas)
         run["chart"] = {
             "origin": "publisher",
+            "map": map_links(areas, "no_curve_share"),
             "title": "Published wet pixels without a curve in crc-sdk, by return period",
             "unit": "% of the pixels wet at that return period",
             "x": "Return period",
@@ -1070,6 +1105,18 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
     return run
 
 
+def map_links(areas: Sequence[dict[str, Any]], field: str | None) -> list[dict[str, str]]:
+    """One link per area to the map explorer's layer of a review field (None: the fitted depth).
+
+    The layer names are the registry's (site/layers.json); a test holds the two together."""
+    out = []
+    for area in areas:
+        key = area["area"].replace("-", "_")
+        layer = f"jrc_{key}" if field is None else f"jrc_review_{key}_{field}"
+        out.append({"label": area["title"], "href": f"explore/#tab=crc&layer={layer}"})
+    return out
+
+
 def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
     """Charts for reviewing the findings; each names the finding it bears on."""
     unfitted = {c["check"][7:-1]: c["result"].get("only_in_reference", 0)
@@ -1079,9 +1126,9 @@ def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[s
         return round(100 * part / whole, 2) if whole else 0
 
     def per_area(title: str, unit: str, x: str, rows: Callable[[dict[str, Any]], list[Any]],
-                 finding: str) -> dict[str, Any]:  # fmt: skip
+                 finding: str, field: str) -> dict[str, Any]:  # fmt: skip
         return {"title": title, "finding": finding, "origin": "publisher", "unit": unit, "x": x,
-                "select": "Area",
+                "map": map_links(areas, field), "select": "Area",
                 "default": areas[0]["title"],
                 "series": {a["title"]: rows(a) for a in areas}}  # fmt: skip
 
@@ -1091,26 +1138,28 @@ def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[s
             ["all depths equal", a["no_curve"]["all_depths_equal"]],
             ["a depth decreases", a["no_curve"]["a_depth_decreases"]],
             ["fit did not converge", unfitted.get(a["area"], 0)],
-        ], "CRC-014-JRC, CRC-013-FWK"),
+        ], "CRC-014-JRC, CRC-013-FWK", "no_curve_land"),
         per_area("Flooded pixels by the number of return periods with a depth", "pixels",
-                 "Depths", lambda a: [[int(k), v] for k, v in a["knots"].items()], "CRC-014-JRC"),
+                 "Depths", lambda a: [[int(k), v] for k, v in a["knots"].items()], "CRC-014-JRC",
+                 "no_curve_land"),
         per_area("Fitted pixels dry in the published map where the curve gives 0.1 m or more",
                  "% of fitted pixels", "Return period",
                  lambda a: [[f"{p} y", share(a["dry_curve_tenth"][p], a["fitted"])]
-                            for p in a["wet"]], "CRC-015-JRC"),
+                            for p in a["wet"]], "CRC-015-JRC", "dry_curve"),
         per_area("Fitted pixels whose curve is below zero", "% of fitted pixels", "Return period",
                  lambda a: [[f"{p} y", share(a["curve_below_zero"][p], a["fitted"])]
-                            for p in a["wet"]], "CRC-015-JRC"),
+                            for p in a["wet"]], "CRC-015-JRC", "below_zero"),
         per_area("Distance between the fitted curve and the published depths", "m", "Statistic",
                  lambda a: [["median", round(a["misfit"].get("median", 0), 3)],
                             ["90th percentile", round(a["misfit"].get("p90", 0), 3)],
                             ["99th percentile", round(a["misfit"].get("p99", 0), 3)],
-                            ["largest", round(a["misfit"].get("largest", 0), 3)]], "CRC-015-JRC"),
+                            ["largest", round(a["misfit"].get("largest", 0), 3)]], "CRC-015-JRC",
+                 "misfit"),
         per_area("Pixels deeper than 10 m, and those inside the publisher's spurious-depth mask",
                  "pixels", "Return period",
                  lambda a: [x for p in a["wet"] for x in (
                      [f"{p} y, all", a["deep"][p]], [f"{p} y, in mask", a["deep_in_mask"][p]])],
-                 "CRC-019-JRC"),
+                 "CRC-019-JRC", "deep"),
     ]  # fmt: skip
     for entry in run["exploration"].get("by_area", ()):
         if len(entry["rows"]) < 2:
@@ -1120,7 +1169,8 @@ def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[s
             "title": f"Mean flood depth at {entry['return_period']} years of the cells at or "
                      f"above {entry['threshold_m']} m, by {entry['unit']}: {entry['title']}"
                      + (f" (first 15 of {len(entry['rows'])})" if len(entry["rows"]) > 15 else ""),
-            "finding": "", "origin": "crc-sdk", "unit": "m", "x": entry["unit"].capitalize(),
+            "finding": "", "origin": "crc-sdk", "map": map_links([entry], None), "unit": "m",
+            "x": entry["unit"].capitalize(),
             "ranked": True,
             "select": "", "default": "all",
             "series": {"all": [[r["name"], round(r["mean_depth_m"], 2)] for r in top]},

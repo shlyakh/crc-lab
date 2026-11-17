@@ -439,14 +439,28 @@ def comparisons(cache: Path, *, live: bool, log: Callable[[str], None] = lambda 
     for area in AREAS:
         log(f"{area.id}: outside evidence")
         parts = read_area(copy, area, periods, rules)
+        key = area.id.replace("-", "_")
         entry, masks = fema(area, parts, periods, evidence, live=live)
+        entry["map"] = [
+            {"label": label, "href": f"explore/#tab=crc&layer=jrc_evidence_{key}_{field}"}
+            for field, label in (
+                ("fema", "FEMA's 1% zone"),
+                ("jrc", "Flooded land in JRC's map"),
+                ("jrc_only", "Flooded in JRC's map, outside FEMA's zone"),
+                ("fema_only", "In FEMA's zone, dry in JRC's map"),
+            )
+        ]
+        points = [{"label": "Gauges and Harvey marks on the map",
+                   "href": "explore/#tab=crc&source=flood_evidence"}]  # fmt: skip
         out.append(entry)
         kept: dict[str, Any] = {"parts": parts, "masks": masks, "periods": periods}
         if area.id in GAUGE_AREAS:
             entry, kept["gauges"] = gauges(area, parts, periods, evidence, live=live)
+            entry["map"] = points
             out.append(entry)
         if area.id == MARK_AREA:
             entry, kept["marks"] = harvey(area, parts, periods, evidence, live=live)
+            entry["map"] = points
             out.append(entry)
         if collect is not None:
             collect[area.id] = kept

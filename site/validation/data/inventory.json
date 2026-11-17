@@ -633,11 +633,13 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-17T17:03:43Z",
+ "generated": "2026-11-17T17:26:25Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -669,6 +671,7 @@
    "title": "CRC Open hosted release"
   },
   {
+   "adds": "",
    "assessed_options": {
     "recipe": [
      "rx1day",
@@ -678,6 +681,7 @@
      "wb2-1p5"
     ]
    },
+   "compared": "",
    "draft": true,
    "drafted_by": "agent (draft-source-assessment skill), 2026-11-12",
    "entry_points": [
@@ -871,6 +875,7 @@
    "title": "ERA5 reanalysis extremes"
   },
   {
+   "adds": "Nothing is added to the values. crc-sdk downloads NOAA's CSV file for a basin or period, keeps a checksummed copy, and hands back every row and column as text, with empty values made null. It can also select storms by id or seasons by year. No number is parsed, converted or fitted.",
    "assessed_options": {
     "subset": [
      "ALL",
@@ -885,6 +890,7 @@
      "since1980"
     ]
    },
+   "compared": "NOAA's ten files are downloaded independently and read with Python's csv module; every value is compared with what crc-sdk returns, in order. The file addresses, the cached bytes, the header, the two filters and the manifest are checked separately.",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1013,7 +1019,9 @@
    "title": "IBTrACS tropical cyclone tracks"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "agent (draft-source-assessment skill), 2026-11-12",
    "entry_points": [
@@ -1142,12 +1150,14 @@
    "title": "NOAA CO-OPS extreme water levels"
   },
   {
+   "adds": "From NOAA's hourly station reports crc-sdk makes, per station and year, the highest and the lowest temperature of the year, using its own rules for which reports, days and years count. It then fits a curve per station: a generalized extreme value distribution to the maxima, a Gumbel distribution to the minima. The hourly reports themselves are not kept.",
    "assessed_options": {
     "recipe": [
      "temperature_max",
      "temperature_min"
     ]
    },
+   "compared": "Every station-year of forty Texas stations, 2000 to 2024, is recomputed in Python from NOAA's files with the stated rules and compared with crc-sdk's annual table, field by field; a sample is recomputed again from NOAA's second file format. Which stations get a curve is compared with the stated minimum of complete years. The parameters of the fitted curves are not recomputed.",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1283,7 +1293,9 @@
    "title": "NOAA GHCNh station temperatures"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1325,7 +1337,9 @@
    "title": "CMIP6 projections (native grids)"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1373,7 +1387,9 @@
    "title": "ECCC rainfall intensity-duration-frequency"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1413,12 +1429,14 @@
    "title": "JRC EDO soil moisture index"
   },
   {
+   "adds": "From JRC's maps of flood depth at fixed return periods crc-sdk makes one fitted curve per map pixel (a Gumbel distribution by least squares), so that a depth can be read at any return period, and places each pixel on the H3 cells it overlaps. The published depths themselves are not kept, and a pixel with fewer than four depths gets no curve.",
    "assessed_options": {
     "dataset": [
      "efas",
      "glofas"
     ]
    },
+   "compared": "JRC's files are downloaded whole and read by an independent reader. In five areas (Texas, Houston, Austin, Fremont, the Rhine) every pixel of crc-sdk's local copies is compared with them bit for bit, every curve is refitted and compared, and samples of the curve values, cells and identifiers are recomputed.",
    "draft": true,
    "drafted_by": "agent (Claude, with Yuri's plan of 2026-11-17), 2026-11-17",
    "entry_points": [
@@ -1565,6 +1583,7 @@
    "title": "JRC flood hazard maps (GloFAS, EFAS)"
   },
   {
+   "adds": "From NASA's daily files crc-sdk makes one value per grid cell and year: the largest one-day or five-day rainfall, or the hottest and the coldest day, after converting units and selecting the cells of a box. Nothing is fitted and nothing is cached.",
    "assessed_options": {
     "recipe": [
      "rx1day",
@@ -1579,6 +1598,7 @@
      "1.1"
     ]
    },
+   "compared": "For one model and member in the Texas box, two years and two file versions, the whole NASA file is read independently and the annual value of every grid cell is recomputed and compared with crc-sdk's rows. Units, labels and the file versions NASA serves are checked separately. The temperature recipes fail at this version and are compared on a local copy that carries the fix.",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1733,7 +1753,9 @@
    "title": "NASA NEX-GDDP-CMIP6 projections"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1770,7 +1792,9 @@
    "title": "NOAA ISD station temperatures"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1802,7 +1826,9 @@
    "title": "OS-Climate hazard indicators"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1832,7 +1858,9 @@
    "title": "CHIRPS v3 monthly rainfall"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1862,7 +1890,9 @@
    "title": "ECCC daily climate observations"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1892,7 +1922,9 @@
    "title": "ECCC HYDAT daily flow and level"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1922,7 +1954,9 @@
    "title": "Fields of The World field boundaries"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1960,7 +1994,9 @@
    "title": "NOAA 2022 sea-level scenarios"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -1990,7 +2026,9 @@
    "title": "USDA Cropland Data Layer"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [
@@ -2020,7 +2058,9 @@
    "title": "USGS daily streamflow"
   },
   {
+   "adds": "",
    "assessed_options": {},
+   "compared": "",
    "draft": true,
    "drafted_by": "",
    "entry_points": [

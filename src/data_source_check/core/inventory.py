@@ -36,6 +36,8 @@ def load_source(path: Path, framework: str) -> Source:
         statement=tuple(Step(**step) for step in raw.get("statement", ())),
         notes=raw.get("notes", ""),
         explorer=raw.get("explorer", ""),
+        adds=raw.get("adds", ""),
+        compared=raw.get("compared", ""),
         drafted_by=raw.get("drafted_by", ""),
         reviewed_by=raw.get("reviewed_by", ""),
         reviewed_on=raw.get("reviewed_on", ""),

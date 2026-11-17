@@ -200,7 +200,59 @@ function chartBlock(chart) {
   const draw = () => holder.replaceChildren(chart.ranked ? rankChart(chart.series[pick.value], chart.unit) : barChart(chart.series[pick.value], chart.unit, chart.x, readout));
   pick.addEventListener("change", draw); draw();
   return [el("div", { class: "chart-head" }, el("b", { text: chart.title }), chart.finding ? el("span", { class: "tag", text: chart.finding }) : null, originTag(chart.origin),
-    names.length > 1 ? el("label", {}, `${chart.select} `, pick) : null, chart.ranked ? null : el("span", { class: "mute small", text: chart.unit }), chart.ranked ? null : readout), holder];
+    names.length > 1 ? el("label", {}, `${chart.select} `, pick) : null, chart.ranked ? null : el("span", { class: "mute small", text: chart.unit }), chart.ranked ? null : readout), mapRow(chart.map), holder];
+}
+
+// Links from a table, a chart or a comparison to the map layers that show the same thing.
+const mapRow = (links) => (links && links.length ? el("p", { class: "maprow small" }, el("span", { class: "label", text: "On the map" }), ...links.flatMap((l, i) => [i ? " · " : " ", el("a", { class: "maplink", href: l.href, text: l.label })])) : null);
+// One bar for a set of outcomes: how many confirmed, differ, were not checked.
+function outcomeBar(title, counts) {
+  const parts = [["confirmed", "ok"], ["differs", "bad"], ["not checked", "none"], ["not applicable", "none"]].filter(([k]) => counts[k]);
+  const total = parts.reduce((n, [k]) => n + counts[k], 0) || 1;
+  return el("div", { class: "obar", role: "img", "aria-label": `${title}: ${parts.map(([k]) => `${counts[k]} ${k}`).join(", ")}` },
+    el("div", { class: "obar-title" }, el("b", { text: title }), ` ${total}`),
+    el("div", { class: "obar-track" }, ...parts.map(([k, cls]) => el("i", { class: cls, style: `flex:${counts[k]} 1 0`, title: `${counts[k]} ${k}` }))),
+    el("div", { class: "obar-key small" }, ...parts.map(([k, cls]) => el("span", {}, el("i", { class: `dot ${cls}` }), `${fmt(counts[k])} ${k}`))));
+}
+// "N compared, M differ" pairs read from the headline numbers of the record.
+function agreement(rec) {
+  const out = []; let base = null;
+  for (const [n, label] of rec.headline || []) {
+    if (typeof n !== "number") continue;
+    if (/differ/.test(label)) { if (base) { out.push({ ...base, differ: n }); base = null; } } else if (/compared|recomputed|refitted/.test(label)) base = { n, label };
+  }
+  return out;
+}
+// The summary an assessment opens with: what the framework adds, how it is compared, the result in one line and two bars, what differs.
+function summaryBlock(source, rec, findings) {
+  const tally = (list, key) => list.reduce((m, x) => { m[x[key]] = (m[x[key]] || 0) + 1; return m; }, {});
+  const steps = tally(source.statement, "outcome"), checks = tally(rec.checks, "outcome");
+  const checked = (steps.confirmed || 0) + (steps.differs || 0);
+  const differing = source.statement.filter((s) => s.outcome === "differs");
+  const line = `The framework does what it states in ${steps.confirmed || 0} of the ${checked} steps that were checked` +
+    (differing.length ? `; ${differing.length} ${differing.length === 1 ? "differs" : "differ"}` : "; none differs") +
+    (steps["not checked"] ? `; ${steps["not checked"]} ${steps["not checked"] === 1 ? "was" : "were"} not checked` : "") +
+    `. ${checks.confirmed || 0} of ${rec.checks.length} checks are confirmed.`;
+  const box = el("div", { class: "summary" }, el("h3", { text: "Summary" }));
+  // the result opens with the values themselves, then the steps; a record may add a note on what a difference is made of
+  const pairs = agreement(rec);
+  const values = pairs.map((p) => { const share = p.n ? (100 * (p.n - p.differ)) / p.n : 100; return `${fmt(p.n)} ${p.label}, ${fmt(p.differ)} differ${p.differ ? ` (${share.toFixed(share > 99.9 ? 2 : 1)}% agree)` : ""}`; }).join("; ");
+  box.append(kv([
+    ["What the framework adds", source.adds],
+    ["How it is compared", source.compared],
+    ["Result", el("span", {}, values ? el("b", { text: `${values}. ` }) : null, line, rec.summary_note ? el("div", { class: "small", text: rec.summary_note }) : null)],
+  ]));
+  box.append(el("div", { class: "obars" }, outcomeBar("Steps the framework states", steps), outcomeBar("Checks run", checks)));
+  if (differing.length) {
+    box.append(el("p", { class: "small" }, el("b", { text: "What differs. " }), ...differing.flatMap((s, i) => [i ? "; " : "", el("code", { text: s.id })]), ". The steps are listed below with their outcome."));
+  }
+  if (findings.length) {
+    const open = findings.filter((f) => f.status !== "fixed");
+    box.append(el("p", { class: "small" }, el("b", { text: `Findings (${findings.length}${open.length < findings.length ? `, ${open.length} open` : ""}). ` }),
+      ...findings.flatMap((f, i) => [i ? "; " : "", el("a", { class: "jumpto", href: `#finding-${f.id}`, text: f.id }), ` ${f.title}`]), "."));
+  }
+  if (source.explorer) box.append(mapRow([{ label: "Open this source in the CRC data explorer", href: source.explorer }]));
+  return box;
 }
 
 function renderAssessment(source, rec, findings, watch) {
@@ -210,13 +262,15 @@ function renderAssessment(source, rec, findings, watch) {
       el("span", { class: "meta" }, el("span", { class: `tag ${source.draft ? "defect" : "fixed"}`, text: source.draft ? "draft, not reviewed" : `reviewed by ${source.reviewed_by}, ${source.reviewed_on}` }),
         ` · run of ${rec.run_at.slice(0, 10)}`)));
   const body = el("div", { class: "body" });
+  body.append(summaryBlock(source, rec, findings));
+  body.append(el("h3", { class: "part", text: "In detail: what was counted" }));
   body.append(el("div", { class: "tiles" }, ...(rec.headline || []).map(([n, label]) => el("div", { class: "tile" }, el("b", { text: fmt(n) }), el("span", { text: label })))));
 
   const long = (t) => t.rows.length > 12;
   for (const t of rec.tables || []) {
     const made = table(t.head, t.rows.map((r) => r.map((c) => (typeof c === "number" ? fmt(c) : c))));
-    if (long(t)) body.append(el("details", { class: "fold" }, el("summary", {}, `${t.title} (${t.rows.length} rows) `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, made));
-    else body.append(el("h3", {}, `${t.title} `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, made);
+    if (long(t)) body.append(el("details", { class: "fold" }, el("summary", {}, `${t.title} (${t.rows.length} rows) `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, mapRow(t.map), made));
+    else body.append(el("h3", {}, `${t.title} `, originTag(t.origin)), t.note ? el("p", { class: "mute small", text: t.note }) : null, mapRow(t.map), made);
   }
   if (rec.chart) body.append(...chartBlock(rec.chart));
   if (rec.charts && rec.charts.length) {
@@ -229,6 +283,7 @@ function renderAssessment(source, rec, findings, watch) {
     for (const c of rec.comparisons) {
       const inner = el("div", { class: "comparison" },
         el("p", { class: "small", text: c.method }),
+        mapRow(c.map),
         table(["Number", "Value"], c.numbers.map(([k, v]) => [k, v === null ? "none" : typeof v === "number" ? fmt(v) : v])),
         c.table ? el("details", { class: "fold" }, el("summary", { text: `${c.table.title} (${c.table.rows.length} rows)` }), table(c.table.head, c.table.rows.map((r) => r.map((x) => (x === null ? "" : typeof x === "number" ? fmt(x) : x))))) : null,
         el("p", { class: "small" }, el("b", { text: "Limits. " }), c.limits.join(" ")),

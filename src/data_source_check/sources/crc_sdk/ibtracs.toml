@@ -7,6 +7,8 @@ publisher = "NOAA NCEI"
 original = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv"
 purpose = "Best-track points of tropical cyclones by basin, as published, for inspection. Not asset winds or return-period curves."
 explorer = "explore/#tab=crc&source=ibtracs"
+adds = "Nothing is added to the values. crc-sdk downloads NOAA's CSV file for a basin or period, keeps a checksummed copy, and hands back every row and column as text, with empty values made null. It can also select storms by id or seasons by year. No number is parsed, converted or fitted."
+compared = "NOAA's ten files are downloaded independently and read with Python's csv module; every value is compared with what crc-sdk returns, in order. The file addresses, the cached bytes, the header, the two filters and the manifest are checked separately."
 entry_points = ["IBTrACSPlan"]
 notes = "Longitudes in NOAA's files are not wrapped to -180..180 (values up to 266.9 occur where a track crosses the date line); crc-sdk passes them through as strings. SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year. About four values in five are missing: most columns belong to one agency each."
 

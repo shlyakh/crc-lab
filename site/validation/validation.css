@@ -110,3 +110,15 @@ ol.rank .num { text-align: right; font-variant-numeric: tabular-nums; }
 .preview-note { padding: var(--s2) var(--s3); border: 1px solid var(--warn); font-size: var(--f-s); }
 section[id], details.assessment, details.finding { scroll-margin-top: 56px; }
 .target { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* the summary an assessment opens with */
+.summary { border: 1px solid var(--rule-2); padding: var(--s2) var(--s4) var(--s3); margin: var(--s3) 0 var(--s4); background: #fff; }
+.summary h3 { margin-top: var(--s1); }
+.obars { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s3) var(--s5, 32px); margin: var(--s3) 0 var(--s2); }
+.obar-title { font-size: var(--f-s); margin-bottom: 4px; }
+.obar-track { display: flex; height: 14px; gap: 2px; }
+.obar-track i, .obar-key .dot { background: var(--rule-2); } .obar-track i.ok, .obar-key .dot.ok { background: var(--ok); } .obar-track i.bad, .obar-key .dot.bad { background: var(--warn); }
+.obar-key { display: flex; flex-wrap: wrap; gap: 2px var(--s4); margin-top: 4px; color: var(--ink-2); }
+.obar-key .dot { display: inline-block; width: 8px; height: 8px; margin-right: 5px; }
+ul.agree { margin: var(--s2) 0; padding-left: 1.2em; }
+h3.part { margin-top: var(--s4); }
+.maprow { margin: 2px 0 var(--s2); } .maprow .label { font-size: var(--f-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }

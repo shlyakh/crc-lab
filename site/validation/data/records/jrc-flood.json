@@ -1,6 +1,28 @@
 {
  "chart": {
   "default": "Texas box",
+  "map": [
+   {
+    "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share",
+    "label": "Texas box"
+   },
+   {
+    "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_no_curve_share",
+    "label": "Houston"
+   },
+   {
+    "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_no_curve_share",
+    "label": "Austin"
+   },
+   {
+    "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_no_curve_share",
+    "label": "Fremont, California"
+   },
+   {
+    "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_no_curve_share",
+    "label": "Rhine, Bonn to Mainz"
+   }
+  ],
   "origin": "publisher",
   "select": "Area",
   "series": {
@@ -10,28 +32,28 @@
      6.78
     ],
     [
-     "20 y",
-     6.35
-    ],
-    [
-     "50 y",
-     5.98
-    ],
-    [
-     "75 y",
-     5.86
-    ],
-    [
      "100 y",
      7.09
+    ],
+    [
+     "20 y",
+     6.35
     ],
     [
      "200 y",
      9.62
     ],
     [
+     "50 y",
+     5.98
+    ],
+    [
      "500 y",
      12.92
+    ],
+    [
+     "75 y",
+     5.86
     ]
    ],
    "Fremont, California": [
@@ -40,28 +62,28 @@
      22.17
     ],
     [
-     "20 y",
-     20.43
-    ],
-    [
-     "50 y",
-     18.89
-    ],
-    [
-     "75 y",
-     18.34
-    ],
-    [
      "100 y",
      19.83
+    ],
+    [
+     "20 y",
+     20.43
     ],
     [
      "200 y",
      22.43
     ],
     [
+     "50 y",
+     18.89
+    ],
+    [
      "500 y",
      25.79
+    ],
+    [
+     "75 y",
+     18.34
     ]
    ],
    "Houston": [
@@ -70,28 +92,28 @@
      11.22
     ],
     [
-     "20 y",
-     10.26
-    ],
-    [
-     "50 y",
-     9.34
-    ],
-    [
-     "75 y",
-     8.97
-    ],
-    [
      "100 y",
      11.38
+    ],
+    [
+     "20 y",
+     10.26
     ],
     [
      "200 y",
      17.0
     ],
     [
+     "50 y",
+     9.34
+    ],
+    [
      "500 y",
      23.58
+    ],
+    [
+     "75 y",
+     8.97
     ]
    ],
    "Rhine, Bonn to Mainz": [
@@ -100,8 +122,16 @@
      2.96
     ],
     [
+     "100 y",
+     4.18
+    ],
+    [
      "20 y",
      2.75
+    ],
+    [
+     "200 y",
+     7.74
     ],
     [
      "30 y",
@@ -116,20 +146,12 @@
      2.56
     ],
     [
-     "75 y",
-     2.49
-    ],
-    [
-     "100 y",
-     4.18
-    ],
-    [
-     "200 y",
-     7.74
-    ],
-    [
      "500 y",
      11.63
+    ],
+    [
+     "75 y",
+     2.49
     ]
    ],
    "Texas box": [
@@ -138,28 +160,28 @@
      9.63
     ],
     [
-     "20 y",
-     9.02
-    ],
-    [
-     "50 y",
-     8.48
-    ],
-    [
-     "75 y",
-     8.29
-    ],
-    [
      "100 y",
      9.64
+    ],
+    [
+     "20 y",
+     9.02
     ],
     [
      "200 y",
      12.5
     ],
     [
+     "50 y",
+     8.48
+    ],
+    [
      "500 y",
      15.68
+    ],
+    [
+     "75 y",
+     8.29
     ]
    ]
   },
@@ -171,6 +193,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-014-JRC, CRC-013-FWK",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_land",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_no_curve_land",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_no_curve_land",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_no_curve_land",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_no_curve_land",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -272,6 +316,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-014-JRC",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_land",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_no_curve_land",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_no_curve_land",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_no_curve_land",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_no_curve_land",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -441,6 +507,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-015-JRC",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_dry_curve",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_dry_curve",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_dry_curve",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_dry_curve",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_dry_curve",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -450,27 +538,27 @@
       3.52
      ],
      [
-      "20 y",
-      2.13
-     ],
-     [
-      "50 y",
-      0.46
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      2.13
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.46
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -480,27 +568,27 @@
       7.54
      ],
      [
-      "20 y",
-      4.21
-     ],
-     [
-      "50 y",
-      1.35
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      4.21
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      1.35
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -510,27 +598,27 @@
       6.89
      ],
      [
-      "20 y",
-      4.67
-     ],
-     [
-      "50 y",
-      1.86
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      4.67
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      1.86
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -540,8 +628,16 @@
       3.99
      ],
      [
+      "100 y",
+      0.0
+     ],
+     [
       "20 y",
       2.24
+     ],
+     [
+      "200 y",
+      0.0
      ],
      [
       "30 y",
@@ -556,19 +652,11 @@
       0.95
      ],
      [
-      "75 y",
-      0.0
-     ],
-     [
-      "100 y",
-      0.0
-     ],
-     [
-      "200 y",
-      0.0
-     ],
-     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -578,27 +666,27 @@
       5.01
      ],
      [
-      "20 y",
-      3.03
-     ],
-     [
-      "50 y",
-      0.94
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      3.03
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.94
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ]
@@ -610,6 +698,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-015-JRC",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_below_zero",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_below_zero",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_below_zero",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_below_zero",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_below_zero",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -619,27 +729,27 @@
       9.35
      ],
      [
-      "20 y",
-      4.81
-     ],
-     [
-      "50 y",
-      0.61
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      4.81
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.61
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -649,27 +759,27 @@
       4.6
      ],
      [
-      "20 y",
-      1.88
-     ],
-     [
-      "50 y",
-      0.0
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      1.88
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.0
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -679,28 +789,28 @@
       9.92
      ],
      [
-      "20 y",
-      4.85
-     ],
-     [
-      "50 y",
-      0.31
-     ],
-     [
-      "75 y",
-      0.08
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      4.85
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.31
+     ],
+     [
       "500 y",
       0.0
+     ],
+     [
+      "75 y",
+      0.08
      ]
     ],
     "Rhine, Bonn to Mainz": [
@@ -709,8 +819,16 @@
       10.69
      ],
      [
+      "100 y",
+      0.0
+     ],
+     [
       "20 y",
       5.88
+     ],
+     [
+      "200 y",
+      0.0
      ],
      [
       "30 y",
@@ -725,19 +843,11 @@
       0.81
      ],
      [
-      "75 y",
-      0.0
-     ],
-     [
-      "100 y",
-      0.0
-     ],
-     [
-      "200 y",
-      0.0
-     ],
-     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ],
@@ -747,27 +857,27 @@
       6.14
      ],
      [
-      "20 y",
-      2.97
-     ],
-     [
-      "50 y",
-      0.24
-     ],
-     [
-      "75 y",
-      0.0
-     ],
-     [
       "100 y",
       0.0
+     ],
+     [
+      "20 y",
+      2.97
      ],
      [
       "200 y",
       0.0
      ],
      [
+      "50 y",
+      0.24
+     ],
+     [
       "500 y",
+      0.0
+     ],
+     [
+      "75 y",
       0.0
      ]
     ]
@@ -779,6 +889,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-015-JRC",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_misfit",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_misfit",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_misfit",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_misfit",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_misfit",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -880,6 +1012,28 @@
   {
    "default": "Texas box",
    "finding": "CRC-019-JRC",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_deep",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_deep",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_deep",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_deep",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_deep",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "publisher",
    "select": "Area",
    "series": {
@@ -893,36 +1047,20 @@
       5
      ],
      [
-      "20 y, all",
-      1626
-     ],
-     [
-      "20 y, in mask",
-      20
-     ],
-     [
-      "50 y, all",
-      2010
-     ],
-     [
-      "50 y, in mask",
-      20
-     ],
-     [
-      "75 y, all",
-      2128
-     ],
-     [
-      "75 y, in mask",
-      21
-     ],
-     [
       "100 y, all",
       2201
      ],
      [
       "100 y, in mask",
       21
+     ],
+     [
+      "20 y, all",
+      1626
+     ],
+     [
+      "20 y, in mask",
+      20
      ],
      [
       "200 y, all",
@@ -933,12 +1071,28 @@
       22
      ],
      [
+      "50 y, all",
+      2010
+     ],
+     [
+      "50 y, in mask",
+      20
+     ],
+     [
       "500 y, all",
       2673
      ],
      [
       "500 y, in mask",
       23
+     ],
+     [
+      "75 y, all",
+      2128
+     ],
+     [
+      "75 y, in mask",
+      21
      ]
     ],
     "Fremont, California": [
@@ -951,36 +1105,20 @@
       122
      ],
      [
-      "20 y, all",
-      123
-     ],
-     [
-      "20 y, in mask",
-      123
-     ],
-     [
-      "50 y, all",
-      125
-     ],
-     [
-      "50 y, in mask",
-      125
-     ],
-     [
-      "75 y, all",
-      126
-     ],
-     [
-      "75 y, in mask",
-      126
-     ],
-     [
       "100 y, all",
       126
      ],
      [
       "100 y, in mask",
       126
+     ],
+     [
+      "20 y, all",
+      123
+     ],
+     [
+      "20 y, in mask",
+      123
      ],
      [
       "200 y, all",
@@ -991,12 +1129,28 @@
       127
      ],
      [
+      "50 y, all",
+      125
+     ],
+     [
+      "50 y, in mask",
+      125
+     ],
+     [
       "500 y, all",
       128
      ],
      [
       "500 y, in mask",
       128
+     ],
+     [
+      "75 y, all",
+      126
+     ],
+     [
+      "75 y, in mask",
+      126
      ]
     ],
     "Houston": [
@@ -1009,35 +1163,19 @@
       0
      ],
      [
-      "20 y, all",
-      0
-     ],
-     [
-      "20 y, in mask",
-      0
-     ],
-     [
-      "50 y, all",
-      0
-     ],
-     [
-      "50 y, in mask",
-      0
-     ],
-     [
-      "75 y, all",
-      0
-     ],
-     [
-      "75 y, in mask",
-      0
-     ],
-     [
       "100 y, all",
       0
      ],
      [
       "100 y, in mask",
+      0
+     ],
+     [
+      "20 y, all",
+      0
+     ],
+     [
+      "20 y, in mask",
       0
      ],
      [
@@ -1049,11 +1187,27 @@
       0
      ],
      [
+      "50 y, all",
+      0
+     ],
+     [
+      "50 y, in mask",
+      0
+     ],
+     [
       "500 y, all",
       9
      ],
      [
       "500 y, in mask",
+      0
+     ],
+     [
+      "75 y, all",
+      0
+     ],
+     [
+      "75 y, in mask",
       0
      ]
     ],
@@ -1067,11 +1221,27 @@
       0
      ],
      [
+      "100 y, all",
+      9037
+     ],
+     [
+      "100 y, in mask",
+      0
+     ],
+     [
       "20 y, all",
       5101
      ],
      [
       "20 y, in mask",
+      0
+     ],
+     [
+      "200 y, all",
+      11503
+     ],
+     [
+      "200 y, in mask",
       0
      ],
      [
@@ -1099,35 +1269,19 @@
       0
      ],
      [
-      "75 y, all",
-      7927
-     ],
-     [
-      "75 y, in mask",
-      0
-     ],
-     [
-      "100 y, all",
-      9037
-     ],
-     [
-      "100 y, in mask",
-      0
-     ],
-     [
-      "200 y, all",
-      11503
-     ],
-     [
-      "200 y, in mask",
-      0
-     ],
-     [
       "500 y, all",
       14765
      ],
      [
       "500 y, in mask",
+      0
+     ],
+     [
+      "75 y, all",
+      7927
+     ],
+     [
+      "75 y, in mask",
       0
      ]
     ],
@@ -1141,36 +1295,20 @@
       5434
      ],
      [
-      "20 y, all",
-      117176
-     ],
-     [
-      "20 y, in mask",
-      6571
-     ],
-     [
-      "50 y, all",
-      158209
-     ],
-     [
-      "50 y, in mask",
-      7669
-     ],
-     [
-      "75 y, all",
-      177867
-     ],
-     [
-      "75 y, in mask",
-      8078
-     ],
-     [
       "100 y, all",
       192437
      ],
      [
       "100 y, in mask",
       8393
+     ],
+     [
+      "20 y, all",
+      117176
+     ],
+     [
+      "20 y, in mask",
+      6571
      ],
      [
       "200 y, all",
@@ -1181,12 +1319,28 @@
       8953
      ],
      [
+      "50 y, all",
+      158209
+     ],
+     [
+      "50 y, in mask",
+      7669
+     ],
+     [
       "500 y, all",
       276002
      ],
      [
       "500 y, in mask",
       9783
+     ],
+     [
+      "75 y, all",
+      177867
+     ],
+     [
+      "75 y, in mask",
+      8078
      ]
     ]
    },
@@ -1197,6 +1351,12 @@
   {
    "default": "all",
    "finding": "",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_glofas_tx",
+     "label": "Texas box"
+    }
+   ],
    "origin": "crc-sdk",
    "ranked": true,
    "select": "",
@@ -1271,6 +1431,12 @@
   {
    "default": "all",
    "finding": "",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_efas_rhine",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "origin": "crc-sdk",
    "ranked": true,
    "select": "",
@@ -4475,6 +4641,24 @@
     "The zone polygons were generalised by the service to about 1 m and 431 of 21289 are not valid polygons after that; they were rasterised as they came.",
     "A pixel is about 90 m; a zone narrower than that can be missed."
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_houston_fema",
+     "label": "FEMA's 1% zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_houston_jrc",
+     "label": "Flooded land in JRC's map"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_houston_jrc_only",
+     "label": "Flooded in JRC's map, outside FEMA's zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_houston_fema_only",
+     "label": "In FEMA's zone, dry in JRC's map"
+    }
+   ],
    "method": "Every GloFAS pixel of the box is set against the FEMA zone that holds its centre. FEMA's 1 percent annual chance zones are the A zones (called riverine here) and the V zones (coastal); the 0.2 percent zone is zone X so labelled. GloFAS 'flooded' is a published depth at that return period on a pixel outside JRC's permanent-water layer.",
    "numbers": [
     [
@@ -4571,6 +4755,12 @@
     "Whether the NWS stage scale and the USGS gage height share a datum at each gauge was not checked.",
     "Both rivers are regulated (reservoirs upstream of Houston and Austin); the record is not stationary. A record of a few decades says little about 100 and 500 years.",
     "The largest depth within 270 m may belong to a neighbouring channel."
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&source=flood_evidence",
+     "label": "Gauges and Harvey marks on the map"
+    }
    ],
    "method": "For each stream gauge in the box: its annual peak stages, the NWS minor flood stage where NWS has the gauge, and the largest GloFAS depth within three pixels (about 270 m) of the gauge at 10, 100 and 500 years, on pixels outside JRC's permanent-water layer (where the map holds a patch value). 'Above flood stage' is a peak stage minus the minor flood stage, in metres.",
    "numbers": [
@@ -5002,6 +5192,12 @@
     "A mark's height above ground is at one point; a pixel is about 90 m and its depth is over a 90 m terrain model, which in a channel includes the channel.",
     "Marks are where surveyors went, mostly where water was; they do not sample dry places."
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&source=flood_evidence",
+     "label": "Gauges and Harvey marks on the map"
+    }
+   ],
    "method": "For each surveyed high-water mark with a height above ground: the GloFAS depth of the pixel that holds the mark, at 100 and 500 years. Quartiles are the 25th, 50th and 75th percentiles.",
    "numbers": [
     [
@@ -5091,6 +5287,24 @@
     "FEMA zones are regulatory maps of different dates per panel; the 1 percent zone is not a depth.",
     "The zone polygons were generalised by the service to about 1 m and 606 of 7071 are not valid polygons after that; they were rasterised as they came.",
     "A pixel is about 90 m; a zone narrower than that can be missed."
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_austin_fema",
+     "label": "FEMA's 1% zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_austin_jrc",
+     "label": "Flooded land in JRC's map"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_austin_jrc_only",
+     "label": "Flooded in JRC's map, outside FEMA's zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_austin_fema_only",
+     "label": "In FEMA's zone, dry in JRC's map"
+    }
    ],
    "method": "Every GloFAS pixel of the box is set against the FEMA zone that holds its centre. FEMA's 1 percent annual chance zones are the A zones (called riverine here) and the V zones (coastal); the 0.2 percent zone is zone X so labelled. GloFAS 'flooded' is a published depth at that return period on a pixel outside JRC's permanent-water layer.",
    "numbers": [
@@ -5188,6 +5402,12 @@
     "Whether the NWS stage scale and the USGS gage height share a datum at each gauge was not checked.",
     "Both rivers are regulated (reservoirs upstream of Houston and Austin); the record is not stationary. A record of a few decades says little about 100 and 500 years.",
     "The largest depth within 270 m may belong to a neighbouring channel."
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&source=flood_evidence",
+     "label": "Gauges and Harvey marks on the map"
+    }
    ],
    "method": "For each stream gauge in the box: its annual peak stages, the NWS minor flood stage where NWS has the gauge, and the largest GloFAS depth within three pixels (about 270 m) of the gauge at 10, 100 and 500 years, on pixels outside JRC's permanent-water layer (where the map holds a patch value). 'Above flood stage' is a peak stage minus the minor flood stage, in metres.",
    "numbers": [
@@ -5377,6 +5597,24 @@
     "FEMA zones are regulatory maps of different dates per panel; the 1 percent zone is not a depth.",
     "The zone polygons were generalised by the service to about 1 m and 1 of 718 are not valid polygons after that; they were rasterised as they came.",
     "A pixel is about 90 m; a zone narrower than that can be missed."
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_fremont_fema",
+     "label": "FEMA's 1% zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_fremont_jrc",
+     "label": "Flooded land in JRC's map"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_fremont_jrc_only",
+     "label": "Flooded in JRC's map, outside FEMA's zone"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_evidence_glofas_fremont_fema_only",
+     "label": "In FEMA's zone, dry in JRC's map"
+    }
    ],
    "method": "Every GloFAS pixel of the box is set against the FEMA zone that holds its centre. FEMA's 1 percent annual chance zones are the A zones (called riverine here) and the V zones (coastal); the 0.2 percent zone is zone X so labelled. GloFAS 'flooded' is a published depth at that return period on a pixel outside JRC's permanent-water layer.",
    "numbers": [
@@ -8252,6 +8490,7 @@
   "tolerance_m": 1e-06
  },
  "source": "jrc-flood",
+ "summary_note": "The 4 steps that differ (fit, fit-failure, knots, nodata) rest on one check per area, which bears on all of them. The difference is 2,957 of 10,240,052 curves (0.03%) that the reference fits and crc-framework's fit does not converge on (finding CRC-013-FWK), and 2 curve parameters beyond the tolerance. Every other pixel, curve, value, cell and label compared agrees.",
  "tables": [
   {
    "head": [
@@ -8266,6 +8505,28 @@
     "With a curve",
     "Deepest (m)"
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_published",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_published",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_published",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_published",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_published",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "note": "Counted from the publisher's files by the reference reader. A pixel is wet at a return period when the file gives it a depth; dry pixels hold the nodata value, not zero.",
    "origin": "publisher",
    "rows": [
@@ -8276,7 +8537,7 @@
      4,
      "201,757,502",
      "9,255,575",
-     "11,686,209",
+     "10,744,960",
      "11,686,210",
      "9,853,959",
      "108.23"
@@ -8288,7 +8549,7 @@
      2,
      "1,298,281",
      "186,964",
-     "278,654",
+     "233,922",
      "278,654",
      "212,949",
      "10.14"
@@ -8300,7 +8561,7 @@
      2,
      "361,201",
      "20,396",
-     "25,494",
+     "23,584",
      "25,494",
      "22,201",
      "21.83"
@@ -8312,7 +8573,7 @@
      1,
      "87,001",
      "7,972",
-     "10,603",
+     "9,636",
      "10,603",
      "7,869",
      "20.55"
@@ -8324,7 +8585,7 @@
      1,
      "2,595,241",
      "123,586",
-     "161,898",
+     "146,732",
      "161,898",
      "143,074",
      "22.86"
@@ -8343,7 +8604,29 @@
     "No curve",
     "Share"
    ],
-   "note": "crc-sdk fits a pixel only when it has a depth at four or more return periods that are not all equal and never decrease. Share is of the pixels wet at any return period. The publisher patches permanent water bodies into the maps; whether the pixels at exactly 1 m are those was not checked.",
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_no_curve_share",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_no_curve_share",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_no_curve_share",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_no_curve_share",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
+   "note": "crc-sdk fits a pixel only when it has a depth at four or more return periods that are not all equal and never decrease. Share is of the pixels wet at any return period. The publisher patches permanent water bodies into the maps: in the GloFAS areas every pixel with equal depths lies in the publisher's permanent-water layer and none with fewer than four depths does (probe, finding CRC-014-JRC).",
    "origin": "publisher",
    "rows": [
     [
@@ -8411,6 +8694,28 @@
     "100 y",
     "200 y",
     "500 y"
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_no_curve_share",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_no_curve_share",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_no_curve_share",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_no_curve_share",
+     "label": "Rhine, Bonn to Mainz"
+    }
    ],
    "note": "Of the pixels the publisher shows flooded at a return period, how many have no row in crc-sdk's output.",
    "origin": "publisher",
@@ -8489,6 +8794,28 @@
     "Over 0.5 m",
     "Over 1 m"
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_misfit",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_misfit",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_misfit",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_misfit",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_misfit",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "note": "Per fitted pixel, the largest gap in metres between the curve and the published depth over the return periods at which the pixel is wet.",
    "origin": "publisher",
    "rows": [
@@ -8554,6 +8881,28 @@
     "Largest such depth (m)",
     "Curves below 0"
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_dry_curve",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_dry_curve",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_dry_curve",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_dry_curve",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_dry_curve",
+     "label": "Rhine, Bonn to Mainz"
+    }
+   ],
    "note": "Pixels with a curve that the publisher shows dry at the shortest return period: how many curves give a depth above 0 and of 0.1 m or more there (0.1 m is the smallest published depth). And fitted curves that are below zero at the shortest return period.",
    "origin": "publisher",
    "rows": [
@@ -8606,6 +8955,28 @@
     "Pixels in the mask",
     "Deeper than 10 m",
     "Of those, in the mask"
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_tx_deep",
+     "label": "Texas box"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_houston_deep",
+     "label": "Houston"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_austin_deep",
+     "label": "Austin"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_glofas_fremont_deep",
+     "label": "Fremont, California"
+    },
+    {
+     "href": "explore/#tab=crc&layer=jrc_review_efas_rhine_deep",
+     "label": "Rhine, Bonn to Mainz"
+    }
    ],
    "note": "The publisher marks areas where depths above 10 m are predicted in small channels and asks for caution there; crc-sdk does not read the mask. Counted at the 100-year return period. The mask of EFAS was not read.",
    "origin": "publisher",
@@ -8750,6 +9121,12 @@
     "Largest (m)",
     "Cells at or above 0.5 m",
     "Cells of the county"
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_glofas_tx",
+     "label": "Texas box"
+    }
    ],
    "note": "The summary of crc-docs' flood_risk_by_province notebook, from crc-sdk's output of this run: each row's curve read at 25 years, the largest value per H3 resolution-7 cell, cells at or above 0.5 m (38,418 of 40,358 cells with a curve), then mean and largest per county; a cell on a border counts in each county it overlaps. Boundaries: Texas counties: U.S. Census Bureau TIGERweb, vintage 1 January 2026, simplified to 0.002 degrees by the service.",
    "origin": "crc-sdk",
@@ -10543,6 +10920,12 @@
     "Cells at or above 0.5 m",
     "Cells of the city"
    ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_glofas_fremont",
+     "label": "Fremont, California"
+    }
+   ],
    "note": "The summary of crc-docs' flood_risk_by_province notebook, from crc-sdk's output of this run: each row's curve read at 25 years, the largest value per H3 resolution-10 cell, cells at or above 0.5 m (4,201 of 6,465 cells with a curve), then mean and largest per city; a cell on a border counts in each city it overlaps. Boundaries: City of Fremont: U.S. Census Bureau TIGERweb incorporated places (BAS 2026).",
    "origin": "crc-sdk",
    "rows": [
@@ -10563,6 +10946,12 @@
     "Largest (m)",
     "Cells at or above 0.5 m",
     "Cells of the state"
+   ],
+   "map": [
+    {
+     "href": "explore/#tab=crc&layer=jrc_efas_rhine",
+     "label": "Rhine, Bonn to Mainz"
+    }
    ],
    "note": "The summary of crc-docs' flood_risk_by_province notebook, from crc-sdk's output of this run: each row's curve read at 25 years, the largest value per H3 resolution-7 cell, cells at or above 0.5 m (743 of 751 cells with a curve), then mean and largest per state; a cell on a border counts in each state it overlaps. Boundaries: German states: geoBoundaries ADM1, simplified, commit 9469f09 (the notebook's file).",
    "origin": "crc-sdk",
@@ -10611,19 +11000,19 @@
      "743"
     ],
     [
-     "Rheinland-Pfalz: mean depth (m)",
-     "7.68",
-     "7.68"
+     "Hessen: mean depth (m)",
+     "5.36",
+     "5.34"
     ],
     [
-     "Rheinland-Pfalz: largest depth (m)",
-     "21.86",
-     "21.86"
+     "Hessen: largest depth (m)",
+     "15.39",
+     "15.39"
     ],
     [
-     "Rheinland-Pfalz: cells",
-     "508",
-     "508"
+     "Hessen: cells",
+     "205",
+     "206"
     ],
     [
      "Nordrhein-Westfalen: mean depth (m)",
@@ -10641,19 +11030,19 @@
      "98"
     ],
     [
-     "Hessen: mean depth (m)",
-     "5.36",
-     "5.34"
+     "Rheinland-Pfalz: mean depth (m)",
+     "7.68",
+     "7.68"
     ],
     [
-     "Hessen: largest depth (m)",
-     "15.39",
-     "15.39"
+     "Rheinland-Pfalz: largest depth (m)",
+     "21.86",
+     "21.86"
     ],
     [
-     "Hessen: cells",
-     "205",
-     "206"
+     "Rheinland-Pfalz: cells",
+     "508",
+     "508"
     ],
     [
      "Places in those cells",

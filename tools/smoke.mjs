@@ -410,6 +410,7 @@ await shot("p-explore");
   check("layers: an address that names a layer opens its source, region and finding", d.region === "fremont" && d.source === "jrc_flood" && (await ev("__sources.hazard")) === "jrc_review_glofas_fremont_not_converged" && d.finding === "CRC-013-FWK", [d.region, d.source, d.finding]);
   await shot("p-layers-deeplink");
   await ev("document.dispatchEvent(new CustomEvent('crc:region', { detail: 'texas' }))"); await sleep(400); await srcReady();
+  check("layers: a source links to its assessment", (await ev("(document.getElementById('assessment-link') || { getAttribute: () => '' }).getAttribute('href')")) === "../../validation/#assessment-jrc-flood" && /Assessment: verification assessed \(draft, not reviewed\)/.test(await ev("document.getElementById('caveats').innerText")), await ev("document.getElementById('caveats').innerText.slice(0, 200)"));
   check("layers: sources of one origin carry one mark, river flood carries three", (await ev("document.querySelectorAll('#sources .src-row[data-id=\"era5\"] .pdot').length")) === 1 && (await ev("document.querySelectorAll('#sources .src-row[data-id=\"jrc_flood\"] .pdot').length")) === 3 && (await ev("[...document.querySelectorAll('#sources .src-row[data-id=\"flood_evidence\"] .pdot')].map((i) => i.title).join()")) === "Outside evidence");
   await ev("document.dispatchEvent(new CustomEvent('crc:source', { detail: 'ibtracs' }))"); await sleep(400); await srcReady(); d = await data();
 }

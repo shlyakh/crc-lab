@@ -15,6 +15,7 @@ export const state = {
   tags: false,               // show where each layer comes from (opt-in by the page)
   primary: null,             // the layer the legend and the detail panel speak for
   findings: null,            // findings of the validation project, loaded when a layer names one
+  inventory: null,           // its sources (explorer page): which assessment belongs to a source shown here
   wanted: null,              // a layer named in the address, until its source is opened
   source: null,              // active source id (registry.sources[].id)
   hazard: null, horizon: null, rp: null,   // active h3-cells layer and its view

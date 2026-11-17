@@ -3,6 +3,8 @@
 Generated from the records of the run of 2026-11-12T23:31:55Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
+- **What the framework adds:** Nothing is added to the values. crc-sdk downloads NOAA's CSV file for a basin or period, keeps a checksummed copy, and hands back every row and column as text, with empty values made null. It can also select storms by id or seasons by year. No number is parsed, converted or fitted.
+- **How it is compared:** NOAA's ten files are downloaded independently and read with Python's csv module; every value is compared with what crc-sdk returns, in order. The file addresses, the cached bytes, the header, the two filters and the manifest are checked separately.
 - **Purpose (the framework's documentation):** Best-track points of tropical cyclones by basin, as published, for inspection. Not asset winds or return-period curves.
 - **Publisher:** NOAA NCEI · https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv
 - **Entry points:** `IBTrACSPlan`

@@ -75,7 +75,10 @@ none of them).
   `comparisons` in a record carry numbers and limits and never an outcome); Stage 4 report
   `V8.4-explorer-layers-origins-findings.md` (a source with many cell layers is picked through Area,
   Show and Layer: layers name `group`, `what`, `provenance` and, for a finding's layer, `finding`;
-  `provenances` and `whats` in `site/layers.json`; tags are opt-in by the explorer page). Probes behind findings:
+  `provenances` and `whats` in `site/layers.json`; tags are opt-in by the explorer page); report
+  `V8.5-summaries-and-map-links.md` (each source file states `adds` and `compared` for the summary that
+  opens its assessment; tables, charts and comparisons may carry `map` links to explorer layers; published
+  2026-11-17 as unreviewed drafts at Yuri's word). Probes behind findings:
   `tools/probes/jrc_flood_probes.py`. rasterio is held below 1.5.2 on macOS (`pyproject.toml`).
   Rules of its own: `core/` and `reference/` never import crc-sdk; the package imports nothing from
   `crc_lab`; the page and reports are generated from records, never typed; findings are worded neutrally
