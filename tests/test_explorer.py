@@ -111,7 +111,8 @@ def test_registry_and_sources_are_valid_json() -> None:
     cells = [layer for layer in registry["layers"] if layer["kind"] == "h3-cells"]
     crc_open = [layer for layer in cells if layer["source"] == "CRC Open"]
     assert {layer["id"] for layer in crc_open} == set(hazards.HAZARDS)
-    assert {layer["id"] for layer in cells} - set(hazards.HAZARDS) == {
+    others = {layer["id"] for layer in cells if layer["source_id"] != "jrc_flood"}
+    assert others - set(hazards.HAZARDS) == {
         "hail_size",
         "thunderstorm_gust",
         "era5_txx",
@@ -119,7 +120,8 @@ def test_registry_and_sources_are_valid_json() -> None:
     for layer in crc_open:
         assert layer["licence"] == "CC BY-NC 4.0"
     for layer in cells:
-        assert "{horizon}" in layer["file"]
+        # one file per horizon, or one file of several fields (a static source)
+        assert "{horizon}" in layer["file"] or layer.get("field")
         assert {"hue", "chroma"} <= set(layer["style"])
     sources = json.loads((root / "sources.json").read_text())
     assert sources["sources"] and sources["not_in_crc"]

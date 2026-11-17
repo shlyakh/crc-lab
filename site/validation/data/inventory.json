@@ -261,19 +261,20 @@
   },
   {
    "basis": "reproduced",
-   "consequence": "A place the publisher's map floods only at long return periods (100 years and more), or at a constant 1 m, is absent from the output in the same way as a place that never floods. A user reading the output as 'no row means no flood' undercounts flooded area by the shares above. What the constant 1 m stands for in the publisher's data was not established.",
+   "consequence": "A place the publisher's map floods only at long return periods (100 years and more), or at a constant 1 m, is absent from the output in the same way as a place that never floods. A user reading the output as 'no row means no flood' undercounts flooded area by the shares above. The pixels left out for equal or decreasing depths are permanent water bodies, where the publisher patched its maps (1 m is the patch value seen); those left out for fewer than four depths are land the publisher's map floods only at the longer return periods, about half of all pixels left out in the Texas box.",
    "documented": "docs/sources/jrc.md does not mention pixels left out. The rules are in the code: four or more finite depths (crc_sdk/connectors/adapters.py:658-663), a fit failure is skipped (adapters.py:702-716, crc_sdk/workflows/jrc.py:53), and the curated policy writes no diagnostics file (jrc.py:57-81).",
    "evidence": [
     "crc_sdk/connectors/adapters.py:658-663, 702-716",
     "crc_sdk/workflows/jrc.py:53, 57-81",
-    "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "check records jrc-flood/curves[*] and exploration tables 'Wet pixels that get no curve', 'Published wet pixels without a curve, by return period' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
    "framework_version": "0.11.1",
    "id": "CRC-014-JRC",
    "kind": "observation",
-   "observed": "Share of the pixels that have a depth at some return period and get no curve: Texas box 1,832,251 of 11,686,210 (15.7%), Houston 65,705 of 278,654 (23.6%), Austin 3,293 of 25,494 (12.9%), Fremont 2,734 of 10,603 (25.8%), Rhine (EFAS) 18,824 of 161,898 (11.6%). By cause in the Texas box: fewer than four depths 941,251; all depths equal 698,317 (every one of them at exactly 1 m at every return period); a depth lower than at a shorter return period 192,683; the fit not converging 2,821 (CRC-013-FWK). At the 500-year return period 1,832,250 of the 11,686,209 flooded pixels of the Texas box have no curve; at 10 years 890,968 of 9,255,575. The reference applies the same rules and names the same pixels, apart from those of CRC-013-FWK.",
+   "observed": "Share of the pixels that have a depth at some return period and get no curve: Texas box 1,832,251 of 11,686,210 (15.7%), Houston 65,705 of 278,654 (23.6%), Austin 3,293 of 25,494 (12.9%), Fremont 2,734 of 10,603 (25.8%), Rhine (EFAS) 18,824 of 161,898 (11.6%). By cause in the Texas box: fewer than four depths 941,251; all depths equal 698,317 (every one of them at exactly 1 m at every return period); a depth lower than at a shorter return period 192,683; the fit not converging 2,821 (CRC-013-FWK). At the 500-year return period 1,832,250 of the 11,686,209 flooded pixels of the Texas box have no curve; at 10 years 890,968 of 9,255,575. The reference applies the same rules and names the same pixels, apart from those of CRC-013-FWK. Set against the publisher's permanent-water layer (GloFAS, four areas): every pixel with all depths equal lies in permanent water (Texas box 698,317 of 698,317; Houston 16,983 of 16,983; Austin 1,243 of 1,243; Fremont 992 of 992), as do nearly all with a decreasing depth (Texas box 192,619 of 192,683); none of the pixels with fewer than four depths does (Texas box 0 of 941,251; Houston 0 of 44,732; Austin 0 of 1,910; Fremont 0 of 967).",
    "source": "jrc-flood",
    "status": "open",
    "title": "A pixel the publisher shows flooded gets no curve, and no message, when it has fewer than four depths, equal depths or a decreasing depth",
@@ -363,19 +364,20 @@
   },
   {
    "basis": "reproduced",
-   "consequence": "Depths the publisher itself marks as doubtful reach the user unmarked; in the Fremont box every depth above 10 m is of that kind. Depths above 10 m outside the mask (most of those in the Texas box) are not explained by it; whether they are permanent water bodies was not examined.",
+   "consequence": "Depths the publisher itself marks as doubtful reach the user unmarked; in the Fremont box every depth above 10 m is of that kind. Depths above 10 m outside the mask (most of those in the Texas box) are not explained by it; how many of them are permanent water was not counted. About a fifth of the curves in these areas describe a permanent water body, not flooding of land, and nothing in the output marks them.",
    "documented": "docs/sources/jrc.md does not mention them. GloFAS README (F01 and the file description): the release includes, per tile, 'the permanent water bodies used to patch the flood hazard maps' and 'the spurious depth map that identifies areas where depths >10m are predicted in small channels (<3,000km^2) for the 10-year return period, plus a 2km buffer'. EFAS holds Europe_permanent_water_bodies.tif and Europe_spurious_depth_areas.tif.",
    "evidence": [
     "crc_sdk/providers/jrc.py:186-246",
     "publisher file README.txt of CEMS-GLOFAS/flood_hazard, lines 38-49, read 2026-11-17",
-    "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17"
+    "exploration table 'Depths above 10 m and the publisher's spurious-depth mask' (draft records data/cache/validation/drafts/records/jrc-flood.json), run of 2026-11-17",
+    "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17"
    ],
    "fixed_in": "",
    "found_on": "2026-11-17",
    "framework_version": "0.11.1",
    "id": "CRC-019-JRC",
    "kind": "observation",
-   "observed": "crc-sdk requests the depth files only (crc_sdk/providers/jrc.py:186-246). In the GloFAS tiles read here, pixels inside the spurious-depth mask: Texas box 268,433, Austin 1,245, Fremont 5,137, Houston 0. Pixels deeper than 10 m at 100 years, and how many of them lie inside the mask: Fremont 126, all 126 inside; Austin 2,201, 21 inside; Texas box 192,437, 8,393 inside. Largest depth: Texas box 108.2 m, Austin 21.8 m, Fremont 20.5 m, Houston 10.1 m, Rhine 22.9 m. These depths are fitted and delivered like any other. The EFAS mask and both permanent-water layers were not read by the assessment.",
+   "observed": "crc-sdk requests the depth files only (crc_sdk/providers/jrc.py:186-246). In the GloFAS tiles read here, pixels inside the spurious-depth mask: Texas box 268,433, Austin 1,245, Fremont 5,137, Houston 0. Pixels deeper than 10 m at 100 years, and how many of them lie inside the mask: Fremont 126, all 126 inside; Austin 2,201, 21 inside; Texas box 192,437, 8,393 inside. Largest depth: Texas box 108.2 m, Austin 21.8 m, Fremont 20.5 m, Houston 10.1 m, Rhine 22.9 m. These depths are fitted and delivered like any other. The GloFAS permanent-water layer was read in a probe: of the pixels that get a curve, those inside permanent water are 1,894,754 of 9,853,959 in the Texas box (19%), 16,770 of 212,949 in the Houston box, 6,284 of 22,201 in the Austin box and 1,909 of 7,869 in the Fremont box; their curves are fitted to depths that include the patch value (for example 1, 1, 1, 1, 1, 2.639, 3.768 m). The EFAS masks were not read.",
    "source": "jrc-flood",
    "status": "open",
    "title": "The publisher's masks of spurious depths and permanent water are not read",
@@ -631,7 +633,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-17T09:57:28Z",
+ "generated": "2026-11-17T12:14:05Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {

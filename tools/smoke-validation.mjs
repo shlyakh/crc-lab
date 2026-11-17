@@ -44,7 +44,7 @@ check("a finding shows documented and observed", await ev("(() => { const t = do
 await ev("(() => { const s = document.getElementById('f-tier'); s.value = '1'; s.dispatchEvent(new Event('change')); })()");
 const tier1 = await ev("document.querySelectorAll('#inventory tr.row').length");
 check("the tier filter works", tier1 === data.sources.filter((s) => s.tier === 1).length, tier1);
-check("mapped sources link to the Texas data explorer, and the header links to the other pages", (await ev("document.querySelectorAll('#inventory a[href^=\"explore/#tab=crc&source=\"]').length")) === data.sources.filter((s) => s.explorer).length && data.sources.filter((s) => s.explorer).length >= 5 && (await ev("[...document.querySelectorAll('.top nav a')].map((a) => a.getAttribute('href')).slice(0, 3).join()")) === "../,explore/,../hail/");
+check("mapped sources link to the data explorer, and the header links to the other pages", (await ev("document.querySelectorAll('#inventory a[href^=\"explore/#tab=crc&source=\"]').length")) === data.sources.filter((s) => s.explorer).length && data.sources.filter((s) => s.explorer).length >= 5 && (await ev("[...document.querySelectorAll('.top nav a')].map((a) => a.getAttribute('href')).slice(0, 3).join()")) === "../,explore/,../hail/");
 await ev("(() => { const s = document.getElementById('f-tier'); s.value = ''; s.dispatchEvent(new Event('change')); })()");
 const withRecords = data.sources.filter((s) => s.records);
 const blocks = await ev("document.querySelectorAll('#assessments .assessment').length");

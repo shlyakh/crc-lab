@@ -1,4 +1,4 @@
-// Shell of the Texas CRC data explorer, the map side of the source validation project: Texas data, About.
+// Shell of the CRC data explorer, the map side of the source validation project: Data (Texas, Fremont, Rhine), About.
 // The map viewer (../../shared/sources.js) and the data files under ../../data/ are shared with the hail project. No build step.
 import { $, esc, readAddress, writeAddress } from "../../shared/util.js";
 
@@ -20,7 +20,7 @@ export async function showTab(tab) {
   document.body.dataset.tab = shell.tab; document.body.dataset.project = "crc";
   try {
     if (t.origin) {
-      if (!sources) { sources = await import("../../shared/sources.js"); await sources.initSources({ dataUrl: DATA, address, onChange: syncAddress }); }
+      if (!sources) { sources = await import("../../shared/sources.js"); await sources.initSources({ dataUrl: DATA, address, onChange: syncAddress, regions: true }); }
       await sources.showSources(t.origin);
     } else {
       if (!about) about = await import("./about.js");

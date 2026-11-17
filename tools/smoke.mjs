@@ -135,8 +135,8 @@ const escape = async () => { await ev("document.dispatchEvent(new KeyboardEvent(
 const fits = () => J("({ page: document.documentElement.scrollWidth <= innerWidth && document.body.scrollWidth <= innerWidth, pane: (() => { const p = document.getElementById('tab-sources'); return p.scrollWidth <= p.clientWidth + 1; })(), cols: [...document.querySelectorAll('#tab-sources > .col')].every((c) => c.scrollWidth <= c.clientWidth + 1) })");
 // every control of the selected source sits above the fold, without scrolling the column
 const controlsVisible = () => J("(() => { const ctl = document.querySelector('#source-panel .ctl:not(.hidden)'); const els = [...ctl.querySelectorAll('input, select, button')].filter((e) => e.offsetParent && !e.closest('.list') && !e.closest('#events-types')); const bottom = Math.max(0, ...els.map((e) => e.getBoundingClientRect().bottom)); const lists = [...ctl.querySelectorAll('.list, #events-types')].filter((e) => e.offsetParent).map((e) => e.getBoundingClientRect().top); return { n: els.length, bottom: Math.round(bottom), listTop: Math.round(Math.max(0, ...lists)), h: innerHeight, scrolled: document.querySelector('.src-scroll').scrollTop }; })()");
-const UNIT = { storm_events: /inches/, storm_curves: /\bmm\b/, hail_compare: /hail days per year/, ibtracs: /\bkt\b/, coops: /\bm\b/, ghcnh: /degC|°C/, era5: /°C/, crc_open: /°C/ };
-const KIND = { storm_events: "events", storm_curves: "cells", hail_compare: "compare", ibtracs: "tracks", coops: "stations", ghcnh: "stations", era5: "cells", crc_open: "cells" };
+const UNIT = { storm_events: /inches/, storm_curves: /\bmm\b/, hail_compare: /hail days per year/, ibtracs: /\bkt\b/, coops: /\bm\b/, ghcnh: /degC|°C/, era5: /°C/, crc_open: /°C/, jrc_flood: /\bm\b/ };
+const KIND = { storm_events: "events", storm_curves: "cells", hail_compare: "compare", ibtracs: "tracks", coops: "stations", ghcnh: "stations", era5: "cells", crc_open: "cells", jrc_flood: "cells" };
 const walk = async (tab, origin) => {
   await openTab(tab);
   const want = registry.sources.filter((s) => s.origin === origin && s.id !== "solar_plants").map((s) => s.id);
@@ -148,7 +148,7 @@ const walk = async (tab, origin) => {
     check(`${id}: renders`, d.source === id && d.sourcesReady === "1" && !d.sourcesError && !d.error && (await layerIds()).length >= 2 && (await ev("document.querySelector('#sources .src-row[aria-selected=\"true\"]').dataset.id")) === id, d);
     check(`${id}: no console message or script error`, messages.length === before, messages.slice(before));
     const lg = await legendText();
-    check(`${id}: legend on the map has numbers and a unit`, /\d/.test(lg) && UNIT[id].test(lg) && /\d{4}/.test(lg), lg);
+    check(`${id}: legend on the map has numbers and a unit`, /\d/.test(lg) && UNIT[id].test(lg) && (/\d{4}/.test(lg) || /Static hazard map/.test(lg)), lg);
     if (KIND[id] === "cells" || KIND[id] === "compare" || id === "ibtracs") { const ticks = await J("[...document.querySelectorAll('#src-legend .ticks span')].map((t) => t.textContent)"); check(`${id}: colour ramp carries numeric ticks`, ticks.length >= 5 && ticks.every((t) => /\d/.test(t)) && /≥/.test(ticks[ticks.length - 1]), ticks); }
     check(`${id}: address carries the source`, (await ev("location.hash")).includes(`source=${id}`) && (await ev("location.hash")).includes(`tab=${tab}`), await ev("location.hash"));
     const f = await fits(); check(`${id}: no horizontal overflow at ${W}px`, f.page && f.pane && f.cols, f);
@@ -309,6 +309,7 @@ const perSource = {
   coops: () => stationClick("coops"),
   ghcnh: () => stationClick("ghcnh"),
   era5: () => cellClick("era5", "cells"),
+  jrc_flood: () => cellClick("jrc_flood", "cells"),
   crc_open: async () => {
     check("crc_open: three horizons and the loaded hazards are offered", (await ev("document.getElementById('horizon').options.length")) === 3 && (await ev("document.querySelectorAll('#hazard optgroup:first-child option').length")) === 8);
     await setValue("horizon", 2080); let lg = await legendText();
@@ -362,6 +363,33 @@ check("header links lead to the landing page and to the other project", (await e
 await open(EXPLORE); await srcReady(); d = await data();
 check("the data explorer is its own page with its own tabs", d.project === "crc" && d.tab === "crc" && d.origin === "crc-sdk" && d.ready === "1" && (await ev("[...document.querySelectorAll('button.tab')].map((b) => b.dataset.tab).join()")) === "crc,crc-about" && (await ev("document.querySelector('a.tab').getAttribute('href')")) === "../" && (await ev("document.title")).includes("CRC data") && (await ev("document.querySelector('.proj[aria-current]').textContent")).includes("Source validation"), d);
 await shot("p-explore");
+// regions (explorer page only): Texas by default; Fremont and the Rhine hold the JRC river flood layers
+{
+  const sourceRows = () => ev("[...document.querySelectorAll('#sources .src-row')].map((b) => b.dataset.id).join()");
+  const hazards = () => ev("[...document.querySelectorAll('#hazard option')].map((o) => o.value).join()");
+  const centre = async () => JSON.parse(await ev("JSON.stringify(globalThis.__sources.map.getCenter().toArray())"));
+  const pick = async (layer) => { await ev(`(() => { const s = document.getElementById('hazard'); s.value = ${JSON.stringify(layer)}; s.dispatchEvent(new Event('change')); })()`); await sleep(300); await srcReady(); };
+  const inTexas = await sourceRows();
+  check("regions: three are offered, Texas is the default and lists the river flood source", (await ev("[...document.querySelectorAll('#src-region option')].map((o) => o.value).join()")) === "texas,fremont,rhine" && d.region === "texas" && inTexas.split(",").includes("jrc_flood") && !(await ev("document.getElementById('src-region-label').classList.contains('hidden')")), [d.region, inTexas]);
+  await ev("document.dispatchEvent(new CustomEvent('crc:region', { detail: 'fremont' }))"); await sleep(400); await srcReady(); d = await data();
+  let c = await centre();
+  check("regions: Fremont lists only river flood, draws its cells and moves the map there", d.region === "fremont" && d.source === "jrc_flood" && (await sourceRows()) === "jrc_flood" && (await layerIds()).includes("cells") && (await layerIds()).includes("region") && !(await layerIds()).includes("texas") && Math.abs(c[0] + 122) < 0.3 && Math.abs(c[1] - 37.52) < 0.2 && (await ev("document.getElementById('src-reset').textContent")) === "Fremont" && (await ev("location.hash")).includes("region=fremont"), [d, c, await layerIds()]);
+  check("regions: the legend names a static map, not a year", /Static hazard map/.test(d.legend) && /depth reached 1 year in 100/.test(d.legend), d.legend);
+  await shot("p-region-fremont");
+  await pick("jrc_review_glofas_fremont_no_curve_share"); d = await data();
+  check("regions: a review layer reads its field from the shared file", !d.sourcesError && /without a curve/.test(d.legend) && /%/.test(d.legend), [d.sourcesError, d.legend]);
+  await shot("p-region-fremont-review");
+  await ev("document.dispatchEvent(new CustomEvent('crc:region', { detail: 'rhine' }))"); await sleep(400); await srcReady(); d = await data(); c = await centre();
+  check("regions: the Rhine shows the EFAS layer", d.region === "rhine" && d.source === "jrc_flood" && (await hazards()).startsWith("jrc_efas_rhine") && !(await hazards()).includes("glofas") && Math.abs(c[0] - 7.75) < 0.4 && Math.abs(c[1] - 50.3) < 0.4 && /EFAS 3\.1\.1/.test(d.legend), [d, c]);
+  await shot("p-region-rhine");
+  await ev("document.dispatchEvent(new CustomEvent('crc:region', { detail: 'texas' }))"); await sleep(400); await srcReady(); d = await data();
+  check("regions: back in Texas the source list is as before and river flood stays selected", d.region === "texas" && (await sourceRows()) === inTexas && d.source === "jrc_flood" && (await layerIds()).includes("texas") && !(await ev("location.hash")).includes("region="), [d, await sourceRows()]);
+  await shot("p-region-texas-flood");
+  await pick("jrc_glofas_houston"); c = await centre();
+  check("regions: a close-up layer takes the map to its own box", Math.abs(c[0] + 95.4) < 0.3 && Math.abs(c[1] - 29.75) < 0.3 && (await ev("[...document.querySelectorAll('#hazard optgroup')].map((g) => g.label).join('|')")).includes("Houston close-up"), c);
+  await shot("p-region-houston");
+  await ev("document.dispatchEvent(new CustomEvent('crc:source', { detail: 'ibtracs' }))"); await sleep(400); await srcReady(); d = await data();
+}
 await ev("document.querySelector('.tab[data-tab=\"crc-about\"]').click()"); await sleep(1500);
 const about = await ev("document.getElementById('tab-crc-about').innerText");
 check("CRC About lists the sources shown and the SDK catalogue", (await data()).crcAbout === "1" && /Tropical cyclone tracks/.test(about) && /HazardDataset/.test(about) && /crc-sdk 0\.\d+/.test(about), about.slice(0, 200));

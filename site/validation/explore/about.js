@@ -1,4 +1,4 @@
-// About (Texas CRC data explorer): a reading page built from the registry and the hand-written catalogue.
+// About (CRC data explorer): a reading page built from the registry and the hand-written catalogue.
 import { esc, fmtInt } from "../../shared/util.js";
 
 const GH = "https://github.com/shlyakh/crc-lab/blob/main/";
@@ -12,8 +12,8 @@ export async function showCrcAbout(el, dataUrl) {
   const group = registry.groups.find((g) => g.id === "crc-sdk"), shown = registry.sources.filter((s) => s.origin === "crc-sdk");
   const versions = manifest?.versions ? Object.entries(manifest.versions).map(([k, v]) => `${k} ${v}`).join(", ") : "";
   el.innerHTML = `<div class="doc-in">
-    <h2>About the Texas CRC data explorer</h2>
-    <p class="lead">A look at what Climate Risk Commons' SDK already reaches for Texas, shown as the SDK returns it.</p>
+    <h2>About the CRC data explorer</h2>
+    <p class="lead">A look at what Climate Risk Commons' SDK already reaches, shown as the SDK returns it. Texas is the main region; river flood depth is also shown for Fremont, California, and for the Rhine between Bonn and Mainz (pick the region above the map).</p>
     <p>${esc(group.blurb)} Nothing on the Data tab is modelled here: every value is read through <code>crc-sdk</code>${versions ? ` (${esc(versions)})` : ""} and drawn as its source publishes it. The <a href="${root}hail/">Texas hail risk</a> project is new and experimental; this part is an explorer. What crc-sdk does to each source between the publisher&#39;s files and its output is checked in <a href="../">Source validation</a>.</p>
     <h3>Shown on the Data tab</h3>
     <table class="plain"><thead><tr><th>Source</th><th>What it is</th><th>Licence</th></tr></thead><tbody>
@@ -27,6 +27,7 @@ export async function showCrcAbout(el, dataUrl) {
     <h3>Reading the data</h3>
     <ul>
       <li>Cell values are regional screening: a resolution-5 cell is about 253 km².</li>
+      <li>River flood layers marked <i>Review</i> are not crc-sdk output: the source validation project computes them from the publisher's files, to show where its findings apply.</li>
       <li>CRC Open projections are CC BY-NC 4.0: non-commercial use, with attribution.</li>
       <li>Curves are evaluated by the SDK and shipped as values; the page never re-implements a curve.</li>
     </ul>

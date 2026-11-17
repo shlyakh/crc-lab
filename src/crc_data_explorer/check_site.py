@@ -1,4 +1,4 @@
-"""``just site-explorer``: the Texas data explorer is complete when its files and layers exist."""
+"""``just site-explorer``: the CRC data explorer is complete when its files and layers exist."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def main(site: Path = Path("site")) -> int:
         return 1
     missing = missing_files(site, SHARED + FILES)
     layers, count = missing_layer_files(site, "crc-sdk")
-    return report("Texas CRC data explorer", site, missing + layers, count)
+    return report("CRC data explorer", site, missing + layers, count)
 
 
 if __name__ == "__main__":

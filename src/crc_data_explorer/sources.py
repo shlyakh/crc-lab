@@ -424,11 +424,138 @@ def build_era5(cache_dir: Path, out_dir: Path, *, workers: int | None = None) ->
     }
 
 
+# ---------------------------------------------------------------- JRC flood depth (h3-cells)
+# One layer per area; the same boxes and resolutions as the source validation project's assessment
+# of `jrc-flood` (docs/validation/reports/V8.1-jrc-flood-verification.md).
+JRC_AREAS: tuple[tuple[str, str, tuple[float, float, float, float], int], ...] = (
+    ("glofas_tx", "glofas", TEXAS, 7),
+    ("glofas_houston", "glofas", (-95.9, 29.3, -94.9, 30.2), 9),
+    ("glofas_austin", "glofas", (-98.0, 30.0, -97.5, 30.5), 9),
+    ("glofas_fremont", "glofas", (-122.15, 37.42, -121.85, 37.62), 10),
+    ("efas_rhine", "efas", (7.0, 49.7, 8.5, 50.9), 7),
+)
+JRC_FIRST_PERIOD = 10  # the shortest return period JRC publishes; shorter ones are not shown
+
+
+def build_jrc(cache_dir: Path, out_dir: Path, *, workers: int | None = None) -> dict[str, Any]:
+    """JRC river flood depth (GloFAS, EFAS) as crc-sdk fits it, reduced to one value per H3 cell.
+
+    crc-sdk returns one Gumbel curve per source pixel and one row for every cell the pixel
+    overlaps. Each row's curve is evaluated by crc-sdk (``curve_quantiles_at``) and a cell gets
+    the largest value among its rows, as crc-docs' ``flood_risk_by_province`` notebook does.
+    Return periods shorter than the publisher's shortest (10 years) are left empty.
+    """
+    import numpy as np
+    import pyarrow.parquet as pq
+    from crc_sdk.connectors import read_hazard_metadata
+    from crc_sdk.workflows import HazardDataset, JRCFloodPolicy, curve_quantiles_at
+    from crc_sdk.workflows.distributions import return_periods_to_probabilities
+
+    started = time.time()
+    layers: dict[str, Any] = {}
+    files: list[str] = []
+    for layer, dataset, bounds, resolution in JRC_AREAS:
+        folder = (cache_dir / "jrc" / layer).resolve()
+        target = folder / "hazard.parquet"
+        notes: list[str] = []
+        if not target.exists():
+            source = HazardDataset.efas if dataset == "efas" else HazardDataset.glofas
+            plan = (
+                source(version="latest")
+                .for_area(bounds)
+                .cache(folder / "cache", mode="reuse")
+                .source_periods("all")
+                .canonicalize(policy=JRCFloodPolicy.curated(h3_resolution=resolution))
+            )
+            with warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always")
+                plan.materialize(target)
+            notes.extend(sorted({str(w.message)[:200] for w in caught}))
+        meta = read_hazard_metadata(target)
+        with target.open("rb") as handle:
+            table = pq.read_table(
+                handle,
+                columns=[
+                    "cell_index", "curve_kind", "curve_type", "curve_shape", "curve_location",
+                    "curve_scale", "curve_atom_probability", "curve_atom_location",
+                    "curve_probabilities", "curve_values", "horizon", "pathway",
+                ],
+            )  # fmt: skip
+        probabilities = return_periods_to_probabilities(
+            RETURN_PERIODS, tail=meta.return_period_tail
+        )
+        cells, inverse, counts = np.unique(
+            table["cell_index"].to_numpy(), return_inverse=True, return_counts=True
+        )
+        values = np.full((len(cells), len(RETURN_PERIODS)), np.nan)
+        for index, (period, probability) in enumerate(
+            zip(RETURN_PERIODS, probabilities, strict=True)
+        ):
+            if period < JRC_FIRST_PERIOD:
+                continue
+            depths = np.asarray(curve_quantiles_at(table, probability, max_workers=1), dtype=float)
+            largest = np.full(len(cells), -np.inf)
+            np.maximum.at(largest, inverse, depths)
+            values[:, index] = largest
+        payload = {
+            "hazard": f"jrc_{layer}",
+            "horizon": 0,
+            "pathway": str(table["pathway"][0].as_py()) if len(table) else "historical",
+            "release": f"{meta.source.uri.split('/')[0]} {meta.source.version}",
+            "unit": meta.value_unit,
+            "value_semantics": f"{meta.value_semantics}: largest pixel-curve value in the cell",
+            "tail": meta.return_period_tail,
+            "probability_semantics": meta.probability_semantics,
+            "h3_resolution": meta.h3_resolution,
+            "return_periods": list(RETURN_PERIODS),
+            "probabilities": [float(p) for p in probabilities],
+            "kinds": ["largest of the cell's pixel curves (gumbel_r each)"],
+            "cells": [f"{int(cell):x}" for cell in cells],
+            "values": [
+                [None if not math.isfinite(v) else round(float(v), 3) for v in row]
+                for row in values
+            ],
+            "params": [[0, int(count)] for count in counts],
+        }
+        path = out_dir / f"jrc_{layer}" / "0.json"
+        write_json_atomic(path, payload)
+        files.append(str(path))
+        at100 = values[:, RETURN_PERIODS.index(100)]
+        layers[layer] = {
+            "dataset": dataset,
+            "bounds": list(bounds),
+            "h3_resolution": meta.h3_resolution,
+            "rows": len(table),
+            "cells": len(cells),
+            "release": meta.source.version,
+            "uri": meta.source.uri,
+            "largest_at_100_years_m": round(float(at100.max()), 3) if len(cells) else None,
+            "cells_below_zero_at_10_years": int((values[:, RETURN_PERIODS.index(10)] < 0).sum()),
+            "warnings": notes,
+            "bytes": path.stat().st_size,
+        }
+    return {
+        "layer": "jrc",
+        "files": files,
+        "areas": layers,
+        "reduction": "largest value among the rows of a cell (one row per source pixel and cell)",
+        "evaluated_by": "crc_sdk.workflows.curve_quantiles_at",
+        "return_periods_shown": [p for p in RETURN_PERIODS if p >= JRC_FIRST_PERIOD],
+        "licence": (
+            "crc-sdk states CC BY 4.0; the publisher's README names the Open Database License "
+            "v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)"
+        ),
+        "seconds": round(time.time() - started, 1),
+        "bytes": sum(Path(f).stat().st_size for f in files),
+    }
+
+
 BUILDERS = {
     "ibtracs": build_ibtracs,
     "coops": build_coops,
     "ghcnh": build_ghcnh,
     "era5": build_era5,
+    "jrc": build_jrc,
 }
 
 
@@ -450,6 +577,8 @@ def main(argv: list[str] | None = None) -> int:
     for name in args.only:
         if name == "era5":
             target = args.out / "era5_txx"
+        elif name == "jrc":
+            target = args.out
         elif name == "ibtracs":
             target = args.out / "ibtracs.json"
         else:

@@ -141,7 +141,22 @@ def test_registry_lists_the_sources_layers() -> None:
         "crc_open",
         "solar_plants",
         "hail_compare",
+        "jrc_flood",
     } == declared
+    # regions are optional: a source or layer without one belongs to Texas
+    regions = {region["id"] for region in registry["regions"]}
+    assert registry["defaults"]["region"] == "texas" and "texas" in regions
+    for source in registry["sources"]:
+        assert set(source.get("regions", ["texas"])) <= regions
+    for layer in registry["layers"]:
+        assert layer.get("region", "texas") in regions
+    flood = [layer for layer in registry["layers"] if layer["source_id"] == "jrc_flood"]
+    assert {layer["region"] for layer in flood} == regions
+    assert all(layer["horizons"] == [0] and layer["group"] for layer in flood)
+    for layer in flood:  # a review layer names a field of a file of the validation project
+        review = layer["id"].startswith("jrc_review_")
+        assert review == ("field" in layer)
+        assert layer["file"].startswith("validation/data/review/" if review else "data/sources/")
     for layer in registry["layers"]:
         assert layer["source_id"] is None or layer["source_id"] in declared
     groups = {g["id"] for g in registry["groups"]}

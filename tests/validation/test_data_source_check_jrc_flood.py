@@ -337,3 +337,69 @@ def test_checks_name_only_steps_of_the_statement(tmp_path: Path, publisher: dict
     named = {step for check in _run(tmp_path, publisher)["checks"] for step in check["steps"]}
     assert named <= steps
     assert steps - named == set(), "a step no check bears on needs a note saying why"
+
+
+# --------------------------------------------------------------- by area, review maps, charts
+def test_the_by_area_summary_follows_the_notebooks_steps() -> None:
+    from data_source_check.assessments import jrc_flood_areas as areas
+
+    cells = np.array([1, 1, 2, 3, 3, 4], dtype=np.uint64)
+    depths = np.array([0.2, 0.9, 0.4, 2.0, 3.0, 0.5])
+    found = areas.summarize(cells, depths, [("north", {1, 2}), ("south", {3, 4}), ("empty", {9})])
+    # the largest row per cell, then the threshold (0.5 m, inclusive), then mean and largest
+    assert found["cells_with_a_curve"] == 4 and found["cells_at_or_above"] == 3
+    assert [r["name"] for r in found["rows"]] == ["south", "north"]
+    south, north = found["rows"]
+    assert (south["mean_depth_m"], south["max_depth_m"], south["cells"]) == (1.75, 3.0, 2)
+    assert (north["mean_depth_m"], north["cells"], north["cells_of_the_area"]) == (0.9, 1, 2)
+    # a cell on a border counts in every polygon it overlaps
+    both = areas.summarize(cells, depths, [("a", {3}), ("b", {3, 4})])
+    assert [r["cells"] for r in both["rows"]] == [1, 2]
+
+
+def test_cells_of_a_polygon_include_those_it_only_overlaps() -> None:
+    import h3
+
+    square = {"type": "Polygon", "coordinates": [[[8.0, 50.0], [8.1, 50.0], [8.1, 50.1],
+                                                  [8.0, 50.1], [8.0, 50.0]]]}  # fmt: skip
+    overlap = reference.cells_of_polygon(square, 7)
+    centres = {h3.str_to_int(c) for c in h3.geo_to_cells(square, 7)}
+    assert centres < overlap
+    corner = h3.str_to_int(h3.latlng_to_cell(50.0, 8.0, 7))
+    assert corner in overlap
+
+
+def test_review_maps_count_what_the_reference_reads(tmp_path: Path, publisher: dict) -> None:
+    from data_source_check.assessments import jrc_flood_areas as areas
+
+    written = areas.review_maps(tmp_path / "cache", tmp_path / "maps", live=True, areas=[AREA],
+                                log=lambda _: None, publisher=publisher)  # fmt: skip
+    payload = json.loads((tmp_path / "maps" / "glofas-test.json").read_text())
+    run = _run(tmp_path, publisher)
+    numbers = next(a for a in run["exploration"]["areas"] if a["area"] == AREA.id)
+    assert written[0]["pixels_flooded"] == numbers["ever_wet"]
+    assert sum(p[1] for p in payload["params"]) == numbers["ever_wet"]
+    assert payload["return_periods"] == list(areas.MAP_PERIODS)
+    shown = areas.MAP_PERIODS[payload["values_from"] :]
+    fields = payload["fields"]
+    for position, period in enumerate(shown):
+
+        def column(key: str, at: int = position) -> list:
+            return [row[at] for row in fields[key]["values"]]
+
+        assert sum(column("dry_curve")) == numbers["dry_curve_tenth"][str(period)]
+        assert sum(column("below_zero")) == numbers["curve_below_zero"][str(period)]
+        assert sum(column("deep")) == numbers["deep"][str(period)]
+        deepest = max(v for v in column("published") if v is not None)
+        assert deepest <= round(numbers["largest_depth"], 3)
+    assert all(len(row) == len(shown) for row in fields["published"]["values"])
+
+
+def test_charts_name_their_finding_and_cover_every_area(tmp_path: Path, publisher: dict) -> None:
+    run = _run(tmp_path, publisher)
+    titles = [a["title"] for a in run["exploration"]["areas"]]
+    assert len(run["charts"]) == 6 and all(c["finding"].startswith("CRC-") for c in run["charts"])
+    for chart in run["charts"]:
+        assert set(chart["series"]) == set(titles) and chart["default"] == titles[0]
+        assert all(isinstance(v, int | float) for rows in chart["series"].values() for _, v in rows)
+    assert "by_area" not in run["exploration"]  # needs real boundary files

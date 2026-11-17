@@ -581,3 +581,12 @@ def cells_of_box(box: Sequence[float], resolution: int, rules: Rules | None = No
         if boundary.intersection(pixel).area > 0:
             out.append(h3.str_to_int(cell))
     return sorted(out)
+
+
+def cells_of_polygon(geometry: dict[str, Any], resolution: int) -> set[int]:
+    """H3 cells whose hexagon overlaps a GeoJSON Polygon or MultiPolygon (h3-py's polyfill)."""
+    import h3
+    from h3.api import basic_int
+
+    shape = h3.geo_to_h3shape(geometry)
+    return set(basic_int.h3shape_to_cells_experimental(shape, resolution, contain="overlap"))

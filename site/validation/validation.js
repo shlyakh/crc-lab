@@ -40,7 +40,7 @@ function detail(source, findings) {
   for (const [name, values] of Object.entries(source.options || {})) {
     pairs.push([`Options: ${name}`, chips(values, (source.assessed_options || {})[name] || [])]);
   }
-  if (source.explorer) pairs.push(["On the map", el("a", { href: source.explorer, text: "Open this source in the Texas data explorer" })]);
+  if (source.explorer) pairs.push(["On the map", el("a", { href: source.explorer, text: "Open this source in the CRC data explorer" })]);
   if (source.notes) pairs.push(["Notes", source.notes]);
   if (findings.length) pairs.push(["Findings", findings.map((f) => `${f.id} ${f.title}`).join("; ")]);
   if (source.drafted_by) pairs.push(["Drafted by", source.drafted_by]);
@@ -127,7 +127,7 @@ const table = (head, rows, cls = "") => el("div", { class: "scroll" }, el("table
 // One series per chart, so no legend; the heading names it. Bars carry a hover readout.
 function barChart(pairs, unit, xName, readout) {
   const W = 1000, H = 150, top = 8, bottom = 18, left = 34;
-  const max = Math.max(...pairs.map((p) => p[1]), 1);
+  const max = Math.max(...pairs.map((p) => p[1])) > 0 ? Math.max(...pairs.map((p) => p[1])) : 1;
   const step = (W - left) / pairs.length;
   const ns = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(ns, "svg");
@@ -137,13 +137,13 @@ function barChart(pairs, unit, xName, readout) {
   const y = (v) => top + (H - top - bottom) * (1 - v / max);
   for (const v of [0, max / 2, max]) {
     add("line", { x1: left, x2: W, y1: y(v), y2: y(v), class: "grid" });
-    add("text", { x: left - 4, y: y(v) + 3, class: "tick", "text-anchor": "end" }, String(Math.round(v)));
+    add("text", { x: left - 4, y: y(v) + 3, class: "tick", "text-anchor": "end" }, max < 10 ? String(Number(v.toFixed(max < 1 ? 2 : 1))) : fmtShort(v));
   }
   const numeric = pairs.every((p) => typeof p[0] === "number");
   const every = Math.max(1, Math.ceil(pairs.length / 9 / 10) * 10);
   pairs.forEach(([x0, count], i) => {
     const x = left + i * step;
-    if (numeric && x0 % every === 0) add("text", { x: x + step / 2, y: H - 4, class: "tick", "text-anchor": "middle" }, String(x0));
+    if (numeric ? x0 % every === 0 : pairs.length <= 18) add("text", { x: x + step / 2, y: H - 4, class: "tick", "text-anchor": "middle" }, String(x0));
     add("rect", { x: x + Math.min(1, step * 0.15), y: y(count), width: Math.max(step - Math.min(2, step * 0.3), 0.5), height: y(0) - y(count), class: "bar" });
     const hit = add("rect", { x, y: top, width: step, height: H - top - bottom, class: "hit" });
     hit.addEventListener("pointerenter", () => { readout.textContent = `${xName} ${x0}: ${fmt(count)} ${unit}`; });
@@ -152,6 +152,25 @@ function barChart(pairs, unit, xName, readout) {
   readout.textContent = idle;
   svg.addEventListener("pointerleave", () => { readout.textContent = idle; });
   return svg;
+}
+
+const fmtShort = (v) => (v >= 1e6 ? `${Number((v / 1e6).toFixed(1))}M` : v >= 1e4 ? `${Math.round(v / 1e3)}k` : String(Math.round(v)));
+// Ranked values, largest first: one row per name with a bar and the number (plain HTML, read by a screen reader as a list).
+function rankChart(pairs, unit) {
+  const max = Math.max(...pairs.map((p) => p[1]), 0) || 1;
+  return el("ol", { class: "rank", "aria-label": `Ranked, ${unit}` }, ...pairs.map(([name, v]) =>
+    el("li", {}, el("span", { class: "name", text: name }), el("span", { class: "track" }, el("i", { style: `width:${((100 * v) / max).toFixed(1)}%` })), el("span", { class: "num", text: `${fmt(v)} ${unit}` }))));
+}
+function chartBlock(chart) {
+  const names = Object.keys(chart.series);
+  const pick = el("select", { "aria-label": `${chart.select} shown in the chart` }, ...names.map((f) => el("option", { text: f })));
+  pick.value = chart.default;
+  const readout = el("span", { class: "mute small", "aria-live": "polite" });
+  const holder = el("div", { class: "chart-box" });
+  const draw = () => holder.replaceChildren(chart.ranked ? rankChart(chart.series[pick.value], chart.unit) : barChart(chart.series[pick.value], chart.unit, chart.x, readout));
+  pick.addEventListener("change", draw); draw();
+  return [el("div", { class: "chart-head" }, el("b", { text: chart.title }), chart.finding ? el("span", { class: "tag", text: chart.finding }) : null,
+    names.length > 1 ? el("label", {}, `${chart.select} `, pick) : null, chart.ranked ? null : el("span", { class: "mute small", text: chart.unit }), chart.ranked ? null : readout), holder];
 }
 
 function renderAssessment(source, rec, findings, watch) {
@@ -169,16 +188,10 @@ function renderAssessment(source, rec, findings, watch) {
     if (long(t)) body.append(el("details", { class: "fold" }, el("summary", { text: `${t.title} (${t.rows.length} rows)` }), t.note ? el("p", { class: "mute small", text: t.note }) : null, made));
     else body.append(el("h3", { text: t.title }), t.note ? el("p", { class: "mute small", text: t.note }) : null, made);
   }
-  if (rec.chart) {
-    const names = Object.keys(rec.chart.series);
-    const pick = el("select", { "aria-label": `${rec.chart.select} shown in the chart` }, ...names.map((f) => el("option", { text: f })));
-    pick.value = rec.chart.default;
-    const readout = el("span", { class: "mute small", "aria-live": "polite" });
-    const holder = el("div", { class: "chart-box" });
-    const draw = () => holder.replaceChildren(barChart(rec.chart.series[pick.value], rec.chart.unit, rec.chart.x, readout));
-    pick.addEventListener("change", draw);
-    body.append(el("div", { class: "chart-head" }, el("b", { text: rec.chart.title }), names.length > 1 ? el("label", {}, `${rec.chart.select} `, pick) : null, readout), holder);
-    draw();
+  if (rec.chart) body.append(...chartBlock(rec.chart));
+  if (rec.charts && rec.charts.length) {
+    body.append(el("h3", { text: "Charts for reviewing the findings" }));
+    for (const chart of rec.charts) body.append(...chartBlock(chart));
   }
   if (source.notes) body.append(el("p", { class: "small", text: source.notes }));
 

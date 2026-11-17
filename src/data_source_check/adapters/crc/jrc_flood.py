@@ -285,6 +285,29 @@ def quantiles(location: Any, scale: Any, return_periods: Sequence[float]) -> Any
     return out
 
 
+def depths_at(folder: Path, return_period: float) -> tuple[Any, Any]:
+    """Every row's cell and its curve's depth at a return period, evaluated by crc-sdk.
+
+    The call crc-docs' ``flood_risk_by_province`` notebook makes (``curve_quantiles_at``).
+    """
+    import numpy as np
+    import pyarrow.parquet as pq
+    from crc_sdk.connectors import read_hazard_metadata
+    from crc_sdk.workflows import curve_quantiles_at, return_periods_to_probabilities
+
+    target = folder / "hazard.parquet"
+    tail = read_hazard_metadata(target).return_period_tail
+    probability = return_periods_to_probabilities([return_period], tail=tail)[0]
+    with target.open("rb") as handle:
+        table = pq.read_table(handle, columns=[
+            "cell_index", "curve_kind", "curve_type", "curve_shape", "curve_location",
+            "curve_scale", "curve_atom_probability", "curve_atom_location",
+            "curve_probabilities", "curve_values",
+        ])  # fmt: skip
+    depths = np.asarray(curve_quantiles_at(table, probability, max_workers=1), dtype=float)
+    return table["cell_index"].to_numpy().astype(np.uint64), depths
+
+
 def source_identity(provider: str, path: str, row: int, column: int) -> str:
     """The identifier crc-sdk gives a source pixel (its own function, called as is)."""
     from crc_sdk.connectors.adapters import _source_id

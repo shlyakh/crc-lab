@@ -104,8 +104,12 @@ def _percentiles(values: np.ndarray) -> dict[str, float]:
 
 def _read_reference(copy: reference.Copy, area: Area, periods: Sequence[int], tiles: Sequence[str],
                     crops: dict[str, dict[int, Path]], rules: reference.Rules,
-                    strip_rows: int) -> dict[str, Any]:  # fmt: skip
-    """The publisher's depths in the area: counts, fitted curves, and the crop comparison."""
+                    strip_rows: int, collect: Callable[..., None] | None = None,
+                    ) -> dict[str, Any]:  # fmt: skip
+    """The publisher's depths in the area: counts, fitted curves, and the crop comparison.
+
+    ``collect`` is called once per strip with the flooded pixels of the strip (the review maps).
+    """
     out: dict[str, Any] = {
         "tiles": [], "pixels": 0, "ever_wet": 0, "wet": {p: 0 for p in periods},
         "knots": {n: 0 for n in range(1, len(periods) + 1)},
@@ -208,6 +212,8 @@ def _read_reference(copy: reference.Copy, area: Area, periods: Sequence[int], ti
                 if len(dry):
                     out["dry_curve_largest"] = max(out["dry_curve_largest"], float(dry.max()))
                 out["curve_below_zero"][period] += int((curve < 0).sum())
+            if collect is not None:
+                collect(first, rows, columns, values, held, good, location, scale, inside)
             keys.append((number * KEY + rows[good]) * KEY + columns[good])
             locations.append(location)
             scales.append(scale)
@@ -677,6 +683,11 @@ def assess(
                                     "error": f"{summary['error_type']}: {summary['error']}"[:200],
                                     "seconds": summary["seconds"]})  # fmt: skip
 
+    if not publisher:  # the by-area summary needs real boundaries; not run on constructed files
+        from . import jrc_flood_areas
+
+        explored["by_area"] = jrc_flood_areas.by_area(cache, areas, live=live, log=log)
+
     return present({
         "source": SOURCE,
         "versions": dict(versions),
@@ -988,8 +999,47 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
             ],
         },
     ]  # fmt: skip
+    for entry in explored.get("by_area", ()):
+        unit = entry["unit"]
+        tables.append({
+            "title": f"River flood depth at {entry['return_period']} years by {unit}: "
+                     f"{entry['title']}",
+            "note": f"The summary of crc-docs' flood_risk_by_province notebook, from crc-sdk's "
+                    f"output of this run: each row's curve read at {entry['return_period']} "
+                    f"years, the largest value per H3 resolution-{entry['h3_resolution']} cell, "
+                    f"cells at or above {entry['threshold_m']} m "
+                    f"({n(entry['cells_at_or_above'])} of {n(entry['cells_with_a_curve'])} cells "
+                    f"with a curve), then mean and largest per {unit}; a cell on a border counts "
+                    f"in each {unit} it overlaps. Boundaries: {entry['boundary']['title']}.",
+            "head": [unit.capitalize(), "Mean depth of those cells (m)", "Largest (m)",
+                     f"Cells at or above {entry['threshold_m']} m", f"Cells of the {unit}"],
+            "rows": [[r["name"], f"{r['mean_depth_m']:.2f}", f"{r['max_depth_m']:.2f}",
+                      n(r["cells"]), n(r["cells_of_the_area"])] for r in entry["rows"]],
+        })  # fmt: skip
+        saved = entry.get("notebook")
+        if saved:
+            mine = {r["name"]: r for r in entry["rows"]}
+            rows = [["Curve rows crc-sdk returned", n(saved["curve_rows"]), n(entry["curve_rows"])],
+                    [f"Cells at or above {entry['threshold_m']} m", n(saved["cells_at_or_above"]),
+                     n(entry["cells_at_or_above"])]]  # fmt: skip
+            for name, theirs in saved["rows"].items():
+                ours = mine.get(name, {})
+                for key, label, form in (("mean_depth_m", "mean depth (m)", "{:.2f}"),
+                                         ("max_depth_m", "largest depth (m)", "{:.2f}"),
+                                         ("cells", "cells", "{:,}")):  # fmt: skip
+                    rows.append([f"{name}: {label}", form.format(theirs[key]),
+                                 form.format(ours[key]) if key in ours else "none"])  # fmt: skip
+            rows.append(["Places in those cells", saved["places"], "not computed"])
+            tables.append({
+                "title": "The crc-docs notebook's saved numbers against this run (Rhine box)",
+                "note": f"Notebook outputs as saved at crc-docs {saved['crc_docs_commit'][:7]}. "
+                        "Same box, dataset, policy, resolution, return period and threshold.",
+                "head": ["Number", "Notebook, saved output", "This run"],
+                "rows": rows,
+            })  # fmt: skip
     run["tables"] = tables
     if areas:
+        run["charts"] = _charts(run, areas)
         run["chart"] = {
             "title": "Published wet pixels without a curve in crc-sdk, by return period",
             "unit": "% of the pixels wet at that return period",
@@ -1006,6 +1056,62 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
             },
         }  # fmt: skip
     return run
+
+
+def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Charts for reviewing the findings; each names the finding it bears on."""
+    unfitted = {c["check"][7:-1]: c["result"].get("only_in_reference", 0)
+                for c in run["checks"] if c["check"].startswith("curves[")}  # fmt: skip
+
+    def share(part: int, whole: int) -> float:
+        return round(100 * part / whole, 2) if whole else 0
+
+    def per_area(title: str, unit: str, x: str, rows: Callable[[dict[str, Any]], list[Any]],
+                 finding: str) -> dict[str, Any]:  # fmt: skip
+        return {"title": title, "finding": finding, "unit": unit, "x": x, "select": "Area",
+                "default": areas[0]["title"],
+                "series": {a["title"]: rows(a) for a in areas}}  # fmt: skip
+
+    charts = [
+        per_area("Flooded pixels without a curve, by cause", "pixels", "Cause", lambda a: [
+            ["fewer than four depths", a["no_curve"]["fewer_than_four_depths"]],
+            ["all depths equal", a["no_curve"]["all_depths_equal"]],
+            ["a depth decreases", a["no_curve"]["a_depth_decreases"]],
+            ["fit did not converge", unfitted.get(a["area"], 0)],
+        ], "CRC-014-JRC, CRC-013-FWK"),
+        per_area("Flooded pixels by the number of return periods with a depth", "pixels",
+                 "Depths", lambda a: [[int(k), v] for k, v in a["knots"].items()], "CRC-014-JRC"),
+        per_area("Fitted pixels dry in the published map where the curve gives 0.1 m or more",
+                 "% of fitted pixels", "Return period",
+                 lambda a: [[f"{p} y", share(a["dry_curve_tenth"][p], a["fitted"])]
+                            for p in a["wet"]], "CRC-015-JRC"),
+        per_area("Fitted pixels whose curve is below zero", "% of fitted pixels", "Return period",
+                 lambda a: [[f"{p} y", share(a["curve_below_zero"][p], a["fitted"])]
+                            for p in a["wet"]], "CRC-015-JRC"),
+        per_area("Distance between the fitted curve and the published depths", "m", "Statistic",
+                 lambda a: [["median", round(a["misfit"].get("median", 0), 3)],
+                            ["90th percentile", round(a["misfit"].get("p90", 0), 3)],
+                            ["99th percentile", round(a["misfit"].get("p99", 0), 3)],
+                            ["largest", round(a["misfit"].get("largest", 0), 3)]], "CRC-015-JRC"),
+        per_area("Pixels deeper than 10 m, and those inside the publisher's spurious-depth mask",
+                 "pixels", "Return period",
+                 lambda a: [x for p in a["wet"] for x in (
+                     [f"{p} y, all", a["deep"][p]], [f"{p} y, in mask", a["deep_in_mask"][p]])],
+                 "CRC-019-JRC"),
+    ]  # fmt: skip
+    for entry in run["exploration"].get("by_area", ()):
+        if len(entry["rows"]) < 2:
+            continue
+        top = entry["rows"][:15]
+        charts.append({
+            "title": f"Mean flood depth at {entry['return_period']} years of the cells at or "
+                     f"above {entry['threshold_m']} m, by {entry['unit']}: {entry['title']}"
+                     + (f" (first 15 of {len(entry['rows'])})" if len(entry["rows"]) > 15 else ""),
+            "finding": "", "unit": "m", "x": entry["unit"].capitalize(), "ranked": True,
+            "select": "", "default": "all",
+            "series": {"all": [[r["name"], round(r["mean_depth_m"], 2)] for r in top]},
+        })  # fmt: skip
+    return charts
 
 
 def _all_periods(areas: Sequence[dict[str, Any]]) -> list[str]:

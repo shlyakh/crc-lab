@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "about": "E9 registry: the single place a source or layer is declared. `groups` are the two origins (crc-sdk adapters, new in crc-lab); `sources` is what the page lists, each with an `origin` (one entry per data source, in display order); every layer names its `source_id`. kinds: h3-cells (file per horizon), tracks (IBTrACS storm records), points-binary (packed point records with an index.json), points / lines (GeoJSON), geojson (static outline).",
+  "about": "E9 registry: the single place a source or layer is declared. `groups` are the two origins (crc-sdk adapters, new in crc-lab); `sources` is what the page lists, each with an `origin` (one entry per data source, in display order); every layer names its `source_id`. kinds: h3-cells (file per horizon), tracks (IBTrACS storm records), points-binary (packed point records with an index.json), points / lines (GeoJSON), geojson (static outline). `regions` (optional; used by the explorer page only): a source lists the `regions` it has data in and a layer its one `region`; an entry without them belongs to Texas. A cell layer may name a `group` (heading in the layer list), its own `bounds` (the map goes there), a `field` (the file holds several value sets over the same cells), and `period`, `horizon_label`, `rp_label`, `kind_label`, `param_label`, `foot`, `detail_foot` (wording for sources that are not a year or a single curve).",
   "basemap": {
     "style": "https://tiles.openfreemap.org/styles/positron",
     "attribution": "Basemap \u00a9 OpenFreeMap, \u00a9 OpenMapTiles, data \u00a9 OpenStreetMap contributors"
@@ -9,8 +9,38 @@
     "source": "ibtracs",
     "crc_hazard": "tx_max",
     "horizon": 2050,
-    "return_period": 100
+    "return_period": 100,
+    "region": "texas"
   },
+  "regions": [
+    {
+      "id": "texas",
+      "title": "Texas",
+      "short": "Texas"
+    },
+    {
+      "id": "fremont",
+      "title": "Fremont, California",
+      "short": "Fremont",
+      "bounds": [
+        -122.15,
+        37.42,
+        -121.85,
+        37.62
+      ]
+    },
+    {
+      "id": "rhine",
+      "title": "Rhine, Bonn to Mainz",
+      "short": "Rhine",
+      "bounds": [
+        7.0,
+        49.7,
+        8.5,
+        50.9
+      ]
+    }
+  ],
   "sources": [
     {
       "id": "ibtracs",
@@ -60,6 +90,29 @@
       "licence": "CC BY 4.0; contains modified Copernicus Climate Change Service information",
       "status": "prototype",
       "origin": "crc-sdk"
+    },
+    {
+      "id": "jrc_flood",
+      "title": "River flood depth (JRC GloFAS, EFAS)",
+      "provider": "European Commission JRC, Copernicus Emergency Management Service: GloFAS 2.1.2 (global) and EFAS 3.1.1 (Europe) flood hazard maps, read through crc-sdk's HazardDataset.glofas and .efas",
+      "short": "River flood depth at return periods of 10 to 500 years, as a Gumbel curve crc-sdk fits to each 90 m map pixel.",
+      "returns": "Per map pixel a fitted curve of flood depth; the map shows the deepest pixel curve in each H3 cell. Layers marked Review are computed by the source validation project from JRC's own files, to look at its findings.",
+      "coverage": "GloFAS: the Texas box with close-ups of Houston and Austin, and a box around Fremont, California. EFAS (Europe only): the Rhine from Bonn to Mainz",
+      "licence": "CC BY 4.0 as crc-sdk states; JRC's README names the Open Database License v1.0",
+      "status": "prototype",
+      "origin": "crc-sdk",
+      "regions": [
+        "texas",
+        "fremont",
+        "rhine"
+      ],
+      "caveats": [
+        "Static hazard maps from a hydraulic model of large rivers, undefended; they are not a forecast and have no period. Small streams, storm surge and rain-driven street flooding are not in them.",
+        "A cell shows the deepest of its pixel curves, not an average. Return periods shorter than 10 years are not published and are left empty.",
+        "Pixels flooded in JRC's map get no curve from crc-sdk when they have fewer than four depths, equal depths or a decreasing depth (11.6 to 25.8% of flooded pixels in these areas, finding CRC-014-JRC); the Review layers show where.",
+        "At 10 to 50 years a fitted curve can show water where JRC's map is dry, or a depth below zero (finding CRC-015-JRC).",
+        "The assessment of this source is a draft: docs/validation/reports/V8.1-jrc-flood-verification.md."
+      ]
     },
     {
       "id": "crc_open",
@@ -384,6 +437,1116 @@
       "style": {
         "hue": 30,
         "chroma": 0.16
+      }
+    },
+    {
+      "id": "jrc_glofas_tx",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Flood depth, crc-sdk's curve (deepest pixel curve in the cell)",
+      "file": "data/sources/jrc_glofas_tx/{horizon}.json",
+      "period": "Static hazard map, no period; GloFAS 2.1.2",
+      "rp_label": "depth reached 1 year in {rp}",
+      "kind_label": "Value",
+      "param_label": "Pixel curves in the cell",
+      "foot": "A cell shows its deepest pixel curve, not an average.",
+      "detail_foot": "Each value is the largest among the cell's pixel curves, each evaluated by crc-sdk (curve_quantiles_at) during the data build. Return periods under 10 years are not published by JRC and are left empty.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, one Gumbel curve per pixel fitted by crc-sdk (JRCFloodPolicy.curated), H3 resolution 7",
+      "caveat": "Texas box (GloFAS): H3 resolution 7. A pixel is about 90 m; a cell holds many, and shows the deepest.",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_published",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: published depth, deepest pixel (JRC's file)",
+      "field": "published",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "deepest published pixel at the 1-in-{rp}-year map",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 200,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_no_curve_share",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: flooded pixels without a curve, share",
+      "field": "no_curve_share",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "of the pixels flooded at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 25,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_dry_curve",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: dry in JRC's map, curve gives 0.1 m or more",
+      "field": "dry_curve",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_below_zero",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: curve below zero",
+      "field": "below_zero",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 290,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_misfit",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: largest distance of curve from published depth",
+      "field": "misfit",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "largest among the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_deep",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: pixels deeper than 10 m",
+      "field": "deep",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 350,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_tx_deep_in_mask",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Texas box (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: deeper than 10 m inside JRC's spurious-depth mask",
+      "field": "deep_in_mask",
+      "file": "validation/data/review/jrc-flood/glofas-tx.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 6",
+      "style": {
+        "hue": 140,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_glofas_houston",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Flood depth, crc-sdk's curve (deepest pixel curve in the cell)",
+      "file": "data/sources/jrc_glofas_houston/{horizon}.json",
+      "period": "Static hazard map, no period; GloFAS 2.1.2",
+      "rp_label": "depth reached 1 year in {rp}",
+      "kind_label": "Value",
+      "param_label": "Pixel curves in the cell",
+      "foot": "A cell shows its deepest pixel curve, not an average.",
+      "detail_foot": "Each value is the largest among the cell's pixel curves, each evaluated by crc-sdk (curve_quantiles_at) during the data build. Return periods under 10 years are not published by JRC and are left empty.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, one Gumbel curve per pixel fitted by crc-sdk (JRCFloodPolicy.curated), H3 resolution 9",
+      "caveat": "Houston close-up (GloFAS): H3 resolution 9. A pixel is about 90 m; a cell holds many, and shows the deepest.",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_published",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: published depth, deepest pixel (JRC's file)",
+      "field": "published",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "deepest published pixel at the 1-in-{rp}-year map",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 200,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_no_curve_share",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: flooded pixels without a curve, share",
+      "field": "no_curve_share",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "of the pixels flooded at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 25,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_dry_curve",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: dry in JRC's map, curve gives 0.1 m or more",
+      "field": "dry_curve",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_below_zero",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: curve below zero",
+      "field": "below_zero",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 290,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_misfit",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: largest distance of curve from published depth",
+      "field": "misfit",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "largest among the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_deep",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: pixels deeper than 10 m",
+      "field": "deep",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 350,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_houston_deep_in_mask",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Houston close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -95.9,
+        29.3,
+        -94.9,
+        30.2
+      ],
+      "title": "Review: deeper than 10 m inside JRC's spurious-depth mask",
+      "field": "deep_in_mask",
+      "file": "validation/data/review/jrc-flood/glofas-houston.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 8",
+      "style": {
+        "hue": 140,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_glofas_austin",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Flood depth, crc-sdk's curve (deepest pixel curve in the cell)",
+      "file": "data/sources/jrc_glofas_austin/{horizon}.json",
+      "period": "Static hazard map, no period; GloFAS 2.1.2",
+      "rp_label": "depth reached 1 year in {rp}",
+      "kind_label": "Value",
+      "param_label": "Pixel curves in the cell",
+      "foot": "A cell shows its deepest pixel curve, not an average.",
+      "detail_foot": "Each value is the largest among the cell's pixel curves, each evaluated by crc-sdk (curve_quantiles_at) during the data build. Return periods under 10 years are not published by JRC and are left empty.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, one Gumbel curve per pixel fitted by crc-sdk (JRCFloodPolicy.curated), H3 resolution 9",
+      "caveat": "Austin close-up (GloFAS): H3 resolution 9. A pixel is about 90 m; a cell holds many, and shows the deepest.",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_published",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: published depth, deepest pixel (JRC's file)",
+      "field": "published",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "deepest published pixel at the 1-in-{rp}-year map",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 200,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_no_curve_share",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: flooded pixels without a curve, share",
+      "field": "no_curve_share",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "of the pixels flooded at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 25,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_dry_curve",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: dry in JRC's map, curve gives 0.1 m or more",
+      "field": "dry_curve",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_below_zero",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: curve below zero",
+      "field": "below_zero",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 290,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_misfit",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: largest distance of curve from published depth",
+      "field": "misfit",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "largest among the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_deep",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: pixels deeper than 10 m",
+      "field": "deep",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 350,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_austin_deep_in_mask",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Austin close-up (GloFAS)",
+      "region": "texas",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "bounds": [
+        -98.0,
+        30.0,
+        -97.5,
+        30.5
+      ],
+      "title": "Review: deeper than 10 m inside JRC's spurious-depth mask",
+      "field": "deep_in_mask",
+      "file": "validation/data/review/jrc-flood/glofas-austin.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 9",
+      "style": {
+        "hue": 140,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_glofas_fremont",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Flood depth, crc-sdk's curve (deepest pixel curve in the cell)",
+      "file": "data/sources/jrc_glofas_fremont/{horizon}.json",
+      "period": "Static hazard map, no period; GloFAS 2.1.2",
+      "rp_label": "depth reached 1 year in {rp}",
+      "kind_label": "Value",
+      "param_label": "Pixel curves in the cell",
+      "foot": "A cell shows its deepest pixel curve, not an average.",
+      "detail_foot": "Each value is the largest among the cell's pixel curves, each evaluated by crc-sdk (curve_quantiles_at) during the data build. Return periods under 10 years are not published by JRC and are left empty.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, one Gumbel curve per pixel fitted by crc-sdk (JRCFloodPolicy.curated), H3 resolution 10",
+      "caveat": "Fremont (GloFAS): H3 resolution 10. A pixel is about 90 m; a cell holds many, and shows the deepest.",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_published",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: published depth, deepest pixel (JRC's file)",
+      "field": "published",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "deepest published pixel at the 1-in-{rp}-year map",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 200,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_no_curve_share",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: flooded pixels without a curve, share",
+      "field": "no_curve_share",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "of the pixels flooded at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 25,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_dry_curve",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: dry in JRC's map, curve gives 0.1 m or more",
+      "field": "dry_curve",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_below_zero",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: curve below zero",
+      "field": "below_zero",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 290,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_misfit",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: largest distance of curve from published depth",
+      "field": "misfit",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "largest among the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_deep",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: pixels deeper than 10 m",
+      "field": "deep",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 350,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_glofas_fremont_deep_in_mask",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Fremont (GloFAS)",
+      "region": "fremont",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: deeper than 10 m inside JRC's spurious-depth mask",
+      "field": "deep_in_mask",
+      "file": "validation/data/review/jrc-flood/glofas-fremont.json",
+      "period": "JRC GloFAS 2.1.2 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC GloFAS 2.1.2 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 10",
+      "style": {
+        "hue": 140,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_efas_rhine",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Flood depth, crc-sdk's curve (deepest pixel curve in the cell)",
+      "file": "data/sources/jrc_efas_rhine/{horizon}.json",
+      "period": "Static hazard map, no period; EFAS 3.1.1",
+      "rp_label": "depth reached 1 year in {rp}",
+      "kind_label": "Value",
+      "param_label": "Pixel curves in the cell",
+      "foot": "A cell shows its deepest pixel curve, not an average.",
+      "detail_foot": "Each value is the largest among the cell's pixel curves, each evaluated by crc-sdk (curve_quantiles_at) during the data build. Return periods under 10 years are not published by JRC and are left empty.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, one Gumbel curve per pixel fitted by crc-sdk (JRCFloodPolicy.curated), H3 resolution 7",
+      "caveat": "Rhine (EFAS): H3 resolution 7. A pixel is about 90 m; a cell holds many, and shows the deepest.",
+      "style": {
+        "hue": 250,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_published",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: published depth, deepest pixel (JRC's file)",
+      "field": "published",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "deepest published pixel at the 1-in-{rp}-year map",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 200,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_no_curve_share",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: flooded pixels without a curve, share",
+      "field": "no_curve_share",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "of the pixels flooded at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 25,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_dry_curve",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: dry in JRC's map, curve gives 0.1 m or more",
+      "field": "dry_curve",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 330,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_below_zero",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: curve below zero",
+      "field": "below_zero",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 290,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_misfit",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: largest distance of curve from published depth",
+      "field": "misfit",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "largest among the cell's pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 60,
+        "chroma": 0.15
+      }
+    },
+    {
+      "id": "jrc_review_efas_rhine_deep",
+      "source_id": "jrc_flood",
+      "kind": "h3-cells",
+      "group": "Rhine (EFAS)",
+      "region": "rhine",
+      "horizons": [
+        0
+      ],
+      "horizon_label": "static map",
+      "licence": "crc-sdk states CC BY 4.0; JRC's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+      "title": "Review: pixels deeper than 10 m",
+      "field": "deep",
+      "file": "validation/data/review/jrc-flood/efas-rhine.json",
+      "period": "JRC EFAS 3.1.1 files, read by the source validation project",
+      "rp_label": "pixels, at 1 in {rp} years",
+      "kind_label": "Computed by",
+      "param_label": "Flooded pixels in the cell",
+      "foot": "A pixel belongs to the cell that holds its centre.",
+      "detail_foot": "Computed by the source validation project's independent reader from JRC's files, with crc-sdk's stated rules for which pixels get a curve; not an output of crc-sdk. Curves are the reference's least-squares Gumbel fit, which equals crc-sdk's within 1.2e-6 m.",
+      "source": "JRC EFAS 3.1.1 flood hazard maps, read by the source validation project (data_source_check), H3 resolution 7",
+      "style": {
+        "hue": 350,
+        "chroma": 0.15
       }
     },
     {

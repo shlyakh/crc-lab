@@ -110,6 +110,15 @@ validation-draft source:
 validation-draft-check source:
     uv run python -m data_source_check.draft check {{source}}
 
+# Source validation: read a draft as the page would show it, from a throwaway copy of the site (http://127.0.0.1:8772/validation/)
+validation-draft-preview source:
+    uv run python -m data_source_check.draft preview {{source}}
+    python3 -m http.server 8772 --bind 127.0.0.1 --directory data/cache/validation/drafts/preview/site
+
+# Source validation: the per-cell review maps of the JRC flood findings, for the map explorer (from the caches)
+validation-maps:
+    uv run python -m data_source_check.assessments.jrc_flood_areas --maps
+
 # Source validation: a person publishes a complete draft's records
 validation-draft-accept source:
     uv run python -m data_source_check.draft accept {{source}}

@@ -3,6 +3,7 @@
     python -m data_source_check.draft brief <id>     # what is known about an unassessed source
     python -m data_source_check.draft check <id>     # is the draft complete? (exits 1 if not)
     python -m data_source_check.draft accept <id>    # a person publishes the draft's records
+    python -m data_source_check.draft preview <id>   # a throwaway copy of the site with the draft
 
 A draft may be written by an agent (see the skill ``draft-source-assessment``). It consists of the
 source file's statement, a reference reader, an adapter, an assessment module and offline tests.
@@ -202,9 +203,34 @@ def accept(source_id: str) -> Path:
     return target
 
 
+def preview(source_id: str, out: Path | None = None) -> Path:
+    """A copy of the site, outside the repository's pages, that shows the draft as if accepted.
+
+    For reading a draft's tables and charts before deciding. Everything but the validation
+    page's data is linked to ``site/``; that data is copied, the draft's records are added and
+    the inventory is rebuilt there. Nothing under ``site/`` or ``docs/`` is touched.
+    """
+    out = out or build.DRAFTS / "preview"
+    site = build.REPO / "site"
+    if out.exists():
+        shutil.rmtree(out)
+    (out / "site" / "validation").mkdir(parents=True)
+    for entry in site.iterdir():
+        if entry.name != "validation":
+            (out / "site" / entry.name).symlink_to(entry.resolve())
+    for entry in (site / "validation").iterdir():
+        if entry.name != "data":
+            (out / "site" / "validation" / entry.name).symlink_to(entry.resolve())
+    data = out / "site" / "validation" / "data"
+    shutil.copytree(site / "validation" / "data", data, symlinks=True)
+    shutil.copyfile(paths(source_id)["draft records"], data / "records" / f"{source_id}.json")
+    build.build_inventory(page_data=data, docs=out / "docs", records_from=data)
+    return out / "site"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("action", choices=("brief", "check", "accept"))
+    parser.add_argument("action", choices=("brief", "check", "accept", "preview"))
     parser.add_argument("source")
     args = parser.parse_args()
     if args.action == "brief":
@@ -215,6 +241,9 @@ def main() -> None:
             print(f"- {problem}")
         print(f"{args.source}: {'complete' if not problems else f'{len(problems)} to resolve'}")
         sys.exit(1 if problems else 0)
+    elif args.action == "preview":
+        folder = preview(args.source)
+        print(f"preview site: {folder}")
     else:
         target = accept(args.source)
         print(

@@ -8,7 +8,8 @@ hail impact functions v0 and loss per plant (Phase 5, 2026-11-10, awaiting revie
 Since V5 (2026-11-12, `docs/validation/reports/V5-split-into-projects.md`) the site is one page per project
 behind a landing page: `site/index.html` (landing; forwards addresses from before the split), `site/hail/`
 ("Texas hail risk": Risk, Hail evidence, Methods), `site/validation/` (assessments) with
-`site/validation/explore/` ("Texas CRC data": an explorer of what crc-sdk already reaches; Texas data, About).
+`site/validation/explore/` ("CRC data explorer": what crc-sdk already reaches; tabs Data and About; regions
+Texas, Fremont and Rhine since V8.2).
 The hail tour ends on Beryl 2024 in the storm player, which is on the explorer page. Shared by the hail and
 explorer pages: the map viewer and styles in `site/shared/`, the data under `site/data/`, and
 `site/layers.json`, the registry of sources and layers (`groups`, `sources` with an `origin`, layers with a
@@ -64,7 +65,11 @@ none of them).
   JRC flood, GloFAS and EFAS (V8, plan of 2026-11-17, three stages): Stage 1 drafted `jrc-flood`
   (`docs/validation/reports/V8.1-jrc-flood-verification.md`; draft, not accepted; findings CRC-013
   to CRC-022 entered by the drafter at Yuri's request, see `method.md` §7); Stages 2 (map layers,
-  regions) and 3 (FEMA, gauges, Harvey marks) wait for his go. Probes behind findings:
+  regions) and 3 (FEMA, gauges, Harvey marks) followed at his go the same day: Stage 2 report
+  `V8.2-jrc-flood-regions-and-maps.md` (regions `texas`, `fremont`, `rhine` in `site/layers.json`,
+  opt-in by the explorer page only; `build_jrc` in `crc_data_explorer/sources.py`; review maps and
+  by-area summary in `assessments/jrc_flood_areas.py`, `just validation-maps`; a draft is read
+  with `just validation-draft-preview <id>`). Probes behind findings:
   `tools/probes/jrc_flood_probes.py`. rasterio is held below 1.5.2 on macOS (`pyproject.toml`).
   Rules of its own: `core/` and `reference/` never import crc-sdk; the package imports nothing from
   `crc_lab`; the page and reports are generated from records, never typed; findings are worded neutrally
@@ -150,6 +155,20 @@ polygon. Browser libraries are pinned by URL in `index.html` (h3-js before deck.
 - `site/data/sources/` (IBTrACS, CO-OPS, GHCNh, ERA5 files built through crc-sdk) is committed; rebuild with
   `just sources` when fresher data is wanted or a pin changes. Everything else under `site/data/` is built in CI.
 - Source groups in `site/layers.json`: "Reached through crc-sdk" and "Experimental new sources" (second).
+
+## Task runner: why `just`
+
+Recipes live in `justfile` and are run with [`just`](https://github.com/casey/just), a command runner.
+It was added in Phase 0 (2026-11-10) by the agent, to give requirement G5 ("one command rebuilds
+everything") a home; the choice over `make` was not discussed then and is written down here on 2026-11-17.
+
+- Why not `make`: the recipes are named commands, not files to rebuild, so `make`'s timestamp logic is
+  unused; recipes take arguments (`just validation-assess ibtracs`); `just` alone lists every recipe with
+  its comment; no tab rule and no `.PHONY`.
+- Cost: `make` is preinstalled and `just` is not. Install it with `uv tool install rust-just`
+  (`brew install just` tried to compile from source on macOS 14 and failed).
+- It is optional: every recipe is a `uv run ...` line that can be typed directly, and the GitHub
+  workflows and the Dockerfile do not call `just`. Replacing it with `make` would be a mechanical change.
 
 ## Checks
 

@@ -4,7 +4,7 @@
 import * as maplibregl from "https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.mjs";
 // The view modules are loaded in three small waves, not seven files at once: python's http.server (`just serve`, the smoke
 // test) queues five waiting connections and resets the rest, which made this tab fail to open now and then.
-const { $, state, api, esc, MapboxOverlay, GeoJsonLayer, layerById, sourceById, groupOf, layersOfSource, horizonsOf, cellSource, compareLayerOf, fetchJSON, unitOf, rgbCss, renderLegend, closeDetail } = await import("./views/core.js");
+const { $, state, api, esc, MapboxOverlay, GeoJsonLayer, layerById, sourceById, groupOf, layersOfSource, horizonsOf, cellSource, regions, regionById, regionsOfSource, inRegion, compareLayerOf, fetchJSON, unitOf, rgbCss, renderLegend, closeDetail } = await import("./views/core.js");
 const [cells, tracks, events] = await Promise.all([import("./views/cells.js"), import("./views/tracks.js"), import("./views/events.js")]);
 const [stations, compare, time] = await Promise.all([import("./views/stations.js"), import("./views/compare.js"), import("./views/time.js")]);
 const { loadFile, buildCellControls, cellsLayer, cellsLegend, cellHover, showDetail } = cells;
@@ -101,7 +101,8 @@ const PANE = `
 <section class="col src-mid">
   <div class="toolbar">
     <span class="label">Source</span><b id="src-title"></b><span id="src-sub" class="mute"></span>
-    <button id="src-reset" class="btn">Texas</button>
+    <label id="src-region-label" class="region hidden"><span class="label">Region</span><select id="src-region" aria-label="Region"></select></label>
+    <button id="src-reset" class="btn" title="Fit the map to the region">Texas</button>
   </div>
   <div id="src-map-wrap">
     <div id="map"></div>
@@ -147,7 +148,7 @@ const EMPTY_HINT = {
 };
 
 // ---------- source picker and per-source controls ----------
-const sourcesOf = (origin) => state.registry.sources.filter((s) => s.origin === origin && !HIDDEN_SOURCES.has(s.id));
+const sourcesOf = (origin) => state.registry.sources.filter((s) => s.origin === origin && !HIDDEN_SOURCES.has(s.id) && regionsOfSource(s).includes(state.region));
 function licenceShort(text) {
   const cc = text.match(/^CC0[-\d.]*|^CC BY(?:-[A-Z]+)* [\d.]+/); if (cc) return cc[0];
   return /U\.S\. government/.test(text) ? "US Gov work" : text.split(/[;(]/)[0].trim();
@@ -175,7 +176,7 @@ function selectSource(id, force = false) {
   if (state.source === id && !force) return Promise.resolve();
   if (!sourceById(id) || HIDDEN_SOURCES.has(id)) return Promise.resolve();
   state.source = id; state.byOrigin[sourceById(id).origin] = id; clearSelection(false);
-  const cells = layersOfSource(id).filter((l) => l.kind === "h3-cells");
+  const cells = layersOfSource(id).filter((l) => l.kind === "h3-cells" && inRegion(l));
   if (cells.length) {
     state.hazard = id === "crc_open" ? state.registry.defaults.crc_hazard : cells[0].id;
     const hs = horizonsOf(layerById(state.hazard)); if (!hs.includes(state.horizon)) state.horizon = hs.includes(state.registry.defaults.horizon) ? state.registry.defaults.horizon : hs[0];
@@ -203,6 +204,7 @@ function buildOverlays() {
   const own = new Set(layersOfSource(state.source).map((l) => l.id));
   for (const l of state.registry.layers) {
     if (HIDDEN_SOURCES.has(l.source_id)) continue;
+    if (!inRegion(l)) continue; // the Texas outline and every layer without a region belong to Texas
     if ((l.kind === "h3-cells" || l.kind === "h3-compare") && !own.has(l.id)) continue; // cells only through their source
     if (l.kind === "h3-cells" && l.id !== state.hazard) continue;
     const lab = document.createElement("label");
@@ -219,7 +221,7 @@ function buildOverlays() {
     lab.append(cb, document.createTextNode(p.title), Object.assign(document.createElement("span"), { className: "mute", textContent: p.status }));
     box.append(lab);
   }
-  $("also-count").textContent = on ? `${on} other layer${on > 1 ? "s" : ""} on` : "layers of other sources, Texas boundary";
+  $("also-count").textContent = on ? `${on} other layer${on > 1 ? "s" : ""} on` : state.region === "texas" ? "layers of other sources, Texas boundary" : "no other layers in this region";
 }
 function buildCaveats(payload) {
   const { catalog, manifest } = state; const s = sourceById(state.source);
@@ -228,7 +230,7 @@ function buildCaveats(payload) {
   for (const l of layersOfSource(state.source)) if (l.caveat) items.push(`<b>${esc(l.title)}:</b> ${esc(l.caveat)}`);
   if (payload && cellSource(state.source)) {
     const layer = layerById(state.hazard); const res = payload.h3_resolution;
-    const km2 = res === 5 ? "about 253 km²" : res === 7 ? "about 5.2 km²" : res === 4 ? "about 1,770 km²" : `resolution ${res}`;
+    const km2 = { 4: "about 1,770 km²", 5: "about 253 km²", 7: "about 5.2 km²", 9: "about 0.105 km²", 10: "about 0.015 km²" }[res] || `resolution ${res}`;
     items.push(`<b>Cells:</b> H3 resolution ${res}, ${km2} each; ${payload.cells.length.toLocaleString("en-US")} cells with a curve; cells without one are not drawn.`);
     items.push(`<b>Curve:</b> ${esc(payload.value_semantics)}; probability semantics ${esc(payload.probability_semantics || "unspecified")}; return periods read on the ${payload.tail} tail (1 in T years = non-exceedance ${payload.tail === "upper" ? "1 − 1/T" : "1/T"}). Displayed unit ${esc(unitOf(layer, payload))}${layer.display && layer.display.offset ? ` (source ${esc(payload.unit)})` : ""}.`);
     if (state.source === "crc_open") {
@@ -270,7 +272,7 @@ async function render() {
       legend.push(() => cellsLegend(l, payload));
     }
     const wanted = new Set(layersOfSource(src).map((l) => l.id));
-    for (const [id, on] of state.overlays) if (on && layerById(id) && layerById(id).kind !== "h3-cells" && layerById(id).kind !== "h3-compare" && !HIDDEN_SOURCES.has(layerById(id).source_id)) wanted.add(id);
+    for (const [id, on] of state.overlays) if (on && layerById(id) && inRegion(layerById(id)) && layerById(id).kind !== "h3-cells" && layerById(id).kind !== "h3-compare" && !HIDDEN_SOURCES.has(layerById(id).source_id)) wanted.add(id);
     for (const l of state.registry.layers) {
       if (!wanted.has(l.id) || l.kind === "h3-cells" || l.kind === "geojson") continue;
       const own = l.source_id === src;
@@ -290,11 +292,12 @@ async function render() {
       if (fetched === started) fetched = performance.now();
     }
   } catch (e) { fail(sourceById(src).title, e); return; }
-  if (state.overlays.get("texas") !== false) layers.push(new GeoJsonLayer({ id: "texas", data: state.texas, stroked: true, filled: false, getLineColor: layerById("texas").style.line, lineWidthMinPixels: layerById("texas").style.width, pickable: false }));
+  if (state.region !== "texas") layers.push(new GeoJsonLayer({ id: "region", data: boxFeature(regionById(state.region).bounds), stroked: true, filled: false, getLineColor: layerById("texas").style.line, lineWidthMinPixels: layerById("texas").style.width, pickable: false }));
+  else if (state.overlays.get("texas") !== false) layers.push(new GeoJsonLayer({ id: "texas", data: state.texas, stroked: true, filled: false, getLineColor: layerById("texas").style.line, lineWidthMinPixels: layerById("texas").style.width, pickable: false }));
   try { await setupTime(); } catch (e) { fail("the timeline", e); }
   if (token !== rendering) return;
   state.baseLayers = layers; drawFrame();
-  buildSourcePanel(); buildOverlays(); buildCaveats(payload); buildTimebar(); placeSwipe();
+  buildSourcePanel(); buildOverlays(); buildCaveats(payload); buildTimebar(); placeSwipe(); fitView();
   renderLegend([...legend.map((f) => f()), also.length ? { title: "Also shown", rows: also } : null]);
   if (state.selected && (state.selected.hazard !== state.hazard || state.selected.horizon !== state.horizon)) clearSelection();
   else if (state.selected && cellSource(src)) showDetail(state.selected.index);
@@ -311,6 +314,32 @@ api.render = render; api.clearSelection = clearSelection;
 
 // ---------- map ----------
 function texasBounds() { const b = state.manifest.texas.bounds; return [[b[0] - 1.5, b[1] - 1], [b[2] + 1.5, b[3] + 0.5]]; }
+const padded = (b, share = 0.08) => { const dx = (b[2] - b[0]) * share, dy = (b[3] - b[1]) * share; return [[b[0] - dx, b[1] - dy], [b[2] + dx, b[3] + dy]]; };
+const boxFeature = (b) => ({ type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [[[b[0], b[1]], [b[2], b[1]], [b[2], b[3]], [b[0], b[3]], [b[0], b[1]]]] } });
+function regionBounds() { const r = regionById(state.region); return r.id === "texas" || !r.bounds ? texasBounds() : padded(r.bounds); }
+// The view follows the region, and inside a region a cell layer that names its own box (a close-up).
+function viewBounds() { const l = cellSource(state.source) ? layerById(state.hazard) : null; return l && l.bounds ? padded(l.bounds) : regionBounds(); }
+function fitView(force = false) {
+  const b = viewBounds(); const key = JSON.stringify(b);
+  if (!force && state.view === key) return;
+  const atRegion = state.view === null && key === JSON.stringify(regionBounds()); state.view = key; // the map opens on the region
+  if (!atRegion) state.map.fitBounds(b, { padding: 20, duration: force ? 400 : 0 });
+}
+function buildRegions(enabled) {
+  const list = regions(); const on = enabled && list.length > 1;
+  $("src-region-label").classList.toggle("hidden", !on);
+  const sel = $("src-region"); sel.innerHTML = ""; for (const r of list) sel.append(new Option(r.title, r.id)); sel.value = state.region;
+  sel.onchange = () => setRegion(sel.value);
+  $("src-reset").textContent = regionById(state.region).short || regionById(state.region).title;
+}
+async function setRegion(id) {
+  if (!regions().some((r) => r.id === id) || id === state.region) return;
+  state.region = id; document.body.dataset.region = id; $("src-region").value = id;
+  $("src-reset").textContent = regionById(id).short || regionById(id).title;
+  const members = sourcesOf(state.origin); if (!members.length) return;
+  const keep = members.find((s) => s.id === state.source) || members.find((s) => s.id === state.registry.defaults.source) || members[0];
+  stopPlay(); buildSourceList(); await selectSource(keep.id, true);
+}
 function hoverHtml(info) {
   if (!info.picked || !info.layer) return null;
   const id = info.layer.id;
@@ -331,7 +360,7 @@ function hover(info) {
 }
 function initMap() {
   const map = new maplibregl.Map({
-    container: "map", style: state.registry.basemap.style, bounds: texasBounds(), fitBoundsOptions: { padding: 20 },
+    container: "map", style: state.registry.basemap.style, bounds: regionBounds(), fitBoundsOptions: { padding: 20 },
     attributionControl: { compact: true, customAttribution: `${state.registry.basemap.attribution} · data sources credited per source (CRC Open ${state.catalog.licence})` },
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -347,7 +376,7 @@ function initMap() {
 }
 
 // ---------- the three exports main.js uses ----------
-export async function initSources({ dataUrl = "data/", address = {}, onChange } = {}) {
+export async function initSources({ dataUrl = "data/", address = {}, onChange, regions: withRegions = false } = {}) {
   state.root = dataUrl.replace(/data\/?$/, ""); if (onChange) notify = onChange;
   $("tab-sources").innerHTML = PANE;
   const [registry, catalog, manifest, texas] = await Promise.all([fetchJSON("layers.json"), fetchJSON("data/catalog.json"), fetchJSON("data/manifest.json"), fetchJSON("data/texas.geojson")]);
@@ -355,6 +384,13 @@ export async function initSources({ dataUrl = "data/", address = {}, onChange } 
   state.hazard = registry.defaults.crc_hazard; state.horizon = registry.defaults.horizon; state.rp = registry.defaults.return_period;
   for (const l of registry.layers) state.overlays.set(l.id, l.on === true);
   const linked = sourceById(address.source); if (linked && !HIDDEN_SOURCES.has(linked.id)) state.byOrigin[linked.origin] = linked.id;
+  // the region: named in the address, else the first region of the linked source, else the default (pages without regions stay in Texas)
+  if (withRegions) {
+    const ids = regions().map((r) => r.id); const wanted = ids.includes(address.region) ? address.region : linked && !regionsOfSource(linked).includes(registry.defaults.region || "texas") ? regionsOfSource(linked)[0] : registry.defaults.region;
+    if (ids.includes(wanted)) state.region = wanted;
+  }
+  document.body.dataset.region = state.region; buildRegions(withRegions);
+  document.addEventListener("crc:region", (e) => setRegion(e.detail));
 
   $("hazard").onchange = (e) => {
     state.hazard = e.target.value; state.selected = null; state.pick = null; closeDetail();
@@ -365,7 +401,7 @@ export async function initSources({ dataUrl = "data/", address = {}, onChange } 
   $("rp").onchange = (e) => { state.rp = Number(e.target.value); render(); };
   $("lock").onchange = (e) => { state.locked = e.target.checked; render(); };
   $("detail-close").onclick = () => clearSelection();
-  $("src-reset").onclick = () => state.map.fitBounds(texasBounds(), { padding: 20, duration: 400 });
+  $("src-reset").onclick = () => { state.view = JSON.stringify(regionBounds()); state.map.fitBounds(regionBounds(), { padding: 20, duration: 400 }); };
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("tab-sources").classList.contains("hidden")) clearSelection(); });
   let tlWidth = 0; new ResizeObserver(() => { const w = $("timeline").clientWidth; if (state.time && w && Math.abs(w - tlWidth) > 8) { tlWidth = w; drawTimeline(); if (state.map) state.map.resize(); } }).observe($("timeline"));
 
@@ -382,8 +418,8 @@ export async function showSources(origin) {
   const members = sourcesOf(origin); if (!members.length) throw new Error(`no sources with origin ${origin}`);
   const changed = state.origin !== origin;
   state.origin = origin; document.body.dataset.origin = origin;
-  const id = state.byOrigin[origin] || (members.find((s) => s.id === state.registry.defaults.source) || members[0]).id;
+  const id = (members.find((s) => s.id === state.byOrigin[origin]) || members.find((s) => s.id === state.registry.defaults.source) || members[0]).id;
   state.map.resize();
   if (changed || state.source !== id) { stopPlay(); buildSourceList(); await selectSource(id, true); }
 }
-export function sourcesAddress() { return state.source ? { source: state.source } : {}; }
+export function sourcesAddress() { return state.source ? { source: state.source, ...(state.region !== "texas" ? { region: state.region } : {}) } : {}; }

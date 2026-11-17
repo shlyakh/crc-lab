@@ -118,6 +118,121 @@
    "licence":"CC BY 4.0 (Copernicus); 'Contains modified Copernicus Climate Change Service information'",
    "seconds":0.0,
    "bytes":180537
+  },
+  "jrc":{
+   "layer":"jrc",
+   "files":[
+    "site/data/sources/jrc_glofas_tx/0.json",
+    "site/data/sources/jrc_glofas_houston/0.json",
+    "site/data/sources/jrc_glofas_austin/0.json",
+    "site/data/sources/jrc_glofas_fremont/0.json",
+    "site/data/sources/jrc_efas_rhine/0.json"
+   ],
+   "areas":{
+    "glofas_tx":{
+     "dataset":"glofas",
+     "bounds":[
+      -106.645646,
+      25.837377,
+      -93.508292,
+      36.500704
+     ],
+     "h3_resolution":7,
+     "rows":10703386,
+     "cells":40358,
+     "release":"2.1.2",
+     "uri":"cems-glofas-river-flood/aoi?bounds=-106.645646%2C25.837377%2C-93.508292%2C36.500704&sources=ID29_N40_W110%2CID30_N30_W110%2CID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
+     "largest_at_100_years_m":107.751,
+     "cells_below_zero_at_10_years":447,
+     "warnings":[],
+     "bytes":2960359
+    },
+    "glofas_houston":{
+     "dataset":"glofas",
+     "bounds":[
+      -95.9,
+      29.3,
+      -94.9,
+      30.2
+     ],
+     "h3_resolution":9,
+     "rows":354477,
+     "cells":19107,
+     "release":"2.1.2",
+     "uri":"cems-glofas-river-flood/aoi?bounds=-95.9%2C29.3%2C-94.9%2C30.2&sources=ID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
+     "largest_at_100_years_m":9.613,
+     "cells_below_zero_at_10_years":1082,
+     "warnings":[],
+     "bytes":1379819
+    },
+    "glofas_austin":{
+     "dataset":"glofas",
+     "bounds":[
+      -98.0,
+      30.0,
+      -97.5,
+      30.5
+     ],
+     "h3_resolution":9,
+     "rows":36803,
+     "cells":2133,
+     "release":"2.1.2",
+     "uri":"cems-glofas-river-flood/aoi?bounds=-98%2C30%2C-97.5%2C30.5&sources=ID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
+     "largest_at_100_years_m":19.633,
+     "cells_below_zero_at_10_years":75,
+     "warnings":[],
+     "bytes":157181
+    },
+    "glofas_fremont":{
+     "dataset":"glofas",
+     "bounds":[
+      -122.15,
+      37.42,
+      -121.85,
+      37.62
+     ],
+     "h3_resolution":10,
+     "rows":23702,
+     "cells":6465,
+     "release":"2.1.2",
+     "uri":"cems-glofas-river-flood/aoi?bounds=-122.15%2C37.42%2C-121.85%2C37.62&sources=ID18_N40_W130&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
+     "largest_at_100_years_m":20.33,
+     "cells_below_zero_at_10_years":221,
+     "warnings":[],
+     "bytes":462415
+    },
+    "efas_rhine":{
+     "dataset":"efas",
+     "bounds":[
+      7.0,
+      49.7,
+      8.5,
+      50.9
+     ],
+     "h3_resolution":7,
+     "rows":154825,
+     "cells":751,
+     "release":"3.1.1",
+     "uri":"cems-efas-river-flood/aoi?bounds=7%2C49.7%2C8.5%2C50.9&sources=continental&source_periods=10%2C20%2C30%2C40%2C50%2C75%2C100%2C200%2C500",
+     "largest_at_100_years_m":22.393,
+     "cells_below_zero_at_10_years":7,
+     "warnings":[],
+     "bytes":56370
+    }
+   },
+   "reduction":"largest value among the rows of a cell (one row per source pixel and cell)",
+   "evaluated_by":"crc_sdk.workflows.curve_quantiles_at",
+   "return_periods_shown":[
+    10,
+    20,
+    50,
+    100,
+    200,
+    500
+   ],
+   "licence":"crc-sdk states CC BY 4.0; the publisher's README names the Open Database License v1.0 and its copyright.txt CC BY 4.0 (finding CRC-018-JRC)",
+   "seconds":433.8,
+   "bytes":5016144
   }
  },
  "verification":{
@@ -127,7 +242,7 @@
    "mismatches":[]
   }
  },
- "built_at":"2026-11-10T18:39:33+00:00",
+ "built_at":"2026-11-17T11:44:37+00:00",
  "versions":{
   "crc-sdk":"0.11.1",
   "crc-framework":"0.6.0"
@@ -148,5 +263,5 @@
   -93.508292,
   36.500704
  ],
- "seconds":1.3
+ "seconds":433.8
 }

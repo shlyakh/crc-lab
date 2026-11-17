@@ -80,6 +80,9 @@
 
 /* centre: toolbar, map and its furniture */
 #tab-sources .toolbar { gap: var(--s2); }
+#tab-sources .toolbar .region { margin-left: auto; display: flex; align-items: center; gap: var(--s2); }
+#tab-sources .toolbar .region select { height: 28px; }
+#tab-sources .toolbar .region:not(.hidden) + .btn { margin-left: 0; }
 #tab-sources #src-title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 #tab-sources #src-sub { font-size: var(--f-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 1; }
 #src-map-wrap { position: relative; flex: 1; min-height: 0; }

@@ -10,6 +10,8 @@ export const state = {
   root: "",                  // registry paths ("data/...") are relative to site/
   registry: null, catalog: null, manifest: null, texas: null,
   origin: null, byOrigin: {}, // shown group of sources, and the last source picked in each
+  region: "texas",           // registry.regions[].id; a source or layer without a region belongs to Texas
+  view: null,                // the bounds the map was last fitted to (a region, or a layer's own box)
   source: null,              // active source id (registry.sources[].id)
   hazard: null, horizon: null, rp: null,   // active h3-cells layer and its view
   files: new Map(),          // "hazard/horizon" -> payload; "geo:<id>" -> GeoJSON
@@ -97,6 +99,12 @@ export const msToMin = (ms) => (ms - EPOCH) / 60000;
 export const parseT = (t) => Date.UTC(+t.slice(0, 4), +t.slice(5, 7) - 1, +t.slice(8, 10), +t.slice(11, 13), +t.slice(14, 16));
 export const fmtT = (ms) => new Date(ms).toISOString().slice(0, 16).replace("T", " ");
 export const cellSource = (id) => layersOfSource(id).some((l) => l.kind === "h3-cells");
+// regions (opt-in by the page): Texas is the default and the only region of a registry without `regions`
+export const regions = () => state.registry.regions || [{ id: "texas", title: "Texas" }];
+export const regionById = (id) => regions().find((r) => r.id === id) || regions()[0];
+export const regionsOfSource = (s) => s.regions || ["texas"];
+export const inRegion = (l) => (l.region || "texas") === state.region;
+export const horizonLabel = (layer, y) => (layer && layer.horizon_label) || String(y);
 export const compareLayerOf = (sourceId) => layersOfSource(sourceId).find((l) => l.kind === "h3-compare");
 export const latLon = (lat, lon) => `${Math.abs(lat).toFixed(3)}° ${lat < 0 ? "S" : "N"}, ${Math.abs(lon).toFixed(3)}° ${lon < 0 ? "W" : "E"}`;
 

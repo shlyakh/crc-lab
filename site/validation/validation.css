@@ -94,3 +94,9 @@ svg.chart .bar { fill: var(--accent); } svg.chart .hit { fill: transparent; } sv
 svg.chart .grid { stroke: var(--rule); stroke-width: 1; } svg.chart .tick { font-size: 11px; fill: var(--mute); }
 @media (max-width: 640px) { svg.chart .tick { font-size: 20px; } .assessment > summary .meta { margin-left: 0; } }
 details.fold { margin-top: var(--s3); } details.fold > summary { cursor: pointer; font-weight: 650; padding: var(--s1) 0; }
+/* ranked values: name, bar, number */
+ol.rank { list-style: none; margin: var(--s1) 0 var(--s3); padding: 0; display: grid; grid-template-columns: max-content 1fr max-content; gap: 2px var(--s3); align-items: center; font-size: var(--f-s); }
+ol.rank li { display: contents; }
+ol.rank .track { height: 10px; background: var(--hover); } ol.rank .track i { display: block; height: 100%; background: var(--accent); }
+ol.rank .num { text-align: right; font-variant-numeric: tabular-nums; }
+.chart-head .tag { color: var(--mute); }

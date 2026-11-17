@@ -166,6 +166,60 @@ def _paths(node: object) -> list[str]:
     return [node] if isinstance(node, str) and node.endswith(".tif") and "://" not in node else []
 
 
+def permanent_water(live: bool) -> dict:
+    """Flooded pixels of each GloFAS area by what crc-sdk does with them, and how many of each
+    kind lie in the publisher's permanent-water layer (the layer the README says was used to
+    patch the maps)."""
+    from data_source_check.assessments import jrc_flood as base
+    from data_source_check.reference import jrc_flood as reference
+
+    out = {}
+    rules = reference.Rules()
+    for area in base.AREAS:
+        if area.dataset != "glofas":
+            continue
+        copy = reference.Copy(area.dataset, CACHE, live=live)
+        periods = reference.periods(copy.index(), copy.layout)
+        tiles = reference.tiles_for(json.loads(copy.text("tile_extents.geojson")), area.bounds)
+        water = {}
+        for tile in tiles:
+            with reference.Tiff(copy.file(f"Permanent_WaterBodies/{tile}_permanent_water.tif")) as t:
+                data = t.read()
+                water[(round(t.left, 3), round(t.top, 3))] = (
+                    (data != 0) if t.nodata is None
+                    else (data != 0) & (data != np.asarray(t.nodata, dtype=data.dtype))
+                )
+        kinds = ("fitted", "fewer than four depths", "all depths equal", "a depth decreases")
+        count = {k: [0, 0] for k in kinds}
+
+        def collect(grid, rows, columns, values, held, good, location, scale, inside,
+                    water=water, count=count):  # noqa: ANN001, ANN202
+            wet = water[(round(grid.left, 3), round(grid.top, 3))][rows, columns]
+            enough = held.sum(axis=0) >= 4
+            low, high = np.nanmin(values, axis=0), np.nanmax(values, axis=0)
+            equal = enough & (low == high)
+            for name, chosen in (
+                ("fitted", good), ("fewer than four depths", ~enough), ("all depths equal", equal),
+                ("a depth decreases", enough & ~equal & ~good),
+            ):
+                count[name][0] += int(chosen.sum())
+                count[name][1] += int((chosen & wet).sum())
+
+        base._read_reference(copy, area, periods, tiles, {}, rules, base.STRIP_ROWS,
+                             collect=collect)
+        out[area.id] = {
+            "pixels_in_permanent_water": int(sum(
+                int(w[r0:r1, c0:c1].sum()) for w, (c0, r0, c1, r1) in (
+                    (water[(round(g.left, 3), round(g.top, 3))], g.window(area.bounds, rules))
+                    for g in (reference.Tiff(copy.file(reference.depth_name(copy.layout, periods[0], t)))
+                              for t in tiles)
+                ) if (c0, r0, c1, r1)
+            )),
+            **{k: {"pixels": v[0], "in_permanent_water": v[1]} for k, v in count.items()},
+        }
+    return out
+
+
 def main() -> None:
     target = CACHE / "probes/probes.json"
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -173,7 +227,8 @@ def main() -> None:
     result["optimizer"] = optimizer()
     result["same_pixel_in_two_areas"] = same_pixel_in_two_areas()
     result["tile_seams"] = tile_seams()
-    if "--live" in sys.argv:
+    result["permanent_water"] = permanent_water("--live" in sys.argv)
+    if "--live" in sys.argv and "--no-cache-probe" not in sys.argv:
         result["relative_cache"] = relative_cache()
     temporary = target.with_suffix(".tmp")
     temporary.write_text(json.dumps(result, indent=1), encoding="utf-8")
