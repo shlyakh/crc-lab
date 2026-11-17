@@ -225,6 +225,11 @@ def preview(source_id: str, out: Path | None = None) -> Path:
     shutil.copytree(site / "validation" / "data", data, symlinks=True)
     shutil.copyfile(paths(source_id)["draft records"], data / "records" / f"{source_id}.json")
     build.build_inventory(page_data=data, docs=out / "docs", records_from=data)
+    # the copy says that it is one, so that it cannot be taken for the page
+    inventory_file = data / "inventory.json"
+    payload = json.loads(inventory_file.read_text(encoding="utf-8"))
+    payload["preview"] = {"source": source_id}
+    inventory_file.write_text(json.dumps(payload, indent=1), encoding="utf-8")
     return out / "site"
 
 

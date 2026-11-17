@@ -103,3 +103,10 @@ ol.rank .num { text-align: right; font-variant-numeric: tabular-nums; }
 /* where a table's or chart's numbers come from */
 .ptag { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 400; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); white-space: nowrap; vertical-align: middle; }
 .ptag::before { content: ""; width: 7px; height: 7px; background: var(--c, var(--mute)); flex: none; }
+/* links to the parts of this long page; the part an address names */
+.jump { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); align-items: baseline; padding: var(--s2) 0; margin-bottom: var(--s3); background: var(--bg, #fbfbf9); border-bottom: 1px solid var(--rule-2); font-size: var(--f-s); }
+.jump .label { font-size: var(--f-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--mute); }
+.jump:empty { display: none; }
+.preview-note { padding: var(--s2) var(--s3); border: 1px solid var(--warn); font-size: var(--f-s); }
+section[id], details.assessment, details.finding { scroll-margin-top: 56px; }
+.target { outline: 2px solid var(--accent); outline-offset: 2px; }

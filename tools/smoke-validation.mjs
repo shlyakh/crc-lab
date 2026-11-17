@@ -68,6 +68,11 @@ check("findings the map shows link to it, one link per area; the source's other 
   return links.length === 5 && links[0] === 'explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share' && body('CRC-013-FWK').querySelectorAll('a.maplink').length === 5
     && body('CRC-018-JRC').textContent.includes('Not a finding with a place on the map') && !body('CRC-010-IBT').textContent.includes('On the map');
 })()`), (await ev("document.body.dataset.mapped")));
+check("a bar of links leads to each part of the page, and each assessment by name", await ev(`(() => { const a = [...document.querySelectorAll('#jump a')].map((x) => x.getAttribute('href')); return a[0] === '#inventory-section' && a.includes('#findings-section') && a.filter((h) => h.startsWith('#assessment-')).length === document.querySelectorAll('#assessments .assessment').length && a.every((h) => document.getElementById(h.slice(1))) && document.getElementById('preview-note').hidden; })()`));
+await ev("location.hash = '#finding-CRC-014-JRC'"); await sleep(400);
+check("an address that names a finding opens it and brings it into view", await ev(`(() => { const d = document.getElementById('finding-CRC-014-JRC'); const r = d.getBoundingClientRect(); return d.open && r.top >= 0 && r.top < innerHeight && document.body.dataset.target === 'finding-CRC-014-JRC'; })()`));
+await shot("validation-finding");
+await ev("history.replaceState(null, '', location.pathname); scrollTo(0, 0)"); await sleep(200);
 await shot("validation-1440");
 await size(390, 844); await open();
 const overflow = await ev("document.documentElement.scrollWidth - document.documentElement.clientWidth");

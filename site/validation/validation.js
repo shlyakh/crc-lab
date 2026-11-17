@@ -42,7 +42,12 @@ function detail(source, findings) {
   }
   if (source.explorer) pairs.push(["On the map", el("a", { href: source.explorer, text: "Open this source in the CRC data explorer" })]);
   if (source.notes) pairs.push(["Notes", source.notes]);
-  if (findings.length) pairs.push(["Findings", findings.map((f) => `${f.id} ${f.title}`).join("; ")]);
+  if (source.records) pairs.push(["Assessment", el("a", { class: "jumpto", href: `#assessment-${source.id}`, text: "Go to this source's assessment on this page" })]);
+  if (findings.length) {
+    const list = el("span", {});
+    findings.forEach((f, i) => { if (i) list.append("; "); list.append(el("a", { class: "jumpto", href: `#finding-${f.id}`, text: f.id }), ` ${f.title}`); });
+    pairs.push(["Findings", list]);
+  }
   if (source.drafted_by) pairs.push(["Drafted by", source.drafted_by]);
   pairs.push(["Review", source.draft ? "Draft: not yet reviewed" : `Reviewed by ${source.reviewed_by}, ${source.reviewed_on}`]);
   return kv(pairs);
@@ -104,7 +109,7 @@ function renderFindings(data, filters) {
   for (const f of list) {
     const where = f.source === "framework" ? "All gridded sources" : titles[f.source] || f.source;
     const statusText = f.status === "fixed" ? `fixed in ${f.fixed_in}` : f.status;
-    box.append(el("details", { class: "finding" },
+    box.append(el("details", { class: "finding", id: `finding-${f.id}` },
       el("summary", {},
         el("span", { class: "fid", text: f.id }),
         el("span", {}, el("b", { text: f.title }), el("div", { class: "mute small", text: where })),
@@ -293,6 +298,28 @@ function renderTiles(data) {
   document.getElementById("tiles").replaceChildren(...tiles.map(([n, label]) => el("div", { class: "tile" }, el("b", { text: String(n) }), el("span", { text: label }))));
 }
 
+// The page is long: a bar of links to its parts, and addresses that open one finding or one assessment.
+function renderJump(data) {
+  const withRecords = data.sources.filter((s) => s.records);
+  const link = (href, text) => el("a", { class: "jumpto", href, text });
+  const bar = document.getElementById("jump");
+  bar.replaceChildren(el("span", { class: "label", text: "On this page" }), link("#inventory-section", `Inventory (${data.sources.length} sources)`));
+  if (withRecords.length) bar.append(el("span", { class: "group" }, "Assessments: ", ...withRecords.flatMap((s, i) => [i ? " · " : "", link(`#assessment-${s.id}`, `${s.title}${s.draft ? " (draft)" : ""}`)])));
+  bar.append(link("#findings-section", `Findings (${data.findings.length})`), link("#gaps-section", "Not yet assessed"));
+  if (data.preview) {
+    const note = document.getElementById("preview-note"); const s = data.sources.find((x) => x.id === data.preview.source);
+    note.replaceChildren(el("b", { text: "Draft preview. " }), `This is a throwaway copy of the page that also shows the draft assessment of ${s ? s.title : data.preview.source}; the real page does not. `, link(`#assessment-${data.preview.source}`, "Go to the draft"), ".");
+    note.hidden = false; document.body.dataset.preview = data.preview.source;
+  }
+}
+function goToHash() {
+  const id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+  const node = document.getElementById(id); if (!node) return;
+  if (node.tagName === "DETAILS") node.open = true;
+  node.scrollIntoView({ block: "start" }); node.classList.add("target"); setTimeout(() => node.classList.remove("target"), 2500);
+  document.body.dataset.target = id;
+}
+
 async function main() {
   let data;
   try {
@@ -323,6 +350,7 @@ async function main() {
   }
   renderTiles(data); renderInventory(data, filters); renderFindings(data, filters); renderGaps(data);
   try { await renderAssessments(data); } catch (error) { document.getElementById("notice").textContent = `An assessment could not be loaded (${error.message}).`; document.body.dataset.error = error.message; return; }
+  renderJump(data); goToHash(); window.addEventListener("hashchange", goToHash);
   document.body.dataset.ready = "1";
 }
 main();

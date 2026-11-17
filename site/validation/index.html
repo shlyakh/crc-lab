@@ -19,8 +19,10 @@
     <p class="notice" id="notice"></p>
   </section>
   <section class="tiles" id="tiles" aria-label="Summary"></section>
+  <p class="preview-note" id="preview-note" hidden></p>
+  <nav class="jump" id="jump" aria-label="On this page"></nav>
 
-  <section>
+  <section id="inventory-section">
     <div class="sec-head"><h2>Inventory</h2>
       <label>Kind <select id="f-kind"><option value="">all</option></select></label>
       <label>Tier <select id="f-tier"><option value="">all</option><option>1</option><option>2</option><option>3</option></select></label>
@@ -38,15 +40,15 @@
     <div id="assessments"></div>
   </section>
 
-  <section>
+  <section id="findings-section">
     <div class="sec-head"><h2>Findings</h2>
       <label>Status <select id="f-status"><option value="">all</option></select></label>
     </div>
-    <p class="mute small">What the documentation says beside what the code or the data shows. "Code reading" means the behaviour was read in the code and is not yet shown on data.</p>
+    <p class="mute small">What the documentation says beside what the code or the data shows. "Code reading" means the behaviour was read in the code and is not yet shown on data. Select a finding to open it; a finding the map shows has links under "On the map".</p>
     <div id="findings"></div>
   </section>
 
-  <section>
+  <section id="gaps-section">
     <div class="sec-head"><h2>Offered by the framework, not yet assessed</h2></div>
     <div id="gaps"></div>
   </section>
