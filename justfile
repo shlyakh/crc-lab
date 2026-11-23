@@ -23,6 +23,14 @@ fix:
     uv run ruff check --fix src tests
     uv run ruff format src tests
 
+# Releases of crc-sdk and crc-framework newer than the pins, with notes (network; changes nothing)
+upstream-check:
+    uv run python tools/upstream.py check
+
+# Move one pin to the next release: clone tag, hand-written versions, changelog row, uv lock and sync (--dry-run first)
+upstream-bump package version *flags:
+    uv run python tools/upstream.py bump {{package}} {{version}} {{flags}}
+
 # Rebuild every explorer data file from CRC Open and the Census boundary (needs the network)
 data:
     uv run python -m crc_data_explorer.build

@@ -1,6 +1,7 @@
 # Source validation: weekly check that nothing an assessment rests on has changed (V20, V21).
 # Asks each publisher about the files the assessments read (HEAD requests only), compares the
 # installed crc-sdk with the versions assessed, and lists entry points the inventory does not cover.
+# It also lists crc-sdk and crc-framework releases newer than the pins (tools/upstream.py; never fails).
 # It reports and fails when something needs attention. It never commits or publishes.
 name: validation-monitor
 on:
@@ -23,6 +24,11 @@ jobs:
         run: uv run python -m data_source_check.monitor
         continue-on-error: true
       - run: cat docs/validation/monitoring.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Upstream releases newer than the pins (report only)
+        run: uv run python tools/upstream.py check >> "$GITHUB_STEP_SUMMARY"
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - uses: actions/upload-artifact@v4
         with:
           name: validation-monitoring
