@@ -2,24 +2,22 @@
 
 A lab for working with [Climate Risk Commons](https://climateriskcommons.org/) (CRC) data, Texas first.
 
-**Now:** a data explorer — a catalogue of what CRC Open holds, and a map of Texas with eight of its hazard
-layers (hottest day, coldest night, wettest day, river flood, wind, fire weather, drought index, hot days).
+**Now:** three projects on one site (https://shlyakh.github.io/crc-lab/):
 
-**Coming, in this order, each after the previous is reviewed:**
+- **Texas hail risk** (`src/crc_lab/`, page `/hail/`): hail and gust curves from NOAA Storm Events, solar
+  plants with value and hail exposure, impact curves v0 and loss per plant.
+- **CRC data explorer** (`src/crc_data_explorer/`, page `/validation/explore/`): maps of what crc-sdk
+  reaches, for Texas, Fremont and the Rhine.
+- **Source validation** (`src/data_source_check/`, page `/validation/`): crc-sdk's data sources checked
+  against the publisher's originals, with a register of findings.
 
-1. NOAA Storm Events as a cleaned source on H3 cells, compared across two copies of the data.
-2. Hail and thunderstorm-gust hazard curves derived from it and brought into CRC.
-3. Asset sets: solar farms (energy) and real estate.
-
-Status: Phases 1–3 (explorer, Storm Events, hail and gust curves) built 2026-11-10, awaiting review. Branches:
-`sources-track` (other crc-sdk sources probed and prototyped) and `explorer-v2` (source-centric redo, IBTrACS first). See `docs/requirements.md`,
-`docs/implementation-plan.md` and `docs/reports/`. Earlier scope is in `docs/archive/`.
+Start with `docs/baseline-crc-sdk-0.11.1.md` (what exists and how it uses CRC), `AGENTS.md` (layout and
+rules) and `docs/upstream-updates.md` (how the pin follows CRC releases). One branch: `main`.
 
 ## Explorer
 
-Branch `explorer-v2`: the page is organised by source (cyclone tracks, storm reports, hail and gust curves,
-coastal water levels, station curves, ERA5 baseline, CRC Open projections); see
-`docs/reports/E2-explorer-v2.md`. The text below describes version 1 on main.
+The text below describes the first version of the CRC Open map; the explorer has since become
+source-centric (`docs/reports/E2-explorer-v2.md`, `docs/reports/6-explorer-redesign.md`).
 
 `site/` is a static page: a Texas map of eight CRC Open hazards on H3 cells (hazard, horizon and return
 period selectors; click a cell for its curve) and a catalogue of all 63 hazards in the release, generated
@@ -37,7 +35,7 @@ just serve     # http://127.0.0.1:8000
 just up        # one container (Caddy) on http://127.0.0.1:8080
 ```
 
-Sources track (branch `sources-track`, under review): the other crc-sdk sources as schematic layers,
+Other crc-sdk sources are shown as schematic layers,
 switched off by default: tropical cyclone tracks (IBTrACS), coastal water levels (NOAA CO-OPS) and airport
 station temperature curves (GHCNh). `just sources` builds them into `site/data/sources/`; the probes behind
 the choice are in `docs/sources-track/requirements.md`.

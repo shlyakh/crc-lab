@@ -2,6 +2,9 @@
 
 Current work (agreed 2026-11-10; explorer first, storm sources and assets deferred):
 
+- [Baseline on crc-sdk 0.11.1](baseline-crc-sdk-0.11.1.md): what exists, how it uses CRC, findings, what is
+  unreviewed (2026-11-23)
+- [Following CRC releases](upstream-updates.md): how the pin moves from one release to the next
 - [Requirements](requirements.md): CRC data explorer and severe-storm sources, Texas
 - [Requirements: hail impact functions v0](requirements-hail-impact-v0.md): first-approximation damage curves
   for solar plants, buildings and cars (built as Phase 5)
