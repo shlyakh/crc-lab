@@ -82,6 +82,10 @@ def _get(url: str) -> Any:
     return _open(url)
 
 
+#: tries per file; a download that fails part-way is started again from the beginning
+ATTEMPTS = 4
+
+
 def fetch(url: str, path: Path, *, live: bool) -> dict[str, Any]:
     """Download ``url`` whole (``live``, if not held) or reuse the copy; return its provenance.
 
@@ -100,10 +104,19 @@ def fetch(url: str, path: Path, *, live: bool) -> dict[str, Any]:
     headers: dict[str, str] = {}
     if not path.exists():
         temporary = path.with_name(path.name + ".part")
-        with _get(url) as response, temporary.open("wb") as target:
-            headers = {k.lower(): v for k, v in response.headers.items()}
-            for chunk in iter(lambda: response.read(1 << 20), b""):
-                target.write(chunk)
+        for attempt in range(ATTEMPTS):
+            try:
+                with _get(url) as response, temporary.open("wb") as target:
+                    headers = {k.lower(): v for k, v in response.headers.items()}
+                    for chunk in iter(lambda: response.read(1 << 20), b""):
+                        target.write(chunk)
+                break
+            except HTTPError:
+                raise
+            except OSError:  # a reset or a timeout part-way: start the file again
+                if attempt == ATTEMPTS - 1:
+                    raise
+                time.sleep(5 * (attempt + 1))
         os.replace(temporary, path)
         retrieved = datetime.now(UTC)
     else:  # fetched before its record was written: ask the publisher for the headers only

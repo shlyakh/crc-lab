@@ -1,6 +1,6 @@
 # NOAA GHCNh station temperatures: assessment
 
-Generated from the records of the run of 2026-11-12T04:34:47Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
+Generated from the records of the run of 2026-11-23T19:12:48Z against crc-framework 0.6.0, crc-sdk 0.11.2. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
 - **What the framework adds:** From NOAA's hourly station reports crc-sdk makes, per station and year, the highest and the lowest temperature of the year, using its own rules for which reports, days and years count. It then fits a curve per station: a generalized extreme value distribution to the maxima, a Gumbel distribution to the minima. The hourly reports themselves are not kept.
@@ -147,9 +147,9 @@ Licence, attribution, retrieval time, checksum, unit and probability convention 
 
 | Role | File | SHA-256 | Retrieved |
 | --- | --- | --- | --- |
-| reference download (Parquet) | by-year (592 files) | 0f445170ef39f1b6557ff6180c85111faf3fb394817bc6a07a3ab70852954cbf | 2026-11-12T04:23:27Z |
-| crc-sdk annual table | by-year |  |  |
-| reference download (pipe-separated) | by-year (8 files) | 335618cc39cb4e85a4ec7009f9383981ffa475fbe3989302893ac7c34df01522 | 2026-11-12T04:24:04Z |
+| reference download (Parquet) | by-year (592 files) | 0f445170ef39f1b6557ff6180c85111faf3fb394817bc6a07a3ab70852954cbf | 2026-11-23T17:52:31Z |
+| crc-sdk annual table | by-year |  | 2026-11-23T19:12:46Z |
+| reference download (pipe-separated) | by-year (8 files) | 335618cc39cb4e85a4ec7009f9383981ffa475fbe3989302893ac7c34df01522 | 2026-11-23T18:24:31Z |
 
 ## Findings
 
@@ -157,6 +157,6 @@ None.
 
 ## What this does not cover
 
-- A `confirmed` outcome holds for these files, these options and crc-framework 0.6.0, crc-sdk 0.11.1.
+- A `confirmed` outcome holds for these files, these options and crc-framework 0.6.0, crc-sdk 0.11.2.
 - Verification says nothing about whether the publisher's values are right.
 - Validation (fitness for a stated use) is not assessed.

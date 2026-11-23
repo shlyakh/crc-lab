@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = "AGPL-3.0-or-later"
 dependencies = [
-    "crc-sdk[geometry,zarr,raster,netcdf]==0.11.1",
+    "crc-sdk[geometry,zarr,raster,netcdf]==0.11.2",
     "crc-framework==0.6.0",
     "pandas>=2.2",
     "pyarrow>=17",

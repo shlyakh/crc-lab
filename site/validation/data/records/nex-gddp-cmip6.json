@@ -8,7 +8,7 @@
      "bytes": 181486832,
      "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
      "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -32,7 +32,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:07Z",
+   "run_at": "2026-11-23T20:56:56Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -63,7 +63,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -74,7 +74,7 @@
      "bytes": 181486832,
      "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
      "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -113,7 +113,7 @@
     "licence_in_file": "CC-BY-SA 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:07Z",
+   "run_at": "2026-11-23T20:56:56Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -128,7 +128,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -139,7 +139,7 @@
      "bytes": 181486832,
      "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
      "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -163,7 +163,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:07Z",
+   "run_at": "2026-11-23T20:56:57Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -194,7 +194,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -205,7 +205,7 @@
      "bytes": 181486832,
      "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
      "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -244,7 +244,7 @@
     "licence_in_file": "CC-BY-SA 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:07Z",
+   "run_at": "2026-11-23T20:56:57Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -259,61 +259,18 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "units[txx historical 2014 v1.0]",
-   "inputs": [
-    {
-     "bytes": 244241713,
-     "etag": "\"8fc2764d24b11ca08a1b57727fc4957a-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:51:14 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
-     "role": "reference download",
-     "sha256": "847806acd3790326d7cd62e68c5488dd6fbb1b5785d5deaad58affe43825cc72",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
-    }
-   ],
-   "method": "The unit the file declares against the unit crc-sdk requires for the recipe; a file that declares the required unit must be accepted.",
-   "note": "",
-   "outcome": "differs",
-   "result": {
-    "crc_sdk_error": "ValueError: 'tasmax' is published in \"b'K'\", but recipe 'txx' converts from 'K'; the conversion would be wrong",
-    "unit_in_file": "K",
-    "unit_required": "K"
-   },
-   "run_at": "2026-11-12T04:51:10Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "units-temperature"
-   ],
-   "summary": "the file declares 'K', the recipe requires 'K'; crc-sdk raises: ValueError: 'tasmax' is published in \"b'K'\", but recipe 'txx' converts from 'K'; the conversion would be wrong",
-   "tier": "verification",
-   "tolerance": {
-    "unit": "identical text"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual-fixed-clone[txx historical 2014 v1.0]",
+   "check": "annual[txx historical 2014 v1.0]",
    "inputs": [
     {
      "bytes": 244241713,
      "etag": "\"8fc2764d24b11ca08a1b57727fc4957a-30\"",
      "last_modified": "Mon, 19 Sep 2022 15:51:14 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "847806acd3790326d7cd62e68c5488dd6fbb1b5785d5deaad58affe43825cc72",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -323,13 +280,13 @@
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows the local clone with the fix returns, in order.",
+   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
     "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/forks/crc-sdk/crc_sdk",
+    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
     "rows_framework": 2158,
@@ -337,7 +294,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:10Z",
+   "run_at": "2026-11-23T20:56:59Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -349,7 +306,17 @@
    },
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
-   "steps": [],
+   "steps": [
+    "files",
+    "identity",
+    "time",
+    "area",
+    "missing",
+    "completeness",
+    "output",
+    "units-temperature",
+    "statistic-temperature"
+   ],
    "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
@@ -358,61 +325,83 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1 with the fix of CRC-001-NEX (local clone)"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "consistency",
-   "check": "units[tnn historical 2014 v1.0]",
+   "check": "labels[txx historical 2014 v1.0]",
    "inputs": [
     {
-     "bytes": 246019356,
-     "etag": "\"1e9aa34b3459328835573cf2708b292d-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:53:54 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "bytes": 244241713,
+     "etag": "\"8fc2764d24b11ca08a1b57727fc4957a-30\"",
+     "last_modified": "Mon, 19 Sep 2022 15:51:14 GMT",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
-     "sha256": "d1e0011ca0fd83b37a33640ac66a5e1ef7ffb5a75c7b1dc737a6f9822bc30bfc",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "847806acd3790326d7cd62e68c5488dd6fbb1b5785d5deaad58affe43825cc72",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
     },
     {
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
     }
    ],
-   "method": "The unit the file declares against the unit crc-sdk requires for the recipe; a file that declares the required unit must be accepted.",
+   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
    "note": "",
-   "outcome": "differs",
+   "outcome": "confirmed",
    "result": {
-    "crc_sdk_error": "ValueError: 'tasmin' is published in \"b'K'\", but recipe 'tnn' converts from 'K'; the conversion would be wrong",
-    "unit_in_file": "K",
-    "unit_required": "K"
+    "columns": [
+     "year",
+     "latitude",
+     "longitude",
+     "value",
+     "unit",
+     "recipe",
+     "model",
+     "scenario",
+     "member",
+     "grid_label",
+     "version",
+     "calendar",
+     "source_url",
+     "retrieved_at",
+     "archive_licence",
+     "archive_licence_url",
+     "original_model_licence",
+     "attribution"
+    ],
+    "has_checksum_column": false,
+    "labels_wrong": {},
+    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:12Z",
+   "run_at": "2026-11-23T20:56:59Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "units-temperature"
+    "labels",
+    "licence"
    ],
-   "summary": "the file declares 'K', the recipe requires 'K'; crc-sdk raises: ValueError: 'tasmin' is published in \"b'K'\", but recipe 'tnn' converts from 'K'; the conversion would be wrong",
+   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
    "tier": "verification",
    "tolerance": {
-    "unit": "identical text"
+    "labels": "identical text"
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual-fixed-clone[tnn historical 2014 v1.0]",
+   "check": "annual[tnn historical 2014 v1.0]",
    "inputs": [
     {
      "bytes": 246019356,
      "etag": "\"1e9aa34b3459328835573cf2708b292d-30\"",
      "last_modified": "Mon, 19 Sep 2022 15:53:54 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "d1e0011ca0fd83b37a33640ac66a5e1ef7ffb5a75c7b1dc737a6f9822bc30bfc",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
@@ -422,13 +411,13 @@
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows the local clone with the fix returns, in order.",
+   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
     "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/forks/crc-sdk/crc_sdk",
+    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
     "rows_framework": 2158,
@@ -436,7 +425,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:12Z",
+   "run_at": "2026-11-23T20:57:02Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -448,7 +437,17 @@
    },
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
-   "steps": [],
+   "steps": [
+    "files",
+    "identity",
+    "time",
+    "area",
+    "missing",
+    "completeness",
+    "output",
+    "units-temperature",
+    "statistic-temperature"
+   ],
    "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
@@ -457,7 +456,72 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1 with the fix of CRC-001-NEX (local clone)"
+    "crc-sdk": "0.11.2"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "labels[tnn historical 2014 v1.0]",
+   "inputs": [
+    {
+     "bytes": 246019356,
+     "etag": "\"1e9aa34b3459328835573cf2708b292d-30\"",
+     "last_modified": "Mon, 19 Sep 2022 15:53:54 GMT",
+     "retrieved_at": "2026-11-23T20:49:23Z",
+     "role": "reference download",
+     "sha256": "d1e0011ca0fd83b37a33640ac66a5e1ef7ffb5a75c7b1dc737a6f9822bc30bfc",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+    },
+    {
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+    }
+   ],
+   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns": [
+     "year",
+     "latitude",
+     "longitude",
+     "value",
+     "unit",
+     "recipe",
+     "model",
+     "scenario",
+     "member",
+     "grid_label",
+     "version",
+     "calendar",
+     "source_url",
+     "retrieved_at",
+     "archive_licence",
+     "archive_licence_url",
+     "original_model_licence",
+     "attribution"
+    ],
+    "has_checksum_column": false,
+    "labels_wrong": {},
+    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_warning_raised": true
+   },
+   "run_at": "2026-11-23T20:57:02Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "labels",
+    "licence"
+   ],
+   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "tier": "verification",
+   "tolerance": {
+    "labels": "identical text"
+   },
+   "versions": {
+    "crc-framework": "0.6.0",
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -468,7 +532,7 @@
      "bytes": 219045111,
      "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
      "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
@@ -492,7 +556,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:15Z",
+   "run_at": "2026-11-23T20:57:04Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -523,7 +587,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -534,7 +598,7 @@
      "bytes": 219045111,
      "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
      "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
@@ -573,7 +637,7 @@
     "licence_in_file": "CC-BY 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:15Z",
+   "run_at": "2026-11-23T20:57:04Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -588,7 +652,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -599,7 +663,7 @@
      "bytes": 181597715,
      "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
      "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-12T04:38:55Z",
+     "retrieved_at": "2026-11-23T20:50:30Z",
      "role": "reference download",
      "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -623,7 +687,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:17Z",
+   "run_at": "2026-11-23T20:57:07Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -654,7 +718,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -665,7 +729,7 @@
      "bytes": 181597715,
      "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
      "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-12T04:38:55Z",
+     "retrieved_at": "2026-11-23T20:50:30Z",
      "role": "reference download",
      "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -704,7 +768,7 @@
     "licence_in_file": "CC-BY-SA 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:17Z",
+   "run_at": "2026-11-23T20:57:07Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -719,7 +783,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -730,7 +794,7 @@
      "bytes": 181597715,
      "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
      "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-12T04:38:55Z",
+     "retrieved_at": "2026-11-23T20:50:30Z",
      "role": "reference download",
      "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -754,7 +818,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:17Z",
+   "run_at": "2026-11-23T20:57:07Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -785,7 +849,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -796,7 +860,7 @@
      "bytes": 181597715,
      "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
      "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-12T04:38:55Z",
+     "retrieved_at": "2026-11-23T20:50:30Z",
      "role": "reference download",
      "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -835,7 +899,7 @@
     "licence_in_file": "CC-BY-SA 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:17Z",
+   "run_at": "2026-11-23T20:57:07Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -850,61 +914,18 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "units[txx ssp585 2050 v1.0]",
-   "inputs": [
-    {
-     "bytes": 244210393,
-     "etag": "\"cb9d0b0a57d651ef292a8772e7dc9c20-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:53:29 GMT",
-     "retrieved_at": "2026-11-12T04:38:13Z",
-     "role": "reference download",
-     "sha256": "92f77b3e5f95f71dc79c4638295db401bd3ac460113b96c1246ca41a3f5abc5d",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    }
-   ],
-   "method": "The unit the file declares against the unit crc-sdk requires for the recipe; a file that declares the required unit must be accepted.",
-   "note": "",
-   "outcome": "differs",
-   "result": {
-    "crc_sdk_error": "ValueError: 'tasmax' is published in \"b'K'\", but recipe 'txx' converts from 'K'; the conversion would be wrong",
-    "unit_in_file": "K",
-    "unit_required": "K"
-   },
-   "run_at": "2026-11-12T04:51:20Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "units-temperature"
-   ],
-   "summary": "the file declares 'K', the recipe requires 'K'; crc-sdk raises: ValueError: 'tasmax' is published in \"b'K'\", but recipe 'txx' converts from 'K'; the conversion would be wrong",
-   "tier": "verification",
-   "tolerance": {
-    "unit": "identical text"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual-fixed-clone[txx ssp585 2050 v1.0]",
+   "check": "annual[txx ssp585 2050 v1.0]",
    "inputs": [
     {
      "bytes": 244210393,
      "etag": "\"cb9d0b0a57d651ef292a8772e7dc9c20-30\"",
      "last_modified": "Mon, 19 Sep 2022 17:53:29 GMT",
-     "retrieved_at": "2026-11-12T04:38:13Z",
+     "retrieved_at": "2026-11-23T20:50:53Z",
      "role": "reference download",
      "sha256": "92f77b3e5f95f71dc79c4638295db401bd3ac460113b96c1246ca41a3f5abc5d",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -914,13 +935,13 @@
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows the local clone with the fix returns, in order.",
+   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
     "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/forks/crc-sdk/crc_sdk",
+    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
     "rows_framework": 2158,
@@ -928,7 +949,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:20Z",
+   "run_at": "2026-11-23T20:57:10Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -940,7 +961,17 @@
    },
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
-   "steps": [],
+   "steps": [
+    "files",
+    "identity",
+    "time",
+    "area",
+    "missing",
+    "completeness",
+    "output",
+    "units-temperature",
+    "statistic-temperature"
+   ],
    "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
@@ -949,61 +980,83 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1 with the fix of CRC-001-NEX (local clone)"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "consistency",
-   "check": "units[tnn ssp585 2050 v1.0]",
+   "check": "labels[txx ssp585 2050 v1.0]",
    "inputs": [
     {
-     "bytes": 245746209,
-     "etag": "\"df0dfaaa7656abbc0244b28944baea18-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:56:31 GMT",
-     "retrieved_at": "2026-11-12T04:38:35Z",
+     "bytes": 244210393,
+     "etag": "\"cb9d0b0a57d651ef292a8772e7dc9c20-30\"",
+     "last_modified": "Mon, 19 Sep 2022 17:53:29 GMT",
+     "retrieved_at": "2026-11-23T20:50:53Z",
      "role": "reference download",
-     "sha256": "ac4c70727bdc0b183b2765d53c6fe642097adb37067f0a308fb5bf6dc5caebe4",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "92f77b3e5f95f71dc79c4638295db401bd3ac460113b96c1246ca41a3f5abc5d",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
     },
     {
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
     }
    ],
-   "method": "The unit the file declares against the unit crc-sdk requires for the recipe; a file that declares the required unit must be accepted.",
+   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
    "note": "",
-   "outcome": "differs",
+   "outcome": "confirmed",
    "result": {
-    "crc_sdk_error": "ValueError: 'tasmin' is published in \"b'K'\", but recipe 'tnn' converts from 'K'; the conversion would be wrong",
-    "unit_in_file": "K",
-    "unit_required": "K"
+    "columns": [
+     "year",
+     "latitude",
+     "longitude",
+     "value",
+     "unit",
+     "recipe",
+     "model",
+     "scenario",
+     "member",
+     "grid_label",
+     "version",
+     "calendar",
+     "source_url",
+     "retrieved_at",
+     "archive_licence",
+     "archive_licence_url",
+     "original_model_licence",
+     "attribution"
+    ],
+    "has_checksum_column": false,
+    "labels_wrong": {},
+    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:22Z",
+   "run_at": "2026-11-23T20:57:10Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "units-temperature"
+    "labels",
+    "licence"
    ],
-   "summary": "the file declares 'K', the recipe requires 'K'; crc-sdk raises: ValueError: 'tasmin' is published in \"b'K'\", but recipe 'tnn' converts from 'K'; the conversion would be wrong",
+   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
    "tier": "verification",
    "tolerance": {
-    "unit": "identical text"
+    "labels": "identical text"
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual-fixed-clone[tnn ssp585 2050 v1.0]",
+   "check": "annual[tnn ssp585 2050 v1.0]",
    "inputs": [
     {
      "bytes": 245746209,
      "etag": "\"df0dfaaa7656abbc0244b28944baea18-30\"",
      "last_modified": "Mon, 19 Sep 2022 17:56:31 GMT",
-     "retrieved_at": "2026-11-12T04:38:35Z",
+     "retrieved_at": "2026-11-23T20:50:53Z",
      "role": "reference download",
      "sha256": "ac4c70727bdc0b183b2765d53c6fe642097adb37067f0a308fb5bf6dc5caebe4",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
@@ -1013,13 +1066,13 @@
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows the local clone with the fix returns, in order.",
+   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
     "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/forks/crc-sdk/crc_sdk",
+    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
     "rows_framework": 2158,
@@ -1027,7 +1080,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:22Z",
+   "run_at": "2026-11-23T20:57:13Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1039,7 +1092,17 @@
    },
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
-   "steps": [],
+   "steps": [
+    "files",
+    "identity",
+    "time",
+    "area",
+    "missing",
+    "completeness",
+    "output",
+    "units-temperature",
+    "statistic-temperature"
+   ],
    "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
@@ -1048,7 +1111,72 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1 with the fix of CRC-001-NEX (local clone)"
+    "crc-sdk": "0.11.2"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "labels[tnn ssp585 2050 v1.0]",
+   "inputs": [
+    {
+     "bytes": 245746209,
+     "etag": "\"df0dfaaa7656abbc0244b28944baea18-30\"",
+     "last_modified": "Mon, 19 Sep 2022 17:56:31 GMT",
+     "retrieved_at": "2026-11-23T20:50:53Z",
+     "role": "reference download",
+     "sha256": "ac4c70727bdc0b183b2765d53c6fe642097adb37067f0a308fb5bf6dc5caebe4",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+    },
+    {
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+    }
+   ],
+   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns": [
+     "year",
+     "latitude",
+     "longitude",
+     "value",
+     "unit",
+     "recipe",
+     "model",
+     "scenario",
+     "member",
+     "grid_label",
+     "version",
+     "calendar",
+     "source_url",
+     "retrieved_at",
+     "archive_licence",
+     "archive_licence_url",
+     "original_model_licence",
+     "attribution"
+    ],
+    "has_checksum_column": false,
+    "labels_wrong": {},
+    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_warning_raised": true
+   },
+   "run_at": "2026-11-23T20:57:13Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "labels",
+    "licence"
+   ],
+   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "tier": "verification",
+   "tolerance": {
+    "labels": "identical text"
+   },
+   "versions": {
+    "crc-framework": "0.6.0",
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1059,7 +1187,7 @@
      "bytes": 217778915,
      "etag": "\"798d00398ef871b0ec8ca49d5c25857f-26\"",
      "last_modified": "Tue, 26 Mar 2024 16:36:39 GMT",
-     "retrieved_at": "2026-11-12T04:38:57Z",
+     "retrieved_at": "2026-11-23T20:50:49Z",
      "role": "reference download",
      "sha256": "26c959a88b8cca29a1bb3fcae5cc11832d215789f7a8ec2b681a857e53164108",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
@@ -1083,7 +1211,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:24Z",
+   "run_at": "2026-11-23T20:57:15Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1114,7 +1242,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1125,7 +1253,7 @@
      "bytes": 217778915,
      "etag": "\"798d00398ef871b0ec8ca49d5c25857f-26\"",
      "last_modified": "Tue, 26 Mar 2024 16:36:39 GMT",
-     "retrieved_at": "2026-11-12T04:38:57Z",
+     "retrieved_at": "2026-11-23T20:50:49Z",
      "role": "reference download",
      "sha256": "26c959a88b8cca29a1bb3fcae5cc11832d215789f7a8ec2b681a857e53164108",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
@@ -1164,7 +1292,7 @@
     "licence_in_file": "CC-BY 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:24Z",
+   "run_at": "2026-11-23T20:57:15Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -1179,7 +1307,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1190,7 +1318,7 @@
      "bytes": 219045111,
      "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
      "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
@@ -1214,7 +1342,7 @@
     "values_compared": 8632,
     "values_differing": 0
    },
-   "run_at": "2026-11-12T04:51:25Z",
+   "run_at": "2026-11-23T20:57:15Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1245,7 +1373,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1256,7 +1384,7 @@
      "bytes": 219045111,
      "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
      "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-12T04:37:44Z",
+     "retrieved_at": "2026-11-23T20:49:23Z",
      "role": "reference download",
      "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
      "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
@@ -1295,7 +1423,7 @@
     "licence_in_file": "CC-BY 4.0",
     "licence_warning_raised": true
    },
-   "run_at": "2026-11-12T04:51:25Z",
+   "run_at": "2026-11-23T20:57:15Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -1310,7 +1438,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1329,7 +1457,7 @@
     "crc_sdk_error": "FileNotFoundError: https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.2.nc",
     "rows_returned": 0
    },
-   "run_at": "2026-11-12T04:51:25Z",
+   "run_at": "2026-11-23T20:57:15Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -1343,7 +1471,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1442,7 +1570,7 @@
      "2.0"
     ]
    },
-   "run_at": "2026-11-12T04:51:25Z",
+   "run_at": "2026-11-23T20:57:25Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
@@ -1456,7 +1584,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   }
  ],
@@ -1630,52 +1758,12 @@
    },
    {
     "cells": 2158,
-    "cells_differing": 15,
-    "cells_only_in_one": 0,
-    "largest_difference": 0.08104713633656502,
-    "recipe": "rx1day",
-    "scenario": "historical",
-    "version": "2.0",
-    "year": 2014
-   },
-   {
-    "cells": 2158,
-    "cells_differing": 0,
-    "cells_only_in_one": 0,
-    "largest_difference": 0.0,
-    "recipe": "txx",
-    "scenario": "historical",
-    "version": "2.0",
-    "year": 2014
-   },
-   {
-    "cells": 2158,
     "cells_differing": 42,
     "cells_only_in_one": 0,
     "largest_difference": 0.8431758731603622,
     "recipe": "rx1day",
     "scenario": "ssp585",
     "version": "1.1",
-    "year": 2050
-   },
-   {
-    "cells": 2158,
-    "cells_differing": 42,
-    "cells_only_in_one": 0,
-    "largest_difference": 0.8431758731603622,
-    "recipe": "rx1day",
-    "scenario": "ssp585",
-    "version": "2.0",
-    "year": 2050
-   },
-   {
-    "cells": 2158,
-    "cells_differing": 0,
-    "cells_only_in_one": 0,
-    "largest_difference": 0.0,
-    "recipe": "txx",
-    "scenario": "ssp585",
-    "version": "2.0",
     "year": 2050
    }
   ],
@@ -1748,11 +1836,10 @@
    }
   ]
  },
- "fixed_clone": "/Users/yuri/work/crc/forks/crc-sdk",
  "framework": "crc-sdk",
  "headline": [
   [
-   15106,
+   23738,
    "cell values compared, installed version"
   ],
   [
@@ -1760,22 +1847,20 @@
    "values that differ"
   ],
   [
-   8632,
-   "cell values compared with the fix"
-  ],
-  [
-   "19 of 24",
+   "23 of 24",
    "checks confirmed"
   ],
   [
-   5,
+   1,
    "checks that differ"
   ]
  ],
  "options_assessed": {
   "recipe": [
    "rx1day",
-   "rx5day"
+   "rx5day",
+   "tnn",
+   "txx"
   ],
   "scenario": [
    "historical",
@@ -1786,7 +1871,7 @@
    "1.1"
   ]
  },
- "run_at": "2026-11-12T04:51:25Z",
+ "run_at": "2026-11-23T20:57:25Z",
  "schema": "data_source_check/0.1",
  "selection": {
   "bounds": [
@@ -2053,48 +2138,12 @@
     ],
     [
      "rx1day",
-     "historical",
-     "2014",
-     "2.0",
-     2158,
-     15,
-     "0.081"
-    ],
-    [
-     "txx",
-     "historical",
-     "2014",
-     "2.0",
-     2158,
-     0,
-     "0"
-    ],
-    [
-     "rx1day",
      "ssp585",
      "2050",
      "1.1",
      2158,
      42,
      "0.843"
-    ],
-    [
-     "rx1day",
-     "ssp585",
-     "2050",
-     "2.0",
-     2158,
-     42,
-     "0.843"
-    ],
-    [
-     "txx",
-     "ssp585",
-     "2050",
-     "2.0",
-     2158,
-     0,
-     "0"
     ]
    ],
    "title": "Do the file versions give different annual values?"
@@ -2102,6 +2151,6 @@
  ],
  "versions": {
   "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.1"
+  "crc-sdk": "0.11.2"
  }
 }

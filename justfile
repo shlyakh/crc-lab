@@ -31,6 +31,16 @@ upstream-check:
 upstream-bump package version *flags:
     uv run python tools/upstream.py bump {{package}} {{version}} {{flags}}
 
+# Upstream names our code uses that the installed crc-sdk or crc-framework no longer has (offline; exit 1 if any)
+upstream-surface:
+    uv run python tools/crc_surface.py check
+
+# After a pin move, in minutes: names we use that are gone, offline tests, quick staged re-runs (network)
+release-check:
+    uv run python tools/crc_surface.py check
+    -uv run pytest -q
+    uv run python -m data_source_check.monitor --rerun --profile quick
+
 # Rebuild every explorer data file from CRC Open and the Census boundary (needs the network)
 data:
     uv run python -m crc_data_explorer.build
@@ -99,8 +109,8 @@ validation-monitor:
     uv run python -m data_source_check.monitor
 
 # Source validation: also re-run what is stale into a staging folder (does not publish)
-validation-monitor-rerun:
-    uv run python -m data_source_check.monitor --rerun
+validation-monitor-rerun *flags:
+    uv run python -m data_source_check.monitor --rerun {{flags}}
 
 # Source validation: publish a staged re-run after reading docs/validation/monitoring.md
 validation-accept source:

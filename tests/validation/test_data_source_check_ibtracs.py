@@ -33,7 +33,8 @@ def fake_urlopen(request, timeout=None):  # noqa: ANN001, ANN201
         return Response(
             b'<a href="ibtracs.ACTIVE.list.v04r01.csv">x</a> <a href="ibtracs.NA.list.v04r01.csv">'
         )
-    if "ibtracs.NA." not in address:
+    # NOAA serves the active storms under the name ACTIVE; nothing is served for EP here
+    if "ibtracs.NA." not in address and "ibtracs.ACTIVE." not in address:
         raise HTTPError(address, 404, "Not Found", None, None)  # type: ignore[arg-type]
     return Response(SAMPLE.read_bytes())
 
@@ -44,10 +45,12 @@ def served(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr("crc_sdk.workflows.ibtracs.urlopen", fake_urlopen)
 
 
-def run(tmp_path: Path, *, live: bool = True, **more: object) -> dict:
+def run(
+    tmp_path: Path, *, live: bool = True, offered: list[str] | None = None, **more: object
+) -> dict:
     return assessment.assess(
-        ["NA", "active"],
-        OFFERED,
+        ["NA", "EP"],
+        OFFERED if offered is None else offered,
         tmp_path,
         tmp_path / "crc-sdk",
         live=live,
@@ -78,13 +81,20 @@ def test_reference_reader_applies_the_two_rules() -> None:
 def test_assessment_confirms_every_step_on_the_excerpt(tmp_path: Path, served: None) -> None:
     records = run(tmp_path)
     got = outcomes(records)
-    assert got.pop("address") == "differs"  # "active" is accepted by crc-sdk and not served
+    assert got.pop("address") == "confirmed"  # "active" is requested as ACTIVE (CRC-010-IBT, fixed)
     assert set(got.values()) == {"confirmed"} and len(got) == 7
-    assert records["subsets_assessed"] == ["NA"] and "active" in records["subsets_skipped"]
+    assert records["subsets_assessed"] == ["NA"] and "EP" in records["subsets_skipped"]
     values = next(c for c in records["checks"] if c["check"] == "values[NA]")
     assert values["result"]["values_compared"] == values["result"]["rows_reference"] * 174
     assert values["inputs"][0]["sha256"] == reference.sha256(SAMPLE)
     assert records["exploration"]["NA"]["storms"] == 3
+
+
+def test_a_subset_noaa_does_not_serve_ends_as_differs(tmp_path: Path, served: None) -> None:
+    records = run(tmp_path, offered=["NA", "active", "EP"])
+    address = next(c for c in records["checks"] if c["check"] == "address")
+    assert address["outcome"] == "differs" and address["result"]["not_served"] == {"EP": 404}
+    assert records["subsets_assessed"] == ["NA"] and "EP" in records["subsets_skipped"]
 
 
 @pytest.mark.parametrize(
@@ -105,7 +115,7 @@ def test_a_wrong_reference_rule_ends_as_differs(
 ) -> None:
     """A check that cannot fail proves nothing: break one rule and the comparison must differ."""
     got = outcomes(run(tmp_path, rules=rules))
-    assert {name for name, value in got.items() if value == "differs"} == expected | {"address"}
+    assert {name for name, value in got.items() if value == "differs"} == expected
 
 
 def test_a_changed_file_ends_as_differs(tmp_path: Path, served: None) -> None:
@@ -163,7 +173,8 @@ def test_committed_records_match_the_inventory() -> None:
     assert sorted(source.assessed_options["subset"]) == records["subsets_assessed"]
     assessed = build.with_outcomes(source, records)
     by_step = {step.id: step.outcome for step in assessed.statement}
-    assert by_step["address"] == "differs" and by_step["reuse"] == "not checked"
+    # "address" differed until crc-sdk 0.11.2 (CRC-010-IBT)
+    assert by_step["address"] == "confirmed" and by_step["reuse"] == "not checked"
     assert all(v == "confirmed" for k, v in by_step.items() if k not in ("address", "reuse"))
     used = {step for check in records["checks"] for step in check["steps"]}
     assert used <= set(by_step)  # no check points at a step the statement lacks

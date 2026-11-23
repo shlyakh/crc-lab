@@ -7,6 +7,11 @@ from typing import Any
 from .records import ASSESSMENT_TIERS, Finding, Source
 
 
+def _status(finding: Any) -> str:
+    """A finding's status, with the version that fixed it where there is one."""
+    return f"{finding.status} in {finding.fixed_in}" if finding.fixed_in else finding.status
+
+
 def _cell(text: object) -> str:
     return str(text).replace("|", "\\|").replace("\n", " ")
 
@@ -86,7 +91,7 @@ def inventory_markdown(
     lines += ["## Findings", ""]
     lines += _table(
         ["Id", "Source", "Kind", "Finding", "Basis", "Status"],
-        [[f.id, f.source, f.kind, f.title, f.basis, f.status] for f in findings],
+        [[f.id, f.source, f.kind, f.title, f.basis, _status(f)] for f in findings],
     )
     for finding in findings:
         lines += ["", f"### {finding.id}: {finding.title}", ""]
@@ -97,7 +102,7 @@ def inventory_markdown(
             lines += [f"- **Consequence:** {finding.consequence}"]
         lines += [
             f"- **Evidence:** {'; '.join(finding.evidence)}",
-            f"- **Basis:** {finding.basis} · **Status:** {finding.status}"
+            f"- **Basis:** {finding.basis} · **Status:** {_status(finding)}"
             + (f" ({finding.upstream_ref})" if finding.upstream_ref else "")
             + f" · found {finding.found_on} at {framework} {finding.framework_version}",
         ]
@@ -229,7 +234,7 @@ def source_markdown(source: Source, records: dict[str, Any], findings: list[Find
     if findings:
         lines += _table(
             ["Id", "Kind", "Finding", "Basis", "Status"],
-            [[f.id, f.kind, f.title, f.basis, f.status] for f in findings],
+            [[f.id, f.kind, f.title, f.basis, _status(f)] for f in findings],
         )
         lines += ["", "Details are in [the inventory](../inventory.md#findings)."]
     else:

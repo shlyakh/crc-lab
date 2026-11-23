@@ -25,6 +25,7 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+from time import sleep
 from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -78,6 +79,10 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+#: tries per file; a download that fails part-way is started again from the beginning
+ATTEMPTS = 4
+
+
 def download(station: str, year: int, kind: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
     """Fetch one station-year file, or reuse the cached copy. A 404 is recorded, not raised."""
     folder = cache_dir / kind
@@ -102,13 +107,23 @@ def download(station: str, year: int, kind: str, cache_dir: Path, *, live: bool)
     fd, name = tempfile.mkstemp(dir=folder, prefix="download-", suffix=".tmp")
     temp = Path(name)
     try:
+        os.close(fd)
         try:
             request = Request(address, headers={"User-Agent": USER_AGENT})
-            with os.fdopen(fd, "wb") as target, urlopen(request, timeout=300) as response:
-                while chunk := response.read(1 << 20):
-                    target.write(chunk)
-                record["etag"] = response.headers.get("ETag")
-                record["last_modified"] = response.headers.get("Last-Modified")
+            for attempt in range(ATTEMPTS):
+                try:
+                    with temp.open("wb") as target, urlopen(request, timeout=300) as response:
+                        while chunk := response.read(1 << 20):
+                            target.write(chunk)
+                        record["etag"] = response.headers.get("ETag")
+                        record["last_modified"] = response.headers.get("Last-Modified")
+                    break
+                except HTTPError:
+                    raise
+                except OSError:  # a reset or a timeout part-way: NOAA drops some of 1,000 requests
+                    if attempt == ATTEMPTS - 1:
+                        raise
+                    sleep(5 * (attempt + 1))
             record["bytes"] = temp.stat().st_size
             record["sha256"] = sha256(temp)
             os.replace(temp, path)

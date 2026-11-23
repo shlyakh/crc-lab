@@ -71,6 +71,8 @@ AREAS = (
     Area("glofas-fremont", "glofas", FREMONT, "native", "Fremont, California"),
     Area("efas-rhine", "efas", RHINE, 7, "Rhine, Bonn to Mainz"),
 )
+#: the areas of a quick run: everything but the state-sized box, whose fit takes about 27 minutes
+QUICK_AREAS = tuple(area for area in AREAS if area.id != "glofas-tx")
 OUTSIDE = (
     Area("efas-tx", "efas", TEXAS, 7, "Texas box"),
     Area("efas-fremont", "efas", FREMONT, "native", "Fremont, California"),

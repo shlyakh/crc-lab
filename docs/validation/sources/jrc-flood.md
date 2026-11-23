@@ -1,6 +1,6 @@
 # JRC flood hazard maps (GloFAS, EFAS): assessment
 
-Generated from the records of the run of 2026-11-17T15:54:08Z against crc-framework 0.6.0, crc-sdk 0.11.1. **Draft: not yet reviewed.**
+Generated from the records of the run of 2026-11-23T20:49:23Z against crc-framework 0.6.0, crc-sdk 0.11.2. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
 - **What the framework adds:** From JRC's maps of flood depth at fixed return periods crc-sdk makes one fitted curve per map pixel (a Gumbel distribution by least squares), so that a depth can be read at any return period, and places each pixel on the H3 cells it overlaps. The published depths themselves are not kept, and a pixel with fewer than four depths gets no curve.
@@ -19,11 +19,11 @@ Counted from the publisher's files by the reference reader. A pixel is wet at a 
 
 | Area | Dataset | H3 | Tiles | Pixels in box | Wet at the shortest | Wet at the longest | Wet at any | With a curve | Deepest (m) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Texas box | glofas | 7 | 4 | 201,757,502 | 9,255,575 | 10,744,960 | 11,686,210 | 9,853,959 | 108.23 |
-| Houston | glofas | 9 | 2 | 1,298,281 | 186,964 | 233,922 | 278,654 | 212,949 | 10.14 |
-| Austin | glofas | 9 | 2 | 361,201 | 20,396 | 23,584 | 25,494 | 22,201 | 21.83 |
-| Fremont, California | glofas | 10 | 1 | 87,001 | 7,972 | 9,636 | 10,603 | 7,869 | 20.55 |
-| Rhine, Bonn to Mainz | efas | 7 | 1 | 2,595,241 | 123,586 | 146,732 | 161,898 | 143,074 | 22.86 |
+| Texas box | glofas | 7 | 4 | 201,757,502 | 9,255,575 | 11,686,209 | 11,686,210 | 9,853,959 | 108.23 |
+| Houston | glofas | 9 | 2 | 1,298,281 | 186,964 | 278,654 | 278,654 | 212,949 | 10.14 |
+| Austin | glofas | 9 | 2 | 361,201 | 20,396 | 25,494 | 25,494 | 22,201 | 21.83 |
+| Fremont, California | glofas | 10 | 1 | 87,001 | 7,972 | 10,603 | 10,603 | 7,869 | 20.55 |
+| Rhine, Bonn to Mainz | efas | 7 | 1 | 2,595,241 | 123,586 | 161,898 | 161,898 | 143,074 | 22.86 |
 
 ### Wet pixels that get no curve
 
@@ -91,13 +91,13 @@ One run per area, reading the publisher over the network into an empty cache. Me
 
 | Area | Rows | Seconds | Process peak memory (MB) | Outcome |
 | --- | --- | --- | --- | --- |
-| glofas-tx | 10,703,386 | 1603.6 | 5,804 | completed |
-| glofas-houston | 354,477 | 53.7 | 2,176 | completed |
-| glofas-austin | 36,803 | 10.4 | 2,176 | completed |
-| glofas-fremont | 23,702 | 10.0 | 2,176 | completed |
-| efas-rhine | 154,825 | 34.9 | 2,176 | completed |
-| efas-tx | 0 | 1.0 |  | LookupError: no JRC resources intersect area (-106.645646, 25.837377, -93.508292, 36.500704) |
-| efas-fremont | 0 | 0.7 |  | LookupError: no JRC resources intersect area (-122.15, 37.42, -121.85, 37.62) |
+| glofas-tx | 10,703,386 | 1605.5 | 7,711 | completed |
+| glofas-houston | 354,477 | 45.5 | 7,711 | completed |
+| glofas-austin | 36,803 | 12.1 | 7,711 | completed |
+| glofas-fremont | 23,702 | 9.1 | 7,711 | completed |
+| efas-rhine | 154,825 | 42.3 | 7,711 | completed |
+| efas-tx | 0 | 7.2 |  | LookupError: no JRC resources intersect area (-106.645646, 25.837377, -93.508292, 36.500704) |
+| efas-fremont | 0 | 0.8 |  | LookupError: no JRC resources intersect area (-122.15, 37.42, -121.85, 37.62) |
 
 ### The publisher's releases
 
@@ -395,15 +395,15 @@ Notebook outputs as saved at crc-docs c6f78fb. Same box, dataset, policy, resolu
 | --- | --- | --- |
 | Curve rows crc-sdk returned | 154,532 | 154,825 |
 | Cells at or above 0.5 m | 742 | 743 |
-| Hessen: mean depth (m) | 5.36 | 5.34 |
-| Hessen: largest depth (m) | 15.39 | 15.39 |
-| Hessen: cells | 205 | 206 |
-| Nordrhein-Westfalen: mean depth (m) | 7.27 | 7.27 |
-| Nordrhein-Westfalen: largest depth (m) | 16.05 | 16.05 |
-| Nordrhein-Westfalen: cells | 98 | 98 |
 | Rheinland-Pfalz: mean depth (m) | 7.68 | 7.68 |
 | Rheinland-Pfalz: largest depth (m) | 21.86 | 21.86 |
 | Rheinland-Pfalz: cells | 508 | 508 |
+| Nordrhein-Westfalen: mean depth (m) | 7.27 | 7.27 |
+| Nordrhein-Westfalen: largest depth (m) | 16.05 | 16.05 |
+| Nordrhein-Westfalen: cells | 98 | 98 |
+| Hessen: mean depth (m) | 5.36 | 5.34 |
+| Hessen: largest depth (m) | 15.39 | 15.39 |
+| Hessen: cells | 205 | 206 |
 | Places in those cells | 62,717 Overture places (release 2026-08-19.0, no longer hosted): not reproduced | not computed |
 
 ## Comparisons with outside evidence (no verdict)
@@ -443,7 +443,7 @@ Limits:
 - The zone polygons were generalised by the service to about 1 m and 431 of 21289 are not valid polygons after that; they were rasterised as they came.
 - A pixel is about 90 m; a zone narrower than that can be missed.
 
-Evidence: FEMA National Flood Hazard Layer, flood hazard zones (layer 28); retrieved 2026-11-17; none stated by the service; a U.S. federal government work.
+Evidence: FEMA National Flood Hazard Layer, flood hazard zones (layer 28); retrieved 2026-11-23; none stated by the service; a U.S. federal government work.
 
 ### USGS gauge peaks against the map's depth at the gauge: Houston
 
@@ -748,9 +748,9 @@ A box outside the dataset's raster: whether the reference finds a pixel of the p
 
 | Role | File | SHA-256 | Retrieved |
 | --- | --- | --- | --- |
-| reference download | flood_hazard | c94df55469b009667f326e5e1cefc76b1a18b3c0bb9c29a552f2fa0306e91266 | 2026-11-17T05:21:06Z |
+| reference download | flood_hazard | c94df55469b009667f326e5e1cefc76b1a18b3c0bb9c29a552f2fa0306e91266 | 2026-11-23T18:26:26Z |
 | crc-sdk (its configuration and README.txt) | README.txt |  |  |
-| reference download | flood_hazard | 028537820008f548f974cc61c8bccece14d8cfa79d2eada566a924e050cd0c71 | 2026-11-17T05:19:44Z |
+| reference download | flood_hazard | 028537820008f548f974cc61c8bccece14d8cfa79d2eada566a924e050cd0c71 | 2026-11-23T18:26:28Z |
 | crc-sdk (its configuration and README.txt) | README.txt |  |  |
 | crc-sdk (GDAL over the network, cropped into its cache) | flood_hazard |  |  |
 | crc-sdk (GDAL over the network, cropped into its cache) | flood_hazard |  |  |
@@ -775,6 +775,6 @@ Details are in [the inventory](../inventory.md#findings).
 
 ## What this does not cover
 
-- A `confirmed` outcome holds for these files, these options and crc-framework 0.6.0, crc-sdk 0.11.1.
+- A `confirmed` outcome holds for these files, these options and crc-framework 0.6.0, crc-sdk 0.11.2.
 - Verification says nothing about whether the publisher's values are right.
 - Validation (fitness for a stated use) is not assessed.

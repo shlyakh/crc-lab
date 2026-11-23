@@ -41,15 +41,38 @@ The bump does the mechanical part and stops:
 It refuses to run if the target is not a release, if a release would be skipped, or if a file it edits has
 changed since it was written. It does not touch reports, generated files, findings or tests.
 
+## First look, in minutes
+
+```sh
+just release-check
+```
+
+Runs three things in order and stops at nothing but the first:
+
+1. `just upstream-surface`: every crc-sdk and crc-framework name our code imports, reads or stubs
+   (listed in `docs/upstream-surface.md`, private names marked) is looked up in the installed version.
+   A name that is gone is printed with each file and line that uses it. Method calls further down a
+   chain cannot be found this way; the tool says how many it left unchecked.
+2. The offline tests.
+3. Quick staged re-runs (`just validation-monitor-rerun --profile quick`): every source against the new
+   version, with JRC flood on its four small areas only (about two minutes of fitting in place of 27).
+   The result is in `docs/validation/monitoring.md`. A quick re-run is labelled and cannot be accepted.
+
+This answers "what did the release break or change" before any long run. For a major release expect
+step 1 or 2 to fail first; fix the adapters under `src/data_source_check/adapters/crc/` and repeat.
+
 ## After the bump: what a person or an agent still does
 
 1. Read the release notes and `git -C ../upstream/crc-sdk diff v<old> v<new> --stat`. Note which sources,
    workflows and providers the release touches.
-2. `just test` and `just lint`. Tests that stub private names of crc-sdk
-   (`crc_sdk.workflows.ibtracs.urlopen`, `crc_sdk.workflows.nex._open_backend`,
-   `crc_sdk.providers.ghcnh.fsspec`) are the likeliest to break on a rename.
-3. `just validation-monitor-rerun`. The monitor sees that the installed version differs from the version
-   each assessment recorded and re-runs the stale ones into a staging folder.
+2. `just release-check`, as above, then `just lint`.
+3. `just validation-monitor-rerun`: the full re-run into the staging folder. It can be left to run:
+   - the report is written after each source, a source that fails is reported as failed and the others
+     still run;
+   - a source already staged at the installed versions is not run again, so the command can simply be
+     repeated after a failure; `--only <id>` runs one source, `--again` forces a repeat;
+   - outside evidence and boundaries (FEMA, USGS) do not pass through crc-sdk and are copied from the
+     cache held, not asked for again.
 4. Read `docs/validation/monitoring.md`: which checks changed outcome, and why.
 5. `just validation-accept <id>` for each source whose re-run has been read. Accepting is a person's step.
 6. Findings (next section).
@@ -61,10 +84,11 @@ changed since it was written. It does not touch reports, generated files, findin
 
 ### What to re-run
 
-Every assessed source is re-run on every move, including the statewide Texas run of `jrc-flood` (about
-27 minutes, 5.8 GB of cache). A record then always states the version it actually ran on. The alternative,
-restamping records of sources a release did not touch, was considered and not taken: it would make the
-version on a record a claim rather than a fact.
+Every assessed source is re-run in full before its records are accepted, including the statewide Texas
+run of `jrc-flood` (about 27 minutes, 5.8 GB of memory). A record then always states the version it
+actually ran on. The alternative, restamping records of sources a release did not touch, was considered
+and not taken: it would make the version on a record a claim rather than a fact. The quick profile is for
+the first look only.
 
 The hail project (`crc_lab`) and the explorer layers are rebuilt only when the release notes or the diff
 touch what they call; step 1 decides this, and the report says which was chosen.
@@ -100,3 +124,4 @@ On each move, every finding that is not `fixed` or `by design` is checked again 
 | Date | Move | Report |
 | --- | --- | --- |
 | 2026-11-10 | Baseline: crc-sdk 0.11.1, crc-framework 0.6.0 | `docs/reports/0-setup.md`, `docs/baseline-crc-sdk-0.11.1.md` |
+| 2026-11-23 | crc-sdk 0.11.1 to 0.11.2 | `docs/reports/u2-crc-sdk-0.11.2.md` |

@@ -172,7 +172,23 @@ def markdown(report: dict[str, Any]) -> str:
             if len(state["files_changed"]) > 40:
                 lines.append(f"| and {len(state['files_changed']) - 40} more | | | |")
     for diff in report.get("reruns", ()):
+        if "failed" in diff:
+            lines += [
+                "", f"## {diff['source']}: the re-run failed", "",
+                f"`{diff['failed']}`", "",
+                "Nothing is staged for this source. Run it again alone with "
+                f"`just validation-monitor-rerun --only {diff['source']}`.",
+            ]  # fmt: skip
+            continue
         lines += ["", f"## {diff['source']}: re-run against the previous records", ""]
+        if diff.get("profile", "full") != "full":
+            lines += [
+                f"**{diff['profile'].capitalize()} profile:** this run covers less than the "
+                "published records, so checks listed as no longer run were left out on purpose. "
+                "It cannot be accepted.", "",
+            ]  # fmt: skip
+        if diff.get("reused"):
+            lines += ["Staged by an earlier run at the same versions; not run again.", ""]
         if not (diff["outcomes_changed"] or diff["checks_added"] or diff["checks_removed"]):
             lines.append("Every check has the same outcome as before.")
         for moved in diff["outcomes_changed"]:
@@ -190,7 +206,8 @@ def markdown(report: dict[str, Any]) -> str:
             ]
         lines += [
             "",
-            f"The re-run is staged in `{diff['staged']}` and is not published. Review it, "
-            f"then accept it with `just validation-accept {diff['source']}`.",
-        ]
+            f"The re-run is staged in `{diff['staged']}` and is not published."
+            + (f" Review it, then accept it with `just validation-accept {diff['source']}`."
+               if diff.get("profile", "full") == "full" else ""),
+        ]  # fmt: skip
     return "\n".join(lines) + "\n"

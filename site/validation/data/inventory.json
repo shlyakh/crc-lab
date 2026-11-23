@@ -10,14 +10,14 @@
     "docs/reports/u1-nex-bytes-fix.md (crc-lab): real file headers, failing test, fix",
     "check records nex-gddp-cmip6/units[txx ...] and units[tnn ...] (site/validation/data/records/nex-gddp-cmip6.json), run of 2026-11-12"
    ],
-   "fixed_in": "",
+   "fixed_in": "0.11.2",
    "found_on": "2026-11-10",
    "framework_version": "0.11.1",
    "id": "CRC-001-NEX",
    "kind": "defect",
    "observed": "The files declare kelvin, but h5netcdf returns the one-character unit as bytes (b'K') and the unit check compares its text form with 'K'. The call raises: 'tasmax' is published in \"b'K'\", but recipe 'txx' converts from 'K'. Precipitation is unaffected.",
    "source": "nex-gddp-cmip6",
-   "status": "reported upstream",
+   "status": "fixed",
    "title": "Temperature recipes (txx, tnn) fail on real NEX files",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/42"
   },
@@ -186,14 +186,14 @@
     "crc_sdk/workflows/ibtracs.py:70-71",
     "check record ibtracs/address (site/validation/data/records/ibtracs.json), run of 2026-11-12"
    ],
-   "fixed_in": "",
+   "fixed_in": "0.11.2",
    "found_on": "2026-11-12",
    "framework_version": "0.11.1",
    "id": "CRC-010-IBT",
    "kind": "defect",
    "observed": "crc-sdk requests .../ibtracs.active.list.v04r01.csv and NOAA answers 404. NOAA's directory holds ibtracs.ACTIVE.list.v04r01.csv (capitals). IBTrACSPlan(\"active\", ...).prefetch() raises HTTPError 404; IBTrACSPlan(\"ACTIVE\", ...) is refused as an invalid subset. The other ten names are served.",
    "source": "ibtracs",
-   "status": "reported upstream",
+   "status": "fixed",
    "title": "The subset \"active\" is accepted but NOAA has no file under that name",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/43"
   },
@@ -466,11 +466,6 @@
     "value": "arco-0p25"
    },
    {
-    "option": "subset",
-    "source": "ibtracs",
-    "value": "active"
-   },
-   {
     "option": "recipe",
     "source": "cmip6",
     "value": "rx1day"
@@ -551,16 +546,6 @@
     "value": "smi"
    },
    {
-    "option": "recipe",
-    "source": "nex-gddp-cmip6",
-    "value": "tnn"
-   },
-   {
-    "option": "recipe",
-    "source": "nex-gddp-cmip6",
-    "value": "txx"
-   },
-   {
     "option": "scenario",
     "source": "nex-gddp-cmip6",
     "value": "ssp126"
@@ -633,7 +618,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-17T17:26:25Z",
+ "generated": "2026-11-23T20:59:39Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -886,6 +871,7 @@
      "SI",
      "SP",
      "WP",
+     "active",
      "last3years",
      "since1980"
     ]
@@ -924,77 +910,77 @@
    "reviewed_on": "",
    "statement": [
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:27-41, 70-71",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:27-43, 72-74",
      "id": "address",
      "note": "",
-     "outcome": "differs",
-     "text": "Requests `<root>/ibtracs.<subset>.list.v04r01.csv`, with the subset spelled exactly as one of the eleven names crc-sdk accepts."
+     "outcome": "confirmed",
+     "text": "Requests `<root>/ibtracs.<name>.list.v04r01.csv`, where the name is the subset spelled exactly as one of the eleven crc-sdk accepts, except `active`, which is requested as `ACTIVE`, the spelling of NOAA's file."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:113-128, 154",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:116-131, 157",
      "id": "bytes",
      "note": "",
      "outcome": "confirmed",
      "text": "Saves the response unchanged as `source.csv` and records its SHA-256. A download shorter than the announced length is refused."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:129-147, 167-168",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:132-150, 170-171",
      "id": "header",
      "note": "",
      "outcome": "confirmed",
      "text": "Reads line 1 as column names and line 2 as units. Requires the columns SID, SEASON and ISO_TIME. The units go to the manifest only; they are not in the data."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:169, 193",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:172, 196",
      "id": "columns",
      "note": "",
      "outcome": "confirmed",
      "text": "Keeps every column, in the file's order, under NOAA's names."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:198-200",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:201-203",
      "id": "strings",
      "note": "",
      "outcome": "confirmed",
      "text": "Delivers every value as a string. Nothing is parsed into a number or a date, and no unit is converted."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:215-218",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:218-221",
      "id": "trim",
      "note": "",
      "outcome": "confirmed",
      "text": "Removes leading and trailing whitespace from every value."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:233-241",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:236-244",
      "id": "null",
      "note": "",
      "outcome": "confirmed",
      "text": "Turns a value that is empty after trimming into null. NOAA marks a missing value with a single space."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:171-183, 191-212",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:174-186, 194-215",
      "id": "rows",
      "note": "",
      "outcome": "confirmed",
      "text": "Keeps every data row in the file's order. Rows are not dropped, merged, sorted or de-duplicated."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:73-77, 219-222",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:76-80, 222-225",
      "id": "storms",
      "note": "",
      "outcome": "confirmed",
      "text": "`for_storms(ids)` keeps the rows whose SID is in the list. These are track points, not complete storms across basin files."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:79-82, 223-231",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:82-85, 226-234",
      "id": "seasons",
      "note": "",
      "outcome": "confirmed",
      "text": "`years(a, b)` keeps the rows whose SEASON, read as an integer, lies in a..b inclusive. SEASON is NOAA's season label, not the calendar year of the point."
     },
     {
-     "code_ref": "crc_sdk/workflows/ibtracs.py:139-155",
+     "code_ref": "crc_sdk/workflows/ibtracs.py:142-158",
      "id": "provenance",
      "note": "",
      "outcome": "confirmed",
@@ -1587,7 +1573,9 @@
    "assessed_options": {
     "recipe": [
      "rx1day",
-     "rx5day"
+     "rx5day",
+     "tnn",
+     "txx"
     ],
     "scenario": [
      "historical",
@@ -1637,56 +1625,56 @@
    "reviewed_on": "",
    "statement": [
     {
-     "code_ref": "crc_sdk/workflows/nex.py:33, 90-100, 139-141; docs/sources/cmip6.md:75-77",
+     "code_ref": "crc_sdk/workflows/nex.py:33, 105-115, 154-156; docs/sources/cmip6.md:75-77",
      "id": "files",
      "note": "",
      "outcome": "confirmed",
      "text": "Reads one NetCDF file per variable, model, scenario, member and year from NASA's archive on AWS, by range requests. Nothing is cached and no checksum is taken."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:96, 130-132; docs/sources/cmip6.md:73-74",
+     "code_ref": "crc_sdk/workflows/nex.py:111, 145-147; docs/sources/cmip6.md:73-74",
      "id": "versions",
      "note": "",
      "outcome": "confirmed",
      "text": "Reads exactly the file version asked for (1.0 has no suffix in the file name; later ones end in `_v<version>`). A version NASA does not have fails; another is never substituted."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:84-85",
+     "code_ref": "crc_sdk/workflows/nex.py:99-100",
      "id": "versions-offered",
      "note": "",
      "outcome": "differs",
      "text": "Accepts the file versions 1.0, 1.1 and 1.2."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:142-153",
+     "code_ref": "crc_sdk/workflows/nex.py:157-169",
      "id": "identity",
      "note": "",
      "outcome": "confirmed",
      "text": "Checks that the file's own attributes name the model, scenario, member and version that were asked for."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:154-165, 227-229",
+     "code_ref": "crc_sdk/workflows/nex.py:170-181, 241-243",
      "id": "licence",
      "note": "The warning was seen on every file read. `strict_licence=True` was not run.",
      "outcome": "confirmed",
      "text": "Reads the model licence written in the file and keeps it beside NASA's archive licence (CC0-1.0). Warns when the file's licence is not CC0; refuses it when `strict_licence` is set."
     },
     {
-     "code_ref": "crc_sdk/providers/cmip6.py:606, 636-660, 952; crc_sdk/workflows/nex.py:179-183",
+     "code_ref": "crc_sdk/providers/cmip6.py:606, 636-660, 952; crc_sdk/workflows/nex.py:195-197",
      "id": "units-rain",
      "note": "",
      "outcome": "confirmed",
      "text": "Requires precipitation to be declared in kg m-2 s-1 and multiplies it by 86,400 to give millimetres per day."
     },
     {
-     "code_ref": "crc_sdk/providers/cmip6.py:603, 611-634, 952; crc_sdk/workflows/nex.py:179-183",
+     "code_ref": "crc_sdk/providers/cmip6.py:603, 611-634, 952; crc_sdk/workflows/nex.py:195-197",
      "id": "units-temperature",
      "note": "",
-     "outcome": "differs",
+     "outcome": "confirmed",
      "text": "Requires temperature to be declared in kelvin (K) and subtracts 273.15 to give degrees Celsius."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:184-194; crc_sdk/providers/cmip6.py:813-828",
+     "code_ref": "crc_sdk/workflows/nex.py:198-208; crc_sdk/providers/cmip6.py:813-828",
      "id": "time",
      "note": "The files read use the proleptic Gregorian calendar with 365 days and no gap. Other calendars and gaps were exercised only in the offline tests.",
      "outcome": "confirmed",
@@ -1723,19 +1711,19 @@
     {
      "code_ref": "crc_sdk/providers/cmip6.py:611-634; crc_sdk/connectors/blocks.py:479-483",
      "id": "statistic-temperature",
-     "note": "Cannot be checked at crc-sdk 0.11.1, where both recipes fail (CRC-001-NEX). On a local clone that carries the fix, every cell agrees with the recomputation (checks `annual-fixed-clone`); that is not a statement about a released version.",
-     "outcome": "not checked",
+     "note": "Could not be checked at crc-sdk 0.11.1, where both recipes failed (CRC-001-NEX); checked from 0.11.2.",
+     "outcome": "confirmed",
      "text": "`txx` is the highest daily maximum of the year and `tnn` the lowest daily minimum."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:202-232",
+     "code_ref": "crc_sdk/workflows/nex.py:216-246",
      "id": "output",
      "note": "",
      "outcome": "confirmed",
      "text": "Returns one row per grid cell that has a value, at the cell's centre, south to north and west to east. No distribution is fitted."
     },
     {
-     "code_ref": "crc_sdk/workflows/nex.py:211-231",
+     "code_ref": "crc_sdk/workflows/nex.py:225-245",
      "id": "labels",
      "note": "",
      "outcome": "confirmed",
@@ -2096,6 +2084,6 @@
  ],
  "versions": {
   "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.1"
+  "crc-sdk": "0.11.2"
  }
 }

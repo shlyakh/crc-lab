@@ -1,6 +1,9 @@
 """Monitoring: stale assessments are found, a re-run is compared, nothing is published."""
 
+import json
 from pathlib import Path
+
+import pytest
 
 from data_source_check import build, monitor
 from data_source_check.core import monitoring
@@ -22,6 +25,24 @@ RECORDS = {
         {"check": "header[A]", "outcome": "confirmed", "summary": "3 columns", "inputs": []},
     ],
 }  # fmt: skip
+
+
+@pytest.fixture
+def as_assessed(monkeypatch: pytest.MonkeyPatch) -> dict[str, str]:
+    """The installed versions reported as those the committed records were assessed at, so
+    that these tests say the same thing whichever version is pinned."""
+    offered = monitor.crc.offered()
+    versions = dict(build.load_records("ghcnh")["versions"])
+    monkeypatch.setattr(monitor.crc, "offered", lambda: offered | {"versions": versions})
+    return versions
+
+
+def copy_of_the_page(tmp_path: Path) -> Path:
+    page = tmp_path / "page"
+    (page / "records").mkdir(parents=True)
+    for path in (build.PAGE_DATA / "records").glob("*.json"):
+        (page / "records" / path.name).write_bytes(path.read_bytes())
+    return page
 
 
 def test_recorded_inputs_are_the_publisher_files_once() -> None:
@@ -84,7 +105,9 @@ def test_a_rerun_is_compared_check_by_check() -> None:
     assert "confirmed to **differs**" in text and "is not published" in text
 
 
-def test_a_monitoring_run_reports_and_leaves_the_records_alone(tmp_path: Path) -> None:
+def test_a_monitoring_run_reports_and_leaves_the_records_alone(
+    tmp_path: Path, as_assessed: dict[str, str]
+) -> None:
     """Against the committed records, with a publisher that changed one IBTrACS file."""
     before = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
     ibtracs = build.load_records("ibtracs")
@@ -110,14 +133,16 @@ def test_a_monitoring_run_reports_and_leaves_the_records_alone(tmp_path: Path) -
     assert not states["ghcnh"]["stale"] and not states["nex-gddp-cmip6"]["stale"]
     assert report["needs_attention"]
     assert (
-        "stale: the publisher changed 1 of 10 files"
+        f"stale: the publisher changed 1 of {states['ibtracs']['files']} files"
         in (tmp_path / "docs" / "monitoring.md").read_text()
     )
     after = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
     assert after == before  # the published records are untouched
 
 
-def test_a_rerun_is_staged_and_not_published(tmp_path: Path, monkeypatch) -> None:  # noqa: ANN001
+def test_a_rerun_is_staged_and_not_published(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, as_assessed: dict[str, str]
+) -> None:
     before = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
     page = tmp_path / "page"
     (page / "records").mkdir(parents=True)
@@ -141,3 +166,94 @@ def test_a_rerun_is_staged_and_not_published(tmp_path: Path, monkeypatch) -> Non
     assert all(len(diff["newly_differing"]) == 1 for diff in report["reruns"])
     after = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
     assert after == before
+
+
+def test_a_source_that_fails_is_reported_and_the_others_still_run(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, as_assessed: dict[str, str]
+) -> None:
+    page = copy_of_the_page(tmp_path)
+
+    def fake_assess(source_id: str, *, live: bool, page_data: Path, cache: Path) -> dict:
+        if source_id == "ghcnh":
+            raise TimeoutError("The read operation timed out")
+        return build.load_records(source_id)
+
+    monkeypatch.setattr(build, "assess_source", fake_assess)
+    monkeypatch.setattr(monitor, "STAGING", tmp_path / "staging")
+    ask = lambda url: {"status": 200, "etag": '"other"'}  # noqa: E731  every file changed
+    report = monitor.run(rerun=True, page_data=page, docs=tmp_path / "docs", ask=ask)
+    by_source = {entry["source"]: entry for entry in report["reruns"]}
+    assert list(by_source) == ["ibtracs", "ghcnh", "nex-gddp-cmip6"]
+    assert "TimeoutError" in by_source["ghcnh"]["failed"]
+    assert "failed" not in by_source["ibtracs"] and "failed" not in by_source["nex-gddp-cmip6"]
+    text = (tmp_path / "docs" / "monitoring.md").read_text()
+    assert "## ghcnh: the re-run failed" in text and "--only ghcnh" in text
+
+
+def test_only_reruns_the_named_source_and_a_staged_rerun_is_not_repeated(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, as_assessed: dict[str, str]
+) -> None:
+    page = copy_of_the_page(tmp_path)
+    staging = tmp_path / "staging"
+    calls = []
+
+    def fake_assess(source_id: str, *, live: bool, page_data: Path, cache: Path) -> dict:
+        calls.append(source_id)
+        fresh = build.load_records(source_id) | {"run_at": "2999-01-01T00:00:00Z"}
+        (page_data / "records").mkdir(parents=True, exist_ok=True)
+        (page_data / "records" / f"{source_id}.json").write_text(json.dumps(fresh))
+        return fresh
+
+    monkeypatch.setattr(build, "assess_source", fake_assess)
+    monkeypatch.setattr(monitor, "STAGING", staging)
+    ask = lambda url: {"status": 404}  # noqa: E731
+    run = lambda **more: monitor.run(  # noqa: E731
+        rerun=True, page_data=page, docs=tmp_path / "docs", ask=ask, only=("jrc-flood",), **more
+    )
+    assert [entry["source"] for entry in run()["reruns"]] == ["jrc-flood"]
+    again = run()
+    assert calls == ["jrc-flood"] and again["reruns"][0]["reused"]
+    run(again=True)
+    assert calls == ["jrc-flood", "jrc-flood"]
+    with pytest.raises(SystemExit, match="no assessed source named"):
+        monitor.run(rerun=True, page_data=page, docs=tmp_path / "docs", ask=ask, only=("nope",))
+
+
+def test_a_quick_rerun_says_so_and_cannot_be_accepted(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, as_assessed: dict[str, str]
+) -> None:
+    page = copy_of_the_page(tmp_path)
+    staging = tmp_path / "staging"
+    seen = {}
+
+    def fake_assess(source_id: str, *, live: bool, page_data: Path, cache: Path,
+                    profile: str = "full") -> dict:  # fmt: skip
+        seen["profile"] = profile
+        fresh = build.load_records(source_id) | {"profile": "quick", "profile_covers": "less"}
+        fresh["checks"] = fresh["checks"][:-1]
+        (page_data / "records").mkdir(parents=True, exist_ok=True)
+        (page_data / "records" / f"{source_id}.json").write_text(json.dumps(fresh))
+        return fresh
+
+    monkeypatch.setattr(build, "assess_source", fake_assess)
+    monkeypatch.setattr(monitor, "STAGING", staging)
+    report = monitor.run(rerun=True, page_data=page, docs=tmp_path / "docs",
+                         ask=lambda url: {"status": 404}, only=("jrc-flood",),
+                         profile="quick")  # fmt: skip
+    assert seen["profile"] == "quick" and report["reruns"][0]["profile"] == "quick"
+    text = (tmp_path / "docs" / "monitoring.md").read_text()
+    assert "Quick profile" in text and "validation-accept" not in text
+    with pytest.raises(SystemExit, match="quick profile"):
+        monitor.accept("jrc-flood")
+
+
+def test_held_material_is_copied_into_staging_once(tmp_path: Path) -> None:
+    held = tmp_path / "cache" / "jrc-flood" / "evidence" / "fema"
+    held.mkdir(parents=True)
+    (held / "a.json").write_text("held")
+    staging = tmp_path / "staging"
+    assert monitor.seed("jrc-flood", staging, tmp_path / "cache") == 1
+    (staging / "jrc-flood" / "evidence" / "fema" / "a.json").write_text("fresher")
+    assert monitor.seed("jrc-flood", staging, tmp_path / "cache") == 0
+    assert (staging / "jrc-flood" / "evidence" / "fema" / "a.json").read_text() == "fresher"
+    assert monitor.seed("ghcnh", staging, tmp_path / "cache") == 0

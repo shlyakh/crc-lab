@@ -31,8 +31,6 @@ CACHE = REPO / "data" / "cache" / "validation"
 ASSESSMENTS = ("ibtracs", "ghcnh", "nex-gddp-cmip6", "jrc-flood")
 #: where a drafted assessment writes its records until a person accepts it (git-ignored)
 DRAFTS = CACHE / "drafts"
-#: a local clone of crc-sdk carrying fixes not yet released; used only where a check says so
-FIXED_CLONE = REPO.parent / "forks" / "crc-sdk"
 
 
 def load_records(source_id: str, page_data: Path = PAGE_DATA) -> dict[str, Any] | None:
@@ -81,10 +79,23 @@ def assess_draft(source_id: str, *, live: bool, cache: Path = CACHE) -> dict[str
     return run
 
 
+#: "quick" runs a source on less than its published assessment covers, to see in minutes whether
+#: a new framework version changes anything. Its records say so and cannot be published.
+PROFILES = ("full", "quick")
+
+
 def assess_source(
-    source_id: str, *, live: bool, page_data: Path = PAGE_DATA, cache: Path = CACHE
+    source_id: str,
+    *,
+    live: bool,
+    page_data: Path = PAGE_DATA,
+    cache: Path = CACHE,
+    profile: str = "full",
 ) -> dict[str, Any]:
     """Run one source's assessment and write its records."""
+    if profile not in PROFILES:
+        raise SystemExit(f"unknown profile {profile!r}; one of {PROFILES}")
+    reduced = ""
     if source_id not in ASSESSMENTS:
         raise SystemExit(
             f"no published assessment for {source_id!r}; published: {ASSESSMENTS}. "
@@ -112,13 +123,18 @@ def assess_source(
             folder,
             live=live,
             versions=offered["versions"],
-            fixed_clone=FIXED_CLONE if (FIXED_CLONE / "crc_sdk").is_dir() else None,
             log=print,
         )
     elif source_id == "jrc-flood":
         from .assessments import jrc_flood
 
-        run = jrc_flood.assess(folder, live=live, versions=offered["versions"], log=print)
+        areas = jrc_flood.AREAS
+        if profile == "quick":
+            areas = jrc_flood.QUICK_AREAS
+            reduced = "without the Texas box: " + ", ".join(area.title for area in areas)
+        run = jrc_flood.assess(
+            folder, live=live, versions=offered["versions"], log=print, areas=areas
+        )
     else:
         from .assessments import ghcnh
 
@@ -126,6 +142,10 @@ def assess_source(
             folder, folder / "crc-sdk", live=live, versions=offered["versions"], log=print
         )
     run = {"schema": SCHEMA, "framework": offered["framework"]} | run
+    if reduced:
+        if page_data == PAGE_DATA:
+            raise SystemExit("a quick run covers less than the published records; stage it")
+        run |= {"profile": profile, "profile_covers": reduced}
     write_json_atomic(page_data / "records" / f"{source_id}.json", run)
     return run
 

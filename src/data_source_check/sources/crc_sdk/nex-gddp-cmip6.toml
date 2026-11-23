@@ -17,7 +17,7 @@ scenario = ["historical", "ssp126", "ssp245", "ssp370", "ssp585"]
 version = ["1.0", "1.1", "1.2"]
 
 [assessed_options]
-recipe = ["rx1day", "rx5day"]
+recipe = ["rx1day", "rx5day", "tnn", "txx"]
 scenario = ["historical", "ssp585"]
 version = ["1.0", "1.1"]
 
@@ -28,43 +28,43 @@ verification = "assessed"
 [[statement]]
 id = "files"
 text = "Reads one NetCDF file per variable, model, scenario, member and year from NASA's archive on AWS, by range requests. Nothing is cached and no checksum is taken."
-code_ref = "crc_sdk/workflows/nex.py:33, 90-100, 139-141; docs/sources/cmip6.md:75-77"
+code_ref = "crc_sdk/workflows/nex.py:33, 105-115, 154-156; docs/sources/cmip6.md:75-77"
 
 [[statement]]
 id = "versions"
 text = "Reads exactly the file version asked for (1.0 has no suffix in the file name; later ones end in `_v<version>`). A version NASA does not have fails; another is never substituted."
-code_ref = "crc_sdk/workflows/nex.py:96, 130-132; docs/sources/cmip6.md:73-74"
+code_ref = "crc_sdk/workflows/nex.py:111, 145-147; docs/sources/cmip6.md:73-74"
 
 [[statement]]
 id = "versions-offered"
 text = "Accepts the file versions 1.0, 1.1 and 1.2."
-code_ref = "crc_sdk/workflows/nex.py:84-85"
+code_ref = "crc_sdk/workflows/nex.py:99-100"
 
 [[statement]]
 id = "identity"
 text = "Checks that the file's own attributes name the model, scenario, member and version that were asked for."
-code_ref = "crc_sdk/workflows/nex.py:142-153"
+code_ref = "crc_sdk/workflows/nex.py:157-169"
 
 [[statement]]
 id = "licence"
 text = "Reads the model licence written in the file and keeps it beside NASA's archive licence (CC0-1.0). Warns when the file's licence is not CC0; refuses it when `strict_licence` is set."
-code_ref = "crc_sdk/workflows/nex.py:154-165, 227-229"
+code_ref = "crc_sdk/workflows/nex.py:170-181, 241-243"
 note = "The warning was seen on every file read. `strict_licence=True` was not run."
 
 [[statement]]
 id = "units-rain"
 text = "Requires precipitation to be declared in kg m-2 s-1 and multiplies it by 86,400 to give millimetres per day."
-code_ref = "crc_sdk/providers/cmip6.py:606, 636-660, 952; crc_sdk/workflows/nex.py:179-183"
+code_ref = "crc_sdk/providers/cmip6.py:606, 636-660, 952; crc_sdk/workflows/nex.py:195-197"
 
 [[statement]]
 id = "units-temperature"
 text = "Requires temperature to be declared in kelvin (K) and subtracts 273.15 to give degrees Celsius."
-code_ref = "crc_sdk/providers/cmip6.py:603, 611-634, 952; crc_sdk/workflows/nex.py:179-183"
+code_ref = "crc_sdk/providers/cmip6.py:603, 611-634, 952; crc_sdk/workflows/nex.py:195-197"
 
 [[statement]]
 id = "time"
 text = "Requires the daily time axis to be strictly increasing and to lie within the requested year, in the file's own calendar, and places each day by its date."
-code_ref = "crc_sdk/workflows/nex.py:184-194; crc_sdk/providers/cmip6.py:813-828"
+code_ref = "crc_sdk/workflows/nex.py:198-208; crc_sdk/providers/cmip6.py:813-828"
 note = "The files read use the proleptic Gregorian calendar with 365 days and no gap. Other calendars and gaps were exercised only in the offline tests."
 
 [[statement]]
@@ -93,14 +93,14 @@ code_ref = "crc_sdk/providers/cmip6.py:636-660; crc_sdk/connectors/blocks.py:467
 id = "statistic-temperature"
 text = "`txx` is the highest daily maximum of the year and `tnn` the lowest daily minimum."
 code_ref = "crc_sdk/providers/cmip6.py:611-634; crc_sdk/connectors/blocks.py:479-483"
-note = "Cannot be checked at crc-sdk 0.11.1, where both recipes fail (CRC-001-NEX). On a local clone that carries the fix, every cell agrees with the recomputation (checks `annual-fixed-clone`); that is not a statement about a released version."
+note = "Could not be checked at crc-sdk 0.11.1, where both recipes failed (CRC-001-NEX); checked from 0.11.2."
 
 [[statement]]
 id = "output"
 text = "Returns one row per grid cell that has a value, at the cell's centre, south to north and west to east. No distribution is fitted."
-code_ref = "crc_sdk/workflows/nex.py:202-232"
+code_ref = "crc_sdk/workflows/nex.py:216-246"
 
 [[statement]]
 id = "labels"
 text = "Labels every row with the unit, recipe, model, scenario, member, grid, version, calendar (under one name per calendar: `365_day` is written `noleap`), the file's address, the retrieval time, both licences and an attribution."
-code_ref = "crc_sdk/workflows/nex.py:211-231"
+code_ref = "crc_sdk/workflows/nex.py:225-245"

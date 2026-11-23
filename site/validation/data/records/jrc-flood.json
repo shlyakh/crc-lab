@@ -32,28 +32,28 @@
      6.78
     ],
     [
-     "100 y",
-     7.09
-    ],
-    [
      "20 y",
      6.35
-    ],
-    [
-     "200 y",
-     9.62
     ],
     [
      "50 y",
      5.98
     ],
     [
-     "500 y",
-     12.92
-    ],
-    [
      "75 y",
      5.86
+    ],
+    [
+     "100 y",
+     7.09
+    ],
+    [
+     "200 y",
+     9.62
+    ],
+    [
+     "500 y",
+     12.92
     ]
    ],
    "Fremont, California": [
@@ -62,28 +62,28 @@
      22.17
     ],
     [
-     "100 y",
-     19.83
-    ],
-    [
      "20 y",
      20.43
-    ],
-    [
-     "200 y",
-     22.43
     ],
     [
      "50 y",
      18.89
     ],
     [
-     "500 y",
-     25.79
-    ],
-    [
      "75 y",
      18.34
+    ],
+    [
+     "100 y",
+     19.83
+    ],
+    [
+     "200 y",
+     22.43
+    ],
+    [
+     "500 y",
+     25.79
     ]
    ],
    "Houston": [
@@ -92,28 +92,28 @@
      11.22
     ],
     [
-     "100 y",
-     11.38
-    ],
-    [
      "20 y",
      10.26
-    ],
-    [
-     "200 y",
-     17.0
     ],
     [
      "50 y",
      9.34
     ],
     [
-     "500 y",
-     23.58
-    ],
-    [
      "75 y",
      8.97
+    ],
+    [
+     "100 y",
+     11.38
+    ],
+    [
+     "200 y",
+     17.0
+    ],
+    [
+     "500 y",
+     23.58
     ]
    ],
    "Rhine, Bonn to Mainz": [
@@ -122,16 +122,8 @@
      2.96
     ],
     [
-     "100 y",
-     4.18
-    ],
-    [
      "20 y",
      2.75
-    ],
-    [
-     "200 y",
-     7.74
     ],
     [
      "30 y",
@@ -146,12 +138,20 @@
      2.56
     ],
     [
-     "500 y",
-     11.63
-    ],
-    [
      "75 y",
      2.49
+    ],
+    [
+     "100 y",
+     4.18
+    ],
+    [
+     "200 y",
+     7.74
+    ],
+    [
+     "500 y",
+     11.63
     ]
    ],
    "Texas box": [
@@ -160,28 +160,28 @@
      9.63
     ],
     [
-     "100 y",
-     9.64
-    ],
-    [
      "20 y",
      9.02
-    ],
-    [
-     "200 y",
-     12.5
     ],
     [
      "50 y",
      8.48
     ],
     [
-     "500 y",
-     15.68
-    ],
-    [
      "75 y",
      8.29
+    ],
+    [
+     "100 y",
+     9.64
+    ],
+    [
+     "200 y",
+     12.5
+    ],
+    [
+     "500 y",
+     15.68
     ]
    ]
   },
@@ -538,27 +538,27 @@
       3.52
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       2.13
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.46
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -568,27 +568,27 @@
       7.54
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       4.21
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       1.35
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -598,27 +598,27 @@
       6.89
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       4.67
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       1.86
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -628,16 +628,8 @@
       3.99
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       2.24
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "30 y",
@@ -652,11 +644,19 @@
       0.95
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -666,27 +666,27 @@
       5.01
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       3.03
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.94
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ]
@@ -729,27 +729,27 @@
       9.35
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       4.81
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.61
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -759,27 +759,27 @@
       4.6
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       1.88
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.0
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -789,28 +789,28 @@
       9.92
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       4.85
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.31
      ],
      [
-      "500 y",
+      "75 y",
+      0.08
+     ],
+     [
+      "100 y",
       0.0
      ],
      [
-      "75 y",
-      0.08
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
+      0.0
      ]
     ],
     "Rhine, Bonn to Mainz": [
@@ -819,16 +819,8 @@
       10.69
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       5.88
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "30 y",
@@ -843,11 +835,19 @@
       0.81
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ],
@@ -857,27 +857,27 @@
       6.14
      ],
      [
-      "100 y",
-      0.0
-     ],
-     [
       "20 y",
       2.97
-     ],
-     [
-      "200 y",
-      0.0
      ],
      [
       "50 y",
       0.24
      ],
      [
-      "500 y",
+      "75 y",
       0.0
      ],
      [
-      "75 y",
+      "100 y",
+      0.0
+     ],
+     [
+      "200 y",
+      0.0
+     ],
+     [
+      "500 y",
       0.0
      ]
     ]
@@ -1047,28 +1047,12 @@
       5
      ],
      [
-      "100 y, all",
-      2201
-     ],
-     [
-      "100 y, in mask",
-      21
-     ],
-     [
       "20 y, all",
       1626
      ],
      [
       "20 y, in mask",
       20
-     ],
-     [
-      "200 y, all",
-      2440
-     ],
-     [
-      "200 y, in mask",
-      22
      ],
      [
       "50 y, all",
@@ -1079,20 +1063,36 @@
       20
      ],
      [
-      "500 y, all",
-      2673
-     ],
-     [
-      "500 y, in mask",
-      23
-     ],
-     [
       "75 y, all",
       2128
      ],
      [
       "75 y, in mask",
       21
+     ],
+     [
+      "100 y, all",
+      2201
+     ],
+     [
+      "100 y, in mask",
+      21
+     ],
+     [
+      "200 y, all",
+      2440
+     ],
+     [
+      "200 y, in mask",
+      22
+     ],
+     [
+      "500 y, all",
+      2673
+     ],
+     [
+      "500 y, in mask",
+      23
      ]
     ],
     "Fremont, California": [
@@ -1105,28 +1105,12 @@
       122
      ],
      [
-      "100 y, all",
-      126
-     ],
-     [
-      "100 y, in mask",
-      126
-     ],
-     [
       "20 y, all",
       123
      ],
      [
       "20 y, in mask",
       123
-     ],
-     [
-      "200 y, all",
-      127
-     ],
-     [
-      "200 y, in mask",
-      127
      ],
      [
       "50 y, all",
@@ -1137,20 +1121,36 @@
       125
      ],
      [
-      "500 y, all",
-      128
-     ],
-     [
-      "500 y, in mask",
-      128
-     ],
-     [
       "75 y, all",
       126
      ],
      [
       "75 y, in mask",
       126
+     ],
+     [
+      "100 y, all",
+      126
+     ],
+     [
+      "100 y, in mask",
+      126
+     ],
+     [
+      "200 y, all",
+      127
+     ],
+     [
+      "200 y, in mask",
+      127
+     ],
+     [
+      "500 y, all",
+      128
+     ],
+     [
+      "500 y, in mask",
+      128
      ]
     ],
     "Houston": [
@@ -1163,27 +1163,11 @@
       0
      ],
      [
-      "100 y, all",
-      0
-     ],
-     [
-      "100 y, in mask",
-      0
-     ],
-     [
       "20 y, all",
       0
      ],
      [
       "20 y, in mask",
-      0
-     ],
-     [
-      "200 y, all",
-      0
-     ],
-     [
-      "200 y, in mask",
       0
      ],
      [
@@ -1195,19 +1179,35 @@
       0
      ],
      [
-      "500 y, all",
-      9
-     ],
-     [
-      "500 y, in mask",
-      0
-     ],
-     [
       "75 y, all",
       0
      ],
      [
       "75 y, in mask",
+      0
+     ],
+     [
+      "100 y, all",
+      0
+     ],
+     [
+      "100 y, in mask",
+      0
+     ],
+     [
+      "200 y, all",
+      0
+     ],
+     [
+      "200 y, in mask",
+      0
+     ],
+     [
+      "500 y, all",
+      9
+     ],
+     [
+      "500 y, in mask",
       0
      ]
     ],
@@ -1221,27 +1221,11 @@
       0
      ],
      [
-      "100 y, all",
-      9037
-     ],
-     [
-      "100 y, in mask",
-      0
-     ],
-     [
       "20 y, all",
       5101
      ],
      [
       "20 y, in mask",
-      0
-     ],
-     [
-      "200 y, all",
-      11503
-     ],
-     [
-      "200 y, in mask",
       0
      ],
      [
@@ -1269,19 +1253,35 @@
       0
      ],
      [
-      "500 y, all",
-      14765
-     ],
-     [
-      "500 y, in mask",
-      0
-     ],
-     [
       "75 y, all",
       7927
      ],
      [
       "75 y, in mask",
+      0
+     ],
+     [
+      "100 y, all",
+      9037
+     ],
+     [
+      "100 y, in mask",
+      0
+     ],
+     [
+      "200 y, all",
+      11503
+     ],
+     [
+      "200 y, in mask",
+      0
+     ],
+     [
+      "500 y, all",
+      14765
+     ],
+     [
+      "500 y, in mask",
       0
      ]
     ],
@@ -1295,28 +1295,12 @@
       5434
      ],
      [
-      "100 y, all",
-      192437
-     ],
-     [
-      "100 y, in mask",
-      8393
-     ],
-     [
       "20 y, all",
       117176
      ],
      [
       "20 y, in mask",
       6571
-     ],
-     [
-      "200 y, all",
-      228331
-     ],
-     [
-      "200 y, in mask",
-      8953
      ],
      [
       "50 y, all",
@@ -1327,20 +1311,36 @@
       7669
      ],
      [
-      "500 y, all",
-      276002
-     ],
-     [
-      "500 y, in mask",
-      9783
-     ],
-     [
       "75 y, all",
       177867
      ],
      [
       "75 y, in mask",
       8078
+     ],
+     [
+      "100 y, all",
+      192437
+     ],
+     [
+      "100 y, in mask",
+      8393
+     ],
+     [
+      "200 y, all",
+      228331
+     ],
+     [
+      "200 y, in mask",
+      8953
+     ],
+     [
+      "500 y, all",
+      276002
+     ],
+     [
+      "500 y, in mask",
+      9783
      ]
     ]
    },
@@ -1469,7 +1469,7 @@
     {
      "bytes": 4453,
      "files": 1,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:26:26Z",
      "role": "reference download",
      "sha256": "c94df55469b009667f326e5e1cefc76b1a18b3c0bb9c29a552f2fa0306e91266",
      "sha256_of": "the list of file names and their sha256",
@@ -1502,7 +1502,7 @@
      500
     ]
    },
-   "run_at": "2026-11-17T15:52:14Z",
+   "run_at": "2026-11-23T20:47:24Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1517,7 +1517,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1527,7 +1527,7 @@
     {
      "bytes": 5073,
      "files": 1,
-     "retrieved_at": "2026-11-17T05:19:44Z",
+     "retrieved_at": "2026-11-23T18:26:28Z",
      "role": "reference download",
      "sha256": "028537820008f548f974cc61c8bccece14d8cfa79d2eada566a924e050cd0c71",
      "sha256_of": "the list of file names and their sha256",
@@ -1558,7 +1558,7 @@
      500
     ]
    },
-   "run_at": "2026-11-17T15:52:14Z",
+   "run_at": "2026-11-23T20:47:34Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1573,7 +1573,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1583,7 +1583,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -1613,7 +1613,7 @@
      "source_periods"
     ],
     "publisher_checksum_recorded": false,
-    "resolved_at": "2026-11-17T09:05:03.765344+00:00",
+    "resolved_at": "2026-11-23T18:31:37.972117+00:00",
     "tiles_meeting_the_box": [
      "ID29_N40_W110",
      "ID30_N30_W110",
@@ -1627,7 +1627,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-17T15:52:32Z",
+   "run_at": "2026-11-23T20:47:48Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1642,7 +1642,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1652,7 +1652,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -1771,7 +1771,7 @@
      }
     }
    },
-   "run_at": "2026-11-17T15:52:32Z",
+   "run_at": "2026-11-23T20:47:48Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1794,7 +1794,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1804,7 +1804,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -1914,7 +1914,7 @@
     "values_compared": 19702276,
     "values_differing": 2
    },
-   "run_at": "2026-11-17T15:52:59Z",
+   "run_at": "2026-11-23T20:48:11Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1940,7 +1940,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -1950,7 +1950,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -1981,7 +1981,7 @@
     "values_compared": 180000,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:00Z",
+   "run_at": "2026-11-23T20:48:12Z",
    "sample": {
     "of": 9851138,
     "pixels": 20000,
@@ -2000,7 +2000,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2010,7 +2010,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -2032,7 +2032,7 @@
     "resolution": 7,
     "rows_per_pixel": 1.087
    },
-   "run_at": "2026-11-17T15:53:01Z",
+   "run_at": "2026-11-23T20:48:13Z",
    "sample": {
     "of": 9851138,
     "pixels": 2000,
@@ -2050,7 +2050,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2060,7 +2060,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -2097,7 +2097,7 @@
     "identifiers_differing": 0,
     "pixels": 2000
    },
-   "run_at": "2026-11-17T15:53:01Z",
+   "run_at": "2026-11-23T20:48:13Z",
    "sample": {
     "of": 9851138,
     "pixels": 2000,
@@ -2115,7 +2115,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2125,7 +2125,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -2164,7 +2164,7 @@
     "rows": 10703386,
     "value_semantics": "riverine flood depth"
    },
-   "run_at": "2026-11-17T15:53:01Z",
+   "run_at": "2026-11-23T20:48:13Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2178,7 +2178,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2188,7 +2188,7 @@
     {
      "bytes": 622103283,
      "files": 28,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
      "sha256_of": "the list of file names and their sha256",
@@ -2217,7 +2217,7 @@
     "uri": "cems-glofas-river-flood/aoi?bounds=-106.645646%2C25.837377%2C-93.508292%2C36.500704&sources=ID29_N40_W110%2CID30_N30_W110%2CID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
     "uri_wrong": {}
    },
-   "run_at": "2026-11-17T15:53:02Z",
+   "run_at": "2026-11-23T20:48:14Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2231,7 +2231,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2241,7 +2241,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2271,7 +2271,7 @@
      "source_periods"
     ],
     "publisher_checksum_recorded": false,
-    "resolved_at": "2026-11-17T09:46:23.721576+00:00",
+    "resolved_at": "2026-11-23T18:56:26.519704+00:00",
     "tiles_meeting_the_box": [
      "ID37_N40_W100",
      "ID38_N30_W100"
@@ -2281,7 +2281,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-17T15:53:03Z",
+   "run_at": "2026-11-23T20:48:15Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2296,7 +2296,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2306,7 +2306,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2377,7 +2377,7 @@
      }
     }
    },
-   "run_at": "2026-11-17T15:53:03Z",
+   "run_at": "2026-11-23T20:48:15Z",
    "sample": {
     "bounds": [
      -95.9,
@@ -2400,7 +2400,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2410,7 +2410,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2520,7 +2520,7 @@
     "values_compared": 425734,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:03Z",
+   "run_at": "2026-11-23T20:48:15Z",
    "sample": {
     "bounds": [
      -95.9,
@@ -2546,7 +2546,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2556,7 +2556,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2587,7 +2587,7 @@
     "values_compared": 180000,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:03Z",
+   "run_at": "2026-11-23T20:48:15Z",
    "sample": {
     "of": 212867,
     "pixels": 20000,
@@ -2606,7 +2606,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2616,7 +2616,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2638,7 +2638,7 @@
     "resolution": 9,
     "rows_per_pixel": 1.665
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 212867,
     "pixels": 2000,
@@ -2656,7 +2656,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2666,7 +2666,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2695,7 +2695,7 @@
     "identifiers_differing": 0,
     "pixels": 2000
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 212867,
     "pixels": 2000,
@@ -2713,7 +2713,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2723,7 +2723,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2762,7 +2762,7 @@
     "rows": 354477,
     "value_semantics": "riverine flood depth"
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2776,7 +2776,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2786,7 +2786,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2815,7 +2815,7 @@
     "uri": "cems-glofas-river-flood/aoi?bounds=-95.9%2C29.3%2C-94.9%2C30.2&sources=ID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
     "uri_wrong": {}
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2829,7 +2829,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2839,7 +2839,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2869,7 +2869,7 @@
      "source_periods"
     ],
     "publisher_checksum_recorded": false,
-    "resolved_at": "2026-11-17T09:47:05.230639+00:00",
+    "resolved_at": "2026-11-23T18:57:09.234374+00:00",
     "tiles_meeting_the_box": [
      "ID37_N40_W100",
      "ID38_N30_W100"
@@ -2879,7 +2879,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -2894,7 +2894,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -2904,7 +2904,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -2975,7 +2975,7 @@
      }
     }
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "bounds": [
      -98.0,
@@ -2998,7 +2998,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3008,7 +3008,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3042,7 +3042,7 @@
     "values_compared": 44402,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "bounds": [
      -98.0,
@@ -3068,7 +3068,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3078,7 +3078,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3109,7 +3109,7 @@
     "values_compared": 180000,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:04Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 22201,
     "pixels": 20000,
@@ -3128,7 +3128,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3138,7 +3138,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3160,7 +3160,7 @@
     "resolution": 9,
     "rows_per_pixel": 1.658
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 22201,
     "pixels": 2000,
@@ -3178,7 +3178,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3188,7 +3188,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3217,7 +3217,7 @@
     "identifiers_differing": 0,
     "pixels": 2000
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 22201,
     "pixels": 2000,
@@ -3235,7 +3235,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3245,7 +3245,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3284,7 +3284,7 @@
     "rows": 36803,
     "value_semantics": "riverine flood depth"
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3298,7 +3298,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3308,7 +3308,7 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "reference download",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
@@ -3337,7 +3337,7 @@
     "uri": "cems-glofas-river-flood/aoi?bounds=-98%2C30%2C-97.5%2C30.5&sources=ID37_N40_W100%2CID38_N30_W100&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
     "uri_wrong": {}
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3351,7 +3351,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3361,7 +3361,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3391,7 +3391,7 @@
      "source_periods"
     ],
     "publisher_checksum_recorded": false,
-    "resolved_at": "2026-11-17T09:47:17.880327+00:00",
+    "resolved_at": "2026-11-23T18:57:20.984521+00:00",
     "tiles_meeting_the_box": [
      "ID18_N40_W130"
     ],
@@ -3399,7 +3399,7 @@
      "ID18_N40_W130"
     ]
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3414,7 +3414,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3424,7 +3424,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3471,7 +3471,7 @@
      }
     }
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "bounds": [
      -122.15,
@@ -3494,7 +3494,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3504,7 +3504,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3614,7 +3614,7 @@
     "values_compared": 15728,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "bounds": [
      -122.15,
@@ -3640,7 +3640,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3650,7 +3650,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3681,7 +3681,7 @@
     "values_compared": 70776,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:16Z",
    "sample": {
     "of": 7864,
     "pixels": 7864,
@@ -3700,7 +3700,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3710,7 +3710,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3732,7 +3732,7 @@
     "resolution": 10,
     "rows_per_pixel": 3.014
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {
     "of": 7864,
     "pixels": 2000,
@@ -3750,7 +3750,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3760,7 +3760,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3785,7 +3785,7 @@
     "identifiers_differing": 0,
     "pixels": 2000
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {
     "of": 7864,
     "pixels": 2000,
@@ -3803,7 +3803,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3813,7 +3813,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3852,7 +3852,7 @@
     "rows": 23702,
     "value_semantics": "riverine flood depth"
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3866,7 +3866,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3876,7 +3876,7 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "reference download",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
@@ -3905,7 +3905,7 @@
     "uri": "cems-glofas-river-flood/aoi?bounds=-122.15%2C37.42%2C-121.85%2C37.62&sources=ID18_N40_W130&source_periods=10%2C20%2C50%2C75%2C100%2C200%2C500",
     "uri_wrong": {}
    },
-   "run_at": "2026-11-17T15:53:05Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3919,7 +3919,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3929,7 +3929,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -3959,7 +3959,7 @@
      "source_periods"
     ],
     "publisher_checksum_recorded": false,
-    "resolved_at": "2026-11-17T09:47:33.383145+00:00",
+    "resolved_at": "2026-11-23T18:57:58.949615+00:00",
     "tiles_meeting_the_box": [
      "continental"
     ],
@@ -3967,7 +3967,7 @@
      "continental"
     ]
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -3982,7 +3982,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -3992,7 +3992,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4039,7 +4039,7 @@
      }
     }
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:17Z",
    "sample": {
     "bounds": [
      7.0,
@@ -4062,7 +4062,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4072,7 +4072,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4192,7 +4192,7 @@
     "values_compared": 286050,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "bounds": [
      7.0,
@@ -4218,7 +4218,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4228,7 +4228,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4261,7 +4261,7 @@
     "values_compared": 220000,
     "values_differing": 0
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "of": 143025,
     "pixels": 20000,
@@ -4280,7 +4280,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4290,7 +4290,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4312,7 +4312,7 @@
     "resolution": 7,
     "rows_per_pixel": 1.083
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "of": 143025,
     "pixels": 2000,
@@ -4330,7 +4330,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4340,7 +4340,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4365,7 +4365,7 @@
     "identifiers_differing": 0,
     "pixels": 2000
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "of": 143025,
     "pixels": 2000,
@@ -4383,7 +4383,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4393,7 +4393,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4432,7 +4432,7 @@
     "rows": 154825,
     "value_semantics": "riverine flood depth"
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -4446,7 +4446,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4456,7 +4456,7 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "reference download",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
@@ -4485,7 +4485,7 @@
     "uri": "cems-efas-river-flood/aoi?bounds=7%2C49.7%2C8.5%2C50.9&sources=continental&source_periods=10%2C20%2C30%2C40%2C50%2C75%2C100%2C200%2C500",
     "uri_wrong": {}
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -4499,7 +4499,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4509,7 +4509,7 @@
     {
      "bytes": 272286610,
      "files": 1,
-     "retrieved_at": "2026-11-17T05:23:32Z",
+     "retrieved_at": "2026-11-23T18:58:58Z",
      "role": "reference download",
      "sha256": "25379a86d092b0b8af131de7c0d75b3869aae7648be4516cf0c8c9db2bf904a5",
      "sha256_of": "the list of file names and their sha256",
@@ -4536,9 +4536,9 @@
      71.13375
     ],
     "rows": 0,
-    "seconds": 1.0
+    "seconds": 7.2
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -4559,7 +4559,7 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   },
   {
@@ -4569,7 +4569,7 @@
     {
      "bytes": 272286610,
      "files": 1,
-     "retrieved_at": "2026-11-17T05:23:32Z",
+     "retrieved_at": "2026-11-23T18:58:58Z",
      "role": "reference download",
      "sha256": "25379a86d092b0b8af131de7c0d75b3869aae7648be4516cf0c8c9db2bf904a5",
      "sha256_of": "the list of file names and their sha256",
@@ -4596,9 +4596,9 @@
      71.13375
     ],
     "rows": 0,
-    "seconds": 0.7
+    "seconds": 0.8
    },
-   "run_at": "2026-11-17T15:53:06Z",
+   "run_at": "2026-11-23T20:48:18Z",
    "sample": {
     "bounds": [
      -122.15,
@@ -4619,19 +4619,19 @@
    },
    "versions": {
     "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.1"
+    "crc-sdk": "0.11.2"
    }
   }
  ],
  "comparisons": [
   {
    "evidence": {
-    "bytes": 92318017,
+    "bytes": 112930816,
     "features": 21289,
     "licence": "none stated by the service; a U.S. federal government work",
     "name": "FEMA National Flood Hazard Layer, flood hazard zones (layer 28)",
     "panel_effective_dates": "2007-06-18 to 2021-01-29",
-    "retrieved_at": "2026-11-17T11:42:23Z",
+    "retrieved_at": "2026-11-23T20:24:01Z",
     "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer"
    },
    "id": "fema[glofas-houston]",
@@ -4833,7 +4833,7 @@
      [
       "08067500",
       "Cedar Bayou nr Crosby, TX",
-      52,
+      53,
       1.73,
       1.73,
       "dry",
@@ -4855,7 +4855,7 @@
      [
       "08068275",
       "Spring Ck nr Tomball, TX",
-      22,
+      23,
       3.47,
       3.47,
       "dry",
@@ -6344,7 +6344,7 @@
      "features": 254,
      "last_modified": "",
      "licence": "U.S. government work",
-     "retrieved_at": "2026-11-17T11:50:05Z",
+     "retrieved_at": "2026-11-23T19:17:40Z",
      "sha256": "4f7d2afd261fa947134b13ce80f717601d8c6daa781087a9c61b7818e5bdb2f0",
      "title": "Texas counties: U.S. Census Bureau TIGERweb, vintage 1 January 2026, simplified to 0.002 degrees by the service",
      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1/query?where=STATE%3D%2748%27&outFields=NAME,STATE,GEOID,BASENAME&returnGeometry=true&outSR=4326&maxAllowableOffset=0.002&f=geojson"
@@ -8147,7 +8147,7 @@
      "features": 1,
      "last_modified": "",
      "licence": "U.S. government work",
-     "retrieved_at": "2026-11-17T11:51:00Z",
+     "retrieved_at": "2026-11-23T19:18:27Z",
      "sha256": "cd24a0938c9bada7d21354531768ced98a3fec8058a01c53c0aeac145256c847",
      "title": "City of Fremont: U.S. Census Bureau TIGERweb incorporated places (BAS 2026)",
      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Places_CouSub_ConCity_SubMCD/MapServer/4/query?where=NAME%3D%27Fremont+city%27+AND+STATE%3D%2706%27&outFields=NAME,STATE,GEOID,BASENAME,LSADC&returnGeometry=true&outSR=4326&f=geojson"
@@ -8177,9 +8177,9 @@
      "bytes": 1209873,
      "etag": "\"511b3625ad4568d12a6bfcb1bdea4e877199e1923e502cb80224b8164128eb05\"",
      "features": 16,
-     "last_modified": "Tue, 17 Nov 2026 11:51:01 GMT",
+     "last_modified": "Mon, 23 Nov 2026 19:18:28 GMT",
      "licence": "CC BY 4.0 as the notebook states; the file states none",
-     "retrieved_at": "2026-11-17T11:51:01Z",
+     "retrieved_at": "2026-11-23T19:18:29Z",
      "sha256": "511b3625ad4568d12a6bfcb1bdea4e877199e1923e502cb80224b8164128eb05",
      "title": "German states: geoBoundaries ADM1, simplified, commit 9469f09 (the notebook's file)",
      "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/DEU/ADM1/geoBoundaries-DEU-ADM1_simplified.geojson"
@@ -8300,13 +8300,13 @@
    {
     "area": "efas-tx",
     "error": "LookupError: no JRC resources intersect area (-106.645646, 25.837377, -93.508292, 36.500704)",
-    "seconds": 1.0,
+    "seconds": 7.2,
     "title": "Texas box"
    },
    {
     "area": "efas-fremont",
     "error": "LookupError: no JRC resources intersect area (-122.15, 37.42, -121.85, 37.62)",
-    "seconds": 0.7,
+    "seconds": 0.8,
     "title": "Fremont, California"
    }
   ],
@@ -8315,9 +8315,9 @@
     "area": "glofas-tx",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 5804,
+    "peak_memory_mb": 7711,
     "rows": 10703386,
-    "seconds": 1603.6,
+    "seconds": 1605.5,
     "warnings": [
      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication"
     ]
@@ -8326,9 +8326,9 @@
     "area": "glofas-houston",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 2176,
+    "peak_memory_mb": 7711,
     "rows": 354477,
-    "seconds": 53.7,
+    "seconds": 45.5,
     "warnings": [
      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication"
     ]
@@ -8337,9 +8337,9 @@
     "area": "glofas-austin",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 2176,
+    "peak_memory_mb": 7711,
     "rows": 36803,
-    "seconds": 10.4,
+    "seconds": 12.1,
     "warnings": [
      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication"
     ]
@@ -8348,9 +8348,9 @@
     "area": "glofas-fremont",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 2176,
+    "peak_memory_mb": 7711,
     "rows": 23702,
-    "seconds": 10.0,
+    "seconds": 9.1,
     "warnings": [
      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication"
     ]
@@ -8359,9 +8359,9 @@
     "area": "efas-rhine",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 2176,
+    "peak_memory_mb": 7711,
     "rows": 154825,
-    "seconds": 34.9,
+    "seconds": 42.3,
     "warnings": [
      "PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication"
     ]
@@ -8401,7 +8401,7 @@
    "glofas"
   ]
  },
- "run_at": "2026-11-17T15:54:08Z",
+ "run_at": "2026-11-23T20:49:23Z",
  "schema": "data_source_check/0.1",
  "selection": {
   "areas": {
@@ -8537,7 +8537,7 @@
      4,
      "201,757,502",
      "9,255,575",
-     "10,744,960",
+     "11,686,209",
      "11,686,210",
      "9,853,959",
      "108.23"
@@ -8549,7 +8549,7 @@
      2,
      "1,298,281",
      "186,964",
-     "233,922",
+     "278,654",
      "278,654",
      "212,949",
      "10.14"
@@ -8561,7 +8561,7 @@
      2,
      "361,201",
      "20,396",
-     "23,584",
+     "25,494",
      "25,494",
      "22,201",
      "21.83"
@@ -8573,7 +8573,7 @@
      1,
      "87,001",
      "7,972",
-     "9,636",
+     "10,603",
      "10,603",
      "7,869",
      "20.55"
@@ -8585,7 +8585,7 @@
      1,
      "2,595,241",
      "123,586",
-     "146,732",
+     "161,898",
      "161,898",
      "143,074",
      "22.86"
@@ -9028,49 +9028,49 @@
     [
      "glofas-tx",
      "10,703,386",
-     1603.6,
-     5804,
+     1605.5,
+     7711,
      "completed"
     ],
     [
      "glofas-houston",
      "354,477",
-     53.7,
-     2176,
+     45.5,
+     7711,
      "completed"
     ],
     [
      "glofas-austin",
      "36,803",
-     10.4,
-     2176,
+     12.1,
+     7711,
      "completed"
     ],
     [
      "glofas-fremont",
      "23,702",
-     10.0,
-     2176,
+     9.1,
+     7711,
      "completed"
     ],
     [
      "efas-rhine",
      "154,825",
-     34.9,
-     2176,
+     42.3,
+     7711,
      "completed"
     ],
     [
      "efas-tx",
      0,
-     1.0,
+     7.2,
      "",
      "LookupError: no JRC resources intersect area (-106.645646, 25.837377, -93.508292, 36.500704)"
     ],
     [
      "efas-fremont",
      0,
-     0.7,
+     0.8,
      "",
      "LookupError: no JRC resources intersect area (-122.15, 37.42, -121.85, 37.62)"
     ]
@@ -11000,19 +11000,19 @@
      "743"
     ],
     [
-     "Hessen: mean depth (m)",
-     "5.36",
-     "5.34"
+     "Rheinland-Pfalz: mean depth (m)",
+     "7.68",
+     "7.68"
     ],
     [
-     "Hessen: largest depth (m)",
-     "15.39",
-     "15.39"
+     "Rheinland-Pfalz: largest depth (m)",
+     "21.86",
+     "21.86"
     ],
     [
-     "Hessen: cells",
-     "205",
-     "206"
+     "Rheinland-Pfalz: cells",
+     "508",
+     "508"
     ],
     [
      "Nordrhein-Westfalen: mean depth (m)",
@@ -11030,19 +11030,19 @@
      "98"
     ],
     [
-     "Rheinland-Pfalz: mean depth (m)",
-     "7.68",
-     "7.68"
+     "Hessen: mean depth (m)",
+     "5.36",
+     "5.34"
     ],
     [
-     "Rheinland-Pfalz: largest depth (m)",
-     "21.86",
-     "21.86"
+     "Hessen: largest depth (m)",
+     "15.39",
+     "15.39"
     ],
     [
-     "Rheinland-Pfalz: cells",
-     "508",
-     "508"
+     "Hessen: cells",
+     "205",
+     "206"
     ],
     [
      "Places in those cells",
@@ -11055,6 +11055,6 @@
  ],
  "versions": {
   "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.1"
+  "crc-sdk": "0.11.2"
  }
 }

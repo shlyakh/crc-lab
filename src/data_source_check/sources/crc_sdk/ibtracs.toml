@@ -16,7 +16,7 @@ notes = "Longitudes in NOAA's files are not wrapped to -180..180 (values up to 2
 subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
 
 [assessed_options]
-subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "last3years", "since1980"]
+subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
 
 [status]
 exploration = "assessed"
@@ -24,58 +24,58 @@ verification = "assessed"
 
 [[statement]]
 id = "address"
-text = "Requests `<root>/ibtracs.<subset>.list.v04r01.csv`, with the subset spelled exactly as one of the eleven names crc-sdk accepts."
-code_ref = "crc_sdk/workflows/ibtracs.py:27-41, 70-71"
+text = "Requests `<root>/ibtracs.<name>.list.v04r01.csv`, where the name is the subset spelled exactly as one of the eleven crc-sdk accepts, except `active`, which is requested as `ACTIVE`, the spelling of NOAA's file."
+code_ref = "crc_sdk/workflows/ibtracs.py:27-43, 72-74"
 
 [[statement]]
 id = "bytes"
 text = "Saves the response unchanged as `source.csv` and records its SHA-256. A download shorter than the announced length is refused."
-code_ref = "crc_sdk/workflows/ibtracs.py:113-128, 154"
+code_ref = "crc_sdk/workflows/ibtracs.py:116-131, 157"
 
 [[statement]]
 id = "header"
 text = "Reads line 1 as column names and line 2 as units. Requires the columns SID, SEASON and ISO_TIME. The units go to the manifest only; they are not in the data."
-code_ref = "crc_sdk/workflows/ibtracs.py:129-147, 167-168"
+code_ref = "crc_sdk/workflows/ibtracs.py:132-150, 170-171"
 
 [[statement]]
 id = "columns"
 text = "Keeps every column, in the file's order, under NOAA's names."
-code_ref = "crc_sdk/workflows/ibtracs.py:169, 193"
+code_ref = "crc_sdk/workflows/ibtracs.py:172, 196"
 
 [[statement]]
 id = "strings"
 text = "Delivers every value as a string. Nothing is parsed into a number or a date, and no unit is converted."
-code_ref = "crc_sdk/workflows/ibtracs.py:198-200"
+code_ref = "crc_sdk/workflows/ibtracs.py:201-203"
 
 [[statement]]
 id = "trim"
 text = "Removes leading and trailing whitespace from every value."
-code_ref = "crc_sdk/workflows/ibtracs.py:215-218"
+code_ref = "crc_sdk/workflows/ibtracs.py:218-221"
 
 [[statement]]
 id = "null"
 text = "Turns a value that is empty after trimming into null. NOAA marks a missing value with a single space."
-code_ref = "crc_sdk/workflows/ibtracs.py:233-241"
+code_ref = "crc_sdk/workflows/ibtracs.py:236-244"
 
 [[statement]]
 id = "rows"
 text = "Keeps every data row in the file's order. Rows are not dropped, merged, sorted or de-duplicated."
-code_ref = "crc_sdk/workflows/ibtracs.py:171-183, 191-212"
+code_ref = "crc_sdk/workflows/ibtracs.py:174-186, 194-215"
 
 [[statement]]
 id = "storms"
 text = "`for_storms(ids)` keeps the rows whose SID is in the list. These are track points, not complete storms across basin files."
-code_ref = "crc_sdk/workflows/ibtracs.py:73-77, 219-222"
+code_ref = "crc_sdk/workflows/ibtracs.py:76-80, 222-225"
 
 [[statement]]
 id = "seasons"
 text = "`years(a, b)` keeps the rows whose SEASON, read as an integer, lies in a..b inclusive. SEASON is NOAA's season label, not the calendar year of the point."
-code_ref = "crc_sdk/workflows/ibtracs.py:79-82, 223-231"
+code_ref = "crc_sdk/workflows/ibtracs.py:82-85, 226-234"
 
 [[statement]]
 id = "provenance"
 text = "Writes a manifest beside the snapshot with the address, version, subset, SHA-256, retrieval time, ETag, Last-Modified, units, a terms address and a citation. The batches themselves carry no metadata."
-code_ref = "crc_sdk/workflows/ibtracs.py:139-155"
+code_ref = "crc_sdk/workflows/ibtracs.py:142-158"
 
 [[statement]]
 id = "reuse"

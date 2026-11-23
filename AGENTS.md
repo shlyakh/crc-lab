@@ -24,7 +24,7 @@ Read first:
 
 Reference clones, read-only, pinned to the versions this repo uses (see `../README.md`):
 
-- `../upstream/crc-sdk/` (v0.11.1) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
+- `../upstream/crc-sdk/` (v0.11.2) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
   canonical dataset and probability conventions; `docs/sources/crc-open.md` for the release layout;
   `crc_sdk/workflows/*.py` docstrings are the parameter reference.
 - `../upstream/crc-docs/` — notebooks, pipelines, and the five end-user skills under `.agents/skills/`
@@ -55,7 +55,7 @@ none of them).
   rebuild), `just validation-assess <id>` (live run; caches under `data/cache/validation/`),
   `tools/smoke-validation.mjs`. Assessed so far: IBTrACS (V1), GHCNh (V2), JRC flood (V8; accepted onto the
   page as an unreviewed draft on 2026-11-17 at Yuri's word), NEX-GDDP-CMIP6 (V3; its
-  temperature recipes are also run against the fixed clone `../forks/crc-sdk`, labelled as such).
+  temperature recipes failed at crc-sdk 0.11.1 and are checked from 0.11.2).
   Monitoring (V4): `just validation-monitor` (HEAD requests; writes `docs/validation/monitoring.md`),
   `just validation-monitor-rerun` (stages a re-run), `just validation-accept <id>` (a person publishes
   it); `.github/workflows/validation-monitor.yml` runs weekly once pushed and never commits.
@@ -93,6 +93,10 @@ none of them).
 - Work one phase at a time. Stop after each phase for review. Write a short report in `docs/reports/`.
 - Never invent a number. If a data source cannot be reached, say so and stop.
 - Pin `crc-sdk` and `crc-framework`; record versions in every output. Log upstream changes in `CHANGELOG-upstream.md`.
+  Released versions only, one release at a time: `just upstream-check` lists what is newer than the pins,
+  `just upstream-bump <package> <version>` moves one (`tools/upstream.py`), `just release-check` gives the first
+  look in minutes (names that are gone, offline tests, quick staged re-runs), and `docs/upstream-updates.md`
+  is the checklist that follows, including what happens to each finding.
 - Every dataset gets a data card: source, date fetched, licence, coverage, known biases.
 - Curves built from storm reports say so: an empty cell may be unobserved.
 - Label cell-level results "regional screening" (a cell is about 253 km²).

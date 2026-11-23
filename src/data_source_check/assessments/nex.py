@@ -4,9 +4,9 @@ One model and member (ACCESS-CM2, r1i1p1f1), the Texas box, one historical year 
 scenario year, the four recipes and every file version NASA serves for them. Every grid cell
 of the box is recomputed from the whole downloaded file.
 
-At crc-sdk 0.11.1 the temperature recipes fail (finding CRC-001-NEX). Their values are therefore
-also compared against a local clone that carries the fix; those checks are labelled and do
-not count towards the outcome of any statement step.
+At crc-sdk 0.11.1 the temperature recipes failed on NASA's files (finding CRC-001-NEX, fixed in
+0.11.2). A recipe that fails is recorded as a `units` check; one that runs is compared cell by
+cell like the rainfall recipes.
 """
 
 from __future__ import annotations
@@ -34,8 +34,8 @@ ANNUAL_STEPS = ("files", "identity", "time", "area", "missing", "completeness", 
 RECIPE_STEPS = {
     "rx1day": ("units-rain", "statistic-rain"),
     "rx5day": ("units-rain", "statistic-rain"),
-    "txx": (),
-    "tnn": (),
+    "txx": ("units-temperature", "statistic-temperature"),
+    "tnn": ("units-temperature", "statistic-temperature"),
 }
 
 
@@ -71,8 +71,7 @@ def _address(case: dict[str, Any]) -> str:
 
 
 def _framework(
-    case: dict[str, Any], folder: Path, *, live: bool, source: Path | None,
-    bounds: Sequence[float], runner: Runner,
+    case: dict[str, Any], folder: Path, *, live: bool, bounds: Sequence[float], runner: Runner,
 ) -> dict:  # fmt: skip
     """crc-sdk's stored answer for a case; asked for only when it is not stored yet."""
     import json
@@ -81,7 +80,7 @@ def _framework(
     if not path.exists():
         if not live:
             raise FileNotFoundError(f"no stored crc-sdk answer for {label(case)}; run with --live")
-        runner(_request(case, bounds), path, crc_sdk_source=source)
+        runner(_request(case, bounds), path)
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -90,7 +89,6 @@ def assess(
     *,
     live: bool,
     versions: dict[str, str],
-    fixed_clone: Path | None = None,
     rules: reference.Rules | None = None,
     todo: list[dict[str, Any]] | None = None,
     bounds: tuple[float, float, float, float] = BOUNDS,
@@ -111,20 +109,10 @@ def assess(
     log("crc-sdk: installed version")
     with ThreadPoolExecutor(max_workers=4) as pool:
         pinned = list(pool.map(
-            lambda c: _framework(c, cache / "framework" / "installed", live=live, source=None,
+            lambda c: _framework(c, cache / "framework" / "installed", live=live,
                                  bounds=bounds, runner=runner),
             [*todo, missing_case]))  # fmt: skip
     absent = pinned.pop()
-    failing = [case for case, got in zip(todo, pinned, strict=True) if got["error"]]
-    fixed: dict[str, dict] = {}
-    if fixed_clone is not None and failing:
-        log("crc-sdk: local clone with the fix")
-        with ThreadPoolExecutor(max_workers=4) as pool:
-            answers = pool.map(
-                lambda c: _framework(c, cache / "framework" / "fixed-clone", live=live,
-                                     source=fixed_clone, bounds=bounds, runner=runner),
-                failing)  # fmt: skip
-            fixed = {label(case): got for case, got in zip(failing, answers, strict=True)}
 
     checks: list[CheckRecord] = []
     boxes: dict[str, dict[str, Any]] = {}
@@ -161,12 +149,9 @@ def assess(
 
         def make(check: str, category: str, method: str, agrees: bool | None, *,
                  answer: dict = got, **more: Any) -> CheckRecord:  # fmt: skip
-            used = dict(versions)
-            if "fixed-clone" in check:
-                used["crc-sdk"] = f"{versions['crc-sdk']} with the fix of CRC-001-NEX (local clone)"
             return compare.record(
                 source=SOURCE, check=f"{check}[{name}]", tier="verification", category=category,
-                method=method, agrees=agrees, versions=used, inputs=inputs, **more,
+                method=method, agrees=agrees, versions=versions, inputs=inputs, **more,
             )  # fmt: skip
 
         def annual(check: str, answer: dict, steps: tuple[str, ...], where: str) -> CheckRecord:
@@ -193,9 +178,6 @@ def assess(
                         "crc_sdk_error": f"{got['error_type']}: {got['error']}"[:400]},
                 tolerance={"unit": "identical text"}, steps=("units-temperature",),
             ))  # fmt: skip
-            if name in fixed:
-                checks.append(annual("annual-fixed-clone", fixed[name], (),
-                                     "the local clone with the fix"))  # fmt: skip
             return
         checks.append(annual("annual", got, ANNUAL_STEPS + RECIPE_STEPS[case["recipe"]],
                              "crc-sdk"))  # fmt: skip
@@ -266,7 +248,6 @@ def assess(
             "scenario": sorted({c["scenario"] for c in todo}),
             "version": sorted({c["version"] for c in todo}),
         },
-        "fixed_clone": str(fixed_clone) if fixed else "",
         "checks": [check.to_dict() for check in checks],
         "exploration": {"cases": summaries, "versions_served": served,
                         "version_differences": _version_differences(cache, rules)},
@@ -362,12 +343,10 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
         check["summary"] = _summary(check)
     count = compare.tally(run["checks"])
     annual = [c["result"] for c in run["checks"] if c["check"].startswith("annual[")]
-    with_fix = [c["result"] for c in run["checks"] if c["check"].startswith("annual-fixed")]
     explored = run["exploration"]
     run["headline"] = [
         [sum(r["rows_reference"] for r in annual), "cell values compared, installed version"],
         [sum(r["values_differing"] for r in annual), "values that differ"],
-        [sum(r["rows_reference"] for r in with_fix), "cell values compared with the fix"],
         [f"{count.get('confirmed', 0)} of {len(run['checks'])}", "checks confirmed"],
         [count.get("differs", 0), "checks that differ"],
     ]

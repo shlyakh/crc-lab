@@ -143,16 +143,16 @@ def test_reference_reader_on_the_constructed_file(bucket: Path) -> None:
 def test_assessment_on_the_constructed_files(tmp_path: Path, served: None) -> None:
     records = run(tmp_path)
     got = outcomes(records)
-    # the installed crc-sdk refuses kelvin written as one character (CRC-001-NEX)
-    assert got.pop("units[txx historical 2014 v1.0]") == "differs"
+    # kelvin written as one character is accepted since crc-sdk 0.11.2 (CRC-001-NEX)
+    assert not [name for name in got if name.startswith("units[")]
     assert got.pop("versions-served") == "confirmed"  # nothing beyond 1.0-1.2 in this bucket
-    bad = [
-        (c["check"], c["summary"])
-        for c in records["checks"]
-        if c["outcome"] != "confirmed" and not c["check"].startswith("units[")
-    ]
+    bad = [(c["check"], c["summary"]) for c in records["checks"] if c["outcome"] != "confirmed"]
     assert not bad, bad
-    assert len(got) == 9 and got["missing-version"] == "confirmed"
+    assert len(got) == 11 and got["missing-version"] == "confirmed"
+    hottest = next(c for c in records["checks"] if c["check"] == "annual[txx historical 2014 v1.0]")
+    assert {"units-temperature", "statistic-temperature"} <= set(hottest["steps"])
+    assert hottest["result"]["values_compared"] > 0
+    assert "txx" in records["options_assessed"]["recipe"]
     annual = next(
         c for c in records["checks"] if c["check"] == "annual[rx5day historical 2014 v1.0]"
     )
@@ -195,16 +195,10 @@ def test_committed_records_match_the_inventory() -> None:
     for name, values in records["options_assessed"].items():
         assert sorted(source.assessed_options[name]) == values
     steps = {step.id: step.outcome for step in build.with_outcomes(source, records).statement}
-    assert steps["units-temperature"] == "differs" and steps["versions-offered"] == "differs"
-    assert steps["statistic-temperature"] == "not checked"
-    assert all(
-        v == "confirmed"
-        for k, v in steps.items()
-        if k not in ("units-temperature", "versions-offered", "statistic-temperature")
-    )
+    # the temperature steps differed or went unchecked until crc-sdk 0.11.2 (CRC-001-NEX);
+    # NASA's version 2.0 files still cannot be requested (CRC-012-NEX)
+    assert steps["versions-offered"] == "differs"
+    assert all(v == "confirmed" for k, v in steps.items() if k != "versions-offered")
     used = {step for check in records["checks"] for step in check["steps"]}
     assert used <= set(steps)
-    # the checks on the fixed clone are labelled and bear on no step
-    fixed = [c for c in records["checks"] if c["check"].startswith("annual-fixed-clone[")]
-    assert len(fixed) == 4 and all(c["outcome"] == "confirmed" and not c["steps"] for c in fixed)
-    assert all("local clone" in c["versions"]["crc-sdk"] for c in fixed)
+    assert all(" " not in c["versions"]["crc-sdk"] for c in records["checks"])  # no labelled runs

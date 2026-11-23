@@ -29,9 +29,13 @@ USER_AGENT = "data-source-check"
 Row = list[str | None]
 
 
+#: NOAA's directory spells one file name in capitals; every other name is the subset's own.
+FILE_NAMES = {"active": "ACTIVE"}
+
+
 def url(subset: str) -> str:
-    """The file name as crc-sdk's documentation and NOAA's directory both spell it."""
-    return f"{ROOT}/ibtracs.{subset}.list.v04r01.csv"
+    """The address of a subset's file, with the name as NOAA's directory spells it."""
+    return f"{ROOT}/ibtracs.{FILE_NAMES.get(subset, subset)}.list.v04r01.csv"
 
 
 def sha256(path: Path) -> str:
