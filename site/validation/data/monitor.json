@@ -7,296 +7,49 @@
   "crc-framework": "0.6.0",
   "crc-sdk": "0.11.2"
  },
- "needs_attention": true,
- "reruns": [
-  {
-   "checks_added": [
-    "both-filters[active]",
-    "bytes[active]",
-    "header[active]",
-    "provenance[active]",
-    "season-filter[active]",
-    "storm-filter[active]",
-    "values[active]"
-   ],
-   "checks_removed": [],
-   "newly_differing": [],
-   "outcomes_changed": [
-    {
-     "check": "address",
-     "now": "confirmed",
-     "was": "differs"
-    }
-   ],
-   "profile": "full",
-   "reused": true,
-   "source": "ibtracs",
-   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/ibtracs.json",
-   "summaries_changed": [
-    {
-     "check": "both-filters[since1980]",
-     "now": "1,038 rows against 1,038; 180,612 values compared, 0 differ",
-     "was": "1,079 rows against 1,079; 187,746 values compared, 0 differ"
-    },
-    {
-     "check": "bytes[ALL]",
-     "now": "333,311,392 bytes; SHA-256 5dab06471138\u2026 on both sides",
-     "was": "333,271,989 bytes; SHA-256 b67770d3d12e\u2026 on both sides"
-    },
-    {
-     "check": "bytes[EP]",
-     "now": "47,313,991 bytes; SHA-256 912e7b9334a5\u2026 on both sides",
-     "was": "47,312,133 bytes; SHA-256 9e74f5e88338\u2026 on both sides"
-    },
-    {
-     "check": "bytes[NI]",
-     "now": "27,919,356 bytes; SHA-256 34b6a7ead2fb\u2026 on both sides",
-     "was": "27,907,168 bytes; SHA-256 137d896f68f8\u2026 on both sides"
-    },
-    {
-     "check": "bytes[SP]",
-     "now": "35,714,484 bytes; SHA-256 bfbc41fe4de0\u2026 on both sides",
-     "was": "35,689,127 bytes; SHA-256 cd20fa2b45ed\u2026 on both sides"
-    },
-    {
-     "check": "bytes[last3years]",
-     "now": "11,889,370 bytes; SHA-256 bac307163aa9\u2026 on both sides",
-     "was": "11,849,967 bytes; SHA-256 deb60be5fd2b\u2026 on both sides"
-    },
-    {
-     "check": "bytes[since1980]",
-     "now": "145,408,437 bytes; SHA-256 6f19b2cae168\u2026 on both sides",
-     "was": "145,369,034 bytes; SHA-256 2200fc253d53\u2026 on both sides"
-    },
-    {
-     "check": "season-filter[last3years]",
-     "now": "13,010 rows against 13,010; 2,263,740 values compared, 0 differ",
-     "was": "12,979 rows against 12,979; 2,258,346 values compared, 0 differ"
-    },
-    {
-     "check": "storm-filter[since1980]",
-     "now": "1,632 rows against 1,632; 283,968 values compared, 0 differ",
-     "was": "1,646 rows against 1,646; 286,404 values compared, 0 differ"
-    },
-    {
-     "check": "values[ALL]",
-     "now": "730,694 rows against 730,694; 127,140,756 values compared, 0 differ",
-     "was": "730,608 rows against 730,608; 127,125,792 values compared, 0 differ"
-    },
-    {
-     "check": "values[EP]",
-     "now": "101,586 rows against 101,586; 17,675,964 values compared, 0 differ",
-     "was": "101,582 rows against 101,582; 17,675,268 values compared, 0 differ"
-    },
-    {
-     "check": "values[NI]",
-     "now": "62,937 rows against 62,937; 10,951,038 values compared, 0 differ",
-     "was": "62,910 rows against 62,910; 10,946,340 values compared, 0 differ"
-    },
-    {
-     "check": "values[SP]",
-     "now": "77,278 rows against 77,278; 13,446,372 values compared, 0 differ",
-     "was": "77,223 rows against 77,223; 13,436,802 values compared, 0 differ"
-    },
-    {
-     "check": "values[last3years]",
-     "now": "25,099 rows against 25,099; 4,367,226 values compared, 0 differ",
-     "was": "25,013 rows against 25,013; 4,352,262 values compared, 0 differ"
-    },
-    {
-     "check": "values[since1980]",
-     "now": "312,480 rows against 312,480; 54,371,520 values compared, 0 differ",
-     "was": "312,394 rows against 312,394; 54,356,556 values compared, 0 differ"
-    }
-   ]
-  },
-  {
-   "checks_added": [],
-   "checks_removed": [],
-   "newly_differing": [],
-   "outcomes_changed": [],
-   "profile": "full",
-   "reused": true,
-   "source": "ghcnh",
-   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/ghcnh.json",
-   "summaries_changed": []
-  },
-  {
-   "checks_added": [],
-   "checks_removed": [],
-   "newly_differing": [],
-   "outcomes_changed": [],
-   "profile": "full",
-   "source": "jrc-flood",
-   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/jrc-flood.json",
-   "summaries_changed": []
-  },
-  {
-   "checks_added": [
-    "annual[tnn historical 2014 v1.0]",
-    "annual[tnn ssp585 2050 v1.0]",
-    "annual[txx historical 2014 v1.0]",
-    "annual[txx ssp585 2050 v1.0]",
-    "labels[tnn historical 2014 v1.0]",
-    "labels[tnn ssp585 2050 v1.0]",
-    "labels[txx historical 2014 v1.0]",
-    "labels[txx ssp585 2050 v1.0]"
-   ],
-   "checks_removed": [
-    "annual-fixed-clone[tnn historical 2014 v1.0]",
-    "annual-fixed-clone[tnn ssp585 2050 v1.0]",
-    "annual-fixed-clone[txx historical 2014 v1.0]",
-    "annual-fixed-clone[txx ssp585 2050 v1.0]",
-    "units[tnn historical 2014 v1.0]",
-    "units[tnn ssp585 2050 v1.0]",
-    "units[txx historical 2014 v1.0]",
-    "units[txx ssp585 2050 v1.0]"
-   ],
-   "newly_differing": [],
-   "outcomes_changed": [],
-   "profile": "full",
-   "source": "nex-gddp-cmip6",
-   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/nex-gddp-cmip6.json",
-   "summaries_changed": []
-  }
- ],
- "run_at": "2026-11-23T20:47:23Z",
+ "needs_attention": false,
+ "reruns": [],
+ "run_at": "2026-11-23T23:57:23Z",
  "sources": [
   {
-   "assessed_at": "2026-11-12T23:31:55Z",
-   "files": 10,
-   "files_changed": [
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:29 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ALL.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:05:57 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:34 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.EP.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:01 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:44 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.NA.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:08 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:48 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.NI.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:10 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:48 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.SA.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:10 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:59 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.SI.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:18 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:59:21 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.SP.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:36 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:59:37 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.WP.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:46 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:58:36 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.last3years.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:02 GMT"
-    },
-    {
-     "change": "changed",
-     "now": "Sun, 22 Nov 2026 14:59:16 GMT",
-     "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.since1980.list.v04r01.csv",
-     "was": "Thu, 12 Nov 2026 10:06:32 GMT"
-    }
-   ],
+   "assessed_at": "2026-11-23T19:12:19Z",
+   "files": 11,
+   "files_changed": [],
    "files_unreachable": [],
-   "reasons": [
-    "the publisher changed 10 of 10 files",
-    "the framework version changed: crc-sdk 0.11.1 to 0.11.2"
-   ],
+   "reasons": [],
    "source": "ibtracs",
-   "stale": true,
-   "versions_changed": {
-    "crc-sdk": {
-     "assessed": "0.11.1",
-     "installed": "0.11.2"
-    }
-   }
+   "stale": false,
+   "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-12T04:34:47Z",
+   "assessed_at": "2026-11-23T19:12:48Z",
    "files": 1008,
    "files_changed": [],
-   "files_unreachable": [
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2020/parquet/GHCNh_USW00000270_2020.parquet",
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2020/parquet/GHCNh_USW00000272_2020.parquet",
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2022/parquet/GHCNh_USW00000130_2022.parquet",
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2022/parquet/GHCNh_USW00000134_2022.parquet",
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2022/parquet/GHCNh_USW00000263_2022.parquet"
-   ],
-   "reasons": [
-    "the framework version changed: crc-sdk 0.11.1 to 0.11.2"
-   ],
+   "files_unreachable": [],
+   "reasons": [],
    "source": "ghcnh",
-   "stale": true,
-   "versions_changed": {
-    "crc-sdk": {
-     "assessed": "0.11.1",
-     "installed": "0.11.2"
-    }
-   }
+   "stale": false,
+   "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-17T15:54:08Z",
+   "assessed_at": "2026-11-23T20:49:23Z",
    "files": 0,
    "files_changed": [],
    "files_unreachable": [],
-   "reasons": [
-    "the framework version changed: crc-sdk 0.11.1 to 0.11.2"
-   ],
+   "reasons": [],
    "source": "jrc-flood",
-   "stale": true,
-   "versions_changed": {
-    "crc-sdk": {
-     "assessed": "0.11.1",
-     "installed": "0.11.2"
-    }
-   }
+   "stale": false,
+   "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-12T04:51:25Z",
+   "assessed_at": "2026-11-23T20:57:25Z",
    "files": 8,
    "files_changed": [],
    "files_unreachable": [],
-   "reasons": [
-    "the framework version changed: crc-sdk 0.11.1 to 0.11.2"
-   ],
+   "reasons": [],
    "source": "nex-gddp-cmip6",
-   "stale": true,
-   "versions_changed": {
-    "crc-sdk": {
-     "assessed": "0.11.1",
-     "installed": "0.11.2"
-    }
-   }
+   "stale": false,
+   "versions_changed": {}
   }
  ]
 }

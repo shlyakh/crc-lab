@@ -20,6 +20,8 @@ from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
+from ._retry import again
+
 ROOT = (
     "https://www.ncei.noaa.gov/data/"
     "international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv"
@@ -69,7 +71,7 @@ def directory_listing() -> list[str]:
     return sorted(set(names))
 
 
-def download(subset: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
+def _download(subset: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
     """Fetch the subset's file (``live``) or reuse the cached copy; return its provenance."""
     cache_dir.mkdir(parents=True, exist_ok=True)
     path = cache_dir / f"{subset}.csv"
@@ -110,6 +112,11 @@ def download(subset: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
         temp.unlink(missing_ok=True)
     sidecar.write_text(json.dumps(record, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return record | {"path": str(path)}
+
+
+def download(subset: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
+    """As ``_download``, tried again when the connection fails part-way."""
+    return again(lambda: _download(subset, cache_dir, live=live))
 
 
 def header(path: Path) -> tuple[list[str], list[str]]:

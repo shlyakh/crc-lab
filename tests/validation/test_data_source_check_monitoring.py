@@ -257,3 +257,24 @@ def test_held_material_is_copied_into_staging_once(tmp_path: Path) -> None:
     assert monitor.seed("jrc-flood", staging, tmp_path / "cache") == 0
     assert (staging / "jrc-flood" / "evidence" / "fema" / "a.json").read_text() == "fresher"
     assert monitor.seed("ghcnh", staging, tmp_path / "cache") == 0
+
+
+def test_framework_output_of_other_versions_is_removed_and_the_publisher_files_kept(
+    tmp_path: Path,
+) -> None:
+    folder = tmp_path / "nex-gddp-cmip6"
+    (folder / "framework" / "installed").mkdir(parents=True)
+    (folder / "framework" / "installed" / "answer.json").write_text("{}")
+    (folder / "reference").mkdir()
+    (folder / "reference" / "file.nc").write_text("publisher")
+    (folder / "versions-served.json").write_text("[]")
+    old, new = {"crc-sdk": "1"}, {"crc-sdk": "2"}
+    assert monitor.fresh_for("nex-gddp-cmip6", tmp_path, old) == [
+        "framework",
+        "versions-served.json",
+    ]
+    (folder / "framework").mkdir()  # the run at the old versions wrote again, then stopped
+    assert monitor.fresh_for("nex-gddp-cmip6", tmp_path, old) == []  # continued, not restarted
+    assert monitor.fresh_for("nex-gddp-cmip6", tmp_path, new) == ["framework"]
+    assert (folder / "reference" / "file.nc").read_text() == "publisher"
+    assert set(monitor.FRAMEWORK_OUTPUT) == set(build.ASSESSMENTS)

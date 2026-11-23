@@ -24,8 +24,8 @@ fix:
     uv run ruff format src tests
 
 # Releases of crc-sdk and crc-framework newer than the pins, with notes (network; changes nothing)
-upstream-check:
-    uv run python tools/upstream.py check
+upstream-check *flags:
+    uv run python tools/upstream.py check {{flags}}
 
 # Move one pin to the next release: clone tag, hand-written versions, changelog row, uv lock and sync (--dry-run first)
 upstream-bump package version *flags:

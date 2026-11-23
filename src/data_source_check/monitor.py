@@ -19,6 +19,7 @@ published records: a re-run is staged, and a person accepts it.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -37,6 +38,35 @@ USER_AGENT = "data-source-check"
 #: (outside evidence, administrative boundaries). A re-run reuses the copies held, each with
 #: its own retrieval date, instead of asking those services again.
 HELD = {"jrc-flood": ("evidence", "boundaries")}
+
+
+#: what the framework itself wrote into a source's staging cache: its answers, its own download
+#: cache, and files derived from them. A re-run at other versions must not find these, or it
+#: would compare the old version's output under the new version's name. The publisher's files
+#: fetched by the reference readers are kept: each is checked against its checksum when used.
+FRAMEWORK_OUTPUT = {
+    "ibtracs": ("crc-sdk", "availability.json"),
+    "ghcnh": ("crc-sdk", "curves-*.parquet", "duckdb-temp"),
+    "nex-gddp-cmip6": ("framework", "versions-served.json"),
+    "jrc-flood": ("framework",),
+}
+
+
+def fresh_for(source_id: str, staging_cache: Path, versions: dict[str, str]) -> list[str]:
+    """Remove a source's framework output from the staging cache unless it was written at
+    ``versions``; what was removed. The versions are noted before the re-run starts, so a
+    run that stops part-way can be continued."""
+    folder = staging_cache / source_id
+    note = folder / "versions.json"
+    if note.exists() and json.loads(note.read_text(encoding="utf-8")) == versions:
+        return []
+    removed = []
+    for pattern in FRAMEWORK_OUTPUT.get(source_id, ()):
+        for path in sorted(folder.glob(pattern)):
+            shutil.rmtree(path) if path.is_dir() else path.unlink()
+            removed.append(path.name)
+    write_json_atomic(note, versions)
+    return removed
 
 
 def seed(source_id: str, staging_cache: Path, cache: Path) -> int:
@@ -116,6 +146,9 @@ def run(*, rerun: bool = False, page_data: Path = build.PAGE_DATA, docs: Path = 
                     fresh, entry["reused"] = held, True
                 else:
                     print(f"re-running {name} into the staging folder")
+                    removed = fresh_for(name, STAGING / "cache", offered["versions"])
+                    if removed:
+                        print(f"{name}: output of other versions removed ({', '.join(removed)})")
                     seed(name, STAGING / "cache", build.CACHE)
                     more = {} if profile == "full" else {"profile": profile}
                     fresh = build.assess_source(name, live=True, page_data=staged,

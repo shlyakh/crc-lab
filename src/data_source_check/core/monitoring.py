@@ -112,8 +112,19 @@ def diff_records(old: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
         if before[name]["outcome"] == after[name]["outcome"]
         and before[name].get("summary") != after[name].get("summary")
     ]  # fmt: skip
+
+    def tally(checks: dict[str, Any]) -> dict[str, int]:
+        count = {"checks": len(checks)}
+        for check in checks.values():
+            count[check["outcome"]] = count.get(check["outcome"], 0) + 1
+        return count
+
     return {
         "source": new["source"],
+        "versions_before": old.get("versions", {}),
+        "versions_now": new.get("versions", {}),
+        "before": tally(before),
+        "now": tally(after),
         "outcomes_changed": moved,
         "newly_differing": [m["check"] for m in moved if m["now"] == "differs"],
         "summaries_changed": numbers,
@@ -159,6 +170,25 @@ def markdown(report: dict[str, Any]) -> str:
         f"- Files that could not be reached: "
         f"{sum(len(s['files_unreachable']) for s in report['sources'])}",
     ]
+    if report.get("reruns"):
+
+        def counts(tally: dict[str, int]) -> str:
+            rest = ", ".join(f"{v} {k}" for k, v in sorted(tally.items()) if k != "checks")
+            return f"{tally['checks']} checks: {rest}"
+
+        lines += ["", "## Re-runs at a glance", "",
+                  "| Source | Before | Now | Outcomes moved | New checks | No longer run |",
+                  "| --- | --- | --- | --- | --- | --- |"]  # fmt: skip
+        for diff in report["reruns"]:
+            if "failed" in diff:
+                lines.append(f"| {diff['source']} | | **re-run failed** | | | |")
+                continue
+            mark = "" if diff.get("profile", "full") == "full" else f" ({diff['profile']})"
+            lines.append(
+                f"| {diff['source']}{mark} | {counts(diff['before'])} | {counts(diff['now'])} | "
+                f"{len(diff['outcomes_changed'])} | {len(diff['checks_added'])} | "
+                f"{len(diff['checks_removed'])} |"
+            )
     for state in report["sources"]:
         if state["files_changed"]:
             lines += ["", f"## {state['source']}: files changed at the publisher", ""]

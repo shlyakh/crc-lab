@@ -21,6 +21,8 @@ from typing import Any
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
+from ._retry import again
+
 ARCHIVE = "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6"
 USER_AGENT = "data-source-check"
 #: recipe -> (variable, unit the file must declare, unit of the result)
@@ -69,7 +71,7 @@ def status(address: str) -> int:
         return int(error.code)
 
 
-def download(address: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
+def _download(address: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
     """Fetch one file whole, or reuse the cached copy. A 404 is recorded, not raised."""
     cache_dir.mkdir(parents=True, exist_ok=True)
     path = cache_dir / address.rsplit("/", 1)[-1]
@@ -111,6 +113,11 @@ def download(address: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
         temp.unlink(missing_ok=True)
     sidecar.write_text(json.dumps(record, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     return record | {"path": str(path)}
+
+
+def download(address: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
+    """As ``_download``, tried again when the connection fails part-way."""
+    return again(lambda: _download(address, cache_dir, live=live))
 
 
 def _text(value: Any) -> str:

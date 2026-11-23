@@ -4,6 +4,8 @@ Current work (agreed 2026-11-10; explorer first, storm sources and assets deferr
 
 - [Baseline on crc-sdk 0.11.1](baseline-crc-sdk-0.11.1.md): what exists, how it uses CRC, findings, what is
   unreviewed (2026-11-23)
+- [CRC 1.0: what changes, and what it means for crc-lab](crc-1.0-briefing.md) (2026-11-23, from reading
+  the pre-releases)
 - [Following CRC releases](upstream-updates.md): how the pin moves from one release to the next ·
   [move to crc-sdk 0.11.2](reports/u2-crc-sdk-0.11.2.md) · [upstream names we use](upstream-surface.md)
 - [Requirements](requirements.md): CRC data explorer and severe-storm sources, Texas

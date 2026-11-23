@@ -41,6 +41,20 @@ The bump does the mechanical part and stops:
 It refuses to run if the target is not a release, if a release would be skipped, or if a file it edits has
 changed since it was written. It does not touch reports, generated files, findings or tests.
 
+Two cases need a flag:
+
+- **Releases that require each other.** crc-sdk 1.x requires crc-framework 1.x and crc-sdk 0.11 requires
+  crc-framework below 0.7, so neither pin can move alone. The tool reads the requirements from PyPI,
+  refuses a move that would not resolve, and names the joint command:
+  `just upstream-bump crc-sdk <version> --with crc-framework=<version>`. This is the one exception to
+  "one release at a time".
+- **Pre-releases** are ignored and refused unless `--pre` is given (`just upstream-check --pre`,
+  `just upstream-bump ... --pre`). The changelog row then says "(pre-release)".
+
+Tags are found by version, not by spelling: crc-framework tags `v1.0.0-alpha.2` for 1.0.0a2.
+
+A major release is a port, not a pin move followed by a re-run. For 1.0 see `docs/crc-1.0-briefing.md`.
+
 ## First look, in minutes
 
 ```sh
@@ -72,7 +86,11 @@ step 1 or 2 to fail first; fix the adapters under `src/data_source_check/adapter
    - a source already staged at the installed versions is not run again, so the command can simply be
      repeated after a failure; `--only <id>` runs one source, `--again` forces a repeat;
    - outside evidence and boundaries (FEMA, USGS) do not pass through crc-sdk and are copied from the
-     cache held, not asked for again.
+     cache held, not asked for again;
+   - what the framework itself wrote into the staging cache at other versions is removed first, so a
+     re-run never compares an old version's output under the new version's name; the publisher's files
+     fetched by the reference readers are kept, and all four reference downloads retry on a dropped
+     connection.
 4. Read `docs/validation/monitoring.md`: which checks changed outcome, and why.
 5. `just validation-accept <id>` for each source whose re-run has been read. Accepting is a person's step.
 6. Findings (next section).
