@@ -129,9 +129,7 @@ def assess_source(
     else:
         from .assessments import ghcnh
 
-        run = ghcnh.assess(
-            folder, folder / "crc-sdk", live=live, versions=offered["versions"], log=print
-        )
+        run = ghcnh.assess(folder, live=live, versions=offered["versions"], log=print)
     run = {"schema": SCHEMA, "framework": offered["framework"]} | run
     if reduced:
         if page_data == PAGE_DATA:

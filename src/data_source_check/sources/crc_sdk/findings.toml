@@ -60,7 +60,9 @@ evidence = [
   "check records jrc-flood/provenance[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "fixed"
+fixed_in = "1.0.0"
+note = "JRC half shown by the provenance checks of jrc-flood in Houston, Austin, Fremont and the Rhine (run of 2026-11-24 on crc-sdk 1.0.0, crc-sdk reading the copy of the publisher's files held (the publisher's server did not answer)): every recorded file carries a checksum, a licence, an attribution and a retrieval time. The EDO half rests on reading crc_sdk/_climate_sources.py:1004-1010 and was not run. See CRC-027-FWK for what the checksum of a depth file covers."
 found_on = "2026-11-11"
 framework_version = "0.11.1"
 
@@ -220,7 +222,10 @@ evidence = [
   "tests/validation/test_data_source_check_jrc_flood.py: test_depths_the_optimizer_does_not_converge_on_are_seen",
 ]
 basis = "reproduced"
-status = "open"
+status = "superseded"
+closed_in = "1.0.0"
+superseded_by = "CRC-026-FWK"
+note = "From 1.0 crc-sdk fits no JRC curve by default, and an explicit fit that fails raises, warns or keeps a failure row, so the silent drop is gone. The dependence of convergence on how the depths are represented continues as CRC-026-FWK."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -239,7 +244,10 @@ evidence = [
   "permanent_water in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "superseded"
+closed_in = "1.0.0"
+superseded_by = "CRC-023-JRC"
+note = "From 1.0 a pixel with two or three depths or with equal depths is delivered (checks delivered[*], run of 2026-11-24 on crc-sdk 1.0.0, crc-sdk reading the copy of the publisher's files held (the publisher's server did not answer)). Pixels with one depth or a decreasing depth are still left out: CRC-023-JRC."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -258,7 +266,9 @@ evidence = [
   "check records jrc-flood/values[*] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "no longer applies"
+closed_in = "1.0.0"
+note = "From 1.0 nothing is fitted by default: 3,073,486 depths of 440,723 delivered pixels in four areas equal the publisher's (checks values[*], run of 2026-11-24 on crc-sdk 1.0.0, crc-sdk reading the copy of the publisher's files held (the publisher's server did not answer)). A misfit can arise only from a fit the user asks for."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -276,7 +286,10 @@ evidence = [
   "check records jrc-flood/coverage[efas-tx], coverage[efas-fremont] (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "superseded"
+closed_in = "1.0.0"
+superseded_by = "CRC-024-JRC"
+note = "From 1.0 a box outside the coverage raises no error at all: CRC-024-JRC."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -313,7 +326,9 @@ evidence = [
   "check records jrc-flood/provenance[*] and exploration table 'The publisher's releases' (site/validation/data/records/jrc-flood.json), run of 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "fixed"
+fixed_in = "1.0.0"
+note = "crc-sdk records ODbL-1.0, the licence the publisher's README names (checks licence[*], run of 2026-11-24 on crc-sdk 1.0.0, crc-sdk reading the copy of the publisher's files held (the publisher's server did not answer)). The publisher's own copyright.txt still says CC BY 4.0; that disagreement is the publisher's."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -351,7 +366,9 @@ evidence = [
   "same_pixel_in_two_areas in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17",
 ]
 basis = "reproduced"
-status = "open"
+status = "fixed"
+fixed_in = "1.0.0"
+note = "support_id is built from the pixel's row and column in the publisher's file. The Fremont box read as two overlapping boxes gives the same identifier, cell and knots for all 2,109 shared pixels (check overlap[glofas-fremont], run of 2026-11-24 on crc-sdk 1.0.0, crc-sdk reading the copy of the publisher's files held (the publisher's server did not answer))."
 found_on = "2026-11-17"
 framework_version = "0.11.1"
 
@@ -390,3 +407,92 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-17"
 framework_version = "0.11.1"
+
+[[finding]]
+id = "CRC-023-JRC"
+source = "jrc-flood"
+kind = "observation"
+title = "Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel"
+documented = "docs/sources.md:33 describes the output as 'original pixels and quantile knots' and does not mention pixels left out. The rule is in the code (crc_sdk/_climate_io.py:173-189), and a comment says JRC's maps 'are inconsistent at a few pixels; those are skipped and counted, not repaired' (crc_sdk/_climate_sources.py:463-464). The read reports one number: 'Skipped N source supports whose values are not a quantile curve: fewer than two valid probability values, or values that decrease as probability rises.' (crc_sdk/_climate_sources.py:149-151)."
+observed = "Counted from the publisher's files by the reference reader, and equal to crc-sdk's own skipped count in every area. Houston: 1,045,703 skipped = 1,019,627 dry + 22,086 with one depth + 3,990 with a decreasing depth. Austin: 336,778 = 335,707 + 931 + 140. Fremont: 77,632 = 76,398 + 459 + 775. Rhine (EFAS): 2,440,888 = 2,433,343 + 6,815 + 730. So of the pixels the publisher shows flooded at some return period, the share left out is 26,076 of 278,654 in Houston (9.4%), 1,071 of 25,494 in Austin (4.2%), 1,234 of 10,603 in Fremont (11.6%) and 7,545 of 161,898 on the Rhine (4.7%). The warning carries no support_id and no split."
+consequence = "A pixel that floods only at the longest return period, and a pixel where the publisher's depths are inconsistent, are absent from the output in the same way as a pixel that never floods, and the reported count cannot tell the three apart: in Houston it is 40 times the number of flooded pixels dropped. A user who reads 'no row' as 'no flood' undercounts flooded area by the shares above. 'A few' in the code comment is 775 of 10,603 flooded pixels in the Fremont box."
+evidence = [
+  "crc_sdk/_climate_io.py:173-189",
+  "crc_sdk/_climate_sources.py:149-151, 463-464",
+  "docs/sources.md:33",
+  "check records jrc-flood/delivered[*] and the table 'Pixels by area' (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-024-JRC"
+source = "jrc-flood"
+kind = "observation"
+title = "A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid"
+documented = "docs/sources.md and docs/execution.md do not say what a read outside a product's coverage returns. docs/evaluation.md:58-69 describes failure rows for assets that no support covers, which concerns evaluation, not reading."
+observed = "`JRC(product=JRC.Product.EFAS).select(area=Bounds(west=-122.15, south=37.42, east=-121.85, north=37.62)).read()` (Fremont, California, read through the European product) returns 0 rows; report counts requested 0, produced 0, skipped 0; no diagnostics; `complete=True`, `valid=True`; no exception (crc_sdk/_climate_io.py:105-133: a window that misses the raster adds no range)."
+consequence = "A wrong product, or a box with west and east exchanged, cannot be told from a region the product covers and shows dry: both give an empty, complete, valid result. At 0.11 the same request ended in an error, though one that did not name the coverage (CRC-016-JRC)."
+evidence = [
+  "crc_sdk/_climate_io.py:105-133",
+  "check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-025-OWN"
+source = "own-data"
+kind = "observation"
+title = "`Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel"
+documented = "docs/datasets.md:81-84: 'Each pixel retains its original footprint and quantile knots.' The docstring of crc_sdk/_climate_io.py:55-60 states the difference: with skip_decreasing such a pixel 'is skipped and counted (published maps contain a few); otherwise it is invalid source data, which for user rasters usually means mislabeled probabilities'. docs/datasets.md does not mention it."
+observed = "The publisher's own GloFAS files for a 5 by 5 pixel block near Fremont and one near Houston, given to `Dataset.from_raster` with probabilities 1 - 1/T: `ValidationError: quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing`; counts requested 13, produced 0 (Fremont) and 4, 0 (Houston); the diagnostic's support_id is None. One pixel in each block has a depth lower at a longer return period (Fremont: 1.0, 1.0 at 10 and 20 years, then 0.256 at 50 years). Through `JRC(...)` the same blocks are read and that pixel is skipped."
+consequence = "A user who brings published flood maps in as their own rasters, the documented route for any map crc-sdk has no provider for, gets no output at all for a box that holds one inconsistent pixel, and is not told which pixel. In the Fremont box 775 of 10,603 flooded pixels are of this kind, so most real boxes would fail."
+evidence = [
+  "crc_sdk/_climate_io.py:55-60, 173-189",
+  "docs/datasets.md:81-84",
+  "probe jrc-decreasing in docs/reports/v1-probes-1.0.0.md (tools/probes/v1/probes.py), 2026-11-24",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-026-FWK"
+source = "framework"
+kind = "defect"
+title = "Whether the quantile fit of a Gumbel curve converges depends on how the same depths are written: 32-bit values converge, their decimal values do not"
+documented = "crc-framework docs/python.md describes `fit_quantiles` with `QuantileFit`; it states no condition on the representation of the values. A failed fit raises `FitError` with the record of the attempts."
+observed = "crc-framework 1.0.0, `QuantileFit` with the Gumbel family, depths that are flat and then rise at the two longest return periods. As 32-bit floats: [..., 2.639, 3.768] converges after 54 iterations and [..., 1.016, 1.13] after 87. The same numbers as decimals do not converge after 362 and 300 iterations ('gumbel_r fitting did not converge'). At crc-framework 0.6.0 it was the reverse: the 32-bit values did not converge (374 and 358 iterations) and the decimals did (91 and 89)."
+consequence = "The same published depths are fitted or not according to a difference in the eighth significant digit. From 1.0 crc-sdk fits JRC depths only when the user asks, and the failure is then visible; but which pixels fail still follows the number format, not the data."
+evidence = [
+  "probe crc013-fit in docs/reports/v1-probes-1.0.0.md (tools/probes/v1/probes.py), 2026-11-24",
+  "tools/probes/jrc_flood_probes.py (the 0.6.0 case, 2026-11-17)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-027-FWK"
+source = "framework"
+kind = "doc-code difference"
+title = "For a file read by window, the checksum recorded is of crc-sdk's own cut-out, not of the publisher's file"
+documented = "docs/data-licences.md:8: 'A `ResourceIdentity` carries its URI and full content SHA-256 identity.'"
+observed = "For each JRC depth file the recorded resource has an address ending in '#crc-window=<west>,<south>,<east>,<north>' and a SHA-256 of the bundle crc-sdk wrote for that window (crc_sdk/_climate_io.py:423-515). In the four JRC areas 44 of 55 recorded resources are of this kind; the README and the tile index, read whole, carry checksums equal to the reference's. The same holds for NEX files (address ending '#crc-variable=...&window=...')."
+consequence = "The checksum identifies what crc-sdk extracted, so it changes with the box asked for and cannot be compared with a checksum of the publisher's file, published or computed. It does not show that the publisher's file was the one expected; that rests on the ETag sent with each range request."
+evidence = [
+  "docs/data-licences.md:8",
+  "crc_sdk/_climate_io.py:423-515",
+  "check records jrc-flood/provenance[*] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"

@@ -4,11 +4,17 @@ Two readers, neither of which uses the framework or pyarrow (the framework's par
 
 - ``read_psv``: NOAA's pipe-separated file, with the standard library only;
 - ``read_parquet``: NOAA's Parquet file, through DuckDB's own Parquet reader, returning plain
-  Python rows. (crc-sdk also uses DuckDB, but to aggregate batches it parsed with pyarrow;
-  the SQL here only selects columns.)
+  Python rows. (crc-sdk reads the Parquet file with pyarrow; the SQL here only selects columns.)
 
-Every rule that turns hourly reports into an annual value is applied in Python in
-``annual_row``. The rules are an argument so that a test can make one deliberately wrong.
+Every rule that turns hourly reports into an annual value is applied in Python. Two rule sets:
+
+- ``Rules`` and ``annual_row``: the rules crc-sdk 0.11 stated (18 hours make a day, 90 per cent
+  of days make a year, one row per station and year). Kept to count what 1.0 changed.
+- ``Rules1`` and ``annual_rows``: the rules crc-sdk 1.0 states for its default ``read()`` of an
+  annual indicator (24 hours make a day, a ``Coverage`` fraction of days makes a year, one row
+  per station position and year, and the reports that make the whole read fail).
+
+The rules are an argument so that a test can make one deliberately wrong.
 """
 
 from __future__ import annotations
@@ -18,6 +24,8 @@ import hashlib
 import json
 import math
 import os
+import re
+import struct
 import tempfile
 from calendar import isleap
 from collections import Counter
@@ -85,10 +93,16 @@ ATTEMPTS = 4
 
 def download(station: str, year: int, kind: str, cache_dir: Path, *, live: bool) -> dict[str, Any]:
     """Fetch one station-year file, or reuse the cached copy. A 404 is recorded, not raised."""
-    folder = cache_dir / kind
+    return download_file(
+        url(station, year, kind), cache_dir / kind, f"GHCNh_{station}_{year}.{kind}", live=live
+    )
+
+
+def download_file(address: str, folder: Path, filename: str, *, live: bool) -> dict[str, Any]:
+    """Fetch one file into ``folder``, or reuse the cached copy. A 404 is recorded, not raised."""
     folder.mkdir(parents=True, exist_ok=True)
-    path = folder / f"GHCNh_{station}_{year}.{kind}"
-    sidecar = folder / f"GHCNh_{station}_{year}.json"
+    path = folder / filename
+    sidecar = folder / f"{Path(filename).stem}.json"
     if sidecar.exists() and (
         not live or path.exists() or json.loads(sidecar.read_text())["missing"]
     ):
@@ -98,7 +112,6 @@ def download(station: str, year: int, kind: str, cache_dir: Path, *, live: bool)
         return record | {"path": str(path)}
     if not live:
         raise FileNotFoundError(f"no cached reference copy of {path.name}; run with --live")
-    address = url(station, year, kind)
     record: dict[str, Any] = {
         "url": address,
         "retrieved_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -281,3 +294,197 @@ def station_year(
     path = Path(provenance["path"])
     reports = read_psv(path) if kind == "psv" else read_parquet(path)
     return annual_row(reports, station, year, rules), provenance
+
+
+# --- the rules crc-sdk 1.0 states ---------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Rules1:
+    """The rules of crc-sdk 1.0's default ``read()`` of a GHCNh annual indicator (defaults)."""
+
+    quality_codes: tuple[str, ...] = Rules.quality_codes
+    sources_for_5: tuple[str, ...] = Rules.sources_for_5
+    sources_for_1: tuple[str, ...] = Rules.sources_for_1
+    lowest: float = Rules.lowest
+    highest: float = Rules.highest
+    #: distinct clock hours with an accepted report that make a day complete
+    hours_per_day: int = 24
+    #: the fraction of complete days that ``Coverage.complete()`` stands for
+    complete_fraction: float = 1.0
+    day_offset_hours: int = 0  # days are the calendar days of the published (UTC) time
+    #: one output row per distinct reported position; False keeps one row per station
+    split_positions: bool = True
+    #: a report of another station or year, an unreadable time, missing coordinates, a
+    #: temperature that is not finite, or two reports at one time and position stop the read;
+    #: False drops such a report instead
+    refuse_bad_reports: bool = True
+    cell_resolution: int = 9
+
+
+_TIME = re.compile(r"\d{4}(-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})?)?)?")
+
+
+def _finite(value: Any) -> bool:
+    return isinstance(value, int | float) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def support_id(station: str, longitude: float, latitude: float) -> str:
+    """The identity crc-sdk 1.0 states for a station position: the station, then the first 20
+    hexadecimal digits of the SHA-256 of the position as a little-endian WKB point."""
+    point = struct.pack("<BIdd", 1, 1, longitude, latitude)
+    return f"{station}@{hashlib.sha256(point).hexdigest()[:20]}"
+
+
+def cell_id(longitude: float, latitude: float, resolution: int) -> int:
+    from h3.api import basic_int
+
+    return int(basic_int.latlng_to_cell(latitude, longitude, resolution))
+
+
+def _bad_report(
+    name: Any, text: str, lat: Any, lon: Any, value: Any, station: str, year: int
+) -> tuple[str, datetime | None]:
+    """The reason a report stops crc-sdk 1.0's read, or "" ; and the report's time."""
+    if name != station:
+        return "a report of another station", None
+    try:
+        if not _TIME.fullmatch(text):
+            raise ValueError(text)
+        moment = datetime.fromisoformat(text)
+    except ValueError:
+        return "a report whose time cannot be read", None
+    if moment.year != year:
+        return "a report of another year", moment
+    if not (_finite(lat) and _finite(lon) and -90 <= lat <= 90 and -180 <= lon <= 180):
+        return "a report with missing or invalid coordinates", moment
+    if value is not None and not _finite(value):
+        return "a temperature that is not a finite number", moment
+    return "", moment
+
+
+def annual_rows(
+    reports: Iterable[Report],
+    station: str,
+    year: int,
+    rules: Rules1 | None = None,
+    fraction: float | None = None,
+) -> dict[str, Any]:
+    """One station-year reduced as crc-sdk 1.0 states: one row per position, with the annual
+    maximum and minimum of complete days when enough days are complete, and audit counts.
+
+    ``fraction`` is the ``Coverage`` asked for; None is the default, ``Coverage.complete()``.
+    """
+    rules = rules or Rules1()
+    fraction = rules.complete_fraction if fraction is None else fraction
+    expected = 366 if isleap(year) else 365
+    out: dict[str, Any] = {
+        "station": station, "year": year, "rows": [], "error": "", "unavailable": False,
+        "reports": 0, "accepted_reports": 0, "excluded": {},
+    }  # fmt: skip
+    excluded: Counter[str] = Counter()
+    supports: dict[tuple[float, float], dict[Any, dict[str, Any]]] = {}
+    seen: set[tuple[float, float, str]] = set()
+    shift = timedelta(hours=rules.day_offset_hours)
+    first: tuple[float, float] | None = None
+    for name, time, lat, lon, _elevation, value, quality, code in reports:
+        text = "" if time is None else str(time).replace(" ", "T")
+        reason, moment = _bad_report(name, text, lat, lon, value, station, year)
+        if not reason:
+            key = (float(lon), float(lat), text)
+            if key in seen:
+                reason = "two reports at one time and position"
+            seen.add(key)
+        if reason:
+            if rules.refuse_bad_reports:
+                out["error"] = out["error"] or reason
+            excluded[f"bad report: {reason}"] += 1
+            continue
+        assert moment is not None
+        out["reports"] += 1
+        position = (float(lon), float(lat))
+        first = first or position
+        days = supports.setdefault(position if rules.split_positions else first, {})
+        ok, why = accepted(value, quality, code, rules)  # type: ignore[arg-type]
+        if not ok:  # the position keeps its row even if none of its reports is accepted
+            excluded[why] += 1
+            continue
+        out["accepted_reports"] += 1
+        moment += shift
+        day = days.setdefault(moment.date(), {"hours": set(), "values": []})
+        day["hours"].add(moment.hour)
+        day["values"].append(value)
+    out["excluded"] = dict(sorted(excluded.items()))
+    if out["error"]:
+        return out
+    if not out["reports"]:
+        out["unavailable"] = True  # crc-sdk: no row, a diagnostic for the station-year
+        return out
+    for (lon, lat), days in sorted(supports.items()):
+        complete = [
+            day
+            for when, day in days.items()
+            if when.year == year and len(day["hours"]) >= rules.hours_per_day
+        ]
+        valid = len(complete)
+        whole = bool(complete) and valid / expected >= fraction
+        out["rows"].append(
+            {
+                "support_id": support_id(station, lon, lat),
+                "longitude": lon,
+                "latitude": lat,
+                "cell_id": cell_id(lon, lat, rules.cell_resolution),
+                "valid_days": valid,
+                "expected_days": expected,
+                "minimum_fraction": float(fraction),
+                "complete": whole,
+                "value_max": max(max(day["values"]) for day in complete) if whole else None,
+                "value_min": min(min(day["values"]) for day in complete) if whole else None,
+            }
+        )
+    return out
+
+
+STATION_LIST = "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
+
+
+def station_list(cache_dir: Path, *, live: bool) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """NOAA's station list (identifier, name, position) and the file's provenance.
+
+    A position is kept only when both coordinates are numbers inside WGS84; otherwise the
+    station has no position. A blank name is replaced by the identifier.
+    """
+    provenance = download_file(STATION_LIST, cache_dir / "doc", "ghcnh-station-list.csv", live=live)
+    rows = []
+    with Path(provenance["path"]).open(newline="", encoding="utf-8-sig") as source:
+        for row in csv.DictReader(source):
+            try:
+                lon, lat = float(row["LONGITUDE"]), float(row["LATITUDE"])
+            except (TypeError, ValueError):
+                lon = lat = None
+            if lon is None or lat is None or not (_finite(lon) and _finite(lat)):
+                lon = lat = None
+            elif not (-180 <= lon <= 180 and -90 <= lat <= 90):
+                lon = lat = None
+            ident = row["GHCN_ID"]
+            rows.append(
+                {"station": ident, "name": row["NAME"] or ident, "longitude": lon, "latitude": lat}
+            )
+    return rows, provenance
+
+
+def in_box(stations: Iterable[dict[str, Any]], bounds: tuple[float, ...]) -> list[dict[str, Any]]:
+    """Stations whose listed position lies in the box, edges included, in the list's order."""
+    west, south, east, north = bounds
+    return [
+        item
+        for item in stations
+        if item["longitude"] is not None
+        and south <= item["latitude"] <= north
+        and west <= item["longitude"] <= east
+    ]
+
+
+def read_reports(path: Path, kind: str) -> list[Report]:
+    """Every report of one file of the given kind."""
+    return list(read_psv(path)) if kind == "psv" else read_parquet(path)

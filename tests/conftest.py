@@ -22,7 +22,6 @@ PARKED_FILES = {
     "test_sources.py": "explorer sources: HazardDataset, IBTrACSPlan, NOAAExtremeWaterLevelPlan",
     "test_storm_events.py": "storm events: crc_sdk.geometry.vector.polyfill_wkb",
     "validation/test_data_source_check_era5.py": "draft assessment, not yet ported",
-    "validation/test_data_source_check_ghcnh.py": "assessment not yet ported",
     "validation/test_data_source_check_jrc_flood_011.py": (
         "the 0.11 assessment (fitted curves), kept as the previous version"
     ),
