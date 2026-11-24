@@ -1,8 +1,9 @@
 """IBTrACS read from NOAA's CSV files with the standard library only.
 
 This is the independent side of the comparison: it must not import the framework under
-test, nor pyarrow, which the framework uses to parse the same file. The rules applied to
-each value are arguments so that a test can make one of them deliberately wrong.
+test, nor pyarrow. The rules applied to each value are arguments so that a test can make
+one of them deliberately wrong. One library is shared with the framework: h3, for the H3
+cell of a point (through its string interface; the framework uses the integer one).
 """
 
 from __future__ import annotations
@@ -11,10 +12,12 @@ import csv
 import hashlib
 import json
 import os
+import struct
 import tempfile
 from collections import Counter
 from collections.abc import Iterable, Iterator, Sequence
 from datetime import UTC, datetime
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError
@@ -237,6 +240,137 @@ def explore(path: Path) -> dict[str, Any]:
             for name, unit, count in zip(columns, units, missing, strict=True)
         ],
     }
+
+
+#: The agencies whose wind and pressure columns NOAA's file carries (``<AGENCY>_WIND``,
+#: ``<AGENCY>_PRES``), as named in NOAA's column documentation for v04r01.
+AGENCIES = (
+    "USA",
+    "TOKYO",
+    "CMA",
+    "HKO",
+    "NEWDELHI",
+    "REUNION",
+    "BOM",
+    "NADI",
+    "WELLINGTON",
+    "WMO",
+)
+#: NOAA's unit labels (line 2 of the file) and their usual names; a millibar is a hectopascal,
+#: so neither needs a conversion.
+UNIT_NAMES = {"kts": "knots", "mb": "hPa"}
+#: DOI of IBTrACS v04r01, as NOAA's landing page gives it for citing the data.
+DOI = "10.25921/82ty-9e16"
+#: The fields of one output row, in the order they are compared.
+FIELDS = (
+    "variable_id",
+    "scenario_id",
+    "period_id",
+    "support_position",
+    "cell_id",
+    "wkb_header",
+    "longitude",
+    "latitude",
+    "time",
+    "value",
+    "station_id",
+    "group_id",
+    "failure_code",
+    "failure_message",
+    "coverage",
+)
+MISSING_MESSAGE = "The source reports no valid observation."
+
+
+def wkb_point(longitude: float, latitude: float) -> bytes:
+    """Little-endian ISO WKB of a 2-D point: byte order 1, geometry type 1, x, y."""
+    return struct.pack("<BIdd", 1, 1, longitude, latitude)
+
+
+def wrapped(text: str) -> float:
+    """A longitude east of 180 degrees moved into -180..180 by exact decimal subtraction."""
+    value = Decimal(text)
+    return float(value - 360 if value >= 180 else value)
+
+
+def agency_points(
+    path: Path,
+    agency: str,
+    *,
+    wrap_longitude: bool = True,
+    time_separator: str = "T",
+    resolution: int = 9,
+    empty_as_null: bool = True,
+    pressure_first: bool = False,
+) -> Iterator[dict[str, Any]]:
+    """What one agency's reading of NOAA's file should give, row by row, in file order.
+
+    Each data row gives two records, the agency's wind and then its pressure, at IBTrACS's
+    combined position (``LAT``, ``LON``), whether or not the agency reported a value. The
+    keyword arguments are the rules, so that a test can make one of them deliberately wrong.
+    The H3 cell is computed with h3's string API, a different route from the framework's.
+    """
+    import h3
+
+    columns, _ = header(path)
+    index = {name: position for position, name in enumerate(columns)}
+    fields = ("PRES", "WIND") if pressure_first else ("WIND", "PRES")
+    names = {"WIND": "maximum_sustained_wind", "PRES": "minimum_central_pressure"}
+    for row in rows(path):
+        sid, when = row[index["SID"]], str(row[index["ISO_TIME"]]).replace(" ", time_separator)
+        lon_text, lat_text = str(row[index["LON"]]), str(row[index["LAT"]])
+        longitude = wrapped(lon_text) if wrap_longitude else float(lon_text)
+        latitude = float(lat_text)
+        cell = h3.str_to_int(h3.latlng_to_cell(latitude, longitude, resolution))
+        for field in fields:
+            text = row[index[f"{agency}_{field}"]]
+            value = None if text is None else float(text)
+            if text is None and not empty_as_null:
+                value = 0.0
+            yield {
+                "variable_id": f"ibtracs:{agency}:{names[field]}",
+                "scenario_id": None,
+                "period_id": None,
+                "support_position": f"{sid}:{when}",
+                "cell_id": cell,
+                "wkb_header": "0101000000",
+                "longitude": longitude,
+                "latitude": latitude,
+                "time": when,
+                "value": value,
+                "station_id": None,
+                "group_id": sid,
+                "failure_code": None if value is not None else "source_no_data",
+                "failure_message": None if value is not None else MISSING_MESSAGE,
+                "coverage": None,
+                "wkb": wkb_point(longitude, latitude),
+            }
+
+
+def release_digest(resources: Iterable[tuple[str, str]]) -> str:
+    """SHA-256 over the sorted (address, checksum) pairs, written as compact JSON."""
+    data = json.dumps(sorted(dict(resources).items()), ensure_ascii=False, separators=(",", ":"))
+    return "sha256:" + hashlib.sha256(data.encode()).hexdigest()
+
+
+def agency_counts(path: Path) -> dict[str, dict[str, int]]:
+    """For each agency: points in the file, points with a wind, with a pressure, storms."""
+    columns, _ = header(path)
+    index = {name: position for position, name in enumerate(columns)}
+    out = {agency: {"points": 0, "wind": 0, "pressure": 0} for agency in AGENCIES}
+    storms: dict[str, set[str]] = {agency: set() for agency in AGENCIES}
+    for row in rows(path):
+        for agency in AGENCIES:
+            wind = row[index[f"{agency}_WIND"]]
+            pressure = row[index[f"{agency}_PRES"]]
+            out[agency]["points"] += 1
+            out[agency]["wind"] += wind is not None
+            out[agency]["pressure"] += pressure is not None
+            if wind is not None or pressure is not None:
+                storms[agency].add(str(row[index["SID"]]))
+    for agency in AGENCIES:
+        out[agency]["storms_with_a_value"] = len(storms[agency])
+    return out
 
 
 def storm_seasons(path: Path) -> dict[str, int]:

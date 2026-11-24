@@ -106,16 +106,7 @@ def assess_source(
     if source_id == "ibtracs":
         from .assessments import ibtracs
 
-        source = next(s for s in inventory.load_sources("crc_sdk") if s.id == source_id)
-        run = ibtracs.assess(
-            source.assessed_options["subset"],
-            offered["options"]["ibtracs"]["subset"],
-            folder,
-            folder / "crc-sdk",
-            live=live,
-            versions=offered["versions"],
-            log=print,
-        )
+        run = ibtracs.assess(folder, live=live, versions=offered["versions"], log=print)
     elif source_id == "nex-gddp-cmip6":
         from .assessments import nex
 
