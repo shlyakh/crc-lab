@@ -8,18 +8,11 @@ original = "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6"
 purpose = "Annual extremes from bias-adjusted, downscaled daily model output at 0.25 degree, one model and member at a time."
 adds = "From NASA's daily files crc-sdk makes one value per grid cell and year: the largest one-day or five-day rainfall, or the hottest and the coldest day, after converting units and selecting the cells of a box. Nothing is fitted and nothing is cached."
 compared = "For one model and member in the Texas box, two years and two file versions, the whole NASA file is read independently and the annual value of every grid cell is recomputed and compared with crc-sdk's rows. Units, labels and the file versions NASA serves are checked separately. The temperature recipes fail at this version and are compared on a local copy that carries the fix."
-entry_points = ["HazardDataset.nex_gddp_cmip6"]
-notes = "Assessed on one model and member (ACCESS-CM2, r1i1p1f1), the Texas box (2,332 grid cells, 2,158 on land), 2014 of the historical run and 2050 of ssp585. The scenario and version lists are hard-coded upstream and are not read by the detector. Each result is one model and one member, not an ensemble. Ocean cells carry no value. The licence written in the files differs by version (CC-BY-SA 4.0 in 1.0, CC-BY 4.0 in 1.1) while NASA states the archive is CC0."
+entry_points = ["NEX"]
+notes = "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Assessed on one model and member (ACCESS-CM2, r1i1p1f1), the Texas box (2,332 grid cells, 2,158 on land), 2014 of the historical run and 2050 of ssp585. The scenario and version lists are hard-coded upstream and are not read by the detector. Each result is one model and one member, not an ensemble. Ocean cells carry no value. The licence written in the files differs by version (CC-BY-SA 4.0 in 1.0, CC-BY 4.0 in 1.1) while NASA states the archive is CC0."
 
 [options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
-scenario = ["historical", "ssp126", "ssp245", "ssp370", "ssp585"]
-version = ["1.0", "1.1", "1.2"]
-
-[assessed_options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
-scenario = ["historical", "ssp585"]
-version = ["1.0", "1.1"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_maximum_daily_precipitation", "annual_maximum_five_day_precipitation", "annual_minimum_daily_minimum_temperature"]
 
 [status]
 exploration = "assessed"

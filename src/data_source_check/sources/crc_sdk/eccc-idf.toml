@@ -6,10 +6,8 @@ tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result d
 publisher = "Environment and Climate Change Canada"
 original = "https://collaboration.cmc.ec.gc.ca/cmc/climate/Engineer_Climate/IDF/"
 purpose = "Published rainfall intensities at return periods per station, refitted to a curve."
-entry_points = ["HazardDataset.eccc_idf"]
-symbols = ["ECCCIDFPlan"]
+entry_points = ["ECCCIDF"]
 notes = "Canada only. The version list is hard-coded upstream and is not read by the detector."
 
 [options]
-duration = ["10min", "12h", "15min", "1h", "24h", "2h", "30min", "5min", "6h"]
-version = ["3.20", "3.40"]
+province = ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"]

@@ -30,6 +30,7 @@ def load_source(path: Path, framework: str) -> Source:
         tier_reason=raw.get("tier_reason", ""),
         entry_points=tuple(raw.get("entry_points", ())),
         symbols=tuple(raw.get("symbols", ())),
+        removed_in=raw.get("removed_in", ""),
         options=_tuples(raw.get("options")),
         assessed_options=_tuples(raw.get("assessed_options")),
         status=status,

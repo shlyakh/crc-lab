@@ -59,17 +59,12 @@ def find_source(source_id: str) -> Source:
 
 
 def _where(symbol: str) -> str:
-    """File of a crc-sdk entry point such as ``HazardDataset.era5`` or ``IBTrACSPlan``."""
+    """File of a crc-sdk entry point such as ``ERA5`` or ``Dataset.from_raster``."""
     try:
         import crc_sdk
-        import crc_sdk.workflows as workflows
 
-        target: Any = None
         head, _, tail = symbol.partition(".")
-        for home in (workflows, crc_sdk):
-            if hasattr(home, head):
-                target = getattr(home, head)
-                break
+        target: Any = getattr(crc_sdk, head, None)
         if target is not None and tail:
             target = getattr(target, tail)
         target = getattr(target, "__func__", target)

@@ -93,6 +93,8 @@ class Source:
     tier_reason: str
     entry_points: tuple[str, ...]
     symbols: tuple[str, ...] = ()
+    #: the framework version that removed this source; it then has no entry point
+    removed_in: str = ""
     options: dict[str, tuple[str, ...]] = field(default_factory=dict)
     assessed_options: dict[str, tuple[str, ...]] = field(default_factory=dict)
     status: dict[str, str] = field(default_factory=dict)
@@ -118,7 +120,10 @@ class Source:
         else:
             _one_of(self.tier, TIERS, f"source {self.id!r}: tier")
             _require(bool(self.tier_reason), f"source {self.id!r}: tier_reason is empty")
-        _require(bool(self.entry_points), f"source {self.id!r}: no entry point")
+        _require(
+            bool(self.entry_points) != bool(self.removed_in),
+            f"source {self.id!r}: an entry point, or the version that removed the source",
+        )
         _require(
             set(self.status) == set(ASSESSMENT_TIERS),
             f"source {self.id!r}: status needs exactly {ASSESSMENT_TIERS}",

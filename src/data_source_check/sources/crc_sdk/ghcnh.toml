@@ -9,16 +9,12 @@ purpose = "Annual extremes of hourly station temperature, fitted per station, as
 explorer = "explore/#tab=crc&source=ghcnh"
 adds = "From NOAA's hourly station reports crc-sdk makes, per station and year, the highest and the lowest temperature of the year, using its own rules for which reports, days and years count. It then fits a curve per station: a generalized extreme value distribution to the maxima, a Gumbel distribution to the minima. The hourly reports themselves are not kept."
 compared = "Every station-year of forty Texas stations, 2000 to 2024, is recomputed in Python from NOAA's files with the stated rules and compared with crc-sdk's annual table, field by field; a sample is recomputed again from NOAA's second file format. Which stations get a curve is compared with the stated minimum of complete years. The parameters of the fitted curves are not recomputed."
-entry_points = ["HazardDataset.ghcnh"]
-symbols = ["GHCNhPlan"]
+entry_points = ["GHCNh"]
 
-notes = "Assessed on the stations the Texas data explorer uses: the first forty USW stations in the Texas box, 2000 to 2024. These are small airports whose records begin around 2005, so 592 of 1,000 station-years have a file, 8 stations reach 15 complete years and none reaches crc-sdk's default of 20. Days are UTC days: in Texas a UTC day runs from the local evening to the next. The values are extremes of sampled hourly temperature, not of an instrument's daily maximum and minimum."
+notes = "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Assessed on the stations the Texas data explorer uses: the first forty USW stations in the Texas box, 2000 to 2024. These are small airports whose records begin around 2005, so 592 of 1,000 station-years have a file, 8 stations reach 15 complete years and none reaches crc-sdk's default of 20. Days are UTC days: in Texas a UTC day runs from the local evening to the next. The values are extremes of sampled hourly temperature, not of an instrument's daily maximum and minimum."
 
 [options]
-recipe = ["temperature_max", "temperature_min"]
-
-[assessed_options]
-recipe = ["temperature_max", "temperature_min"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_minimum_daily_minimum_temperature"]
 
 [status]
 exploration = "assessed"

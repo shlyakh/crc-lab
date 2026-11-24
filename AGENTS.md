@@ -24,12 +24,12 @@ Read first:
 
 Reference clones, read-only, pinned to the versions this repo uses (see `../README.md`):
 
-- `../upstream/crc-sdk/` (v0.11.2) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
+- `../upstream/crc-sdk/` (v1.0.0) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
   canonical dataset and probability conventions; `docs/sources/crc-open.md` for the release layout;
   `crc_sdk/workflows/*.py` docstrings are the parameter reference.
 - `../upstream/crc-docs/` — notebooks, pipelines, and the five end-user skills under `.agents/skills/`
   (the pattern for any skill this repo ships later; not needed for building the explorer).
-- `../upstream/crc-framework-rs/` (v0.6.0) — the Rust numerical core; reference only.
+- `../upstream/crc-framework-rs/` (v1.0.0) — the Rust numerical core; reference only.
 
 Earlier scope (energy infrastructure, ERA5 layers, dependence) is in `docs/archive/` and is not current.
 

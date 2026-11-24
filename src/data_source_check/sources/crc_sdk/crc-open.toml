@@ -7,6 +7,9 @@ publisher = "Riskthinking.AI"
 original = "https://data.riskthinking.ai/crc-open (release ssp585-global-2026-10-20-v1)"
 purpose = "Ready-made hazard curves on H3 cells for 63 hazards under SSP5-8.5, for screening asset portfolios."
 explorer = "explore/#tab=crc&source=crc_open"
-entry_points = ["HazardDataset.crc_open"]
-symbols = ["CRCOpenPlan"]
+entry_points = ["CRCOpen"]
 notes = "The inputs behind the release are not public, so a comparison with an original (tier 2) is limited to the release's own catalogue and checksums. Assessed mainly by validation (tier 3)."
+
+[options]
+scenario = ["ssp585"]
+variable = ["crc:dtr", "crc:frost_days", "crc:max_consecutive_dry_days", "crc:maximum_consecutive_wet_days", "crc:prcptot", "crc:rx1day", "crc:rx5day", "crc:sdii", "crc:summer_days", "crc:tn_max", "crc:tn_min", "crc:tropical_nights", "crc:tx_max", "crc:tx_min"]

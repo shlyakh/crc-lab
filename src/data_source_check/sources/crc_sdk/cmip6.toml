@@ -6,8 +6,7 @@ tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result d
 publisher = "WCRP CMIP6 modelling centres (Pangeo copy on AWS Open Data)"
 original = "s3://cmip6-pds (catalogue pangeo-cmip6.csv)"
 purpose = "Annual extremes of daily model output on the model's own grid, fitted per cell, for change signals between periods."
-entry_points = ["HazardDataset.cmip6"]
-symbols = ["CMIP6AreaPlan", "CMIP6CanonicalizationPlan", "CMIP6SourcePlan", "CMIP6YearPlan"]
+entry_points = ["CMIP6"]
 
 [options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_maximum_daily_precipitation", "annual_maximum_five_day_precipitation", "annual_minimum_daily_minimum_temperature"]

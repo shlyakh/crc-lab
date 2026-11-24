@@ -9,14 +9,11 @@ purpose = "Best-track points of tropical cyclones by basin, as published, for in
 explorer = "explore/#tab=crc&source=ibtracs"
 adds = "Nothing is added to the values. crc-sdk downloads NOAA's CSV file for a basin or period, keeps a checksummed copy, and hands back every row and column as text, with empty values made null. It can also select storms by id or seasons by year. No number is parsed, converted or fitted."
 compared = "NOAA's ten files are downloaded independently and read with Python's csv module; every value is compared with what crc-sdk returns, in order. The file addresses, the cached bytes, the header, the two filters and the manifest are checked separately."
-entry_points = ["IBTrACSPlan"]
-notes = "Longitudes in NOAA's files are not wrapped to -180..180 (values up to 266.9 occur where a track crosses the date line); crc-sdk passes them through as strings. SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year. About four values in five are missing: most columns belong to one agency each."
+entry_points = ["IBTrACS"]
+notes = "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Longitudes in NOAA's files are not wrapped to -180..180 (values up to 266.9 occur where a track crosses the date line); crc-sdk passes them through as strings. SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year. About four values in five are missing: most columns belong to one agency each."
 
 [options]
-subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
-
-[assessed_options]
-subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
+agency = ["BOM", "CMA", "HKO", "NADI", "NEWDELHI", "REUNION", "TOKYO", "USA", "WELLINGTON", "WMO"]
 
 [status]
 exploration = "assessed"

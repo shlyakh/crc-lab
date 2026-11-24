@@ -7,18 +7,12 @@ publisher = "ECMWF / Copernicus C3S (public Zarr copies by Google and WeatherBen
 original = "gs://gcp-public-data-arco-era5 (0.25 degree) and gs://weatherbench2 (1.5 degree)"
 purpose = "A historical baseline of annual temperature and rainfall extremes on H3 cells, comparable with the projection recipes."
 explorer = "explore/#tab=crc&source=era5"
-entry_points = ["HazardDataset.era5"]
-symbols = ["ERA5AreaPlan", "ERA5CanonicalizationPlan", "ERA5SourcePlan", "ERA5YearPlan"]
+entry_points = ["ERA5"]
 drafted_by = "agent (draft-source-assessment skill), 2026-11-12"
-notes = "Draft. Assessed on the 1.5 degree store (wb2-1p5), the Texas box (80 grid cells), the rainfall recipes for 2021, with and without the land mask. One variable-year of this store is about 0.9 GB whatever the box, because every chunk covers the globe. The temperature recipes, the 0.25 degree store and the fitted curves were not run."
+notes = "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Draft. Assessed on the 1.5 degree store (wb2-1p5), the Texas box (80 grid cells), the rainfall recipes for 2021, with and without the land mask. One variable-year of this store is about 0.9 GB whatever the box, because every chunk covers the globe. The temperature recipes, the 0.25 degree store and the fitted curves were not run."
 
 [options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
-store = ["arco-0p25", "wb2-1p5"]
-
-[assessed_options]
-recipe = ["rx1day", "rx5day"]
-store = ["wb2-1p5"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_maximum_daily_precipitation", "annual_maximum_five_day_precipitation", "annual_minimum_daily_minimum_temperature"]
 
 [status]
 exploration = "in progress"
