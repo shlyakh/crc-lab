@@ -12,6 +12,7 @@ const el = (tag, attrs = {}, ...kids) => {
   for (const kid of kids) if (kid != null) node.append(kid);
   return node;
 };
+const CLOSED = ["fixed", "by design", "no longer applies", "superseded"];
 const status = (value) => el("span", { class: `st ${ST_CLASS[value] || ""}`, text: value });
 const kv = (pairs) => {
   const dl = el("dl", { class: "kv" });
@@ -108,14 +109,14 @@ function renderFindings(data, filters) {
   const list = data.findings.filter((f) => !filters.status || f.status === filters.status);
   for (const f of list) {
     const where = f.source === "framework" ? "All gridded sources" : titles[f.source] || f.source;
-    const statusText = f.status === "fixed" ? `fixed in ${f.fixed_in}` : f.status;
+    const statusText = f.status_text || f.status;
     box.append(el("details", { class: "finding", id: `finding-${f.id}` },
       el("summary", {},
         el("span", { class: "fid", text: f.id }),
         el("span", {}, el("b", { text: f.title }), el("div", { class: "mute small", text: where })),
         el("span", { class: "meta" },
           el("span", { class: `tag ${f.kind === "defect" ? "defect" : ""}`, text: f.kind }), " · ",
-          el("span", { class: `tag ${f.status === "fixed" ? "fixed" : "open"}`, text: statusText }))),
+          el("span", { class: `tag ${CLOSED.includes(f.status) ? "fixed" : "open"}`, text: statusText }))),
       el("div", { class: "body" }, kv([
         ["Documented", f.documented || "The documentation is silent."],
         ["Observed", f.observed],
@@ -247,7 +248,7 @@ function summaryBlock(source, rec, findings) {
     box.append(el("p", { class: "small" }, el("b", { text: "What differs. " }), ...differing.flatMap((s, i) => [i ? "; " : "", el("code", { text: s.id })]), ". The steps are listed below with their outcome."));
   }
   if (findings.length) {
-    const open = findings.filter((f) => f.status !== "fixed");
+    const open = findings.filter((f) => !CLOSED.includes(f.status));
     box.append(el("p", { class: "small" }, el("b", { text: `Findings (${findings.length}${open.length < findings.length ? `, ${open.length} open` : ""}). ` }),
       ...findings.flatMap((f, i) => [i ? "; " : "", el("a", { class: "jumpto", href: `#finding-${f.id}`, text: f.id }), ` ${f.title}`]), "."));
   }

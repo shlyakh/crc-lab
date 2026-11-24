@@ -38,7 +38,19 @@ CATEGORIES = (
     "fidelity",  # agreement with the publisher's original (tier 2); not a C3S category
 )
 FINDING_KINDS = ("defect", "doc-code difference", "observation")
-FINDING_STATUS = ("open", "reported upstream", "fixed", "by design")
+#: "fixed": a run on ``fixed_in`` shows the behaviour gone. "no longer applies": the feature the
+#: finding is about was removed in ``closed_in``. "superseded": the issue changed shape in
+#: ``closed_in`` and continues as the finding ``superseded_by``.
+FINDING_STATUS = (
+    "open",
+    "reported upstream",
+    "fixed",
+    "by design",
+    "no longer applies",
+    "superseded",
+)
+#: statuses that end a finding; it stays in the register and on the page
+CLOSED_STATUS = ("fixed", "by design", "no longer applies", "superseded")
 #: How a finding is known.
 BASIS = ("reproduced", "code reading")
 
@@ -170,6 +182,19 @@ class Finding:
     consequence: str = ""
     upstream_ref: str = ""  # issue or pull request, once reported
     fixed_in: str = ""
+    closed_in: str = ""  # version from which the finding no longer applies or is superseded
+    superseded_by: str = ""  # id of the finding that continues this one
+    note: str = ""  # how the status was established (the run, the probe)
+
+    @property
+    def status_text(self) -> str:
+        if self.status == "fixed":
+            return f"fixed in {self.fixed_in}"
+        if self.status == "no longer applies":
+            return f"no longer applies from {self.closed_in}"
+        if self.status == "superseded":
+            return f"superseded by {self.superseded_by} from {self.closed_in}"
+        return self.status
 
     def validate(self) -> None:
         _require(bool(self.id and self.source and self.title), "a finding needs id, source, title")
@@ -185,9 +210,15 @@ class Finding:
             _require(bool(self.upstream_ref), f"finding {self.id}: reported without a reference")
         if self.status == "fixed":
             _require(bool(self.fixed_in), f"finding {self.id}: fixed without a version")
+        if self.status in ("no longer applies", "superseded"):
+            _require(bool(self.closed_in), f"finding {self.id}: {self.status} without a version")
+        _require(
+            (self.status == "superseded") == bool(self.superseded_by),
+            f"finding {self.id}: superseded_by goes with the status superseded, and only with it",
+        )
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        return asdict(self) | {"status_text": self.status_text}
 
 
 @dataclass(frozen=True)
