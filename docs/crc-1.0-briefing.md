@@ -91,33 +91,38 @@ Upstream's own parity check (framework pull request #32): on 47,194 curves, "1.0
 ## Our findings against 1.0
 
 Twenty findings are open in `src/data_source_check/sources/crc_sdk/findings.toml`. No upstream commit names
-any of them. The column below is what the 1.0.0a1 code shows; "appears addressed" means the code now does
-what the finding asked for, and none of it has been run by us.
+any of them. The column below is what the 1.0.0a1 code shows, from two independent readings; where they
+differed the more cautious one is given. None of it has been run by us: `just v1-probes` (report in
+`docs/reports/v1-probes-<version>.md`) is how a line here becomes an observation.
 
-| Finding | In 1.0.0a1 (code reading) |
-| --- | --- |
-| CRC-002-FWK twenty-year minimum | The rule is gone; a fit counts the observations actually available |
-| CRC-003-JRC no licence or checksum on JRC and EDO output | Appears addressed: licence, attribution, SHA-256, retrieval time recorded |
-| CRC-004-EDO, CRC-005-EDO | Moot: EDO returns observations, no curves |
-| CRC-006-ERA5 unit not checked | Appears addressed: raises unless the store declares `m` or `K` |
-| CRC-007-OPEN `retrieved_at` | Appears addressed; cannot be checked until a 2.0 release exists |
-| CRC-008-OSC | Moot: OS-Climate removed |
-| CRC-009-CDL moving branch | Appears addressed (USDA ImageServer, CC0, snapshot id); whether the snapshot is pinned is unclear |
-| CRC-011-IBT no licence field | Appears addressed |
-| CRC-012-NEX version 2.0 not requestable | Appears addressed: the highest version per year is chosen from the archive's inventory |
-| CRC-013-FWK fit gives up on flat-then-rising depths | Partly: JRC is no longer fitted; whether the fit itself handles the case is unclear |
-| CRC-014-JRC flooded pixel with no curve | Partly: two valid depths suffice and skipped pixels are counted; a decreasing depth is unclear |
-| CRC-015-JRC curve far from the published depth | Appears addressed on the default path: values are the published depths |
-| CRC-016-JRC error outside coverage | Unclear |
-| CRC-017-JRC release identification | Partly: SHA-256 per file; the release still comes from one README line |
-| CRC-018-JRC licence | Appears addressed: `ODbL-1.0` |
-| CRC-019-JRC publisher's masks not read | Not addressed |
-| CRC-020-JRC `source_id` depends on the box | Appears addressed: `support_id` from the tile, row and column |
-| CRC-021-JRC relative cache path | Appears addressed: the path is made absolute |
-| CRC-022-JRC 27 minutes for Texas | Unclear: no fit, bounded windows; not measured |
+| Finding | In 1.0.0a1 (code reading) | Reading |
+| --- | --- | --- |
+| CRC-002-FWK twenty-year minimum | The check on the request is gone; each cell is fitted on its own valid years, minimum 3 by default | Changed; reword |
+| CRC-003-JRC no licence or checksum on JRC and EDO output | Licence, attribution, SHA-256 and retrieval time are set and written into the file. The checksum covers crc-sdk's crop, not the publisher's file | Apparently fixed |
+| CRC-004-EDO, CRC-005-EDO | EDO returns dated ten-day records; no curve and no annual minimum in the provider | No longer applies |
+| CRC-006-ERA5 unit not checked | A units attribute other than `m` or `K` raises | Apparently fixed |
+| CRC-007-OPEN `retrieved_at` | Taken from the download, kept on cache replay. Cannot be checked until a 2.0 release exists | Apparently fixed |
+| CRC-008-OSC | OS-Climate removed | No longer applies |
+| CRC-009-CDL moving branch | Now the live USDA service with CC0, a checksum and a release hash; still not a versioned snapshot | Changed; reword |
+| CRC-011-IBT no licence field | Licence (free text), attribution, checksum and retrieval time travel with the batches | Apparently fixed |
+| CRC-012-NEX version 2.0 not requestable | The version argument is gone: the highest version on NASA's listing is read, so 2.0 is read and an older revision cannot be chosen | Changed; reword |
+| CRC-013-FWK fit gives up on flat-then-rising depths | JRC is no longer fitted. An explicit fit raises, warns or keeps a failure row, so it is no longer silent. Whether the optimizer converges on the case cannot be read | Changed; needs a run |
+| CRC-014-JRC flooded pixel with no curve | Pixels with two or more depths are delivered; fewer gives an aggregate count only. **A depth that decreases makes the whole read fail** | Changed; new behaviour to confirm |
+| CRC-015-JRC curve far from the published depth | Output keeps the published depths; a query outside them is a failure row | Changed |
+| CRC-016-JRC error outside coverage | No coverage error found: a box outside coverage appears to give zero rows with no diagnostic | Changed; needs a run |
+| CRC-017-JRC release identification | The README version must equal a hard-coded value; ETag, Last-Modified and size are checked. Addresses still unversioned, no publisher checksum | Changed |
+| CRC-018-JRC licence | Hard-codes `ODbL-1.0`, which matches the publisher's README and not its `copyright.txt` (CC BY 4.0) | Changed |
+| CRC-019-JRC publisher's masks not read | Only depth files are requested | Unchanged |
+| CRC-020-JRC `source_id` depends on the box | `support_id` is text built from the tile and the pixel's row and column in the publisher's file | Apparently fixed |
+| CRC-021-JRC relative cache path | The cache path is made absolute | Apparently fixed |
+| CRC-022-JRC 27 minutes for Texas | No worker pool; a per-pixel Python loop builds every row in memory before the first batch | Changed; needs a run |
 
-By this reading, 10 appear addressed, 3 are moot by redesign, 4 are partly addressed, 2 are unclear and 1
-is not addressed. Turning "appears" into "confirmed" needs a run of each on the released packages.
+By this reading: 6 apparently fixed, 3 no longer apply, 10 changed in a way that needs rewording or a run,
+1 unchanged. Under the rules in `docs/upstream-updates.md` none becomes `fixed` before a run shows it.
+
+Something new to confirm on data: in the Texas box 192,683 pixels had a depth that decreases with return
+period at 0.11.1. In 1.0.0a1 one such pixel appears to fail the read of the whole box
+(`crc_sdk/_climate_io.py:176-178`; upstream's own test `tests/test_raster_input.py:211-227` expects it).
 
 What 1.0 still does not have (searched, no match): a hail measurement or hail model; confidence intervals
 on fits; the Emanuel cubic (the sigmoid is still a logistic).
@@ -138,6 +143,20 @@ on fits; the Emanuel cubic (the sigmoid is still a logistic).
 | crc-viz map and `tools/build_map_page.py` (crc-docs; works with 0.11 output) | crc-docs `docs/map/README.md` | A map of plants for a talk | An hour |
 
 Not released yet: `decode_curves(rows)` (crc-sdk #49), the insurance loss work (crc-sdk #47, framework #27).
+
+## Size of the port (measured on 1.0.0a1 in a scratch environment, 2026-11-23)
+
+- Name check: 73 of the 75 upstream names our code uses are missing. The two that remain are `crc_sdk` and
+  `crc_sdk.__file__`.
+- Offline tests: 225 pass, 22 fail, 95 error. Apart from the pin guard, every failure is a removed module;
+  none is a behaviour change, because nothing reaches the numbers yet.
+- Statement files: all 25 upstream files cited by the 91 `code_ref` lines are deleted. Each reference has
+  to be found again in a different file; none can be renumbered.
+- Extras: `geometry` and `agriculture` are gone from crc-sdk; `polyfill_wkb` has no replacement (h3-py
+  directly).
+- Subsets of IBTrACS are gone (the provider reads `ALL` for one agency), and NEX takes no file version.
+- Cheapest first step: `adapters/crc/enumerate.py` rewritten against `crc_sdk.__all__` and the provider
+  enums unblocks the inventory, the monitor and the drafting brief.
 
 ## What this means for the lab
 
