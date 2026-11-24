@@ -41,6 +41,15 @@ release-check:
     -uv run pytest -q
     uv run python -m data_source_check.monitor --rerun --profile quick
 
+# Our findings probed against crc-sdk 1.0 in a throwaway environment (never the project's; network unless --offline):
+# just v1-probes 1.0.0a1 1.0.0a2 [--only <id>] [--list] [--offline]; report in docs/reports/v1-probes-<sdk>.md
+v1-probes sdk_version framework_version *flags:
+    uv run --no-project --python 3.12 --prerelease allow \
+        --with "crc-sdk[zarr,raster,netcdf]=={{sdk_version}}" \
+        --with "crc-framework=={{framework_version}}" \
+        --with "rasterio<1.5.2; sys_platform == 'darwin'" \
+        python -B tools/probes/v1/run.py {{flags}}
+
 # Rebuild every explorer data file from CRC Open and the Census boundary (needs the network)
 data:
     uv run python -m crc_data_explorer.build
