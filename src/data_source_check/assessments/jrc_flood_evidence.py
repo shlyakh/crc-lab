@@ -26,7 +26,7 @@ import numpy as np
 from ..core import compare
 from ..evidence import fema_nfhl, usgs_peaks, usgs_stn
 from ..reference import jrc_flood as reference
-from . import jrc_flood as base
+from . import jrc_flood_011 as base
 from .jrc_flood_areas import FIRST_SHOWN, MAP_PERIODS, MAPS
 
 AREAS = tuple(

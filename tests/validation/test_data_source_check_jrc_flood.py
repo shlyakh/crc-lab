@@ -1,496 +1,143 @@
-"""JRC flood assessment on small constructed publisher folders, offline.
+"""JRC flood on crc-sdk 1.x: the assessment on small constructed publisher folders, offline."""
 
-Two folders are built, laid out as the publisher's: GloFAS with two tiles that meet at a
-seam and seven return periods, EFAS with one raster and nine. The pixels are made to sit on
-every rule's boundary: wet at three and at four return periods, the same depth at every
-return period, a depth that decreases, dry everywhere, and a box whose edges fall inside
-pixels and across the seam. The reference reader reads the folders in place; crc-sdk is
-pointed at them as if they were the publisher.
+from __future__ import annotations
 
-One 256 by 256 block as stored in a publisher file (block 554 of
-``RP100/ID18_N40_W130_RP100_depth.tif``, GloFAS 2.1.2, downloaded 2026-11-17, file SHA-256
-035960c9...b66624a2) tests the decoder on real bytes.
-"""
-
-import hashlib
-import json
+import sys
 from dataclasses import replace
 from pathlib import Path
 
-import numpy as np
-import pyarrow  # noqa: F401  (before rasterio: see the note in adapters/crc/jrc_flood.py)
 import pytest
-import rasterio
-from rasterio.transform import from_origin
 
-from data_source_check.assessments import jrc_flood as assessment
-from data_source_check.core import inventory
-from data_source_check.reference import jrc_flood as reference
+sys.path.insert(0, str(Path(__file__).parent))
+import jrc_publisher as made  # noqa: E402
 
-FIXTURES = Path(__file__).parent / "fixtures"
+from data_source_check import build  # noqa: E402
+from data_source_check.assessments import jrc_flood as assessment  # noqa: E402
+from data_source_check.core import inventory  # noqa: E402
+from data_source_check.reference import jrc_flood as reference  # noqa: E402
+
 VERSIONS = {"crc-sdk": "test"}
-STEP = 1 / 1200  # three arc seconds, as the publisher's grids
-NODATA = -9999.0
-GLOFAS_PERIODS = (10, 20, 50, 75, 100, 200, 500)
-EFAS_PERIODS = (10, 20, 30, 40, 50, 75, 100, 200, 500)
-ROWS, COLUMNS = 40, 48
-WEST, NORTH = -100.0, 31.0
-SEAM = WEST + COLUMNS * STEP
-# edges fall 0.6 of a pixel inside a pixel, so "touched" and "rounded" windows differ;
-# the box crosses the seam between the two tiles
-BOX = (WEST + 11.6 * STEP, NORTH - 30.6 * STEP, SEAM + 20.6 * STEP, NORTH - 4.4 * STEP)
-FAR = (10.0, 10.0, 10.2, 10.2)
-AREA = assessment.Area("glofas-test", "glofas", BOX, 9, "constructed box")
-EUROPE = assessment.Area("efas-test", "efas", (8.0 + 3.6 * STEP, 50.0 - 20.6 * STEP,
-                                               8.0 + 30.4 * STEP, 50.0 - 2.4 * STEP), 7,
-                         "constructed box")  # fmt: skip
-OUTSIDE = assessment.Area("efas-far", "efas", FAR, 7, "a box outside the raster")
-# (row, column) of pixels inside the box, in the first tile
-THREE, FOUR, FLAT, DOWN, DRY = (10, 20), (10, 21), (12, 20), (12, 21), (14, 20)
-
-
-def _stack(periods: tuple[int, ...], seed: int) -> np.ndarray:
-    """Depths that increase with the return period; a third of the pixels start dry."""
-    rng = np.random.default_rng(seed)
-    steps = rng.uniform(0.05, 0.6, (len(periods), ROWS, COLUMNS))
-    stack = (rng.uniform(0.1, 3.0, (ROWS, COLUMNS)) + np.cumsum(steps, axis=0)).astype("<f4")
-    first_wet = rng.integers(0, len(periods), (ROWS, COLUMNS))
-    first_wet[rng.random((ROWS, COLUMNS)) < 0.6] = 0
-    for index in range(len(periods)):
-        stack[index][first_wet > index] = NODATA
-    stack[:, rng.random((ROWS, COLUMNS)) < 0.2] = NODATA  # never wet
-    return stack
-
-
-def _specials(stack: np.ndarray) -> None:
-    count = stack.shape[0]
-    rising = np.linspace(0.5, 2.0, count).astype("<f4")
-    for (row, column), wet in ((THREE, 3), (FOUR, 4)):
-        stack[:, row, column] = rising
-        stack[: count - wet, row, column] = NODATA
-    stack[:, FLAT[0], FLAT[1]] = 1.0
-    stack[:, DOWN[0], DOWN[1]] = rising
-    stack[3, DOWN[0], DOWN[1]] = 0.2
-    stack[:, DRY[0], DRY[1]] = NODATA
-
-
-def _write(path: Path, data: np.ndarray, west: float, north: float, **more: object) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    profile = {"driver": "GTiff", "dtype": data.dtype.name, "count": 1, "width": data.shape[1],
-               "height": data.shape[0], "crs": "EPSG:4326", "nodata": NODATA,
-               "transform": from_origin(west, north, STEP, STEP), "compress": "deflate",
-               "tiled": True, "blockxsize": 16, "blockysize": 16, **more}  # fmt: skip
-    with rasterio.open(path, "w", **profile) as target:
-        target.write(data, 1)
-
-
-def build_publisher(root: Path, flat_then_a_jump: bool = False) -> dict[str, Path]:
-    glofas, efas = root / "glofas", root / "efas"
-    tiles = {"ID1_N31_W100": WEST, "ID2_N31_W099": SEAM}
-    for number, (tile, west) in enumerate(tiles.items()):
-        stack = _stack(GLOFAS_PERIODS, seed=number + 1)
-        if number == 0:
-            _specials(stack)
-            if flat_then_a_jump:  # the depths crc-framework's optimizer does not converge on
-                stack[:, 16, 20] = (1.0, 1.0, 1.0, 1.0, 1.0, 1.016, 1.13)
-        for index, period in enumerate(GLOFAS_PERIODS):
-            _write(glofas / f"RP{period}" / f"{tile}_RP{period}_depth.tif", stack[index],
-                   west, NORTH)  # fmt: skip
-    features = [
-        {"type": "Feature", "properties": {"id": int(tile[2]), "name": tile[4:]},
-         "geometry": {"type": "Polygon", "coordinates": [[
-             [west, NORTH], [west + COLUMNS * STEP, NORTH],
-             [west + COLUMNS * STEP, NORTH - ROWS * STEP], [west, NORTH - ROWS * STEP],
-             [west, NORTH]]]}}
-        for tile, west in tiles.items()
-    ]  # fmt: skip
-    (glofas / "tile_extents.geojson").write_text(
-        json.dumps({"type": "FeatureCollection", "features": features}), encoding="utf-8"
-    )
-    stack = _stack(EFAS_PERIODS, seed=7)
-    _specials(stack)
-    for index, period in enumerate(EFAS_PERIODS):
-        _write(efas / f"Europe_RP{period}_filled_depth.tif", stack[index], 8.0, 50.0)
-    for folder, release in ((glofas, "2.1.2"), (efas, "3.1.1")):
-        (folder / "README.txt").write_text(
-            f"GENERAL INFORMATION\n\nG01. Dataset version {release}\n"
-            "D01. Horizontal coverage: constructed\n"
-            "A02. License information, restrictions on use: constructed licence\n",
-            encoding="utf-8",
-        )
-        (folder / "copyright.txt").write_text("constructed", encoding="utf-8")
-    return {"glofas": glofas, "efas": efas}
+AREA = assessment.Area("glofas-test", "glofas", made.BOX, "constructed box")
+EUROPE = assessment.Area(
+    "efas-test",
+    "efas",
+    (
+        8.0 + 3.6 * made.STEP,
+        50.0 - 20.6 * made.STEP,
+        8.0 + 30.4 * made.STEP,
+        50.0 - 2.4 * made.STEP,
+    ),
+    "constructed box",
+)
+FAR = assessment.Area("efas-far", "efas", made.FAR, "a box outside the raster")
 
 
 @pytest.fixture
 def publisher(tmp_path: Path) -> dict[str, Path]:
-    return build_publisher(tmp_path / "publisher")
+    return made.build_publisher(tmp_path / "publisher")
 
 
-def _run(tmp_path: Path, publisher: dict[str, Path], *, live: bool = True,
-         rules: reference.Rules | None = None, name: str = "cache") -> dict:  # fmt: skip
+def run(tmp_path: Path, publisher: dict[str, Path], **more: object) -> dict:
     return assessment.assess(
-        tmp_path / name, live=live, versions=VERSIONS, rules=rules, publisher=publisher,
-        areas=(AREA, EUROPE), outside=(OUTSIDE,), sample_values=500, sample_pixels=200,
-        strip_rows=7,
-    )  # fmt: skip
-
-
-def _outcomes(run: dict) -> dict[str, str]:
-    return {check["check"]: check["outcome"] for check in run["checks"]}
-
-
-# ---------------------------------------------------------------------------- the TIFF reader
-@pytest.mark.parametrize(
-    ("dtype", "options"),
-    [
-        ("float32", {}),
-        ("float32", {"tiled": False}),
-        ("float32", {"compress": "none"}),
-        ("float64", {"blockxsize": 32, "blockysize": 16}),
-        ("uint8", {"nodata": 0}),
-    ],
-)
-def test_the_reader_agrees_with_gdal(tmp_path: Path, dtype: str, options: dict) -> None:
-    data = (np.random.default_rng(3).random((37, 53)) * 200).astype(dtype)
-    profile = {"driver": "GTiff", "dtype": dtype, "count": 1, "width": 53, "height": 37,
-               "crs": "EPSG:4326", "nodata": NODATA, "compress": "deflate", "tiled": True,
-               "transform": from_origin(WEST, NORTH, STEP, STEP),
-               "blockxsize": 16, "blockysize": 16, **options}  # fmt: skip
-    if not profile["tiled"]:
-        del profile["blockxsize"], profile["blockysize"]
-    path = tmp_path / "one.tif"
-    with rasterio.open(path, "w", **profile) as target:
-        target.write(data, 1)
-    with reference.Tiff(path) as tiff, rasterio.open(path) as gdal:
-        assert np.array_equal(tiff.read(), gdal.read(1))
-        assert np.array_equal(tiff.read((5, 3, 41, 30)), gdal.read(1)[3:30, 5:41])
-        assert tiff.bounds == pytest.approx(tuple(gdal.bounds), abs=1e-12)
-        assert tiff.nodata == gdal.nodata
-        assert tiff.tiled == profile["tiled"]
-        assert tiff.geographic["geographic"] == 4326
-
-
-def test_the_reader_decodes_a_block_cut_from_a_publisher_file() -> None:
-    raw = (FIXTURES / "jrc_glofas_ID18_RP100_block.bin").read_bytes()
-    block = reference.decode_block(raw, 8, np.dtype("<f4"), 256, 256)
-    assert hashlib.sha256(block.tobytes()).hexdigest() == (
-        "99e5e0a9eecf551af2dcc44857f0c23dfb9fb8cdcd51d73be30581c31f35aa67"
-    )  # the same block read through GDAL
-    wet = block[block != NODATA]
-    assert len(wet) == 6679
-    assert float(wet.max()) == pytest.approx(20.34)
-    assert float(wet.min()) >= 0.1  # dry pixels hold the nodata value, never zero
-
-
-def test_the_reader_refuses_what_it_does_not_understand(tmp_path: Path) -> None:
-    path = tmp_path / "lzw.tif"
-    _write(path, np.ones((16, 16), "<f4"), WEST, NORTH, compress="lzw")
-    with pytest.raises(reference.TiffError, match="compression"):
-        reference.Tiff(path)
-    (tmp_path / "text.tif").write_bytes(b"not a tiff at all")
-    with pytest.raises(reference.TiffError, match="not a TIFF"):
-        reference.Tiff(tmp_path / "text.tif")
-
-
-# ---------------------------------------------------------------------------- the rules
-def test_reference_rules_on_small_series() -> None:
-    periods = (10, 20, 50, 100, 500)
-    nan = np.nan
-    values = np.array([
-        [0.5, nan, 1.0, 2.0, nan],
-        [0.9, nan, 1.0, 1.5, nan],
-        [1.4, 0.3, 1.0, 1.7, nan],
-        [1.8, 0.6, 1.0, 2.5, 0.2],
-        [2.6, 1.1, 1.0, 3.0, 0.4],
-    ])  # fmt: skip
-    fitted = reference.fit(periods, values)
-    assert fitted["knots"].tolist() == [5, 3, 5, 5, 2]
-    assert fitted["enough"].tolist() == [True, False, True, True, False]
-    assert fitted["constant"].tolist() == [False, False, True, False, False]
-    assert fitted["increasing"].tolist() == [True, True, True, False, True]
-    # a straight line in the reduced variate is fitted exactly
-    y = reference.reduced_variate(periods)
-    line = (0.7 + 0.45 * y)[:, None]
-    exact = reference.fit(periods, line)
-    assert exact["location"][0] == pytest.approx(0.7, abs=1e-12)
-    assert exact["scale"][0] == pytest.approx(0.45, abs=1e-12)
-    assert reference.quantile(exact["location"], exact["scale"], 50)[0] == pytest.approx(
-        float(line[2, 0]), abs=1e-12
+        tmp_path / "cache",
+        live=True,
+        versions=VERSIONS,
+        areas=(AREA, EUROPE),
+        outside=(FAR,),
+        publisher=publisher,
+        strip_rows=7,  # strips that do not line up with anything
+        **more,  # type: ignore[arg-type]
     )
-    # nodata and the window of every pixel a box touches
-    raw = np.array([[NODATA, 0.1, np.inf]], dtype="<f4")
-    assert np.isnan(reference.depths(raw, NODATA)).tolist() == [[True, False, True]]
-    assert reference.tiles_for(
-        {"features": [{"properties": {"id": 1, "name": "a"}, "geometry": {"coordinates": [[
-            [0, 1], [1, 1], [1, 0], [0, 0], [0, 1]]]}}]}, (1.0, 0.2, 2.0, 0.4)
-    ) == ["ID1_a"]  # a tile that only touches the box counts  # fmt: skip
 
 
-def test_version_and_statements_are_read_from_the_readme() -> None:
-    readme = ("G01. Dataset version 2.1.2 \nD01. Horizontal coverage: Global \n"
-              "A02. License information, restrictions on use: Open Database License\n")  # fmt: skip
-    assert reference.version(readme) == "2.1.2"
-    assert reference.stated(readme)["licence"] == "Open Database License"
-    assert reference.stated(readme)["coverage"] == "Global"
-    assert reference.version("no version here") == ""
+def outcomes(records: dict) -> dict[str, str]:
+    return {check["check"]: check["outcome"] for check in records["checks"]}
 
 
-def test_cells_of_a_pixel_are_those_its_square_overlaps() -> None:
-    import h3
+def test_every_check_is_confirmed_on_the_constructed_files(
+    tmp_path: Path, publisher: dict[str, Path]
+) -> None:
+    records = run(tmp_path, publisher)
+    got = outcomes(records)
+    assert got.pop("transport") == "not checked"  # crc-sdk read local files, not a server
+    assert set(got.values()) == {"confirmed"}, {k: v for k, v in got.items() if v != "confirmed"}
+    assert {name.split("[")[0] for name in got} == {
+        "area", "delivered", "values", "cells", "shape", "files", "provenance", "release",
+        "licence", "overlap", "coverage",
+    }  # fmt: skip
+    glofas = next(a for a in records["exploration"]["areas"] if a["area"] == "glofas-test")
+    assert glofas["tiles"] == ["ID1_N31_W100", "ID2_N31_W099"]  # the box crosses the seam
+    assert glofas["decreasing"] >= 1 and glofas["dry"] >= 1 and glofas["one_depth"] >= 1
+    assert glofas["equal_depths"] >= 1 and glofas["fewer_than_four"] >= 1
+    assert glofas["rows"] == glofas["deliverable"] > 100
+    values = next(c for c in records["checks"] if c["check"] == "values[glofas-test]")
+    assert values["result"]["values_compared"] > glofas["rows"] * 2
+    far = records["exploration"]["outside"][0]
+    assert far["rows"] == 0 and not far["error"]
 
-    box = (WEST, NORTH - STEP, WEST + STEP, NORTH)
-    cells = reference.cells_of_box(box, 10)
-    centre = h3.str_to_int(h3.latlng_to_cell(NORTH - STEP / 2, WEST + STEP / 2, 10))
-    assert centre in cells and len(cells) > 1  # a 90 m pixel is wider than a resolution-10 cell
-    assert reference.cells_of_box(box, 10, reference.Rules(cells_overlapping=False)) == [centre]
-    assert len(reference.cells_of_box(box, 5)) == 1
 
+def test_the_placed_pixels_are_delivered_or_left_out_as_the_statement_says(
+    tmp_path: Path, publisher: dict[str, Path]
+) -> None:
+    run(tmp_path, publisher)
+    from data_source_check.adapters.crc import jrc_flood as framework
 
-# ---------------------------------------------------------------------------- the assessment
-def test_assessment_on_the_constructed_publisher(tmp_path: Path, publisher: dict) -> None:
-    run = _run(tmp_path, publisher)
-    outcomes = _outcomes(run)
-    assert set(outcomes.values()) == {"confirmed"}, outcomes
-    assert len(outcomes) == 2 + 8 * 2 + 1
-    by_name = {check["check"]: check["result"] for check in run["checks"]}
-    crop = by_name["crop[glofas-test]"]
-    assert crop["tiles"] == 2  # the box crosses the seam
-    assert crop["pixels_compared"] == 7 * 27 * (37 + 21) and crop["pixels_differing"] == 0
-    curves = by_name["curves[glofas-test]"]
-    assert curves["curves_reference"] == curves["curves_framework"] > 500
-    assert curves["no_curve"]["all_depths_equal"] == 1
-    assert curves["no_curve"]["a_depth_decreases"] == 1
-    assert curves["no_curve"]["fewer_than_four_depths"] > 50
-    assert by_name["source-id[glofas-test]"]["equal_to_the_publisher_file_position"] == 0
-    assert by_name["provenance[glofas-test]"]["empty_fields"] == [
-        "licence", "attribution", "retrieved_at", "checksum"]  # fmt: skip
-    assert by_name["coverage[efas-far]"]["crc_sdk_error_type"] == "LookupError"
-    areas = {area["area"]: area for area in run["exploration"]["areas"]}
-    assert areas["glofas-test"]["fitted"] == curves["curves_reference"]
-    assert areas["glofas-test"]["ever_wet"] > areas["glofas-test"]["fitted"]
-    assert all(check["summary"] for check in run["checks"])
-    assert run["chart"]["default"] in run["chart"]["series"]
+    table = framework.rows(tmp_path / "cache" / "framework" / "glofas-test")
+    rows = {r["support_id"]: r for r in table.to_pylist()}
+    name = "jrc:glofas:ID1_N31_W100:{}:{}".format
+    assert len(rows[name(*made.THREE)]["values"]) == 3  # 0.11 needed four depths for a curve
+    assert len(rows[name(*made.FOUR)]["values"]) == 4
+    assert set(rows[name(*made.FLAT)]["values"]) == {1.0}  # equal depths are delivered
+    assert name(*made.DOWN) not in rows and name(*made.DRY) not in rows
+    assert rows[name(*made.THREE)]["probabilities"] == pytest.approx(
+        [1 - 1 / period for period in made.GLOFAS_PERIODS[-3:]]
+    )
 
 
 @pytest.mark.parametrize(
-    ("change", "check"),
+    ("wrong", "differing"),
     [
-        ({"nodata_is_missing": False}, "curves"),
-        ({"minimum_knots": 3}, "curves"),
-        ({"touched_pixels": False}, "crop"),
-        ({"reduced_variate": False}, "curves"),
-        ({"cells_overlapping": False}, "cells"),
+        ({"nodata_is_missing": False}, {"delivered", "values"}),
+        ({"touched_pixels": False}, {"area"}),
     ],
+    ids=["nodata-kept-as-a-depth", "pixels-by-rounding"],
 )
-def test_a_wrong_reference_rule_ends_as_differs_fault(
-    tmp_path: Path, publisher: dict, change: dict, check: str
+def test_a_wrong_reference_rule_ends_as_differs(
+    tmp_path: Path, publisher: dict[str, Path], wrong: dict[str, bool], differing: set[str]
 ) -> None:
-    run = _run(tmp_path, publisher, rules=replace(reference.Rules(), **change))
-    assert _outcomes(run)[f"{check}[glofas-test]"] == "differs"
+    """A check that cannot fail proves nothing: break one rule and the comparison must differ."""
+    got = outcomes(run(tmp_path, publisher, rules=replace(reference.Rules(), **wrong)))
+    differs = {name.split("[")[0] for name, value in got.items() if value == "differs"}
+    assert differing <= differs, differs
 
 
-def test_a_changed_pixel_in_a_crop_ends_as_differs_fault(tmp_path: Path, publisher: dict) -> None:
-    _run(tmp_path, publisher)
-    # the publisher's file changes after crc-sdk cropped it
-    path = publisher["glofas"] / "RP50" / "ID1_N31_W100_RP50_depth.tif"
-    with rasterio.open(path) as source:
-        data, profile = source.read(1), source.profile
-    data[FOUR] += 0.25
-    with rasterio.open(path, "w", **profile) as target:
-        target.write(data, 1)
-    run = _run(tmp_path, publisher)
-    result = next(c for c in run["checks"] if c["check"] == "crop[glofas-test]")
-    assert result["outcome"] == "differs" and result["result"]["pixels_differing"] == 1
-
-
-def test_depths_the_optimizer_does_not_converge_on_are_seen(tmp_path: Path) -> None:
-    """crc-framework 0.6.0 gives up on depths that are flat and then rise (CRC-013-FWK)."""
-    publisher = build_publisher(tmp_path / "publisher", flat_then_a_jump=True)
-    run = _run(tmp_path, publisher)
-    result = next(c for c in run["checks"] if c["check"] == "curves[glofas-test]")
-    assert result["outcome"] == "differs"
-    assert result["result"]["only_in_reference"] == 1
-    assert result["result"]["values_differing"] == 0
-    example = result["result"]["examples"][0]
-    assert (example["row"], example["column"]) == (16, 20)
-    assert example["values"] == [1.0, 1.0, 1.0, 1.0, 1.0, 1.016, 1.13]
-
-
-def test_a_second_run_from_the_stored_answers_gives_the_same_records(
-    tmp_path: Path, publisher: dict
+def test_a_second_run_from_the_stored_reads_gives_the_same_outcomes(
+    tmp_path: Path, publisher: dict[str, Path]
 ) -> None:
-    def comparable(run: dict) -> list:
-        return [{k: v for k, v in check.items() if k not in ("run_at", "inputs")}
-                for check in run["checks"]]  # fmt: skip
-
-    first = _run(tmp_path, publisher)
-    again = _run(tmp_path, publisher, live=False)
-    assert comparable(first) == comparable(again)
-    with pytest.raises(FileNotFoundError, match="--live"):
-        _run(tmp_path, publisher, live=False, name="empty")
+    first = run(tmp_path, publisher)
+    again = assessment.assess(
+        tmp_path / "cache", live=False, versions=VERSIONS, areas=(AREA, EUROPE), outside=(FAR,),
+        publisher=publisher, strip_rows=7,
+    )  # fmt: skip
+    assert outcomes(first) == outcomes(again)
+    assert [c["result"] for c in first["checks"]] == [c["result"] for c in again["checks"]]
 
 
-def test_checks_name_only_steps_of_the_statement(tmp_path: Path, publisher: dict) -> None:
+def test_every_check_bears_on_a_step_of_the_statement(
+    tmp_path: Path, publisher: dict[str, Path]
+) -> None:
     source = next(s for s in inventory.load_sources("crc_sdk") if s.id == "jrc-flood")
     steps = {step.id for step in source.statement}
-    named = {step for check in _run(tmp_path, publisher)["checks"] for step in check["steps"]}
-    assert named <= steps
-    assert steps - named == set(), "a step no check bears on needs a note saying why"
+    records = run(tmp_path, publisher)
+    used = {step for check in records["checks"] for step in check["steps"]}
+    assert used == steps, (used - steps, steps - used)
 
 
-# --------------------------------------------------------------- by area, review maps, charts
-def test_the_by_area_summary_follows_the_notebooks_steps() -> None:
-    from data_source_check.assessments import jrc_flood_areas as areas
-
-    cells = np.array([1, 1, 2, 3, 3, 4], dtype=np.uint64)
-    depths = np.array([0.2, 0.9, 0.4, 2.0, 3.0, 0.5])
-    found = areas.summarize(cells, depths, [("north", {1, 2}), ("south", {3, 4}), ("empty", {9})])
-    # the largest row per cell, then the threshold (0.5 m, inclusive), then mean and largest
-    assert found["cells_with_a_curve"] == 4 and found["cells_at_or_above"] == 3
-    assert [r["name"] for r in found["rows"]] == ["south", "north"]
-    south, north = found["rows"]
-    assert (south["mean_depth_m"], south["max_depth_m"], south["cells"]) == (1.75, 3.0, 2)
-    assert (north["mean_depth_m"], north["cells"], north["cells_of_the_area"]) == (0.9, 1, 2)
-    # a cell on a border counts in every polygon it overlaps
-    both = areas.summarize(cells, depths, [("a", {3}), ("b", {3, 4})])
-    assert [r["cells"] for r in both["rows"]] == [1, 2]
-
-
-def test_cells_of_a_polygon_include_those_it_only_overlaps() -> None:
-    import h3
-
-    square = {"type": "Polygon", "coordinates": [[[8.0, 50.0], [8.1, 50.0], [8.1, 50.1],
-                                                  [8.0, 50.1], [8.0, 50.0]]]}  # fmt: skip
-    overlap = reference.cells_of_polygon(square, 7)
-    centres = {h3.str_to_int(c) for c in h3.geo_to_cells(square, 7)}
-    assert centres < overlap
-    corner = h3.str_to_int(h3.latlng_to_cell(50.0, 8.0, 7))
-    assert corner in overlap
-
-
-def test_review_maps_count_what_the_reference_reads(tmp_path: Path, publisher: dict) -> None:
-    from data_source_check.assessments import jrc_flood_areas as areas
-
-    written = areas.review_maps(tmp_path / "cache", tmp_path / "maps", live=True, areas=[AREA],
-                                log=lambda _: None, publisher=publisher)  # fmt: skip
-    payload = json.loads((tmp_path / "maps" / "glofas-test.json").read_text())
-    run = _run(tmp_path, publisher)
-    numbers = next(a for a in run["exploration"]["areas"] if a["area"] == AREA.id)
-    assert written[0]["pixels_flooded"] == numbers["ever_wet"]
-    assert sum(p[1] for p in payload["params"]) == numbers["ever_wet"]
-    assert payload["return_periods"] == list(areas.MAP_PERIODS)
-    shown = areas.MAP_PERIODS[payload["values_from"] :]
-    fields = payload["fields"]
-    for position, period in enumerate(shown):
-
-        def column(key: str, at: int = position) -> list:
-            return [row[at] for row in fields[key]["values"]]
-
-        assert sum(column("dry_curve")) == numbers["dry_curve_tenth"][str(period)]
-        assert sum(column("below_zero")) == numbers["curve_below_zero"][str(period)]
-        assert sum(column("deep")) == numbers["deep"][str(period)]
-        deepest = max(v for v in column("published") if v is not None)
-        assert deepest <= round(numbers["largest_depth"], 3)
-    assert all(len(row) == len(shown) for row in fields["published"]["values"])
-    # the two kinds of pixel without a curve add up to all of them
-    for land, body, both in zip(fields["no_curve_land"]["values"],
-                                fields["no_curve_water"]["values"],
-                                fields["no_curve_share"]["values"], strict=True):  # fmt: skip
-        for a, b, c in zip(land, body, both, strict=True):
-            assert (a is None) == (c is None) and (c is None or abs(a + b - c) <= 0.11)
-
-
-def test_charts_name_their_finding_and_cover_every_area(tmp_path: Path, publisher: dict) -> None:
-    run = _run(tmp_path, publisher)
-    titles = [a["title"] for a in run["exploration"]["areas"]]
-    assert len(run["charts"]) == 6 and all(c["finding"].startswith("CRC-") for c in run["charts"])
-    for chart in run["charts"]:
-        assert set(chart["series"]) == set(titles) and chart["default"] == titles[0]
-        assert all(isinstance(v, int | float) for rows in chart["series"].values() for _, v in rows)
-    assert "by_area" not in run["exploration"]  # needs real boundary files
-    # every table and chart says where its numbers come from
-    assert {t["origin"] for t in run["tables"]} == {"crc-sdk", "publisher"}
-    assert [t["origin"] for t in run["tables"] if t["title"] == "crc-sdk's runs"] == ["crc-sdk"]
-    assert all(c["origin"] == "publisher" for c in [run["chart"], *run["charts"]])
-
-
-# --------------------------------------------------------------- outside evidence (no verdict)
-def _part() -> dict:
-    depth = np.full((2, 4, 5), np.nan)
-    depth[0, 1, 1:3] = [0.5, 2.0]  # 100 years
-    depth[1, 1, 1:4] = [1.0, 3.0, 0.4]  # 500 years
-    water = np.zeros((4, 5), dtype=bool)
-    water[3, 4] = True
-    return {"tile": "t", "west": -95.0, "north": 30.0, "dx": STEP, "dy": STEP, "shape": (4, 5),
-            "depth": depth, "water": water}  # fmt: skip
-
-
-def test_evidence_helpers_place_points_and_polygons_on_the_pixel_grid() -> None:
-    from shapely.geometry import box
-
-    from data_source_check.assessments import jrc_flood_evidence as evidence
-
-    part = _part()
-    assert evidence.at(part, -95.0 + 2.5 * STEP, 30.0 - 1.5 * STEP) == (1, 2)
-    assert evidence.at(part, -95.0 - STEP, 30.0) is None
-    # a polygon covering the centres of columns 1 and 2 of row 1 only
-    square = box(-95.0 + 1.2 * STEP, 30.0 - 1.8 * STEP, -95.0 + 2.8 * STEP, 30.0 - 1.2 * STEP)
-    mask = evidence.rasterize([square], part)
-    assert mask.sum() == 2 and mask[1, 1] and mask[1, 2]
-    assert not evidence.rasterize([], part).any()
-
-
-def test_the_usgs_report_table_is_read_by_station() -> None:
-    from data_source_check.assessments import jrc_flood_evidence as evidence
-
-    text = (
-        "      3        08029500        8/30/2017            21.08            39,500"
-        "              2          66          1.0          1.1           4.8\n"
-        "      9        08041500        8/31/2017            40.00           100,000"
-        "              1          90         <0.2         <0.2           0.9\n"
-        "      7        08040600        8/31/2017            80.70            91,000          1\n"
-    )
-    table = evidence.sir_table(text)
-    assert set(table) == {"08029500", "08041500"}  # a row broken across lines is left out
-    assert table["08029500"] == {"date": "8/30/2017", "rank": 2, "years": 66,
-                                 "aep_percent": 1.0, "below": False}  # fmt: skip
-    assert table["08041500"]["below"] and table["08041500"]["aep_percent"] == 0.2
-
-
-def test_a_comparison_carries_numbers_and_limits_and_no_outcome(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    from data_source_check.assessments import jrc_flood_evidence as evidence
-
-    def mark(number: int, lon: float, lat: float, height: float | None) -> dict:
-        return {"id": number, "longitude": lon, "latitude": lat, "environment": "Riverine",
-                "type": "Mud", "quality": "Good", "waterbody": "w", "county": "c",
-                "site_description": "s", "elevation_ft": 10.0, "vertical_datum": "NAVD88",
-                "height_above_ground_ft": height}  # fmt: skip
-
-    marks = [
-        mark(1, -95.0 + 2.5 * STEP, 30.0 - 1.5 * STEP, 10.0),  # 3.05 m on a pixel of 2.0 / 3.0 m
-        mark(2, -95.0 + 3.5 * STEP, 30.0 - 1.5 * STEP, 1.0),  # dry at 100 years, 0.4 m at 500
-        mark(3, -95.0 + 0.5 * STEP, 30.0 - 0.5 * STEP, 2.0),  # dry at both
-        mark(4, -95.0 + 1.5 * STEP, 30.0 - 1.5 * STEP, None),  # no height: not compared
-        mark(5, -90.0, 30.0, 5.0),  # outside the box
-    ]
-    record = {"service": "u", "retrieved_at": "2026-11-17T00:00:00Z", "bytes": 1, "marks": 5}
-    monkeypatch.setattr(evidence.usgs_stn, "fetch", lambda folder, live: record)
-    monkeypatch.setattr(evidence.usgs_stn, "read", lambda r: marks)
-    area = assessment.Area("x", "glofas", (-95.0, 29.99, -94.99, 30.0), 9, "a box")
-    entry, rows = evidence.harvey(area, [_part()], (100, 500), tmp_path, live=False)
-    numbers = dict(entry["numbers"])
-    assert numbers["High-water marks of Harvey in the box"] == 4
-    assert numbers["With a height above ground"] == 3
-    assert numbers["... on a pixel GloFAS floods at 100 years"] == 1
-    assert numbers["... on a pixel GloFAS floods at 500 years"] == 2
-    assert numbers["... on a pixel dry in GloFAS at 500 years"] == 1
-    assert numbers["Marks on a 500-year pixel: mark higher than GloFAS"] == "1 of 2"
-    assert [r["glofas_500_m"] for r in rows] == [3.0, 0.4, None, 1.0]
-    # a comparison is not a check: nothing in it is an outcome or feeds the tallies
-    assert not {"outcome", "agrees", "steps", "tolerance"} & set(entry)
-    assert entry["limits"] and entry["method"] and entry["evidence"]["licence"]
-    assert "comparisons" not in [c["check"] for c in _run(tmp_path, {**build_publisher(
-        tmp_path / "publisher")})["checks"]]  # fmt: skip
+@pytest.mark.skip(reason="until the first 1.0.0 run is accepted")
+def test_committed_records_match_the_inventory() -> None:
+    source = next(s for s in inventory.load_sources("crc_sdk") if s.id == "jrc-flood")
+    records = build.load_records("jrc-flood")
+    assert records is not None
+    assert sorted(source.assessed_options["product"]) == records["options_assessed"]["product"]
+    used = {step for check in records["checks"] for step in check["steps"]}
+    assert used <= {step.id for step in source.statement}

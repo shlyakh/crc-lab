@@ -24,7 +24,9 @@ PARKED_FILES = {
     "validation/test_data_source_check_era5.py": "draft assessment, not yet ported",
     "validation/test_data_source_check_ghcnh.py": "assessment not yet ported",
     "validation/test_data_source_check_ibtracs.py": "assessment not yet ported",
-    "validation/test_data_source_check_jrc_flood.py": "assessment not yet ported",
+    "validation/test_data_source_check_jrc_flood_011.py": (
+        "the 0.11 assessment (fitted curves), kept as the previous version"
+    ),
     "validation/test_data_source_check_nex.py": "assessment not yet ported",
     "validation/test_data_source_check_noaa_water_levels.py": "draft assessment, not yet ported",
 }
