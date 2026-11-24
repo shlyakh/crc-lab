@@ -22,6 +22,7 @@ sys.dont_write_bytecode = True  # nothing is written next to the code
 import argparse  # noqa: E402
 import json  # noqa: E402
 import os  # noqa: E402
+import re  # noqa: E402
 import subprocess  # noqa: E402
 import time  # noqa: E402
 import tomllib  # noqa: E402
@@ -222,6 +223,12 @@ def write_atomic(path: Path, text: str) -> None:
     os.replace(temporary, path)
 
 
+#: text of a failed connection in a probe's note
+NETWORK_FAILURE = re.compile(
+    r"timed out|Connection reset|urlopen error|RemoteDisconnected|Name or service not known"
+    r"|nodename nor servname|Connection refused|HTTP Error 5\d\d"
+)
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--only", action="append", default=[], help="probe id (repeatable)")
@@ -266,6 +273,10 @@ def main(argv: list[str] | None = None) -> int:
     for probe in chosen:
         print(f"{probe.id} ...", flush=True)
         record = run_one(probe, cache, network=not args.offline)
+        for r in record["results"]:
+            # a publisher that did not answer says nothing about the framework
+            if r["verdict"] != "could not run" and NETWORK_FAILURE.search(r["note"]):
+                r["verdict"], r["note"] = "could not run", "the publisher did not answer: " + r["note"]
         state["probes"][probe.id] = record
         state["last_run"] = datetime.now(UTC).isoformat(timespec="seconds")
         write_atomic(state_path, json.dumps(state, indent=1, default=str))
