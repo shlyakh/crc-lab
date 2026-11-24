@@ -142,7 +142,14 @@ def world(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> World:
     for rel in FILES:
         (root / rel).parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(REPO / rel, root / rel)
-    shutil.copy2(WORKSPACE_README, tmp_path / "README.md")
+    if WORKSPACE_README.exists():
+        shutil.copy2(WORKSPACE_README, tmp_path / "README.md")
+    else:  # a bare checkout (CI) has no workspace around it: stand in with the lines the tool edits
+        (tmp_path / "README.md").write_text(
+            f"  - `crc-sdk/` at tag v{PINS['crc-sdk']}\n"
+            f"  - `crc-framework-rs/` at tag v{PINS['crc-framework']}\n",
+            encoding="utf-8",
+        )
     for clone in ("crc-sdk", "crc-framework-rs"):
         (tmp_path / "upstream" / clone / ".git").mkdir(parents=True)
     w = World(root)
