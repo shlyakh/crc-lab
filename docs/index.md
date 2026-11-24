@@ -4,6 +4,8 @@ Current work (agreed 2026-11-10; explorer first, storm sources and assets deferr
 
 - [Baseline on crc-sdk 0.11.1](baseline-crc-sdk-0.11.1.md): what exists, how it uses CRC, findings, what is
   unreviewed (2026-11-23)
+- [Verifying CRC's data sources: what has been built](validation/overview.md) (2026-11-24; the parts, what
+  was assessed, findings, how it stays current, a five-minute tour)
 - [CRC 1.0: what changes, and what it means for crc-lab](crc-1.0-briefing.md) (2026-11-23, from reading
   the pre-releases)
 - [Following CRC releases](upstream-updates.md): how the pin moves from one release to the next ·
