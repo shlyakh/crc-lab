@@ -183,7 +183,9 @@ evidence = [
   "check records ibtracs/provenance[*] (site/validation/data/records/ibtracs.json), run of 2026-11-12",
 ]
 basis = "reproduced"
-status = "open"
+status = "fixed"
+fixed_in = "1.0.0"
+note = "Checks provenance[<agency>] of ibtracs for all ten agencies (run of 2026-11-24 on crc-sdk 1.0.0, 233,822,080 values compared): a licence text, an attribution with the DOI, a SHA-256 and a retrieval time are on the metadata, the report and every batch. The licence is the free text NOAA open-use terms; originator terms may apply, with no address of the terms."
 found_on = "2026-11-12"
 framework_version = "0.11.1"
 
@@ -202,7 +204,10 @@ evidence = [
   "check record nex-gddp-cmip6/versions-served (site/validation/data/records/nex-gddp-cmip6.json), run of 2026-11-12",
 ]
 basis = "reproduced"
-status = "open"
+status = "superseded"
+closed_in = "1.0.0"
+superseded_by = "CRC-031-NEX"
+note = "From 1.0 the highest version on NASA listing is read, so version 2.0 is read by default (checks file[*], run of 2026-11-24 on crc-sdk 1.0.0). What cannot be requested is now the older revisions: CRC-031-NEX."
 found_on = "2026-11-12"
 framework_version = "0.11.1"
 
@@ -491,6 +496,129 @@ evidence = [
   "docs/data-licences.md:8",
   "crc_sdk/_climate_io.py:423-515",
   "check records jrc-flood/provenance[*] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-028-IBT"
+source = "ibtracs"
+kind = "observation"
+title = "An agency's wind and pressure are placed at the combined IBTrACS position, not at the position that agency reported"
+documented = "docs/sources.md:43: 'Native storm point observations for an explicit `Agency`; event groups and positions remain distinct'. Which position is used is not stated."
+observed = "The decoder reads the columns LAT and LON (crc_sdk/_observed_decoders.py:497-499); NOAA's file also holds a position per agency (USA_LAT, USA_LON, TOKYO_LAT, ...), which is not read. The reference reader, built on LAT and LON, agrees with crc-sdk on every row of all ten agencies (checks values[<agency>], 233,822,080 values, 0 differ)."
+consequence = "For a storm that several agencies tracked, each agency's wind is attached to the same merged position. A user comparing agencies, or wanting the agency's own best track, gets positions that are not that agency's without being told."
+evidence = [
+  "crc_sdk/_observed_decoders.py:467-478, 497-499",
+  "docs/sources.md:43",
+  "check records ibtracs/values[*] (records of ibtracs, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-029-IBT"
+source = "ibtracs"
+kind = "observation"
+title = "Every point of the file is returned for every agency, most of them as rows with no value"
+documented = "docs/sources.md:43 and 159 describe the output as the chosen agency's observations. docs/execution.md says expected data failures are kept as rows."
+observed = "Each agency returns 1,461,388 rows (two per point of NOAA's file). Rows without a value: USA 884,001; TOKYO 1,275,029; CMA 1,183,352; HKO 1,288,864; NEWDELHI 1,443,316; REUNION 1,393,474; BOM 1,364,033; NADI 1,445,408; WELLINGTON 1,414,631; WMO 1,117,014. For New Delhi 98.8% of the rows are `source_no_data`."
+consequence = "The number of rows says nothing about an agency's coverage, and a user must filter on `failure` before any count or statistic. Reading New Delhi costs the same time and memory as reading the United States agencies and returns 18,072 values."
+evidence = [
+  "crc_sdk/_observed_decoders.py:486-522",
+  "table 'What crc-sdk returns for each agency' (records of ibtracs, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-030-IBT"
+source = "ibtracs"
+kind = "doc-code difference"
+title = "The documentation says an explicit agency; the constructor defaults to the United States agencies"
+documented = "docs/sources.md:43: 'Native storm point observations for an explicit `Agency`'."
+observed = "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262)."
+consequence = "A user who omits the agency gets one agency's winds, with a 60-second averaging period, without having chosen it; for basins outside the United States agencies' responsibility that is not the WMO-designated centre."
+evidence = [
+  "docs/sources.md:43",
+  "crc_sdk/_observed_sources.py:2262",
+]
+basis = "code reading"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-031-NEX"
+source = "nex-gddp-cmip6"
+kind = "observation"
+title = "The file version cannot be chosen: the highest on NASA's listing is read, older revisions NASA still serves cannot be requested, and the version read appears only inside a file name"
+documented = "docs/sources.md does not mention NEX file versions. docs/migration-v1.md lists `HazardDataset.nex_gddp_cmip6(...)` as replaced by `NEX(...)` without saying that the `version` argument is gone."
+observed = "`NEX(...)` has no version argument (crc_sdk/_climate_sampling.py:269-290). For each year the listing is read and the highest `_v<X.Y>` is taken (crc_sdk/_climate_sampling.py:119, 1627-1641). For ACCESS-CM2 r1i1p1f1, 2014 and 2050, crc-sdk 1.0.0 read version 2.0 of pr, tasmax and tasmin in all eight cases (checks file[*]); crc-sdk 0.11.2 read 1.0 and 1.1 for the same requests. NASA still serves 1.0 of all three variables and 1.1 of pr (check versions-served). The version is not a field of the output: it is in the file name inside the recorded address."
+consequence = "The same request gives values from a different revision of NASA's files than it did a version earlier, and will change again when NASA adds a revision, with nothing in the output's fields to show it. A study that must stay on one revision, or reproduce an earlier result, cannot ask for it."
+evidence = [
+  "crc_sdk/_climate_sampling.py:119, 269-290, 1627-1641",
+  "check records nex-gddp-cmip6/file[*] and versions-served (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
+  "records of nex-gddp-cmip6 at 0.11.2 (site/validation/data/records/0.11.2/nex-gddp-cmip6.json)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-032-NEX"
+source = "nex-gddp-cmip6"
+kind = "doc-code difference"
+title = "Models whose calendar is not Gregorian are refused, although inspection lists them"
+documented = "docs/sources.md:104-106 and 124: NEX exposes the published combinations of model, scenario and member, and inspection 'reads its calendar'. `NEX().inspect()` lists every model."
+observed = "The calendar is read from the first file's header and the read is refused unless it is `standard`, `gregorian` or `proleptic_gregorian` (crc_sdk/_climate_sampling.py:1811-1817). For BCC-CSM2-MR, whose files declare `365_day`: `ValidationError: NEX source does not use its published Gregorian calendar` (check calendar[BCC-CSM2-MR rx1day historical 2014]). A survey of the 2014 historical precipitation headers of 35 models on 2026-11-24, made by the porting agent and not kept as a record, found 14 Gregorian, 16 on `365_day`, 4 on `360_day` and one unread. crc-sdk 0.11 read 365-day models (its records label `365_day` as `noleap`)."
+consequence = "By that survey 20 of 34 models cannot be read through 1.0, among them UKESM1-0-LL and CanESM5. The error text says 'published Gregorian calendar' of files whose published calendar is not Gregorian, and a user learns that a model is unreadable only after choosing it from the inspection."
+evidence = [
+  "crc_sdk/_climate_sampling.py:1811-1817",
+  "docs/sources.md:104-106, 124",
+  "check record nex-gddp-cmip6/calendar[BCC-CSM2-MR rx1day historical 2014] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-033-NEX"
+source = "nex-gddp-cmip6"
+kind = "doc-code difference"
+title = "No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning"
+documented = "docs/data-licences.md:9-11: licence and attribution are recorded 'when known'; 'there is no invented default license or attribution'. Up to 0.11 crc-sdk kept the file's model licence beside NASA's CC0 and warned when it was not CC0."
+observed = "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file says `CC-BY-SA 4.0` (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: CC-BY-SA 4.0'). NASA's archive-level CC0 statement is not recorded either. No warning is raised."
+consequence = "Output derived from a share-alike model carries no licence and no warning, where the previous version recorded the licence and warned. A user cannot see from the output that redistribution has a condition."
+evidence = [
+  "crc_sdk/_climate_sampling.py:1856-1862",
+  "docs/data-licences.md:9-11",
+  "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-034-NEX"
+source = "nex-gddp-cmip6"
+kind = "observation"
+title = "A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value"
+documented = "Not documented."
+observed = "Asked for the historical run in 2015, which ends in 2014, crc-sdk reads `pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc` and returns 2,332 rows, each with no value and the failure `incomplete_year` (0 of 365 days) (crc_sdk/_climate_sampling.py:1833-1835, 1911-1912; check year-without-file[rx1day historical 2015]). At 0.11 a file NASA did not have ended in an error."
+consequence = "A request for a year outside a scenario's span costs a whole file read (about 250 MB by range requests) and returns rows that look like a year with gaps, not like a year that does not exist."
+evidence = [
+  "crc_sdk/_climate_sampling.py:1833-1835, 1911-1912",
+  "check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
 status = "open"
