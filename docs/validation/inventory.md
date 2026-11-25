@@ -60,7 +60,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-019-JRC | jrc-flood | observation | The publisher's masks of spurious depths and permanent water are not read | reproduced | open |
 | CRC-020-JRC | jrc-flood | observation | With a cache, a pixel's source_id depends on the box asked for | reproduced | fixed in 1.0.0 |
 | CRC-021-JRC | jrc-flood | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
-| CRC-022-JRC | jrc-flood | observation | A state-sized box is fitted pixel by pixel in one process: 27 minutes and 5.8 GB of memory for the Texas box | reproduced | open |
+| CRC-022-JRC | jrc-flood | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
 | CRC-023-JRC | jrc-flood | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | open |
 | CRC-024-JRC | jrc-flood | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | open |
 | CRC-025-OWN | own-data | observation | `Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel | reproduced | open |
@@ -244,11 +244,11 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Evidence:** crc_sdk/workflows/jrc.py:109-132, 449-465; docs/sources/jrc.md:19; relative_cache in data/cache/validation/jrc-flood/probes/probes.json (tools/probes/jrc_flood_probes.py), 2026-11-17
 - **Basis:** reproduced · **Status:** open · found 2026-11-17 at crc-sdk 0.11.1
 
-### CRC-022-JRC: A state-sized box is fitted pixel by pixel in one process: 27 minutes and 5.8 GB of memory for the Texas box
+### CRC-022-JRC: A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11)
 
 - **Documented:** docs/sources/jrc.md gives no time or size. Its example is a box of 0.7 by 0.5 degrees.
-- **Observed:** GloFAS for the Texas box (201,757,502 pixels in four tiles, 9,851,138 curves, 10,703,386 rows): 1,604 s and a peak of 5,804 MB on an arm64 Mac with 16 GB, the 28 crops (about 0.6 GB at the publisher) fetched in the same run. The smaller boxes took 10 s (Austin, 22,201 curves) to 54 s (Houston, 212,867 curves). The table is validated in a separate worker process (crc_sdk/connectors/parquet.py:232), which fails with BrokenProcessPool when the calling script is read from standard input. Read in the code: the output file is written only at the end of the run.
-- **Consequence:** A user asking for a state or a country should expect tens of minutes and several GB per run, with nothing kept if the run stops before the end; a larger box may not fit in memory. One machine, one run.
+- **Observed:** GloFAS for the Texas box (201,757,502 pixels in four tiles, 9,851,138 curves, 10,703,386 rows): 1,604 s and a peak of 5,804 MB on an arm64 Mac with 16 GB, the 28 crops (about 0.6 GB at the publisher) fetched in the same run. The smaller boxes took 10 s (Austin, 22,201 curves) to 54 s (Houston, 212,867 curves). The table is validated in a separate worker process (crc_sdk/connectors/parquet.py:232), which fails with BrokenProcessPool when the calling script is read from standard input. Read in the code: the output file is written only at the end of the run. On crc-sdk 1.0.0 (2026-11-25), where nothing is fitted: the same box, read from the publisher by `JRC(...).select(area=...).read()`, took 9,081 s and a peak of 5,483 MB for 11,069,311 rows, on the same machine; Houston took 111 s and the Rhine box 137 s. Four earlier tries of the Texas read ended on a dropped connection and one when the machine slept; nothing of a failed read is kept.
+- **Consequence:** On 1.0.0 a user asking for a state should expect hours, not tens of minutes. At 0.11 a user asking for a state or a country should expect tens of minutes and several GB per run, with nothing kept if the run stops before the end; a larger box may not fit in memory. One machine, one run.
 - **Evidence:** crc_sdk/connectors/adapters.py:640-803; crc_sdk/connectors/parquet.py:232; exploration table 'crc-sdk's runs' (site/validation/data/records/jrc-flood.json), run of 2026-11-17
 - **Basis:** reproduced · **Status:** open · found 2026-11-17 at crc-sdk 0.11.1
 

@@ -12,24 +12,27 @@
   {
    "before": {
     "checks": 39,
-    "confirmed": 38,
-    "not checked": 1
+    "confirmed": 39
    },
-   "checks_added": [],
+   "checks_added": [
+    "area[glofas-tx]",
+    "cells[glofas-tx]",
+    "delivered[glofas-tx]",
+    "files[glofas-tx]",
+    "licence[glofas-tx]",
+    "provenance[glofas-tx]",
+    "release[glofas-tx]",
+    "shape[glofas-tx]",
+    "values[glofas-tx]"
+   ],
    "checks_removed": [],
    "newly_differing": [],
    "now": {
-    "checks": 39,
-    "confirmed": 39
+    "checks": 48,
+    "confirmed": 48
    },
-   "outcomes_changed": [
-    {
-     "check": "transport",
-     "now": "confirmed",
-     "was": "not checked"
-    }
-   ],
-   "profile": "quick",
+   "outcomes_changed": [],
+   "profile": "full",
    "source": "jrc-flood",
    "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/jrc-flood.json",
    "summaries_changed": [],
@@ -43,7 +46,7 @@
    }
   }
  ],
- "run_at": "2026-11-25T10:49:52Z",
+ "run_at": "2026-11-25T12:20:50Z",
  "sources": [
   {
    "assessed_at": "2026-11-24T23:38:04Z",
@@ -59,16 +62,14 @@
    "assessed_at": "2026-11-25T01:55:26Z",
    "files": 1009,
    "files_changed": [],
-   "files_unreachable": [
-    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2008/parquet/GHCNh_USW00000188_2008.parquet"
-   ],
+   "files_unreachable": [],
    "reasons": [],
    "source": "ghcnh",
    "stale": false,
    "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-25T01:56:36Z",
+   "assessed_at": "2026-11-25T10:50:06Z",
    "files": 0,
    "files_changed": [],
    "files_unreachable": [],

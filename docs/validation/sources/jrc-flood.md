@@ -1,6 +1,6 @@
 # JRC flood hazard maps (GloFAS, EFAS): assessment
 
-Generated from the records of the run of 2026-11-25T10:50:06Z against crc-framework 1.0.0, crc-sdk 1.0.0. **Draft: not yet reviewed.**
+Generated from the records of the run of 2026-11-25T12:37:22Z against crc-framework 1.0.0, crc-sdk 1.0.0. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
 - **What the framework adds:** From crc-sdk 1.0 nothing is added to the depths: each pixel of JRC's maps comes back with the depths the publisher gives at its return periods, placed at probabilities 1 - 1/T, with an identifier built from the pixel's position, the H3 cell of its centre and its outline. A pixel with fewer than two depths, or with a depth lower than one at a shorter return period, is left out and counted. Up to 0.11 crc-sdk fitted a Gumbel curve per pixel; that assessment is kept as the previous version.
@@ -19,6 +19,7 @@ Counted from the publisher's files by the reference reader. A pixel is delivered
 
 | Area | Pixels in the box | Dry | One depth | A depth decreases | Delivered by crc-sdk | of them: fewer than four depths | of them: equal depths | Skipped, as crc-sdk reports it |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Texas box | 201,757,502 | 190,071,292 | 424,212 | 192,687 | 11,069,311 | 517,035 | 698,318 | 190,688,191 |
 | Houston | 1,298,281 | 1,019,627 | 22,086 | 3,990 | 252,578 | 22,646 | 16,983 | 1,045,703 |
 | Austin | 361,201 | 335,707 | 931 | 140 | 24,423 | 979 | 1,243 | 336,778 |
 | Fremont, California | 87,001 | 76,398 | 459 | 775 | 9,369 | 508 | 992 | 77,632 |
@@ -30,6 +31,7 @@ Each read ran in a process of its own.
 
 | Area | Read from | Rows | Seconds | Peak memory, MB | Error |
 | --- | --- | --- | --- | --- | --- |
+| Texas box | the publisher | 11,069,311 | 9080.86 | 5482.9 |  |
 | Houston | the publisher | 252,578 | 110.67 | 1070.4 |  |
 | Austin | the publisher | 24,423 | 53.37 | 324.0 |  |
 | Fremont, California | the publisher | 9,369 | 25.74 | 231.5 |  |
@@ -74,6 +76,7 @@ The pixels the publisher's grids hold inside the box (every pixel the box touche
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| area[glofas-tx] | confirmed | 201,757,502 pixels in the publisher's window, 201,757,502 requested by crc-sdk; 0 rows outside the window |
 | area[glofas-houston] | confirmed | 1,298,281 pixels in the publisher's window, 1,298,281 requested by crc-sdk; 0 rows outside the window |
 | area[glofas-austin] | confirmed | 361,201 pixels in the publisher's window, 361,201 requested by crc-sdk; 0 rows outside the window |
 | area[glofas-fremont] | confirmed | 87,001 pixels in the publisher's window, 87,001 requested by crc-sdk; 0 rows outside the window |
@@ -85,6 +88,7 @@ Which pixels get a row. The reference delivers a pixel that has two or more dept
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| delivered[glofas-tx] | confirmed | 11,069,311 rows for 11,069,311 deliverable pixels; 0 missing, 0 extra; skipped 190,688,191 against 190,688,191 (190,071,292 dry, 424,212 with one depth, 192,687 with a depth that decreases) |
 | delivered[glofas-houston] | confirmed | 252,578 rows for 252,578 deliverable pixels; 0 missing, 0 extra; skipped 1,045,703 against 1,045,703 (1,019,627 dry, 22,086 with one depth, 3,990 with a depth that decreases) |
 | delivered[glofas-austin] | confirmed | 24,423 rows for 24,423 deliverable pixels; 0 missing, 0 extra; skipped 336,778 against 336,778 (335,707 dry, 931 with one depth, 140 with a depth that decreases) |
 | delivered[glofas-fremont] | confirmed | 9,369 rows for 9,369 deliverable pixels; 0 missing, 0 extra; skipped 77,632 against 77,632 (76,398 dry, 459 with one depth, 775 with a depth that decreases) |
@@ -96,6 +100,7 @@ For every delivered pixel: crc-sdk's knots against the publisher's depths in ord
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| values[glofas-tx] | confirmed | 72,460,914 depths of 11,069,311 pixels compared; 0 depths and 0 probabilities differ |
 | values[glofas-houston] | confirmed | 1,575,372 depths of 252,578 pixels compared; 0 depths and 0 probabilities differ |
 | values[glofas-austin] | confirmed | 160,917 depths of 24,423 pixels compared; 0 depths and 0 probabilities differ |
 | values[glofas-fremont] | confirmed | 60,290 depths of 9,369 pixels compared; 0 depths and 0 probabilities differ |
@@ -107,6 +112,7 @@ A seeded sample of rows: cell_id against the H3 cell of resolution 9 that holds 
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| cells[glofas-tx] | confirmed | 2,000 rows checked; 0 cells differ; 0 rows repeated |
 | cells[glofas-houston] | confirmed | 603 rows checked; 0 cells differ; 0 rows repeated |
 | cells[glofas-austin] | confirmed | 646 rows checked; 0 cells differ; 0 rows repeated |
 | cells[glofas-fremont] | confirmed | 204 rows checked; 0 cells differ; 0 rows repeated |
@@ -118,6 +124,7 @@ The shape of crc-sdk's rows: one quantile curve per row and nothing fitted, the 
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| shape[glofas-tx] | confirmed | curve kinds {'quantile_curve': 11069311}; 0 rows with a fit; variable ['jrc:glofas:flood_depth'] |
 | shape[glofas-houston] | confirmed | curve kinds {'quantile_curve': 252578}; 0 rows with a fit; variable ['jrc:glofas:flood_depth'] |
 | shape[glofas-austin] | confirmed | curve kinds {'quantile_curve': 24423}; 0 rows with a fit; variable ['jrc:glofas:flood_depth'] |
 | shape[glofas-fremont] | confirmed | curve kinds {'quantile_curve': 9369}; 0 rows with a fit; variable ['jrc:glofas:flood_depth'] |
@@ -129,6 +136,7 @@ The addresses crc-sdk records as read against the publisher's README, tile index
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| files[glofas-tx] | confirmed | 30 addresses recorded against 30 expected |
 | files[glofas-houston] | confirmed | 16 addresses recorded against 16 expected |
 | files[glofas-austin] | confirmed | 16 addresses recorded against 16 expected |
 | files[glofas-fremont] | confirmed | 9 addresses recorded against 9 expected |
@@ -140,6 +148,7 @@ Every file crc-sdk records carries a checksum, a licence, an attribution and a r
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| provenance[glofas-tx] | confirmed | 31 of 31 recorded files carry all four fields; 0 of 2 whole-file checksums differ; 28 raster checksums are of crc-sdk's crop |
 | provenance[glofas-houston] | confirmed | 17 of 17 recorded files carry all four fields; 0 of 2 whole-file checksums differ; 14 raster checksums are of crc-sdk's crop |
 | provenance[glofas-austin] | confirmed | 17 of 17 recorded files carry all four fields; 0 of 2 whole-file checksums differ; 14 raster checksums are of crc-sdk's crop |
 | provenance[glofas-fremont] | confirmed | 10 of 10 recorded files carry all four fields; 0 of 2 whole-file checksums differ; 7 raster checksums are of crc-sdk's crop |
@@ -151,6 +160,7 @@ The release crc-sdk records against the version line of the publisher's README. 
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| release[glofas-tx] | confirmed | README 2.1.2; crc-sdk records 2.1.2, inventory:2.1.2 |
 | release[glofas-houston] | confirmed | README 2.1.2; crc-sdk records 2.1.2, inventory:2.1.2 |
 | release[glofas-austin] | confirmed | README 2.1.2; crc-sdk records 2.1.2, inventory:2.1.2 |
 | release[glofas-fremont] | confirmed | README 2.1.2; crc-sdk records 2.1.2, inventory:2.1.2 |
@@ -162,6 +172,7 @@ The licence crc-sdk records against the licence line of the publisher's README; 
 
 | Check | Outcome | Result |
 | --- | --- | --- |
+| licence[glofas-tx] | confirmed | crc-sdk ODbL-1.0; README: Open Data Commons Open Database License v1.0 |
 | licence[glofas-houston] | confirmed | crc-sdk ODbL-1.0; README: Open Data Commons Open Database License v1.0 |
 | licence[glofas-austin] | confirmed | crc-sdk ODbL-1.0; README: Open Data Commons Open Database License v1.0 |
 | licence[glofas-fremont] | confirmed | crc-sdk ODbL-1.0; README: Open Data Commons Open Database License v1.0 |
@@ -195,7 +206,7 @@ crc-sdk read from the publisher's server; the values it returned are compared in
 
 | Role | File | SHA-256 | Retrieved |
 | --- | --- | --- | --- |
-| publisher's files | flood_hazard | f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4 | 2026-11-23T18:55:46Z |
+| publisher's files | flood_hazard | b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d | 2026-11-23T18:55:46Z |
 | crc-sdk read | flood_hazard |  |  |
 | publisher's files | flood_hazard | 0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e | 2026-11-23T19:17:30Z |
 | crc-sdk read | flood_hazard |  |  |
@@ -215,7 +226,7 @@ crc-sdk read from the publisher's server; the values it returned are compared in
 | CRC-019-JRC | observation | The publisher's masks of spurious depths and permanent water are not read | reproduced | open |
 | CRC-020-JRC | observation | With a cache, a pixel's source_id depends on the box asked for | reproduced | fixed in 1.0.0 |
 | CRC-021-JRC | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
-| CRC-022-JRC | observation | A state-sized box is fitted pixel by pixel in one process: 27 minutes and 5.8 GB of memory for the Texas box | reproduced | open |
+| CRC-022-JRC | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
 | CRC-023-JRC | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | open |
 | CRC-024-JRC | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | open |
 

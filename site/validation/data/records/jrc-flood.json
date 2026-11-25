@@ -1,11 +1,483 @@
 {
  "areas_assessed": [
+  "glofas-tx",
   "glofas-houston",
   "glofas-austin",
   "glofas-fremont",
   "efas-rhine"
  ],
  "checks": [
+  {
+   "category": "completeness",
+   "check": "area[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "The pixels the publisher's grids hold inside the box (every pixel the box touches) against the number crc-sdk reports as requested and the positions of its rows.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "pixels_reference": 201757502,
+    "requested_crc_sdk": 201757502,
+    "rows_outside_window": 0,
+    "tiles": [
+     "ID29_N40_W110",
+     "ID30_N30_W110",
+     "ID37_N40_W100",
+     "ID38_N30_W100"
+    ]
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "area"
+   ],
+   "summary": "201,757,502 pixels in the publisher's window, 201,757,502 requested by crc-sdk; 0 rows outside the window",
+   "tier": "verification",
+   "tolerance": {
+    "counts": "identical"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "completeness",
+   "check": "delivered[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "Which pixels get a row. The reference delivers a pixel that has two or more depths none of which is lower than an earlier one, and skips the rest; crc-sdk's rows and its reported counts are compared with that.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "counts_crc_sdk": {
+     "no_data": 0,
+     "produced": 11069311,
+     "requested": 201757502,
+     "skipped": 190688191
+    },
+    "decreasing": 192687,
+    "deliverable": 11069311,
+    "diagnostics": [
+     {
+      "code": "source_no_data",
+      "message": "Skipped 190688191 source supports whose values are not a quantile curve: fewer than two valid probability values, or values that decrease as probability rises.",
+      "severity": "warning",
+      "stage": "decoding",
+      "support_id": null
+     }
+    ],
+    "dry": 190071292,
+    "equal_depths": 698318,
+    "extra": 0,
+    "fewer_than_four": 517035,
+    "missing": 0,
+    "one_depth": 424212,
+    "pixels": 201757502,
+    "rows": 11069311,
+    "rows_outside_window": 0,
+    "rows_repeated": 0,
+    "skipped_reference": 190688191
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "selection",
+    "skipped-count"
+   ],
+   "summary": "11,069,311 rows for 11,069,311 deliverable pixels; 0 missing, 0 extra; skipped 190,688,191 against 190,688,191 (190,071,292 dry, 424,212 with one depth, 192,687 with a depth that decreases)",
+   "tier": "verification",
+   "tolerance": {
+    "counts": "identical",
+    "pixels": "the same set"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "values[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "For every delivered pixel: crc-sdk's knots against the publisher's depths in order of return period, and its probabilities against 1 - 1/T for the same periods.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "examples": [],
+    "largest_difference": 0.0,
+    "pixels_compared": 11069311,
+    "pixels_differing": 0,
+    "probabilities_differing": 0,
+    "values_compared": 72460914,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "knots",
+    "depths",
+    "nodata"
+   ],
+   "summary": "72,460,914 depths of 11,069,311 pixels compared; 0 depths and 0 probabilities differ",
+   "tier": "verification",
+   "tolerance": {
+    "depths": "identical",
+    "probabilities": "within 1e-12"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "cells[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "A seeded sample of rows: cell_id against the H3 cell of resolution 9 that holds the centre of the pixel named by the support_id.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "cells_differing": 0,
+    "examples": [],
+    "rows_checked": 2000,
+    "rows_repeated": 0
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "identifier",
+    "cell"
+   ],
+   "summary": "2,000 rows checked; 0 cells differ; 0 rows repeated",
+   "tier": "verification",
+   "tolerance": {
+    "cells": "identical"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "shape[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "The shape of crc-sdk's rows: one quantile curve per row and nothing fitted, the product's variable, and no scenario or period.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns": [
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "curve",
+     "fit",
+     "failure"
+    ],
+    "curve_kinds": {
+     "quantile_curve": 11069311
+    },
+    "index_resolution": 9,
+    "rows_with_a_failure": 0,
+    "rows_with_a_fit": 0,
+    "variable_ids": [
+     "jrc:glofas:flood_depth"
+    ]
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "no-fit",
+    "labels"
+   ],
+   "summary": "curve kinds {'quantile_curve': 11069311}; 0 rows with a fit; variable ['jrc:glofas:flood_depth']",
+   "tier": "verification",
+   "tolerance": {
+    "labels": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "completeness",
+   "check": "files[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "The addresses crc-sdk records as read against the publisher's README, tile index and the depth file of every return period for every tile the box meets.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "files_crc_sdk": 30,
+    "files_reference": 30,
+    "only_crc_sdk": [],
+    "only_reference": []
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "files"
+   ],
+   "summary": "30 addresses recorded against 30 expected",
+   "tier": "verification",
+   "tolerance": {
+    "addresses": "the same set"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "provenance[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "Every file crc-sdk records carries a checksum, a licence, an attribution and a retrieval time; for the files it reads whole (README, tile index) the checksum is compared with the reference's.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "attributions": [
+     "Copernicus Emergency Management Service; European Commission Joint Research Centre"
+    ],
+    "licences": [
+     "ODbL-1.0"
+    ],
+    "raster_checksum_is_of": "crc-sdk's crop of the file, not the publisher's file; it cannot be compared with a checksum of the publisher's file",
+    "raster_resources": 28,
+    "resources": 31,
+    "resources_complete": 31,
+    "whole_files_compared": 2,
+    "whole_files_differing": 0
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "provenance"
+   ],
+   "summary": "31 of 31 recorded files carry all four fields; 0 of 2 whole-file checksums differ; 28 raster checksums are of crc-sdk's crop",
+   "tier": "verification",
+   "tolerance": {
+    "checksums": "identical"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "release[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "The release crc-sdk records against the version line of the publisher's README.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "crc_sdk_expects": "2.1.2",
+    "crc_sdk_releases": [
+     "2.1.2",
+     "inventory:2.1.2"
+    ],
+    "readme_version": "2.1.2"
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "release"
+   ],
+   "summary": "README 2.1.2; crc-sdk records 2.1.2, inventory:2.1.2",
+   "tier": "verification",
+   "tolerance": {
+    "version": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "licence[glofas-tx]",
+   "inputs": [
+    {
+     "bytes": 622103283,
+     "files": 28,
+     "retrieved_at": "2026-11-23T18:55:46Z",
+     "role": "publisher's files",
+     "sha256": "b22f221866c7cd2f90dee87a46c3765b18eef74c11440e2ae99c792217fa027d",
+     "sha256_of": "the list of file names and their sha256",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    },
+    {
+     "read_from": "the publisher",
+     "role": "crc-sdk read",
+     "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
+    }
+   ],
+   "method": "The licence crc-sdk records against the licence line of the publisher's README; the publisher's copyright.txt is quoted beside it where there is one.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "copyright_txt": "Copyright notice\n------------------\n\n(c) European Union, 1995-2026\n\nThe Commission's reuse policy is implemented by the Commission Decision of 12 December 2011 \non the reuse of Commission documents [1]. Any copyright and/or sui generis right on the dataset \nis licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) licence [2]. \nReuse is allowed provided appropriate credit is",
+    "crc_sdk": [
+     "ODbL-1.0"
+    ],
+    "readme": "Open Data Commons Open Database License v1.0"
+   },
+   "run_at": "2026-11-25T12:37:21Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "jrc-flood",
+   "steps": [
+    "licence"
+   ],
+   "summary": "crc-sdk ODbL-1.0; README: Open Data Commons Open Database License v1.0",
+   "tier": "verification",
+   "tolerance": {
+    "licence": "the licence the README names"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
   {
    "category": "completeness",
    "check": "area[glofas-houston]",
@@ -37,7 +509,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -106,7 +578,7 @@
     "rows_repeated": 0,
     "skipped_reference": 1045703
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -156,7 +628,7 @@
     "values_compared": 1575372,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -204,7 +676,7 @@
     "rows_checked": 603,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -266,7 +738,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -312,7 +784,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -365,7 +837,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -412,7 +884,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -458,7 +930,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -506,7 +978,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -575,7 +1047,7 @@
     "rows_repeated": 0,
     "skipped_reference": 336778
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -625,7 +1097,7 @@
     "values_compared": 160917,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -673,7 +1145,7 @@
     "rows_checked": 646,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -735,7 +1207,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -781,7 +1253,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -834,7 +1306,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -881,7 +1353,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -927,7 +1399,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -974,7 +1446,7 @@
      "ID18_N40_W130"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1043,7 +1515,7 @@
     "rows_repeated": 0,
     "skipped_reference": 77632
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1093,7 +1565,7 @@
     "values_compared": 60290,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1141,7 +1613,7 @@
     "rows_checked": 204,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1203,7 +1675,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1249,7 +1721,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1302,7 +1774,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1349,7 +1821,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1395,7 +1867,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T10:50:05Z",
+   "run_at": "2026-11-25T12:37:21Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1442,7 +1914,7 @@
      "continental"
     ]
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1511,7 +1983,7 @@
     "rows_repeated": 0,
     "skipped_reference": 2440888
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1561,7 +2033,7 @@
     "values_compared": 1276907,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1609,7 +2081,7 @@
     "rows_checked": 603,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1671,7 +2143,7 @@
      "jrc:efas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1717,7 +2189,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1770,7 +2242,7 @@
     "whole_files_compared": 1,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1817,7 +2289,7 @@
     ],
     "readme_version": "3.1.1"
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1863,7 +2335,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1901,7 +2373,7 @@
     "rows_only_in_the_whole_box": 0,
     "rows_west": 7135
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1944,7 +2416,7 @@
     "reported_valid": true,
     "rows": 0
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1976,7 +2448,7 @@
    "result": {
     "read_from_a_local_copy": []
    },
-   "run_at": "2026-11-25T10:50:06Z",
+   "run_at": "2026-11-25T12:37:22Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1996,6 +2468,51 @@
  ],
  "exploration": {
   "areas": [
+   {
+    "area": "glofas-tx",
+    "bounds": [
+     -106.645646,
+     25.837377,
+     -93.508292,
+     36.500704
+    ],
+    "counts_reported": {
+     "no_data": 0,
+     "produced": 11069311,
+     "requested": 201757502,
+     "skipped": 190688191
+    },
+    "dataset": "glofas",
+    "decreasing": 192687,
+    "deliverable": 11069311,
+    "diagnostics": [
+     {
+      "code": "source_no_data",
+      "message": "Skipped 190688191 source supports whose values are not a quantile curve: fewer than two valid probability values, or values that decrease as probability rises.",
+      "severity": "warning",
+      "stage": "decoding",
+      "support_id": null
+     }
+    ],
+    "dry": 190071292,
+    "equal_depths": 698318,
+    "extra": 0,
+    "fewer_than_four": 517035,
+    "missing": 0,
+    "one_depth": 424212,
+    "pixels": 201757502,
+    "rows": 11069311,
+    "rows_outside_window": 0,
+    "rows_repeated": 0,
+    "tiles": [
+     "ID29_N40_W110",
+     "ID30_N30_W110",
+     "ID37_N40_W100",
+     "ID38_N30_W100"
+    ],
+    "title": "Texas box",
+    "warnings": []
+   },
    {
     "area": "glofas-houston",
     "bounds": [
@@ -2273,6 +2790,15 @@
   ],
   "runs": [
    {
+    "area": "glofas-tx",
+    "error": "",
+    "error_type": "",
+    "peak_memory_mb": 5482.9,
+    "read_from": "the publisher",
+    "rows": 11069311,
+    "seconds": 9080.86
+   },
+   {
     "area": "glofas-houston",
     "error": "",
     "error_type": "",
@@ -2313,15 +2839,15 @@
  "framework": "crc-sdk",
  "headline": [
   [
-   4341724,
+   206099226,
    "pixels read from the publisher's files"
   ],
   [
-   440723,
+   11510034,
    "pixels delivered by crc-sdk"
   ],
   [
-   3073486,
+   75534400,
    "depths compared one by one"
   ],
   [
@@ -2329,7 +2855,7 @@
    "depths that differ"
   ],
   [
-   "39 of 39",
+   "48 of 48",
    "checks confirmed"
   ],
   [
@@ -2343,9 +2869,7 @@
    "glofas"
   ]
  },
- "profile": "quick",
- "profile_covers": "without the Texas box: Houston, Austin, Fremont, California, Rhine, Bonn to Mainz",
- "run_at": "2026-11-25T10:50:06Z",
+ "run_at": "2026-11-25T12:37:22Z",
  "schema": "data_source_check/0.1",
  "seed": 20261124,
  "source": "jrc-flood",
@@ -2364,6 +2888,17 @@
    ],
    "note": "Counted from the publisher's files by the reference reader. A pixel is delivered when it has two or more depths and none is lower than an earlier one. crc-sdk reports the three other groups as one number.",
    "rows": [
+    [
+     "Texas box",
+     "201,757,502",
+     "190,071,292",
+     "424,212",
+     "192,687",
+     "11,069,311",
+     "517,035",
+     "698,318",
+     "190,688,191"
+    ],
     [
      "Houston",
      "1,298,281",
@@ -2422,6 +2957,14 @@
    ],
    "note": "Each read ran in a process of its own.",
    "rows": [
+    [
+     "Texas box",
+     "the publisher",
+     "11,069,311",
+     "9080.86",
+     "5482.9",
+     ""
+    ],
     [
      "Houston",
      "the publisher",
