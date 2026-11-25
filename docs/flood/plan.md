@@ -1,10 +1,11 @@
 # Plan: Flood Loss & Trigger Lab
 
-Version 2, 2026-11-25, tag `flood-requirements-v2` (version 1 is tag `flood-requirements-v1`); first draft 2026-11-24. Companion to
+Version 3, 2026-11-25, tag `flood-requirements-v6` (version 2 is tag `flood-requirements-v2`); first draft 2026-11-24. Companion to
 `docs/flood/requirements.md`, whose IDs (FG1, FH3, ...) are cited here. Revised for crc-sdk 1.0.0 and
-crc-framework 1.0.0 (`docs/flood/crc-1.0-mapping.md`). Nothing is started. Stages run in order, one at a
-time; each ends with a visual test on the gallery, a report in `docs/flood/reports/`, and a stop for
-Yuri's review. The target is Tier 1 (D13).
+crc-framework 1.0.0 (`docs/flood/crc-1.0-mapping.md`). F0, F1 and F2 are built and merged. Stages run one
+at a time; each ends with a visual test on the gallery and a report in `docs/flood/reports/`. Until
+2026-12-04 the order, the scope and the stop after each stage are as the section "Until 4 December" says;
+the stage texts below are the full form each returns to.
 
 ## How to work
 
@@ -78,6 +79,37 @@ Work that may run in parallel in Tier 1: the F0 probes and fact checks; F1 besid
 if Yuri wants to review them together; inside F2 and F5, the second readers beside the loaders. Tiers 2
 and 3 get their table at the F8 stop. F10 is the natural fan-out: one Opus agent per engine, each in its
 own environment.
+
+## Until 4 December
+
+Two demos set the order and the scope until 2026-12-04: `docs/flood/demo-plan.md` (what is shown, to
+whom, the exhibits, the fallback decided on Sunday 29 November) and requirements section 15 (changes
+CH-8 to CH-13). Where this section and a stage's text below disagree, this section holds.
+
+| Order | Stage | For Tuesday 1 December | Change |
+| --- | --- | --- | --- |
+| 1 | F3 Solver, calibration on the Limited and Moderate maps, two replays | Yes | The first real run re-measures the time per storm; the Ida replay shows whether any substation is wet (the lead-asset rule) |
+| 2 | F4 Storm catalogue | Running; at least 60 storms | Its build (RainyDay environment, rainfall record, transposition domain) starts beside F3. All 150 run unattended from the calibration freeze; whole peak-depth grids and storm descriptors are kept |
+| 3 | F5, first part | Surveyed marks and sensors | "Who saw the flood" (FV5) after 1 December |
+| 4 | F6 Curves, event-loss extension, risk | Yes | Figures print the number of storms they rest on |
+| 5 | F7 Measures, outage cost, benefit-cost | Yes | Break-even view (FM7), 2 h. Outage in customer-hours while no customer count exists |
+| 6 | Component prototype (FA1 to FA5) | If F7 has passed by Sunday evening | New, 5 h, time-boxed; the note is written in any case |
+| 7 | F11, first part | Yes | Lead-asset card, loss curves, break-even chart, flow diagram, gallery, the single-asset re-run (FP10), a recorded walk-through |
+| 8 | F9 Emulator | For Friday 4 December | Brought forward from Tier 2 |
+| 9 | F8 Triggers, fused labels | For 4 December, as far as it goes | Deferred from Tier 1's order; the 2023-09-29 panel first |
+| 10 | F11, second part; rest of F5; F10 | After 4 December | |
+
+**Way of working until then.** Each stage still has its own session, branch, visual test and report.
+Yuri reviews once a day. When every check of a stage passes, the next may start without waiting for his go,
+on a branch made from the finished stage's branch; merges into `main` stay on his go (D14), at the daily
+review. A failing check, a fact that differs from the requirements,
+or a number that would have to be invented stops everything until he decides ("A stage", step 5). Nothing
+goes to RiskThinking without his review; the second round of issues is raised with him on or after Monday
+30 November.
+
+**Waiting on a person.** Four passages that their publishers' sites refuse to automated reading (FEMA's
+project useful life, the BCA Toolkit version, the Hazus functional depth, the Williams values at 3 m) are
+listed with instructions in the demo plan, §11. Until read they stay labelled placeholders.
 
 ## Visual tests
 
