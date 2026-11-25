@@ -1,6 +1,6 @@
 # F2. Sources: what goes into CRC and what does not
 
-Date: 2026-11-25 · branch `flood/f2` · crc-sdk 1.0.0, crc-framework 1.0.0 · awaiting review
+Date: 2026-11-25 · branch `flood/f2` · crc-sdk 1.0.0, crc-framework 1.0.0 · reviewed 2026-11-25, decisions at the end
 
 Stage F2 of `docs/flood/plan.md`. It reads the three sources that are the lab's own (the city's
 stormwater flood maps, FloodNet, Groundsource), checks each loader against a second reader written
@@ -17,8 +17,7 @@ records with their figures (`just serve`, then `/flood/tests/`).
 | What was loaded into CRC reads back equal to what was put in | **Passes.** 3,231 flood-map polygons and 3,611 FloodNet events |
 | The primer's script runs offline | **Passes** |
 
-All four records pass (42 checks). One matter is open and does not change these results: whether the
-Limited Flood map holds curved outlines that the export reads as straight lines (section 1).
+All four records pass (42 checks).
 
 ## 1. The Limited Flood map is read
 
@@ -40,15 +39,21 @@ It is now read through ESRI's own File Geodatabase library, as decided at the F0
   for this task and then refused to let it run the compiled program. Both refusals were respected; the
   agent wrote the code and Yuri ran `uv run python tools/flood/limited_flood_map/export.py`.
 
-**Open: curved segments.** ESRI can store an arc between two vertices, and the export takes vertices
-only, so an arc becomes a straight line. ESRI's curve flag is set on the Limited map's class-1 row. It is
-also set on both rows of the Moderate map, where the area ESRI stored equals the area of the vertices to
-14 digits, so on that map the flag changes nothing measurable. The size of the Limited row's data
-suggests one curved segment among 262,310 points; that is an inference from a byte count, not a reading.
-After the first export the tool was extended to settle it: it now sets ESRI's stored area beside the
-vertex area for every row, and reports how many curved segments there are and whether the first lies in
-the study square. **That version has not been run.** Until it is, the statement is: the Limited map on
-the grid is the vertex-only reading, and the effect of curves on it is not measured.
+**Curved segments: read, and they do not matter here.** ESRI can store an arc between two vertices,
+and the export takes vertices only, so an arc becomes a straight line. Yuri's second run of the export
+(2026-11-25 23:33 GMT) read the raw shapes:
+
+| Row | ESRI's curve flag | Curved segments | Area stored by ESRI, sq ft | Area of the vertices, sq ft | Relative difference |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Limited, class 1 | set | 1 | 39,019,037.80 | 39,019,066.34 | 7.3e-7 |
+| Limited, class 2 | not set | 0 | 20,705,858.70 | 20,705,858.70 | 6e-15 |
+| Moderate, class 1 | set | 0 | 78,077,947.64 | 78,077,947.64 | 6e-15 |
+| Moderate, class 2 | set | 0 | 40,126,224.83 | 40,126,224.83 | 1e-15 |
+
+The Limited map has one curved segment among 262,310 points. Its ends are 14.1 ft apart, it lies about
+15 km south-west of the study square, and reading it as a straight line changes the citywide class-1
+area by 28.5 sq ft. Inside the square the export is the publisher's geometry exactly. The curve flag
+alone says nothing: it is set on both Moderate rows, which hold no curved segment.
 
 So FH3 can calibrate on two maps (Limited and Moderate, both at current sea level), which was the point.
 A re-export by the city would still repair the file for everyone; the email is on Yuri's list.
@@ -219,10 +224,22 @@ matched all 640,000 cells of all four scenarios, all 3,611 events and the Ground
    stated on the record; or wait for the city's file. Recommended: accept.
 6. **Merge `flood/f2` into `main`.**
 
+## Decisions taken at the stop (2026-11-25)
+
+Yuri ran the export again and agreed with decisions 2 to 6 (change CH-7 in `docs/flood/changes.md`).
+
+| # | Decision |
+| --- | --- |
+| 1 | Export rerun by Yuri: one curved segment, outside the study square; section 1 has the reading |
+| 2 | The Limited map as read through ESRI's library is accepted for F3's calibration. The email to the city for a re-export stays on Yuri's list |
+| 3 | FloodNet peak depth stays the publisher's column; the 52 events where the profile disagrees are flagged for F5 |
+| 4 | The Groundsource table stays in the cache until the page needs it |
+| 5 | The Limited map's second reader covers the step from the export to the grid; accepted, and stated on the record |
+| 6 | `flood/f2` merged into `main`; requirements version 5 |
+
 ## Open changes (D16)
 
-`docs/flood/changes.md` has no open row. Two changes are proposed from this stage, as CH-7, for your
-decision:
+`docs/flood/changes.md` had no open row at the stop. Two changes from this stage were accepted as CH-7:
 
 - FS1: the Limited Flood map is read from an export made through ESRI's File Geodatabase library, with its
   proof; section 14's row "open until a route is found" is closed.
@@ -230,7 +247,6 @@ decision:
 
 ## What was not done
 
-- The extended export (stored area against vertex area, curved segments) has not been run.
 - No sensitivity of the class rasters to the 1.1 m frame question; a 2 m shift changes 1,520 to 9,366
   cells per scenario, which shows the comparison would notice one, not which frame is right.
 - The storm duration behind the map intensities is still not known (F3 assumes one hour, tagged).

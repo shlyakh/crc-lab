@@ -300,7 +300,8 @@ def flood_maps(root: Path) -> Record:
         "ESRI's library (tools/flood/limited_flood_map). The second reader therefore recomputes "
         "only the step from that export to the grid. The step from the publisher's geodatabase "
         "to the export rests on the export's own proof: the same route reproduces the Moderate "
-        "map as GDAL reads it. The export takes vertices only; see the F2 report on curves.",
+        "map as GDAL reads it. The export takes vertices only; the map's one curved segment lies "
+        "outside the study square (F2 report, section 1).",
         "Both readers also share the choice of grid frame (EPSG:2263 to EPSG:26918, read as the "
         "project grid), which is the project's convention and not something a comparison of "
         "the two can test.",

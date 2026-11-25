@@ -7,8 +7,9 @@ ESRI's compressed geodatabase format, which GDAL's open driver cannot read
 **State on 2026-11-25: run by Yuri; the export exists.** The same route reproduces the uncompressed
 Moderate map as GDAL reads it (area per class to 15 digits, symmetric difference 0). The Limited map has
 two rows, classes 1 and 2. The session's permission system refuses to let the agent run the program, so
-a person runs the command below. What is known of the export, and what is not (curved segments), is in
-`docs/flood/reports/F2-sources.md` and in `limited-current.json` beside the export.
+a person runs the command below. The Limited map holds one curved segment, outside the study square,
+worth 28.5 sq ft of area citywide (`docs/flood/reports/F2-sources.md`, section 1; `limited-current.json`
+beside the export).
 
 ## Run
 

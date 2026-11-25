@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 4, 2026-11-25, tag `flood-requirements-v4` (earlier versions are tags `flood-requirements-v1` to `-v3`; what changed is in `docs/flood/changes.md`);
+Version 5, 2026-11-25, tag `flood-requirements-v5` (earlier versions are tags `flood-requirements-v1` to `-v4`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -831,7 +831,7 @@ fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 | FD3 | Substation "point, yard polygon where mapped" | All 187 in the box are outlines, none a point; 95 carry a voltage; 35 are rail traction substations (`osm-substations`) | Point is the centroid of the outline. Rail traction substations are flagged and left out of the utility case unless Yuri wants them |
 | FS1 | Two depth classes in four layers | The two layers with sea-level rise carry a third code, "Future High Tides", which is tidal flooding, not a rainfall depth (`nyc-stormwater-flood-maps`) | The reader keeps the third code apart; it never enters a depth class |
 | FS1 | Areas "of at least 0.25 contiguous acres" | The dictionary says some smaller areas are present | State the rule as the publisher's intent, not a property to test |
-| FS1, FH3 | Four layers read by the reader | The Limited Flood layer (1.77 in/hr) is stored in ESRI's compressed geodatabase format, which the open reader cannot open | Open until a route is found (F0 is trying one). FH3 calibrates on this map and the 2.13 in/hr one: without it, calibration has one map |
+| FS1, FH3 | Four layers read by the reader | The Limited Flood layer (1.77 in/hr) is stored in ESRI's compressed geodatabase format, which the open reader cannot open | Closed in version 5 (CH-7): read in F2 through ESRI's File Geodatabase library, from an export kept in the cache with its proof (`docs/flood/reports/F2-sources.md`). FH3 calibrates on this map and the 2.13 in/hr one |
 | FS1, §9 item 1 | Storm duration behind each intensity: to be read | Not published. The 2021 plan gives rounded one-hour totals for two scenarios and has no Limited scenario | F3 assumes a one-hour storm at the stated intensity **[P]**, says so, and tests the sensitivity to duration |
 | §9 item 4 | Return periods of the three intensities: open | At one point (40.65, -73.85), one-hour duration, NOAA Atlas 14: 1.77 in/hr lies between 5 and 10 years, 2.13 between 10 and 25, 3.66 between 100 and 500 (`noaa-atlas-14`) | A first reading only; F3 repeats it at the chosen area |
 | FS2 | Reader for the Parquet file | The file's metadata carries a wrong key and DuckDB refuses it until the metadata is removed. The schema is described only in an unreviewed preprint. The publisher's own review found 60% of 400 rows accurate (`groundsource`) | The reader strips the metadata and says so; the primer (FS5) states the accuracy and its source |
