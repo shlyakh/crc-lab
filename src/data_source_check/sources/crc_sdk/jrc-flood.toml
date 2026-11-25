@@ -1,24 +1,23 @@
 id = "jrc-flood"
 title = "JRC flood hazard maps (GloFAS, EFAS)"
-kind = "fitted curves"
+kind = "pass-through"
 tier = 2
-tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result depends on it yet."
+tier_reason = "Tier 2: no crc-lab result depends on it yet; next week's flood study uses it for one chapter."
 publisher = "European Commission JRC, Copernicus Emergency Management Service"
 original = "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard and CEMS-EFAS/flood_hazard"
-purpose = "River flood depth at published return periods, fitted to a curve per source pixel and placed on H3 cells."
-adds = "From JRC's maps of flood depth at fixed return periods crc-sdk makes one fitted curve per map pixel (a Gumbel distribution by least squares), so that a depth can be read at any return period, and places each pixel on the H3 cells it overlaps. The published depths themselves are not kept, and a pixel with fewer than four depths gets no curve."
-compared = "JRC's files are downloaded whole and read by an independent reader. In five areas (Texas, Houston, Austin, Fremont, the Rhine) every pixel of crc-sdk's local copies is compared with them bit for bit, every curve is refitted and compared, and samples of the curve values, cells and identifiers are recomputed."
-entry_points = ["HazardDataset.glofas", "HazardDataset.efas", "HazardDataset.jrc"]
-symbols = ["JRCAreaPlan", "JRCCanonicalizationPlan", "JRCSourcePlan"]
+purpose = "River flood depth at the publisher's return periods, per pixel of the publisher's maps, as the knots of a quantile curve. Nothing is fitted unless the user asks."
+adds = "From crc-sdk 1.0 nothing is added to the depths: each pixel of JRC's maps comes back with the depths the publisher gives at its return periods, placed at probabilities 1 - 1/T, with an identifier built from the pixel's position, the H3 cell of its centre and its outline. A pixel with fewer than two depths, or with a depth lower than one at a shorter return period, is left out and counted. Up to 0.11 crc-sdk fitted a Gumbel curve per pixel; that assessment is kept as the previous version."
+compared = "JRC's files are read whole by an independent reader. In five areas (Texas, Houston, Austin, Fremont, the Rhine) the reader decides for every pixel whether it should be delivered and with which depths, and that is compared with crc-sdk's rows pixel by pixel. The pixels requested, the files read, the identifiers, the cells, the release, the licence and the recorded provenance are checked separately, as is a box outside a product's coverage."
+entry_points = ["JRC"]
 explorer = "explore/#tab=crc&source=jrc_flood"
-drafted_by = "agent (Claude, with Yuri's plan of 2026-11-17), 2026-11-17"
-notes = "GloFAS is assessed in the Texas box, in close-ups of Houston and Austin and in a box around Fremont, California; EFAS in the Rhine box of crc-docs' flood_risk_by_province notebook. Every run uses all published return periods, the curated policy and a cache. A stream run (no cache), a subset of return periods, other policies and `for_assets` were not run."
+drafted_by = "agent (Claude, with Yuri's plan of 2026-11-24), 2026-11-24"
+notes = "Assessed at crc-sdk 1.0.0 on the default path, where nothing is fitted. The explicit fit, `fit(QuantileFit(...))`, is not assessed yet. The review maps and the comparisons with FEMA zones, USGS gauges and Harvey marks were made from crc-sdk 0.11 output and are shown with the previous version. On 2026-11-24 the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held from 2026-11-17 and 2026-11-23; its own downloads were not exercised."
 
 [options]
-dataset = ["efas", "glofas"]
+product = ["efas", "glofas"]
 
 [assessed_options]
-dataset = ["efas", "glofas"]
+product = ["efas", "glofas"]
 
 [status]
 exploration = "assessed"
@@ -26,81 +25,82 @@ verification = "assessed"
 validation = "not assessed"
 
 [[statement]]
+id = "files"
+text = "Reads the publisher's README.txt, for GloFAS the tile index `tile_extents.geojson`, and one depth file per return period written in the code (GloFAS 10, 20, 50, 75, 100, 200, 500 years; EFAS also 30 and 40) for every GloFAS tile whose extent meets the box, or for EFAS the one continental file."
+code_ref = "crc_sdk/_providers/jrc.py:62-84; crc_sdk/_climate_sources.py:421-453"
+
+[[statement]]
+id = "transport"
+text = "Reads each depth file by range requests for the window of the box only, pinned to the file's ETag so that a file changed during the read is refused."
+code_ref = "crc_sdk/_climate_io.py:404-420, 423-515, 626-650"
+note = "Not exercised on 2026-11-24: the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held. The values it decoded from those files are compared in the values checks."
+
+[[statement]]
 id = "release"
-text = "Reads the release from the publisher's README.txt (the text after 'Dataset version') and refuses to run when it is not the one written in the code (GloFAS 2.1.2, EFAS 3.1.1). The file addresses hold no version."
-code_ref = "crc_sdk/providers/jrc.py:83-110, 155-176"
+text = "Reads the release from the README (the text after 'Dataset version') and refuses to run when it is not the one written in the code (GloFAS 2.1.2, EFAS 3.1.1). The file addresses hold no version."
+code_ref = "crc_sdk/_climate_sources.py:306-330; crc_sdk/_providers/jrc.py:62-80"
 
 [[statement]]
-id = "periods"
-text = "Offers the return periods written in the code: 10, 20, 50, 75, 100, 200 and 500 years for GloFAS, and also 30 and 40 for EFAS. The publisher's directory is not read."
-code_ref = "crc_sdk/providers/jrc.py:93, 102; crc_sdk/workflows/jrc.py:92-106"
-
-[[statement]]
-id = "tiles"
-text = "For GloFAS, takes every tile of the publisher's tile index whose extent meets the box, tiles that only touch it included; one depth file per tile and return period. For EFAS, takes the one raster of Europe per return period, whatever the box."
-code_ref = "crc_sdk/providers/jrc.py:186-246"
-
-[[statement]]
-id = "crop"
-text = "With a cache, copies from each file the window of every pixel the box touches into a local GeoTIFF, values unchanged, and fits from those copies. A tile the box does not reach is left out."
-code_ref = "crc_sdk/workflows/jrc.py:151-161, 396-447; crc_sdk/connectors/duckdb/geotiff.py:283-312, 434-462"
-
-[[statement]]
-id = "manifest"
-text = "Writes a manifest in the cache with the release, the time it was resolved, the box, the return periods, each file's address and the SHA-256 of each local copy. No checksum of the publisher's file is taken, and a later run that finds the manifest does not ask the publisher again."
-code_ref = "crc_sdk/workflows/jrc.py:109-132, 362-365, 449-465"
-note = "The contents of the manifest and its checksums are confirmed. That a later run does not ask the publisher again is read in the code; it was not run with the network off."
-
-[[statement]]
-id = "coverage"
-text = "A box outside the raster gives no crop; when no file reaches the box the run ends with LookupError 'no JRC resources intersect area' (with a cache). The message does not name the dataset's extent."
-code_ref = "crc_sdk/workflows/jrc.py:156-159, 439-441, 516-517; crc_sdk/connectors/duckdb/geotiff.py:289-292"
-note = "Run with a cache. Without one (stream mode) the code raises a different error, ValueError 'bounds do not intersect the raster'; that mode was not run."
+id = "area"
+text = "Takes every pixel of the publisher's grid that the box touches."
+code_ref = "crc_sdk/_climate_io.py:105-133, 166-170"
 
 [[statement]]
 id = "nodata"
-text = "A pixel equal to the file's nodata value (-9999), or not finite, has no depth at that return period. A pixel with no depth at any return period is skipped."
-code_ref = "crc_sdk/connectors/duckdb/geotiff.py:676-687"
+text = "Treats the file's nodata value and non-finite values as no depth."
+code_ref = "crc_sdk/_climate_io.py:139-141, 173-178"
+
+[[statement]]
+id = "selection"
+text = "Returns a row for a pixel that has two or more depths, none lower than a depth at a shorter return period. Every other pixel is left out."
+code_ref = "crc_sdk/_climate_io.py:173-189; crc_sdk/_climate_sources.py:457-463"
+
+[[statement]]
+id = "skipped-count"
+text = "Counts the pixels left out and reports the number once for the read, in a warning that names both reasons together. Pixels that are simply dry are in the same number."
+code_ref = "crc_sdk/_climate_io.py:171, 189-190; crc_sdk/_climate_sources.py:137-150"
 
 [[statement]]
 id = "knots"
-text = "Fits a curve only to a pixel that has a depth at four or more return periods. Other pixels get no row and no message (the curated policy writes no diagnostics file)."
-code_ref = "crc_sdk/connectors/adapters.py:658-663; crc_sdk/workflows/jrc.py:57-81"
+text = "Places a depth published for the return period T at the probability 1 - 1/T. A return period with no depth at the pixel gives no knot."
+code_ref = "crc_sdk/_climate_sources.py:445-453; crc_sdk/_climate_io.py:173-178, 191-193"
 
 [[statement]]
-id = "fit"
-text = "Fits a Gumbel distribution by least squares to the pixel's depths at their return periods (probability 1 - 1/T). The curated policy sets no limit on the misfit."
-code_ref = "crc_sdk/connectors/adapters.py:392-459, 696-701; crc_sdk/workflows/jrc.py:50-56"
+id = "depths"
+text = "Returns the publisher's depths unchanged, in metres."
+code_ref = "crc_sdk/_climate_io.py:173-178, 191-193; crc_sdk/_climate_sources.py:482-496"
 
 [[statement]]
-id = "fit-failure"
-text = "A pixel whose depths are all equal, or decrease from one return period to the next, cannot be fitted and is skipped without a message (`on_fit_failure = \"skip\"`)."
-code_ref = "crc_sdk/connectors/adapters.py:702-726; crc_sdk/workflows/jrc.py:53"
+id = "identifier"
+text = "Names the pixel `jrc:<product>:<tile>:<row>:<column>` by its row and column in the publisher's file (`continental` for EFAS), so that the same pixel has the same name whatever box asked for it."
+code_ref = "crc_sdk/_climate_sources.py:457; crc_sdk/_climate_io.py:95-104, 150-153, 198-203"
 
 [[statement]]
-id = "cells"
-text = "Gives each fitted pixel one row for every H3 cell its square overlaps, at the resolution asked for (`native` means 10). Rows of one cell are not combined: reducing them to one value per cell is left to the caller."
-code_ref = "crc_sdk/connectors/adapters.py:743-803; crc_sdk/geometry/h3.py:236-260; crc_sdk/workflows/jrc.py:70"
-note = "Compared for a seeded sample of pixels in each area, not for every pixel."
+id = "cell"
+text = "Gives each row the H3 cell of resolution 9 that holds the centre of the pixel, and the pixel's outline as its geometry."
+code_ref = "crc_sdk/_climate_io.py:154-165, 194-197, 208-212"
 
 [[statement]]
-id = "source-id"
-text = "Identifies a pixel by the SHA-256 of the dataset name, the tile and the pixel's row and column. With a cache the row and column are those of the local crop, not of the publisher's file."
-code_ref = "crc_sdk/connectors/adapters.py:299-301, 741-743; crc_sdk/providers/jrc.py:248-262; crc_sdk/workflows/jrc.py:502-511"
-note = "Compared for a seeded sample of pixels in each area."
+id = "no-fit"
+text = "Fits nothing: every row holds a quantile curve made of the published knots, and no fit and no failure."
+code_ref = "crc_sdk/_climate_io.py:191-193, 204-214"
 
 [[statement]]
 id = "labels"
-text = "Labels every row hazard `RiverineInundation`, pathway `historical`, horizon 0, curve type `gumbel_r`, and the file with the unit m, the release and the return-period range of the inputs."
-code_ref = "crc_sdk/providers/jrc.py:43-48, 248-262; crc_sdk/connectors/adapters.py:306-345"
+text = "Labels every row with the variable `jrc:<product>:flood_depth` and with no scenario and no period."
+code_ref = "crc_sdk/_climate_sources.py:482-496; crc_sdk/_climate_io.py:204-207"
+
+[[statement]]
+id = "licence"
+text = "Records the Open Database License (`ODbL-1.0`) for every file, with the attribution 'Copernicus Emergency Management Service; European Commission Joint Research Centre'. The licence is written in the code and is not read from the publisher."
+code_ref = "crc_sdk/_climate_sources.py:310-318, 431-432, 450-451"
 
 [[statement]]
 id = "provenance"
-text = "Writes in the output file a uri naming the dataset, the box (to twelve significant digits), the tiles that gave a curve and the return periods. Licence, attribution, retrieval time and checksum are left empty."
-code_ref = "crc_sdk/workflows/jrc.py:135-148, 518-534; crc_sdk/connectors/adapters.py:306-345"
+text = "Records for every file its address, a SHA-256, the licence, the attribution and the retrieval time. For a depth file the checksum is of the window crc-sdk cut from it, not of the publisher's file."
+code_ref = "crc_sdk/_climate_io.py:423-515; crc_sdk/_source_io.py:359-397"
 
 [[statement]]
-id = "evaluation"
-text = "Depths at any return period, the published ones included, are read from the fitted curve; the published depths are not kept."
-code_ref = "docs/sources/jrc.md:36-40; crc_sdk/connectors/adapters.py:1-40"
-note = "Confirmed in so far as crc-framework's values of the fitted curves equal the reference's at the published return periods and at 25 and 250 years, for a seeded sample of pixels. How far the curve lies from the published depths is reported as exploration, not as a check."
+id = "coverage"
+text = "For a box that lies outside a product's coverage, returns no rows and raises no error."
+code_ref = "crc_sdk/_climate_sources.py:436-441; crc_sdk/_climate_io.py:105-133"

@@ -6,5 +6,5 @@ tier_reason = "Tier 3: passed through without fitting and not used in crc-lab."
 publisher = "Environment and Climate Change Canada"
 original = "https://api.weather.gc.ca/collections/climate-daily/items"
 purpose = "Daily station measurements and flags, as published."
-entry_points = ["ECCCDailyPlan"]
+entry_points = ["ECCCDaily"]
 notes = "Canada only."

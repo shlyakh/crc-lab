@@ -49,13 +49,16 @@ def _era5_untouched(sources: list) -> list:
 def test_detector_reports_new_entry_points_and_options() -> None:
     sources = _era5_untouched(inventory.load_sources("crc_sdk"))
     offered = {
-        "symbols": ["IBTrACSPlan", "HailReportsPlan", "HazardDataset.local"],
-        "ignored": {"HazardDataset.local": "not a source"},
-        "options": {"era5": {"recipe": ["txx", "wsdi"]}, "unknown-source": {"x": ["y"]}},
+        "symbols": ["IBTrACS", "HailReports", "Dataset.open"],
+        "ignored": {"Dataset.open": "not a source"},
+        "options": {
+            "era5": {"indicator": ["annual_maximum_daily_maximum_temperature", "wsdi"]},
+            "unknown-source": {"x": ["y"]},
+        },
     }
     gaps = inventory.unassessed(sources, offered)
-    assert gaps["unclaimed_symbols"] == ["HailReportsPlan"]
-    assert gaps["new_options"] == [{"source": "era5", "option": "recipe", "value": "wsdi"}]
+    assert gaps["unclaimed_symbols"] == ["HailReports"]
+    assert gaps["new_options"] == [{"source": "era5", "option": "indicator", "value": "wsdi"}]
     assert "era5" in gaps["unassessed_sources"] and "own-data" not in gaps["unassessed_sources"]
     assert "ibtracs" not in gaps["unassessed_sources"]  # assessed in phase V1
 
@@ -63,11 +66,18 @@ def test_detector_reports_new_entry_points_and_options() -> None:
 def test_assessed_options_leave_the_open_list() -> None:
     sources = _era5_untouched(inventory.load_sources("crc_sdk"))
     done = [
-        replace(s, assessed_options={"recipe": ("txx",)}) if s.id == "era5" else s for s in sources
+        replace(s, assessed_options={"indicator": ("annual_maximum_daily_maximum_temperature",)})
+        if s.id == "era5"
+        else s
+        for s in sources
     ]
     before = inventory.unassessed(sources, {"symbols": []})["unassessed_options"]
     after = inventory.unassessed(done, {"symbols": []})["unassessed_options"]
-    gone = {"source": "era5", "option": "recipe", "value": "txx"}
+    gone = {
+        "source": "era5",
+        "option": "indicator",
+        "value": "annual_maximum_daily_maximum_temperature",
+    }
     assert gone in before and gone not in after and len(after) == len(before) - 1
 
 
@@ -97,7 +107,7 @@ def test_build_writes_page_data_and_inventory_text(tmp_path: Path) -> None:
     assert ibtracs["records"] == "records/ibtracs.json"
     assert {step["outcome"] for step in ibtracs["statement"]} == {"confirmed", "not checked"}
     report = (tmp_path / "docs" / "sources" / "ibtracs.md").read_text()
-    assert "Draft: not yet reviewed" in report and "values[ALL]" in report
+    assert "Draft: not yet reviewed" in report and "values[USA]" in report
 
 
 def _imports(path: Path) -> list[str]:

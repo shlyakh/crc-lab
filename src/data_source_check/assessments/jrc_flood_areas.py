@@ -26,10 +26,10 @@ from typing import Any
 
 import numpy as np
 
-from ..adapters.crc import jrc_flood as framework
+from ..adapters.crc import jrc_flood_011 as framework
 from ..core import compare
 from ..reference import jrc_flood as reference
-from . import jrc_flood as base
+from . import jrc_flood_011 as base
 
 RETURN_PERIOD = 25  # as in the notebook: read from the curve, not a published return period
 THRESHOLD = 0.5  # metres, as in the notebook

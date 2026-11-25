@@ -62,7 +62,7 @@ PACKAGES = {
         "crc-sdk",
         "RiskThinking/crc-sdk",
         "crc-sdk",
-        '"crc-sdk[geometry,zarr,raster,netcdf]=={v}",',
+        '"crc-sdk[zarr,raster,netcdf]=={v}",',
     ),
     "crc-framework": Package(
         "crc-framework",

@@ -1,36 +1,21 @@
-"""JRC flood hazard maps (GloFAS, EFAS): exploration, and verification of crc-sdk's fitted
-curves against the publisher's GeoTIFF files.
+"""JRC flood maps (GloFAS, EFAS): verification of what crc-sdk 1.x returns by default.
 
-Draft. GloFAS in the Texas box, in close-ups of Houston and Austin and in a box around
-Fremont, California; EFAS in the Rhine box of crc-docs' ``flood_risk_by_province`` notebook.
-EFAS is also asked for the Texas and Fremont boxes, which lie outside its raster.
+From 1.0 crc-sdk fits nothing: for each pixel of the publisher's maps it returns the published
+depths as the knots of a quantile curve, at probabilities 1 - 1/T. Every pixel of each area is
+read from the publisher's files by the reference reader, which decides independently which
+pixels should be delivered and with which knots, and the two are compared pixel by pixel.
 
-How the two sides meet. The reference reader downloads the publisher's files whole,
-checksums them and reads them with its own TIFF reader. crc-sdk is run as its documentation
-shows (all return periods, the curated policy, a cache), reading the publisher over the
-network; its cache folder and its output file are kept. Then, per area:
-
-1. ``crop``: every pixel of crc-sdk's cached crops against the same window of the
-   publisher's file, bit for bit, and the manifest's checksums against the crops;
-2. ``curves``: which pixels get a curve, and the two parameters of each curve, against a
-   closed-form least-squares fit of the publisher's depths;
-3. ``values``, ``cells``, ``source-id``: for a seeded sample of pixels, the curve's depths
-   as crc-framework evaluates them, the H3 cells and the identifier;
-4. ``labels``, ``provenance``, ``manifest``: what the output and the cache say of themselves.
-
-How far a fitted curve lies from the published depths, and which wet pixels get no curve,
-are counted as exploration: they are what the statement says, not a disagreement.
+The assessment of crc-sdk 0.11, which fitted a curve per pixel, is ``jrc_flood_011``; the review
+maps and the comparisons with outside evidence still rest on it.
 """
 
 from __future__ import annotations
 
-import hashlib
-import json
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qs
+from urllib.request import Request, urlopen
 
 import numpy as np
 
@@ -40,19 +25,17 @@ from ..core.records import CheckRecord
 from ..reference import jrc_flood as reference
 
 SOURCE = "jrc-flood"
-SEED = 20261117
+SEED = 20261124
 TEXAS = (-106.645646, 25.837377, -93.508292, 36.500704)  # as in the data explorer
 HOUSTON = (-95.9, 29.3, -94.9, 30.2)  # Buffalo Bayou, San Jacinto River, lower Brazos
-AUSTIN = (-98.0, 30.0, -97.5, 30.5)  # Colorado River; the box of tools/probes/sources.py
+AUSTIN = (-98.0, 30.0, -97.5, 30.5)  # Colorado River
 FREMONT = (-122.15, 37.42, -121.85, 37.62)  # Alameda Creek and Niles Canyon to Coyote Creek
 RHINE = (7.0, 49.7, 8.5, 50.9)  # crc-docs notebooks/sources/flood_risk_by_province.ipynb
-TOLERANCE = 1e-6  # metres; crc-framework fits with an optimizer, the reference in closed form
-EXTRA_PERIODS = (25, 250)  # evaluated besides the published return periods
-SAMPLE_VALUES = 20_000
-SAMPLE_PIXELS = 2_000
 STRIP_ROWS = 512
-DEEP = 10.0  # metres; the publisher's spurious-depth mask is about depths above this
-KEY = 1 << 20  # more than the widest raster; a pixel is tile * KEY * KEY + row * KEY + column
+SAMPLE_CELLS = 2_000
+PROBABILITY_TOLERANCE = 1e-12
+CELL_RESOLUTION = 9
+OVERLAP_LIMIT = 2_000_000  # pixels; the overlap check reads an area twice more
 
 
 @dataclass(frozen=True)
@@ -60,216 +43,206 @@ class Area:
     id: str
     dataset: str
     bounds: tuple[float, float, float, float]
-    resolution: int | str
     title: str
 
 
 AREAS = (
-    Area("glofas-tx", "glofas", TEXAS, 7, "Texas box"),
-    Area("glofas-houston", "glofas", HOUSTON, 9, "Houston"),
-    Area("glofas-austin", "glofas", AUSTIN, 9, "Austin"),
-    Area("glofas-fremont", "glofas", FREMONT, "native", "Fremont, California"),
-    Area("efas-rhine", "efas", RHINE, 7, "Rhine, Bonn to Mainz"),
+    Area("glofas-tx", "glofas", TEXAS, "Texas box"),
+    Area("glofas-houston", "glofas", HOUSTON, "Houston"),
+    Area("glofas-austin", "glofas", AUSTIN, "Austin"),
+    Area("glofas-fremont", "glofas", FREMONT, "Fremont, California"),
+    Area("efas-rhine", "efas", RHINE, "Rhine, Bonn to Mainz"),
 )
-#: the areas of a quick run: everything but the state-sized box, whose fit takes about 27 minutes
+#: the areas of a quick run: everything but the state-sized box
 QUICK_AREAS = tuple(area for area in AREAS if area.id != "glofas-tx")
-OUTSIDE = (
-    Area("efas-tx", "efas", TEXAS, 7, "Texas box"),
-    Area("efas-fremont", "efas", FREMONT, "native", "Fremont, California"),
-)
-EXPECTED_LABELS = {
-    "hazard_name": ["RiverineInundation"],
-    "pathway": ["historical"],
-    "horizon": ["0"],
-    "curve_kind": ["fitted"],
-    "curve_type": ["gumbel_r"],
-    "curve_shape": ["None"],
-}
-SOURCE_FIELDS = ("licence", "attribution", "retrieved_at", "checksum")
+#: boxes outside a product's coverage
+OUTSIDE = (Area("efas-fremont", "efas", FREMONT, "Fremont, California (outside EFAS)"),)
 
 
-def _resolution(value: int | str) -> int:
-    return 10 if value == "native" else int(value)
+def _answers(url: str) -> bool:
+    try:
+        with urlopen(Request(url, method="HEAD"), timeout=20) as response:  # noqa: S310
+            return int(response.status) == 200
+    except OSError:
+        return False
 
 
-def _bits(array: np.ndarray) -> np.ndarray:
-    return np.ascontiguousarray(array).view(f"u{array.dtype.itemsize}")
+def _tile_name(layout: str, tile: str) -> str:
+    return tile if layout == "tiled" else "continental"
 
 
-def _percentiles(values: np.ndarray) -> dict[str, float]:
-    if not len(values):
-        return {}
-    points = np.percentile(values, [50, 90, 99])
-    return {"median": float(points[0]), "p90": float(points[1]), "p99": float(points[2]),
-            "largest": float(values.max())}  # fmt: skip
+def _parse(table: Any) -> dict[str, Any]:
+    """Tile, row and column of every row's ``support_id``, and its knots as flat arrays."""
+    import pyarrow.compute as pc
 
-
-def _read_reference(copy: reference.Copy, area: Area, periods: Sequence[int], tiles: Sequence[str],
-                    crops: dict[str, dict[int, Path]], rules: reference.Rules,
-                    strip_rows: int, collect: Callable[..., None] | None = None,
-                    ) -> dict[str, Any]:  # fmt: skip
-    """The publisher's depths in the area: counts, fitted curves, and the crop comparison.
-
-    ``collect`` is called once per strip with the flooded pixels of the strip (the review maps).
-    """
+    parts = pc.split_pattern(table["support_id"].combine_chunks(), ":")
+    sizes = pc.list_value_length(parts).to_numpy(zero_copy_only=False)
+    if len(sizes) and not (sizes == 5).all():
+        raise ValueError("a support_id is not jrc:<product>:<tile>:<row>:<column>")
     out: dict[str, Any] = {
-        "tiles": [], "pixels": 0, "ever_wet": 0, "wet": {p: 0 for p in periods},
-        "knots": {n: 0 for n in range(1, len(periods) + 1)},
-        "too_few": 0, "constant": 0, "constant_at_one": 0, "decreasing": 0,
-        "no_curve_wet": {p: 0 for p in periods},
-        "deep": {p: 0 for p in periods}, "deep_in_mask": {p: 0 for p in periods},
-        "mask_pixels": None, "largest_depth": 0.0,
-        "dry_with_curve": {p: 0 for p in periods}, "dry_curve_positive": {p: 0 for p in periods},
-        "dry_curve_tenth": {p: 0 for p in periods}, "dry_curve_largest": 0.0,
-        "curve_below_zero": {p: 0 for p in periods},
-        "crop": {"pixels_compared": 0, "pixels_differing": 0, "geometry": []},
+        "tile": np.asarray(pc.list_element(parts, 2).to_pylist(), dtype=object),
+        "row": pc.cast(pc.list_element(parts, 3), "int64").to_numpy(zero_copy_only=False),
+        "column": pc.cast(pc.list_element(parts, 4), "int64").to_numpy(zero_copy_only=False),
+        "cell": table["cell_id"].combine_chunks().to_numpy(zero_copy_only=False),
+    }
+    for name in ("probabilities", "values"):
+        column = table[name].combine_chunks()
+        out[name] = column.flatten().to_numpy(zero_copy_only=False)
+        out["length"] = pc.list_value_length(column).to_numpy(zero_copy_only=False)
+    out["start"] = np.concatenate([[0], np.cumsum(out["length"])[:-1]]).astype(np.int64)
+    return out
+
+
+def _compare_area(copy: reference.Copy, area: Area, periods: Sequence[int],
+                  tiles: Sequence[str], table: Any, rules: reference.Rules,
+                  strip_rows: int) -> dict[str, Any]:  # fmt: skip
+    """Every pixel of the area: what the publisher's files hold against crc-sdk's rows."""
+    count = len(periods)
+    expected_probability = np.asarray([1 - 1 / period for period in periods])
+    theirs = _parse(table) if table is not None and table.num_rows else None
+    out: dict[str, Any] = {
+        "tiles": [], "pixels": 0, "dry": 0, "one_depth": 0, "decreasing": 0, "deliverable": 0,
+        "equal_depths": 0, "fewer_than_four": 0,
+        "rows": 0 if theirs is None else int(len(theirs["row"])),
+        "rows_outside_window": 0, "rows_repeated": 0, "missing": 0, "extra": 0,
+        "pixels_compared": 0, "pixels_differing": 0, "values_compared": 0,
+        "values_differing": 0, "probabilities_differing": 0, "largest_difference": 0.0,
+        "examples": [], "cells": [],
     }  # fmt: skip
-    keys, locations, scales, misfit, files = [], [], [], [], []
-    for number, tile in enumerate(tiles):
+    seen_tiles = set()
+    for tile in tiles:
         names = [reference.depth_name(copy.layout, p, tile) for p in periods]
-        files += names
         stack = [reference.Tiff(copy.file(name)) for name in names]
         first = stack[0]
         window = first.window(area.bounds, rules)
-        entry: dict[str, Any] = {"tile": tile, "window": window, "grid": first.describe()}
-        out["tiles"].append(entry)
+        label = _tile_name(copy.layout, tile)
+        seen_tiles.add(label)
+        out["tiles"].append({"tile": label, "window": window, "grid": first.describe()})
+        if theirs is None:
+            mine = np.zeros(0, dtype=np.int64)
+        else:
+            mine = np.flatnonzero(theirs["tile"] == label)
         if window is None:
+            out["rows_outside_window"] += len(mine)
             for tiff in stack:
                 tiff.close()
             continue
         c0, r0, c1, r1 = window
         width = c1 - c0
-        mask = _mask(copy, tile, first)
-        if mask is not None:
-            out["mask_pixels"] = (out["mask_pixels"] or 0) + int(mask[r0:r1, c0:c1].sum())
-        local = crops.get(tile)
-        crop_stack = [reference.Tiff(local[p]) for p in periods] if local else []
-        if crop_stack:
-            crop = crop_stack[0]
-            entry["crop"] = {
-                "shape": [crop.height, crop.width],
-                "expected_shape": [r1 - r0, width],
-                "left_offset": crop.left - (first.left + c0 * first.dx),
-                "top_offset": crop.top - (first.top - r0 * first.dy),
-                "pixel": [crop.dx, crop.dy],
-                "nodata": crop.nodata,
-                "dtype": crop.dtype.str,
-            }
-            same_grid = (crop.height, crop.width) == (r1 - r0, width)
-            out["crop"]["geometry"].append(
-                same_grid and abs(entry["crop"]["left_offset"]) < 1e-9
-                and abs(entry["crop"]["top_offset"]) < 1e-9
-                and crop.nodata == first.nodata and crop.dtype == first.dtype
-                and (crop.dx, crop.dy) == (first.dx, first.dy)
-            )  # fmt: skip
+        if theirs is not None:
+            mine = mine[np.argsort(theirs["row"][mine], kind="stable")]
+            their_rows = theirs["row"][mine]
         for top in range(r0, r1, strip_rows):
             bottom = min(r1, top + strip_rows)
             raw = np.stack([tiff.read((c0, top, c1, bottom)) for tiff in stack])
-            if crop_stack and out["crop"]["geometry"][-1]:
-                theirs = np.stack(
-                    [tiff.read((0, top - r0, width, bottom - r0)) for tiff in crop_stack]
-                )
-                out["crop"]["pixels_compared"] += raw.size
-                out["crop"]["pixels_differing"] += int((_bits(raw) != _bits(theirs)).sum())
-            values = reference.depths(raw, first.nodata, rules).reshape(len(periods), -1)
+            values = reference.depths(raw, first.nodata, rules).reshape(count, -1)
+            valid = ~np.isnan(values)
+            knots = valid.sum(axis=0)
+            filled = np.where(valid, values, -np.inf)
+            before = np.vstack([np.full((1, values.shape[1]), -np.inf),
+                                np.maximum.accumulate(filled, axis=0)[:-1]])  # fmt: skip
+            falls = (valid & (values < before)).any(axis=0)
+            deliverable = (knots >= 2) & ~falls
             out["pixels"] += values.shape[1]
-            wet = np.isfinite(values).any(axis=0)
-            if not wet.any():
-                continue
-            position = np.flatnonzero(wet)
-            values = values[:, position]
-            held = np.isfinite(values)
-            fitted = reference.fit(periods, values, rules)
-            good = fitted["enough"] & ~fitted["constant"] & fitted["increasing"]
-            out["ever_wet"] += int(wet.sum())
-            for count in range(1, len(periods) + 1):
-                out["knots"][count] += int((fitted["knots"] == count).sum())
-            out["too_few"] += int((~fitted["enough"]).sum())
-            flat = fitted["enough"] & fitted["constant"]
-            out["constant"] += int(flat.sum())
-            out["constant_at_one"] += int((flat & (fitted["lowest"] == 1.0)).sum())
-            out["decreasing"] += int(
-                (fitted["enough"] & ~fitted["constant"] & ~fitted["increasing"]).sum()
-            )
-            out["largest_depth"] = max(out["largest_depth"], float(np.nanmax(values)))
-            rows = top + position // width
-            columns = c0 + position % width
-            inside = mask[rows, columns] if mask is not None else None
-            location, scale = fitted["location"][good], fitted["scale"][good]
-            worst = np.zeros(int(good.sum()))
-            for index, period in enumerate(periods):
-                out["wet"][period] += int(held[index].sum())
-                out["no_curve_wet"][period] += int((held[index] & ~good).sum())
-                deep = held[index] & (values[index] > DEEP)
-                out["deep"][period] += int(deep.sum())
-                if inside is not None:
-                    out["deep_in_mask"][period] += int((deep & inside).sum())
-                curve = reference.quantile(location, scale, period)
-                here = held[index][good]
-                worst = np.maximum(worst, np.where(here, np.abs(curve - values[index][good]), 0))
-                dry = curve[~here]
-                out["dry_with_curve"][period] += len(dry)
-                out["dry_curve_positive"][period] += int((dry > 0).sum())
-                out["dry_curve_tenth"][period] += int((dry >= 0.1).sum())
-                if len(dry):
-                    out["dry_curve_largest"] = max(out["dry_curve_largest"], float(dry.max()))
-                out["curve_below_zero"][period] += int((curve < 0).sum())
-            if collect is not None:
-                collect(first, rows, columns, values, held, good, location, scale, inside)
-            keys.append((number * KEY + rows[good]) * KEY + columns[good])
-            locations.append(location)
-            scales.append(scale)
-            misfit.append(worst)
-        for tiff in [*stack, *crop_stack]:
+            out["dry"] += int((knots == 0).sum())
+            out["one_depth"] += int((knots == 1).sum())
+            out["decreasing"] += int(((knots >= 2) & falls).sum())
+            out["deliverable"] += int(deliverable.sum())
+            out["fewer_than_four"] += int((deliverable & (knots < 4)).sum())
+            spread = np.where(valid, values, np.nan)
+            with np.errstate(invalid="ignore"):
+                same = np.nanmax(np.where(deliverable, spread, 0.0), axis=0) == np.nanmin(
+                    np.where(deliverable, spread, 0.0), axis=0
+                )
+            out["equal_depths"] += int((deliverable & same).sum())
+
+            delivered = np.zeros(values.shape[1], dtype=bool)
+            given_values = np.full(values.shape, np.nan)
+            given_probability = np.full(values.shape, np.nan)
+            if theirs is not None and len(mine):
+                low, high = np.searchsorted(their_rows, [top, bottom])
+                chosen = mine[low:high]
+                column = theirs["column"][chosen] - c0
+                inside = (column >= 0) & (column < width)
+                out["rows_outside_window"] += int((~inside).sum())
+                chosen, column = chosen[inside], column[inside]
+                position = (theirs["row"][chosen] - top) * width + column
+                delivered[position] = True
+                out["rows_repeated"] += int(len(position) - delivered.sum())
+                length = np.minimum(theirs["length"][chosen], count)
+                which = np.repeat(np.arange(len(chosen)), length)
+                step = np.arange(int(length.sum())) - np.repeat(np.cumsum(length) - length, length)
+                source = np.repeat(theirs["start"][chosen], length) + step
+                given_values[step, position[which]] = theirs["values"][source]
+                given_probability[step, position[which]] = theirs["probabilities"][source]
+                too_long = theirs["length"][chosen] > count
+                out["values_differing"] += int(too_long.sum())
+                if len(out["cells"]) < SAMPLE_CELLS * 4:  # a pool to sample the cell check from
+                    keep = chosen[:: max(1, len(chosen) // 200)]
+                    out["cells"] += [
+                        (label, int(theirs["row"][i]), int(theirs["column"][i]),
+                         int(theirs["cell"][i]),
+                         first.left + (int(theirs["column"][i]) + 0.5) * first.dx,
+                         first.top - (int(theirs["row"][i]) + 0.5) * first.dy)
+                        for i in keep
+                    ]  # fmt: skip
+            out["missing"] += int((deliverable & ~delivered).sum())
+            out["extra"] += int((delivered & ~deliverable).sum())
+
+            both = deliverable & delivered
+            if both.any():
+                rank = np.cumsum(valid, axis=0) - 1
+                pixel = np.broadcast_to(np.arange(values.shape[1]), values.shape)
+                wanted_values = np.full(values.shape, np.nan)
+                wanted_probability = np.full(values.shape, np.nan)
+                wanted_values[rank[valid], pixel[valid]] = values[valid]
+                wanted_probability[rank[valid], pixel[valid]] = np.broadcast_to(
+                    expected_probability[:, None], values.shape
+                )[valid]
+                a, b = given_values[:, both], wanted_values[:, both]
+                wrong = ~((a == b) | (np.isnan(a) & np.isnan(b)))
+                p, q = given_probability[:, both], wanted_probability[:, both]
+                with np.errstate(invalid="ignore"):
+                    off = ~((np.abs(p - q) <= PROBABILITY_TOLERANCE) | (np.isnan(p) & np.isnan(q)))
+                    gap = np.abs(a - b)
+                out["pixels_compared"] += int(both.sum())
+                out["pixels_differing"] += int((wrong | off).any(axis=0).sum())
+                out["values_compared"] += int((~np.isnan(b)).sum())
+                out["values_differing"] += int(wrong.sum())
+                out["probabilities_differing"] += int(off.sum())
+                if np.isfinite(gap).any():
+                    out["largest_difference"] = max(out["largest_difference"],
+                                                    float(np.nanmax(gap)))  # fmt: skip
+                if wrong.any() and len(out["examples"]) < 5:
+                    at = int(np.flatnonzero(both)[np.flatnonzero(wrong.any(axis=0))[0]])
+                    out["examples"].append({
+                        "tile": label, "row": top + at // width, "column": c0 + at % width,
+                        "publisher": [None if np.isnan(v) else float(v) for v in values[:, at]],
+                        "crc_sdk": [None if np.isnan(v) else float(v)
+                                    for v in given_values[:, at]],
+                    })  # fmt: skip
+        for tiff in stack:
             tiff.close()
-    empty = np.empty(0)
-    out["key"] = np.concatenate(keys) if keys else empty.astype(np.int64)
-    out["location"] = np.concatenate(locations) if locations else empty
-    out["scale"] = np.concatenate(scales) if scales else empty
-    out["misfit"] = np.concatenate(misfit) if misfit else empty
-    out["files"] = files
+    if theirs is not None:
+        out["rows_outside_window"] += int((~np.isin(theirs["tile"], list(seen_tiles))).sum())
     return out
 
 
-def _mask(copy: reference.Copy, tile: str, grid: reference.Tiff) -> np.ndarray | None:
-    """The publisher's spurious-depth mask on the grid of a depth file, or None."""
-    name = (f"Spurious_Depths/{tile}_spurious_depth_areas.tif" if copy.layout == "tiled"
-            else "Europe_spurious_depth_areas.tif")  # fmt: skip
-    if copy.layout != "tiled":
-        return None  # the mask of Europe is one file of 71 MB; not read in this draft
-    try:
-        with reference.Tiff(copy.file(name)) as tiff:
-            if (tiff.width, tiff.height) != (grid.width, grid.height):
-                return None
-            data = tiff.read()
-            if tiff.nodata is not None:
-                return (data != np.asarray(tiff.nodata, dtype=data.dtype)) & (data != 0)
-            return data != 0
-    except (OSError, reference.TiffError):
-        return None
+def _cells(pool: list[tuple[Any, ...]]) -> dict[str, Any]:
+    """A sample of rows: is ``cell_id`` the H3 cell that holds the pixel's centre?"""
+    from h3.api import basic_int as h3
+
+    sample = compare.sample(pool, SAMPLE_CELLS, SEED)
+    wrong = [
+        {"tile": tile, "row": row, "column": column, "crc_sdk": cell}
+        for tile, row, column, cell, lon, lat in sample
+        if h3.latlng_to_cell(lat, lon, CELL_RESOLUTION) != cell
+    ]
+    return {"rows_checked": len(sample), "cells_differing": len(wrong), "examples": wrong[:5]}
 
 
-def _framework_pixels(
-    run: Path, tiles: Sequence[str], grids: dict[str, dict[str, Any]]
-) -> dict[str, Any]:
-    """crc-sdk's rows with the publisher-file pixel each belongs to."""
-    rows = framework.curves(run)
-    box = rows["box"]
-    key = np.full(len(box), -1, dtype=np.int64)
-    for number, tile in enumerate(tiles):
-        grid = grids.get(tile)
-        if grid is None:
-            continue
-        column = (box[:, 0] - grid["left"]) / grid["dx"]
-        row = (grid["top"] - box[:, 3]) / grid["dy"]
-        c, r = np.rint(column).astype(np.int64), np.rint(row).astype(np.int64)
-        fits = ((np.abs(column - c) < 1e-4) & (np.abs(row - r) < 1e-4) & (c >= 0) & (r >= 0)
-                & (c < grid["width"]) & (r < grid["height"]) & (key < 0))  # fmt: skip
-        key[fits] = (number * KEY + r[fits]) * KEY + c[fits]
-    order = np.argsort(key, kind="stable")
-    unique, start, counts = np.unique(key[order], return_index=True, return_counts=True)
-    return {**rows, "key": key, "order": order, "pixel": unique, "start": start,
-            "counts": counts, "unplaced": int((key < 0).sum())}  # fmt: skip
+def _plain(uri: str) -> str:
+    return uri.split("#", 1)[0]
 
 
 def assess(
@@ -282,8 +255,6 @@ def assess(
     areas: Sequence[Area] = AREAS,
     outside: Sequence[Area] = OUTSIDE,
     publisher: dict[str, Path] | None = None,
-    sample_values: int = SAMPLE_VALUES,
-    sample_pixels: int = SAMPLE_PIXELS,
     strip_rows: int = STRIP_ROWS,
 ) -> dict[str, Any]:
     """The records of one run. ``rules`` overrides the reference rules (for fault tests);
@@ -292,591 +263,390 @@ def assess(
     publisher = publisher or {}
     checks: list[CheckRecord] = []
     explored: dict[str, Any] = {"areas": [], "datasets": {}, "outside": [], "runs": []}
-
-    def make(check: str, category: str, method: str, agrees: bool | None,
-             **more: Any) -> None:  # fmt: skip
-        checks.append(compare.record(source=SOURCE, check=check, tier="verification",
-                                     category=category, method=method, agrees=agrees,
-                                     versions=versions, **more))  # fmt: skip
-
     copies: dict[str, reference.Copy] = {}
-    published: dict[str, dict[str, Any]] = {}
-    facts: dict[str, dict[str, Any]] = {}
-    for dataset in sorted({area.dataset for area in [*areas, *outside]}):
-        log(f"{dataset}: what the publisher holds, what crc-sdk states")
-        copy = copies[dataset] = _copy(dataset, cache, live=live, folder=publisher.get(dataset))
+    read_from: dict[str, Path | None] = {}
+
+    def record(check: str, category: str, method: str, agrees: bool | None, *,
+               steps: Sequence[str], result: dict[str, Any], inputs: Sequence[dict[str, Any]] = (),
+               tolerance: dict[str, Any] | None = None, note: str = "") -> None:  # fmt: skip
+        checks.append(compare.record(
+            source=SOURCE, check=check, tier="verification", category=category, method=method,
+            agrees=agrees, versions=versions, result=result, inputs=inputs,
+            tolerance=tolerance, steps=steps, note=note,
+        ))  # fmt: skip
+
+    for dataset in dict.fromkeys(area.dataset for area in (*areas, *outside)):
+        folder = publisher.get(dataset)
+        stated = framework.facts(dataset)
+        reachable = folder is None and live and _answers(stated["base_url"] + "/README.txt")
+        if folder is None and live and not reachable:
+            log(f"{dataset}: the publisher's server does not answer; using the copy held")
+        copy = reference.Copy(dataset, cache, live=reachable, folder=folder)
+        copies[dataset] = copy
+        # crc-sdk reads the publisher when it answers; otherwise the copy the reference holds
+        read_from[dataset] = None if reachable else copy.root
         readme = copy.text("README.txt")
         index = copy.index()
-        held = {
-            "version": reference.version(readme),
-            "periods": reference.periods(index, copy.layout),
-            "stated": reference.stated(readme),
-            "copyright": copy.text("copyright.txt") if _has(index, "copyright.txt") else "",
-            "listing": {row["name"]: row["modified"] for row in index["top"]},
-        }
-        published[dataset] = held
-        with framework.publisher_at(dataset, publisher.get(dataset)):
-            stated = facts[dataset] = _stored(
-                cache, f"facts {dataset}", lambda d=dataset: framework.facts(d), live=live
-            )
-        differences: dict[str, Any] = {}
-        for name, ours, theirs in (
-            ("release", held["version"], stated["configured_version"]),
-            ("release crc-sdk resolves", held["version"], stated["resolved_version"]),
-            ("return periods", held["periods"], stated["return_periods"]),
-            ("address", copy.base, stated["base_url"]),
-            ("layout", copy.layout, stated["layout"]),
-        ):
-            if ours != theirs:
-                differences[name] = {"reference": ours, "framework": theirs}
-        make(
-            f"files[{dataset}]", "consistency",
-            "The release, the return periods, the address and the layout crc-sdk states for "
-            "the dataset, against the release in the publisher's README.txt and the return "
-            "periods its directory holds depth files for.",
-            not differences,
-            result={"items_compared": 5, "items_differing": len(differences),
-                    "differences": differences, "release": held["version"],
-                    "return_periods": held["periods"],
-                    "readme_last_modified": held["listing"].get("README.txt", ""),
-                    "crc_sdk_error": stated["error"]},
-            inputs=({"role": "reference download", **copy.provenance(["README.txt"])},
-                    {"role": "crc-sdk (its configuration and README.txt)",
-                     "url": stated["readme_url"]}),
-            tolerance={"values": "identical"}, steps=("release", "periods"),
-        )  # fmt: skip
-        licence = held["stated"]["licence"]
+        periods = reference.periods(index, copy.layout)
         explored["datasets"][dataset] = {
-            "name": stated["dataset"], "release": held["version"], "periods": held["periods"],
-            "readme_licence": licence, "copyright_names_cc_by": "CC BY 4.0" in held["copyright"],
-            "coverage": held["stated"]["coverage"], "resolution": held["stated"]["resolution"],
-            "files_last_modified": _span(index, copy.layout),
-            "readme_last_modified": held["listing"].get("README.txt", ""),
-            "other_files": sorted(n for n in held["listing"]
-                                  if "ermanent" in n or "purious" in n),
+            "address": copy.base, "release": reference.version(readme),
+            "stated": reference.stated(readme), "return_periods": periods,
+            "crc_sdk": stated, "publisher_answered": bool(reachable or folder is not None),
+            "crc_sdk_read_from": "the publisher" if reachable else
+            "a local copy of the publisher's files",
         }  # fmt: skip
+
+    def run_read(area: Area, name: str, bounds: Sequence[float]) -> tuple[dict[str, Any], Path]:
+        folder = cache / "framework" / name
+        answer = framework.materialize(area.dataset, bounds, folder, live=live,
+                                       publisher=read_from[area.dataset],
+                                       isolated=not publisher)  # fmt: skip
+        return answer, folder
 
     for area in areas:
-        copy, held, stated = copies[area.dataset], published[area.dataset], facts[area.dataset]
-        periods = held["periods"]
-        run = cache / "framework" / f"{area.id}-r{_resolution(area.resolution)}"
-        log(f"{area.id}: crc-sdk's run")
-        with framework.publisher_at(area.dataset, publisher.get(area.dataset)):
-            summary = framework.materialize(area.dataset, area.bounds, area.resolution, run,
-                                            live=live)  # fmt: skip
-        explored["runs"].append({"area": area.id, **{k: summary[k] for k in (
-            "rows", "seconds", "peak_memory_mb", "error_type", "error", "warnings")}})  # fmt: skip
-        manifest = framework.manifest(run) or {}
-        entries = {entry["source_id"]: entry for entry in manifest.get("resources", [])}
-        crops = {tile: {int(p): Path(path) for p, path in entry["local"].items()}
-                 for tile, entry in entries.items()}  # fmt: skip
-
-        log(f"{area.id}: the publisher's files")
+        copy = copies[area.dataset]
+        facts = explored["datasets"][area.dataset]
+        periods = facts["return_periods"]
+        log(f"{area.id}: crc-sdk's read")
+        run, folder = run_read(area, area.id, area.bounds)
+        explored["runs"].append({
+            "area": area.id, "seconds": run.get("seconds"), "rows": run.get("rows", 0),
+            "peak_memory_mb": run.get("peak_memory_mb"), "error": run.get("error", ""),
+            "error_type": run.get("error_type", ""), "read_from": run.get("read_from", ""),
+        })  # fmt: skip
         if copy.layout == "tiled":
-            tile_index = json.loads(copy.text("tile_extents.geojson"))
-            tiles = reference.tiles_for(tile_index, area.bounds)
+            import json
+
+            tiles = reference.tiles_for(json.loads(copy.text("tile_extents.geojson")), area.bounds)
         else:
-            tiles = ["continental"]
-        ours = _read_reference(copy, area, periods, tiles, crops, rules, strip_rows)
-        reached = [t["tile"] for t in ours["tiles"] if t["window"] is not None]
-        source_input = {"role": "reference download", **copy.provenance(ours["files"])}
-        sdk_input = {"role": "crc-sdk (GDAL over the network, cropped into its cache)",
-                     "url": stated["base_url"]}  # fmt: skip
-
-        # -------------------------------------------------------------- tiles and manifest
-        wrong: dict[str, Any] = {}
-        expected_urls = {
-            tile: {str(p): f"{copy.base}/{reference.depth_name(copy.layout, p, tile)}"
-                   for p in periods}
-            for tile in reached
-        }  # fmt: skip
-        if sorted(entries) != sorted(reached):
-            wrong["tiles"] = {"reference": sorted(reached), "framework": sorted(entries)}
-        for tile in reached:
-            entry = entries.get(tile, {})
-            if not publisher and entry.get("remote") != expected_urls[tile]:
-                wrong[f"addresses of {tile}"] = {"reference": expected_urls[tile],
-                                                 "framework": entry.get("remote")}  # fmt: skip
-            sums = {str(p): reference.sha256(path) for p, path in crops.get(tile, {}).items()}
-            if entry.get("checksums") != sums:
-                wrong[f"checksums of {tile}"] = "the manifest's are not the SHA-256 of the crops"
-        for name, mine, theirs in (
-            ("release", held["version"], manifest.get("resolved_version")),
-            ("box", list(area.bounds), list(manifest.get("bounds", ()))),
-            ("return periods", periods, list(manifest.get("source_periods", ()))),
-        ):
-            if mine != theirs:
-                wrong[name] = {"reference": mine, "framework": theirs}
-        make(
-            f"manifest[{area.id}]", "consistency",
-            "crc-sdk's cache manifest against the reference: the tiles (those of the "
-            "publisher's tile index that meet the box and hold a pixel of it), each file's "
-            "address, the release, the box, the return periods, and each recorded checksum "
-            "against the SHA-256 of the cropped file, recomputed.",
-            not wrong and bool(manifest),
-            result={"items_differing": len(wrong), "differences": wrong,
-                    "tiles_meeting_the_box": tiles, "tiles_with_a_pixel": reached,
-                    "crops": sum(len(v) for v in crops.values()),
-                    "manifest_keys": sorted(k for k in manifest if k != "plans"),
-                    "publisher_checksum_recorded": any("remote_checksums" in e or "etag" in e
-                                                       for e in entries.values()),
-                    "resolved_at": manifest.get("resolved_at", "")},
-            inputs=(source_input, sdk_input),
-            tolerance={"values": "identical"}, steps=("tiles", "manifest"),
-        )  # fmt: skip
-
-        # -------------------------------------------------------------- crop
-        crop = ours["crop"]
-        make(
-            f"crop[{area.id}]", "fidelity",
-            "Every pixel of the local GeoTIFFs crc-sdk cropped for the box, read with the "
-            "reference's own TIFF reader, against the same window of the publisher's file "
-            "downloaded whole (the window of every pixel the box touches), bit for bit; and "
-            "the crop's origin, shape, pixel size, type and nodata value against the window's.",
-            (crop["pixels_differing"] == 0 and all(crop["geometry"])
-             and len(crop["geometry"]) == len(reached)) if crop["pixels_compared"] else False,
-            result={"pixels_compared": crop["pixels_compared"],
-                    "pixels_differing": crop["pixels_differing"],
-                    "crops_on_the_expected_window": int(sum(crop["geometry"])),
-                    "tiles": len(reached), "return_periods": len(periods),
-                    "windows": {t["tile"]: {"window": t["window"], **t.get("crop", {})}
-                                for t in ours["tiles"]}},
-            inputs=(source_input, sdk_input),
-            sample={"pixels": "all in the box", "bounds": list(area.bounds)},
-            tolerance={"values": "identical bits"}, steps=("crop", "nodata"),
-        )  # fmt: skip
-
-        # -------------------------------------------------------------- curves
-        log(f"{area.id}: curves")
-        grids = _grids(ours["tiles"])
-        if summary["error"]:
-            theirs = None
-        else:
-            theirs = _framework_pixels(run, tiles, grids)
-        if theirs is None:
-            make(f"curves[{area.id}]", "fidelity", "crc-sdk's fitted curves against the "
-                 "reference's.", False,
-                 result={"crc_sdk_error": f"{summary['error_type']}: {summary['error']}"[:300]},
-                 inputs=(source_input, sdk_input),
-                 steps=("knots", "fit", "fit-failure"))  # fmt: skip
+            tiles = [""]
+        log(f"{area.id}: the publisher's files")
+        table = None if run.get("error") else framework.rows(folder)
+        ours = _compare_area(copy, area, periods, tiles, table, rules, strip_rows)
+        names = [reference.depth_name(copy.layout, p, t) for t in tiles for p in periods]
+        inputs = (
+            {"role": "publisher's files", **copy.provenance(n for n in names if n in copy.used)},
+            {"role": "crc-sdk read", "url": copy.base, "read_from": run.get("read_from", "")},
+        )
+        counts = run.get("counts") or {}
+        skipped = ours["dry"] + ours["one_depth"] + ours["decreasing"]
+        summary = {k: ours[k] for k in (
+            "pixels", "dry", "one_depth", "decreasing", "deliverable", "equal_depths",
+            "fewer_than_four", "rows", "rows_outside_window", "rows_repeated", "missing", "extra",
+        )}  # fmt: skip
+        explored["areas"].append({
+            "area": area.id, "title": area.title, "dataset": area.dataset,
+            "bounds": list(area.bounds), "tiles": [t["tile"] for t in ours["tiles"]],
+            **summary, "counts_reported": counts,
+            "diagnostics": run.get("diagnostics", []), "warnings": run.get("warnings", []),
+        })  # fmt: skip
+        if run.get("error"):
+            record(f"read[{area.id}]", "completeness",
+                   "Ask crc-sdk for every pixel of the box.", False,
+                   steps=("area",), inputs=inputs,
+                   result={"error_type": run["error_type"], "error": run["error"][:600],
+                           "pixels_in_the_publisher_window": ours["pixels"],
+                           "pixels_that_should_be_delivered": ours["deliverable"]})  # fmt: skip
             continue
-        mine, its = ours["key"], theirs["pixel"]
-        common, at_mine, at_its = np.intersect1d(mine, its, assume_unique=True,
-                                                 return_indices=True)  # fmt: skip
-        first_row = theirs["order"][theirs["start"]]
-        location = theirs["location"][first_row][at_its]
-        scale = theirs["scale"][first_row][at_its]
-        d_location = np.abs(location - ours["location"][at_mine])
-        d_scale = np.abs(scale - ours["scale"][at_mine])
-        beyond = int(((d_location > TOLERANCE) | (d_scale > TOLERANCE)).sum())
-        only_mine, only_its = len(mine) - len(common), len(its) - len(common)
-        unmatched = [
-            {"in": side, **_pixel(copy, periods, tiles, int(key))}
-            for side, keys in (("reference only", np.setdiff1d(mine, its)[:5]),
-                               ("crc-sdk only", np.setdiff1d(its[its >= 0], mine)[:5]))
-            for key in keys
-        ]  # fmt: skip
-        make(
-            f"curves[{area.id}]", "fidelity",
-            "Every pixel of the box. Which pixels get a curve (four or more depths, not all "
-            "equal, none lower than at a shorter return period), and the location and scale "
-            "of each Gumbel curve, fitted by the reference in closed form (least squares on "
-            "-ln(-ln(1 - 1/T))) from the publisher's files, against the rows of crc-sdk's "
-            "output placed on the publisher's pixel grid by their geometry.",
-            only_mine == 0 and only_its == 0 and beyond == 0 and theirs["unplaced"] == 0
-            and len(common) > 0,
-            result={"pixels_in_box": ours["pixels"], "pixels_with_a_depth": ours["ever_wet"],
-                    "curves_reference": len(mine), "curves_framework": len(its),
-                    "only_in_reference": only_mine, "only_in_framework": only_its,
-                    "values_compared": 2 * len(common), "values_differing": beyond,
-                    "largest_difference_location": float(d_location.max(initial=0.0)),
-                    "largest_difference_scale": float(d_scale.max(initial=0.0)),
-                    "rows_framework": int(len(theirs["key"])),
-                    "rows_not_on_the_pixel_grid": theirs["unplaced"],
-                    "examples": unmatched,
-                    "no_curve": {"fewer_than_four_depths": ours["too_few"],
-                                 "all_depths_equal": ours["constant"],
-                                 "a_depth_decreases": ours["decreasing"]}},
-            inputs=(source_input, sdk_input),
-            sample={"pixels": "all in the box", "bounds": list(area.bounds)},
-            tolerance={"location, scale": f"{TOLERANCE} m", "set of pixels": "identical"},
-            steps=("nodata", "knots", "fit", "fit-failure"),
+        record(
+            f"area[{area.id}]", "completeness",
+            "The pixels the publisher's grids hold inside the box (every pixel the box touches) "
+            "against the number crc-sdk reports as requested and the positions of its rows.",
+            counts.get("requested") == ours["pixels"] and not ours["rows_outside_window"],
+            steps=("area",), inputs=inputs,
+            result={"pixels_reference": ours["pixels"],
+                    "requested_crc_sdk": counts.get("requested"),
+                    "rows_outside_window": ours["rows_outside_window"],
+                    "tiles": [t["tile"] for t in ours["tiles"]]},
+            tolerance={"counts": "identical"},
         )  # fmt: skip
-
-        # -------------------------------------------------------------- values of the curve
-        chosen = np.asarray(compare.sample(range(len(common)), sample_values, SEED), dtype=int)
-        evaluated = [*periods, *EXTRA_PERIODS]
-        got = framework.quantiles(location[chosen], scale[chosen], evaluated)
-        want = np.column_stack([
-            reference.quantile(ours["location"][at_mine][chosen],
-                               ours["scale"][at_mine][chosen], period)
-            for period in evaluated
-        ]) if len(chosen) else np.empty((0, len(evaluated)))  # fmt: skip
-        gap = np.abs(got - want)
-        make(
+        record(
+            f"delivered[{area.id}]", "completeness",
+            "Which pixels get a row. The reference delivers a pixel that has two or more depths "
+            "none of which is lower than an earlier one, and skips the rest; crc-sdk's rows and "
+            "its reported counts are compared with that.",
+            not ours["missing"] and not ours["extra"] and counts.get("produced") == ours["rows"]
+            and counts.get("skipped") == skipped and ours["rows"] == ours["deliverable"],
+            steps=("selection", "skipped-count"), inputs=inputs,
+            result={**summary, "skipped_reference": skipped, "counts_crc_sdk": counts,
+                    "diagnostics": run.get("diagnostics", [])},
+            tolerance={"pixels": "the same set", "counts": "identical"},
+        )  # fmt: skip
+        record(
             f"values[{area.id}]", "fidelity",
-            "For a seeded sample of fitted pixels: the depth of crc-sdk's curve at each "
-            "published return period and at 25 and 250 years, evaluated by crc-framework "
-            "from crc-sdk's parameters, against the reference's own evaluation of its own fit.",
-            bool(len(chosen)) and int((gap > TOLERANCE).sum()) == 0,
-            result={"pixels": len(chosen), "values_compared": int(gap.size),
-                    "values_differing": int((gap > TOLERANCE).sum()),
-                    "largest_difference": float(gap.max(initial=0.0)),
-                    "return_periods": evaluated},
-            inputs=(source_input, sdk_input),
-            sample={"pixels": len(chosen), "of": len(common), "seed": SEED},
-            tolerance={"depth": f"{TOLERANCE} m"}, steps=("evaluation", "fit"),
+            "For every delivered pixel: crc-sdk's knots against the publisher's depths in order "
+            "of return period, and its probabilities against 1 - 1/T for the same periods.",
+            (not ours["values_differing"] and not ours["probabilities_differing"])
+            if ours["pixels_compared"] else None,
+            steps=("knots", "depths", "nodata"), inputs=inputs,
+            result={k: ours[k] for k in (
+                "pixels_compared", "pixels_differing", "values_compared", "values_differing",
+                "probabilities_differing", "largest_difference", "examples")},
+            tolerance={"depths": "identical", "probabilities": f"within {PROBABILITY_TOLERANCE}"},
+            note="" if ours["pixels_compared"] else "no pixel to compare",
         )  # fmt: skip
-
-        # -------------------------------------------------------------- cells and identifiers
-        picked = np.asarray(compare.sample(range(len(common)), sample_pixels, SEED + 1), dtype=int)
-        resolution = _resolution(area.resolution)
-        cells_differing = ids_differing = cells_total = 0
-        examples: list[dict[str, Any]] = []
-        positions = [int(theirs["order"][theirs["start"][at_its[i]]]) for i in picked]
-        identifiers = framework.source_ids(run, positions) if len(picked) else []
-        same_as_publisher = 0
-        for index, pixel in enumerate(picked):
-            key = int(common[pixel])
-            tile = tiles[key // (KEY * KEY)]
-            row, column = (key // KEY) % KEY, key % KEY
-            grid = grids[tile]
-            west = grid["file_left"] + column * grid["dx"]
-            north = grid["file_top"] - row * grid["dy"]
-            cells = reference.cells_of_box((west, north - grid["dy"], west + grid["dx"], north),
-                                           resolution, rules)  # fmt: skip
-            start = theirs["start"][at_its[pixel]]
-            rows = theirs["order"][start : start + theirs["counts"][at_its[pixel]]]
-            its_cells = sorted(int(c) for c in theirs["cell"][rows])
-            cells_total += len(cells)
-            if cells != its_cells:
-                cells_differing += 1
-                if len(examples) < 5:
-                    examples.append({"tile": tile, "row": row, "column": column,
-                                     "reference": [f"{c:x}" for c in cells],
-                                     "framework": [f"{c:x}" for c in its_cells]})  # fmt: skip
-            path = f"{stated['dataset']}/{tile}"
-            in_crop = _identifier(path, row - grid["row0"], column - grid["column0"])
-            ids_differing += in_crop != identifiers[index]
-            same_as_publisher += _identifier(path, row, column) == identifiers[index]
-        make(
+        cells = _cells(ours["cells"])
+        record(
             f"cells[{area.id}]", "consistency",
-            "For a seeded sample of fitted pixels: the H3 cells of crc-sdk's rows for the "
-            "pixel, against the cells whose boundary overlaps the pixel's square, found by "
-            "the reference by testing the cells around the square one by one.",
-            bool(len(picked)) and cells_differing == 0,
-            result={"pixels": len(picked), "pixels_differing": cells_differing,
-                    "cells_compared": cells_total, "resolution": resolution,
-                    "rows_per_pixel": round(len(theirs["key"]) / max(1, len(its)), 3),
-                    "examples": examples},
-            inputs=(source_input, sdk_input),
-            sample={"pixels": len(picked), "of": len(common), "seed": SEED + 1},
-            tolerance={"cells": "identical set"}, steps=("cells",),
+            f"A seeded sample of rows: cell_id against the H3 cell of resolution "
+            f"{CELL_RESOLUTION} that holds the centre of the pixel named by the support_id.",
+            (not cells["cells_differing"] and not ours["rows_repeated"])
+            if cells["rows_checked"] else None,
+            steps=("identifier", "cell"), inputs=inputs,
+            result=cells | {"rows_repeated": ours["rows_repeated"]},
+            tolerance={"cells": "identical"},
+            note="" if cells["rows_checked"] else "no row to check",
         )  # fmt: skip
-        make(
-            f"source-id[{area.id}]", "consistency",
-            "For the same sample: crc-sdk's identifier of the pixel against the SHA-256 the "
-            "reference computes from the dataset name, the tile and the pixel's row and "
-            "column in the local crop. Also counted: how many identifiers equal the one "
-            "computed from the row and column in the publisher's file.",
-            bool(len(picked)) and ids_differing == 0,
-            result={"pixels": len(picked), "identifiers_differing": int(ids_differing),
-                    "equal_to_the_publisher_file_position": int(same_as_publisher),
-                    "crop_origin": {t: [grids[t]["row0"], grids[t]["column0"]] for t in grids}},
-            inputs=(source_input, sdk_input),
-            sample={"pixels": len(picked), "of": len(common), "seed": SEED + 1},
-            tolerance={"identifier": "identical text"}, steps=("source-id",),
+        kinds = run.get("curve_kinds", {})
+        record(
+            f"shape[{area.id}]", "consistency",
+            "The shape of crc-sdk's rows: one quantile curve per row and nothing fitted, the "
+            "product's variable, and no scenario or period.",
+            (set(kinds) <= {"quantile_curve"} and not run.get("fit_present")
+             and not run.get("failure_present")
+             and run.get("variable_ids") in ([f"jrc:{area.dataset}:flood_depth"], [])
+             and run.get("scenario_ids") in ([None], []) and run.get("period_ids") in ([None], [])),
+            steps=("no-fit", "labels"), inputs=inputs,
+            result={"curve_kinds": kinds, "rows_with_a_fit": run.get("fit_present"),
+                    "rows_with_a_failure": run.get("failure_present"),
+                    "variable_ids": run.get("variable_ids"), "columns": run.get("columns"),
+                    "index_resolution": (run.get("spatial") or {}).get("index_resolution")},
+            tolerance={"labels": "identical text"},
         )  # fmt: skip
-
-        # -------------------------------------------------------------- labels, provenance
-        labels = framework.labels(run)
-        metadata = labels["metadata"]
-        wrong = {name: {"expected": want_, "framework": theirs["distinct"][name]}
-                 for name, want_ in EXPECTED_LABELS.items()
-                 if theirs["distinct"][name] != want_}  # fmt: skip
-        for name, want_, got_ in (
-            ("unit", "m", metadata["value_unit"]),
-            ("release", held["version"], metadata["source"]["version"]),
-            ("return-period range", [float(periods[0]), float(periods[-1])],
-             list(metadata["return_period_support"] or ())),
-            ("H3 resolution", resolution, metadata["h3_resolution"]),
-        ):  # fmt: skip
-            if want_ != got_:
-                wrong[name] = {"expected": want_, "framework": got_}
-        make(
-            f"labels[{area.id}]", "consistency",
-            "The labels of every row (hazard, pathway, horizon, curve type) and of the file "
-            "(unit, release, return-period range of the inputs, H3 resolution) against the "
-            "statement and the publisher's README.txt.",
-            not wrong,
-            result={"labels_wrong": wrong, "rows": labels["rows"],
-                    "distinct": theirs["distinct"], "value_semantics": metadata["value_semantics"]},
-            inputs=(source_input, sdk_input),
-            tolerance={"labels": "identical"}, steps=("labels",),
+        resources = [r for identity in run.get("identities", []) for r in identity["resources"]]
+        found = sorted({_plain(r["uri"]) for r in resources})
+        base = (read_from[area.dataset].resolve().as_uri() if read_from[area.dataset]
+                else copy.base)  # fmt: skip
+        wanted = sorted(
+            {
+                f"{base}/README.txt",
+                *(f"{base}/{name}" for name in names),
+                *([f"{base}/tile_extents.geojson"] if copy.layout == "tiled" else []),
+            }
+        )
+        record(
+            f"files[{area.id}]", "completeness",
+            "The addresses crc-sdk records as read against the publisher's README, tile index "
+            "and the depth file of every return period for every tile the box meets.",
+            found == wanted, steps=("files",), inputs=inputs,
+            result={"files_reference": len(wanted), "files_crc_sdk": len(found),
+                    "only_reference": sorted(set(wanted) - set(found))[:8],
+                    "only_crc_sdk": sorted(set(found) - set(wanted))[:8]},
+            tolerance={"addresses": "the same set"},
         )  # fmt: skip
-        source = metadata["source"]
-        query = parse_qs(source["uri"].split("?", 1)[1]) if "?" in source["uri"] else {}
-        named = {
-            "dataset": source["uri"].split("/", 1)[0],
-            "tiles": sorted(query.get("sources", [""])[0].split(",")),
-            "return_periods": [int(p) for p in query.get("source_periods", ["0"])[0].split(",")],
-            "bounds": [float(v) for v in query.get("bounds", ["0"])[0].split(",")],
+        complete = [
+            r
+            for r in resources
+            if r["sha256"] and r["license"] and r["attribution"] and r["retrieved_at"]
+        ]
+        sums = {_plain(r["uri"]).rsplit("/", 1)[-1]: r["sha256"] for r in resources
+                if "#" not in r["uri"]}  # fmt: skip
+        whole = {
+            name: "sha256:" + copy.used[name]["sha256"]
+            for name in ("README.txt", "tile_extents.geojson")
+            if name in copy.used
         }
-        has_curve = sorted({tiles[int(k) // (KEY * KEY)] for k in its[its >= 0]})
-        uri_wrong = {
-            name: {"expected": want_, "framework": named[name]}
-            for name, want_ in (("dataset", stated["dataset"]), ("tiles", has_curve),
-                                ("return_periods", periods),
-                                # the uri gives the box to twelve significant digits
-                                ("bounds", [float(format(v, ".12g")) for v in area.bounds]))
-            if named[name] != want_
-        }  # fmt: skip
-        filled = {name: source[name] for name in SOURCE_FIELDS if source[name] is not None}
-        make(
+        record(
             f"provenance[{area.id}]", "consistency",
-            "The source block of the output file's metadata: its uri against the dataset, "
-            "the box, the tiles that gave a curve and the return periods; and whether "
-            "licence, attribution, retrieval time and checksum are empty, as the statement "
-            "says.",
-            not uri_wrong and not filled,
-            result={"uri": source["uri"], "uri_wrong": uri_wrong,
-                    "empty_fields": [n for n in SOURCE_FIELDS if source[n] is None],
-                    "filled_fields": filled, "file_keys": labels["file_keys"],
-                    "licence_in_the_publisher_readme": held["stated"]["licence"]},
-            inputs=(source_input, sdk_input),
-            tolerance={"values": "identical"}, steps=("provenance",),
+            "Every file crc-sdk records carries a checksum, a licence, an attribution and a "
+            "retrieval time; for the files it reads whole (README, tile index) the checksum is "
+            "compared with the reference's.",
+            len(complete) == len(resources) and bool(resources)
+            and all(sums.get(name) == value for name, value in whole.items()),
+            steps=("provenance",), inputs=inputs,
+            result={"resources": len(resources), "resources_complete": len(complete),
+                    "whole_files_compared": len(whole),
+                    "whole_files_differing": sum(sums.get(n) != v for n, v in whole.items()),
+                    "raster_resources": sum("#" in r["uri"] for r in resources),
+                    "raster_checksum_is_of": "crc-sdk's crop of the file, not the publisher's "
+                    "file; it cannot be compared with a checksum of the publisher's file",
+                    "licences": sorted({r["license"] for r in resources}),
+                    "attributions": sorted({r["attribution"] for r in resources})},
+            tolerance={"checksums": "identical"},
+        )  # fmt: skip
+        releases = sorted({i["release"]["id"] for i in run.get("identities", []) if i["release"]})
+        record(
+            f"release[{area.id}]", "consistency",
+            "The release crc-sdk records against the version line of the publisher's README.",
+            facts["release"] in releases and facts["crc_sdk"]["version"] == facts["release"],
+            steps=("release",), inputs=inputs,
+            result={"readme_version": facts["release"], "crc_sdk_releases": releases,
+                    "crc_sdk_expects": facts["crc_sdk"]["version"]},
+            tolerance={"version": "identical text"},
+        )  # fmt: skip
+        licence = facts["stated"].get("licence", "")
+        try:
+            other = copy.text("copyright.txt").strip()[:400]
+        except (OSError, FileNotFoundError):
+            other = ""
+        named = {r["license"] for r in resources}
+        record(
+            f"licence[{area.id}]", "consistency",
+            "The licence crc-sdk records against the licence line of the publisher's README; "
+            "the publisher's copyright.txt is quoted beside it where there is one.",
+            named == {"ODbL-1.0"} and "open database" in licence.lower() if licence else None,
+            steps=("licence",), inputs=inputs,
+            result={"crc_sdk": sorted(named), "readme": licence, "copyright_txt": other},
+            tolerance={"licence": "the licence the README names"},
+            note="" if licence else "the README states no licence line",
         )  # fmt: skip
 
-        explored["areas"].append(_area_numbers(area, periods, ours, theirs, tiles, reached))
+    # the same pixels must carry the same identifier and knots whatever box asked for them
+    small = [a for a, e in zip(areas, explored["areas"], strict=False)
+             if e["rows"] and e["pixels"] <= OVERLAP_LIMIT]  # fmt: skip
+    if small:
+        area = min(small, key=lambda a: next(e["pixels"] for e in explored["areas"]
+                                              if e["area"] == a.id))  # fmt: skip
+        west, south, east, north = area.bounds
+        cut = west + (east - west) * 0.6, west + (east - west) * 0.4
+        log(f"{area.id}: two overlapping boxes")
+        halves = []
+        for name, box in (("west", (west, south, cut[0], north)),
+                          ("east", (cut[1], south, east, north))):  # fmt: skip
+            run, folder = run_read(area, f"{area.id}-{name}", box)
+            table = None if run.get("error") else framework.rows(folder)
+            halves.append({} if table is None else {
+                row["support_id"]: (row["cell_id"], tuple(row["probabilities"]),
+                                    tuple(row["values"]))
+                for row in table.to_pylist()
+            })  # fmt: skip
+        whole_table = framework.rows(cache / "framework" / area.id)
+        whole_rows = {row["support_id"]: (row["cell_id"], tuple(row["probabilities"]),
+                                          tuple(row["values"]))
+                      for row in whole_table.to_pylist()}  # fmt: skip
+        shared = set(halves[0]) & set(halves[1])
+        differing = sum(halves[0][k] != halves[1][k] for k in shared)
+        union = halves[0] | halves[1]
+        record(
+            f"overlap[{area.id}]", "consistency",
+            "The box is read again as two boxes that overlap by a fifth of its width: pixels in "
+            "the overlap must carry the same support_id, cell and knots in both, and the two "
+            "together must give the rows of the whole box.",
+            bool(shared) and not differing and union == whole_rows,
+            steps=("identifier",),
+            inputs=({"role": "crc-sdk reads", "url": copies[area.dataset].base},),
+            result={"rows_west": len(halves[0]), "rows_east": len(halves[1]),
+                    "rows_in_both": len(shared), "rows_differing": differing,
+                    "rows_of_the_whole_box": len(whole_rows),
+                    "rows_only_in_the_whole_box": len(set(whole_rows) - set(union)),
+                    "rows_only_in_the_two_boxes": len(set(union) - set(whole_rows))},
+            tolerance={"rows": "identical"},
+        )  # fmt: skip
 
     for area in outside:
-        copy, held = copies[area.dataset], published[area.dataset]
-        log(f"{area.id}: a box outside the raster")
-        name = reference.depth_name(copy.layout, held["periods"][0], "")
-        with reference.Tiff(copy.file(name)) as tiff:
-            window, extent = tiff.window(area.bounds, rules), list(tiff.bounds)
-        run = cache / "framework" / f"{area.id}-r{_resolution(area.resolution)}"
-        with framework.publisher_at(area.dataset, publisher.get(area.dataset)):
-            summary = framework.materialize(area.dataset, area.bounds, area.resolution, run,
-                                            live=live)  # fmt: skip
-        as_stated = (summary["error_type"] == "LookupError"
-                     and "no JRC resources intersect area" in summary["error"])  # fmt: skip
-        names_extent = any(f"{value:.2f}"[:5] in summary["error"] for value in extent)
-        make(
+        log(f"{area.id}: a box outside the coverage")
+        run, _ = run_read(area, area.id, area.bounds)
+        counts = run.get("counts") or {}
+        explored["outside"].append({
+            "area": area.id, "title": area.title, "rows": run.get("rows", 0),
+            "error": run.get("error", ""), "error_type": run.get("error_type", ""),
+            "counts": counts, "diagnostics": run.get("diagnostics", []),
+            "complete": run.get("complete"), "valid": run.get("valid"),
+        })  # fmt: skip
+        record(
             f"coverage[{area.id}]", "completeness",
-            "A box outside the dataset's raster: whether the reference finds a pixel of the "
-            "publisher's file in the box, against what crc-sdk does when asked for it with "
-            "a cache (the statement: LookupError 'no JRC resources intersect area').",
-            window is None and as_stated,
-            result={"pixels_of_the_raster_in_the_box": 0 if window is None else
-                    (window[2] - window[0]) * (window[3] - window[1]),
-                    "raster_extent": extent, "coverage_in_the_readme": held["stated"]["coverage"],
-                    "crc_sdk_error_type": summary["error_type"],
-                    "crc_sdk_error": summary["error"][:300], "rows": summary["rows"],
-                    "message_names_the_extent": names_extent,
-                    "seconds": summary["seconds"]},
-            inputs=({"role": "reference download", **copy.provenance([name])},
-                    {"role": "crc-sdk (GDAL over the network)",
-                     "url": facts[area.dataset]["base_url"]}),
-            sample={"bounds": list(area.bounds)},
-            tolerance={"outcome": "as stated"}, steps=("coverage",),
+            "Ask crc-sdk for a box that lies outside the product's coverage and record what "
+            "comes back: an error, or no rows.",
+            not run.get("error") and not run.get("rows"),
+            steps=("coverage",),
+            inputs=({"role": "crc-sdk read", "url": copies[area.dataset].base},),
+            result={"rows": run.get("rows", 0), "error_type": run.get("error_type", ""),
+                    "error": run.get("error", "")[:400], "counts": counts,
+                    "diagnostics": run.get("diagnostics", []),
+                    "reported_complete": run.get("complete"),
+                    "reported_valid": run.get("valid")},
+            tolerance={"behaviour": "no rows and no error"},
         )  # fmt: skip
-        explored["outside"].append({"area": area.id, "title": area.title,
-                                    "error": f"{summary['error_type']}: {summary['error']}"[:200],
-                                    "seconds": summary["seconds"]})  # fmt: skip
 
-    if not publisher:  # the by-area summary needs real boundaries; not run on constructed files
-        from . import jrc_flood_areas
-
-        explored["by_area"] = jrc_flood_areas.by_area(cache, areas, live=live, log=log)
-        from . import jrc_flood_evidence
-
-        outside_evidence = jrc_flood_evidence.comparisons(cache, live=live, log=log)
+    local = sorted(d for d, where in read_from.items() if where is not None and d not in publisher)
+    if local or publisher:
+        record(
+            "transport", "fidelity",
+            "crc-sdk's own downloads from the publisher (range requests pinned to the file's "
+            "ETag) were not exercised: it read a local copy of the publisher's files.",
+            None, steps=("transport",),
+            inputs=({"role": "crc-sdk read", "url": "; ".join(c.base for c in copies.values())},),
+            result={"read_from_a_local_copy": local or sorted(publisher)},
+            note="the publisher's server did not answer" if local else "constructed files",
+        )  # fmt: skip
     else:
-        outside_evidence = []
+        record(
+            "transport", "fidelity",
+            "crc-sdk read from the publisher's server; the values it returned are compared in "
+            "the values checks.",
+            all(c["outcome"] == "confirmed" for c in (x.to_dict() for x in checks)
+                if c["check"].startswith("values[")),
+            steps=("transport",),
+            inputs=({"role": "crc-sdk read", "url": "; ".join(c.base for c in copies.values())},),
+            result={"read_from_a_local_copy": []},
+        )  # fmt: skip
 
     return present({
         "source": SOURCE,
+        "seed": SEED,
         "versions": dict(versions),
         "run_at": compare.now(),
-        "selection": {"areas": {a.id: {"dataset": a.dataset, "bounds": list(a.bounds),
-                                       "h3_resolution": _resolution(a.resolution),
-                                       "title": a.title} for a in [*areas, *outside]},
-                      "seed": SEED, "tolerance_m": TOLERANCE,
-                      "policy": "JRCFloodPolicy.curated", "cache_mode": "reuse",
-                      "source_periods": "all"},
-        "options_assessed": {"dataset": sorted({a.dataset for a in areas})},
+        "areas_assessed": [area.id for area in areas],
+        "options_assessed": {"product": sorted({area.dataset for area in areas})},
         "checks": [check.to_dict() for check in checks],
         "exploration": explored,
-        # numbers beside outside evidence; a comparison carries no outcome and feeds no tally
-        "comparisons": outside_evidence,
     })  # fmt: skip
 
 
-def _copy(dataset: str, cache: Path, *, live: bool, folder: Path | None) -> reference.Copy:
-    return reference.Copy(dataset, cache, live=live, folder=folder)
-
-
-def _has(index: dict[str, Any], name: str) -> bool:
-    return any(row["name"] == name for row in index["top"])
-
-
-def _span(index: dict[str, Any], layout: str) -> list[str]:
-    rows = ([row for rows in index["folders"].values() for row in rows] if layout == "tiled"
-            else index["top"])  # fmt: skip
-    dates = sorted(row["modified"][:10] for row in rows
-                   if row["name"].endswith("depth.tif") and row["modified"])  # fmt: skip
-    return [dates[0], dates[-1]] if dates else []
-
-
-def _stored(cache: Path, name: str, ask: Callable[[], Any], *, live: bool) -> Any:
-    """crc-sdk's answer, stored so that a run without the network gives the same records."""
-    path = cache / "framework" / f"{name.replace(' ', '-')}.json"
-    if live:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(".tmp")
-        temporary.write_text(json.dumps(ask()), encoding="utf-8")
-        temporary.replace(path)
-    elif not path.exists():
-        raise FileNotFoundError(f"no stored crc-sdk answer for {name}; run with --live")
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def _grids(tiles: Sequence[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    """Per tile with a window: the window's grid, as the framework's rows are placed on it."""
-    out = {}
-    for tile in tiles:
-        if tile["window"] is None:
-            continue
-        c0, r0, c1, r1 = tile["window"]
-        west, _, _, north = tile["grid"]["bounds"]
-        dx, dy = tile["grid"]["pixel_degrees"]
-        # rows are placed by position in the publisher's file: left and top are the file's
-        out[tile["tile"]] = {"left": west, "top": north, "dx": dx, "dy": dy,
-                             "width": tile["grid"]["width"], "height": tile["grid"]["height"],
-                             "file_left": west, "file_top": north,
-                             "row0": r0, "column0": c0}  # fmt: skip
-    return out
-
-
-def _pixel(copy: reference.Copy, periods: Sequence[int], tiles: Sequence[str],
-           key: int) -> dict[str, Any]:  # fmt: skip
-    """One pixel of the publisher's files: where it is and its value at each return period."""
-    tile, row, column = tiles[key // (KEY * KEY)], (key // KEY) % KEY, key % KEY
-    values = []
-    for period in periods:
-        with reference.Tiff(copy.file(reference.depth_name(copy.layout, period, tile))) as tiff:
-            values.append(round(float(tiff.read((column, row, column + 1, row + 1))[0, 0]), 4))
-    return {"tile": tile, "row": row, "column": column, "values": values}
-
-
-def _identifier(path: str, row: int, column: int) -> str:
-    return hashlib.sha256(f"jrc\0{path}\0{row}\0{column}".encode()).hexdigest()
-
-
-def _area_numbers(area: Area, periods: Sequence[int], ours: dict[str, Any],
-                  theirs: dict[str, Any], tiles: Sequence[str],
-                  reached: Sequence[str]) -> dict[str, Any]:  # fmt: skip
-    fitted = len(ours["key"])
-    misfit = ours["misfit"]
-    return {
-        "area": area.id, "title": area.title, "dataset": area.dataset,
-        "bounds": list(area.bounds), "h3_resolution": _resolution(area.resolution),
-        "tiles_meeting_the_box": list(tiles), "tiles_with_a_pixel": list(reached),
-        "pixels": ours["pixels"], "ever_wet": ours["ever_wet"], "fitted": fitted,
-        "wet": {str(p): ours["wet"][p] for p in periods},
-        "knots": {str(n): c for n, c in ours["knots"].items()},
-        "no_curve": {"fewer_than_four_depths": ours["too_few"],
-                     "all_depths_equal": ours["constant"],
-                     "a_depth_decreases": ours["decreasing"]},
-        "all_depths_equal_to_one_metre": ours["constant_at_one"],
-        "no_curve_wet": {str(p): ours["no_curve_wet"][p] for p in periods},
-        "largest_depth": ours["largest_depth"],
-        "deep": {str(p): ours["deep"][p] for p in periods},
-        "deep_in_mask": {str(p): ours["deep_in_mask"][p] for p in periods},
-        "mask_pixels": ours["mask_pixels"],
-        "misfit": _percentiles(misfit),
-        "misfit_over_half_metre": int((misfit > 0.5).sum()),
-        "misfit_over_one_metre": int((misfit > 1.0).sum()),
-        "dry_with_curve": {str(p): ours["dry_with_curve"][p] for p in periods},
-        "dry_curve_positive": {str(p): ours["dry_curve_positive"][p] for p in periods},
-        "dry_curve_tenth": {str(p): ours["dry_curve_tenth"][p] for p in periods},
-        "dry_curve_largest": ours["dry_curve_largest"],
-        "curve_below_zero": {str(p): ours["curve_below_zero"][p] for p in periods},
-        "rows": int(len(theirs["key"])),
-        "cells": int(len(np.unique(theirs["cell"]))),
-    }  # fmt: skip
-
-
-# ---------------------------------------------------------------------------- presentation
-def _share(part: int, whole: int) -> str:
-    return f"{100 * part / whole:.1f}%" if whole else ""
+def n_(value: Any) -> str:
+    return compare.number(value) if isinstance(value, int | float) else str(value)
 
 
 def _summary(check: dict[str, Any]) -> str:
-    result = check["result"]
-    n = compare.number
-    name = check["check"].split("[")[0]
-    if name == "files":
-        text = (f"release {result['release']}, return periods "
-                f"{', '.join(str(p) for p in result['return_periods'])}; "
-                f"{result['items_compared']} items compared, "
-                f"{result['items_differing']} differ")  # fmt: skip
-        return text + (f" ({', '.join(result['differences'])})" if result["differences"] else "")
-    if name == "manifest":
-        return (f"{len(result['tiles_with_a_pixel'])} of {len(result['tiles_meeting_the_box'])} "
-                f"tiles meeting the box hold a pixel of it; {result['crops']} crops, "
-                f"{result['items_differing']} items differ; checksum of the publisher's file "
-                "recorded: "
-                f"{'yes' if result['publisher_checksum_recorded'] else 'no'}")  # fmt: skip
-    if name == "crop":
-        return (f"{n(result['pixels_compared'])} pixel values compared ({result['tiles']} tiles, "
-                f"{result['return_periods']} return periods), {n(result['pixels_differing'])} "
-                f"differ; {result['crops_on_the_expected_window']} of {result['tiles']} crops "
-                "on the expected window")  # fmt: skip
-    if name == "curves":
-        if "crc_sdk_error" in result:
-            return f"crc-sdk raises: {result['crc_sdk_error'][:160]}"
-        none = result["no_curve"]
-        largest = max(result["largest_difference_location"], result["largest_difference_scale"])
-        return (f"{n(result['curves_reference'])} curves against "
-                f"{n(result['curves_framework'])}; only in the reference "
-                f"{n(result['only_in_reference'])}, only in crc-sdk "
-                f"{n(result['only_in_framework'])}; {n(result['values_compared'])} parameters "
-                f"compared, {n(result['values_differing'])} differ by more than {TOLERANCE} m "
-                f"(largest {largest:.1e}); "
-                f"of {n(result['pixels_with_a_depth'])} pixels with a depth, no curve for "
-                f"{n(sum(none.values()))}")  # fmt: skip
+    result, name = check["result"], check["check"].split("[")[0]
+    if name == "read":
+        return f"crc-sdk raises {result['error_type']}: {result['error'][:200]}"
+    if name == "area":
+        return (f"{n_(result['pixels_reference'])} pixels in the publisher's window, "
+                f"{n_(result['requested_crc_sdk'])} requested by crc-sdk; "
+                f"{n_(result['rows_outside_window'])} rows outside the window")  # fmt: skip
+    if name == "delivered":
+        return (f"{n_(result['rows'])} rows for {n_(result['deliverable'])} deliverable pixels; "
+                f"{n_(result['missing'])} missing, {n_(result['extra'])} extra; skipped "
+                f"{n_(result['counts_crc_sdk'].get('skipped'))} against "
+                f"{n_(result['skipped_reference'])} ({n_(result['dry'])} dry, "
+                f"{n_(result['one_depth'])} with one depth, {n_(result['decreasing'])} with a "
+                "depth that decreases)")  # fmt: skip
     if name == "values":
-        return (f"{n(result['pixels'])} pixels, {n(result['values_compared'])} depths compared, "
-                f"{n(result['values_differing'])} differ; largest difference "
-                f"{result['largest_difference']:.1e} m")  # fmt: skip
+        return (f"{n_(result['values_compared'])} depths of {n_(result['pixels_compared'])} "
+                f"pixels compared; {n_(result['values_differing'])} depths and "
+                f"{n_(result['probabilities_differing'])} probabilities differ")  # fmt: skip
     if name == "cells":
-        return (f"{n(result['pixels'])} pixels at resolution {result['resolution']}, "
-                f"{n(result['cells_compared'])} cells; pixels whose cells differ: "
-                f"{result['pixels_differing']}; "
-                f"{result['rows_per_pixel']} rows per pixel")  # fmt: skip
-    if name == "source-id":
-        return (f"{n(result['pixels'])} identifiers, {result['identifiers_differing']} differ "
-                "from the crop position; equal to the position in the publisher's file: "
-                f"{result['equal_to_the_publisher_file_position']}")  # fmt: skip
-    if name == "labels":
-        return (f"{n(result['rows'])} rows; labels wrong: "
-                f"{', '.join(result['labels_wrong']) or 'none'}")  # fmt: skip
+        return (f"{n_(result['rows_checked'])} rows checked; {n_(result['cells_differing'])} "
+                f"cells differ; {n_(result['rows_repeated'])} rows repeated")  # fmt: skip
+    if name == "shape":
+        return (f"curve kinds {result['curve_kinds']}; {n_(result['rows_with_a_fit'] or 0)} rows "
+                f"with a fit; variable {result['variable_ids']}")  # fmt: skip
+    if name == "files":
+        return (f"{n_(result['files_crc_sdk'])} addresses recorded against "
+                f"{n_(result['files_reference'])} expected")  # fmt: skip
     if name == "provenance":
-        return (f"uri wrong: {', '.join(result['uri_wrong']) or 'nothing'}; empty: "
-                f"{', '.join(result['empty_fields']) or 'none'}; the publisher's README names "
-                f"the licence '{result['licence_in_the_publisher_readme']}'")  # fmt: skip
+        return (f"{n_(result['resources_complete'])} of {n_(result['resources'])} recorded files "
+                f"carry all four fields; {n_(result['whole_files_differing'])} of "
+                f"{n_(result['whole_files_compared'])} whole-file checksums differ; "
+                f"{n_(result['raster_resources'])} raster checksums are of crc-sdk's crop"
+                )  # fmt: skip
+    if name == "release":
+        return (f"README {result['readme_version']}; crc-sdk records "
+                f"{', '.join(result['crc_sdk_releases'])}")  # fmt: skip
+    if name == "licence":
+        return f"crc-sdk {', '.join(result['crc_sdk'])}; README: {result['readme'][:120]}"
+    if name == "overlap":
+        return (f"{n_(result['rows_in_both'])} rows in both boxes, "
+                f"{n_(result['rows_differing'])} differ; the two boxes together against the "
+                f"whole: {n_(result['rows_only_in_the_whole_box'])} and "
+                f"{n_(result['rows_only_in_the_two_boxes'])} rows on one side only")  # fmt: skip
     if name == "coverage":
-        return (f"pixels of the raster in the box: {result['pixels_of_the_raster_in_the_box']}; "
-                f"crc-sdk: {result['crc_sdk_error_type']}: {result['crc_sdk_error'][:90]}; "
-                f"the message names the extent: "
-                f"{'yes' if result['message_names_the_extent'] else 'no'}")  # fmt: skip
+        if result["error_type"]:
+            return f"crc-sdk raises {result['error_type']}: {result['error'][:160]}"
+        return (f"{n_(result['rows'])} rows, {len(result['diagnostics'])} diagnostics, "
+                f"reported complete: {result['reported_complete']}")  # fmt: skip
     return check.get("note", "")
-
-
-def n_(value: int) -> str:
-    return f"{value:,}"
 
 
 def present(run: dict[str, Any]) -> dict[str, Any]:
@@ -884,305 +654,53 @@ def present(run: dict[str, Any]) -> dict[str, Any]:
     for check in run["checks"]:
         check["summary"] = _summary(check)
     count = compare.tally(run["checks"])
-    explored = run["exploration"]
-    crops = [c["result"] for c in run["checks"] if c["check"].startswith("crop[")]
-    curves = [c["result"] for c in run["checks"]
-              if c["check"].startswith("curves[")
-              and "curves_reference" in c["result"]]  # fmt: skip
-    unfitted = sum(r["only_in_reference"] for r in curves)
-    refitted = sum(r["curves_reference"] for r in curves)
-    differing = sorted({s for c in run["checks"] if c["outcome"] == "differs" for s in c["steps"]})
-    if differing and unfitted:
-        # one check per area bears on several steps; say what the difference is made of
-        run["summary_note"] = (
-            f"The {len(differing)} steps that differ ({', '.join(differing)}) rest on one check "
-            f"per area, which bears on all of them. The difference is {n_(unfitted)} of "
-            f"{n_(refitted)} curves ({100 * unfitted / refitted:.2f}%) that the reference fits "
-            "and crc-framework's fit does not converge on (finding CRC-013-FWK), and "
-            f"{sum(r['values_differing'] for r in curves)} curve parameters beyond the tolerance. "
-            "Every other pixel, curve, value, cell and label compared agrees."
-        )
+    values = [c["result"] for c in run["checks"] if c["check"].startswith("values[")]
+    areas = run["exploration"]["areas"]
     run["headline"] = [
-        [sum(r["pixels_compared"] for r in crops), "pixel values compared bit for bit"],
-        [sum(r["pixels_differing"] for r in crops), "pixel values that differ"],
-        [sum(r["curves_reference"] for r in curves), "curves refitted"],
-        [sum(r["values_differing"] + r["only_in_reference"] + r["only_in_framework"]
-             for r in curves), "curves that differ"],
+        [sum(a["pixels"] for a in areas), "pixels read from the publisher's files"],
+        [sum(a["rows"] for a in areas), "pixels delivered by crc-sdk"],
+        [sum(v["values_compared"] for v in values), "depths compared one by one"],
+        [sum(v["values_differing"] for v in values), "depths that differ"],
         [f"{count.get('confirmed', 0)} of {len(run['checks'])}", "checks confirmed"],
         [count.get("differs", 0), "checks that differ"],
-    ]  # fmt: skip
-    areas = explored["areas"]
-    n = compare.number
-    tables = [
+    ]
+    runs = {r["area"]: r for r in run["exploration"]["runs"]}
+    run["tables"] = [
         {
-            "title": "What was read",
+            "title": "Pixels by area",
             "note": "Counted from the publisher's files by the reference reader. A pixel is "
-            "wet at a return period when the file gives it a depth; dry pixels hold the "
-            "nodata value, not zero.",
-            "head": ["Area", "Dataset", "H3", "Tiles", "Pixels in box", "Wet at the shortest",
-                     "Wet at the longest", "Wet at any", "With a curve", "Deepest (m)"],
+            "delivered when it has two or more depths and none is lower than an earlier one. "
+            "crc-sdk reports the three other groups as one number.",
+            "head": ["Area", "Pixels in the box", "Dry", "One depth", "A depth decreases",
+                     "Delivered by crc-sdk", "of them: fewer than four depths",
+                     "of them: equal depths", "Skipped, as crc-sdk reports it"],
             "rows": [
-                [a["title"], a["dataset"], a["h3_resolution"], len(a["tiles_with_a_pixel"]),
-                 n(a["pixels"]), n(next(iter(a["wet"].values()))),
-                 n(list(a["wet"].values())[-1]), n(a["ever_wet"]), n(a["fitted"]),
-                 f"{a['largest_depth']:.2f}"]
+                [a["title"], n_(a["pixels"]), n_(a["dry"]), n_(a["one_depth"]),
+                 n_(a["decreasing"]), n_(a["rows"]), n_(a["fewer_than_four"]),
+                 n_(a["equal_depths"]), n_((a["counts_reported"] or {}).get("skipped", ""))]
                 for a in areas
             ],
         },
         {
-            "title": "Wet pixels that get no curve",
-            "note": "crc-sdk fits a pixel only when it has a depth at four or more return "
-            "periods that are not all equal and never decrease. Share is of the pixels wet "
-            "at any return period. The publisher patches permanent water bodies into the "
-            "maps: in the GloFAS areas every pixel with equal depths lies in the publisher's "
-            "permanent-water layer and none with fewer than four depths does (probe, finding "
-            "CRC-014-JRC).",
-            "head": ["Area", "Wet at any", "Fewer than four depths", "All depths equal",
-                     "Of those, all exactly 1 m", "A depth decreases", "No curve", "Share"],
+            "title": "crc-sdk's reads",
+            "note": "Each read ran in a process of its own.",
+            "head": ["Area", "Read from", "Rows", "Seconds", "Peak memory, MB", "Error"],
             "rows": [
-                [a["title"], n(a["ever_wet"]), n(a["no_curve"]["fewer_than_four_depths"]),
-                 n(a["no_curve"]["all_depths_equal"]), n(a["all_depths_equal_to_one_metre"]),
-                 n(a["no_curve"]["a_depth_decreases"]),
-                 n(a["ever_wet"] - a["fitted"]), _share(a["ever_wet"] - a["fitted"], a["ever_wet"])]
+                [a["title"], runs[a["area"]]["read_from"], n_(runs[a["area"]]["rows"]),
+                 n_(runs[a["area"]]["seconds"] or ""), n_(runs[a["area"]]["peak_memory_mb"] or ""),
+                 runs[a["area"]]["error_type"]]
                 for a in areas
             ],
         },
         {
-            "title": "Published wet pixels without a curve, by return period",
-            "note": "Of the pixels the publisher shows flooded at a return period, how many "
-            "have no row in crc-sdk's output.",
-            "head": ["Area", *[f"{p} y" for p in _all_periods(areas)]],
+            "title": "Outside the coverage",
+            "note": "What a read returns for a box the product does not cover.",
+            "head": ["Box", "Rows", "Diagnostics", "Reported complete", "Error"],
             "rows": [
-                [a["title"], *[
-                    f"{n(a['no_curve_wet'][p])} ({_share(a['no_curve_wet'][p], a['wet'][p])})"
-                    if p in a["wet"] else "" for p in _all_periods(areas)]]
-                for a in areas
-            ],
-        },
-        {
-            "title": "How far the fitted curve lies from the published depths",
-            "note": "Per fitted pixel, the largest gap in metres between the curve and the "
-            "published depth over the return periods at which the pixel is wet.",
-            "head": ["Area", "Curves", "Median", "90th percentile", "99th percentile",
-                     "Largest", "Over 0.5 m", "Over 1 m"],
-            "rows": [
-                [a["title"], n(a["fitted"]), *[f"{a['misfit'].get(k, 0):.3f}" for k in
-                                               ("median", "p90", "p99", "largest")],
-                 n(a["misfit_over_half_metre"]), n(a["misfit_over_one_metre"])]
-                for a in areas
-            ],
-        },
-        {
-            "title": "Curve where the publisher is dry, and curve below zero",
-            "note": "Pixels with a curve that the publisher shows dry at the shortest return "
-            "period: how many curves give a depth above 0 and of 0.1 m or more there (0.1 m "
-            "is the smallest published depth). And fitted curves that are below zero at the "
-            "shortest return period.",
-            "head": ["Area", "Dry at the shortest, with a curve", "Curve above 0",
-                     "Curve 0.1 m or more", "Largest such depth (m)", "Curves below 0"],
-            "rows": [
-                [a["title"], n(_first(a["dry_with_curve"])), n(_first(a["dry_curve_positive"])),
-                 n(_first(a["dry_curve_tenth"])), f"{a['dry_curve_largest']:.2f}",
-                 n(_first(a["curve_below_zero"]))]
-                for a in areas
-            ],
-        },
-        {
-            "title": "Depths above 10 m and the publisher's spurious-depth mask",
-            "note": "The publisher marks areas where depths above 10 m are predicted in small "
-            "channels and asks for caution there; crc-sdk does not read the mask. Counted at "
-            "the 100-year return period. The mask of EFAS was not read.",
-            "head": ["Area", "Pixels in the mask", "Deeper than 10 m", "Of those, in the mask"],
-            "rows": [
-                [a["title"], "" if a["mask_pixels"] is None else n(a["mask_pixels"]),
-                 n(a["deep"].get("100", 0)),
-                 "" if a["mask_pixels"] is None else n(a["deep_in_mask"].get("100", 0))]
-                for a in areas
-            ],
-        },
-        {
-            "title": "crc-sdk's runs",
-            "note": "One run per area, reading the publisher over the network into an empty "
-            "cache. Memory is the peak of the whole process when the run ended, so it "
-            "includes whatever that process did before the run; it is crc-sdk's own only "
-            "for a run that began its process (the Texas box here).",
-            "head": ["Area", "Rows", "Seconds", "Process peak memory (MB)", "Outcome"],
-            "rows": [
-                [r["area"], n(r["rows"]), r["seconds"], r["peak_memory_mb"],
-                 f"{r['error_type']}: {r['error'][:80]}" if r["error"] else "completed"]
-                for r in explored["runs"]
-            ] + [[o["area"], 0, o["seconds"], "", o["error"][:100]] for o in explored["outside"]],
-        },
-        {
-            "title": "The publisher's releases",
-            "note": "From each dataset's README.txt, copyright.txt and directory page.",
-            "head": ["Dataset", "Release", "Return periods", "Licence in README.txt",
-                     "copyright.txt names CC BY 4.0", "Depth files last modified",
-                     "README last modified", "Coverage in README.txt"],
-            "rows": [
-                [d["name"], d["release"], ", ".join(str(p) for p in d["periods"]),
-                 d["readme_licence"], "yes" if d["copyright_names_cc_by"] else "no",
-                 " to ".join(d["files_last_modified"]), d["readme_last_modified"], d["coverage"]]
-                for d in explored["datasets"].values()
+                [o["title"], n_(o["rows"]), str(len(o["diagnostics"])), str(o["complete"]),
+                 o["error_type"]]
+                for o in run["exploration"]["outside"]
             ],
         },
     ]  # fmt: skip
-    for entry in explored.get("by_area", ()):
-        unit = entry["unit"]
-        tables.append({
-            "title": f"River flood depth at {entry['return_period']} years by {unit}: "
-                     f"{entry['title']}",
-            "note": f"The summary of crc-docs' flood_risk_by_province notebook, from crc-sdk's "
-                    f"output of this run: each row's curve read at {entry['return_period']} "
-                    f"years, the largest value per H3 resolution-{entry['h3_resolution']} cell, "
-                    f"cells at or above {entry['threshold_m']} m "
-                    f"({n(entry['cells_at_or_above'])} of {n(entry['cells_with_a_curve'])} cells "
-                    f"with a curve), then mean and largest per {unit}; a cell on a border counts "
-                    f"in each {unit} it overlaps. Boundaries: {entry['boundary']['title']}.",
-            "head": [unit.capitalize(), "Mean depth of those cells (m)", "Largest (m)",
-                     f"Cells at or above {entry['threshold_m']} m", f"Cells of the {unit}"],
-            "rows": [[r["name"], f"{r['mean_depth_m']:.2f}", f"{r['max_depth_m']:.2f}",
-                      n(r["cells"]), n(r["cells_of_the_area"])] for r in entry["rows"]],
-        })  # fmt: skip
-        saved = entry.get("notebook")
-        if saved:
-            mine = {r["name"]: r for r in entry["rows"]}
-            rows = [["Curve rows crc-sdk returned", n(saved["curve_rows"]), n(entry["curve_rows"])],
-                    [f"Cells at or above {entry['threshold_m']} m", n(saved["cells_at_or_above"]),
-                     n(entry["cells_at_or_above"])]]  # fmt: skip
-            for name, theirs in saved["rows"].items():
-                ours = mine.get(name, {})
-                for key, label, form in (("mean_depth_m", "mean depth (m)", "{:.2f}"),
-                                         ("max_depth_m", "largest depth (m)", "{:.2f}"),
-                                         ("cells", "cells", "{:,}")):  # fmt: skip
-                    rows.append([f"{name}: {label}", form.format(theirs[key]),
-                                 form.format(ours[key]) if key in ours else "none"])  # fmt: skip
-            rows.append(["Places in those cells", saved["places"], "not computed"])
-            tables.append({
-                "title": "The crc-docs notebook's saved numbers against this run (Rhine box)",
-                "note": f"Notebook outputs as saved at crc-docs {saved['crc_docs_commit'][:7]}. "
-                        "Same box, dataset, policy, resolution, return period and threshold.",
-                "head": ["Number", "Notebook, saved output", "This run"],
-                "rows": rows,
-            })  # fmt: skip
-    # the map layers that show a table's numbers, one link per area
-    fields = {
-        "What was read": "published",
-        "Wet pixels that get no curve": "no_curve_share",
-        "Published wet pixels without a curve, by return period": "no_curve_share",
-        "How far the fitted curve lies from the published depths": "misfit",
-        "Curve where the publisher is dry, and curve below zero": "dry_curve",
-        "Depths above 10 m and the publisher's spurious-depth mask": "deep",
-    }
-    for table in tables:
-        if table["title"] in fields:
-            table["map"] = map_links(areas, fields[table["title"]])
-        for entry in explored.get("by_area", ()):
-            if table["title"].endswith(f": {entry['title']}"):
-                table["map"] = map_links([entry], None)
-    # where each table's numbers come from: crc-sdk's output, or the publisher's files read here
-    from_crc_sdk = ("crc-sdk's runs", "River flood depth at", "The crc-docs notebook")
-    for table in tables:
-        table["origin"] = "crc-sdk" if table["title"].startswith(from_crc_sdk) else "publisher"
-    run["tables"] = tables
-    if areas:
-        run["charts"] = _charts(run, areas)
-        run["chart"] = {
-            "origin": "publisher",
-            "map": map_links(areas, "no_curve_share"),
-            "title": "Published wet pixels without a curve in crc-sdk, by return period",
-            "unit": "% of the pixels wet at that return period",
-            "x": "Return period",
-            "select": "Area",
-            "default": areas[0]["title"],
-            "series": {
-                a["title"]: [
-                    [f"{p} y", round(100 * a["no_curve_wet"][p] / a["wet"][p], 2) if a["wet"][p]
-                     else 0]
-                    for p in a["wet"]
-                ]
-                for a in areas
-            },
-        }  # fmt: skip
     return run
-
-
-def map_links(areas: Sequence[dict[str, Any]], field: str | None) -> list[dict[str, str]]:
-    """One link per area to the map explorer's layer of a review field (None: the fitted depth).
-
-    The layer names are the registry's (site/layers.json); a test holds the two together."""
-    out = []
-    for area in areas:
-        key = area["area"].replace("-", "_")
-        layer = f"jrc_{key}" if field is None else f"jrc_review_{key}_{field}"
-        out.append({"label": area["title"], "href": f"explore/#tab=crc&layer={layer}"})
-    return out
-
-
-def _charts(run: dict[str, Any], areas: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Charts for reviewing the findings; each names the finding it bears on."""
-    unfitted = {c["check"][7:-1]: c["result"].get("only_in_reference", 0)
-                for c in run["checks"] if c["check"].startswith("curves[")}  # fmt: skip
-
-    def share(part: int, whole: int) -> float:
-        return round(100 * part / whole, 2) if whole else 0
-
-    def per_area(title: str, unit: str, x: str, rows: Callable[[dict[str, Any]], list[Any]],
-                 finding: str, field: str) -> dict[str, Any]:  # fmt: skip
-        return {"title": title, "finding": finding, "origin": "publisher", "unit": unit, "x": x,
-                "map": map_links(areas, field), "select": "Area",
-                "default": areas[0]["title"],
-                "series": {a["title"]: rows(a) for a in areas}}  # fmt: skip
-
-    charts = [
-        per_area("Flooded pixels without a curve, by cause", "pixels", "Cause", lambda a: [
-            ["fewer than four depths", a["no_curve"]["fewer_than_four_depths"]],
-            ["all depths equal", a["no_curve"]["all_depths_equal"]],
-            ["a depth decreases", a["no_curve"]["a_depth_decreases"]],
-            ["fit did not converge", unfitted.get(a["area"], 0)],
-        ], "CRC-014-JRC, CRC-013-FWK", "no_curve_land"),
-        per_area("Flooded pixels by the number of return periods with a depth", "pixels",
-                 "Depths", lambda a: [[int(k), v] for k, v in a["knots"].items()], "CRC-014-JRC",
-                 "no_curve_land"),
-        per_area("Fitted pixels dry in the published map where the curve gives 0.1 m or more",
-                 "% of fitted pixels", "Return period",
-                 lambda a: [[f"{p} y", share(a["dry_curve_tenth"][p], a["fitted"])]
-                            for p in a["wet"]], "CRC-015-JRC", "dry_curve"),
-        per_area("Fitted pixels whose curve is below zero", "% of fitted pixels", "Return period",
-                 lambda a: [[f"{p} y", share(a["curve_below_zero"][p], a["fitted"])]
-                            for p in a["wet"]], "CRC-015-JRC", "below_zero"),
-        per_area("Distance between the fitted curve and the published depths", "m", "Statistic",
-                 lambda a: [["median", round(a["misfit"].get("median", 0), 3)],
-                            ["90th percentile", round(a["misfit"].get("p90", 0), 3)],
-                            ["99th percentile", round(a["misfit"].get("p99", 0), 3)],
-                            ["largest", round(a["misfit"].get("largest", 0), 3)]], "CRC-015-JRC",
-                 "misfit"),
-        per_area("Pixels deeper than 10 m, and those inside the publisher's spurious-depth mask",
-                 "pixels", "Return period",
-                 lambda a: [x for p in a["wet"] for x in (
-                     [f"{p} y, all", a["deep"][p]], [f"{p} y, in mask", a["deep_in_mask"][p]])],
-                 "CRC-019-JRC", "deep"),
-    ]  # fmt: skip
-    for entry in run["exploration"].get("by_area", ()):
-        if len(entry["rows"]) < 2:
-            continue
-        top = entry["rows"][:15]
-        charts.append({
-            "title": f"Mean flood depth at {entry['return_period']} years of the cells at or "
-                     f"above {entry['threshold_m']} m, by {entry['unit']}: {entry['title']}"
-                     + (f" (first 15 of {len(entry['rows'])})" if len(entry["rows"]) > 15 else ""),
-            "finding": "", "origin": "crc-sdk", "map": map_links([entry], None), "unit": "m",
-            "x": entry["unit"].capitalize(),
-            "ranked": True,
-            "select": "", "default": "all",
-            "series": {"all": [[r["name"], round(r["mean_depth_m"], 2)] for r in top]},
-        })  # fmt: skip
-    return charts
-
-
-def _all_periods(areas: Sequence[dict[str, Any]]) -> list[str]:
-    return sorted({p for a in areas for p in a["wet"]}, key=int)
-
-
-def _first(values: dict[str, int]) -> int:
-    return next(iter(values.values()), 0)

@@ -1,9 +1,9 @@
 {
  "chart": {
-  "default": "all",
-  "select": "",
+  "default": "default",
+  "select": "Completeness rule",
   "series": {
-   "all": [
+   "0.11 rules": [
     [
      "USW00000127",
      13
@@ -164,13 +164,389 @@
      "USW00000364",
      13
     ]
+   ],
+   "0.9": [
+    [
+     "USW00000127",
+     13
+    ],
+    [
+     "USW00000129",
+     14
+    ],
+    [
+     "USW00000130",
+     10
+    ],
+    [
+     "USW00000134",
+     15
+    ],
+    [
+     "USW00000137",
+     15
+    ],
+    [
+     "USW00000166",
+     13
+    ],
+    [
+     "USW00000172",
+     5
+    ],
+    [
+     "USW00000175",
+     8
+    ],
+    [
+     "USW00000176",
+     11
+    ],
+    [
+     "USW00000177",
+     8
+    ],
+    [
+     "USW00000181",
+     6
+    ],
+    [
+     "USW00000188",
+     10
+    ],
+    [
+     "USW00000208",
+     10
+    ],
+    [
+     "USW00000209",
+     11
+    ],
+    [
+     "USW00000213",
+     7
+    ],
+    [
+     "USW00000214",
+     9
+    ],
+    [
+     "USW00000215",
+     6
+    ],
+    [
+     "USW00000223",
+     11
+    ],
+    [
+     "USW00000225",
+     14
+    ],
+    [
+     "USW00000229",
+     5
+    ],
+    [
+     "USW00000230",
+     8
+    ],
+    [
+     "USW00000239",
+     11
+    ],
+    [
+     "USW00000246",
+     1
+    ],
+    [
+     "USW00000247",
+     6
+    ],
+    [
+     "USW00000255",
+     1
+    ],
+    [
+     "USW00000259",
+     0
+    ],
+    [
+     "USW00000260",
+     2
+    ],
+    [
+     "USW00000262",
+     1
+    ],
+    [
+     "USW00000263",
+     11
+    ],
+    [
+     "USW00000270",
+     4
+    ],
+    [
+     "USW00000272",
+     7
+    ],
+    [
+     "USW00000276",
+     14
+    ],
+    [
+     "USW00000306",
+     3
+    ],
+    [
+     "USW00000308",
+     0
+    ],
+    [
+     "USW00000313",
+     8
+    ],
+    [
+     "USW00000349",
+     10
+    ],
+    [
+     "USW00000351",
+     11
+    ],
+    [
+     "USW00000357",
+     13
+    ],
+    [
+     "USW00000362",
+     15
+    ],
+    [
+     "USW00000364",
+     12
+    ]
+   ],
+   "default": [
+    [
+     "USW00000127",
+     0
+    ],
+    [
+     "USW00000129",
+     0
+    ],
+    [
+     "USW00000130",
+     0
+    ],
+    [
+     "USW00000134",
+     0
+    ],
+    [
+     "USW00000137",
+     0
+    ],
+    [
+     "USW00000166",
+     0
+    ],
+    [
+     "USW00000172",
+     0
+    ],
+    [
+     "USW00000175",
+     0
+    ],
+    [
+     "USW00000176",
+     0
+    ],
+    [
+     "USW00000177",
+     0
+    ],
+    [
+     "USW00000181",
+     0
+    ],
+    [
+     "USW00000188",
+     0
+    ],
+    [
+     "USW00000208",
+     0
+    ],
+    [
+     "USW00000209",
+     0
+    ],
+    [
+     "USW00000213",
+     0
+    ],
+    [
+     "USW00000214",
+     0
+    ],
+    [
+     "USW00000215",
+     0
+    ],
+    [
+     "USW00000223",
+     0
+    ],
+    [
+     "USW00000225",
+     0
+    ],
+    [
+     "USW00000229",
+     0
+    ],
+    [
+     "USW00000230",
+     0
+    ],
+    [
+     "USW00000239",
+     0
+    ],
+    [
+     "USW00000246",
+     0
+    ],
+    [
+     "USW00000247",
+     0
+    ],
+    [
+     "USW00000255",
+     0
+    ],
+    [
+     "USW00000259",
+     0
+    ],
+    [
+     "USW00000260",
+     0
+    ],
+    [
+     "USW00000262",
+     0
+    ],
+    [
+     "USW00000263",
+     0
+    ],
+    [
+     "USW00000270",
+     0
+    ],
+    [
+     "USW00000272",
+     0
+    ],
+    [
+     "USW00000276",
+     0
+    ],
+    [
+     "USW00000306",
+     0
+    ],
+    [
+     "USW00000308",
+     0
+    ],
+    [
+     "USW00000313",
+     0
+    ],
+    [
+     "USW00000349",
+     0
+    ],
+    [
+     "USW00000351",
+     0
+    ],
+    [
+     "USW00000357",
+     0
+    ],
+    [
+     "USW00000362",
+     0
+    ],
+    [
+     "USW00000364",
+     0
+    ]
    ]
   },
-  "title": "Complete years per station",
-  "unit": "complete years",
+  "title": "Years with a value per station",
+  "unit": "years",
   "x": "Station"
  },
  "checks": [
+  {
+   "category": "fidelity",
+   "check": "stations[box]",
+   "inputs": [
+    {
+     "retrieved_at": "2026-11-24T23:30:27Z",
+     "role": "reference download (station list)",
+     "sha256": "812ea50bd5efd1b9cc09d5800c55825b3d43b3c5aa75ab17b2848f43b1bfaaef",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
+    },
+    {
+     "role": "crc-sdk inspect()",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
+    }
+   ],
+   "method": "Stations of NOAA's station list whose position lies in the Texas box, read with the standard library, against the stations crc-sdk's inspect() returns for the same box: identifier, name and position, in order.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns_differing": {},
+    "examples": [],
+    "largest_difference": 0.0,
+    "rows_framework": 699,
+    "rows_reference": 699,
+    "stations_listed": 38870,
+    "values_compared": 2796,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-24T23:30:30Z",
+   "sample": {
+    "bounds": [
+     -106.645646,
+     25.837377,
+     -93.508292,
+     36.500704
+    ]
+   },
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "stations"
+   ],
+   "summary": "699 stations in the box by NOAA's list, 699 by crc-sdk; 0 values differ",
+   "tier": "verification",
+   "tolerance": {
+    "values": "exact equality, numbers included"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
   {
    "category": "fidelity",
    "check": "annual[temperature_max]",
@@ -185,30 +561,49 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:46Z",
-     "role": "crc-sdk annual table",
+     "retrieved_at": "2026-11-25T00:49:51Z",
+     "role": "crc-sdk read() of the annual indicator",
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
     }
    ],
-   "method": "Every station-year: the annual value and its audit counts recomputed in Python from NOAA's Parquet file (read without crc-sdk or pyarrow), against crc-sdk's annual_extremes() table, field by field.",
+   "method": "Every station-year: the annual rows (one per station position) recomputed in Python from NOAA's Parquet file, read without crc-sdk or pyarrow, against crc-sdk's read() with Coverage.complete() (default), field by field; and the station-years with no row, the refused stations and the report's counts.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "columns_differing": {},
-    "complete_years_reference": 427,
+    "counts_framework": {
+     "incomplete_years": 1000,
+     "no_data": 592,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 0
+    },
+    "counts_reference": {
+     "incomplete_years": 1000,
+     "no_data": 592,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 0
+    },
+    "coverage": "Coverage.complete() (default)",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 1000,
-    "rows_reference": 1000,
+    "refusals_framework": {},
+    "rows_framework": 592,
+    "rows_reference": 592,
+    "rows_with_a_value_reference": 0,
     "station_years": 1000,
     "station_years_with_a_file": 592,
+    "station_years_without_a_row_framework": 408,
+    "station_years_without_a_row_reference": 408,
     "stations": 40,
     "stations_refused_framework": [],
     "stations_refused_reference": [],
-    "values_compared": 11000,
+    "unavailable_differing": [],
+    "values_compared": 6512,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T19:12:46Z",
+   "run_at": "2026-11-25T00:49:51Z",
    "sample": {
     "stations": "all 40",
     "years": [
@@ -221,24 +616,24 @@
    "steps": [
     "files",
     "columns",
-    "time",
+    "refusal",
     "quality",
     "range",
-    "units",
     "day",
     "valid-day",
     "valid-year",
     "annual-value",
-    "location"
+    "location",
+    "output"
    ],
-   "summary": "1,000 station-years against 1,000; 11,000 values compared, 0 differ; 592 have a file, 427 are complete",
+   "summary": "592 station-year rows against 592; 6,512 values compared, 0 differ; 0 rows carry a value; 408 station-years have no file",
    "tier": "verification",
    "tolerance": {
     "values": "exact equality, numbers included"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
@@ -255,12 +650,12 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (8 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:46Z",
-     "role": "crc-sdk annual table",
+     "retrieved_at": "2026-11-25T00:49:51Z",
+     "role": "crc-sdk read() of the annual indicator",
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
     }
    ],
-   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's annual_extremes() table.",
+   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's read() with Coverage.complete() (default).",
    "note": "",
    "outcome": "confirmed",
    "result": {
@@ -272,7 +667,7 @@
     "values_compared": 88,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T19:12:46Z",
+   "run_at": "2026-11-25T00:49:51Z",
    "sample": {
     "seed": 20261111,
     "station_years": [
@@ -315,29 +710,133 @@
    "steps": [
     "files",
     "columns",
-    "time",
+    "refusal",
     "quality",
     "range",
-    "units",
     "day",
     "valid-day",
     "valid-year",
     "annual-value",
-    "location"
+    "location",
+    "output"
    ],
-   "summary": "8 station-years against 8; 88 values compared, 0 differ",
+   "summary": "8 station-year rows against 8; 88 values compared, 0 differ",
    "tier": "verification",
    "tolerance": {
     "values": "exact equality, numbers included"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
-   "category": "completeness",
-   "check": "curve-stations[temperature_max]",
+   "category": "consistency",
+   "check": "metadata[temperature_max]",
+   "inputs": [
+    {
+     "retrieved_at": "2026-11-25T00:49:51Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "The kind, variable, unit, probability convention, sampling and the list of operations in the metadata of crc-sdk's default read(), against the values the statement gives; a fit among the operations would differ.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "differing": [],
+    "expected": {
+     "kind": "samples",
+     "operations": [
+      "observation_time_selection",
+      "temporal_reduction:daily_maximum@1.0",
+      "temporal_reduction:annual_maximum@1.0",
+      "rename"
+     ],
+     "probability": [
+      {
+       "kind": "annual",
+       "tail": "upper"
+      }
+     ],
+     "row_variables": [
+      "noaa:ghcnh:annual_maximum_daily_maximum_temperature"
+     ],
+     "sampling_step": {
+      "unit": "yr",
+      "value": 1.0
+     },
+     "variables": [
+      {
+       "id": "noaa:ghcnh:annual_maximum_daily_maximum_temperature",
+       "measurement": {
+        "kind": "temperature",
+        "unit": "degC"
+       }
+      }
+     ]
+    },
+    "framework": {
+     "kind": "samples",
+     "operations": [
+      "observation_time_selection",
+      "temporal_reduction:daily_maximum@1.0",
+      "temporal_reduction:annual_maximum@1.0",
+      "rename"
+     ],
+     "probability": [
+      {
+       "kind": "annual",
+       "tail": "upper"
+      }
+     ],
+     "row_variables": [
+      "noaa:ghcnh:annual_maximum_daily_maximum_temperature"
+     ],
+     "sampling_step": {
+      "unit": "yr",
+      "value": 1.0
+     },
+     "variables": [
+      {
+       "id": "noaa:ghcnh:annual_maximum_daily_maximum_temperature",
+       "measurement": {
+        "kind": "temperature",
+        "unit": "degC"
+       }
+      }
+     ]
+    },
+    "source": {
+     "product": "ghcnh_hourly_temperature",
+     "provider": "ghcnh",
+     "release": {
+      "id": "ghcnh:selected-source-snapshot",
+      "sha256": "sha256:44b3f53ae9efb5574fcef443fbc8e395ba14e554f900b40ad3c7630cf995b5bd"
+     }
+    }
+   },
+   "run_at": "2026-11-25T00:49:51Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "units",
+    "output"
+   ],
+   "summary": "metadata as stated",
+   "tier": "verification",
+   "tolerance": {
+    "fields": "identical to the statement"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "provenance[temperature_max]",
    "inputs": [
     {
      "bytes": 632567825,
@@ -349,103 +848,246 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:46Z",
-     "role": "crc-sdk annual table",
-     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
-    }
-   ],
-   "method": "Stations that receive a fitted curve from crc-sdk against the stations whose recomputed series has at least the minimum number of complete years; and the distribution family named in the output.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "families": [
-     "genextreme"
-    ],
-    "family_expected": "genextreme",
-    "minimum_years": 15,
-    "refused_by_framework": "",
-    "stations_expected": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ],
-    "stations_with_a_curve": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ]
-   },
-   "run_at": "2026-11-23T19:12:47Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "ghcnh",
-   "steps": [
-    "minimum-years",
-    "family"
-   ],
-   "summary": "8 stations with a curve, 8 expected at 15 complete years; family genextreme",
-   "tier": "verification",
-   "tolerance": {
-    "family": "as documented",
-    "stations": "identical sets"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "provenance[temperature_max]",
-   "inputs": [
-    {
-     "retrieved_at": "2026-11-23T19:12:46Z",
-     "role": "crc-sdk annual table",
-     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
-    }
-   ],
-   "method": "Licence, attribution, retrieval time, checksum, unit and probability convention in the metadata of the curve file crc-sdk writes.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "fields_present": {
-     "attribution": true,
-     "checksum": true,
-     "licence": true,
-     "retrieved_at": true,
-     "uri": true
+     "retrieved_at": "2026-11-24T23:30:27Z",
+     "role": "reference download (station list)",
+     "sha256": "812ea50bd5efd1b9cc09d5800c55825b3d43b3c5aa75ab17b2848f43b1bfaaef",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
     },
-    "licence": "CC0-1.0",
-    "probability_semantics": "annual_exceedance",
-    "tail": "upper",
-    "unit": "degC"
+    {
+     "retrieved_at": "2026-11-25T00:49:51Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "The resources crc-sdk records with its output: every station-year file requested, absent ones included, and the station list; the SHA-256 of each against the reference's own download of the same address; and a licence, attribution and retrieval time on each.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "absent_file_digests": [
+     "sha256:7a8e1247804cd017a040b242e2c7a599a3495a5b1df2b055241597674deecd14"
+    ],
+    "absent_files_recorded": 408,
+    "attributions": [
+     "NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained."
+    ],
+    "checksums_compared": 592,
+    "checksums_differing": [],
+    "files_framework": 1000,
+    "files_missing_in_framework": [],
+    "files_not_requested": [],
+    "files_reference": 1000,
+    "licences": [
+     "NOAA open-use terms; originator terms may apply"
+    ],
+    "release": {
+     "id": "ghcnh:selected-source-snapshot",
+     "sha256": "sha256:44b3f53ae9efb5574fcef443fbc8e395ba14e554f900b40ad3c7630cf995b5bd"
+    },
+    "resources": 1001,
+    "resources_lacking_a_field": [],
+    "station_list_checksum_differs": false
    },
-   "run_at": "2026-11-23T19:12:47Z",
+   "run_at": "2026-11-25T00:49:51Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "ghcnh",
    "steps": [
     "provenance",
-    "units"
+    "files"
    ],
-   "summary": "5 of 5 provenance fields present; licence CC0-1.0; unit degC; annual_exceedance",
+   "summary": "1,000 files recorded for 1,000 requested; 592 checksums compared, 0 differ; licence NOAA open-use terms; originator terms may apply",
    "tier": "verification",
    "tolerance": {
-    "fields": "all present; licence, unit and convention as documented"
+    "checksums": "identical",
+    "fields": "all present (their wording is recorded, not judged)",
+    "files": "identical sets of addresses"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[temperature_max, coverage 0.9]",
+   "inputs": [
+    {
+     "bytes": 632567825,
+     "files": 592,
+     "files_absent_at_publisher": 408,
+     "retrieved_at": "2026-11-23T17:52:31Z",
+     "role": "reference download (Parquet)",
+     "sha256": "0f445170ef39f1b6557ff6180c85111faf3fb394817bc6a07a3ab70852954cbf",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
+    },
+    {
+     "retrieved_at": "2026-11-25T01:23:48Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "Every station-year: the annual rows (one per station position) recomputed in Python from NOAA's Parquet file, read without crc-sdk or pyarrow, against crc-sdk's read() with Coverage.minimum_fraction(0.9), field by field; and the station-years with no row, the refused stations and the report's counts.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns_differing": {},
+    "counts_framework": {
+     "incomplete_years": 661,
+     "no_data": 253,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 339
+    },
+    "counts_reference": {
+     "incomplete_years": 661,
+     "no_data": 253,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 339
+    },
+    "coverage": "Coverage.minimum_fraction(0.9)",
+    "examples": [],
+    "largest_difference": 0.0,
+    "refusals_framework": {},
+    "rows_framework": 592,
+    "rows_reference": 592,
+    "rows_with_a_value_reference": 339,
+    "station_years": 1000,
+    "station_years_with_a_file": 592,
+    "station_years_without_a_row_framework": 408,
+    "station_years_without_a_row_reference": 408,
+    "stations": 40,
+    "stations_refused_framework": [],
+    "stations_refused_reference": [],
+    "unavailable_differing": [],
+    "values_compared": 6512,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-25T01:23:48Z",
+   "sample": {
+    "stations": "all 40",
+    "years": [
+     2000,
+     2024
+    ]
+   },
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "files",
+    "columns",
+    "refusal",
+    "quality",
+    "range",
+    "day",
+    "valid-day",
+    "valid-year",
+    "annual-value",
+    "location",
+    "output"
+   ],
+   "summary": "592 station-year rows against 592; 6,512 values compared, 0 differ; 339 rows carry a value; 408 station-years have no file",
+   "tier": "verification",
+   "tolerance": {
+    "values": "exact equality, numbers included"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "second-format[temperature_max, coverage 0.9]",
+   "inputs": [
+    {
+     "bytes": 147208330,
+     "files": 8,
+     "files_absent_at_publisher": 0,
+     "retrieved_at": "2026-11-23T18:24:31Z",
+     "role": "reference download (pipe-separated)",
+     "sha256": "335618cc39cb4e85a4ec7009f9383981ffa475fbe3989302893ac7c34df01522",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (8 files)"
+    },
+    {
+     "retrieved_at": "2026-11-25T01:23:48Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's read() with Coverage.minimum_fraction(0.9).",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns_differing": {},
+    "examples": [],
+    "largest_difference": 0.0,
+    "rows_framework": 8,
+    "rows_reference": 8,
+    "values_compared": 88,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-25T01:23:48Z",
+   "sample": {
+    "seed": 20261111,
+    "station_years": [
+     [
+      "USW00000172",
+      2019
+     ],
+     [
+      "USW00000177",
+      2020
+     ],
+     [
+      "USW00000188",
+      2011
+     ],
+     [
+      "USW00000215",
+      2024
+     ],
+     [
+      "USW00000229",
+      2023
+     ],
+     [
+      "USW00000239",
+      2023
+     ],
+     [
+      "USW00000272",
+      2014
+     ],
+     [
+      "USW00000276",
+      2013
+     ]
+    ]
+   },
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "files",
+    "columns",
+    "refusal",
+    "quality",
+    "range",
+    "day",
+    "valid-day",
+    "valid-year",
+    "annual-value",
+    "location",
+    "output"
+   ],
+   "summary": "8 station-year rows against 8; 88 values compared, 0 differ",
+   "tier": "verification",
+   "tolerance": {
+    "values": "exact equality, numbers included"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
@@ -462,30 +1104,49 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:47Z",
-     "role": "crc-sdk annual table",
+     "retrieved_at": "2026-11-25T01:36:42Z",
+     "role": "crc-sdk read() of the annual indicator",
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
     }
    ],
-   "method": "Every station-year: the annual value and its audit counts recomputed in Python from NOAA's Parquet file (read without crc-sdk or pyarrow), against crc-sdk's annual_extremes() table, field by field.",
+   "method": "Every station-year: the annual rows (one per station position) recomputed in Python from NOAA's Parquet file, read without crc-sdk or pyarrow, against crc-sdk's read() with Coverage.complete() (default), field by field; and the station-years with no row, the refused stations and the report's counts.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "columns_differing": {},
-    "complete_years_reference": 427,
+    "counts_framework": {
+     "incomplete_years": 1000,
+     "no_data": 592,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 0
+    },
+    "counts_reference": {
+     "incomplete_years": 1000,
+     "no_data": 592,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 0
+    },
+    "coverage": "Coverage.complete() (default)",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 1000,
-    "rows_reference": 1000,
+    "refusals_framework": {},
+    "rows_framework": 592,
+    "rows_reference": 592,
+    "rows_with_a_value_reference": 0,
     "station_years": 1000,
     "station_years_with_a_file": 592,
+    "station_years_without_a_row_framework": 408,
+    "station_years_without_a_row_reference": 408,
     "stations": 40,
     "stations_refused_framework": [],
     "stations_refused_reference": [],
-    "values_compared": 11000,
+    "unavailable_differing": [],
+    "values_compared": 6512,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T19:12:47Z",
+   "run_at": "2026-11-25T01:36:42Z",
    "sample": {
     "stations": "all 40",
     "years": [
@@ -498,24 +1159,24 @@
    "steps": [
     "files",
     "columns",
-    "time",
+    "refusal",
     "quality",
     "range",
-    "units",
     "day",
     "valid-day",
     "valid-year",
     "annual-value",
-    "location"
+    "location",
+    "output"
    ],
-   "summary": "1,000 station-years against 1,000; 11,000 values compared, 0 differ; 592 have a file, 427 are complete",
+   "summary": "592 station-year rows against 592; 6,512 values compared, 0 differ; 0 rows carry a value; 408 station-years have no file",
    "tier": "verification",
    "tolerance": {
     "values": "exact equality, numbers included"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
@@ -532,12 +1193,12 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (8 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:47Z",
-     "role": "crc-sdk annual table",
+     "retrieved_at": "2026-11-25T01:36:42Z",
+     "role": "crc-sdk read() of the annual indicator",
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
     }
    ],
-   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's annual_extremes() table.",
+   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's read() with Coverage.complete() (default).",
    "note": "",
    "outcome": "confirmed",
    "result": {
@@ -549,7 +1210,7 @@
     "values_compared": 88,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T19:12:47Z",
+   "run_at": "2026-11-25T01:36:42Z",
    "sample": {
     "seed": 20261111,
     "station_years": [
@@ -592,29 +1253,133 @@
    "steps": [
     "files",
     "columns",
-    "time",
+    "refusal",
     "quality",
     "range",
-    "units",
     "day",
     "valid-day",
     "valid-year",
     "annual-value",
-    "location"
+    "location",
+    "output"
    ],
-   "summary": "8 station-years against 8; 88 values compared, 0 differ",
+   "summary": "8 station-year rows against 8; 88 values compared, 0 differ",
    "tier": "verification",
    "tolerance": {
     "values": "exact equality, numbers included"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
-   "category": "completeness",
-   "check": "curve-stations[temperature_min]",
+   "category": "consistency",
+   "check": "metadata[temperature_min]",
+   "inputs": [
+    {
+     "retrieved_at": "2026-11-25T01:36:42Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "The kind, variable, unit, probability convention, sampling and the list of operations in the metadata of crc-sdk's default read(), against the values the statement gives; a fit among the operations would differ.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "differing": [],
+    "expected": {
+     "kind": "samples",
+     "operations": [
+      "observation_time_selection",
+      "temporal_reduction:daily_minimum@1.0",
+      "temporal_reduction:annual_minimum@1.0",
+      "rename"
+     ],
+     "probability": [
+      {
+       "kind": "annual",
+       "tail": "lower"
+      }
+     ],
+     "row_variables": [
+      "noaa:ghcnh:annual_minimum_daily_minimum_temperature"
+     ],
+     "sampling_step": {
+      "unit": "yr",
+      "value": 1.0
+     },
+     "variables": [
+      {
+       "id": "noaa:ghcnh:annual_minimum_daily_minimum_temperature",
+       "measurement": {
+        "kind": "temperature",
+        "unit": "degC"
+       }
+      }
+     ]
+    },
+    "framework": {
+     "kind": "samples",
+     "operations": [
+      "observation_time_selection",
+      "temporal_reduction:daily_minimum@1.0",
+      "temporal_reduction:annual_minimum@1.0",
+      "rename"
+     ],
+     "probability": [
+      {
+       "kind": "annual",
+       "tail": "lower"
+      }
+     ],
+     "row_variables": [
+      "noaa:ghcnh:annual_minimum_daily_minimum_temperature"
+     ],
+     "sampling_step": {
+      "unit": "yr",
+      "value": 1.0
+     },
+     "variables": [
+      {
+       "id": "noaa:ghcnh:annual_minimum_daily_minimum_temperature",
+       "measurement": {
+        "kind": "temperature",
+        "unit": "degC"
+       }
+      }
+     ]
+    },
+    "source": {
+     "product": "ghcnh_hourly_temperature",
+     "provider": "ghcnh",
+     "release": {
+      "id": "ghcnh:selected-source-snapshot",
+      "sha256": "sha256:44b3f53ae9efb5574fcef443fbc8e395ba14e554f900b40ad3c7630cf995b5bd"
+     }
+    }
+   },
+   "run_at": "2026-11-25T01:36:42Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "units",
+    "output"
+   ],
+   "summary": "metadata as stated",
+   "tier": "verification",
+   "tolerance": {
+    "fields": "identical to the statement"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "provenance[temperature_min]",
    "inputs": [
     {
      "bytes": 632567825,
@@ -626,177 +1391,282 @@
      "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
     },
     {
-     "retrieved_at": "2026-11-23T19:12:47Z",
-     "role": "crc-sdk annual table",
-     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
-    }
-   ],
-   "method": "Stations that receive a fitted curve from crc-sdk against the stations whose recomputed series has at least the minimum number of complete years; and the distribution family named in the output.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "families": [
-     "gumbel_l"
-    ],
-    "family_expected": "gumbel_l",
-    "minimum_years": 15,
-    "refused_by_framework": "",
-    "stations_expected": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ],
-    "stations_with_a_curve": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ]
-   },
-   "run_at": "2026-11-23T19:12:48Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "ghcnh",
-   "steps": [
-    "minimum-years",
-    "family"
-   ],
-   "summary": "8 stations with a curve, 8 expected at 15 complete years; family gumbel_l",
-   "tier": "verification",
-   "tolerance": {
-    "family": "as documented",
-    "stations": "identical sets"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "provenance[temperature_min]",
-   "inputs": [
-    {
-     "retrieved_at": "2026-11-23T19:12:47Z",
-     "role": "crc-sdk annual table",
-     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
-    }
-   ],
-   "method": "Licence, attribution, retrieval time, checksum, unit and probability convention in the metadata of the curve file crc-sdk writes.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "fields_present": {
-     "attribution": true,
-     "checksum": true,
-     "licence": true,
-     "retrieved_at": true,
-     "uri": true
+     "retrieved_at": "2026-11-24T23:30:27Z",
+     "role": "reference download (station list)",
+     "sha256": "812ea50bd5efd1b9cc09d5800c55825b3d43b3c5aa75ab17b2848f43b1bfaaef",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
     },
-    "licence": "CC0-1.0",
-    "probability_semantics": "annual_exceedance",
-    "tail": "lower",
-    "unit": "degC"
+    {
+     "retrieved_at": "2026-11-25T01:36:42Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "The resources crc-sdk records with its output: every station-year file requested, absent ones included, and the station list; the SHA-256 of each against the reference's own download of the same address; and a licence, attribution and retrieval time on each.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "absent_file_digests": [
+     "sha256:7a8e1247804cd017a040b242e2c7a599a3495a5b1df2b055241597674deecd14"
+    ],
+    "absent_files_recorded": 408,
+    "attributions": [
+     "NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained."
+    ],
+    "checksums_compared": 592,
+    "checksums_differing": [],
+    "files_framework": 1000,
+    "files_missing_in_framework": [],
+    "files_not_requested": [],
+    "files_reference": 1000,
+    "licences": [
+     "NOAA open-use terms; originator terms may apply"
+    ],
+    "release": {
+     "id": "ghcnh:selected-source-snapshot",
+     "sha256": "sha256:44b3f53ae9efb5574fcef443fbc8e395ba14e554f900b40ad3c7630cf995b5bd"
+    },
+    "resources": 1001,
+    "resources_lacking_a_field": [],
+    "station_list_checksum_differs": false
    },
-   "run_at": "2026-11-23T19:12:48Z",
+   "run_at": "2026-11-25T01:36:42Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "ghcnh",
    "steps": [
     "provenance",
-    "units"
+    "files"
    ],
-   "summary": "5 of 5 provenance fields present; licence CC0-1.0; unit degC; annual_exceedance",
+   "summary": "1,000 files recorded for 1,000 requested; 592 checksums compared, 0 differ; licence NOAA open-use terms; originator terms may apply",
    "tier": "verification",
    "tolerance": {
-    "fields": "all present; licence, unit and convention as documented"
+    "checksums": "identical",
+    "fields": "all present (their wording is recorded, not judged)",
+    "files": "identical sets of addresses"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[temperature_min, coverage 0.9]",
+   "inputs": [
+    {
+     "bytes": 632567825,
+     "files": 592,
+     "files_absent_at_publisher": 408,
+     "retrieved_at": "2026-11-23T17:52:31Z",
+     "role": "reference download (Parquet)",
+     "sha256": "0f445170ef39f1b6557ff6180c85111faf3fb394817bc6a07a3ab70852954cbf",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (592 files)"
+    },
+    {
+     "retrieved_at": "2026-11-25T01:55:26Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "Every station-year: the annual rows (one per station position) recomputed in Python from NOAA's Parquet file, read without crc-sdk or pyarrow, against crc-sdk's read() with Coverage.minimum_fraction(0.9), field by field; and the station-years with no row, the refused stations and the report's counts.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns_differing": {},
+    "counts_framework": {
+     "incomplete_years": 661,
+     "no_data": 253,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 339
+    },
+    "counts_reference": {
+     "incomplete_years": 661,
+     "no_data": 253,
+     "produced": 592,
+     "requested": 1000,
+     "usable_years": 339
+    },
+    "coverage": "Coverage.minimum_fraction(0.9)",
+    "examples": [],
+    "largest_difference": 0.0,
+    "refusals_framework": {},
+    "rows_framework": 592,
+    "rows_reference": 592,
+    "rows_with_a_value_reference": 339,
+    "station_years": 1000,
+    "station_years_with_a_file": 592,
+    "station_years_without_a_row_framework": 408,
+    "station_years_without_a_row_reference": 408,
+    "stations": 40,
+    "stations_refused_framework": [],
+    "stations_refused_reference": [],
+    "unavailable_differing": [],
+    "values_compared": 6512,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-25T01:55:26Z",
+   "sample": {
+    "stations": "all 40",
+    "years": [
+     2000,
+     2024
+    ]
+   },
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "files",
+    "columns",
+    "refusal",
+    "quality",
+    "range",
+    "day",
+    "valid-day",
+    "valid-year",
+    "annual-value",
+    "location",
+    "output"
+   ],
+   "summary": "592 station-year rows against 592; 6,512 values compared, 0 differ; 339 rows carry a value; 408 station-years have no file",
+   "tier": "verification",
+   "tolerance": {
+    "values": "exact equality, numbers included"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "second-format[temperature_min, coverage 0.9]",
+   "inputs": [
+    {
+     "bytes": 147208330,
+     "files": 8,
+     "files_absent_at_publisher": 0,
+     "retrieved_at": "2026-11-23T18:24:31Z",
+     "role": "reference download (pipe-separated)",
+     "sha256": "335618cc39cb4e85a4ec7009f9383981ffa475fbe3989302893ac7c34df01522",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year (8 files)"
+    },
+    {
+     "retrieved_at": "2026-11-25T01:55:26Z",
+     "role": "crc-sdk read() of the annual indicator",
+     "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year"
+    }
+   ],
+   "method": "A seeded sample of station-years recomputed from NOAA's pipe-separated file with the standard library only, against crc-sdk's read() with Coverage.minimum_fraction(0.9).",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "columns_differing": {},
+    "examples": [],
+    "largest_difference": 0.0,
+    "rows_framework": 8,
+    "rows_reference": 8,
+    "values_compared": 88,
+    "values_differing": 0
+   },
+   "run_at": "2026-11-25T01:55:26Z",
+   "sample": {
+    "seed": 20261111,
+    "station_years": [
+     [
+      "USW00000172",
+      2019
+     ],
+     [
+      "USW00000177",
+      2020
+     ],
+     [
+      "USW00000188",
+      2011
+     ],
+     [
+      "USW00000215",
+      2024
+     ],
+     [
+      "USW00000229",
+      2023
+     ],
+     [
+      "USW00000239",
+      2023
+     ],
+     [
+      "USW00000272",
+      2014
+     ],
+     [
+      "USW00000276",
+      2013
+     ]
+    ]
+   },
+   "schema": "data_source_check/0.1",
+   "source": "ghcnh",
+   "steps": [
+    "files",
+    "columns",
+    "refusal",
+    "quality",
+    "range",
+    "day",
+    "valid-day",
+    "valid-year",
+    "annual-value",
+    "location",
+    "output"
+   ],
+   "summary": "8 station-year rows against 8; 88 values compared, 0 differ",
+   "tier": "verification",
+   "tolerance": {
+    "values": "exact equality, numbers included"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   }
  ],
  "exploration": {
   "accepted_reports": 13703240,
-  "curves": {
-   "temperature_max": {
-    "attribution": "Derived from NOAA Global Historical Climatology Network hourly (GHCNh), accessed through NOAA Open Data Dissemination on AWS. Quality-filtered and aggregated by crc-sdk; modified data, no NOAA endorsement implied.",
-    "checksum": "1fec8ce35c61b9da487f7fb561654ff7005181b53a571e05b92f64c2ca0b208b",
-    "families": [
-     "genextreme"
-    ],
-    "kinds": [
-     "fitted"
-    ],
-    "licence": "CC0-1.0",
-    "probability_semantics": "annual_exceedance",
-    "retrieved_at": "2026-11-23T18:26:23.644100+00:00",
-    "stations": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ],
-    "tail": "upper",
-    "unit": "degC",
-    "uri": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/#crc-request=%7B%22areas%22%3A%20%5B%5D%2C%20%22completene"
-   },
-   "temperature_min": {
-    "attribution": "Derived from NOAA Global Historical Climatology Network hourly (GHCNh), accessed through NOAA Open Data Dissemination on AWS. Quality-filtered and aggregated by crc-sdk; modified data, no NOAA endorsement implied.",
-    "checksum": "1fec8ce35c61b9da487f7fb561654ff7005181b53a571e05b92f64c2ca0b208b",
-    "families": [
-     "gumbel_l"
-    ],
-    "kinds": [
-     "fitted"
-    ],
-    "licence": "CC0-1.0",
-    "probability_semantics": "annual_exceedance",
-    "retrieved_at": "2026-11-23T18:26:23.644100+00:00",
-    "stations": [
-     "USW00000129",
-     "USW00000130",
-     "USW00000134",
-     "USW00000137",
-     "USW00000166",
-     "USW00000176",
-     "USW00000225",
-     "USW00000362"
-    ],
-    "tail": "lower",
-    "unit": "degC",
-    "uri": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/#crc-request=%7B%22areas%22%3A%20%5B%5D%2C%20%22completene"
-   }
-  },
   "excluded_by_rule": {
    "no temperature": 174166,
    "outside the physical range": 7,
    "quality code not accepted": 8078
   },
+  "framework_diagnostics": {
+   "temperature_max": {
+    "incomplete_days": 592,
+    "incomplete_years": 592,
+    "station_year_unavailable": 408
+   },
+   "temperature_min": {
+    "incomplete_days": 592,
+    "incomplete_years": 592,
+    "station_year_unavailable": 408
+   }
+  },
   "framework_rules": {
-   "licence": "CC0-1.0",
-   "minimum_day_fraction": 0.9,
-   "minimum_hour_fraction": 0.75,
+   "attribution": "NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.",
+   "coverage_default": 1.0,
+   "licence": "NOAA open-use terms; originator terms may apply",
    "quality_codes": [
     "",
     "1",
     "5"
    ],
    "sources_for_1": [
+    "220",
+    "221",
+    "222",
+    "223",
     "313",
     "314",
     "315",
@@ -805,10 +1675,6 @@
     "343",
     "344",
     "346",
-    "220",
-    "221",
-    "222",
-    "223",
     "347",
     "348"
    ],
@@ -821,8 +1687,7 @@
     "343",
     "344",
     "346"
-   ],
-   "version": "ghcnh-v1"
+   ]
   },
   "reports": 13885491,
   "selection": {
@@ -832,8 +1697,12 @@
     -93.508292,
     36.500704
    ],
-   "minimum_years": 15,
-   "rule": "first 40 USW stations of crc-sdk's catalogue selection for the box",
+   "coverages": [
+    "Coverage.complete() (default)",
+    "Coverage.minimum_fraction(0.9)"
+   ],
+   "first_usw_in_catalogue_selection_equal_sample": true,
+   "rule": "the 40 stations assessed at crc-sdk 0.11.2 (the first forty USW stations of the station list in the box)",
    "stations_in_catalogue_selection": 699,
    "years": [
     2000,
@@ -841,15 +1710,21 @@
    ]
   },
   "station_years": 1000,
-  "station_years_complete": 427,
+  "station_years_complete": 0,
+  "station_years_complete_at_0.9": 339,
+  "station_years_complete_by_0.11_rules": 427,
   "station_years_with_a_file": 592,
+  "station_years_with_more_than_one_position": 0,
   "stations": [
    {
     "accepted_reports": 428271,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 13,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2007,
     "last_year": 2024,
     "name": "BEEVILLE MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 433029,
     "station": "USW00000127",
@@ -857,10 +1732,13 @@
    },
    {
     "accepted_reports": 445454,
-    "complete_years": 16,
+    "complete_years": 0,
+    "complete_years_at_0.9": 14,
+    "complete_years_by_0.11_rules": 16,
     "first_year": 2007,
     "last_year": 2024,
     "name": "HEREFORD MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 448189,
     "station": "USW00000129",
@@ -868,10 +1746,13 @@
    },
    {
     "accepted_reports": 442840,
-    "complete_years": 17,
+    "complete_years": 0,
+    "complete_years_at_0.9": 10,
+    "complete_years_by_0.11_rules": 17,
     "first_year": 2007,
     "last_year": 2024,
     "name": "PLEASANTON MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 445569,
     "station": "USW00000130",
@@ -879,10 +1760,13 @@
    },
    {
     "accepted_reports": 431061,
-    "complete_years": 15,
+    "complete_years": 0,
+    "complete_years_at_0.9": 15,
+    "complete_years_by_0.11_rules": 15,
     "first_year": 2007,
     "last_year": 2024,
     "name": "KICKAPOO DOWNTOWN AP",
+    "positions": 1,
     "refused": "",
     "reports": 434266,
     "station": "USW00000134",
@@ -890,10 +1774,13 @@
    },
    {
     "accepted_reports": 436919,
-    "complete_years": 16,
+    "complete_years": 0,
+    "complete_years_at_0.9": 15,
+    "complete_years_by_0.11_rules": 16,
     "first_year": 2008,
     "last_year": 2024,
     "name": "ANGEL FIRE AP",
+    "positions": 1,
     "refused": "",
     "reports": 437893,
     "station": "USW00000137",
@@ -901,10 +1788,13 @@
    },
    {
     "accepted_reports": 413205,
-    "complete_years": 15,
+    "complete_years": 0,
+    "complete_years_at_0.9": 13,
+    "complete_years_by_0.11_rules": 15,
     "first_year": 2008,
     "last_year": 2024,
     "name": "LAGO VISTA RUSTY ALLEN AP",
+    "positions": 1,
     "refused": "",
     "reports": 414066,
     "station": "USW00000166",
@@ -912,10 +1802,13 @@
    },
    {
     "accepted_reports": 282262,
-    "complete_years": 7,
+    "complete_years": 0,
+    "complete_years_at_0.9": 5,
+    "complete_years_by_0.11_rules": 7,
     "first_year": 2012,
     "last_year": 2024,
     "name": "STAN STAMPER MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 283064,
     "station": "USW00000172",
@@ -923,10 +1816,13 @@
    },
    {
     "accepted_reports": 394394,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 8,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2008,
     "last_year": 2024,
     "name": "RUSK COUNTY AP",
+    "positions": 1,
     "refused": "",
     "reports": 396482,
     "station": "USW00000175",
@@ -934,10 +1830,13 @@
    },
    {
     "accepted_reports": 413027,
-    "complete_years": 16,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 16,
     "first_year": 2008,
     "last_year": 2024,
     "name": "STEPHENS COUNTY AP",
+    "positions": 1,
     "refused": "",
     "reports": 413350,
     "station": "USW00000176",
@@ -945,10 +1844,13 @@
    },
    {
     "accepted_reports": 281184,
-    "complete_years": 8,
+    "complete_years": 0,
+    "complete_years_at_0.9": 8,
+    "complete_years_by_0.11_rules": 8,
     "first_year": 2013,
     "last_year": 2024,
     "name": "CASTROVILLE MUNI AIRPORT",
+    "positions": 1,
     "refused": "",
     "reports": 286720,
     "station": "USW00000177",
@@ -956,10 +1858,13 @@
    },
    {
     "accepted_reports": 399128,
-    "complete_years": 12,
+    "complete_years": 0,
+    "complete_years_at_0.9": 6,
+    "complete_years_by_0.11_rules": 12,
     "first_year": 2008,
     "last_year": 2024,
     "name": "ZAPATA COUNTY AP",
+    "positions": 1,
     "refused": "",
     "reports": 400840,
     "station": "USW00000181",
@@ -967,10 +1872,13 @@
    },
    {
     "accepted_reports": 386313,
-    "complete_years": 12,
+    "complete_years": 0,
+    "complete_years_at_0.9": 10,
+    "complete_years_by_0.11_rules": 12,
     "first_year": 2008,
     "last_year": 2024,
     "name": "HOUSTON DUNN HELISTOP",
+    "positions": 1,
     "refused": "",
     "reports": 387224,
     "station": "USW00000188",
@@ -978,10 +1886,13 @@
    },
    {
     "accepted_reports": 375897,
-    "complete_years": 14,
+    "complete_years": 0,
+    "complete_years_at_0.9": 10,
+    "complete_years_by_0.11_rules": 14,
     "first_year": 2009,
     "last_year": 2024,
     "name": "HOUSTON EXECUTIVE AP",
+    "positions": 1,
     "refused": "",
     "reports": 386976,
     "station": "USW00000208",
@@ -989,10 +1900,13 @@
    },
    {
     "accepted_reports": 302954,
-    "complete_years": 11,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 11,
     "first_year": 2013,
     "last_year": 2024,
     "name": "BOWIE MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 303444,
     "station": "USW00000209",
@@ -1000,10 +1914,13 @@
    },
    {
     "accepted_reports": 379955,
-    "complete_years": 9,
+    "complete_years": 0,
+    "complete_years_at_0.9": 7,
+    "complete_years_by_0.11_rules": 9,
     "first_year": 2009,
     "last_year": 2024,
     "name": "PAMPA MESA VISTA AP",
+    "positions": 1,
     "refused": "",
     "reports": 387369,
     "station": "USW00000213",
@@ -1011,10 +1928,13 @@
    },
    {
     "accepted_reports": 369815,
-    "complete_years": 12,
+    "complete_years": 0,
+    "complete_years_at_0.9": 9,
+    "complete_years_by_0.11_rules": 12,
     "first_year": 2009,
     "last_year": 2024,
     "name": "STIGLER REGIONAL AP",
+    "positions": 1,
     "refused": "",
     "reports": 374971,
     "station": "USW00000214",
@@ -1022,10 +1942,13 @@
    },
    {
     "accepted_reports": 370161,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 6,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2009,
     "last_year": 2024,
     "name": "CLARENCE E PAGE MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 372096,
     "station": "USW00000215",
@@ -1033,10 +1956,13 @@
    },
    {
     "accepted_reports": 395671,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2009,
     "last_year": 2024,
     "name": "HOUSTON SOUTHWEST AP",
+    "positions": 1,
     "refused": "",
     "reports": 397371,
     "station": "USW00000223",
@@ -1044,10 +1970,13 @@
    },
    {
     "accepted_reports": 398137,
-    "complete_years": 15,
+    "complete_years": 0,
+    "complete_years_at_0.9": 14,
+    "complete_years_by_0.11_rules": 15,
     "first_year": 2009,
     "last_year": 2024,
     "name": "HORSESHOE BAY RESORT AP",
+    "positions": 1,
     "refused": "",
     "reports": 399038,
     "station": "USW00000225",
@@ -1055,10 +1984,13 @@
    },
    {
     "accepted_reports": 353421,
-    "complete_years": 10,
+    "complete_years": 0,
+    "complete_years_at_0.9": 5,
+    "complete_years_by_0.11_rules": 10,
     "first_year": 2009,
     "last_year": 2024,
     "name": "LAMPASAS AP",
+    "positions": 1,
     "refused": "",
     "reports": 354386,
     "station": "USW00000229",
@@ -1066,10 +1998,13 @@
    },
    {
     "accepted_reports": 385949,
-    "complete_years": 14,
+    "complete_years": 0,
+    "complete_years_at_0.9": 8,
+    "complete_years_by_0.11_rules": 14,
     "first_year": 2009,
     "last_year": 2024,
     "name": "AUSTIN EXECUTIVE AP",
+    "positions": 1,
     "refused": "",
     "reports": 390321,
     "station": "USW00000230",
@@ -1077,10 +2012,13 @@
    },
    {
     "accepted_reports": 380993,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2009,
     "last_year": 2024,
     "name": "OZONA MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 381040,
     "station": "USW00000239",
@@ -1088,10 +2026,13 @@
    },
    {
     "accepted_reports": 249359,
-    "complete_years": 2,
+    "complete_years": 0,
+    "complete_years_at_0.9": 1,
+    "complete_years_by_0.11_rules": 2,
     "first_year": 2009,
     "last_year": 2022,
     "name": "E BREAKS OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 260614,
     "station": "USW00000246",
@@ -1099,10 +2040,13 @@
    },
    {
     "accepted_reports": 329147,
-    "complete_years": 8,
+    "complete_years": 0,
+    "complete_years_at_0.9": 6,
+    "complete_years_by_0.11_rules": 8,
     "first_year": 2009,
     "last_year": 2024,
     "name": "GUNNISON OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 354281,
     "station": "USW00000247",
@@ -1110,10 +2054,13 @@
    },
    {
     "accepted_reports": 172807,
-    "complete_years": 2,
+    "complete_years": 0,
+    "complete_years_at_0.9": 1,
+    "complete_years_by_0.11_rules": 2,
     "first_year": 2010,
     "last_year": 2019,
     "name": "SABINE OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 178203,
     "station": "USW00000255",
@@ -1121,10 +2068,13 @@
    },
    {
     "accepted_reports": 104829,
-    "complete_years": 1,
+    "complete_years": 0,
+    "complete_years_at_0.9": 0,
+    "complete_years_by_0.11_rules": 1,
     "first_year": 2010,
     "last_year": 2016,
     "name": "GALVESTON 424 OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 106325,
     "station": "USW00000259",
@@ -1132,10 +2082,13 @@
    },
    {
     "accepted_reports": 226158,
-    "complete_years": 3,
+    "complete_years": 0,
+    "complete_years_at_0.9": 2,
+    "complete_years_by_0.11_rules": 3,
     "first_year": 2010,
     "last_year": 2020,
     "name": "HIGH IS 376",
+    "positions": 1,
     "refused": "",
     "reports": 244388,
     "station": "USW00000260",
@@ -1143,10 +2096,13 @@
    },
    {
     "accepted_reports": 232151,
-    "complete_years": 6,
+    "complete_years": 0,
+    "complete_years_at_0.9": 1,
+    "complete_years_by_0.11_rules": 6,
     "first_year": 2010,
     "last_year": 2020,
     "name": "MUSTANG IS A85A",
+    "positions": 1,
     "refused": "",
     "reports": 237922,
     "station": "USW00000262",
@@ -1154,10 +2110,13 @@
    },
    {
     "accepted_reports": 301483,
-    "complete_years": 11,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 11,
     "first_year": 2013,
     "last_year": 2024,
     "name": "BOERNE STAGE FIELD AP",
+    "positions": 1,
     "refused": "",
     "reports": 303415,
     "station": "USW00000263",
@@ -1165,10 +2124,13 @@
    },
    {
     "accepted_reports": 300740,
-    "complete_years": 7,
+    "complete_years": 0,
+    "complete_years_at_0.9": 4,
+    "complete_years_by_0.11_rules": 7,
     "first_year": 2010,
     "last_year": 2024,
     "name": "FAITH RCH AP",
+    "positions": 1,
     "refused": "",
     "reports": 313231,
     "station": "USW00000270",
@@ -1176,10 +2138,13 @@
    },
    {
     "accepted_reports": 340127,
-    "complete_years": 7,
+    "complete_years": 0,
+    "complete_years_at_0.9": 7,
+    "complete_years_by_0.11_rules": 7,
     "first_year": 2010,
     "last_year": 2024,
     "name": "BOOMVANG SPAR OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 345175,
     "station": "USW00000272",
@@ -1187,10 +2152,13 @@
    },
    {
     "accepted_reports": 364715,
-    "complete_years": 14,
+    "complete_years": 0,
+    "complete_years_at_0.9": 14,
+    "complete_years_by_0.11_rules": 14,
     "first_year": 2010,
     "last_year": 2024,
     "name": "COLEMAN MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 365044,
     "station": "USW00000276",
@@ -1198,10 +2166,13 @@
    },
    {
     "accepted_reports": 223140,
-    "complete_years": 6,
+    "complete_years": 0,
+    "complete_years_at_0.9": 3,
+    "complete_years_by_0.11_rules": 6,
     "first_year": 2010,
     "last_year": 2020,
     "name": "HIGH IS 179 OIL PLATFORM",
+    "positions": 1,
     "refused": "",
     "reports": 228984,
     "station": "USW00000306",
@@ -1209,10 +2180,13 @@
    },
    {
     "accepted_reports": 87421,
-    "complete_years": 2,
+    "complete_years": 0,
+    "complete_years_at_0.9": 0,
+    "complete_years_by_0.11_rules": 2,
     "first_year": 2010,
     "last_year": 2014,
     "name": "N PADRE IS",
+    "positions": 1,
     "refused": "",
     "reports": 88484,
     "station": "USW00000308",
@@ -1220,10 +2194,13 @@
    },
    {
     "accepted_reports": 343221,
-    "complete_years": 9,
+    "complete_years": 0,
+    "complete_years_at_0.9": 8,
+    "complete_years_by_0.11_rules": 9,
     "first_year": 2011,
     "last_year": 2024,
     "name": "BEAUMONT MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 350602,
     "station": "USW00000313",
@@ -1231,10 +2208,13 @@
    },
    {
     "accepted_reports": 297309,
-    "complete_years": 10,
+    "complete_years": 0,
+    "complete_years_at_0.9": 10,
+    "complete_years_by_0.11_rules": 10,
     "first_year": 2013,
     "last_year": 2024,
     "name": "ANDREWS COUNTY AP",
+    "positions": 1,
     "refused": "",
     "reports": 298309,
     "station": "USW00000349",
@@ -1242,10 +2222,13 @@
    },
    {
     "accepted_reports": 324552,
-    "complete_years": 11,
+    "complete_years": 0,
+    "complete_years_at_0.9": 11,
+    "complete_years_by_0.11_rules": 11,
     "first_year": 2012,
     "last_year": 2024,
     "name": "CAMERON MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 328174,
     "station": "USW00000351",
@@ -1253,10 +2236,13 @@
    },
    {
     "accepted_reports": 426298,
-    "complete_years": 14,
+    "complete_years": 0,
+    "complete_years_at_0.9": 13,
+    "complete_years_by_0.11_rules": 14,
     "first_year": 2008,
     "last_year": 2024,
     "name": "HAMILTON MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 426836,
     "station": "USW00000357",
@@ -1264,10 +2250,13 @@
    },
    {
     "accepted_reports": 498486,
-    "complete_years": 17,
+    "complete_years": 0,
+    "complete_years_at_0.9": 15,
+    "complete_years_by_0.11_rules": 17,
     "first_year": 2004,
     "last_year": 2024,
     "name": "GATESVILLE MUNI AP",
+    "positions": 1,
     "refused": "",
     "reports": 504758,
     "station": "USW00000362",
@@ -1275,20 +2264,31 @@
    },
    {
     "accepted_reports": 414286,
-    "complete_years": 13,
+    "complete_years": 0,
+    "complete_years_at_0.9": 12,
+    "complete_years_by_0.11_rules": 13,
     "first_year": 2007,
     "last_year": 2024,
     "name": "THOMAS P STAFFORD AP",
+    "positions": 1,
     "refused": "",
     "reports": 423042,
     "station": "USW00000364",
     "years_with_a_file": 18
    }
   ],
-  "stations_with_20_years": 0,
-  "stations_with_minimum_years": 8
+  "stations_refused": []
  },
  "files": [
+  {
+   "bytes": 2203945,
+   "etag": "\"f8f68513d590452bb9088e3916495499\"",
+   "last_modified": "Wed, 21 Oct 2026 08:51:09 GMT",
+   "missing": false,
+   "retrieved_at": "2026-11-24T23:30:27Z",
+   "sha256": "812ea50bd5efd1b9cc09d5800c55825b3d43b3c5aa75ab17b2848f43b1bfaaef",
+   "url": "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/doc/ghcnh-station-list.csv"
+  },
   {
    "bytes": null,
    "etag": null,
@@ -10377,7 +11377,7 @@
    "values that differ"
   ],
   [
-   "8 of 8",
+   "13 of 13",
    "checks confirmed"
   ],
   [
@@ -10385,11 +11385,13 @@
    "checks that differ"
   ]
  ],
- "recipes_assessed": [
-  "temperature_max",
-  "temperature_min"
- ],
- "run_at": "2026-11-23T19:12:48Z",
+ "options_assessed": {
+  "indicator": [
+   "annual_maximum_daily_maximum_temperature",
+   "annual_minimum_daily_minimum_temperature"
+  ]
+ },
+ "run_at": "2026-11-25T01:55:26Z",
  "schema": "data_source_check/0.1",
  "seed": 20261111,
  "source": "ghcnh",
@@ -10399,10 +11401,10 @@
     "Stage",
     "Count"
    ],
-   "note": "Selection: first 40 USW stations of crc-sdk's catalogue selection for the box, years 2000 to 2024. Counted from NOAA's files by the reference reader.",
+   "note": "Selection: the 40 stations assessed at crc-sdk 0.11.2 (the first forty USW stations of the station list in the box), years 2000 to 2024. Counted from NOAA's files by the reference reader. No curve is fitted by default.",
    "rows": [
     [
-     "Stations crc-sdk's catalogue selects in the box",
+     "Stations crc-sdk's inventory selects in the box",
      699
     ],
     [
@@ -10418,19 +11420,23 @@
      592
     ],
     [
-     "Station-years complete (enough valid days)",
+     "Station-years with a value by default (every day has 24 hours)",
+     0
+    ],
+    [
+     "Station-years with a value at Coverage.minimum_fraction(0.9)",
+     339
+    ],
+    [
+     "Station-years complete by the rules of crc-sdk 0.11 (18 hours, 90 % of days)",
      427
     ],
     [
-     "Stations with at least 15 complete years (the explorer's setting)",
-     8
-    ],
-    [
-     "Stations with at least 20 complete years (crc-sdk's default)",
+     "Station-years with more than one reported position",
      0
     ]
    ],
-   "title": "From stations to curves"
+   "title": "From stations to annual values"
   },
   {
    "head": [
@@ -10475,11 +11481,13 @@
     "First year",
     "Last year",
     "Years with a file",
-    "Complete years",
+    "Complete (default)",
+    "Complete (0.9)",
+    "Complete (0.11 rules)",
     "Reports",
     "Accepted"
    ],
-   "note": "",
+   "note": "Complete years: by default, at Coverage.minimum_fraction(0.9), and by the rules of crc-sdk 0.11.",
    "rows": [
     [
      "USW00000127",
@@ -10487,6 +11495,8 @@
      "2007",
      "2024",
      18,
+     0,
+     13,
      13,
      433029,
      "98.9 %"
@@ -10497,6 +11507,8 @@
      "2007",
      "2024",
      18,
+     0,
+     14,
      16,
      448189,
      "99.4 %"
@@ -10507,6 +11519,8 @@
      "2007",
      "2024",
      18,
+     0,
+     10,
      17,
      445569,
      "99.4 %"
@@ -10517,6 +11531,8 @@
      "2007",
      "2024",
      18,
+     0,
+     15,
      15,
      434266,
      "99.3 %"
@@ -10527,6 +11543,8 @@
      "2008",
      "2024",
      17,
+     0,
+     15,
      16,
      437893,
      "99.8 %"
@@ -10537,6 +11555,8 @@
      "2008",
      "2024",
      17,
+     0,
+     13,
      15,
      414066,
      "99.8 %"
@@ -10547,6 +11567,8 @@
      "2012",
      "2024",
      13,
+     0,
+     5,
      7,
      283064,
      "99.7 %"
@@ -10557,6 +11579,8 @@
      "2008",
      "2024",
      17,
+     0,
+     8,
      13,
      396482,
      "99.5 %"
@@ -10567,6 +11591,8 @@
      "2008",
      "2024",
      17,
+     0,
+     11,
      16,
      413350,
      "99.9 %"
@@ -10577,6 +11603,8 @@
      "2013",
      "2024",
      12,
+     0,
+     8,
      8,
      286720,
      "98.1 %"
@@ -10587,6 +11615,8 @@
      "2008",
      "2024",
      17,
+     0,
+     6,
      12,
      400840,
      "99.6 %"
@@ -10597,6 +11627,8 @@
      "2008",
      "2024",
      17,
+     0,
+     10,
      12,
      387224,
      "99.8 %"
@@ -10607,6 +11639,8 @@
      "2009",
      "2024",
      16,
+     0,
+     10,
      14,
      386976,
      "97.1 %"
@@ -10617,6 +11651,8 @@
      "2013",
      "2024",
      12,
+     0,
+     11,
      11,
      303444,
      "99.8 %"
@@ -10627,6 +11663,8 @@
      "2009",
      "2024",
      16,
+     0,
+     7,
      9,
      387369,
      "98.1 %"
@@ -10637,6 +11675,8 @@
      "2009",
      "2024",
      16,
+     0,
+     9,
      12,
      374971,
      "98.6 %"
@@ -10647,6 +11687,8 @@
      "2009",
      "2024",
      16,
+     0,
+     6,
      13,
      372096,
      "99.5 %"
@@ -10657,6 +11699,8 @@
      "2009",
      "2024",
      16,
+     0,
+     11,
      13,
      397371,
      "99.6 %"
@@ -10667,6 +11711,8 @@
      "2009",
      "2024",
      16,
+     0,
+     14,
      15,
      399038,
      "99.8 %"
@@ -10677,6 +11723,8 @@
      "2009",
      "2024",
      16,
+     0,
+     5,
      10,
      354386,
      "99.7 %"
@@ -10687,6 +11735,8 @@
      "2009",
      "2024",
      16,
+     0,
+     8,
      14,
      390321,
      "98.9 %"
@@ -10697,6 +11747,8 @@
      "2009",
      "2024",
      16,
+     0,
+     11,
      13,
      381040,
      "100.0 %"
@@ -10707,6 +11759,8 @@
      "2009",
      "2022",
      14,
+     0,
+     1,
      2,
      260614,
      "95.7 %"
@@ -10717,6 +11771,8 @@
      "2009",
      "2024",
      16,
+     0,
+     6,
      8,
      354281,
      "92.9 %"
@@ -10727,6 +11783,8 @@
      "2010",
      "2019",
      10,
+     0,
+     1,
      2,
      178203,
      "97.0 %"
@@ -10737,6 +11795,8 @@
      "2010",
      "2016",
      7,
+     0,
+     0,
      1,
      106325,
      "98.6 %"
@@ -10747,6 +11807,8 @@
      "2010",
      "2020",
      11,
+     0,
+     2,
      3,
      244388,
      "92.5 %"
@@ -10757,6 +11819,8 @@
      "2010",
      "2020",
      11,
+     0,
+     1,
      6,
      237922,
      "97.6 %"
@@ -10767,6 +11831,8 @@
      "2013",
      "2024",
      12,
+     0,
+     11,
      11,
      303415,
      "99.4 %"
@@ -10777,6 +11843,8 @@
      "2010",
      "2024",
      15,
+     0,
+     4,
      7,
      313231,
      "96.0 %"
@@ -10787,6 +11855,8 @@
      "2010",
      "2024",
      15,
+     0,
+     7,
      7,
      345175,
      "98.5 %"
@@ -10797,6 +11867,8 @@
      "2010",
      "2024",
      15,
+     0,
+     14,
      14,
      365044,
      "99.9 %"
@@ -10807,6 +11879,8 @@
      "2010",
      "2020",
      11,
+     0,
+     3,
      6,
      228984,
      "97.4 %"
@@ -10817,6 +11891,8 @@
      "2010",
      "2014",
      5,
+     0,
+     0,
      2,
      88484,
      "98.8 %"
@@ -10827,6 +11903,8 @@
      "2011",
      "2024",
      14,
+     0,
+     8,
      9,
      350602,
      "97.9 %"
@@ -10837,6 +11915,8 @@
      "2013",
      "2024",
      12,
+     0,
+     10,
      10,
      298309,
      "99.7 %"
@@ -10847,6 +11927,8 @@
      "2012",
      "2024",
      13,
+     0,
+     11,
      11,
      328174,
      "98.9 %"
@@ -10857,6 +11939,8 @@
      "2008",
      "2024",
      17,
+     0,
+     13,
      14,
      426836,
      "99.9 %"
@@ -10867,6 +11951,8 @@
      "2004",
      "2024",
      21,
+     0,
+     15,
      17,
      504758,
      "98.8 %"
@@ -10877,6 +11963,8 @@
      "2007",
      "2024",
      18,
+     0,
+     12,
      13,
      423042,
      "97.9 %"
@@ -10886,7 +11974,7 @@
   }
  ],
  "versions": {
-  "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.2"
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0"
  }
 }

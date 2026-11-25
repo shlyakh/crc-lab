@@ -9,7 +9,7 @@ from .records import ASSESSMENT_TIERS, Finding, Source
 
 def _status(finding: Any) -> str:
     """A finding's status, with the version that fixed it where there is one."""
-    return f"{finding.status} in {finding.fixed_in}" if finding.fixed_in else finding.status
+    return finding.status_text
 
 
 def _cell(text: object) -> str:

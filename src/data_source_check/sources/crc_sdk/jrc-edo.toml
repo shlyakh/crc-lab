@@ -6,9 +6,8 @@ tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result d
 publisher = "European Commission JRC, European Drought Observatory"
 original = "https://drought.emergency.copernicus.eu/data/Drought_Observatories_datasets/EDO_Soil_Moisture_Index"
 purpose = "Annual minimum of the ten-day soil moisture index, fitted on the lower tail, for drought screening in Europe."
-entry_points = ["HazardDataset.smi", "HazardDataset.edo"]
-symbols = ["EDOAreaPlan", "EDOCanonicalizationPlan", "EDOSourcePlan", "EDOYearPlan"]
+entry_points = ["EDO"]
 notes = "No coverage of Texas."
 
 [options]
-dataset = ["smi"]
+product = ["soil_moisture_index"]

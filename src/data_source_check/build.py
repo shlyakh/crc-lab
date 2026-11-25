@@ -106,16 +106,7 @@ def assess_source(
     if source_id == "ibtracs":
         from .assessments import ibtracs
 
-        source = next(s for s in inventory.load_sources("crc_sdk") if s.id == source_id)
-        run = ibtracs.assess(
-            source.assessed_options["subset"],
-            offered["options"]["ibtracs"]["subset"],
-            folder,
-            folder / "crc-sdk",
-            live=live,
-            versions=offered["versions"],
-            log=print,
-        )
+        run = ibtracs.assess(folder, live=live, versions=offered["versions"], log=print)
     elif source_id == "nex-gddp-cmip6":
         from .assessments import nex
 
@@ -138,9 +129,7 @@ def assess_source(
     else:
         from .assessments import ghcnh
 
-        run = ghcnh.assess(
-            folder, folder / "crc-sdk", live=live, versions=offered["versions"], log=print
-        )
+        run = ghcnh.assess(folder, live=live, versions=offered["versions"], log=print)
     run = {"schema": SCHEMA, "framework": offered["framework"]} | run
     if reduced:
         if page_data == PAGE_DATA:
@@ -148,6 +137,16 @@ def assess_source(
         run |= {"profile": profile, "profile_covers": reduced}
     write_json_atomic(page_data / "records" / f"{source_id}.json", run)
     return run
+
+
+def _previous(source_id: str, page_data: Path) -> list[dict[str, str]]:
+    """Records of the source kept from earlier framework versions (``records/<version>/``)."""
+    folders = sorted(p for p in (page_data / "records").glob("*/") if p.is_dir())
+    return [
+        {"crc_sdk": folder.name, "records": f"records/{folder.name}/{source_id}.json"}
+        for folder in reversed(folders)
+        if (folder / f"{source_id}.json").exists()
+    ]
 
 
 def build_inventory(
@@ -168,6 +167,7 @@ def build_inventory(
         "sources": [
             source.to_dict()
             | {"records": f"records/{source.id}.json" if records[source.id] else ""}
+            | {"previous": _previous(source.id, records_from)}
             for source in sources
         ],
         "findings": [finding.to_dict() for finding in findings],

@@ -108,6 +108,9 @@ def test_signed_source_is_not_a_draft() -> None:
         {"kind": "doc-code difference"},  # needs what the documentation says
         {"status": "reported upstream"},  # needs the reference
         {"status": "fixed"},  # needs the version
+        {"status": "no longer applies"},  # needs the version that removed the feature
+        {"status": "superseded", "closed_in": "1.0.0"},  # needs the finding that continues it
+        {"status": "open", "superseded_by": "CRC-999-X"},  # only a superseded finding points on
     ],
 )
 def test_bad_findings_are_refused(changes: dict[str, object]) -> None:
@@ -136,3 +139,15 @@ def test_not_checked_with_a_reason_is_allowed() -> None:
     check(
         outcome="not checked", result={}, note="The publisher's server was unreachable."
     ).validate()
+
+
+def test_a_closed_finding_says_how_it_ended() -> None:
+    assert finding(status="fixed", fixed_in="0.11.2").status_text == "fixed in 0.11.2"
+    gone = finding(status="no longer applies", closed_in="1.0.0")
+    gone.validate()
+    assert gone.status_text == "no longer applies from 1.0.0"
+    moved = finding(status="superseded", closed_in="1.0.0", superseded_by="CRC-023-JRC")
+    moved.validate()
+    assert moved.status_text == "superseded by CRC-023-JRC from 1.0.0"
+    assert moved.to_dict()["status_text"] == moved.status_text
+    assert finding().status_text == "open"

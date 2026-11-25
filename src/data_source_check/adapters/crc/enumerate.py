@@ -1,69 +1,98 @@
-"""What the installed crc-sdk offers: entry points and the option tables it keeps.
+"""What the installed crc-sdk offers: its source providers, constructors for a user's own data,
+and the option values each provider declares.
 
-crc-sdk has no registry of sources, so this reads three things: the ``HazardDataset``
-constructors, the plans exported by ``crc_sdk.workflows`` and the recipe and dataset tables
-in the providers. Some option lists are private or hard-coded upstream; those are reported
-under ``could_not_enumerate`` instead of being guessed.
+From 1.0 crc-sdk exports everything from the top-level package. A provider is an exported class
+that can ``select`` and takes a ``release``; its options are the enumerations it carries
+(``JRC.Product``, ``ERA5.Indicator``, ``IBTrACS.Agency``). Models, scenarios and members of the
+projection sources are open strings upstream and are not enumerated here.
 """
 
 from __future__ import annotations
 
+import enum
 import importlib
 import importlib.metadata
+import inspect
 from typing import Any
 
-#: Public names that are not sources.
-IGNORED = {
-    "HazardDataset.local": "opens a canonical file already on disk",
+#: provider class -> id of its entry in the inventory
+PROVIDER_SOURCE = {
+    "CHIRPS": "chirps",
+    "CMIP6": "cmip6",
+    "CRCOpen": "crc-open",
+    "ECCCDaily": "eccc-daily",
+    "ECCCIDF": "eccc-idf",
+    "EDO": "jrc-edo",
+    "ERA5": "era5",
+    "FieldsOfTheWorld": "ftw-fields",
+    "GHCNh": "ghcnh",
+    "HYDAT": "hydat",
+    "IBTrACS": "ibtracs",
+    "ISD": "isd",
+    "JRC": "jrc-flood",
+    "NEX": "nex-gddp-cmip6",
+    "NOAASeaLevel": "noaa-sea-level",
+    "NOAAWaterLevels": "noaa-water-levels",
+    "USDACropland": "usda-cdl",
+    "USGS": "usgs-streamflow",
 }
-
-#: source id -> option name -> (module, attribute) holding the values upstream.
-OPTION_TABLES: dict[str, dict[str, tuple[str, str]]] = {
-    "era5": {
-        "recipe": ("crc_sdk.providers.era5", "ERA5_RECIPES"),
-        "store": ("crc_sdk.providers.era5", "ERA5_STORES"),
-    },
-    "cmip6": {"recipe": ("crc_sdk.providers.cmip6", "CMIP6_RECIPES")},
-    "nex-gddp-cmip6": {"recipe": ("crc_sdk.providers.cmip6", "CMIP6_RECIPES")},
-    "jrc-flood": {"dataset": ("crc_sdk.providers.jrc", "JRC_DATASETS")},
-    "jrc-edo": {"dataset": ("crc_sdk.providers.jrc_edo", "EDO_DATASETS")},
-    "eccc-idf": {"duration": ("crc_sdk.providers.eccc_idf", "DURATIONS")},
-    "ibtracs": {"subset": ("crc_sdk.workflows.ibtracs", "_SUBSETS")},
-    "noaa-sea-level": {"scenario": ("crc_sdk.workflows.noaa_sea_level", "_SCENARIOS")},
-}
+#: classes whose ``from_*`` constructors take a user's own data
+OWN_DATA = ("Dataset", "Samples", "Observations", "Projections", "Layer")
+#: public names that are not sources
+IGNORED: dict[str, str] = {}
 
 
 def versions() -> dict[str, str]:
     return {name: importlib.metadata.version(name) for name in ("crc-sdk", "crc-framework")}
 
 
-def _classmethods(cls: type) -> list[str]:
-    return [
-        f"{cls.__name__}.{name}"
-        for name, value in vars(cls).items()
-        if isinstance(value, classmethod | staticmethod) and not name.startswith("_")
-    ]
+def providers() -> dict[str, type]:
+    """Exported classes that read an outside source."""
+    sdk = importlib.import_module("crc_sdk")
+    found = {}
+    for name in sdk.__all__:
+        value = getattr(sdk, name)
+        if not (inspect.isclass(value) and hasattr(value, "select")):
+            continue
+        try:
+            parameters = inspect.signature(value).parameters
+        except (TypeError, ValueError):
+            continue
+        if "release" in parameters:
+            found[name] = value
+    return found
+
+
+def _options(provider: type) -> dict[str, list[str]]:
+    return {
+        name.lower(): sorted(str(member.value) for member in value)
+        for name, value in vars(provider).items()
+        if inspect.isclass(value) and issubclass(value, enum.Enum)
+    }
 
 
 def offered() -> dict[str, Any]:
     """Entry points and option values found in the installed crc-sdk."""
-    workflows = importlib.import_module("crc_sdk.workflows")
-    symbols = _classmethods(workflows.HazardDataset) + _classmethods(workflows.AgriculturalLayer)
-    symbols += [name for name in workflows.__all__ if name.endswith("Plan")]
+    sdk = importlib.import_module("crc_sdk")
+    found = providers()
+    symbols = list(found)
+    for name in OWN_DATA:
+        cls = getattr(sdk, name, None)
+        symbols += [
+            f"{name}.{method}"
+            for method, value in (vars(cls).items() if cls is not None else ())
+            if method.startswith("from_") and isinstance(value, classmethod | staticmethod)
+        ]
     options: dict[str, dict[str, list[str]]] = {}
-    failed: list[str] = []
-    for source_id, tables in OPTION_TABLES.items():
-        for option, (module, attribute) in tables.items():
-            try:
-                values = getattr(importlib.import_module(module), attribute)
-                options.setdefault(source_id, {})[option] = sorted(str(v) for v in values)
-            except (ImportError, AttributeError, TypeError) as error:
-                failed.append(f"{source_id}.{option}: {module}.{attribute} ({error})")
+    for name, provider in found.items():
+        table = _options(provider)
+        if table:
+            options[PROVIDER_SOURCE.get(name, name)] = table
     return {
         "framework": "crc-sdk",
         "versions": versions(),
         "symbols": sorted(symbols),
         "ignored": IGNORED,
         "options": options,
-        "could_not_enumerate": failed,
+        "could_not_enumerate": sorted(set(PROVIDER_SOURCE) - set(found)),
     }

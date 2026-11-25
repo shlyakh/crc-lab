@@ -30,6 +30,7 @@ def load_source(path: Path, framework: str) -> Source:
         tier_reason=raw.get("tier_reason", ""),
         entry_points=tuple(raw.get("entry_points", ())),
         symbols=tuple(raw.get("symbols", ())),
+        removed_in=raw.get("removed_in", ""),
         options=_tuples(raw.get("options")),
         assessed_options=_tuples(raw.get("assessed_options")),
         status=status,
@@ -73,6 +74,9 @@ def load_findings(framework_dir: str, root: Path = SOURCES_DIR) -> list[Finding]
     ids = [finding.id for finding in findings]
     if len(ids) != len(set(ids)):
         raise RecordError("finding ids must be unique")
+    for finding in findings:
+        if finding.superseded_by and finding.superseded_by not in ids:
+            raise RecordError(f"finding {finding.id}: superseded by an unknown finding")
     return findings
 
 

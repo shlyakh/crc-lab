@@ -5,18 +5,18 @@ tier = 1
 tier_reason = "Tier 1: feeds a crc-lab result today, or is the release most CRC users consume. Feeds the storm tracks and the storm player of the Texas data explorer."
 publisher = "NOAA NCEI"
 original = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv"
-purpose = "Best-track points of tropical cyclones by basin, as published, for inspection. Not asset winds or return-period curves."
+purpose = "Native storm point observations for one reporting agency: its maximum sustained wind and minimum central pressure at each track point, as published, for inspection. Not asset winds or return-period curves."
 explorer = "explore/#tab=crc&source=ibtracs"
-adds = "Nothing is added to the values. crc-sdk downloads NOAA's CSV file for a basin or period, keeps a checksummed copy, and hands back every row and column as text, with empty values made null. It can also select storms by id or seasons by year. No number is parsed, converted or fitted."
-compared = "NOAA's ten files are downloaded independently and read with Python's csv module; every value is compared with what crc-sdk returns, in order. The file addresses, the cached bytes, the header, the two filters and the manifest are checked separately."
-entry_points = ["IBTrACSPlan"]
-notes = "Longitudes in NOAA's files are not wrapped to -180..180 (values up to 266.9 occur where a track crosses the date line); crc-sdk passes them through as strings. SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year. About four values in five are missing: most columns belong to one agency each."
+adds = "Nothing is added to the values, and no unit is converted. crc-sdk downloads NOAA's file of all storms (ALL), keeps a checksummed copy, and for one agency returns two rows per track point: the agency's wind in knots and its pressure in hPa, as numbers, at IBTrACS's combined position, with longitudes moved into -180..180 and an H3 cell. A point the agency did not report keeps its rows, with no value and a failure code. Of NOAA's 174 columns six are read; the season, basin, name, track type and the agency's own position are not returned. Licence text, attribution, checksum and retrieval time travel with the output."
+compared = "NOAA's ALL file is downloaded independently and read with Python's csv module; for each of the ten agencies every row crc-sdk returns is recomputed from the file and compared field by field, in order (about 1.46 million rows per agency). The address, the bytes, the declared units and the provenance attached to the output are checked separately."
+entry_points = ["IBTrACS"]
+notes = "Assessed by default: no selection, each agency read in full. The output covers every point of the file for every agency, so most rows of most agencies carry no value. The position is the combined LAT and LON of IBTrACS, not the agency's own position columns. Times are ISO_TIME with a T and no zone designator; NOAA's times are UTC. Where a track crosses the date line NOAA's longitudes exceed 180 (up to 266.9); crc-sdk moves them into -180..180. It does so by arithmetic on every longitude, so for many points (350,339 of 730,694 in the file of 2026-11-24) the delivered longitude is not the number nearest to NOAA's decimal value but differs from it by at most 3e-14 degrees; the identifier, which hashes the position, then cannot be rebuilt from NOAA's text. In NOAA's file SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year; crc-sdk does not return it."
 
 [options]
-subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
+agency = ["BOM", "CMA", "HKO", "NADI", "NEWDELHI", "REUNION", "TOKYO", "USA", "WELLINGTON", "WMO"]
 
 [assessed_options]
-subset = ["ALL", "EP", "NA", "NI", "SA", "SI", "SP", "WP", "active", "last3years", "since1980"]
+agency = ["BOM", "CMA", "HKO", "NADI", "NEWDELHI", "REUNION", "TOKYO", "USA", "WELLINGTON", "WMO"]
 
 [status]
 exploration = "assessed"
@@ -24,61 +24,76 @@ verification = "assessed"
 
 [[statement]]
 id = "address"
-text = "Requests `<root>/ibtracs.<name>.list.v04r01.csv`, where the name is the subset spelled exactly as one of the eleven crc-sdk accepts, except `active`, which is requested as `ACTIVE`, the spelling of NOAA's file."
-code_ref = "crc_sdk/workflows/ibtracs.py:27-43, 72-74"
+text = "Requests one file for every agency: `<root>/ibtracs.ALL.list.v04r01.csv`, NOAA's file of all storms. No basin or period file can be chosen."
+code_ref = "crc_sdk/_observed_sources.py:113, 923-930"
 
 [[statement]]
 id = "bytes"
-text = "Saves the response unchanged as `source.csv` and records its SHA-256. A download shorter than the announced length is refused."
-code_ref = "crc_sdk/workflows/ibtracs.py:116-131, 157"
+text = "Saves the response unchanged and identifies it by the SHA-256 of its bytes. No announced length or publisher checksum is compared."
+code_ref = "crc_sdk/_source_io.py:261-289, 383-400"
 
 [[statement]]
-id = "header"
-text = "Reads line 1 as column names and line 2 as units. Requires the columns SID, SEASON and ISO_TIME. The units go to the manifest only; they are not in the data."
-code_ref = "crc_sdk/workflows/ibtracs.py:132-150, 170-171"
+id = "cache"
+text = "`Runtime()` keeps no cache, so every read downloads the file again. With `Cache.reuse(path)` a file already indexed for the address is served by its recorded checksum without asking NOAA whether it has changed; `Cache.offline(path)` never downloads and fails if the file is not cached; `Cache.refresh(path)` downloads again."
+code_ref = "crc_sdk/_runtime.py:167; crc_sdk/_source_io.py:325-382"
+note = "Read in the code, not shown on data: showing that a reused copy is stale needs NOAA to change the file between two runs. Left to monitoring."
 
 [[statement]]
 id = "columns"
-text = "Keeps every column, in the file's order, under NOAA's names."
-code_ref = "crc_sdk/workflows/ibtracs.py:172, 196"
+text = "Reads six of NOAA's columns: SID, ISO_TIME, LAT, LON and the agency's `<AGENCY>_WIND` and `<AGENCY>_PRES`; the read fails if one is absent. The other columns (season, basin, name, nature, track type, distance to land, the agency's own position and radii) are not returned."
+code_ref = "crc_sdk/_observed_decoders.py:467-478, 486-521"
 
 [[statement]]
-id = "strings"
-text = "Delivers every value as a string. Nothing is parsed into a number or a date, and no unit is converted."
-code_ref = "crc_sdk/workflows/ibtracs.py:201-203"
+id = "units"
+text = "Reads line 2 of the file as units: the agency's wind must be `kts` or `knots` and its pressure `mb` or `hPa`, or the read fails. Declares the wind in knots and the pressure in hPa; no value is converted. The wind of agency USA is declared as a 60-second average; no averaging period is declared for the other agencies."
+code_ref = "crc_sdk/_observed_decoders.py:479-485; crc_sdk/_observed_sources.py:318-345"
+
+[[statement]]
+id = "schema"
+text = "Returns observations with twelve columns: variable_id, scenario_id, period_id, support_id, cell_id, geometry, time, value, station_id, group_id, failure, coverage. The schema metadata of every batch carries the evidence metadata as JSON under `crc.evidence`."
+code_ref = "crc_sdk/_evidence.py:432-470"
 
 [[statement]]
 id = "trim"
-text = "Removes leading and trailing whitespace from every value."
-code_ref = "crc_sdk/workflows/ibtracs.py:218-221"
+text = "Removes leading and trailing whitespace from every value before it is used."
+code_ref = "crc_sdk/_observed_decoders.py:486-491"
 
 [[statement]]
-id = "null"
-text = "Turns a value that is empty after trimming into null. NOAA marks a missing value with a single space."
-code_ref = "crc_sdk/workflows/ibtracs.py:236-244"
+id = "time"
+text = "The time is ISO_TIME with its space replaced by `T` (for example `2023-06-08T12:00:00`); it must parse as a date and time, or the read fails. No time zone is added."
+code_ref = "crc_sdk/_observed_decoders.py:493-496; crc_sdk/_evidence.py:79-133"
+
+[[statement]]
+id = "position"
+text = "Parses LAT and LON as numbers; a longitude outside -180..360 or a latitude outside -90..90 fails the read. The longitude is moved into -180..180 as `(lon + 180) % 360 - 180`, so 180 becomes -180. The point is written as little-endian WKB. It is IBTrACS's combined position, not the agency's own."
+code_ref = "crc_sdk/_observed_decoders.py:49-56, 66-68, 497-506"
+
+[[statement]]
+id = "cell"
+text = "Adds the H3 cell of resolution 9 that contains the point."
+code_ref = "crc_sdk/_observed_decoders.py:74; crc_sdk/_observed_sources.py:1236"
+
+[[statement]]
+id = "identifiers"
+text = "variable_id is `ibtracs:<AGENCY>:maximum_sustained_wind` or `ibtracs:<AGENCY>:minimum_central_pressure`. support_id is `<SID>:<time>@` followed by the first 20 hexadecimal digits of the SHA-256 of the WKB point. group_id is the SID. station_id, scenario_id and period_id are null."
+code_ref = "crc_sdk/_observed_decoders.py:66-76, 507-521; crc_sdk/_observed_sources.py:1530-1532"
+
+[[statement]]
+id = "values"
+text = "Parses the agency's wind and pressure as floating-point numbers; a value that is not a finite number fails the read."
+code_ref = "crc_sdk/_observed_decoders.py:35-46, 518"
+
+[[statement]]
+id = "missing"
+text = "A value that is empty after trimming becomes a null value with the failure code `source_no_data` and the message 'The source reports no valid observation.'. coverage is null."
+code_ref = "crc_sdk/_observed_decoders.py:35-37, 79-104"
 
 [[statement]]
 id = "rows"
-text = "Keeps every data row in the file's order. Rows are not dropped, merged, sorted or de-duplicated."
-code_ref = "crc_sdk/workflows/ibtracs.py:174-186, 194-215"
-
-[[statement]]
-id = "storms"
-text = "`for_storms(ids)` keeps the rows whose SID is in the list. These are track points, not complete storms across basin files."
-code_ref = "crc_sdk/workflows/ibtracs.py:76-80, 222-225"
-
-[[statement]]
-id = "seasons"
-text = "`years(a, b)` keeps the rows whose SEASON, read as an integer, lies in a..b inclusive. SEASON is NOAA's season label, not the calendar year of the point."
-code_ref = "crc_sdk/workflows/ibtracs.py:82-85, 226-234"
+text = "Returns two rows for every data row of the file, the wind and then the pressure, in the file's order, whether or not the agency reported a value there. No row is dropped, merged or sorted; two rows with the same identity fail the read."
+code_ref = "crc_sdk/_observed_decoders.py:486-522; crc_sdk/_observed_sources.py:1514-1547; crc_sdk/_evidence.py:672-674"
 
 [[statement]]
 id = "provenance"
-text = "Writes a manifest beside the snapshot with the address, version, subset, SHA-256, retrieval time, ETag, Last-Modified, units, a terms address and a citation. The batches themselves carry no metadata."
-code_ref = "crc_sdk/workflows/ibtracs.py:142-158"
-
-[[statement]]
-id = "reuse"
-text = "In `reuse` mode (the default) a cached snapshot is served without asking NOAA whether the file has changed. NOAA rewrites these files in place."
-code_ref = "crc_sdk/workflows/_remote.py:91-115; docs/sources/observations.md:42"
-note = "Read in the code, not shown on data: showing it needs NOAA to change a file between two runs. Left to monitoring (phase V4)."
+text = "Attaches a source identity to the metadata, to the report and to every batch's schema metadata: provider `ibtracs`, product `ibtracs_v04r01_tracks`, member the agency, and one resource with the address, the SHA-256, the licence text 'NOAA open-use terms; originator terms may apply', the attribution 'NOAA NCEI IBTrACS v04r01, doi:10.25921/82ty-9e16' and the retrieval time in UTC. The release is `ibtracs:selected-source-snapshot` with a SHA-256 over the sorted (address, checksum) pairs."
+code_ref = "crc_sdk/_observed_sources.py:113-118, 864-867, 923-930, 1075-1083; crc_sdk/_source_io.py:356, 383-397, 514-532"

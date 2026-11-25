@@ -46,7 +46,7 @@ HELD = {"jrc-flood": ("evidence", "boundaries")}
 #: fetched by the reference readers are kept: each is checked against its checksum when used.
 FRAMEWORK_OUTPUT = {
     "ibtracs": ("crc-sdk", "availability.json"),
-    "ghcnh": ("crc-sdk", "curves-*.parquet", "duckdb-temp"),
+    "ghcnh": ("crc-sdk",),
     "nex-gddp-cmip6": ("framework", "versions-served.json"),
     "jrc-flood": ("framework",),
 }

@@ -6,4 +6,4 @@ tier_reason = "Tier 3: passed through without fitting and not used in crc-lab."
 publisher = "Taylor Geospatial Engine (copy on Source Cooperative)"
 original = "s3://us-west-2.opendata.source.coop/tge-labs/ftw-global-data"
 purpose = "Predicted field boundaries for an area."
-entry_points = ["AgriculturalLayer.ftw_fields"]
+entry_points = ["FieldsOfTheWorld"]

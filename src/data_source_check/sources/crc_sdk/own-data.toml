@@ -4,5 +4,4 @@ kind = "user data"
 publisher = "The user"
 original = "Supplied by the user"
 purpose = "Tables, Zarr stores or rasters of the user's own, turned into CRC's dataset form. Listed for completeness; not an upstream source."
-entry_points = ["HazardDataset.from_table", "HazardDataset.from_zarr", "HazardDataset.from_raster"]
-symbols = ["BYOPlan"]
+entry_points = ["Dataset.from_quantiles", "Dataset.from_raster", "Layer.from_table", "Observations.from_table", "Projections.from_table", "Samples.from_table"]

@@ -2,37 +2,101 @@
  "checks": [
   {
    "category": "fidelity",
-   "check": "annual[rx1day historical 2014 v1.0]",
+   "check": "file[rx1day historical 2014]",
    "inputs": [
     {
-     "bytes": 181486832,
-     "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
-     "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+    "etag_listed": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:30Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc); highest listed 2.0 of 1.0, 1.1, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[rx1day historical 2014]",
+   "inputs": [
+    {
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 1,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:56:56Z",
+   "run_at": "2026-11-24T23:40:33Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -45,8 +109,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -55,115 +117,277 @@
     "units-rain",
     "statistic-rain"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[rx1day historical 2014 v1.0]",
+   "check": "labels[rx1day historical 2014]",
    "inputs": [
     {
-     "bytes": 181486832,
-     "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
-     "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "daily_total",
+      "window": null
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:33:47.252848+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": 0.0,
+     "scale": 86400.0,
+     "source_unit": "kg m-2 s-1",
+     "target_unit": "mm/day"
+    }
    },
-   "run_at": "2026-11-23T20:56:56Z",
+   "run_at": "2026-11-24T23:40:33Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[rx1day historical 2014]",
+   "inputs": [
+    {
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "historical",
+     "file": "historical"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:33Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[rx5day historical 2014 v1.0]",
+   "check": "file[rx5day historical 2014]",
    "inputs": [
     {
-     "bytes": 181486832,
-     "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
-     "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+    "etag_listed": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:33Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc); highest listed 2.0 of 1.0, 1.1, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[rx5day historical 2014]",
+   "inputs": [
+    {
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 0,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:56:57Z",
+   "run_at": "2026-11-24T23:40:33Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -176,8 +400,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -186,115 +408,284 @@
     "units-rain",
     "statistic-rain"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[rx5day historical 2014 v1.0]",
+   "check": "labels[rx5day historical 2014]",
    "inputs": [
     {
-     "bytes": 181486832,
-     "etag": "\"ea87c0b8926212caf3afe966b9aeb2c1-22\"",
-     "last_modified": "Mon, 19 Sep 2022 15:37:11 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "50fe17b1b7faff5a385742eb4ccc1733251a37990ddf8e1d406ab9d0b25afdfa",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "daily_total",
+      "window": null
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "rolling_total",
+      "window": {
+       "unit": "d",
+       "value": 5
+      }
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:33:47.252848+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": 0.0,
+     "scale": 86400.0,
+     "source_unit": "kg m-2 s-1",
+     "target_unit": "mm/day"
+    }
    },
-   "run_at": "2026-11-23T20:56:57Z",
+   "run_at": "2026-11-24T23:40:33Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[rx5day historical 2014]",
+   "inputs": [
+    {
+     "bytes": 219047564,
+     "etag": "\"19d4be4fa9c5362f7b0c6abd0b7cbdb3-27\"",
+     "last_modified": "Tue, 01 Jul 2025 19:26:53 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "f25615bd38744b10c669004367c14a7e0d9eb25abbf02481878d3f302018a8e9",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:fcbd3435eda19b2c39aeec31875a58e0d7f4cf543d426233c28fffbad8192feb",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "historical",
+     "file": "historical"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:33Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[txx historical 2014 v1.0]",
+   "check": "file[txx historical 2014]",
    "inputs": [
     {
-     "bytes": 244241713,
-     "etag": "\"8fc2764d24b11ca08a1b57727fc4957a-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:51:14 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 247566057,
+     "etag": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:45:55 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "847806acd3790326d7cd62e68c5488dd6fbb1b5785d5deaad58affe43825cc72",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "52d22c87cb4e5f8f801b5a646e9c8f355c2aeb460ac2afd8dc285d6a036baaf4",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:63acc8436c9a793870e96dce3864d254292a75d8ea3ea54fb13671fd4f00934f",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+    "etag_listed": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:33Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc); highest listed 2.0 of 1.0, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[txx historical 2014]",
+   "inputs": [
+    {
+     "bytes": 247566057,
+     "etag": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:45:55 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "52d22c87cb4e5f8f801b5a646e9c8f355c2aeb460ac2afd8dc285d6a036baaf4",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:63acc8436c9a793870e96dce3864d254292a75d8ea3ea54fb13671fd4f00934f",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 1,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:56:59Z",
+   "run_at": "2026-11-24T23:40:36Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -307,8 +698,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -317,115 +706,271 @@
     "units-temperature",
     "statistic-temperature"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[txx historical 2014 v1.0]",
+   "check": "labels[txx historical 2014]",
    "inputs": [
     {
-     "bytes": 244241713,
-     "etag": "\"8fc2764d24b11ca08a1b57727fc4957a-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:51:14 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 247566057,
+     "etag": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:45:55 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "847806acd3790326d7cd62e68c5488dd6fbb1b5785d5deaad58affe43825cc72",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "52d22c87cb4e5f8f801b5a646e9c8f355c2aeb460ac2afd8dc285d6a036baaf4",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:63acc8436c9a793870e96dce3864d254292a75d8ea3ea54fb13671fd4f00934f",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY-SA 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:33:35.348350+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": -273.15,
+     "scale": 1.0,
+     "source_unit": "K",
+     "target_unit": "degC"
+    }
    },
-   "run_at": "2026-11-23T20:56:59Z",
+   "run_at": "2026-11-24T23:40:36Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY-SA 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[txx historical 2014]",
+   "inputs": [
+    {
+     "bytes": 247566057,
+     "etag": "\"6a6fe30661a080ac056d8919050ea5aa-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:45:55 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "52d22c87cb4e5f8f801b5a646e9c8f355c2aeb460ac2afd8dc285d6a036baaf4",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:63acc8436c9a793870e96dce3864d254292a75d8ea3ea54fb13671fd4f00934f",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmax/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "historical",
+     "file": "historical"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:36Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[tnn historical 2014 v1.0]",
+   "check": "file[tnn historical 2014]",
    "inputs": [
     {
-     "bytes": 246019356,
-     "etag": "\"1e9aa34b3459328835573cf2708b292d-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:53:54 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 247342173,
+     "etag": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:49:16 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "d1e0011ca0fd83b37a33640ac66a5e1ef7ffb5a75c7b1dc737a6f9822bc30bfc",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "e82705ee34cb7870c3a24ef7bf179bfbd5c1d944aacdb3a682048e78c8ee23ad",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:66dca8b8bf40af923d251bfec9072bcb3ba6c90cd7b168837a7ff73df3aee2d0",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+    "etag_listed": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:36Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc); highest listed 2.0 of 1.0, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[tnn historical 2014]",
+   "inputs": [
+    {
+     "bytes": 247342173,
+     "etag": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:49:16 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "e82705ee34cb7870c3a24ef7bf179bfbd5c1d944aacdb3a682048e78c8ee23ad",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:66dca8b8bf40af923d251bfec9072bcb3ba6c90cd7b168837a7ff73df3aee2d0",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 1,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:57:02Z",
+   "run_at": "2026-11-24T23:40:39Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -438,8 +983,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -448,115 +991,272 @@
     "units-temperature",
     "statistic-temperature"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[tnn historical 2014 v1.0]",
+   "check": "labels[tnn historical 2014]",
    "inputs": [
     {
-     "bytes": 246019356,
-     "etag": "\"1e9aa34b3459328835573cf2708b292d-30\"",
-     "last_modified": "Mon, 19 Sep 2022 15:53:54 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 247342173,
+     "etag": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:49:16 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "d1e0011ca0fd83b37a33640ac66a5e1ef7ffb5a75c7b1dc737a6f9822bc30bfc",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "sha256": "e82705ee34cb7870c3a24ef7bf179bfbd5c1d944aacdb3a682048e78c8ee23ad",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:66dca8b8bf40af923d251bfec9072bcb3ba6c90cd7b168837a7ff73df3aee2d0",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY-SA 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_minimum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:34:18.839957+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": -273.15,
+     "scale": 1.0,
+     "source_unit": "K",
+     "target_unit": "degC"
+    }
    },
-   "run_at": "2026-11-23T20:57:02Z",
+   "run_at": "2026-11-24T23:40:39Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY-SA 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[tnn historical 2014]",
+   "inputs": [
+    {
+     "bytes": 247342173,
+     "etag": "\"71445d6f2b6d9c65c97459f41e737241-30\"",
+     "last_modified": "Tue, 01 Jul 2025 19:49:16 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "e82705ee34cb7870c3a24ef7bf179bfbd5c1d944aacdb3a682048e78c8ee23ad",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:66dca8b8bf40af923d251bfec9072bcb3ba6c90cd7b168837a7ff73df3aee2d0",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/tasmin/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "historical",
+     "file": "historical"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:39Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[rx1day historical 2014 v1.1]",
+   "check": "file[rx1day ssp585 2050]",
    "inputs": [
     {
-     "bytes": 219045111,
-     "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
-     "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+    "etag_listed": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:39Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc); highest listed 2.0 of 1.0, 1.1, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[rx1day ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 1,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:57:04Z",
+   "run_at": "2026-11-24T23:40:42Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -569,8 +1269,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -579,115 +1277,277 @@
     "units-rain",
     "statistic-rain"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[rx1day historical 2014 v1.1]",
+   "check": "labels[rx1day ssp585 2050]",
    "inputs": [
     {
-     "bytes": 219045111,
-     "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
-     "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "daily_total",
+      "window": null
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:33:40.697480+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": 0.0,
+     "scale": 86400.0,
+     "source_unit": "kg m-2 s-1",
+     "target_unit": "mm/day"
+    }
    },
-   "run_at": "2026-11-23T20:57:04Z",
+   "run_at": "2026-11-24T23:40:42Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[rx1day ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "ssp585",
+     "file": "ssp585"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:42Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[rx1day ssp585 2050 v1.0]",
+   "check": "file[rx5day ssp585 2050]",
    "inputs": [
     {
-     "bytes": 181597715,
-     "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
-     "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-23T20:50:30Z",
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+    "etag_listed": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:42Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc); highest listed 2.0 of 1.0, 1.1, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[rx5day ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 0,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:57:07Z",
+   "run_at": "2026-11-24T23:40:43Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -700,8 +1560,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -710,115 +1568,284 @@
     "units-rain",
     "statistic-rain"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[rx1day ssp585 2050 v1.0]",
+   "check": "labels[rx5day ssp585 2050]",
    "inputs": [
     {
-     "bytes": 181597715,
-     "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
-     "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-23T20:50:30Z",
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
      "role": "reference download",
-     "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "daily_total",
+      "window": null
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "rolling_total",
+      "window": {
+       "unit": "d",
+       "value": 5
+      }
+     },
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:33:40.697480+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": 0.0,
+     "scale": 86400.0,
+     "source_unit": "kg m-2 s-1",
+     "target_unit": "mm/day"
+    }
    },
-   "run_at": "2026-11-23T20:57:07Z",
+   "run_at": "2026-11-24T23:40:43Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[rx5day ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 218402972,
+     "etag": "\"56152489ebe19295b10d7e1f1f316ee2-27\"",
+     "last_modified": "Tue, 01 Jul 2025 22:15:28 GMT",
+     "retrieved_at": "2026-11-24T23:38:52Z",
+     "role": "reference download",
+     "sha256": "d9d43693f8bd53238792bc05f9c2ee4b529d675a457cf311fbe269d9697adb11",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:add19c29d077eeb9386af44a55ca023693bf384021e674043747e81cf2d460d1",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "ssp585",
+     "file": "ssp585"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:43Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[rx5day ssp585 2050 v1.0]",
+   "check": "file[txx ssp585 2050]",
    "inputs": [
     {
-     "bytes": 181597715,
-     "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
-     "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-23T20:50:30Z",
+     "bytes": 247537726,
+     "etag": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:39:34 GMT",
+     "retrieved_at": "2026-11-24T23:39:37Z",
      "role": "reference download",
-     "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "a2e3361bbe6ff70ce20ff01563e1e0a921243bdca23d77fdc39eba424c06f1d6",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:83d478f25a7c4aa9815d5f9feb25858c3b36fea0bc85f57624f57560c78d58de",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+    "etag_listed": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:43Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc); highest listed 2.0 of 1.0, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[txx ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 247537726,
+     "etag": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:39:34 GMT",
+     "retrieved_at": "2026-11-24T23:39:37Z",
+     "role": "reference download",
+     "sha256": "a2e3361bbe6ff70ce20ff01563e1e0a921243bdca23d77fdc39eba424c06f1d6",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:83d478f25a7c4aa9815d5f9feb25858c3b36fea0bc85f57624f57560c78d58de",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 0,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:57:07Z",
+   "run_at": "2026-11-24T23:40:46Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -831,139 +1858,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
-    "time",
-    "area",
-    "missing",
-    "completeness",
-    "output",
-    "units-rain",
-    "statistic-rain"
-   ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
-   "tier": "verification",
-   "tolerance": {
-    "numbers": "within 1e-09",
-    "order": "identical"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "labels[rx5day ssp585 2050 v1.0]",
-   "inputs": [
-    {
-     "bytes": 181597715,
-     "etag": "\"c0933fe7a84cd1406869b514a028502b-22\"",
-     "last_modified": "Mon, 19 Sep 2022 17:37:03 GMT",
-     "retrieved_at": "2026-11-23T20:50:30Z",
-     "role": "reference download",
-     "sha256": "ac8d265c83b962d87cac74d15851a0895caf075c61c8a47d1f41befca43b6529",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    }
-   ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "columns": [
-     "year",
-     "latitude",
-     "longitude",
-     "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
-    ],
-    "has_checksum_column": false,
-    "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
-   },
-   "run_at": "2026-11-23T20:57:07Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "labels",
-    "licence"
-   ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
-   "tier": "verification",
-   "tolerance": {
-    "labels": "identical text"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "fidelity",
-   "check": "annual[txx ssp585 2050 v1.0]",
-   "inputs": [
-    {
-     "bytes": 244210393,
-     "etag": "\"cb9d0b0a57d651ef292a8772e7dc9c20-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:53:29 GMT",
-     "retrieved_at": "2026-11-23T20:50:53Z",
-     "role": "reference download",
-     "sha256": "92f77b3e5f95f71dc79c4638295db401bd3ac460113b96c1246ca41a3f5abc5d",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
-    }
-   ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "cells_in_box": 2332,
-    "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
-    "examples": [],
-    "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
-    "values_differing": 0
-   },
-   "run_at": "2026-11-23T20:57:10Z",
-   "sample": {
-    "bounds": [
-     -106.645646,
-     25.837377,
-     -93.508292,
-     36.500704
-    ],
-    "cells": "all in the box"
-   },
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -972,115 +1866,271 @@
     "units-temperature",
     "statistic-temperature"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[txx ssp585 2050 v1.0]",
+   "check": "labels[txx ssp585 2050]",
    "inputs": [
     {
-     "bytes": 244210393,
-     "etag": "\"cb9d0b0a57d651ef292a8772e7dc9c20-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:53:29 GMT",
-     "retrieved_at": "2026-11-23T20:50:53Z",
+     "bytes": 247537726,
+     "etag": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:39:34 GMT",
+     "retrieved_at": "2026-11-24T23:39:37Z",
      "role": "reference download",
-     "sha256": "92f77b3e5f95f71dc79c4638295db401bd3ac460113b96c1246ca41a3f5abc5d",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "a2e3361bbe6ff70ce20ff01563e1e0a921243bdca23d77fdc39eba424c06f1d6",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:83d478f25a7c4aa9815d5f9feb25858c3b36fea0bc85f57624f57560c78d58de",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY-SA 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_maximum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:38:39.662714+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": -273.15,
+     "scale": 1.0,
+     "source_unit": "K",
+     "target_unit": "degC"
+    }
    },
-   "run_at": "2026-11-23T20:57:10Z",
+   "run_at": "2026-11-24T23:40:46Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY-SA 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "identity[txx ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 247537726,
+     "etag": "\"da945bd5165f43b340754e219c0f0a16-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:39:34 GMT",
+     "retrieved_at": "2026-11-24T23:39:37Z",
+     "role": "reference download",
+     "sha256": "a2e3361bbe6ff70ce20ff01563e1e0a921243bdca23d77fdc39eba424c06f1d6",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:83d478f25a7c4aa9815d5f9feb25858c3b36fea0bc85f57624f57560c78d58de",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmax/"
+    }
+   ],
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "ssp585",
+     "file": "ssp585"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
+   },
+   "run_at": "2026-11-24T23:40:46Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "identity"
+   ],
+   "summary": "0 of 4 identity attributes differ",
+   "tier": "verification",
+   "tolerance": {
+    "identity": "identical text"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "fidelity",
-   "check": "annual[tnn ssp585 2050 v1.0]",
+   "check": "file[tnn ssp585 2050]",
    "inputs": [
     {
-     "bytes": 245746209,
-     "etag": "\"df0dfaaa7656abbc0244b28944baea18-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:56:31 GMT",
-     "retrieved_at": "2026-11-23T20:50:53Z",
+     "bytes": 249079502,
+     "etag": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:44:09 GMT",
+     "retrieved_at": "2026-11-24T23:39:56Z",
      "role": "reference download",
-     "sha256": "ac4c70727bdc0b183b2765d53c6fe642097adb37067f0a308fb5bf6dc5caebe4",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "94f997bf63ecca03aa758ea7c7893fa662f3eb822c0696d858c2622037c73719",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:62060265d36cf944f22ef93e63b391371ca200053d10d6b34f1e4b79c4e3c826",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/"
     }
    ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
+   "method": "The file crc-sdk read (from its provenance) against the highest version NASA lists for the year (the reference's own listing of the bucket); and the ETag NASA lists for that file against the ETag of the reference's download.",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "etag_downloaded": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+    "etag_listed": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+    "file_read_by_crc_sdk": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "highest_version_listed": "2.0",
+    "version_read_by_crc_sdk": "2.0",
+    "versions_listed": [
+     "1.0",
+     "2.0"
+    ]
+   },
+   "run_at": "2026-11-24T23:40:46Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "files",
+    "versions"
+   ],
+   "summary": "crc-sdk read version 2.0 (tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc); highest listed 2.0 of 1.0, 2.0",
+   "tier": "verification",
+   "tolerance": {
+    "etag": "identical text",
+    "file": "identical address"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "fidelity",
+   "check": "annual[tnn ssp585 2050]",
+   "inputs": [
+    {
+     "bytes": 249079502,
+     "etag": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:44:09 GMT",
+     "retrieved_at": "2026-11-24T23:39:56Z",
+     "role": "reference download",
+     "sha256": "94f997bf63ecca03aa758ea7c7893fa662f3eb822c0696d858c2622037c73719",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "crc_sdk_view_sha256": "sha256:62060265d36cf944f22ef93e63b391371ca200053d10d6b34f1e4b79c4e3c826",
+     "role": "crc-sdk answer (range requests)",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/"
+    }
+   ],
+   "method": "Every grid cell of the box: the annual value, its coverage (days or five-day windows present, of those expected), the cell's edges, its H3 cell and its place in the file, recomputed in Python from the whole NASA file crc-sdk read, against crc-sdk's rows, in order. A cell with no value must carry the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
     "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
     "columns_differing": {},
     "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
     "examples": [],
     "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "transport_retries": 1,
+    "values_compared": 25652,
     "values_differing": 0
    },
-   "run_at": "2026-11-23T20:57:13Z",
+   "run_at": "2026-11-24T23:57:41Z",
    "sample": {
     "bounds": [
      -106.645646,
@@ -1093,8 +2143,6 @@
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "files",
-    "identity",
     "time",
     "area",
     "missing",
@@ -1103,375 +2151,253 @@
     "units-temperature",
     "statistic-temperature"
    ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
+   "summary": "2,158 cells with a value of 2,332 in the box; 2,332 rows against 2,332; 0 values differ; largest difference 0.0e+00",
    "tier": "verification",
    "tolerance": {
+    "labels": "identical text",
     "numbers": "within 1e-09",
     "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[tnn ssp585 2050 v1.0]",
+   "check": "labels[tnn ssp585 2050]",
    "inputs": [
     {
-     "bytes": 245746209,
-     "etag": "\"df0dfaaa7656abbc0244b28944baea18-30\"",
-     "last_modified": "Mon, 19 Sep 2022 17:56:31 GMT",
-     "retrieved_at": "2026-11-23T20:50:53Z",
+     "bytes": 249079502,
+     "etag": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:44:09 GMT",
+     "retrieved_at": "2026-11-24T23:39:56Z",
      "role": "reference download",
-     "sha256": "ac4c70727bdc0b183b2765d53c6fe642097adb37067f0a308fb5bf6dc5caebe4",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "sha256": "94f997bf63ecca03aa758ea7c7893fa662f3eb822c0696d858c2622037c73719",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:62060265d36cf944f22ef93e63b391371ca200053d10d6b34f1e4b79c4e3c826",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The labels crc-sdk puts on its result against the request and the file's own attributes: variable, unit, scenario, model, member, release, calendar, the unit conversion and the annual reduction recorded in the provenance (with its coverage rule), the licence on the file's resource against the file's global `license` attribute, the attribution, and a retrieval time.",
    "note": "",
    "outcome": "confirmed",
    "result": {
+    "attribution": "NASA Earth Exchange NEX-GDDP-CMIP6",
+    "cmip6_license_in_file": "CC-BY-SA 4.0",
     "columns": [
-     "year",
-     "latitude",
-     "longitude",
+     "variable_id",
+     "scenario_id",
+     "period_id",
+     "support_id",
+     "cell_id",
+     "geometry",
+     "time",
      "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
+     "station_id",
+     "group_id",
+     "failure",
+     "coverage"
     ],
-    "has_checksum_column": false,
+    "counts": {
+     "incomplete_years": 174,
+     "matched_assets": 0,
+     "no_data": 174,
+     "produced": 2332,
+     "requested": 2332,
+     "skipped": 0,
+     "type": "ExecutionCounts",
+     "unmatched_assets": 0,
+     "usable_years": 2158
+    },
+    "diagnostics": [
+     "incomplete_year"
+    ],
     "labels_wrong": {},
-    "licence_in_file": "CC-BY-SA 4.0",
-    "licence_warning_raised": true
+    "licence_on_resource": null,
+    "license_attribute_in_file": null,
+    "reductions": [
+     {
+      "coverage_fraction": 1.0,
+      "operation": "annual_minimum",
+      "window": null
+     }
+    ],
+    "retrieved_at": "2026-11-24T23:38:48.162549+00:00",
+    "row_labels_wrong": {},
+    "unit_conversion": {
+     "offset": -273.15,
+     "scale": 1.0,
+     "source_unit": "K",
+     "target_unit": "degC"
+    }
    },
-   "run_at": "2026-11-23T20:57:13Z",
+   "run_at": "2026-11-24T23:57:41Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "labels",
+    "provenance",
     "licence"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY-SA 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 labels wrong; licence on the resource: None; `license` in the file: None; cmip6_license in the file: CC-BY-SA 4.0",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "labels": "identical text",
+    "numbers": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "fidelity",
-   "check": "annual[rx1day ssp585 2050 v1.1]",
-   "inputs": [
-    {
-     "bytes": 217778915,
-     "etag": "\"798d00398ef871b0ec8ca49d5c25857f-26\"",
-     "last_modified": "Tue, 26 Mar 2024 16:36:39 GMT",
-     "retrieved_at": "2026-11-23T20:50:49Z",
-     "role": "reference download",
-     "sha256": "26c959a88b8cca29a1bb3fcae5cc11832d215789f7a8ec2b681a857e53164108",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
-    }
-   ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "cells_in_box": 2332,
-    "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
-    "examples": [],
-    "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
-    "values_differing": 0
-   },
-   "run_at": "2026-11-23T20:57:15Z",
-   "sample": {
-    "bounds": [
-     -106.645646,
-     25.837377,
-     -93.508292,
-     36.500704
-    ],
-    "cells": "all in the box"
-   },
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "files",
-    "identity",
-    "time",
-    "area",
-    "missing",
-    "completeness",
-    "output",
-    "units-rain",
-    "statistic-rain"
-   ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
-   "tier": "verification",
-   "tolerance": {
-    "numbers": "within 1e-09",
-    "order": "identical"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
    "category": "consistency",
-   "check": "labels[rx1day ssp585 2050 v1.1]",
+   "check": "identity[tnn ssp585 2050]",
    "inputs": [
     {
-     "bytes": 217778915,
-     "etag": "\"798d00398ef871b0ec8ca49d5c25857f-26\"",
-     "last_modified": "Tue, 26 Mar 2024 16:36:39 GMT",
-     "retrieved_at": "2026-11-23T20:50:49Z",
+     "bytes": 249079502,
+     "etag": "\"7c33aae291d203c56532d0886b5d2852-30\"",
+     "last_modified": "Tue, 01 Jul 2025 22:44:09 GMT",
+     "retrieved_at": "2026-11-24T23:39:56Z",
      "role": "reference download",
-     "sha256": "26c959a88b8cca29a1bb3fcae5cc11832d215789f7a8ec2b681a857e53164108",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
+     "sha256": "94f997bf63ecca03aa758ea7c7893fa662f3eb822c0696d858c2622037c73719",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
     },
     {
+     "crc_sdk_view_sha256": "sha256:62060265d36cf944f22ef93e63b391371ca200053d10d6b34f1e4b79c4e3c826",
      "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/pr/pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc"
+    },
+    {
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/?list-type=2&prefix=NEX-GDDP-CMIP6/ACCESS-CM2/ssp585/r1i1p1f1/tasmin/"
     }
    ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
+   "method": "The identity the file states in its own attributes (cmip6_source_id, variant_label, scenario, version) against the model, member and scenario crc-sdk labels its result with and the version in the name of the file it read.",
    "note": "",
    "outcome": "confirmed",
    "result": {
-    "columns": [
-     "year",
-     "latitude",
-     "longitude",
-     "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
-    ],
-    "has_checksum_column": false,
-    "labels_wrong": {},
-    "licence_in_file": "CC-BY 4.0",
-    "licence_warning_raised": true
+    "member": {
+     "crc_sdk": "r1i1p1f1",
+     "file": "r1i1p1f1"
+    },
+    "model": {
+     "crc_sdk": "ACCESS-CM2",
+     "file": "ACCESS-CM2"
+    },
+    "scenario": {
+     "crc_sdk": "ssp585",
+     "file": "ssp585"
+    },
+    "version": {
+     "crc_sdk": "2.0",
+     "file": "2.0"
+    }
    },
-   "run_at": "2026-11-23T20:57:15Z",
+   "run_at": "2026-11-24T23:57:41Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "labels",
-    "licence"
+    "identity"
    ],
-   "summary": "0 labels wrong; licence in the file CC-BY 4.0; warning raised: yes; checksum column: no",
+   "summary": "0 of 4 identity attributes differ",
    "tier": "verification",
    "tolerance": {
-    "labels": "identical text"
+    "identity": "identical text"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
-   "category": "fidelity",
-   "check": "annual[rx5day historical 2014 v1.1]",
-   "inputs": [
-    {
-     "bytes": 219045111,
-     "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
-     "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
-     "role": "reference download",
-     "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
-    }
-   ],
-   "method": "Every grid cell of the box: the annual value recomputed in Python from the whole NASA file, against the rows crc-sdk returns, in order.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "cells_in_box": 2332,
-    "columns_differing": {},
-    "crc_sdk_path": "/Users/yuri/work/crc/crc-lab/.venv/lib/python3.12/site-packages/crc_sdk",
-    "examples": [],
-    "largest_difference": 0.0,
-    "rows_framework": 2158,
-    "rows_reference": 2158,
-    "values_compared": 8632,
-    "values_differing": 0
-   },
-   "run_at": "2026-11-23T20:57:15Z",
-   "sample": {
-    "bounds": [
-     -106.645646,
-     25.837377,
-     -93.508292,
-     36.500704
-    ],
-    "cells": "all in the box"
-   },
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "files",
-    "identity",
-    "time",
-    "area",
-    "missing",
-    "completeness",
-    "output",
-    "units-rain",
-    "statistic-rain"
-   ],
-   "summary": "2,158 cells with a value of 2,332 in the box, against 2,158; 0 values differ; largest difference 0.0e+00",
-   "tier": "verification",
-   "tolerance": {
-    "numbers": "within 1e-09",
-    "order": "identical"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "consistency",
-   "check": "labels[rx5day historical 2014 v1.1]",
-   "inputs": [
-    {
-     "bytes": 219045111,
-     "etag": "\"bc93c8b5ae7f37bd1823cb31f78742b4-27\"",
-     "last_modified": "Tue, 26 Mar 2024 16:08:49 GMT",
-     "retrieved_at": "2026-11-23T20:49:23Z",
-     "role": "reference download",
-     "sha256": "0419d8861af018b5dd9a2aa2b77acd07f4ff5f7fc6d9b25d29432ca1b73c2333",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
-    },
-    {
-     "role": "crc-sdk answer (range requests)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc"
-    }
-   ],
-   "method": "The labels on crc-sdk's rows against the request and the file's own attributes: unit, recipe, model, scenario, member, version, calendar, address, both licences; and whether a warning is raised when the file's licence is not CC0.",
-   "note": "",
-   "outcome": "confirmed",
-   "result": {
-    "columns": [
-     "year",
-     "latitude",
-     "longitude",
-     "value",
-     "unit",
-     "recipe",
-     "model",
-     "scenario",
-     "member",
-     "grid_label",
-     "version",
-     "calendar",
-     "source_url",
-     "retrieved_at",
-     "archive_licence",
-     "archive_licence_url",
-     "original_model_licence",
-     "attribution"
-    ],
-    "has_checksum_column": false,
-    "labels_wrong": {},
-    "licence_in_file": "CC-BY 4.0",
-    "licence_warning_raised": true
-   },
-   "run_at": "2026-11-23T20:57:15Z",
-   "sample": {},
-   "schema": "data_source_check/0.1",
-   "source": "nex-gddp-cmip6",
-   "steps": [
-    "labels",
-    "licence"
-   ],
-   "summary": "0 labels wrong; licence in the file CC-BY 4.0; warning raised: yes; checksum column: no",
-   "tier": "verification",
-   "tolerance": {
-    "labels": "identical text"
-   },
-   "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
-   }
-  },
-  {
-   "category": "fidelity",
-   "check": "missing-version",
+   "category": "completeness",
+   "check": "year-without-file[rx1day historical 2015]",
    "inputs": [
     {
      "role": "crc-sdk answer",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.2.nc"
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
     }
    ],
-   "method": "Ask crc-sdk for rx1day historical 2014 v1.2, which NASA does not have (HTTP 404): crc-sdk must raise and return no rows.",
+   "method": "Ask crc-sdk for rx1day historical 2015, a year NASA has no file for: crc-sdk must return one row per grid cell of the box (the cells of the nearest year's file) with no value, 0 days present and the failure incomplete_year.",
    "note": "",
    "outcome": "confirmed",
    "result": {
-    "crc_sdk_error": "FileNotFoundError: https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.2.nc",
-    "rows_returned": 0
+    "columns_differing": {},
+    "crc_sdk_error": "",
+    "examples": [],
+    "files_read_by_crc_sdk": [
+     "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc"
+    ],
+    "largest_difference": 0.0,
+    "nearest_year": 2014,
+    "rows_framework": 2332,
+    "rows_reference": 2332,
+    "values_compared": 25652,
+    "values_differing": 0,
+    "year_listed": false
    },
-   "run_at": "2026-11-23T20:57:15Z",
+   "run_at": "2026-11-24T23:57:41Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
-    "versions"
+    "year-without-file"
    ],
-   "summary": "crc-sdk raises (FileNotFoundError: https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/ACCESS-CM2/historical/r1i1p1f1/pr/pr); 0 rows",
+   "summary": "2,332 rows against 2,332; 25,652 values compared, 0 differ; crc-sdk read pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
    "tier": "verification",
    "tolerance": {
-    "behaviour": "an error and no rows"
+    "numbers": "within 1e-09",
+    "order": "identical"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  },
+  {
+   "category": "consistency",
+   "check": "calendar[BCC-CSM2-MR rx1day historical 2014]",
+   "inputs": [
+    {
+     "role": "reference header",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6/BCC-CSM2-MR/historical/r1i1p1f1/pr/pr_day_BCC-CSM2-MR_historical_r1i1p1f1_gn_1950_v2.0.nc"
+    }
+   ],
+   "method": "Ask crc-sdk for BCC-CSM2-MR rx1day historical 2014. The reference reads the calendar of that model's first file (its header only, by range requests). crc-sdk must refuse exactly when the calendar is not Gregorian (standard, gregorian, proleptic_gregorian).",
+   "note": "",
+   "outcome": "confirmed",
+   "result": {
+    "calendar_in_file": "365_day",
+    "crc_sdk_error": "ValidationError: NEX source does not use its published Gregorian calendar",
+    "crc_sdk_refuses": true,
+    "rows_returned": 0
+   },
+   "run_at": "2026-11-24T23:57:52Z",
+   "sample": {},
+   "schema": "data_source_check/0.1",
+   "source": "nex-gddp-cmip6",
+   "steps": [
+    "calendar"
+   ],
+   "summary": "calendar 365_day; crc-sdk refuses: ValidationError: NEX source does not use its published Gregorian calendar",
+   "tier": "verification",
+   "tolerance": {
+    "behaviour": "refused if and only if not Gregorian"
+   },
+   "versions": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   },
   {
@@ -1479,112 +2405,166 @@
    "check": "versions-served",
    "inputs": [
     {
-     "role": "publisher listing (HEAD)",
-     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6"
+     "role": "publisher listing",
+     "url": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com"
     }
    ],
-   "method": "For each variable and year assessed, ask NASA (HEAD) for file versions 1.0, 1.1, 1.2, 2.0 and compare with the versions crc-sdk accepts.",
+   "method": "For each variable and year assessed, the file versions NASA lists (the reference's own listing) against the versions a crc-sdk user can request: crc-sdk 1.0 takes no version and reads only the highest one.",
    "note": "",
    "outcome": "differs",
    "result": {
-    "accepted_by_crc_sdk": [
-     "1.0",
-     "1.1",
-     "1.2"
-    ],
     "by_file": [
      {
       "scenario": "historical",
-      "status": {
-       "1.0": 200,
-       "1.1": 404,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "tasmax",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
       "year": 2014
      },
      {
       "scenario": "historical",
-      "status": {
-       "1.0": 200,
-       "1.1": 404,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "tasmin",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
       "year": 2014
      },
      {
       "scenario": "historical",
-      "status": {
-       "1.0": 200,
-       "1.1": 200,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "pr",
+      "versions": [
+       "1.0",
+       "1.1",
+       "2.0"
+      ],
       "year": 2014
      },
      {
       "scenario": "ssp585",
-      "status": {
-       "1.0": 200,
-       "1.1": 404,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "tasmax",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
       "year": 2050
      },
      {
       "scenario": "ssp585",
-      "status": {
-       "1.0": 200,
-       "1.1": 404,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "tasmin",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
       "year": 2050
      },
      {
       "scenario": "ssp585",
-      "status": {
-       "1.0": 200,
-       "1.1": 200,
-       "1.2": 404,
-       "2.0": 200
-      },
       "variable": "pr",
+      "versions": [
+       "1.0",
+       "1.1",
+       "2.0"
+      ],
       "year": 2050
      }
     ],
-    "probed": [
-     "1.0",
-     "1.1",
-     "1.2",
-     "2.0"
-    ],
-    "served_but_not_accepted": [
-     "2.0"
+    "served_but_not_requestable": [
+     {
+      "not_requestable": [
+       "1.0"
+      ],
+      "scenario": "historical",
+      "variable": "tasmax",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
+      "year": 2014
+     },
+     {
+      "not_requestable": [
+       "1.0"
+      ],
+      "scenario": "historical",
+      "variable": "tasmin",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
+      "year": 2014
+     },
+     {
+      "not_requestable": [
+       "1.0",
+       "1.1"
+      ],
+      "scenario": "historical",
+      "variable": "pr",
+      "versions": [
+       "1.0",
+       "1.1",
+       "2.0"
+      ],
+      "year": 2014
+     },
+     {
+      "not_requestable": [
+       "1.0"
+      ],
+      "scenario": "ssp585",
+      "variable": "tasmax",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
+      "year": 2050
+     },
+     {
+      "not_requestable": [
+       "1.0"
+      ],
+      "scenario": "ssp585",
+      "variable": "tasmin",
+      "versions": [
+       "1.0",
+       "2.0"
+      ],
+      "year": 2050
+     },
+     {
+      "not_requestable": [
+       "1.0",
+       "1.1"
+      ],
+      "scenario": "ssp585",
+      "variable": "pr",
+      "versions": [
+       "1.0",
+       "1.1",
+       "2.0"
+      ],
+      "year": 2050
+     }
     ]
    },
-   "run_at": "2026-11-23T20:57:25Z",
+   "run_at": "2026-11-24T23:57:52Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "nex-gddp-cmip6",
    "steps": [
     "versions-offered"
    ],
-   "summary": "served by NASA but not accepted by crc-sdk: 2.0",
+   "summary": "served by NASA but not requestable through crc-sdk: tasmax historical 2014: 1.0; tasmin historical 2014: 1.0; pr historical 2014: 1.0, 1.1; tasmax ssp585 2050: 1.0; tasmin ssp585 2050: 1.0; pr ssp585 2050: 1.0, 1.1",
    "tier": "verification",
    "tolerance": {
     "versions": "every version served can be requested"
    },
    "versions": {
-    "crc-framework": "0.6.0",
-    "crc-sdk": "0.11.2"
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
    }
   }
  ],
@@ -1592,40 +2572,40 @@
   "cases": [
    {
     "calendar": "proleptic_gregorian",
-    "case": "rx1day historical 2014 v1.0",
+    "case": "rx1day historical 2014",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc",
-    "file_version": "1.0",
+    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "file_version": "2.0",
     "highest": 78.98694332689047,
-    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_in_file": "CC-BY 4.0",
     "lowest": 12.736760778352618,
-    "unit": "mm/day",
+    "unit": "mm",
     "units_in_file": "kg m-2 s-1"
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "rx5day historical 2014 v1.0",
+    "case": "rx5day historical 2014",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc",
-    "file_version": "1.0",
+    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "file_version": "2.0",
     "highest": 178.75304496847093,
-    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_in_file": "CC-BY 4.0",
     "lowest": 32.47665461967699,
     "unit": "mm",
     "units_in_file": "kg m-2 s-1"
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "txx historical 2014 v1.0",
+    "case": "txx historical 2014",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc",
-    "file_version": "1.0",
+    "file": "tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "file_version": "2.0",
     "highest": 46.67510375976565,
     "licence_in_file": "CC-BY-SA 4.0",
     "lowest": 27.321832275390648,
@@ -1634,12 +2614,12 @@
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "tnn historical 2014 v1.0",
+    "case": "tnn historical 2014",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc",
-    "file_version": "1.0",
+    "file": "tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+    "file_version": "2.0",
     "highest": 1.7837463378906477,
     "licence_in_file": "CC-BY-SA 4.0",
     "lowest": -34.45883789062498,
@@ -1648,54 +2628,40 @@
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "rx1day historical 2014 v1.1",
+    "case": "rx1day ssp585 2050",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc",
-    "file_version": "1.1",
-    "highest": 78.98694332689047,
-    "licence_in_file": "CC-BY 4.0",
-    "lowest": 12.736760778352618,
-    "unit": "mm/day",
-    "units_in_file": "kg m-2 s-1"
-   },
-   {
-    "calendar": "proleptic_gregorian",
-    "case": "rx1day ssp585 2050 v1.0",
-    "cells_in_box": 2332,
-    "cells_with_a_value": 2158,
-    "days": 365,
-    "file": "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc",
-    "file_version": "1.0",
+    "file": "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "file_version": "2.0",
     "highest": 101.59773901104927,
-    "licence_in_file": "CC-BY-SA 4.0",
+    "licence_in_file": "CC-BY 4.0",
     "lowest": 11.961915856227279,
-    "unit": "mm/day",
-    "units_in_file": "kg m-2 s-1"
-   },
-   {
-    "calendar": "proleptic_gregorian",
-    "case": "rx5day ssp585 2050 v1.0",
-    "cells_in_box": 2332,
-    "cells_with_a_value": 2158,
-    "days": 365,
-    "file": "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc",
-    "file_version": "1.0",
-    "highest": 261.7197048937669,
-    "licence_in_file": "CC-BY-SA 4.0",
-    "lowest": 25.832608182099648,
     "unit": "mm",
     "units_in_file": "kg m-2 s-1"
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "txx ssp585 2050 v1.0",
+    "case": "rx5day ssp585 2050",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc",
-    "file_version": "1.0",
+    "file": "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "file_version": "2.0",
+    "highest": 261.7715151136508,
+    "licence_in_file": "CC-BY 4.0",
+    "lowest": 25.901165208779275,
+    "unit": "mm",
+    "units_in_file": "kg m-2 s-1"
+   },
+   {
+    "calendar": "proleptic_gregorian",
+    "case": "txx ssp585 2050",
+    "cells_in_box": 2332,
+    "cells_with_a_value": 2158,
+    "days": 365,
+    "file": "tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "file_version": "2.0",
     "highest": 51.23211059570315,
     "licence_in_file": "CC-BY-SA 4.0",
     "lowest": 30.225823974609398,
@@ -1704,134 +2670,142 @@
    },
    {
     "calendar": "proleptic_gregorian",
-    "case": "tnn ssp585 2050 v1.0",
+    "case": "tnn ssp585 2050",
     "cells_in_box": 2332,
     "cells_with_a_value": 2158,
     "days": 365,
-    "file": "tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050.nc",
-    "file_version": "1.0",
+    "file": "tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+    "file_version": "2.0",
     "highest": 8.816918945312523,
     "licence_in_file": "CC-BY-SA 4.0",
     "lowest": -32.21178283691404,
     "unit": "degC",
     "units_in_file": "K"
-   },
-   {
-    "calendar": "proleptic_gregorian",
-    "case": "rx1day ssp585 2050 v1.1",
-    "cells_in_box": 2332,
-    "cells_with_a_value": 2158,
-    "days": 365,
-    "file": "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v1.1.nc",
-    "file_version": "1.1",
-    "highest": 101.59773901104927,
-    "licence_in_file": "CC-BY 4.0",
-    "lowest": 11.961915856227279,
-    "unit": "mm/day",
-    "units_in_file": "kg m-2 s-1"
-   },
-   {
-    "calendar": "proleptic_gregorian",
-    "case": "rx5day historical 2014 v1.1",
-    "cells_in_box": 2332,
-    "cells_with_a_value": 2158,
-    "days": 365,
-    "file": "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc",
-    "file_version": "1.1",
-    "highest": 178.75304496847093,
-    "licence_in_file": "CC-BY 4.0",
-    "lowest": 32.47665461967699,
-    "unit": "mm",
-    "units_in_file": "kg m-2 s-1"
    }
   ],
   "version_differences": [
    {
+    "against": "2.0",
     "cells": 2158,
     "cells_differing": 15,
     "cells_only_in_one": 0,
     "largest_difference": 0.08104713633656502,
     "recipe": "rx1day",
     "scenario": "historical",
+    "version": "1.0",
+    "year": 2014
+   },
+   {
+    "against": "2.0",
+    "cells": 2158,
+    "cells_differing": 0,
+    "cells_only_in_one": 0,
+    "largest_difference": 0.0,
+    "recipe": "rx1day",
+    "scenario": "historical",
     "version": "1.1",
     "year": 2014
    },
    {
+    "against": "2.0",
+    "cells": 2158,
+    "cells_differing": 0,
+    "cells_only_in_one": 0,
+    "largest_difference": 0.0,
+    "recipe": "txx",
+    "scenario": "historical",
+    "version": "1.0",
+    "year": 2014
+   },
+   {
+    "against": "2.0",
     "cells": 2158,
     "cells_differing": 42,
     "cells_only_in_one": 0,
     "largest_difference": 0.8431758731603622,
     "recipe": "rx1day",
     "scenario": "ssp585",
+    "version": "1.0",
+    "year": 2050
+   },
+   {
+    "against": "2.0",
+    "cells": 2158,
+    "cells_differing": 0,
+    "cells_only_in_one": 0,
+    "largest_difference": 0.0,
+    "recipe": "rx1day",
+    "scenario": "ssp585",
     "version": "1.1",
+    "year": 2050
+   },
+   {
+    "against": "2.0",
+    "cells": 2158,
+    "cells_differing": 0,
+    "cells_only_in_one": 0,
+    "largest_difference": 0.0,
+    "recipe": "txx",
+    "scenario": "ssp585",
+    "version": "1.0",
     "year": 2050
    }
   ],
   "versions_served": [
    {
     "scenario": "historical",
-    "status": {
-     "1.0": 200,
-     "1.1": 404,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "tasmax",
+    "versions": [
+     "1.0",
+     "2.0"
+    ],
     "year": 2014
    },
    {
     "scenario": "historical",
-    "status": {
-     "1.0": 200,
-     "1.1": 404,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "tasmin",
+    "versions": [
+     "1.0",
+     "2.0"
+    ],
     "year": 2014
    },
    {
     "scenario": "historical",
-    "status": {
-     "1.0": 200,
-     "1.1": 200,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "pr",
+    "versions": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ],
     "year": 2014
    },
    {
     "scenario": "ssp585",
-    "status": {
-     "1.0": 200,
-     "1.1": 404,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "tasmax",
+    "versions": [
+     "1.0",
+     "2.0"
+    ],
     "year": 2050
    },
    {
     "scenario": "ssp585",
-    "status": {
-     "1.0": 200,
-     "1.1": 404,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "tasmin",
+    "versions": [
+     "1.0",
+     "2.0"
+    ],
     "year": 2050
    },
    {
     "scenario": "ssp585",
-    "status": {
-     "1.0": 200,
-     "1.1": 200,
-     "1.2": 404,
-     "2.0": 200
-    },
     "variable": "pr",
+    "versions": [
+     "1.0",
+     "1.1",
+     "2.0"
+    ],
     "year": 2050
    }
   ]
@@ -1839,7 +2813,7 @@
  "framework": "crc-sdk",
  "headline": [
   [
-   23738,
+   17264,
    "cell values compared, installed version"
   ],
   [
@@ -1847,7 +2821,7 @@
    "values that differ"
   ],
   [
-   "23 of 24",
+   "34 of 35",
    "checks confirmed"
   ],
   [
@@ -1856,22 +2830,14 @@
   ]
  ],
  "options_assessed": {
-  "recipe": [
-   "rx1day",
-   "rx5day",
-   "tnn",
-   "txx"
-  ],
-  "scenario": [
-   "historical",
-   "ssp585"
-  ],
-  "version": [
-   "1.0",
-   "1.1"
+  "indicator": [
+   "annual_maximum_daily_maximum_temperature",
+   "annual_maximum_daily_precipitation",
+   "annual_maximum_five_day_precipitation",
+   "annual_minimum_daily_minimum_temperature"
   ]
  },
- "run_at": "2026-11-23T20:57:25Z",
+ "run_at": "2026-11-24T23:57:52Z",
  "schema": "data_source_check/0.1",
  "selection": {
   "bounds": [
@@ -1880,6 +2846,8 @@
    -93.508292,
    36.500704
   ],
+  "coverage": "crc-sdk default",
+  "file_version": "crc-sdk default (highest listed)",
   "grid": "gn",
   "member": "r1i1p1f1",
   "model": "ACCESS-CM2",
@@ -1899,6 +2867,7 @@
   {
    "head": [
     "Case",
+    "File",
     "File version",
     "Licence in the file",
     "Calendar",
@@ -1909,24 +2878,26 @@
     "Highest",
     "Unit"
    ],
-   "note": "Model ACCESS-CM2, member r1i1p1f1, the Texas box. Counted from NASA's files by the reference reader.",
+   "note": "Model ACCESS-CM2, member r1i1p1f1, the Texas box, the file crc-sdk read. Counted from NASA's files by the reference reader.",
    "rows": [
     [
-     "rx1day historical 2014 v1.0",
-     "1.0",
-     "CC-BY-SA 4.0",
+     "rx1day historical 2014",
+     "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+     "2.0",
+     "CC-BY 4.0",
      "proleptic_gregorian",
      365,
      2332,
      2158,
      "12.74",
      "78.99",
-     "mm/day"
+     "mm"
     ],
     [
-     "rx5day historical 2014 v1.0",
-     "1.0",
-     "CC-BY-SA 4.0",
+     "rx5day historical 2014",
+     "pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+     "2.0",
+     "CC-BY 4.0",
      "proleptic_gregorian",
      365,
      2332,
@@ -1936,8 +2907,9 @@
      "mm"
     ],
     [
-     "txx historical 2014 v1.0",
-     "1.0",
+     "txx historical 2014",
+     "tasmax_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+     "2.0",
      "CC-BY-SA 4.0",
      "proleptic_gregorian",
      365,
@@ -1948,8 +2920,9 @@
      "degC"
     ],
     [
-     "tnn historical 2014 v1.0",
-     "1.0",
+     "tnn historical 2014",
+     "tasmin_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc",
+     "2.0",
      "CC-BY-SA 4.0",
      "proleptic_gregorian",
      365,
@@ -1960,44 +2933,35 @@
      "degC"
     ],
     [
-     "rx1day historical 2014 v1.1",
-     "1.1",
+     "rx1day ssp585 2050",
+     "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+     "2.0",
      "CC-BY 4.0",
-     "proleptic_gregorian",
-     365,
-     2332,
-     2158,
-     "12.74",
-     "78.99",
-     "mm/day"
-    ],
-    [
-     "rx1day ssp585 2050 v1.0",
-     "1.0",
-     "CC-BY-SA 4.0",
      "proleptic_gregorian",
      365,
      2332,
      2158,
      "11.96",
      "101.60",
-     "mm/day"
+     "mm"
     ],
     [
-     "rx5day ssp585 2050 v1.0",
-     "1.0",
-     "CC-BY-SA 4.0",
+     "rx5day ssp585 2050",
+     "pr_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+     "2.0",
+     "CC-BY 4.0",
      "proleptic_gregorian",
      365,
      2332,
      2158,
-     "25.83",
-     "261.72",
+     "25.90",
+     "261.77",
      "mm"
     ],
     [
-     "txx ssp585 2050 v1.0",
-     "1.0",
+     "txx ssp585 2050",
+     "tasmax_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+     "2.0",
      "CC-BY-SA 4.0",
      "proleptic_gregorian",
      365,
@@ -2008,8 +2972,9 @@
      "degC"
     ],
     [
-     "tnn ssp585 2050 v1.0",
-     "1.0",
+     "tnn ssp585 2050",
+     "tasmin_day_ACCESS-CM2_ssp585_r1i1p1f1_gn_2050_v2.0.nc",
+     "2.0",
      "CC-BY-SA 4.0",
      "proleptic_gregorian",
      365,
@@ -2018,30 +2983,6 @@
      "-32.21",
      "8.82",
      "degC"
-    ],
-    [
-     "rx1day ssp585 2050 v1.1",
-     "1.1",
-     "CC-BY 4.0",
-     "proleptic_gregorian",
-     365,
-     2332,
-     2158,
-     "11.96",
-     "101.60",
-     "mm/day"
-    ],
-    [
-     "rx5day historical 2014 v1.1",
-     "1.1",
-     "CC-BY 4.0",
-     "proleptic_gregorian",
-     365,
-     2332,
-     2158,
-     "32.48",
-     "178.75",
-     "mm"
     ]
    ],
    "title": "What was read"
@@ -2051,66 +2992,52 @@
     "Variable",
     "Scenario",
     "Year",
-    "v1.0",
-    "v1.1",
-    "v1.2",
-    "v2.0"
+    "Versions listed",
+    "Read by crc-sdk 1.0"
    ],
-   "note": "HTTP status of each version's address. crc-sdk accepts 1.0, 1.1, 1.2.",
+   "note": "Versions in NASA's listing for each variable and year. crc-sdk 1.0 reads the highest and offers no way to ask for another.",
    "rows": [
     [
      "tasmax",
      "historical",
      "2014",
-     "served",
-     "no (404)",
-     "no (404)",
-     "served"
+     "1.0, 2.0",
+     "2.0"
     ],
     [
      "tasmin",
      "historical",
      "2014",
-     "served",
-     "no (404)",
-     "no (404)",
-     "served"
+     "1.0, 2.0",
+     "2.0"
     ],
     [
      "pr",
      "historical",
      "2014",
-     "served",
-     "served",
-     "no (404)",
-     "served"
+     "1.0, 1.1, 2.0",
+     "2.0"
     ],
     [
      "tasmax",
      "ssp585",
      "2050",
-     "served",
-     "no (404)",
-     "no (404)",
-     "served"
+     "1.0, 2.0",
+     "2.0"
     ],
     [
      "tasmin",
      "ssp585",
      "2050",
-     "served",
-     "no (404)",
-     "no (404)",
-     "served"
+     "1.0, 2.0",
+     "2.0"
     ],
     [
      "pr",
      "ssp585",
      "2050",
-     "served",
-     "served",
-     "no (404)",
-     "served"
+     "1.0, 1.1, 2.0",
+     "2.0"
     ]
    ],
    "title": "File versions NASA serves"
@@ -2121,36 +3048,79 @@
     "Scenario",
     "Year",
     "Version",
+    "Against",
     "Cells",
     "Cells that differ",
     "Largest difference"
    ],
-   "note": "Annual values from each later version against version 1.0, in the box (reference reader only; crc-sdk is not involved).",
+   "note": "Annual values from each other version already downloaded against the version crc-sdk 1.0 reads, in the box (reference reader only; crc-sdk is not involved). crc-sdk 0.11 read version 1.0 by default.",
    "rows": [
     [
      "rx1day",
      "historical",
      "2014",
-     "1.1",
+     "1.0",
+     "2.0",
      2158,
      15,
      "0.081"
     ],
     [
      "rx1day",
+     "historical",
+     "2014",
+     "1.1",
+     "2.0",
+     2158,
+     0,
+     "0"
+    ],
+    [
+     "txx",
+     "historical",
+     "2014",
+     "1.0",
+     "2.0",
+     2158,
+     0,
+     "0"
+    ],
+    [
+     "rx1day",
      "ssp585",
      "2050",
-     "1.1",
+     "1.0",
+     "2.0",
      2158,
      42,
      "0.843"
+    ],
+    [
+     "rx1day",
+     "ssp585",
+     "2050",
+     "1.1",
+     "2.0",
+     2158,
+     0,
+     "0"
+    ],
+    [
+     "txx",
+     "ssp585",
+     "2050",
+     "1.0",
+     "2.0",
+     2158,
+     0,
+     "0"
     ]
    ],
    "title": "Do the file versions give different annual values?"
   }
  ],
  "versions": {
-  "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.2"
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0"
  }
 }

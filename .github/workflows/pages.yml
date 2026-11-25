@@ -1,4 +1,4 @@
-# Build the data of each project and publish site/ (landing page, hail/, validation/) to GitHub Pages.
+# Check each project and publish site/ (landing page, hail/, validation/) to GitHub Pages.
 name: pages
 on:
   push:
@@ -19,12 +19,8 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --group dev
       - run: uv run pytest -q
-      # Texas CRC data explorer (shown under validation/explore/)
-      - run: uv run python -m crc_data_explorer.build --verify
-      # Texas hail risk
-      - run: uv run python -m crc_lab.storm_events.build
-      - run: uv run python -m crc_lab.curves.build
-      # site/data/assets and site/data/hail_compare are built locally (radar pulls, bias model) and committed
+      # The explorer and hail data under site/data/ are a frozen build made with crc-sdk 0.11.2 and are
+      # committed (site/data/README.md). Their build steps return here when those projects are ported to 1.0.
       # Source validation: the page data is committed; rebuild the inventory offline so it matches the pinned crc-sdk
       - run: uv run python -m data_source_check.build
       - run: uv run python -m crc_lab.check_site

@@ -128,5 +128,5 @@ def test_unbuilt_draft_cannot_be_accepted() -> None:
 
 def test_brief_names_entry_point_and_files() -> None:
     text = draft.brief("noaa-water-levels")
-    assert "NOAAExtremeWaterLevelPlan" in text and "crc_sdk/workflows/" in text
+    assert "NOAAWaterLevels" in text and "crc_sdk/" in text
     assert "reference/noaa_water_levels.py" in text

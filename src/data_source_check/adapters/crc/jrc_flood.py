@@ -1,315 +1,210 @@
-"""JRC flood maps as crc-sdk delivers them. The only place that calls ``HazardDataset.glofas``
-and ``HazardDataset.efas``.
+"""JRC flood maps through crc-sdk 1.x: the only code of this source that imports crc-sdk.
 
-crc-sdk's own cache folder (its cropped GeoTIFFs and manifest) and the canonical Parquet file
-it writes are kept under the assessment's cache, so that a run without the network reads the
-same answers again. Functions return plain Python values or numpy arrays.
+A read is run in a process of its own (``python -m data_source_check.adapters.crc.jrc_flood``)
+so that its run time and peak memory are its own, and so that a read too large for this machine
+ends that process and not the assessment. The rows go to ``rows.parquet`` and everything else
+crc-sdk reported to ``run.json``; a folder that holds both is not run again.
 
-Parquet files are opened as plain Python files. Where GDAL is built with its own copy of
-Arrow (Homebrew's is), pyarrow can no longer create its local file system once GDAL is
-loaded in the same process ("scheme 'file' is already registered"); a file handle avoids it.
+``publisher`` names a local folder laid out as the publisher's directory. crc-sdk then reads
+those files in place of the publisher's server: its decoding is exercised, its downloads are not.
+The layout table that is swapped for this (``crc_sdk._providers.jrc.JRC_DATASETS``) is private.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import resource
+import subprocess
 import sys
-import threading
 import time
 import warnings
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
-_LOCK = threading.Lock()
+PRODUCTS = ("glofas", "efas")
 
 
 def facts(dataset: str) -> dict[str, Any]:
-    """What crc-sdk states about a dataset without reading a raster."""
-    from importlib.metadata import version
+    """What crc-sdk states about a product in its own layout table."""
+    from crc_sdk._providers import jrc
 
-    from crc_sdk.providers import jrc
-
-    declared = jrc.jrc_dataset(dataset)
-    out: dict[str, Any] = {
-        "dataset": declared.name,
-        "layout": declared.layout,
-        "base_url": declared.base_url,
-        "readme_url": declared.readme_url,
-        "tile_index_url": declared.tile_index_url,
-        "configured_version": declared.version,
-        "return_periods": list(declared.available_return_periods),
-        "hazard_name": declared.hazard_name,
-        "indicator_id": declared.indicator_id,
-        "units": declared.units,
-        "pathway": declared.pathway,
-        "horizon": declared.horizon,
-        "crc_sdk_version": version("crc-sdk"),
-        "resolved_version": "",
-        "error": "",
-    }
-    try:
-        out["resolved_version"] = jrc.JRCProvider(declared).resolve_version("latest")
-    except Exception as error:  # the error is the result
-        out["error"] = f"{type(error).__name__}: {error}"
-    return out
-
-
-def resources(dataset: str, bounds: Sequence[float], periods: Sequence[int]) -> dict[str, Any]:
-    """The tiles and file addresses crc-sdk chooses for a box."""
-    from crc_sdk.providers import jrc
-
-    provider = jrc.JRCProvider.for_dataset(dataset)
-    chosen = provider.resources_for(tuple(bounds), return_periods=list(periods))
+    entry = jrc.JRC_DATASETS[dataset]
     return {
-        "tiles": list(provider.tiles_for(tuple(bounds))),
-        "resources": [
-            {"source_id": r.source_id, "urls": {str(p): u for p, u in r.urls.items()}}
-            for r in chosen
-        ],
+        "base_url": entry.base_url,
+        "tile_index_url": entry.tile_index_url,
+        "filename_template": entry.filename_template,
+        "layout": entry.layout,
+        "return_periods": list(entry.available_return_periods),
+        "version": entry.version,
+        "units": entry.units,
     }
 
 
 @contextmanager
-def publisher_at(dataset: str, folder: Path | None):  # noqa: ANN201
-    """Within the block, crc-sdk reads ``dataset`` from a local folder laid out as the
-    publisher's (None: unchanged). Used by the offline tests only."""
-    from crc_sdk.providers import jrc
+def publisher_at(dataset: str, folder: Path | None) -> Iterator[None]:
+    """Within the block crc-sdk reads ``dataset`` from a local folder (None: the publisher)."""
+    from crc_sdk._providers import jrc
 
     if folder is None:
         yield
         return
-    with _LOCK:
-        original = jrc.JRC_DATASETS[dataset]
-        base = folder.resolve().as_uri()
-        index = f"{base}/tile_extents.geojson" if original.tile_index_url else None
-        jrc.JRC_DATASETS[dataset] = replace(original, base_url=base, tile_index_url=index)  # type: ignore[index]
-        try:
-            yield
-        finally:
-            jrc.JRC_DATASETS[dataset] = original  # type: ignore[index]
-
-
-def _plan(dataset: str, bounds: Sequence[float], resolution: int | str, cache: Path | None) -> Any:
-    from crc_sdk.workflows import HazardDataset, JRCFloodPolicy
-
-    source = HazardDataset.efas if dataset == "efas" else HazardDataset.glofas
-    area = source(version="latest").for_area(tuple(bounds))
-    area = area.cache(cache, mode="reuse") if cache is not None else area.cache(None, mode="stream")
-    return area.source_periods("all").canonicalize(
-        policy=JRCFloodPolicy.curated(h3_resolution=resolution)  # type: ignore[arg-type]
-    )
-
-
-def materialize(dataset: str, bounds: Sequence[float], resolution: int | str, folder: Path, *,
-                live: bool = True, cached: bool = True) -> dict[str, Any]:  # fmt: skip
-    """Run crc-sdk's plan for a box into ``folder`` and say what happened.
-
-    ``folder/cache`` is crc-sdk's cache directory (``cached``; otherwise it streams),
-    ``folder/hazard.parquet`` its output and ``folder/run.json`` this summary. An existing
-    complete run is not repeated.
-    """
-    folder = folder.resolve()  # crc-sdk's manifest records the cache paths as they are given
-    summary_path = folder / "run.json"
-    output = folder / "hazard.parquet"
-    if summary_path.exists():
-        summary = json.loads(summary_path.read_text(encoding="utf-8"))
-        if summary["error"] or output.exists():
-            return summary
-    if not live:
-        raise FileNotFoundError(f"no stored crc-sdk run in {folder.name}; run with --live")
-    folder.mkdir(parents=True, exist_ok=True)
-    cache = folder / "cache" if cached else None
-    summary: dict[str, Any] = {
-        "request": {"dataset": dataset, "bounds": list(bounds), "h3_resolution": resolution,
-                    "cache_mode": "reuse" if cached else "stream", "source_periods": "all",
-                    "policy": "JRCFloodPolicy.curated"},
-        "explain": "", "rows": 0, "source_version": "", "seconds": 0.0, "peak_memory_mb": 0.0,
-        "error": "", "error_type": "", "warnings": [], "progress": {},
-    }  # fmt: skip
-    started = time.monotonic()
-    stages: dict[str, int] = {}
-
-    def progress(stage: str, _: dict[str, Any]) -> None:
-        stages[stage] = stages.get(stage, 0) + 1
-
+    original = jrc.JRC_DATASETS[dataset]
+    base = folder.resolve().as_uri()
+    index = f"{base}/tile_extents.geojson" if original.tile_index_url else None
+    jrc.JRC_DATASETS[dataset] = replace(original, base_url=base, tile_index_url=index)  # type: ignore[index]
     try:
-        with warnings.catch_warnings(record=True) as caught:
+        yield
+    finally:
+        jrc.JRC_DATASETS[dataset] = original  # type: ignore[index]
+
+
+def _time(value: Any) -> str | None:
+    return None if value is None else value.isoformat(timespec="seconds")
+
+
+def _identity(identity: Any) -> dict[str, Any]:
+    release = identity.release
+    return {
+        "provider": identity.provider,
+        "product": identity.product,
+        "release": None
+        if release is None
+        else {
+            "id": release.id,
+            "sha256": release.sha256,
+            "retrieved_at": _time(release.retrieved_at),
+        },  # fmt: skip
+        "resources": [
+            {
+                "uri": r.uri,
+                "sha256": r.sha256,
+                "license": r.license,
+                "attribution": r.attribution,
+                "retrieved_at": _time(r.retrieved_at),
+            }
+            for r in identity.resources
+        ],  # fmt: skip
+    }
+
+
+def read(dataset: str, bounds: Sequence[float], folder: Path, *,
+         publisher: Path | None = None) -> dict[str, Any]:  # fmt: skip
+    """One crc-sdk read of a box, in this process. Writes ``rows.parquet`` and ``run.json``."""
+    import pyarrow as pa
+    import pyarrow.compute as pc
+    import pyarrow.parquet as pq
+    from crc_sdk import JRC, Bounds
+
+    folder.mkdir(parents=True, exist_ok=True)
+    west, south, east, north = (float(v) for v in bounds)
+    run: dict[str, Any] = {
+        "dataset": dataset, "bounds": [west, south, east, north],
+        "read_from": "a local copy of the publisher's files" if publisher else "the publisher",
+        "error": "", "error_type": "", "rows": 0,
+    }  # fmt: skip
+    started = time.perf_counter()
+    try:
+        with publisher_at(dataset, publisher), warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
-            plan = _plan(dataset, bounds, resolution, cache)
-            summary["explain"] = plan.explain()
-            hazard = plan.materialize(output, progress=progress)
-            result = hazard.materialization
-            summary["rows"] = int(result.canonical_rows)
-            summary["source_version"] = result.source_version
-        summary["warnings"] = sorted({f"{w.category.__name__}: {w.message}" for w in caught})
-    except Exception as error:  # the error is the result: it is recorded, not hidden
-        summary["error"], summary["error_type"] = str(error), type(error).__name__
-    summary["seconds"] = round(time.monotonic() - started, 1)
-    summary["progress"] = stages
-    peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-    # bytes on macOS, kilobytes on Linux; the peak of the whole process so far
-    summary["peak_memory_mb"] = round(peak / (1 << 20 if sys.platform == "darwin" else 1 << 10))
-    temporary = summary_path.with_suffix(".tmp")
-    temporary.write_text(json.dumps(summary, indent=1), encoding="utf-8")
-    temporary.replace(summary_path)
-    return summary
-
-
-def manifest(folder: Path) -> dict[str, Any] | None:
-    """crc-sdk's cache manifest of a run: the crops it wrote and the checksums it recorded."""
-    found = sorted((folder / "cache").rglob("*.json")) if (folder / "cache").exists() else []
-    for path in found:
-        document = json.loads(path.read_text(encoding="utf-8"))
-        if isinstance(document, dict) and document.get("provider") == "jrc":
-            return {**document, "manifest_file": path.name}
-    return None
-
-
-def file_checksum(path: Path) -> str:
-    """A file's checksum as crc-sdk's cache computes it."""
-    from crc_sdk.workflows._remote import file_checksum as checksum
-
-    return str(checksum(path))
-
-
-def labels(folder: Path) -> dict[str, Any]:
-    """Everything the canonical file says about itself: metadata, schema, file key-values."""
-    import pyarrow.parquet as pq
-    from crc_sdk.connectors.parquet import read_hazard_metadata
-
-    path = folder / "hazard.parquet"
-    # opened as a plain file: see the module note on pyarrow's file system and GDAL
-    with path.open("rb") as handle:
-        metadata = read_hazard_metadata(handle)
-    with path.open("rb") as handle:
-        file = pq.ParquetFile(handle)
-        raw = file.schema_arrow.metadata or {}
-        rows = file.metadata.num_rows
-        names = list(file.schema_arrow.names)
-    return {
-        "metadata": json.loads(metadata.model_dump_json()),
-        "columns": names,
-        "file_keys": sorted(key.decode() for key in raw),
-        "rows": rows,
-        "bytes": path.stat().st_size,
+            plan = JRC(product=JRC.Product(dataset)).select(
+                area=Bounds(west=west, south=south, east=east, north=north)
+            )
+            result = plan.read()
+        table, report = result.table, result.report
+        curve = table["curve"]
+        knots = pc.struct_field(curve, "quantile_curve")
+        slim = pa.table({
+            "support_id": table["support_id"],
+            "cell_id": table["cell_id"],
+            "probabilities": pc.struct_field(knots, "probabilities"),
+            "values": pc.struct_field(knots, "values"),
+        })  # fmt: skip
+        pq.write_table(slim, folder / "rows.parquet", compression="zstd")
+        kinds = pc.value_counts(pc.struct_field(curve, "kind")).to_pylist()
+        run |= {
+            "rows": table.num_rows,
+            "columns": table.schema.names,
+            "variable_ids": pc.unique(table["variable_id"]).to_pylist(),
+            "scenario_ids": pc.unique(table["scenario_id"]).to_pylist(),
+            "period_ids": pc.unique(table["period_id"]).to_pylist(),
+            "curve_kinds": {str(k["values"]): int(k["counts"]) for k in kinds},
+            "fit_present": table.num_rows - table["fit"].null_count,
+            "failure_present": table.num_rows - table["failure"].null_count,
+            "geometry_present": table.num_rows - table["geometry"].null_count,
+            "counts": {name: int(getattr(report.counts, name))
+                       for name in ("requested", "produced", "skipped", "no_data")},
+            "complete": bool(report.complete), "valid": report.valid,
+            "diagnostics": [
+                {"code": d.code, "severity": d.severity.value, "stage": d.stage.value,
+                 "message": d.message, "support_id": d.support_id}
+                for d in report.diagnostics
+            ],
+            "identities": [_identity(i) for i in report.source_identities],
+            "spatial": json.loads(result.metadata.to_json()).get("spatial"),
+            "warnings": sorted({f"{w.category.__name__}: {w.message}"[:300] for w in caught
+                                if w.category.__module__.startswith("crc_")}),
+        }  # fmt: skip
+    except Exception as error:  # noqa: BLE001  what crc-sdk raises is the result
+        run |= {"error": str(error)[:1500], "error_type": type(error).__name__}
+    # ru_maxrss is in bytes on macOS and in kilobytes on Linux
+    scale = 1 << 20 if sys.platform == "darwin" else 1 << 10
+    run |= {
+        "seconds": round(time.perf_counter() - started, 2),
+        "peak_memory_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / scale, 1),
     }
+    temporary = folder / "run.json.tmp"
+    temporary.write_text(json.dumps(run, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(temporary, folder / "run.json")
+    return run
 
 
-def curves(folder: Path) -> dict[str, Any]:
-    """The rows of the canonical file as arrays, one entry per row, in the file's order.
+def materialize(
+    dataset: str,
+    bounds: Sequence[float],
+    folder: Path,
+    *,
+    live: bool,
+    publisher: Path | None = None,
+    isolated: bool = True,
+) -> dict[str, Any]:
+    """The stored answer of a read, made first if the folder does not hold it."""
+    stored = folder / "run.json"
+    if not stored.exists():
+        if not live and publisher is None:
+            raise FileNotFoundError(f"no stored crc-sdk read in {folder}; run with --live")
+        if isolated:
+            request = {"dataset": dataset, "bounds": list(bounds), "folder": str(folder),
+                       "publisher": None if publisher is None else str(publisher)}  # fmt: skip
+            done = subprocess.run(
+                [sys.executable, "-m", __name__, json.dumps(request)],
+                capture_output=True, text=True, check=False,
+            )  # fmt: skip
+            if not stored.exists():  # the process ended without an answer (killed, out of memory)
+                folder.mkdir(parents=True, exist_ok=True)
+                stored.write_text(json.dumps({
+                    "dataset": dataset, "bounds": list(bounds), "rows": 0,
+                    "error": f"the read ended with exit code {done.returncode}: "
+                             f"{done.stderr.strip()[-600:]}",
+                    "error_type": "ProcessEnded",
+                }, indent=1) + "\n", encoding="utf-8")  # fmt: skip
+        else:
+            read(dataset, bounds, folder, publisher=publisher)
+    return json.loads(stored.read_text(encoding="utf-8"))
 
-    ``box`` holds west, south, east, north of each row's source pixel, read from the row's
-    geometry (a five-point polygon in WKB, decoded here as numbers).
-    """
-    import numpy as np
+
+def rows(folder: Path) -> Any:
+    """The rows of a stored read as an Arrow table (None if the read gave none)."""
     import pyarrow.parquet as pq
 
-    names = ("hazard_name", "horizon", "pathway", "curve_kind", "curve_type", "curve_shape")
-    distinct: dict[str, set[str]] = {name: set() for name in names}
-    cells, boxes, locations, scales = [], [], [], []
-    other_geometry = 0
-    with (folder / "hazard.parquet").open("rb") as handle:
-        file = pq.ParquetFile(handle)
-        columns = ["cell_index", "source_geometry", "curve_location", "curve_scale", *names]
-        for batch in file.iter_batches(batch_size=1 << 18, columns=columns):
-            for name in names:
-                distinct[name].update(str(v) for v in batch.column(name).unique().to_pylist())
-            cells.append(batch.column("cell_index").to_numpy().astype(np.uint64))
-            locations.append(batch.column("curve_location").to_numpy(zero_copy_only=False))
-            scales.append(batch.column("curve_scale").to_numpy(zero_copy_only=False))
-            geometry = batch.column("source_geometry")
-            offsets = np.frombuffer(geometry.buffers()[1], dtype=np.int32)[
-                geometry.offset : geometry.offset + len(geometry) + 1
-            ]
-            data = np.frombuffer(geometry.buffers()[2], dtype=np.uint8)
-            sizes = np.diff(offsets)
-            head = bytes.fromhex("01030000000100000005000000")  # one ring of five points
-            if len(sizes) and (sizes == 93).all():
-                block = data[offsets[0] : offsets[-1]].reshape(-1, 93)
-                other_geometry += int((block[:, :13] != np.frombuffer(head, np.uint8)).any(1).sum())
-                points = block[:, 13:].copy().view("<f8").reshape(-1, 5, 2)
-                xs, ys = points[:, :, 0], points[:, :, 1]
-                boxes.append(np.column_stack([xs.min(1), ys.min(1), xs.max(1), ys.max(1)]))
-            else:
-                import shapely
-
-                other_geometry += len(sizes)
-                shapes = shapely.from_wkb(geometry.to_numpy(zero_copy_only=False))
-                boxes.append(shapely.bounds(shapes))
-    empty = np.empty(0)
-    return {
-        "cell": np.concatenate(cells) if cells else empty.astype(np.uint64),
-        "box": np.concatenate(boxes) if boxes else empty.reshape(0, 4),
-        "location": np.concatenate(locations) if locations else empty,
-        "scale": np.concatenate(scales) if scales else empty,
-        "geometry_not_a_five_point_ring": other_geometry,
-        "distinct": {name: sorted(values) for name, values in distinct.items()},
-    }
+    path = folder / "rows.parquet"
+    return pq.read_table(path) if path.exists() else None
 
 
-def source_ids(folder: Path, rows: Sequence[int]) -> list[str]:
-    """The ``source_id`` of the given rows (positions in the file's order)."""
-    import numpy as np
-    import pyarrow.parquet as pq
-
-    wanted = np.asarray(sorted(rows), dtype=np.int64)
-    found: dict[int, str] = {}
-    start = 0
-    with (folder / "hazard.parquet").open("rb") as handle:
-        for batch in pq.ParquetFile(handle).iter_batches(batch_size=1 << 18, columns=["source_id"]):
-            here = wanted[(wanted >= start) & (wanted < start + len(batch))]
-            column = batch.column("source_id")
-            for position in here.tolist():
-                found[position] = column[position - start].as_py()
-            start += len(batch)
-    return [found[position] for position in rows]
-
-
-def quantiles(location: Any, scale: Any, return_periods: Sequence[float]) -> Any:
-    """Depths of Gumbel curves at return periods, evaluated by crc-framework.
-
-    One row per curve, one column per return period.
-    """
-    import numpy as np
-    from crc_framework.distributions import FittedDistribution
-
-    probabilities = [1.0 - 1.0 / period for period in return_periods]
-    out = np.empty((len(location), len(probabilities)))
-    for index, (loc, sc) in enumerate(zip(location, scale, strict=True)):
-        curve = FittedDistribution.from_parameters("gumbel_r", location=float(loc), scale=float(sc))
-        out[index] = [curve.ppf(p) for p in probabilities]
-    return out
-
-
-def depths_at(folder: Path, return_period: float) -> tuple[Any, Any]:
-    """Every row's cell and its curve's depth at a return period, evaluated by crc-sdk.
-
-    The call crc-docs' ``flood_risk_by_province`` notebook makes (``curve_quantiles_at``).
-    """
-    import numpy as np
-    import pyarrow.parquet as pq
-    from crc_sdk.connectors import read_hazard_metadata
-    from crc_sdk.workflows import curve_quantiles_at, return_periods_to_probabilities
-
-    target = folder / "hazard.parquet"
-    tail = read_hazard_metadata(target).return_period_tail
-    probability = return_periods_to_probabilities([return_period], tail=tail)[0]
-    with target.open("rb") as handle:
-        table = pq.read_table(handle, columns=[
-            "cell_index", "curve_kind", "curve_type", "curve_shape", "curve_location",
-            "curve_scale", "curve_atom_probability", "curve_atom_location",
-            "curve_probabilities", "curve_values",
-        ])  # fmt: skip
-    depths = np.asarray(curve_quantiles_at(table, probability, max_workers=1), dtype=float)
-    return table["cell_index"].to_numpy().astype(np.uint64), depths
-
-
-def source_identity(provider: str, path: str, row: int, column: int) -> str:
-    """The identifier crc-sdk gives a source pixel (its own function, called as is)."""
-    from crc_sdk.connectors.adapters import _source_id
-
-    return str(_source_id(provider, path, row, column))
+if __name__ == "__main__":
+    asked = json.loads(sys.argv[1])
+    read(asked["dataset"], asked["bounds"], Path(asked["folder"]),
+         publisher=Path(asked["publisher"]) if asked["publisher"] else None)  # fmt: skip

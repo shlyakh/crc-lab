@@ -7,9 +7,9 @@ publisher = "NOAA National Ocean Service, CO-OPS"
 original = "https://api.tidesandcurrents.noaa.gov/dpapi/prod/ (extremewaterlevels)"
 purpose = "NOAA's published exceedance levels and annual extremes at tide stations, as published."
 explorer = "explore/#tab=crc&source=coops"
-entry_points = ["NOAAExtremeWaterLevelPlan"]
+entry_points = ["NOAAWaterLevels"]
 drafted_by = "agent (draft-source-assessment skill), 2026-11-12"
-notes = "Draft. NOAA lists 126 stations with this product; ten are in Texas. A station without the product is answered with HTTP 200 and an empty body of the usual shape, which crc-sdk refuses. NOAA sends no ETag and no Last-Modified for these responses. The exceedance levels carry the datum label in capitals (MHHW) and the annual series in lower case (mhhw); crc-sdk passes both on as published. NOAA sometimes answers the same address with the values rounded to one decimal instead of two or three (seen 2026-11-12); crc-sdk delivers whichever answer it received."
+notes = "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Draft. NOAA lists 126 stations with this product; ten are in Texas. A station without the product is answered with HTTP 200 and an empty body of the usual shape, which crc-sdk refuses. NOAA sends no ETag and no Last-Modified for these responses. The exceedance levels carry the datum label in capitals (MHHW) and the annual series in lower case (mhhw); crc-sdk passes both on as published. NOAA sometimes answers the same address with the values rounded to one decimal instead of two or three (seen 2026-11-12); crc-sdk delivers whichever answer it received."
 
 [status]
 exploration = "in progress"
@@ -17,8 +17,6 @@ verification = "in progress"
 
 # crc-sdk enumerates no option for this source: the only selector is the station. The stations
 # compared are listed in the records (sample).
-[assessed_options]
-
 [[statement]]
 id = "station-id"
 text = "Accepts a station only as a string of exactly seven digits 0-9; anything else raises ValueError before any request."

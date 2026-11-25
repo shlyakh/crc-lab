@@ -6,20 +6,16 @@ tier_reason = "Tier 2: crc-sdk reduces or fits the data, but no crc-lab result d
 publisher = "NASA NCCS"
 original = "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/NEX-GDDP-CMIP6"
 purpose = "Annual extremes from bias-adjusted, downscaled daily model output at 0.25 degree, one model and member at a time."
-adds = "From NASA's daily files crc-sdk makes one value per grid cell and year: the largest one-day or five-day rainfall, or the hottest and the coldest day, after converting units and selecting the cells of a box. Nothing is fitted and nothing is cached."
-compared = "For one model and member in the Texas box, two years and two file versions, the whole NASA file is read independently and the annual value of every grid cell is recomputed and compared with crc-sdk's rows. Units, labels and the file versions NASA serves are checked separately. The temperature recipes fail at this version and are compared on a local copy that carries the fix."
-entry_points = ["HazardDataset.nex_gddp_cmip6"]
-notes = "Assessed on one model and member (ACCESS-CM2, r1i1p1f1), the Texas box (2,332 grid cells, 2,158 on land), 2014 of the historical run and 2050 of ssp585. The scenario and version lists are hard-coded upstream and are not read by the detector. Each result is one model and one member, not an ensemble. Ocean cells carry no value. The licence written in the files differs by version (CC-BY-SA 4.0 in 1.0, CC-BY 4.0 in 1.1) while NASA states the archive is CC0."
+adds = "From NASA's daily files crc-sdk makes one row per grid cell of a box and year: the largest one-day or five-day rainfall, or the hottest or the coldest day, after converting units. It reads the newest file version NASA lists for each year, keeps a cell's value only when every day (every five-day window) of the year is present, and gives a cell without a value a row with the reason. Nothing is fitted. What it acquired is kept in its own cache when one is given."
+compared = "For one model and member in the Texas box, two years and the four indicators, the reference reader lists NASA's bucket itself, downloads the whole file crc-sdk read, and recomputes every grid cell's annual value, coverage, edges and H3 cell, compared value by value with crc-sdk's rows. Which file version each side read, the file's own identity attributes, the labels and provenance, a year without a file, a model with a 365-day calendar, and the file versions NASA serves are checked separately."
+entry_points = ["NEX"]
+notes = "Assessed on one model and member (ACCESS-CM2, r1i1p1f1), the Texas box, 2014 of the historical run and 2050 of ssp585: the sample of the run on crc-sdk 0.11.2 (2,332 grid cells, 2,158 on land), whose records are kept under records/0.11.2/. crc-sdk 1.0 reads NASA's version 2.0 files for this sample where 0.11 read version 1.0 by default, so the values differ between the two runs by what NASA changed between the versions (the exploration tables show by how much). crc-sdk 1.0 takes no file version, no grid label and, by default, requires every day of the year; `Coverage.minimum_fraction` and `observations()` were not assessed. Scenario, model and member are free text in 1.0 and are not read by the detector. Each result is one model and one member, not an ensemble. Ocean cells carry no value. The licence written in the files (`cmip6_license`) differs by file while NASA states the archive is CC0."
 
 [options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
-scenario = ["historical", "ssp126", "ssp245", "ssp370", "ssp585"]
-version = ["1.0", "1.1", "1.2"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_maximum_daily_precipitation", "annual_maximum_five_day_precipitation", "annual_minimum_daily_minimum_temperature"]
 
 [assessed_options]
-recipe = ["rx1day", "rx5day", "tnn", "txx"]
-scenario = ["historical", "ssp585"]
-version = ["1.0", "1.1"]
+indicator = ["annual_maximum_daily_maximum_temperature", "annual_maximum_daily_precipitation", "annual_maximum_five_day_precipitation", "annual_minimum_daily_minimum_temperature"]
 
 [status]
 exploration = "assessed"
@@ -27,80 +23,98 @@ verification = "assessed"
 
 [[statement]]
 id = "files"
-text = "Reads one NetCDF file per variable, model, scenario, member and year from NASA's archive on AWS, by range requests. Nothing is cached and no checksum is taken."
-code_ref = "crc_sdk/workflows/nex.py:33, 105-115, 154-156; docs/sources/cmip6.md:75-77"
+text = "Lists NASA's bucket (S3 ListObjectsV2, page by page) under `<model>/<scenario>/<member>/<variable>/`, then reads one NetCDF file per year by HTTP range requests of 1 MiB with `If-Match` on the ETag, checking size and validator before and after. NASA's whole file is neither downloaded nor checksummed; crc-sdk caches and checksums the window it cuts from it."
+code_ref = "crc_sdk/_climate_sampling.py:107-108, 1588-1625, 1785-1807, 1836-1845; crc_sdk/_climate_io.py:551-571, 602-674, 677-822"
+note = "NASA's files are stored in chunks of one day by the whole globe, so a box of any size reads every chunk of the file (about 240 requests for a 247 MB file)."
 
 [[statement]]
 id = "versions"
-text = "Reads exactly the file version asked for (1.0 has no suffix in the file name; later ones end in `_v<version>`). A version NASA does not have fails; another is never substituted."
-code_ref = "crc_sdk/workflows/nex.py:111, 145-147; docs/sources/cmip6.md:73-74"
+text = "For each year, reads the file with the highest version in NASA's listing, the version being taken from the file name (no suffix is 1.0, `_v<version>` otherwise)."
+code_ref = "crc_sdk/_climate_sampling.py:119, 1627-1641, 1797-1803"
 
 [[statement]]
 id = "versions-offered"
-text = "Accepts the file versions 1.0, 1.1 and 1.2."
-code_ref = "crc_sdk/workflows/nex.py:99-100"
+text = "Takes no file version: an older revision NASA still serves cannot be requested."
+code_ref = "crc_sdk/_climate_sampling.py:269-290, 1627-1641"
 
 [[statement]]
 id = "identity"
-text = "Checks that the file's own attributes name the model, scenario, member and version that were asked for."
-code_ref = "crc_sdk/workflows/nex.py:157-169"
+text = "Takes the model, scenario and member from the request and the listing address, and labels the result with them; the file's own identity attributes are not compared with the request."
+code_ref = "crc_sdk/_climate_sampling.py:1788-1794, 1818-1828"
+note = "That no comparison is made is shown in the offline tests, on a file that names another member."
 
 [[statement]]
-id = "licence"
-text = "Reads the model licence written in the file and keeps it beside NASA's archive licence (CC0-1.0). Warns when the file's licence is not CC0; refuses it when `strict_licence` is set."
-code_ref = "crc_sdk/workflows/nex.py:170-181, 241-243"
-note = "The warning was seen on every file read. `strict_licence=True` was not run."
-
-[[statement]]
-id = "units-rain"
-text = "Requires precipitation to be declared in kg m-2 s-1 and multiplies it by 86,400 to give millimetres per day."
-code_ref = "crc_sdk/providers/cmip6.py:606, 636-660, 952; crc_sdk/workflows/nex.py:195-197"
-
-[[statement]]
-id = "units-temperature"
-text = "Requires temperature to be declared in kelvin (K) and subtracts 273.15 to give degrees Celsius."
-code_ref = "crc_sdk/providers/cmip6.py:603, 611-634, 952; crc_sdk/workflows/nex.py:195-197"
+id = "calendar"
+text = "Reads the calendar from the header of the earliest year's file and refuses the series unless it is Gregorian (`standard`, `gregorian` or `proleptic_gregorian`); each year's file must declare the same calendar."
+code_ref = "crc_sdk/_climate_sampling.py:1811-1817, 1846-1850; crc_sdk/_climate_grid.py:83-112"
+note = "Asked for one model with a 365-day calendar (BCC-CSM2-MR, its header only); models with a 360-day calendar were not asked for."
 
 [[statement]]
 id = "time"
-text = "Requires the daily time axis to be strictly increasing and to lie within the requested year, in the file's own calendar, and places each day by its date."
-code_ref = "crc_sdk/workflows/nex.py:198-208; crc_sdk/providers/cmip6.py:813-828"
-note = "The files read use the proleptic Gregorian calendar with 365 days and no gap. Other calendars and gaps were exercised only in the offline tests."
+text = "Decodes `days since <date>` to whole days (the stamp is floored), requires them to be unique and increasing, and keeps a day of the year only when exactly one time step falls in it."
+code_ref = "crc_sdk/_climate_sampling.py:1863-1870; crc_sdk/_providers/cmip6.py:74-94; crc_sdk/_climate_grid.py:404-424"
+note = "The files read have 365 days and no gap. A day absent from the time axis and a leap year were exercised only in the offline tests."
+
+[[statement]]
+id = "licence"
+text = "Copies a global `license` (or `licence`) attribute, when the file has one, onto the file's resource as its licence. NASA's files carry the model licence as `cmip6_license`, which is not read; NASA's statement that the archive is CC0 is not recorded."
+code_ref = "crc_sdk/_climate_sampling.py:1856-1862"
+
+[[statement]]
+id = "units-rain"
+text = "Requires precipitation to declare exactly `kg m-2 s-1` and multiplies it by 86,400 to give millimetres per day."
+code_ref = "crc_sdk/_climate_sampling.py:1851-1855, 1910; crc_sdk/_providers/cmip6.py:137-142; crc_sdk/_climate_io.py:836-855"
+
+[[statement]]
+id = "units-temperature"
+text = "Requires temperature to declare exactly `K` (bytes are decoded to text first) and subtracts 273.15 to give degrees Celsius."
+code_ref = "crc_sdk/_climate_sampling.py:1851-1855, 1910; crc_sdk/_providers/cmip6.py:137-142; crc_sdk/_climate_io.py:836-855"
 
 [[statement]]
 id = "area"
-text = "Selects the grid cells whose centres lie inside the box grown by half a cell on every side, with longitudes brought to -180..180 and ordered west to east. A box narrower than one cell is widened to two cells."
-code_ref = "crc_sdk/connectors/blocks.py:175-234"
-note = "Confirmed for a box of 44 by 53 cells. A box narrower than one cell and a box across the 180 degree meridian were not run."
+text = "Selects every grid cell whose rectangle (edges halfway between neighbouring centres) intersects or touches the box; longitudes are brought to -180..180. Rows follow the file's latitude order and, within a row, its column order."
+code_ref = "crc_sdk/_climate_sampling.py:1872-1878; crc_sdk/_climate_grid.py:115-226; crc_sdk/_climate_io.py:717-728"
+note = "A box across the 180 degree meridian was not run."
 
 [[statement]]
 id = "missing"
-text = "Treats the file's fill value as missing."
-code_ref = "crc_sdk/providers/cmip6.py:762, 823-825, 835-866"
+text = "Treats values equal to the file's `_FillValue` or `missing_value`, and non-finite values, as missing (after `scale_factor` and `add_offset`, when present)."
+code_ref = "crc_sdk/_climate_grid.py:229-253, 417, 424"
 
 [[statement]]
 id = "completeness"
-text = "Gives a grid cell a value only when at least 90 per cent of the year's days are present."
-code_ref = "crc_sdk/providers/cmip6.py:621; crc_sdk/connectors/blocks.py:454-455, 484"
-note = "In NASA's files a cell has either every day or none (ocean), so the 90 per cent line itself was crossed only in the offline tests."
+text = "By default (`Coverage.complete()`) gives a cell a value only when every day of the year is present; for rx5day, every five-day window that lies within the year (365 days give 361 windows)."
+code_ref = "crc_sdk/_climate_sampling.py:143-146, 278-286, 1925; crc_sdk/_climate_grid.py:425-442; docs/sources.md:87-96"
+note = "In NASA's files a cell has every day or none (ocean), so a partly complete cell was exercised only in the offline tests."
 
 [[statement]]
 id = "statistic-rain"
-text = "`rx1day` is the largest daily value of the year. `rx5day` is the largest sum over five consecutive days that lie within the year; windows do not reach into the neighbouring years."
-code_ref = "crc_sdk/providers/cmip6.py:636-660; crc_sdk/connectors/blocks.py:467-483"
+text = "`rx1day` is the largest daily value of the year. `rx5day` is the largest sum of five consecutive days within the year; windows do not reach into the neighbouring years. A negative precipitation value makes the whole read fail."
+code_ref = "crc_sdk/_climate_grid.py:401-403, 418-419, 427-440"
 
 [[statement]]
 id = "statistic-temperature"
 text = "`txx` is the highest daily maximum of the year and `tnn` the lowest daily minimum."
-code_ref = "crc_sdk/providers/cmip6.py:611-634; crc_sdk/connectors/blocks.py:479-483"
-note = "Could not be checked at crc-sdk 0.11.1, where both recipes failed (CRC-001-NEX); checked from 0.11.2."
+code_ref = "crc_sdk/_climate_grid.py:420-423, 437-440"
 
 [[statement]]
 id = "output"
-text = "Returns one row per grid cell that has a value, at the cell's centre, south to north and west to east. No distribution is fitted."
-code_ref = "crc_sdk/workflows/nex.py:216-246"
+text = "Returns one row per selected grid cell and year, with or without a value: the cell's rectangle as geometry, its H3 cell (resolution 9) at the centre, `support_id` `nex:0p25:<row>:<column>` (its place in NASA's file), the time as the year, the value, the coverage (valid and expected days or windows, the minimum fraction) and, for a cell without a value, the failure `incomplete_year`. No distribution is fitted."
+code_ref = "crc_sdk/_climate_sampling.py:837-892, 1913-1928; crc_sdk/_climate_grid.py:443-471"
+
+[[statement]]
+id = "year-without-file"
+text = "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present)."
+code_ref = "crc_sdk/_climate_sampling.py:1833-1835, 1911-1912"
+note = "Asked for one year after the end of the historical run (2015); a year before the first file was not asked for."
 
 [[statement]]
 id = "labels"
-text = "Labels every row with the unit, recipe, model, scenario, member, grid, version, calendar (under one name per calendar: `365_day` is written `noleap`), the file's address, the retrieval time, both licences and an attribution."
-code_ref = "crc_sdk/workflows/nex.py:225-245"
+text = "Labels every row with the variable `nex:<indicator>`, the scenario and a period; the metadata names the unit (degC or mm), the calendar, the model, the member and the release `<model>/<scenario>/<member>/<variable>`."
+code_ref = "crc_sdk/_climate_sampling.py:397-420, 930-1008, 1818-1828"
+
+[[statement]]
+id = "provenance"
+text = "Records the unit conversion and the annual reduction (with its coverage rule) as provenance, and as resources: the listing page, the release (a checksum of every year's file name and ETag), the header read and the window cut from each file, each with its address and retrieval time and the attribution 'NASA Earth Exchange NEX-GDDP-CMIP6' on the release and the window."
+code_ref = "crc_sdk/_climate_sampling.py:1011-1117, 1644-1652, 1806-1814, 1937-1940; crc_sdk/_climate_io.py:788-799"
+note = "The release checksum and the checksum of each window are crc-sdk's own encodings and were not recomputed."

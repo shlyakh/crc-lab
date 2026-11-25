@@ -4,6 +4,19 @@ Written 2026-11-23 from a reading of crc-sdk `v1.0.0a1`, crc-framework `v1.0.0-a
 (commit `cda23cf`), all of that day. Nothing below was run unless it says so: it is what the code, the two
 migration guides and the release notes show. crc-lab is on crc-sdk 0.11.2 and crc-framework 0.6.0.
 
+**Since then (2026-11-24):** both packages were released as 1.0.0 and crc-lab's validation project moved to
+them; `docs/reports/u3-crc-1.0.0.md` is the account of that, with what was run. Three statements below are
+out of date for the final release:
+
+- CRC Open can be read on 1.0.0: `CRCOpen().inspect()` lists 875 series in one release, and the
+  identifiers were corrected (pull request #49).
+- crc-docs now requires crc-sdk 1.x.
+- A JRC read is not failed by one pixel whose depth decreases: the provider skips the pixel and counts it
+  (CRC-023-JRC). `Dataset.from_raster` does fail the whole read (CRC-025-OWN).
+
+The findings table below is a reading of the 1.0.0a1 code; what was measured on 1.0.0 is in
+`docs/reports/v1-probes-1.0.0.md` and in the register.
+
 Upstream pages to read first, in this order:
 
 1. crc-sdk `docs/migration-v1.md` (the rename tables and what changed in behaviour)

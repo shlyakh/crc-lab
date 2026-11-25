@@ -267,7 +267,7 @@ def test_dry_run_changes_nothing(world: World, capsys) -> None:
     assert snapshot(world.root.parent) == before
     assert not world.ran("git", "fetch") and not world.ran("git", "checkout")
     assert not world.ran("uv")
-    assert f'+    "crc-sdk[geometry,zarr,raster,netcdf]=={NEXT}",' in out
+    assert f'+    "crc-sdk[zarr,raster,netcdf]=={NEXT}",' in out
     assert "git fetch --tags" in out and "uv sync --all-extras --group dev" in out
     assert up.GUIDE in out
 
@@ -288,7 +288,7 @@ def test_bump_changes_exactly_the_listed_locations(world: World, capsys) -> None
         "README.md",
     }
     expected = {
-        "crc-lab/pyproject.toml": '"crc-sdk[geometry,zarr,raster,netcdf]=={v}",',
+        "crc-lab/pyproject.toml": '"crc-sdk[zarr,raster,netcdf]=={v}",',
         "crc-lab/src/lab_common/__init__.py": '"crc-sdk": "{v}"',
         "crc-lab/README.md": "`crc-sdk=={v}`",
         "crc-lab/AGENTS.md": "`../upstream/crc-sdk/` (v{v})",
@@ -410,7 +410,7 @@ def _holds(w: World, version: str) -> None:
     """Every hand-written location names `version`, and the old pin's texts are gone."""
     ws = w.root.parent
     for path, text in [
-        (w.root / "pyproject.toml", f'"crc-sdk[geometry,zarr,raster,netcdf]=={version}",'),
+        (w.root / "pyproject.toml", f'"crc-sdk[zarr,raster,netcdf]=={version}",'),
         (w.root / up.PINS_FILE, f'"crc-sdk": "{version}"'),
         (w.root / "README.md", f"`crc-sdk=={version}`"),
         (w.root / "AGENTS.md", f"`../upstream/crc-sdk/` (v{version})"),
