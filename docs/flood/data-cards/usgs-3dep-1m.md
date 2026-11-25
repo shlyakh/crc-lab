@@ -2,7 +2,7 @@
 
 # Data card: USGS 3DEP 1 m DEM tiles over the F1 study box (north Brooklyn, 500 m margin)
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F1: 13 confirmed, 0 differs, 0 not checked, 2 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (3 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F1: 13 confirmed, 0 differs, 0 not checked, 2 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

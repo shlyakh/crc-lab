@@ -109,3 +109,18 @@ def test_not_checked_needs_no_passage(tmp_path: Path) -> None:
 
 def test_id_must_match_file_name(tmp_path: Path) -> None:
     refused(broken(tmp_path, "x", "x", name="other-name"), "does not match")
+
+
+def test_a_fact_with_no_claim_is_shown_as_read_not_confirmed() -> None:
+    from flood_lab.facts import READ, Fact, read_without_claim
+
+    claimed = Fact("licence", "Open terms", "Open terms", "confirmed", "https://x", "passage")
+    unclaimed = Fact("fields", "", "three fields", "confirmed", "https://x", "passage")
+    differs = Fact("release", "", "v2", "differs", "https://x", "passage")
+    assert claimed.shown == "confirmed"
+    assert unclaimed.shown == READ and unclaimed.outcome == "confirmed"
+    assert differs.shown == "differs"
+    maps = load(FIXTURES / "toy-flood-maps.toml")
+    assert read_without_claim(maps) == sum(
+        1 for fact in maps.facts if fact.outcome == "confirmed" and not fact.claimed.strip()
+    )

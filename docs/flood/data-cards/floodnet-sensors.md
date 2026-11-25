@@ -2,7 +2,7 @@
 
 # Data card: FloodNet: Sensor Deployment Metadata
 
-Level of check (FS7): **facts confirmed; values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 9 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (6 read with no claim); values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 9 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -39,9 +39,9 @@ What the loader `flood_lab.sources.floodnet` does to the publisher's file, in it
 3. `peak_depth_m` is the publisher's `max_depth_inches` times 0.0254. `duration_min` is the
    publisher's `duration_mins`. Neither is recomputed from the depth profile.
 4. Longitude and latitude come from the sensor table by `sensor_id`.
-5. For CRC the rows go to `Observations.from_table`: station is the sensor, time the start in
-   GMT, value the peak depth in metres. Duration and the end time have no place in that record
-   and stay in the lab's table.
+5. For CRC the rows go to `Observations.from_table`: support and station are the sensor, time
+   the start in GMT, value the peak depth in metres. Duration and the end time have no place in
+   that record and stay in the lab's table.
 
 A sensor measures water under itself at one point of a street. No event is not no flood nearby.
 

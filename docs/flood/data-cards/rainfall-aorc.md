@@ -2,7 +2,7 @@
 
 # Data card: NOAA Analysis of Record for Calibration (AORC) v1.1
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (5 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

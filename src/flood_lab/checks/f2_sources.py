@@ -38,7 +38,7 @@ from matplotlib.colors import ListedColormap, LogNorm  # noqa: E402
 from rasterio.transform import Affine  # noqa: E402
 
 from flood_lab import cache, domain, paths  # noqa: E402
-from flood_lab.records import Check, Input, Parameter, Record  # noqa: E402
+from flood_lab.records import Check, Input, Parameter, Record, sha256_file  # noqa: E402
 from flood_lab.reference import compare  # noqa: E402
 from flood_lab.reference import floodnet as ref_floodnet  # noqa: E402
 from flood_lab.reference import groundsource as ref_groundsource  # noqa: E402
@@ -147,6 +147,12 @@ def _map_figure(title: str, grid: dict[str, Any], differing: np.ndarray, name: s
 
 
 def flood_maps(root: Path) -> Record:
+    found = sha256_file(root / nyc_flood_maps.ZIP)
+    if found != nyc_flood_maps.ZIP_SHA256:
+        raise SystemExit(
+            f"{nyc_flood_maps.ZIP}: sha256 {found} is not the file whose facts were read "
+            f"({nyc_flood_maps.ZIP_SHA256}); stop (FS6)"
+        )
     record = Record(
         id=f"second-reader-{nyc_flood_maps.SOURCE_ID}",
         stage="F2",
@@ -224,7 +230,16 @@ def flood_maps(root: Path) -> Record:
         shifted = polygons.assign(geometry=polygons.geometry.translate(xoff=domain.CELL_M))
         moved = nyc_flood_maps.classes_on_grid(shifted)["depth_class"]
         dropped = nyc_flood_maps.classes_on_grid(polygons[polygons["code"] != 2])["depth_class"]
+        # two metres is under half a cell and about the size of the datum question (statement 2)
+        nudged = polygons.assign(geometry=polygons.geometry.translate(xoff=2.0))
+        slightly = nyc_flood_maps.classes_on_grid(nudged)["depth_class"]
         record.checks += [
+            Check(
+                f"{scenario.id}: fault, polygons shifted by two metres",
+                "the comparison reports a difference",
+                not _confirmed(compare.compare_grids(slightly, theirs["depth_class"])),
+                value=int((slightly != theirs["depth_class"]).sum()),
+            ),
             Check(
                 f"{scenario.id}: fault, polygons shifted by one cell",
                 "the comparison reports a difference",
@@ -278,9 +293,17 @@ def flood_maps(root: Path) -> Record:
     record.numbers["scenarios_read"] = sum(1 for row in table if row["read"] == "yes")
     record.numbers["scenarios"] = len(table)
     record.notes += [
-        "Two readers that agree show the loader does what its statement says. Both open the "
-        "publisher's geodatabase with the same GDAL driver, the only open reader of that format, "
-        "so a fault in that driver would be shared.",
+        "Two readers that agree show the loader does what its statement says. For three "
+        "scenarios both open the publisher's geodatabase with the same GDAL driver, the only "
+        "open reader of that format, so a fault in that driver would be shared.",
+        "The Limited Flood map is different: both readers open the same export, made through "
+        "ESRI's library (tools/flood/limited_flood_map). The second reader therefore recomputes "
+        "only the step from that export to the grid. The step from the publisher's geodatabase "
+        "to the export rests on the export's own proof: the same route reproduces the Moderate "
+        "map as GDAL reads it. The export takes vertices only; see the F2 report on curves.",
+        "Both readers also share the choice of grid frame (EPSG:2263 to EPSG:26918, read as the "
+        "project grid), which is the project's convention and not something a comparison of "
+        "the two can test.",
         "The square holds water and Manhattan as well as the study area; cell counts are for the "
         "whole 4 km square.",
     ]
@@ -397,7 +420,7 @@ def flood_net(root: Path) -> list[Record]:
         Check(
             "CRC observations read back equal",
             "every sensor, time, depth and position read from CRC equals what was put in",
-            back["missing"] + back["extra"] + back["value_differs"] + back["position_differs"] == 0
+            sum(v for k, v in back.items() if k not in ("rows_in", "rows_back")) == 0
             and back["rows_in"] == back["rows_back"],
             value=back,
         )
@@ -413,7 +436,9 @@ def flood_net(root: Path) -> list[Record]:
         "last_event_utc": ours["start_utc"].max(),
     }
     events_record.tables["publisher's own consistency (second reader's counts)"] = [
-        {"count": name, "events": value} for name, value in consistency.items()
+        {"count": name, "events": value}
+        for name, value in consistency.items()
+        if isinstance(value, int)
     ]
     events_record.notes += [
         "Peak depth and duration are the publisher's columns, converted; neither reader "
@@ -575,6 +600,11 @@ def _ground_figures(table: pd.DataFrame, end_dates: pd.Series) -> list[str]:
 
 def ground_source(root: Path) -> Record:
     path = root / groundsource.FILE
+    checksum = groundsource.md5(path)
+    if checksum != groundsource.MD5:
+        raise SystemExit(
+            f"{groundsource.FILE}: md5 {checksum} is not the publisher's {groundsource.MD5}; stop"
+        )
     started = time.perf_counter()
     ours = groundsource.dated_places(path)
     seconds = time.perf_counter() - started
@@ -590,7 +620,6 @@ def ground_source(root: Path) -> Record:
 
     rows = _records(ours)
     result = against(rows)
-    checksum = groundsource.md5(path)
     record = Record(
         id="second-reader-groundsource",
         stage="F2",

@@ -2,7 +2,7 @@
 
 # Data card: DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings (arXiv 2607.16050), section 3.1.1
 
-Level of check (FS7): **facts checked: 8 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 1 not checked, 3 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 5 confirmed, 3 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 1 not checked, 3 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

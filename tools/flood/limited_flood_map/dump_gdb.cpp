@@ -4,11 +4,13 @@
 //
 // Writes <prefix>.def.xml (the table definition as the library gives it: fields, spatial
 // reference) and <prefix>.rows.bin: per row, little-endian,
-//   int32 object id, int16 Flooding_Category, int32 ESRI shape type, int32 parts, int32 points,
+//   int32 object id, int16 Flooding_Category, double Shape_Area as stored (NaN if the table has
+//   no such field), int32 ESRI shape type, int32 parts, int32 points,
 //   int32[parts] index of each part's first point, double[2 * points] x and y as stored,
 //   int32 has_z, then double[points] z when has_z is 1.
 // Also <prefix>.row<object id>.shape.bin: each row's shape buffer as the library holds it.
 // Nothing is altered: no ring is closed, reordered or repaired here.
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <fstream>
@@ -84,6 +86,10 @@ int main(int argc, char** argv) {
     if ((hr = shape.GetPoints(xy)) != S_OK) return fail("point array", hr);
     put(out, static_cast<int32_t>(oid));
     put(out, static_cast<int16_t>(code));
+    // the area ESRI stored with the row: it counts curved segments, which the vertices do not
+    double stored_area = std::nan("");
+    if (row.GetDouble(L"Shape_Area", stored_area) != S_OK) stored_area = std::nan("");
+    put(out, stored_area);
     put(out, static_cast<int32_t>(type));
     put(out, static_cast<int32_t>(parts));
     put(out, static_cast<int32_t>(points));

@@ -164,7 +164,7 @@ def test_a_dropped_row_and_a_changed_date_differ(parquet: Path) -> None:
     assert outcome(result) == "differs" and result["columns"]["end_date"]["differ"] == 1
 
 
-def test_a_bounding_box_test_would_differ(parquet: Path) -> None:
+def test_an_extra_row_is_reported_as_a_difference(parquet: Path) -> None:
     good = groundsource.dated_places(parquet)
     triangle = {
         "box": "nyc",

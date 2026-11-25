@@ -2,7 +2,7 @@
 
 # Data card: Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 13 confirmed, 0 differs, 0 not checked, 0 not applicable. Of the confirmed, 8 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (8 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 13 confirmed, 0 differs, 0 not checked, 0 not applicable. Of the confirmed, 8 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

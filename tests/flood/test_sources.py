@@ -166,6 +166,7 @@ def test_floodnet_events_read_back_from_crc(tmp_path: Path) -> None:
         "extra": 0,
         "value_differs": 0,
         "position_differs": 0,
+        "station_is_not_the_sensor": 0,
     }
 
 
@@ -204,3 +205,32 @@ def test_groundsource_keeps_rows_that_intersect_a_box(tmp_path: Path) -> None:
     assert len(groundsource.covering(table, "toy", "2021-09-02")) == 4
     assert len(groundsource.covering(table, "toy", "2021-09-03")) == 0
     assert isinstance(table, pd.DataFrame)
+
+
+def test_the_export_tool_gives_a_hole_to_the_ring_that_holds_it() -> None:
+    """tools/flood/limited_flood_map/export.py: rings to polygons by orientation."""
+    import importlib.util
+
+    path = Path(__file__).resolve().parents[2] / "tools/flood/limited_flood_map/export.py"
+    spec = importlib.util.spec_from_file_location("limited_export", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    def ring(x0: float, y0: float, x1: float, y1: float, clockwise: bool) -> list:
+        points = [(x0, y0), (x0, y1), (x1, y1), (x1, y0), (x0, y0)]  # clockwise as written
+        return points if clockwise else points[::-1]
+
+    rings = [
+        ring(0, 0, 10, 10, True),  # outer
+        ring(2, 2, 4, 4, False),  # its hole
+        ring(10, 0, 20, 10, True),  # a second outer sharing the edge x = 10
+        ring(10, 4, 12, 6, False),  # a hole of the second that touches the first along x = 10
+    ]
+    xy = np.array([p for r in rings for p in r], dtype=float)
+    starts = np.cumsum([0] + [len(r) for r in rings[:-1]])
+    shape, facts = module.assemble({"starts": starts, "xy": xy})
+    assert facts["outer_rings"] == 2 and facts["holes"] == 2
+    assert facts["holes_without_an_outer_ring"] == 0 and facts["rings_not_closed"] == 0
+    first, second = shape.geoms
+    assert first.area == pytest.approx(100 - 4) and second.area == pytest.approx(100 - 4)
+    assert module.signed_area(np.array(rings[0], dtype=float)) < 0

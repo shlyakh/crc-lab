@@ -11,6 +11,7 @@ stays a table of dated places.
 from __future__ import annotations
 
 import io
+import json
 from pathlib import Path
 from typing import Any
 
@@ -98,7 +99,9 @@ def _network_figure(events: pd.DataFrame, sensors_csv: Path) -> tuple[str, dict[
     return _png(figure, "floodnet_network.png"), numbers
 
 
-def _place_figure(places: pd.DataFrame, square: shapely.Polygon) -> tuple[str, dict[str, Any]]:
+def _place_figure(
+    places: pd.DataFrame, square: shapely.Polygon, study_km2: float
+) -> tuple[str, dict[str, Any]]:
     nyc = places[places["box"] == "nyc"]
     day = groundsource.covering(places, "nyc", "2021-09-01")
     shapes = shapely.from_wkb(day["geometry_wkb"].to_numpy())
@@ -126,8 +129,14 @@ def _place_figure(places: pd.DataFrame, square: shapely.Polygon) -> tuple[str, d
     bins = np.logspace(-5, 4, 46)
     right.hist(nyc["area_km2"], bins=bins, color=GREY)
     right.set_xscale("log")
-    right.axvline(12.52, color=RED, linewidth=1.0)
-    right.text(12.52, right.get_ylim()[1] * 0.92, " study area, 12.5 km²", color=RED, fontsize=8)
+    right.axvline(study_km2, color=RED, linewidth=1.0)
+    right.text(
+        study_km2,
+        right.get_ylim()[1] * 0.92,
+        f" study area, {study_km2:.1f} km²",
+        color=RED,
+        fontsize=8,
+    )
     right.set_xlabel("area_km2 of the named place")
     right.set_ylabel("Rows, New York box, all dates")
     right.set_title("How big is the place a row names?", fontsize=9)
@@ -147,10 +156,22 @@ def _place_figure(places: pd.DataFrame, square: shapely.Polygon) -> tuple[str, d
     numbers = {
         "rows_nyc_box": len(nyc),
         "median_area_km2_nyc": float(nyc["area_km2"].median()),
-        "share_of_nyc_rows_larger_than_the_study_area": float((nyc["area_km2"] > 12.52).mean()),
+        "share_of_nyc_rows_larger_than_the_study_area": float((nyc["area_km2"] > study_km2).mean()),
         "largest_area_km2_nyc": float(nyc["area_km2"].max()),
         "rows_reaching_the_square_on_2021_09_01": len(touching),
         "of_them_with_centroid_in_the_square": int(centroid_in.sum()),
+        "centroid_outside_and_place_smaller_than_the_study_area": int(
+            (~centroid_in & (touching["area_km2"].to_numpy() <= study_km2)).sum()
+        ),
+        "centroid_outside_and_place_larger_than_the_study_area": int(
+            (~centroid_in & (touching["area_km2"].to_numpy() > study_km2)).sum()
+        ),
+        "areas_km2_of_the_larger_places_with_centroid_outside": sorted(
+            round(float(a), 1)
+            for a in touching["area_km2"].to_numpy()[
+                ~centroid_in & (touching["area_km2"].to_numpy() > study_km2)
+            ]
+        ),
     }
     return _png(figure, "groundsource_places.png"), numbers
 
@@ -227,6 +248,8 @@ def main() -> None:
     events = floodnet.events(events_csv, sensors_csv)
     places = pd.read_parquet(places_path)
     square = _square_lonlat()
+    terrain = json.loads((paths.RECORDS / "f1-terrain.json").read_text(encoding="utf-8"))
+    study_km2 = float(terrain["numbers"]["study_area_km2"])
 
     record = Record(
         id="f2-primer",
@@ -238,6 +261,7 @@ def main() -> None:
             Input.of(places_path, root=root),
         ],
         parameters=[
+            Parameter("study area, km2", study_km2, "S", "record f1-terrain, study_area_km2"),
             Parameter("quiet day for comparison", QUIET_DAY, "P"),
             Parameter("small place, km2", SMALL_PLACE_KM2, "P"),
         ],
@@ -249,7 +273,8 @@ def main() -> None:
         Check(
             "FloodNet in CRC",
             "the events read back from CRC equal what was put in",
-            back["missing"] + back["extra"] + back["value_differs"] + back["position_differs"] == 0,
+            sum(v for k, v in back.items() if k not in ("rows_in", "rows_back")) == 0
+            and back["rows_in"] == back["rows_back"],
             value=back,
         )
     )
@@ -257,7 +282,7 @@ def main() -> None:
     figure, numbers = _network_figure(events, sensors_csv)
     record.figures.append(figure)
     record.numbers["floodnet"] = numbers
-    figure, numbers = _place_figure(places, square)
+    figure, numbers = _place_figure(places, square, study_km2)
     record.figures.append(figure)
     record.numbers["groundsource"] = numbers
     figure, by_year = _year_figure(places)

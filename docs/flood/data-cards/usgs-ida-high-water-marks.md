@@ -4,7 +4,7 @@
 
 > **1 fact(s) differ from what docs/flood/requirements.md says: mark count.** Under FS6 a stage that uses this source stops until the requirements are corrected.
 
-Level of check (FS7): **facts checked: 11 confirmed, 1 differ, 2 not checked; values to be recomputed by a second reader in F5**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 1 differs, 2 not checked, 0 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 6 confirmed, 5 read with no claim, 1 differ, 2 not checked; values to be recomputed by a second reader in F5**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 1 differs, 2 not checked, 0 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

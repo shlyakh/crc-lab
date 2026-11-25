@@ -3,9 +3,9 @@
 Transformation statement (the data card repeats it):
 
 1. The publisher's one file (Zenodo record 18647054, ``groundsource_2026.parquet``) is read with
-   pyarrow, column by column; the stage's check compares its md5 with the publisher's first. Its
-   GeoParquet key-value metadata is ignored: only the five documented columns are read, and the
-   accidental index column is left.
+   pyarrow, column by column, after the stage's check has found its md5 equal to the
+   publisher's. Its GeoParquet key-value metadata is ignored: only the five documented columns
+   are read, and the accidental index column is left.
 2. A row is kept for a box when its polygon intersects the box (touching counts). The row's
    bounding box is used only to skip rows that cannot intersect.
 3. Kept as written: ``uuid``, ``start_date``, ``end_date``, ``area_km2`` and the polygon (WKB,

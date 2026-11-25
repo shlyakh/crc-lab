@@ -257,17 +257,16 @@ def second_reader(source: Source, records: Path = paths.RECORDS) -> dict[str, An
 def facts_words(source: Source) -> str:
     """The facts' outcomes in words: "facts confirmed" only when none differs or is unread."""
     counts = summary(source)
+    read = read_without_claim(source)
     if counts["differs"] == 0 and counts["not checked"] == 0:
-        return "facts confirmed"
-    parts = [
-        f"{counts[outcome]} {word}"
-        for outcome, word in (
-            ("confirmed", "confirmed"),
-            ("differs", "differ"),
-            ("not checked", "not checked"),
-        )
-        if counts[outcome]
-    ]
+        return "facts confirmed" + (f" ({read} read with no claim)" if read else "")
+    numbers = (
+        (counts["confirmed"] - read, "confirmed"),
+        (read, "read with no claim"),
+        (counts["differs"], "differ"),
+        (counts["not checked"], "not checked"),
+    )
+    parts = [f"{number} {word}" for number, word in numbers if number]
     return "facts checked: " + ", ".join(parts)
 
 

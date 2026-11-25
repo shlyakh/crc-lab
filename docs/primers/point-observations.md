@@ -4,14 +4,16 @@ Written 2026-11-25 for stage F2 of the flood lab (requirement FS5), on crc-sdk 1
 1.0.0. The older primer `event-sources-in-crc.md` describes the 0.11 interface; this one does not extend
 it.
 
-Every number here comes from the record `site/flood/tests/records/f2-primer.json`, written by
+The numbers here come from the record `site/flood/tests/records/f2-primer.json`, written by
 
 ```sh
 uv run --with matplotlib python -m flood_lab.checks.f2_primer    # offline, from data/cache/flood/
 ```
 
-which also draws the figures. The two sources are described on their data cards
-(`docs/flood/data-cards/floodnet-flood-events.md`, `floodnet-sensors.md`, `groundsource.md`).
+which also draws the figures. Three kinds of number come from elsewhere: the size of the Groundsource
+file and its latest date (record `second-reader-groundsource.json`), the publisher's accuracy review
+(facts file, shown on the data card `docs/flood/data-cards/groundsource.md`), and the study area's size
+(record `f1-terrain.json`). The FloodNet cards are `floodnet-flood-events.md` and `floodnet-sensors.md`.
 
 ## The short version
 
@@ -89,10 +91,12 @@ damage or cause.
 *Left: the 20 places whose polygon reaches the study square on 2021-09-01. Right: the size of the named
 place for every row in the New York box. Limit: an outline is a place a report named, not a flood extent.*
 
-**Centroid against polygon.** Of those 20 places, 10 have their centre inside the square. The other 10 are
-larger places (a borough, the city, Long Island) that merely contain or touch it. Counting by centroid
-keeps reports about this neighbourhood; counting by polygon also keeps every report about a larger place
-that includes it. The lab keeps both and says which it used.
+**Centroid against polygon.** Of those 20 places, 10 have their centre inside the square. Of the other
+10, six are places smaller than the study area whose centre falls just outside the square, and four are
+large places that contain or overlap it (92, 94, 245 and 3,439 km²). Counting by centroid drops the four
+large places, which say little about this neighbourhood, but it also drops the six neighbours that
+straddle the edge. Counting by polygon keeps everything, the large places included. The lab keeps both
+and says which it used.
 
 **How accurate.** The publisher reviewed 400 random rows by hand: 60% were accurate in both place and
 dates, a further 22% approximately right, and 18% wrong. So a single row is weak evidence; several
@@ -123,7 +127,8 @@ two storm days and on one ordinary day chosen in advance:
 
 Read row by row: on the day of Ida the one sensor in the square recorded nothing, while 16 reports named
 places in or around it. On 29 September 2023 five of seven sensors recorded water, up to 0.64 m, and 22
-reports agree. On the ordinary day both are silent. The two sources see different things, and on Ida only
+reports named places of that size in or around the square on the same day. On the ordinary day both are
+silent. The two sources see different things, and on Ida only
 the reports saw anything here.
 
 | May be asked | May not be asked |

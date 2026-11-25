@@ -16,6 +16,12 @@ ESRI's library is not in the repository. It is expected, unpacked, under
 
 Rings to polygons: in ESRI's shape format an outer ring runs clockwise and a hole
 counter-clockwise. A hole is given to the smallest outer ring that covers it. Nothing is repaired.
+
+Curved segments: ESRI can store an arc between two vertices. This route takes vertices only, so
+an arc becomes the straight line between its ends. Two things bound what that loses: the area
+ESRI stored with each row (``Shape_Area``, which counts arcs) is set beside the area of the
+vertices, and the count and place of curved segments is read from the raw shape
+(``beyond_vertices``).
 """
 
 from __future__ import annotations
@@ -106,8 +112,8 @@ def read_rows(path: Path) -> list[dict]:
     at = 0
     rows = []
     while at < len(data):
-        oid, code, kind, parts, points = struct.unpack_from("<ihiii", data, at)
-        at += struct.calcsize("<ihiii")
+        oid, code, stored_area, kind, parts, points = struct.unpack_from("<ihdiii", data, at)
+        at += struct.calcsize("<ihdiii")
         starts = np.frombuffer(data, "<i4", parts, at)
         at += 4 * parts
         xy = np.frombuffer(data, "<f8", 2 * points, at).reshape(points, 2)
@@ -117,7 +123,15 @@ def read_rows(path: Path) -> list[dict]:
         if has_z:
             at += 8 * points
         rows.append(
-            {"oid": oid, "code": code, "shape_type": kind, "starts": starts, "xy": xy, "z": has_z}
+            {
+                "oid": oid,
+                "code": code,
+                "stored_area": stored_area,
+                "shape_type": kind,
+                "starts": starts,
+                "xy": xy,
+                "z": has_z,
+            }
         )
     return rows
 
@@ -201,14 +215,18 @@ def assemble(row: dict) -> tuple[shapely.MultiPolygon, dict]:
     owned: dict[int, list[int]] = {}
     orphans = 0
     if holes:
-        probes = shapely.points([rings[i][0] for i in holes])
-        pairs = tree.query(probes, predicate="intersects")
+        # a point strictly inside the hole, so that a shell which only touches the hole's edge
+        # cannot claim it
+        probes = shapely.point_on_surface(
+            shapely.polygons([shapely.linearrings(rings[i]) for i in holes])
+        )
+        pairs = tree.query(probes, predicate="within")
         best: dict[int, int] = {}
         for hole_at, shell_at in zip(*pairs, strict=True):
             current = best.get(hole_at)
             if current is None or abs(areas[outers[shell_at]]) < abs(areas[outers[current]]):
-                # a hole lies in the smallest outer ring that covers its first vertex, provided
-                # that ring is larger than the hole
+                # a hole lies in the smallest outer ring that holds a point of its inside,
+                # provided that ring is larger than the hole
                 if abs(areas[outers[shell_at]]) > abs(areas[holes[hole_at]]):
                     best[hole_at] = shell_at
         for hole_at, shell_at in best.items():
@@ -243,6 +261,13 @@ def through_esri(gdb: Path) -> tuple[gpd.GeoDataFrame, dict]:
                 "code": row["code"],
                 "z": bool(row["z"]),
                 **fact,
+                "stored_shape_area": row["stored_area"],
+                "vertex_area": float(shape.area),
+                "relative_area_difference_stored_to_vertices": (
+                    abs(shape.area - row["stored_area"]) / row["stored_area"]
+                    if row["stored_area"] == row["stored_area"] and row["stored_area"]
+                    else None
+                ),
                 "beyond_vertices": beyond_vertices(prefix, row),
             }
         )

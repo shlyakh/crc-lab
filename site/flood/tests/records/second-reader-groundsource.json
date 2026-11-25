@@ -94,7 +94,7 @@
    "value": null
   }
  ],
- "created_at": "2026-11-25T22:31:45Z",
+ "created_at": "2026-11-25T22:50:53Z",
  "figures": [
   "docs/flood/figures/f2/groundsource_ida_rows.png",
   "docs/flood/figures/f2/groundsource_latest_dates.png"
@@ -114,7 +114,7 @@
  ],
  "numbers": {
   "latest_end_date": "2026-02-03",
-  "loader_seconds": 6.8,
+  "loader_seconds": 4.0,
   "median_area_km2_alameda": 43.70595867514575,
   "median_area_km2_nyc": 2.2474567717226206,
   "rows_alameda": 1013,

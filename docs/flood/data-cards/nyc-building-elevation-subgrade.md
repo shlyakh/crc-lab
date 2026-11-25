@@ -2,7 +2,7 @@
 
 # Data card: Building Elevation and Subgrade (BES)
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 16 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (7 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 16 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

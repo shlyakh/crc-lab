@@ -9,9 +9,9 @@ Transformation statement (the data card repeats it):
 3. ``peak_depth_m`` is the publisher's ``max_depth_inches`` times 0.0254. ``duration_min`` is the
    publisher's ``duration_mins``. Neither is recomputed from the depth profile.
 4. Longitude and latitude come from the sensor table by ``sensor_id``.
-5. For CRC the rows go to ``Observations.from_table``: station is the sensor, time the start in
-   GMT, value the peak depth in metres. Duration and the end time have no place in that record
-   and stay in the lab's table.
+5. For CRC the rows go to ``Observations.from_table``: support and station are the sensor, time
+   the start in GMT, value the peak depth in metres. Duration and the end time have no place in
+   that record and stay in the lab's table.
 
 A sensor measures water under itself at one point of a street. No event is not no flood nearby.
 """
@@ -97,6 +97,7 @@ def crc_table(table: pd.DataFrame) -> dict[str, list[Any]]:
     placed = table[table["longitude"].notna() & table["latitude"].notna()]
     return {
         "support_id": placed["sensor_id"].astype(str).tolist(),
+        "station_id": placed["sensor_id"].astype(str).tolist(),
         "longitude": placed["longitude"].astype(float).tolist(),
         "latitude": placed["latitude"].astype(float).tolist(),
         "time": placed["start_utc"].tolist(),
@@ -106,9 +107,10 @@ def crc_table(table: pd.DataFrame) -> dict[str, list[Any]]:
 
 def to_crc(rows: dict[str, list[Any]]) -> Any:
     """Load the events into CRC as observations and return what CRC reads back."""
-    from crc_sdk import Observations
+    from crc_sdk import Observations, TimeSeriesColumns
 
-    return Observations.from_table(rows, variable=variable()).read().table
+    columns = TimeSeriesColumns(station_id="station_id")
+    return Observations.from_table(rows, variable=variable(), columns=columns).read().table
 
 
 def read_back_differences(rows: dict[str, list[Any]], got: Any) -> dict[str, int]:
@@ -127,10 +129,12 @@ def read_back_differences(rows: dict[str, list[Any]], got: Any) -> dict[str, int
         )
     }
     back: dict[tuple[str, str], tuple[float, float, float]] = {}
+    stations = 0
     for row in got.to_pylist():
         point = shapely.from_wkb(row["geometry"])
         stamp = pd.Timestamp(row["time"]).tz_convert("UTC").strftime(STAMP)
         back[(row["support_id"], stamp)] = (row["value"], point.x, point.y)
+        stations += row["station_id"] != row["support_id"]
     shared = set(put) & set(back)
     return {
         "rows_in": len(put),
@@ -139,4 +143,5 @@ def read_back_differences(rows: dict[str, list[Any]], got: Any) -> dict[str, int
         "extra": len(set(back) - set(put)),
         "value_differs": sum(put[k][0] != back[k][0] for k in shared),
         "position_differs": sum(put[k][1:] != back[k][1:] for k in shared),
+        "station_is_not_the_sensor": int(stations),
     }

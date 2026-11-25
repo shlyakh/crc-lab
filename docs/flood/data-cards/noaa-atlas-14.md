@@ -2,7 +2,7 @@
 
 # Data card: NOAA Atlas 14 Volume 10 Version 3, point precipitation frequency, Jamaica Bay point (40.65, -73.85)
 
-Level of check (FS7): **facts checked: 10 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 0 differs, 1 not checked, 2 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 3 confirmed, 7 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 0 differs, 1 not checked, 2 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

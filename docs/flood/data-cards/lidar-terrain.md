@@ -4,7 +4,7 @@
 
 > **2 fact(s) differ from what docs/flood/requirements.md says: Identifier, nyc topobathy 2017 resolution crs datum.** Under FS6 a stage that uses this source stops until the requirements are corrected.
 
-Level of check (FS7): **facts checked: 10 confirmed, 2 differ, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 2 differs, 3 not checked, 1 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 4 confirmed, 6 read with no claim, 2 differ, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 2 differs, 3 not checked, 1 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

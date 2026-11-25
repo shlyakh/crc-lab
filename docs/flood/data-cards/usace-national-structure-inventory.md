@@ -2,7 +2,7 @@
 
 # Data card: National Structure Inventory (NSI) 2026 Base
 
-Level of check (FS7): **facts checked: 11 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 0 differs, 1 not checked, 1 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 4 confirmed, 7 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 0 differs, 1 not checked, 1 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

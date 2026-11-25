@@ -2,7 +2,7 @@
 
 # Data card: FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life
 
-Level of check (FS7): **facts checked: 5 confirmed, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 5 confirmed, 0 differs, 3 not checked, 4 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 2 confirmed, 3 read with no claim, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 5 confirmed, 0 differs, 3 not checked, 4 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

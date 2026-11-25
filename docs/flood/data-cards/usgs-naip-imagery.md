@@ -2,7 +2,7 @@
 
 # Data card: Aerial imagery of the F1 area: USGS NAIP (TNM image services) and NYS orthoimagery
 
-Level of check (FS7): **facts checked: 10 confirmed, 2 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 2 not checked, 3 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 5 confirmed, 5 read with no claim, 2 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 2 not checked, 3 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

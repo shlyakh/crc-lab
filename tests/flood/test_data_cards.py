@@ -15,9 +15,15 @@ def test_level_wording(tmp_path: Path) -> None:
     maps = data_cards.card(load(FIXTURES / "toy-flood-maps.toml"), tmp_path)
     sensors = data_cards.card(load(FIXTURES / "toy-sensors.toml"), tmp_path)
     # one fact differs and one was not checked: not "facts confirmed"; not applicable is not counted
-    assert "Level of check (FS7): **facts checked: 6 confirmed, 1 differ, 1 not checked**." in maps
+    assert (
+        "Level of check (FS7): **facts checked: 6 read with no claim, 1 differ, 1 not checked**."
+        in maps
+    )
     assert "facts confirmed" not in maps
-    assert "**facts confirmed; values to be recomputed by a second reader in F2**" in sensors
+    assert (
+        "**facts confirmed (8 read with no claim); values to be recomputed by "
+        "a second reader in F2**" in sensors
+    )
     for text in (maps, sensors):
         assert "verified" not in text.lower()
 
@@ -57,7 +63,7 @@ def test_byte_identical_on_second_run(tmp_path: Path) -> None:
     assert sorted(first) == ["README.md", "toy-flood-maps.md", "toy-sensors.md"]
     index = first["README.md"].decode()
     assert (
-        "| [Toy flood maps](toy-flood-maps.md) | facts checked: 6 confirmed, 1 differ, "
+        "| [Toy flood maps](toy-flood-maps.md) | facts checked: 6 read with no claim, 1 differ, "
         "1 not checked | 6 | 1 | 1 | 1 | F0 |"
     ) in index
 
@@ -82,10 +88,26 @@ def test_second_reader_level_keeps_the_facts_counts(tmp_path: Path) -> None:
         second_reader_stage="F2",
     )
     assert level_words(maps, tmp_path) == (
-        "facts checked: 6 confirmed, 1 differ, 1 not checked; "
+        "facts checked: 6 read with no claim, 1 differ, 1 not checked; "
         "values to be recomputed by a second reader in F2"
     )
     only_unread = replace(maps, facts=tuple(f for f in maps.facts if f.outcome != "differs"))
     assert level_words(only_unread, tmp_path).startswith(
-        "facts checked: 6 confirmed, 1 not checked;"
+        "facts checked: 6 read with no claim, 1 not checked;"
     )
+
+
+def test_a_card_carries_the_loaders_transformation_statement(tmp_path: Path) -> None:
+    from flood_lab import data_cards
+
+    (tmp_path / "sources").mkdir()
+    (tmp_path / "sources" / "groundsource.py").write_text(
+        '"""Title.\n\nTransformation statement (the card repeats it):\n\n'
+        '1. Read ``the file``.\n\nA caution.\n"""\n'
+    )
+    lines = data_cards.statement("groundsource", tmp_path)
+    assert lines[0] == "## Transformation statement"
+    assert "1. Read `the file`.\n\nA caution." in lines
+    assert data_cards.statement("nyc-311", tmp_path) == []
+    assert data_cards.statement("floodnet-sensors", tmp_path) == []  # no such loader file here
+    assert "## Transformation statement" in data_cards.statement("groundsource")

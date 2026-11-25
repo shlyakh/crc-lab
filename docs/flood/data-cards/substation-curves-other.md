@@ -2,7 +2,7 @@
 
 # Data card: Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025
 
-Level of check (FS7): **facts checked: 12 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 12 confirmed, 0 differs, 1 not checked, 4 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts checked: 6 confirmed, 6 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 12 confirmed, 0 differs, 1 not checked, 4 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |

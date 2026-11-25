@@ -4,9 +4,11 @@ The city's Limited Flood map (1.77 in/hr, current sea levels; NYC Open Data `9i7
 ESRI's compressed geodatabase format, which GDAL's open driver cannot read
 (`docs/flood/reports/F0-derisk.md`, section 5). This folder reads it through ESRI's own library.
 
-**State on 2026-11-25: built, not yet run.** The program compiles against the library. Running it was
-refused by the session's permission system, so no export exists and nothing about the Limited map's
-content is known. A person runs the command below, or allows it.
+**State on 2026-11-25: run by Yuri; the export exists.** The same route reproduces the uncompressed
+Moderate map as GDAL reads it (area per class to 15 digits, symmetric difference 0). The Limited map has
+two rows, classes 1 and 2. The session's permission system refuses to let the agent run the program, so
+a person runs the command below. What is known of the export, and what is not (curved segments), is in
+`docs/flood/reports/F2-sources.md` and in `limited-current.json` beside the export.
 
 ## Run
 

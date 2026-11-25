@@ -91,11 +91,12 @@
     "position_differs": 0,
     "rows_back": 3611,
     "rows_in": 3611,
+    "station_is_not_the_sensor": 0,
     "value_differs": 0
    }
   }
  ],
- "created_at": "2026-11-25T22:31:45Z",
+ "created_at": "2026-11-25T22:50:53Z",
  "figures": [],
  "id": "second-reader-floodnet-flood-events",
  "inputs": [
@@ -182,32 +183,6 @@
    {
     "count": "unknown_sensor",
     "events": 0
-   },
-   {
-    "count": "examples",
-    "events": {
-     "duration_differs": [
-      "Q-brookville-blvd-149th-ave-3-23nfdo 2024-10-17T12:44:30Z",
-      "BX-ditmars-st-hunter-ave-1kwrk0 2024-08-18T12:19:04Z",
-      "SI-grimsby-st-mapleton-ave-1de5w0 2024-08-07T00:08:41Z",
-      "Q-beach-84-st-0me680 2023-10-29T11:56:53Z",
-      "Q-1st-st-104th-st-1a5t00 2023-09-26T22:10:24Z",
-      "Q-russell-st-1-07zqc0 2022-06-17T02:16:22Z",
-      "Q-russell-st-2-07zt40 2022-01-02T11:13:04Z"
-     ],
-     "profile_peak_differs": [
-      "Q-queens-boulevard-broadway-20q4s0 2026-08-23T10:39:29Z",
-      "Q-moncriff-dr-104th-st-2z1iuo 2026-08-20T21:57:44Z",
-      "Q-norton-dr-westbourne-ave-1-2wif1c 2026-08-20T21:12:06Z",
-      "SI-richmond-ter-lafayette-ave-2upl3o 2026-08-03T10:44:00Z",
-      "BK-winthrop-st-e-94th-st-1dnt40 2026-07-06T02:47:21Z",
-      "BK-brighton-6th-st-ocean-view-ave-2ub2dc 2026-05-20T22:31:48Z",
-      "BK-dewitt-ave-williams-ave-215zzc 2025-11-10T06:28:29Z",
-      "Q-beach-84-st-0me680 2025-11-08T13:29:44Z",
-      "Q-hendrickson-pl-166th-st-1x5fg0 2025-10-30T20:04:58Z",
-      "Q-231st-st-148th-ave-1edkw0 2025-10-30T19:59:39Z"
-     ]
-    }
    }
   ]
  },

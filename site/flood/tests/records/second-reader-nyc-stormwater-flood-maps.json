@@ -28,6 +28,15 @@
    "value": 0.0
   },
   {
+   "name": "limited-current: fault, polygons shifted by two metres",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 1520
+  },
+  {
    "name": "limited-current: fault, polygons shifted by one cell",
    "note": "",
    "passed": true,
@@ -89,6 +98,15 @@
    "rule": "the two readers' clipped areas agree",
    "threshold": 1e-06,
    "value": 0.0
+  },
+  {
+   "name": "moderate-current: fault, polygons shifted by two metres",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 2859
   },
   {
    "name": "moderate-current: fault, polygons shifted by one cell",
@@ -154,6 +172,15 @@
    "value": 0.0
   },
   {
+   "name": "moderate-2050: fault, polygons shifted by two metres",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 3166
+  },
+  {
    "name": "moderate-2050: fault, polygons shifted by one cell",
    "note": "",
    "passed": true,
@@ -217,6 +244,15 @@
    "value": 0.0
   },
   {
+   "name": "extreme-2080: fault, polygons shifted by two metres",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 9366
+  },
+  {
    "name": "extreme-2080: fault, polygons shifted by one cell",
    "note": "",
    "passed": true,
@@ -253,7 +289,7 @@
    }
   }
  ],
- "created_at": "2026-11-25T22:31:45Z",
+ "created_at": "2026-11-25T22:50:53Z",
  "figures": [
   "docs/flood/figures/f2/flood_map_limited-current.png",
   "docs/flood/figures/f2/flood_map_moderate-current.png",
@@ -276,7 +312,9 @@
   }
  ],
  "notes": [
-  "Two readers that agree show the loader does what its statement says. Both open the publisher's geodatabase with the same GDAL driver, the only open reader of that format, so a fault in that driver would be shared.",
+  "Two readers that agree show the loader does what its statement says. For three scenarios both open the publisher's geodatabase with the same GDAL driver, the only open reader of that format, so a fault in that driver would be shared.",
+  "The Limited Flood map is different: both readers open the same export, made through ESRI's library (tools/flood/limited_flood_map). The second reader therefore recomputes only the step from that export to the grid. The step from the publisher's geodatabase to the export rests on the export's own proof: the same route reproduces the Moderate map as GDAL reads it. The export takes vertices only; see the F2 report on curves.",
+  "Both readers also share the choice of grid frame (EPSG:2263 to EPSG:26918, read as the project grid), which is the project's convention and not something a comparison of the two can test.",
   "The square holds water and Manhattan as well as the study area; cell counts are for the whole 4 km square."
  ],
  "numbers": {

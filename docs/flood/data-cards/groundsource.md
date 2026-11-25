@@ -2,7 +2,7 @@
 
 # Data card: Groundsource: A Dataset of Flood Events from News
 
-Level of check (FS7): **facts confirmed; values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 19 confirmed, 0 differs, 0 not checked, 9 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (3 read with no claim); values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 19 confirmed, 0 differs, 0 not checked, 9 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -32,9 +32,9 @@ Events exist only where news was digitised, published online and still reachable
 What the loader `flood_lab.sources.groundsource` does to the publisher's file, in its own words (the module's docstring). The second reader recomputes the result by another route (FS4).
 
 1. The publisher's one file (Zenodo record 18647054, `groundsource_2026.parquet`) is read with
-   pyarrow, column by column; the stage's check compares its md5 with the publisher's first. Its
-   GeoParquet key-value metadata is ignored: only the five documented columns are read, and the
-   accidental index column is left.
+   pyarrow, column by column, after the stage's check has found its md5 equal to the
+   publisher's. Its GeoParquet key-value metadata is ignored: only the five documented columns
+   are read, and the accidental index column is left.
 2. A row is kept for a box when its polygon intersects the box (touching counts). The row's
    bounding box is used only to skip rows that cannot intersect.
 3. Kept as written: `uuid`, `start_date`, `end_date`, `area_km2` and the polygon (WKB,
