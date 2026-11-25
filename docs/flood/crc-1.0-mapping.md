@@ -39,12 +39,22 @@ named says.
 
 | Not in 1.0.0 | Requirement | What the lab does |
 | --- | --- | --- |
-| An event set, an event-loss table, annual rates per event | FR4 | Own table; ratios from `Impact.evaluate` |
-| Adding the losses of assets that flood together (`compute_risk` adds independent two-state outcomes only); the split into occurrence and aggregate | FR5, FR6 | Own sums per event and per synthetic year; the sums go into `Distribution.empirical` and CRC gives the exceedance curve, VaR and CVaR |
+| An event set, an event-loss table, annual rates per event | FR4, FR10 | The extension `crc_event_loss` (D17); ratios from `Impact.evaluate` |
+| Adding the losses of assets that flood together (`compute_risk` adds independent two-state outcomes only); the split into occurrence and aggregate | FR5, FR6, FR10 | The extension's sums per event and per synthetic year; the sums go into `Distribution.empirical` and CRC gives the exceedance curve, VaR and CVaR |
 | A record with a date and a polygon | FS2 | Groundsource stays a `flood_lab` table |
 | Resilience measures | FM1, FM2 | A measure is a second damage table |
 | Uncertainty of a result, intervals on a fit | FR8 | Bootstrap over synthetic years, own code |
 | A second try for a dropped download | FC1 | `caffeinate -i`, resumable steps, a local copy of the publisher's files where one is kept (CRC-038-FWK) |
+
+## Upstream work in progress on the same ground
+
+Seen on 2026-11-25, both open, neither released; read from the descriptions only, not from the code
+(FR11 reads the code before the extension's interface is fixed).
+
+| Pull request | What its description says | Bearing |
+| --- | --- | --- |
+| crc-framework-rs #27, "Insurance loss framework" | Annual loss simulation for primary policies (`PolicyTerms`, `simulate_annual_losses`, a separate-peril variant), Gaussian dependence across space that decays with great-circle distance and across perils, `summarize_annual_losses` (VaR, CVaR, exceedance, diversification, attribution per component), an `annual-loss` format | Its summary is where the extension's annual losses per component should be able to go. Its dependence is assumed by distance; ours comes from a storm catalogue. The two can be compared on the same assets |
+| crc-sdk #47, "Insurance loss SDK functions" (draft) | Depends on #27; adds `_loss.py`, `_loss_inputs.py`, `_loss_artifact.py` | The SDK side of the same work; names to stay clear of |
 
 ## Register findings that bear on the lab
 

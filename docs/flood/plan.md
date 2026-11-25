@@ -45,8 +45,8 @@ by what the task needs, not the main model's by default.
 4. **Independent means a different agent.** A second reader (FS4) and the hand recomputation (FR7) are
    written by an agent that is not shown the code they check. The main model compares the results.
 5. **Shared files have one writer**, the main model: `justfile`, `pyproject.toml`, `site/layers.json`,
-   `curves.yaml`, `records.py`, `findings.toml`, `AGENTS.md`, `docs/algorithms.md`, the requirements and
-   this plan. Agents return what they need added.
+   `curves.yaml`, `records.py`, `findings.toml`, `AGENTS.md`, `docs/algorithms.md`, the public interface
+   of `crc_event_loss`, the requirements and this plan. Agents return what they need added.
 6. **Parallel only where files are disjoint**, each agent in its own worktree made from the stage branch.
    Otherwise one at a time.
 7. **Long runs are commands, not agents**: solver batches, training and large downloads run in the
@@ -69,7 +69,7 @@ by what the task needs, not the main model's by default.
 | F3 | Model design, drainage calibration, the freeze | Scripted build, water-balance and monotonicity tests, figures | Atlas 14 values for §9 item 4 |
 | F4 | Transposition domain and its justification; depth frequency and the load into CRC | RainyDay environment, batch runner, design storms | Rainfall record download and card |
 | F5 | Reading of the errors; the statement FV4 may require; each loader against its second reader | Comparisons and figures; second readers for the marks and the radar rainfall, by an agent that does not see the loaders | 311 and Storm Events loads |
-| F6 | Curve values against primary sources; CRC damage, expectation and loss statistics; brackets; `docs/algorithms.md` | Event-loss table, sums per event and year, bootstrap resampling, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
+| F6 | The extension's interface and design note, after reading upstream's two pull requests; curve values against primary sources; CRC damage, expectation and loss statistics; `docs/algorithms.md` | The extension's modules and tests against the fixed interface; bootstrap resampling, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
 | F7 | Identity tests; the investment one-pager | Measures, benefit-cost, outage cost | FEMA useful life and toolkit version |
 | F8 | Label fusion and scoring; what may be said of the pilot | Indices, payout, planted tests; claims with the date rule | Primary sources for §9 item 6 |
 | F11 | Captions and limits; final check with Yuri | The page | Smoke script, document lists |
@@ -95,13 +95,14 @@ once real numbers exist, say so in the report and propose a new one. Do not chan
 
 | Tier | Stages | Hours | Running total |
 | --- | --- | --- | --- |
-| 1. Core | F0–F8, F11 | 76 | 76 |
-| 2. Emulator and cross-checks | F9, F10 | 23 | 99 |
-| 3. Optional | F12, F13, F14 | 18 | 117 |
+| 1. Core | F0–F8, F11 | 79 | 79 |
+| 2. Emulator and cross-checks | F9, F10 | 23 | 102 |
+| 3. Optional | F12, F13, F14 | 18 | 120 |
 
 Tier 1 was 68 hours in the first draft. The revision of 2026-11-25 adds 8: four for crc-sdk 1.0.0 (the
 F0 block of calls, the primer in F2, the two curve routes in F6) and four for source validation (fact
-checks in F0, two more second readers in F5).
+checks in F0, two more second readers in F5). CH-2 adds 3 in F6: the event-loss table and the aggregation are
+built as an extension of CRC with a design note (D17), not as lab code.
 
 | Stage | Title | Hours | Depends on |
 | --- | --- | --- | --- |
@@ -111,7 +112,7 @@ checks in F0, two more second readers in F5).
 | F3 | Solver model, drainage calibration, two storm replays | 8 | F1, F2 |
 | F4 | Storm catalogue and batch runs | 8 | F3 |
 | F5 | Validation against observations; who saw the flood | 9 | F3, F2 |
-| F6 | Curves, event-loss table and risk with CRC | 10 | F4, F1 |
+| F6 | Curves, the event-loss extension of CRC, and risk | 13 | F4, F1 |
 | F7 | Resilience measures, outage cost, benefit-cost | 6 | F6 |
 | F8 | Triggers, fused labels, basis risk | 8 | F4, F5, F6 |
 | F9 | Emulator and extended catalogue | 10 | F4, F6 |
@@ -155,8 +156,8 @@ src/flood_lab/
   curves/
     curves.yaml  load.py  export.py                                   FR1-FR3
   risk/
-    event_loss.py  dependence.py  (own: table, sums per event, year)  FR4, FR6
-    metrics.py         sums in, figures from CRC Distribution         FR5, FR8
+    event_loss.py      depths and curves -> the extension's table     FR4
+    metrics.py         the extension's sums -> CRC Distribution       FR5, FR8
     crc_adapter.py     Impact.tabulated, evaluate, expectation,
                        pushforward; Distribution.empirical            FR1-FR5
   measures/
@@ -175,6 +176,12 @@ docs/flood/            requirements.md, plan.md, crc-1.0-mapping.md, changes.md,
                        reports/, figures/, data-cards/
 docs/primers/          point-observations.md                          FS5
 src/lab_common/io.py   atomic writers (new, shared)                   FG2
+src/crc_event_loss/    extension of CRC; imports crc_framework only   FR9-FR11
+  events.py            event set                                      FR10
+  table.py             event-loss table                               FR10
+  aggregate.py         sums, annual Distributions, attribution,
+                       brackets                                       FR10
+tests/event_loss/
 tests/flood/
 ```
 
@@ -350,24 +357,28 @@ peak. Error map. The who-saw-the-flood bar chart and map for each storm.
 the model against observations none is forced; the stage reports. Above 0.5 m root-mean-square error (*proposed*) the report
 states that substation-level claims are not supported and proposes what to do (classes only, or F14).
 
-## F6. Curves, event-loss table and risk with CRC (10 h)
+## F6. Curves, the event-loss extension of CRC, and risk (13 h)
 
 **Steps.**
 
-1. Verify item 7 of §9. Enter the substation curve envelope (FR2) and the building curves in `curves.yaml` with
+1. The extension (D17). Read crc-sdk pull request #47 and crc-framework-rs #27 as they stand that day
+   (FR11) and record what they define. Draft the design note `docs/flood/event-loss-extension.md` (FR12)
+   with the interface. Then build `src/crc_event_loss/` (FR9, FR10) with tests on small made-up tables
+   whose sums can be checked by hand: two assets that always flood together, two that never do, a year
+   with two events, a tie at the VaR cutoff. Correct the note to match what was built.
+2. Verify item 7 of §9. Enter the substation curve envelope (FR2) and the building curves in `curves.yaml` with
    sources and tags (FR1–FR3). Unit tests: monotone, bounded, zero below threshold.
-2. Exporters to CRC first (`Impact.tabulated`, every table to the stated maximum depth; FR1); the others
+3. Exporters to CRC first (`Impact.tabulated`, every table to the stated maximum depth; FR1); the others
    in F10.
-3. Event-loss table (FR4): damage ratios from CRC's `Impact.evaluate`, the table and the money in
-   `flood_lab`.
-4. Metrics (FR5): sums per event and per synthetic year in `flood_lab`, then exceedance curves, VaR,
+4. Event-loss table (FR4): damage ratios from CRC's `Impact.evaluate`, held in the extension's table.
+5. Metrics (FR5): sums per event and per synthetic year by the extension, then exceedance curves, VaR,
    CVaR and expected annual loss from CRC's `Distribution.empirical`; per asset from CRC's curves, the
    damage distribution by `pushforward`, expected annual damage by `complete` and `expectation` and loss at 10, 100 and 500 years by `evaluate(...).impact(...)`, with
    failure rows counted; the two curve routes of FH7 compared at the assets; the dependence brackets
    (FR6), with `compute_risk` if F0 showed it fits.
-5. Hand recomputation of three assets in a notebook, by an agent that does not see the code (FR7);
+6. Hand recomputation of three assets in a notebook, by an agent that does not see the code (FR7);
    bootstrap intervals (FR8).
-6. Add entries to `docs/algorithms.md` for every new calculation.
+7. Add entries to `docs/algorithms.md` for every new calculation.
 
 **Visual test.** A card per substation: depth-frequency curve with catalogue points, the damage-curve
 envelope with that asset's 10-, 100- and 500-year depths marked, loss by return period as a band. Portfolio

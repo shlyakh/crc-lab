@@ -54,6 +54,7 @@ FS6).
 | D13 | Target is Tier 1 (F0 to F8 and F11). Tiers 2 and 3 stay specified; Yuri decides on them at the F8 stop, with measured run times and token use per stage | Decided by Yuri, 2026-11-25 |
 | D14 | Each stage is built on its own short-lived branch (`flood/f<n>`), pushed for backup and merged into `main` only on Yuri's go at the stop. The flood page is not linked from the landing page before F11 | Decided by Yuri, 2026-11-25 |
 | D15 | Source validation by Claude Code: every source used has its facts confirmed from the primary source (FS6); a source whose values feed a published number also gets a second, independent reader (FS4) | Decided by Yuri, 2026-11-25 |
+| D17 | The two things CRC 1.0.0 lacks for this study, an event-loss table and the adding of losses of assets that flood together, are built as an extension of CRC that can be used with it by anyone and offered upstream later: a package of its own, `crc_event_loss`, with nothing about floods or this lab in it, written to crc-sdk's own rules (FR9 to FR12). RiskThinking has insurance loss work in progress (crc-sdk pull request #47, crc-framework-rs #27); the extension is designed to sit beside it, not to compete with it | Decided by Yuri, 2026-11-25 (CH-2) |
 | D16 | The requirements stay open to Yuri's own outside evaluation for missing sources and techniques; proposals enter through `docs/flood/changes.md` and are decided at stage stops | Decided by Yuri, 2026-11-25 |
 
 ## 3. Scope
@@ -75,7 +76,7 @@ each step. The second shows how the other loss engines are used: as checks on th
 the source of a published number (D3, D7).
 
 **From sources to results.** Colours: blue is a source, grey is `flood_lab`'s own code, orange is the
-depth solver and its tools, green is CRC 1.0.0, purple is the emulator (Tier 2).
+depth solver and its tools, green is CRC 1.0.0, teal is the extension of CRC built here (D17), purple is the emulator (Tier 2).
 
 ```mermaid
 flowchart TD
@@ -110,11 +111,15 @@ flowchart TD
     C6["Distribution.empirical<br/>exceedance curve, VaR, CVaR,<br/>expected annual loss (FR5)"]
   end
 
-  subgraph OWN["flood_lab: bookkeeping CRC 1.0.0 has no type for"]
+  subgraph EXT["crc_event_loss: extension of CRC, offered upstream later (D17)"]
+    L1["Event set, event-loss table (FR4, FR10)"]
+    L2["Sums per event and per year,<br/>attribution, dependence brackets<br/>(FR5, FR6, FR10)"]
+  end
+
+  subgraph OWN["flood_lab"]
     A1["assets_oed.csv, curves.yaml (FD6, FR1)"]
-    L1["Event-loss table (FR4)"]
-    L2["Sums per event and per year,<br/>dependence brackets, bootstrap resampling<br/>(FR5, FR6, FR8)"]
     L3["Measures: benefit-cost,<br/>outage cost (FM)"]
+    L4["Bootstrap over synthetic years (FR8)"]
     T1["Trigger indices, payout (FT1 to FT4)"]
     T2["Fused labels, basis risk (FT5 to FT7)"]
   end
@@ -148,6 +153,8 @@ flowchart TD
   L2 --> C6
   C4 --> C6
   C6 --> L3
+  L2 --> L4
+  L4 --> OUT
   H3 --> T1
   S4 --> T2
   T1 --> T2
@@ -163,7 +170,9 @@ flowchart TD
   classDef crc fill:#dcfce7,stroke:#15803d,color:#111
   classDef emu fill:#ede9fe,stroke:#6d28d9,color:#111
   class S1,S2,S3,S4,S5,S6 src
-  class H4,H5,V1,A1,L1,L2,L3,T1,T2,OUT own
+  classDef ext fill:#ccfbf1,stroke:#0f766e,color:#111
+  class H4,H5,V1,A1,L3,L4,T1,T2,OUT own
+  class L1,L2 ext
   class H1,H2,H3 solver
   class C1,C2,C3,C4,C5,C6 crc
   class H6 emu
@@ -268,8 +277,8 @@ say what this file claims, stop and report; do not substitute a number.
 - **FG1.** New package `src/flood_lab/`, page `site/flood/`, docs `docs/flood/`, reports
   `docs/flood/reports/F<n>-<slug>.md`, tests `tests/flood/`. Add the package to the wheel list in
   `pyproject.toml` and to the separation test in `tests/test_projects.py` as `"flood_lab": {"lab_common"}`:
-  `flood_lab` may import `lab_common` only, and never `crc_lab`, `crc_data_explorer` or
-  `data_source_check`. Inside the package only `sources/` and `risk/` import `crc_sdk` or `crc_framework`,
+  `flood_lab` may import `lab_common` and `crc_event_loss` (FR9) only, and never `crc_lab`,
+  `crc_data_explorer` or `data_source_check`. Inside the package only `sources/` and `risk/` import `crc_sdk` or `crc_framework`,
   and only by 1.0 names (`just upstream-surface` flags any other); `reference/` and `crosscheck/` never
   do. A test holds both rules. `just test` is green today with 8 test files and 3 tests parked for the
   1.0 port (`tests/conftest.py`); the flood lab must not add to that count.
@@ -452,9 +461,9 @@ say what this file claims, stop and report; do not substitute a number.
 - **FR3.** Buildings: Hazus depth-damage functions by occupancy, depth measured from first-floor elevation,
   with the basement variant where the subgrade flag is set.
 - **FR4.** Loss per event per asset: the damage ratio comes from CRC (`Impact.evaluate` on the event's
-  depths); the event-loss table is `flood_lab`'s own, since CRC 1.0.0 has none: event id, annual rate or
+  depths); the event-loss table is held by the extension (FR9, FR10), since CRC 1.0.0 has none: event id, annual rate or
   synthetic year, asset id, depth, damage ratio for each curve, loss (ratio times value).
-- **FR5.** From the event-loss table: `flood_lab` sums losses per synthetic year (aggregate) and takes
+- **FR5.** From the event-loss table: the extension sums losses per synthetic year (aggregate) and takes
   the largest event of each year (occurrence); each set of annual values becomes a CRC
   `Distribution.empirical`, and CRC gives the figures: the exceedance curve (`exceedance`), 1-in-100 loss
   and VaR at 99% (`quantile`), CVaR at 99% and expected annual loss (`statistics`). The distributions
@@ -469,6 +478,43 @@ say what this file claims, stop and report; do not substitute a number.
   independent two-state outcomes and gives VaR and CVaR; it is not an annual loss. F0 tests whether it
   can serve as the independence bracket; if not, the bracket is own code. CRC has no way to add losses
   of assets that flood together, which is why the event-table sum is the lab's.
+- **FR9.** The extension is its own package, `src/crc_event_loss/`, in the wheel list and the separation
+  test: it imports `crc_framework`, numpy and pyarrow and nothing else of this repository (not
+  `flood_lab`, not `lab_common`); `flood_lab` imports it. It names no hazard, place or asset type. It
+  follows the rules in `../upstream/crc-sdk/AGENTS.md` so that lifting it is a review and not a rewrite:
+  typed enums for closed choices, exact strings for identities, CRC's typed measurements for every
+  quantity, constructors that take the science directly, no I/O in builders, atomic writes with no
+  overwrite by default, diagnostics and counts of what was left out kept through every result, documents
+  with a schema version that read back equal, offline tests, `mypy` and `ruff` clean.
+- **FR10.** What it holds and does. Final names are set by the design note (FR12):
+  - an **event set**: event ids, each with an annual rate or a synthetic year, and what the set
+    represents (number of years, how it was made);
+  - an **event-loss table**: event, component (an asset), loss, with its measurement and currency; built
+    from depths per event and component and a CRC `Impact`, or given directly;
+  - **aggregation**: losses added across components within an event, and across events within a year,
+    giving the occurrence and the aggregate annual losses as CRC `Distribution` objects, so every figure
+    (exceedance, VaR, CVaR, mean) comes from CRC as in FR5;
+  - **attribution**: each component's share of VaR and CVaR, in the form of the framework's
+    `RiskAttribution`, with ties handled as `compute_risk` documents;
+  - **brackets**: the same components added under full dependence and under independence (FR6), the
+    latter through `compute_risk` where it applies.
+  Dependence comes from the events themselves: assets flood together because one storm covers them. No
+  correlation is assumed or fitted.
+- **FR11.** Fit with upstream's own work. Before the interface is fixed, read crc-sdk pull request #47 and
+  crc-framework-rs #27 (both open on 2026-11-25; from #27's description, not yet from its code: annual
+  loss simulation with policy terms, Gaussian dependence that decays with distance, and
+  `summarize_annual_losses` with VaR, CVaR, exceedance and attribution per component **[V]**). Record
+  what they hold and choose names and shapes so that (a) the extension's annual losses per component can
+  be given to upstream's summary when it is released, and (b) nothing in the extension duplicates under
+  another name what those pull requests already define. Only released versions are installed (repository
+  rule); the pull requests are read, not run. When they are released: a change proposal to move onto
+  them, and a comparison worth showing, the loss of the same assets under dependence taken from a storm
+  catalogue against upstream's dependence by distance.
+- **FR12.** A design note, `docs/flood/event-loss-extension.md`, written for RiskThinking's engineers:
+  the gap, the types, a worked example of twenty lines, what was deliberately left out (policy terms,
+  reinsurance, anything flood-specific), how it relates to #47 and #27, and open questions. It is drafted
+  before the code (F6 step 1) and corrected after. Nothing is sent or proposed upstream until Yuri has
+  reviewed it (`local/upstream-review.md`), as for findings.
 - **FR7.** Three assets recomputed by hand in a notebook must match to the cent. The notebook is written
   by an agent that is not shown the code it checks.
 - **FR8.** Sampling uncertainty: bootstrap interval on expected annual loss and on the 1-in-100 loss from
@@ -708,7 +754,8 @@ Not checked at all in the verification pass, so still **[V]**. Each now has a st
 - CRC Open data, where used, is CC BY-NC 4.0 and excluded from any commercial output.
 - CRC computes the damage ratios, the per-asset distributions and the statistics of every loss
   distribution. The event-loss table and the sums of losses per event and per year, which carry the
-  dependence between assets, are this project's own code.
+  dependence between assets, come from an extension written here (`crc_event_loss`); it is not part of
+  CRC and has not been reviewed by CRC's authors.
 - A source marked "facts confirmed" has had its identity, licence, fields and coverage read from the
   publisher; only a source marked "values recomputed" has been read a second time by independent code.
 
@@ -727,7 +774,7 @@ Not checked at all in the verification pass, so still **[V]**. Each now has a st
 2. Confirm D9 and D10 (storm catalogue replaces design storms; emulator added). Together they add about
    18 hours.
 3. Answered 2026-11-25 (D13): Tier 1, with Tiers 2 and 3 decided at the F8 stop. After this revision the
-   core is about 76 hours (see the plan).
+   core is about 79 hours (see the plan).
 4. Substation values: is a placeholder range acceptable for the first public version?
 5. May the Jamaica Bay depth map and FloodNet data be shown on the public page, or only used for checking,
    if a licence is unclear?
