@@ -2,15 +2,15 @@
 
 # Data card: DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings (arXiv 2607.16050), section 3.1.1
 
-Level of check (FS7): **facts checked: 8 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 1 not checked, 3 not applicable.
+Level of check (FS7): **facts checked: 5 confirmed, 3 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 8 confirmed, 0 differs, 1 not checked, 3 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | arXiv (Cornell University); authors Kawakami, Cayan, Liu, Ma, Corringham |
 | Used for | FT5 |
 | Licence | The arXiv licence of this submission was not read (the abs page was fetched but the licence line was not extracted). (not checked) |
-| Coverage in space | Study region: top 100 highest-claim 75 km x 75 km cells in the conterminous US, about 81% of pluvial claims 2017-2022. (confirmed) |
-| Coverage in time | Claims 2017-2022. (confirmed) |
+| Coverage in space | Study region: top 100 highest-claim 75 km x 75 km cells in the conterminous US, about 81% of pluvial claims 2017-2022. (read, no claim) |
+| Coverage in time | Claims 2017-2022. (read, no claim) |
 | Release | Version v1 only (submitted Fri, 17 Jul 2026 15:27:47 UTC, 5,755 KB). https://arxiv.org/pdf/2607.16050v2 returns 404. The PDF is a draft in an ACM template with unfilled placeholders (&quot;Conference acronym &\#x27;XX, June 03-05, 2018, Woodstock, NY&quot;). (confirmed) |
 
 ## Files fetched
@@ -34,7 +34,7 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Fact | Claimed | Observed | Outcome | Address | Note |
 | --- | --- | --- | --- | --- | --- |
 | Identifier | arXiv 2607.16050, Kawakami et al. 2026, &quot;DELUGE&quot;, section 3.1.1 | arXiv id 2607.16050 resolves to &quot;DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings&quot;, Yuya Kawakami, Daniel Cayan, Dongyu Liu, Kwan-Liu Ma, Tom Corringham; cs.LG; submitted 17 Jul 2026. Section 3.1.1 is &quot;Temporal Uncertainty Correction&quot;. | confirmed | <https://arxiv.org/abs/2607.16050> | – |
-| Address | – | https://arxiv.org/abs/2607.16050 ; PDF https://arxiv.org/pdf/2607.16050 (= v1) ; metadata API https://export.arxiv.org/api/query?id\_list=2607.16050 | confirmed | <https://arxiv.org/abs/2607.16050> | – |
+| Address | – | https://arxiv.org/abs/2607.16050 ; PDF https://arxiv.org/pdf/2607.16050 (= v1) ; metadata API https://export.arxiv.org/api/query?id\_list=2607.16050 | read, no claim | <https://arxiv.org/abs/2607.16050> | – |
 | Release | version of the preprint | Version v1 only (submitted Fri, 17 Jul 2026 15:27:47 UTC, 5,755 KB). https://arxiv.org/pdf/2607.16050v2 returns 404. The PDF is a draft in an ACM template with unfilled placeholders (&quot;Conference acronym &\#x27;XX, June 03-05, 2018, Woodstock, NY&quot;). | confirmed | <https://export.arxiv.org/api/query?id_list=2607.16050> | – |
 | rule text | 10 mm threshold on daily maximum hourly AORC rainfall, window d-3 to d+3 | Confirmed as stated in requirements FT5: step 1 daily maximum of hourly accumulated precipitation from NOAA AORC at the claim location for day d; step 2 keep d if it exceeds 10 mm; step 3 otherwise take the day in d-3..d+3 with the largest such value and move the claim to it if that exceeds 10 mm; step 4 otherwise discard the claim. | confirmed | <https://arxiv.org/pdf/2607.16050> | Threshold rationale in the paper: &quot;We adopt 10 mm as a conservative threshold for maximum hourly accumulated precipitation, sitting between two reference points&quot; (FFG about 25.4 mm; AMS heavy precipitation 7.62 mm in one hour). The paper does not say what rainfall location uncertainty (0.1 degree claim position) does to the daily maximum; the rule is applied &quot;at the location of the claim&quot; after the spatial correction of section 3.1.2. |
 | shares | 81.1%, 12.9%, 6.0% | 81.1% accepted as reported, 12.9% shifted within +/-3 days, 6.0% discarded. Appendix Table 6 gives the shift distribution in percent: -3: 2.0, -2: 1.9, -1: 5.0, 0: 81.1, +1: 2.0, +2: 1.4, +3: 0.6, discarded: 6.0 (sums to 100.0; the six non-zero shifts sum to 12.9). | confirmed | <https://arxiv.org/pdf/2607.16050> | The appendix prose says &quot;7% has shifts of ±1 day&quot; (5.0 + 2.0), consistent with the table. Claims counted are NFIP claims with causeOfDamage = rainfall or snowmelt in the study cells (the paper filters to that cause), not all claims. |
@@ -42,8 +42,8 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | peer review | not peer reviewed | No journal reference or DOI in the arXiv metadata on 2026-11-25; a web search found only the arXiv preprint (secondary: search results, not a publisher page). The PDF carries an unfilled ACM template. Status: not shown to be published; &quot;not peer reviewed&quot; is consistent with what was read, but absence of a journal record is not proof of absence. | confirmed | <https://arxiv.org/abs/2607.16050> | – |
 | Licence | – | The arXiv licence of this submission was not read (the abs page was fetched but the licence line was not extracted). | not checked | <https://arxiv.org/abs/2607.16050> | – |
 | Fields | – | Not a data source: no fields. The rule uses the NFIP fields dateOfLoss and causeOfDamage and NOAA AORC hourly precipitation (mm). | not applicable | <https://arxiv.org/abs/2607.16050> | – |
-| Coverage in space | – | Study region: top 100 highest-claim 75 km x 75 km cells in the conterminous US, about 81% of pluvial claims 2017-2022. | confirmed | <https://arxiv.org/abs/2607.16050> | – |
-| Coverage in time | – | Claims 2017-2022. | confirmed | <https://arxiv.org/abs/2607.16050> | – |
+| Coverage in space | – | Study region: top 100 highest-claim 75 km x 75 km cells in the conterminous US, about 81% of pluvial claims 2017-2022. | read, no claim | <https://arxiv.org/abs/2607.16050> | – |
+| Coverage in time | – | Claims 2017-2022. | read, no claim | <https://arxiv.org/abs/2607.16050> | – |
 | Checksum | – | arXiv gives no checksum; sha256 of the fetched v1 PDF is in the file entry. | not applicable | <https://arxiv.org/abs/2607.16050> | – |
 
 ### Passages

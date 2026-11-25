@@ -29,6 +29,8 @@ REQUIRED = (
     "checksum",
 )
 LEVELS = ("facts", "facts and second reader")
+#: how an outcome "confirmed" is worded when the requirements made no claim to confirm
+READ = "read, no claim"
 #: a second reader's record, once written: ``site/flood/tests/records/second-reader-<id>.json``
 SECOND_READER_PREFIX = "second-reader-"
 
@@ -70,6 +72,18 @@ class Fact:
     @property
     def required(self) -> bool:
         return self.name in REQUIRED
+
+    @property
+    def shown(self) -> str:
+        """The outcome as cards and the gallery word it.
+
+        "confirmed" is kept for a claim of the requirements that the source bears out. A fact
+        the requirements make no claim about was read from the source, not confirmed against
+        anything, and is shown as ``READ``. The stored outcome stays one of the four.
+        """
+        if self.outcome == "confirmed" and not self.claimed.strip():
+            return READ
+        return self.outcome
 
 
 @dataclass(frozen=True)
@@ -229,6 +243,11 @@ def summary(source: Source) -> dict[str, int]:
     return counts
 
 
+def read_without_claim(source: Source) -> int:
+    """How many facts count as confirmed but had no claim in the requirements to confirm."""
+    return sum(1 for fact in source.facts if fact.shown == READ)
+
+
 def second_reader(source: Source, records: Path = paths.RECORDS) -> dict[str, Any] | None:
     """The second reader's record for this source (FS4), when one has been written."""
     path = records / f"{SECOND_READER_PREFIX}{source.id}.json"
@@ -238,17 +257,16 @@ def second_reader(source: Source, records: Path = paths.RECORDS) -> dict[str, An
 def facts_words(source: Source) -> str:
     """The facts' outcomes in words: "facts confirmed" only when none differs or is unread."""
     counts = summary(source)
+    read = read_without_claim(source)
     if counts["differs"] == 0 and counts["not checked"] == 0:
-        return "facts confirmed"
-    parts = [
-        f"{counts[outcome]} {word}"
-        for outcome, word in (
-            ("confirmed", "confirmed"),
-            ("differs", "differ"),
-            ("not checked", "not checked"),
-        )
-        if counts[outcome]
-    ]
+        return "facts confirmed" + (f" ({read} read with no claim)" if read else "")
+    numbers = (
+        (counts["confirmed"] - read, "confirmed"),
+        (read, "read with no claim"),
+        (counts["differs"], "differ"),
+        (counts["not checked"], "not checked"),
+    )
+    parts = [f"{number} {word}" for number, word in numbers if number]
     return "facts checked: " + ", ".join(parts)
 
 

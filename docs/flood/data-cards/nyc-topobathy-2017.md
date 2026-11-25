@@ -2,16 +2,16 @@
 
 # Data card: NYC 2017 topobathymetric lidar DEM (NYC Open Data 7sc8-jtbz), packaging for the F1 box
 
-Level of check (FS7): **facts checked: 10 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 1 not checked, 2 not applicable.
+Level of check (FS7): **facts checked: 3 confirmed, 7 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 1 not checked, 2 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | City of New York Office of Technology and Innovation (OTI); copy on the NYS GIS Clearinghouse |
 | Used for | FD2 |
 | Licence | The NYC Open Data record carries no licence field (license and licenseId empty); attribution reads &\#x27;Office of Technology and Innovation (OTI)&\#x27;. The NYC terms of use page https://www.nyc.gov/html/data/terms.html returned HTTP 404 on 2026-11-25, so the terms wording was not read. (not checked) |
-| Coverage in space | Whole city plus a 100 m buffer; box lies in tiles 020, 021, 025, 026. (confirmed) |
-| Coverage in time | Topographic capture 2017-05-03 to 2017-05-17 (50 % leaf-off); bathymetric 2017-07-04 to 2017-07-26. (confirmed) |
-| Release | Made public 3/11/2019; FTP files dated Aug 2018. (confirmed) |
+| Coverage in space | Whole city plus a 100 m buffer; box lies in tiles 020, 021, 025, 026. (read, no claim) |
+| Coverage in time | Topographic capture 2017-05-03 to 2017-05-17 (50 % leaf-off); bathymetric 2017-07-04 to 2017-07-26. (read, no claim) |
+| Release | Made public 3/11/2019; FTP files dated Aug 2018. (read, no claim) |
 
 ## Files fetched
 
@@ -37,14 +37,14 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | tiles for box | whether a part covering only this box can be fetched | The margin box is x 985,876 to 1,002,471 ft, y 187,747 to 204,341 ft in EPSG:2263. It touches four tiles: HEUF\_NYC\_020 (819,588,568 B), HEUF\_NYC\_021 (1,037,100,899 B), HEUF\_NYC\_025 (673,920,434 B), HEUF\_NYC\_026 (998,950,107 B), 3,529,560,008 B in all, so whole tiles exceed the 300 MB limit and nothing was downloaded. A part can be fetched without the whole tile: a 512 x 512 window of HEUF\_NYC\_021 was read over /vsicurl/ftp (range reads of the internal tiles; values 12.78 to 26.0 ft, mean 17.96) in a few seconds. A clip of the box would need reads of about 16,600 x 16,600 pixels (compressed size not measured). | confirmed | ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/HEUF\_NYC\_021.tif | The value unit (US survey feet, NAVD88) is from the NYC Open Data description, not from the raster header. The FTP address is a copy hosted by NYS, cited by the NYC record only through the USGS release notes; the NYC record itself points to https://finder.nyc.gov/orthoimagery for per-tile download, which redirects to an ArcGIS Instant App (page text not usable for facts). |
 | size | size | Whole-city NYC Open Data zips and the 4 box tiles as above; box tiles 3.53 GB for 4 uncut tiles. Not downloaded. | confirmed | ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/ | – |
 | Licence | licence wording | The NYC Open Data record carries no licence field (license and licenseId empty); attribution reads &\#x27;Office of Technology and Innovation (OTI)&\#x27;. The NYC terms of use page https://www.nyc.gov/html/data/terms.html returned HTTP 404 on 2026-11-25, so the terms wording was not read. | not checked | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | Open the terms from the NYC Open Data portal in a browser to close this. |
-| Address | – | Record: https://data.cityofnewyork.us/api/views/7sc8-jtbz.json (HTTP 200). FTP: ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/ (listing returned 226). Story map: https://maps.nyc.gov/lidar/2017/. | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| Fields | – | Hydro-enforced unfilled bare-earth DEM tiles, one band float32; other variants: filled, hydro-flattened, highest-hit, classified LAZ. | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| Coverage in space | – | Whole city plus a 100 m buffer; box lies in tiles 020, 021, 025, 026. | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| Coverage in time | – | Topographic capture 2017-05-03 to 2017-05-17 (50 % leaf-off); bathymetric 2017-07-04 to 2017-07-26. | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| vertical datum | – | NAVD88, Geoid 12B, US survey feet; horizontal NAD83 New York State Plane Long Island (EPSG:2263 confirmed in the raster CRS). | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| Release | – | Made public 3/11/2019; FTP files dated Aug 2018. | confirmed | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| Address | – | Record: https://data.cityofnewyork.us/api/views/7sc8-jtbz.json (HTTP 200). FTP: ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/ (listing returned 226). Story map: https://maps.nyc.gov/lidar/2017/. | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| Fields | – | Hydro-enforced unfilled bare-earth DEM tiles, one band float32; other variants: filled, hydro-flattened, highest-hit, classified LAZ. | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| Coverage in space | – | Whole city plus a 100 m buffer; box lies in tiles 020, 021, 025, 026. | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| Coverage in time | – | Topographic capture 2017-05-03 to 2017-05-17 (50 % leaf-off); bathymetric 2017-07-04 to 2017-07-26. | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| vertical datum | – | NAVD88, Geoid 12B, US survey feet; horizontal NAD83 New York State Plane Long Island (EPSG:2263 confirmed in the raster CRS). | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
+| Release | – | Made public 3/11/2019; FTP files dated Aug 2018. | read, no claim | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
 | Checksum | – | None published. | not applicable | <https://data.cityofnewyork.us/api/views/7sc8-jtbz.json> | – |
-| water treatment | – | Tile processing note: TIN of ground and bathymetric returns with water&\#x27;s edge and hydro-enforcement breaklines. Water&\#x27;s edge / hydro-flattening applied only in some areas (sentence truncated in the excerpt read). | confirmed | ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/HEUF\_NYC\_021.tif.xml | Read in HEUF\_NYC\_004.tif.xml and HEUF\_NYC\_021.tif.xml; only the 021 copy is kept. |
+| water treatment | – | Tile processing note: TIN of ground and bathymetric returns with water&\#x27;s edge and hydro-enforcement breaklines. Water&\#x27;s edge / hydro-flattening applied only in some areas (sentence truncated in the excerpt read). | read, no claim | ftp://ftp.gis.ny.gov/elevation/DEM/NYC\_TopoBathymetric2017\_Hydroenforced\_Unfilled/HEUF\_NYC\_021.tif.xml | Read in HEUF\_NYC\_004.tif.xml and HEUF\_NYC\_021.tif.xml; only the 021 copy is kept. |
 | Identifier | – | A publication or a rule, not a data file: it has no such fact. | not applicable | – | – |
 
 ### Passages

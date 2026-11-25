@@ -4,7 +4,7 @@
 
 > **1 fact(s) differ from what docs/flood/requirements.md says: Licence.** Under FS6 a stage that uses this source stops until the requirements are corrected.
 
-Level of check (FS7): **facts checked: 4 confirmed, 1 differ, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 4 confirmed, 1 differs, 1 not checked, 3 not applicable.
+Level of check (FS7): **facts checked: 4 read with no claim, 1 differ, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 4 confirmed, 1 differs, 1 not checked, 3 not applicable. Of the confirmed, 4 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -13,7 +13,7 @@ Level of check (FS7): **facts checked: 4 confirmed, 1 differ, 1 not checked**. F
 | Licence | FAST repository: GPL-3.0 (GitHub licence). Public-domain status of the Hazus tables is not stated in the sources read; FEMA&\#x27;s page was not readable. Repository archived in effect: last push 2022-03-30, README: &\#x27;ATTENTION: The latest version of this tool is available at https://msc.fema.gov/portal/resources/hazus This github repository is no longer receiving updates.&\#x27; (differs) |
 | Coverage in space | Not applicable (US-wide tables). (not applicable) |
 | Coverage in time | Not applicable. (not applicable) |
-| Release | FAST latest GitHub release 0.0.7 (2021-03-17). (confirmed) |
+| Release | FAST latest GitHub release 0.0.7 (2021-03-17). (read, no claim) |
 
 ## Files fetched
 
@@ -34,11 +34,11 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Fact | Claimed | Observed | Outcome | Address | Note |
 | --- | --- | --- | --- | --- | --- |
 | Identifier | Hazus Inventory Technical Manual 4.2 SP3, Table 10-12 | Not checked: https://www.fema.gov/sites/default/files/documents/fema\_hazus-inventory-technical-manual-4.2.3.pdf and the Hazus page return HTTP 403 (Access Denied) to the client; no other copy of the manual found. The 4 ft (1.22 m) functional depth for slab-on-grade low- and high-voltage substations and its table number are unconfirmed. | not checked | <https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf> | – |
-| current version | – | Current Hazus is 7.2 (Internet Archive copy of FEMA&\#x27;s Hazus page, snapshot 2026-11-14): &\#x27;Hazus 7.2 is available&\#x27;; Hazus 6.1 is no longer available for download since 2026-03-03; not all functionality of 6.1 and earlier exists in 7.0, 7.1 or 7.2. The Hazus 4.2 SP3 manual is therefore an old version. | confirmed | <http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps/products-tools/hazus> | Secondary (web.archive.org copy). |
-| Address | – | Machine-readable depth-damage functions: FEMA&\#x27;s open-source Flood Assessment Structure Tool repository https://github.com/nhrap-hazus/FAST, folder Lookuptables: Building\_DDF\_Riverine\_LUT\_Hazus4p0.csv, Building\_DDF\_CoastalA\_LUT\_Hazus4p0.csv, Building\_DDF\_CoastalV\_LUT\_Hazus4p0.csv, Content\_DDF\_\*\_LUT\_Hazus4p0.csv, Inventory\_DDF\_LUT\_Hazus4p0.csv, AllDDF.xlsx, flBldgContDmgFn.csv, OccupancyTypes.csv (plus DefaultDDFAssignmentTables.xlsx). These are Hazus 4.0 tables for buildings and contents. Not downloaded; whether they contain substation (essential/utility) curves was not checked. Current Hazus 7.2 data come with the software from the FEMA Map Service Center (msc.fema.gov did not respond, HTTP 000). | confirmed | <https://github.com/nhrap-hazus/FAST> | – |
+| current version | – | Current Hazus is 7.2 (Internet Archive copy of FEMA&\#x27;s Hazus page, snapshot 2026-11-14): &\#x27;Hazus 7.2 is available&\#x27;; Hazus 6.1 is no longer available for download since 2026-03-03; not all functionality of 6.1 and earlier exists in 7.0, 7.1 or 7.2. The Hazus 4.2 SP3 manual is therefore an old version. | read, no claim | <http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps/products-tools/hazus> | Secondary (web.archive.org copy). |
+| Address | – | Machine-readable depth-damage functions: FEMA&\#x27;s open-source Flood Assessment Structure Tool repository https://github.com/nhrap-hazus/FAST, folder Lookuptables: Building\_DDF\_Riverine\_LUT\_Hazus4p0.csv, Building\_DDF\_CoastalA\_LUT\_Hazus4p0.csv, Building\_DDF\_CoastalV\_LUT\_Hazus4p0.csv, Content\_DDF\_\*\_LUT\_Hazus4p0.csv, Inventory\_DDF\_LUT\_Hazus4p0.csv, AllDDF.xlsx, flBldgContDmgFn.csv, OccupancyTypes.csv (plus DefaultDDFAssignmentTables.xlsx). These are Hazus 4.0 tables for buildings and contents. Not downloaded; whether they contain substation (essential/utility) curves was not checked. Current Hazus 7.2 data come with the software from the FEMA Map Service Center (msc.fema.gov did not respond, HTTP 000). | read, no claim | <https://github.com/nhrap-hazus/FAST> | – |
 | Licence | Public domain (section 7) | FAST repository: GPL-3.0 (GitHub licence). Public-domain status of the Hazus tables is not stated in the sources read; FEMA&\#x27;s page was not readable. Repository archived in effect: last push 2022-03-30, README: &\#x27;ATTENTION: The latest version of this tool is available at https://msc.fema.gov/portal/resources/hazus This github repository is no longer receiving updates.&\#x27; | differs | <https://api.github.com/repos/nhrap-hazus/FAST> | The claim &\#x27;public domain&\#x27; is unverified; code licence is GPL-3.0. |
-| Release | – | FAST latest GitHub release 0.0.7 (2021-03-17). | confirmed | <https://api.github.com/repos/nhrap-hazus/FAST/releases> | – |
-| Fields | – | FAST uses depth damage functions assigned by occupancy type, first floor elevation, foundation type and number of stories (Riverine, CoastalA, CoastalV). | confirmed | <https://github.com/nhrap-hazus/FAST> | – |
+| Release | – | FAST latest GitHub release 0.0.7 (2021-03-17). | read, no claim | <https://api.github.com/repos/nhrap-hazus/FAST/releases> | – |
+| Fields | – | FAST uses depth damage functions assigned by occupancy type, first floor elevation, foundation type and number of stories (Riverine, CoastalA, CoastalV). | read, no claim | <https://github.com/nhrap-hazus/FAST> | – |
 | Coverage in space | – | Not applicable (US-wide tables). | not applicable | <https://github.com/nhrap-hazus/FAST> | – |
 | Coverage in time | – | Not applicable. | not applicable | <https://github.com/nhrap-hazus/FAST> | – |
 | Checksum | – | No files kept. | not applicable | <https://github.com/nhrap-hazus/FAST> | – |

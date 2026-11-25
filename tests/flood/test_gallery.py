@@ -83,9 +83,12 @@ def test_sources_counted_with_differs(layout: gallery.Layout) -> None:
     assert '<div class="tile" data-count="required not applicable"><b>0</b>' in page
     assert '<div class="tile" data-count="further confirmed"><b>0</b>' in page
     assert '<div class="tile" data-count="further not applicable"><b>1</b>' in page
-    assert "facts checked: 6 confirmed, 1 differ, 1 not checked" in page
+    assert "facts checked: 6 read with no claim, 1 differ, 1 not checked" in page
     assert "1 fact(s) differ from docs/flood/requirements.md: licence" in page
-    assert "facts confirmed; values to be recomputed by a second reader in F2" in page
+    assert (
+        "facts confirmed (8 read with no claim); values to be recomputed by a second reader in F2"
+        in page
+    )
     assert 'class="o o-differs" title="Toy terms, attribution required"' in page
 
 

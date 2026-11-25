@@ -2,16 +2,16 @@
 
 # Data card: 2020 Neighborhood Tabulation Areas (NTAs)
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 7 confirmed, 0 differs, 0 not checked, 1 not applicable.
+Level of check (FS7): **facts confirmed (7 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 7 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 7 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | NYC Department of City Planning (DCP), on NYC Open Data |
 | Used for | FD1, FP1 |
-| Licence | No licence field on the dataset (licenseId None). The NYC Open Data terms read for the other city datasets apply; see the data card of nyc-stormwater-flood-maps for the passage. (confirmed) |
-| Coverage in space | The five boroughs of New York City: 262 areas. (confirmed) |
-| Coverage in time | Boundaries drawn from 2020 census tracts. (confirmed) |
-| Release | Rows last updated 2026-11-02 according to the record (rowsUpdatedAt 1793647221). No version label was read. (confirmed) |
+| Licence | No licence field on the dataset (licenseId None). The NYC Open Data terms read for the other city datasets apply; see the data card of nyc-stormwater-flood-maps for the passage. (read, no claim) |
+| Coverage in space | The five boroughs of New York City: 262 areas. (read, no claim) |
+| Coverage in time | Boundaries drawn from 2020 census tracts. (read, no claim) |
+| Release | Rows last updated 2026-11-02 according to the record (rowsUpdatedAt 1793647221). No version label was read. (read, no claim) |
 
 ## Files fetched
 
@@ -31,13 +31,13 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 
 | Fact | Claimed | Observed | Outcome | Address | Note |
 | --- | --- | --- | --- | --- | --- |
-| Identifier | – | NYC Open Data 9nt8-h7nd, &\#x27;2020 Neighborhood Tabulation Areas (NTAs)&\#x27;. | confirmed | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | The requirements name no neighbourhood boundary source; this one was added in F0 for maps. |
-| Address | – | https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000 returns all 262 areas as GeoJSON without a token. | confirmed | <https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000> | – |
-| Licence | – | No licence field on the dataset (licenseId None). The NYC Open Data terms read for the other city datasets apply; see the data card of nyc-stormwater-flood-maps for the passage. | confirmed | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | Confirmed that the record carries no licence; the governing terms are the city&\#x27;s general ones, read once and recorded under the flood maps. |
-| Fields | – | borocode, boroname, countyfips, nta2020, ntaname, ntaabbrev, ntatype, cdta2020, cdtaname, shape\_leng, shape\_area, the\_geom. Coordinates in the GeoJSON are longitude and latitude. | confirmed | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | The units of shape\_leng and shape\_area were not read; they are not used. |
-| Coverage in space | – | The five boroughs of New York City: 262 areas. | confirmed | <https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000> | – |
-| Coverage in time | – | Boundaries drawn from 2020 census tracts. | confirmed | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | – |
-| Release | – | Rows last updated 2026-11-02 according to the record (rowsUpdatedAt 1793647221). No version label was read. | confirmed | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | – |
+| Identifier | – | NYC Open Data 9nt8-h7nd, &\#x27;2020 Neighborhood Tabulation Areas (NTAs)&\#x27;. | read, no claim | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | The requirements name no neighbourhood boundary source; this one was added in F0 for maps. |
+| Address | – | https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000 returns all 262 areas as GeoJSON without a token. | read, no claim | <https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000> | – |
+| Licence | – | No licence field on the dataset (licenseId None). The NYC Open Data terms read for the other city datasets apply; see the data card of nyc-stormwater-flood-maps for the passage. | read, no claim | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | Confirmed that the record carries no licence; the governing terms are the city&\#x27;s general ones, read once and recorded under the flood maps. |
+| Fields | – | borocode, boroname, countyfips, nta2020, ntaname, ntaabbrev, ntatype, cdta2020, cdtaname, shape\_leng, shape\_area, the\_geom. Coordinates in the GeoJSON are longitude and latitude. | read, no claim | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | The units of shape\_leng and shape\_area were not read; they are not used. |
+| Coverage in space | – | The five boroughs of New York City: 262 areas. | read, no claim | <https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson?$limit=1000> | – |
+| Coverage in time | – | Boundaries drawn from 2020 census tracts. | read, no claim | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | – |
+| Release | – | Rows last updated 2026-11-02 according to the record (rowsUpdatedAt 1793647221). No version label was read. | read, no claim | <https://data.cityofnewyork.us/api/views/9nt8-h7nd.json> | – |
 | Checksum | – | The publisher gives no checksum for an API response; the checksum of our copy is recorded with the file. | not applicable | – | – |
 
 ### Passages

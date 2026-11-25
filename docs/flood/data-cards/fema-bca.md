@@ -2,7 +2,7 @@
 
 # Data card: FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life
 
-Level of check (FS7): **facts checked: 5 confirmed, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 5 confirmed, 0 differs, 3 not checked, 4 not applicable.
+Level of check (FS7): **facts checked: 2 confirmed, 3 read with no claim, 3 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 5 confirmed, 0 differs, 3 not checked, 4 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -11,7 +11,7 @@ Level of check (FS7): **facts checked: 5 confirmed, 3 not checked**. Facts read 
 | Licence | US federal agency pages; no licence statement read. (not checked) |
 | Coverage in space | Not applicable. (not applicable) |
 | Coverage in time | Not applicable. (not applicable) |
-| Release | News page &\#x27;Last updated June 17, 2025&\#x27; in the 2025-09-14 snapshot; landing page &\#x27;Last updated October 29, 2026&\#x27; in the 2026-10-31 snapshot. (confirmed) |
+| Release | News page &\#x27;Last updated June 17, 2025&\#x27; in the 2025-09-14 snapshot; landing page &\#x27;Last updated October 29, 2026&\#x27; in the 2026-10-31 snapshot. (read, no claim) |
 
 ## Files fetched
 
@@ -38,10 +38,10 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | alternative rate | 3.1% as a sensitivity | No alternative rate is allowed by the text read: the 3.1% rate is described as revoked. 3.1% as a sensitivity is the study&\#x27;s own choice, not a FEMA option. A 2026 landing-page snapshot has no discount-rate text. | confirmed | <http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news> | – |
 | toolkit version | current BCA Toolkit version | June 2025 (snapshot 2025-09-14): &\#x27;The current version of the BCA Toolkit, Version 6.0, was released in 2019. Changes and updated features are implemented regularly.&\#x27; The 2026-10-31 landing page announces an &\#x27;Oct. 1, 2026, BCA Toolkit update, which adds new import and export options, updates hazard and economic data, and improves flood-analysis and project-review features&\#x27;, with no version number found in the text read, so the current version number is not confirmed. | not checked | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
 | useful life | standard project useful life for elevation and for floodproofing or flood barriers (table and address) | Not found. The FEMA standard-values methodology report v13 (2024) has no &\#x27;useful life&\#x27; text. The 2011 Supplement to the BCA Reference Guide shows only &\#x27;Project useful life of 100 years (FEMA standard value for acquisition)&\#x27;. The table with elevation and floodproofing lives (BCA Reference Guide) was not located or fetched. | not checked | <http://web.archive.org/web/20250707012856/https://www.fema.gov/sites/default/files/2020-08/fema_bca_guide-supplement.pdf> | Do not state a useful life for elevation or floodproofing until read. |
-| Identifier | – | FEMA BCA pages: https://www.fema.gov/grants/tools/benefit-cost-analysis (landing; HTTP 403 live) and .../grants/guidance-tools/benefit-cost-analysis/news (News and Notes). | confirmed | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
-| Address | – | http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news ; http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis | confirmed | <http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news> | – |
+| Identifier | – | FEMA BCA pages: https://www.fema.gov/grants/tools/benefit-cost-analysis (landing; HTTP 403 live) and .../grants/guidance-tools/benefit-cost-analysis/news (News and Notes). | read, no claim | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
+| Address | – | http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news ; http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis | read, no claim | <http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news> | – |
 | Licence | – | US federal agency pages; no licence statement read. | not checked | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
-| Release | – | News page &\#x27;Last updated June 17, 2025&\#x27; in the 2025-09-14 snapshot; landing page &\#x27;Last updated October 29, 2026&\#x27; in the 2026-10-31 snapshot. | confirmed | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
+| Release | – | News page &\#x27;Last updated June 17, 2025&\#x27; in the 2025-09-14 snapshot; landing page &\#x27;Last updated October 29, 2026&\#x27; in the 2026-10-31 snapshot. | read, no claim | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
 | Coverage in space | – | Not applicable. | not applicable | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
 | Coverage in time | – | Not applicable. | not applicable | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |
 | Checksum | – | Not applicable. | not applicable | <http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis> | – |

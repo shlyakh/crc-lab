@@ -2,16 +2,16 @@
 
 # Data card: Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025
 
-Level of check (FS7): **facts checked: 12 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 12 confirmed, 0 differs, 1 not checked, 4 not applicable.
+Level of check (FS7): **facts checked: 6 confirmed, 6 read with no claim, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 12 confirmed, 0 differs, 1 not checked, 4 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | Journal of Flood Risk Management (Wiley); arXiv; WIREs Climate Change (Wiley) |
 | Used for | FR2 |
-| Licence | Williams CC BY-NC-ND 4.0; Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0. (confirmed) |
+| Licence | Williams CC BY-NC-ND 4.0; Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0. (read, no claim) |
 | Coverage in space | A publication or a rule, not a data file: it has no such fact. (not applicable) |
 | Coverage in time | A publication or a rule, not a data file: it has no such fact. (not applicable) |
-| Release | Bor et al.: v1 only (21 May 2026). (confirmed) |
+| Release | Bor et al.: v1 only (21 May 2026). (read, no claim) |
 
 ## Files fetched
 
@@ -36,15 +36,15 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | williams licence | claimed CC BY-NC-ND \[V\] | CC BY-NC-ND 4.0 per Crossref licence record (version of record, start 2025-04-22) and OpenAlex location licence &\#x27;cc-by-nc-nd&\#x27; (secondary). The Wiley page itself was not readable (403). | confirmed | <https://api.crossref.org/works/10.1111/jfr3.70045> | Licence read from metadata services, not from the article page. |
 | williams 3m values | At 3 m: substation 0.52-0.76, distribution substation 0.51-0.77, grid exit point 0.49-0.70 \[S\] | Not checked: https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jfr3.70045 and /doi/pdf/ return HTTP 403 to the data-source-check client; no repository full text found (OpenAlex any\_repository\_has\_fulltext=False). | not checked | <https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jfr3.70045> | – |
 | bor identifier | Bor et al. 2026, arXiv 2605.23053 | Resolves: &\#x27;A Comparative Multi-Hazard Risk Assessment of the US High-Voltage Transmission Network&\#x27; by D. Bor, E. J. Oughton, R. S. Weigel, R. Yang, T. Clower, A. Newman, A. R. Valle; submitted 21 May 2026 (v1), econ.EM; 38 pages, 8 figures and 2 tables; manuscript submitted to Earth&\#x27;s Future (not peer reviewed). | confirmed | <https://export.arxiv.org/abs/2605.23053> | – |
-| bor licence | – | arXiv abstract page shows the Creative Commons Attribution 4.0 icon/link. | confirmed | <https://export.arxiv.org/abs/2605.23053> | – |
+| bor licence | – | arXiv abstract page shows the Creative Commons Attribution 4.0 icon/link. | read, no claim | <https://export.arxiv.org/abs/2605.23053> | – |
 | bor table1 | slight 0.50 m, 0.40, 0.05; moderate 1.00 m, 0.40, 0.20; extensive 1.50 m, 0.40, 0.50; complete 3.00 m, 0.40, 1.00 | Confirmed: Table 1 flood row (IM depth in m): Slight theta 0.50, beta 0.40, dr 0.05; Moderate 1.00, 0.40, 0.20; Extensive 1.50, 0.40, 0.50; Complete 3.00, 0.40, 1.00. Table 1 is for HV substations (&gt;345 kV, anchored); theta is the median capacity, beta the logarithmic standard deviation, dr the damage ratio; basis &\#x27;Literature synthesis (Kabre &amp; Weimar, 2022)&\#x27;; the text says flood parameters are adapted from Sanchez-Munoz et al. (2020) and Karagiannis et al. (2017). | confirmed | <https://arxiv.org/pdf/2605.23053v1> | – |
 | karagiannakis identifier | Karagiannakis et al. 2025, doi:10.1002/wcc.930 | Resolves (Crossref) to &\#x27;Fragility Modeling of Power Grid Infrastructure for Addressing Climate Change Risks and Adaptation&\#x27; by Karagiannakis, Panteli, Argyroudis, WIREs Climate Change, volume 16, issue 1, article e930; Crossref issued date 2024-12-04 (online), the issue is 2025, so &\#x27;2025&\#x27; is the volume year and the online date is 2024-12-04. | confirmed | <https://api.crossref.org/works/10.1002/wcc.930> | – |
-| karagiannakis licence | – | CC BY 4.0 (Crossref licence URL creativecommons.org/licenses/by/4.0/; OpenAlex &\#x27;cc-by&\#x27;). | confirmed | <https://api.crossref.org/works/10.1002/wcc.930> | – |
+| karagiannakis licence | – | CC BY 4.0 (Crossref licence URL creativecommons.org/licenses/by/4.0/; OpenAlex &\#x27;cc-by&\#x27;). | read, no claim | <https://api.crossref.org/works/10.1002/wcc.930> | – |
 | karagiannakis 4 4 1 | Hazus anchor values (about 7% at 1.2 m, 15% at about 3 m), section 4.4.1 | Confirmed, from the arXiv copy 2504.20056 (pdf stamped as the Wiley OA article): section 4.4.1 Flood says HAZUS (FEMA 2013) classifies substations into low, medium and high voltage classes with high vulnerability; threshold of almost 1.2 m with 7% equipment damage for all classes; 15% at the maximum considered depth of approximately 3 m; equipment assumed about 0.91 m above ground. This is Karagiannakis&\#x27;s description of Hazus, not the Hazus table. | confirmed | <https://arxiv.org/pdf/2504.20056> | Secondary copy of the article (arXiv, arXiv API says arxiv:doi 10.1002/wcc.930). |
-| Identifier | – | Williams and Karagiannakis DOIs resolve to the papers cited; Bor arXiv id resolves to the paper cited. See the specific facts. | confirmed | <https://api.crossref.org/works/10.1111/jfr3.70045> | – |
-| Address | – | https://doi.org/10.1111/jfr3.70045 ; https://arxiv.org/abs/2605.23053 ; https://doi.org/10.1002/wcc.930 (read at https://arxiv.org/pdf/2504.20056). | confirmed | <https://export.arxiv.org/api/query?id_list=2504.20056> | – |
-| Licence | – | Williams CC BY-NC-ND 4.0; Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0. | confirmed | <https://api.crossref.org/works/10.1111/jfr3.70045> | – |
-| Release | – | Bor et al.: v1 only (21 May 2026). | confirmed | <https://export.arxiv.org/abs/2605.23053> | – |
+| Identifier | – | Williams and Karagiannakis DOIs resolve to the papers cited; Bor arXiv id resolves to the paper cited. See the specific facts. | read, no claim | <https://api.crossref.org/works/10.1111/jfr3.70045> | – |
+| Address | – | https://doi.org/10.1111/jfr3.70045 ; https://arxiv.org/abs/2605.23053 ; https://doi.org/10.1002/wcc.930 (read at https://arxiv.org/pdf/2504.20056). | read, no claim | <https://export.arxiv.org/api/query?id_list=2504.20056> | – |
+| Licence | – | Williams CC BY-NC-ND 4.0; Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0. | read, no claim | <https://api.crossref.org/works/10.1111/jfr3.70045> | – |
+| Release | – | Bor et al.: v1 only (21 May 2026). | read, no claim | <https://export.arxiv.org/abs/2605.23053> | – |
 | Checksum | – | PDF checksums in \[\[file\]\]; not published by the sources. | not applicable | <https://arxiv.org/pdf/2605.23053v1> | – |
 | Fields | – | A publication or a rule, not a data file: it has no such fact. | not applicable | – | – |
 | Coverage in space | – | A publication or a rule, not a data file: it has no such fact. | not applicable | – | – |

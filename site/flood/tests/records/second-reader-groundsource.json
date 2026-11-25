@@ -1,0 +1,215 @@
+{
+ "checks": [
+  {
+   "name": "checksum",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the file's md5 equals the publisher's, by both readers",
+   "threshold": "cd1b5de6508f7aad8e1d1d0dd4cecea6",
+   "value": "cd1b5de6508f7aad8e1d1d0dd4cecea6"
+  },
+  {
+   "name": "dated places",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero rows differ between loader and second reader",
+   "threshold": 0,
+   "value": {
+    "columns": {
+     "area_km2": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "centroid_in_box": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "centroid_lat": {
+      "differ": 0,
+      "first": [],
+      "rule": "abs <= 1e-09"
+     },
+     "centroid_lon": {
+      "differ": 0,
+      "first": [],
+      "rule": "abs <= 1e-09"
+     },
+     "end_date": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "geometry_wkb": {
+      "bytes_differ_equal": 0,
+      "differ": 0,
+      "first": [],
+      "rule": "WKB bytes, else topological equality"
+     },
+     "start_date": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     }
+    },
+    "differences": 0,
+    "first_only_in_a": [],
+    "first_only_in_b": [],
+    "only_in_a": 0,
+    "only_in_b": 0,
+    "repeated_keys_a": 0,
+    "repeated_keys_b": 0,
+    "rows_a": 6785,
+    "rows_b": 6785
+   }
+  },
+  {
+   "name": "fault, one row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "fault, one end date changed",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "fault, one polygon shifted by 0.001 degree",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  }
+ ],
+ "created_at": "2026-11-25T23:42:50Z",
+ "figures": [
+  "docs/flood/figures/f2/groundsource_ida_rows.png",
+  "docs/flood/figures/f2/groundsource_latest_dates.png"
+ ],
+ "id": "second-reader-groundsource",
+ "inputs": [
+  {
+   "bytes": 667122400,
+   "path": "groundsource/groundsource_2026.parquet",
+   "sha256": "77c266ba5a5176d983edca989a81ff73f21c556fd98c82e2131c2f8d172546ce",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "A row is a place named in a news report with the days the report gave. area_km2 is the area of that place, not of any flood.",
+  "Not loaded into CRC: 1.0.0 has no record holding a date range and a polygon (D8)."
+ ],
+ "numbers": {
+  "latest_end_date": "2026-02-03",
+  "loader_seconds": 5.0,
+  "median_area_km2_alameda": 43.70595867514575,
+  "median_area_km2_nyc": 2.2474567717226206,
+  "rows_alameda": 1013,
+  "rows_in_the_file": 2646302,
+  "rows_nyc": 5772
+ },
+ "parameters": [
+  {
+   "name": "md5 of the publisher's file",
+   "source": "Zenodo record 18647054",
+   "tag": "S",
+   "value": "cd1b5de6508f7aad8e1d1d0dd4cecea6"
+  },
+  {
+   "name": "box nyc (west, south, east, north)",
+   "source": "",
+   "tag": "I",
+   "value": [
+    -74.26,
+    40.49,
+    -73.7,
+    40.92
+   ]
+  },
+  {
+   "name": "box alameda (west, south, east, north)",
+   "source": "",
+   "tag": "I",
+   "value": [
+    -122.35,
+    37.45,
+    -121.45,
+    37.91
+   ]
+  },
+  {
+   "name": "row kept when",
+   "source": "",
+   "tag": "I",
+   "value": "its polygon intersects the box, touching included"
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "duckdb": "1.5.6",
+  "pandas": "3.1.1",
+  "pyarrow": "26.0.1",
+  "pyogrio": "0.13.0",
+  "python": "3.12.11",
+  "rasterio": "1.5.1",
+  "shapely": "2.2.0"
+ },
+ "stage": "F2",
+ "tables": {
+  "rows by day": [
+   {
+    "box": "nyc",
+    "day": "2021-09-01",
+    "of them with the centroid in the box": 468,
+    "rows whose dates hold the day": 509
+   },
+   {
+    "box": "nyc",
+    "day": "2021-09-02",
+    "of them with the centroid in the box": 282,
+    "rows whose dates hold the day": 312
+   },
+   {
+    "box": "nyc",
+    "day": "2023-09-29",
+    "of them with the centroid in the box": 240,
+    "rows whose dates hold the day": 264
+   },
+   {
+    "box": "alameda",
+    "day": "2021-09-01",
+    "of them with the centroid in the box": 0,
+    "rows whose dates hold the day": 0
+   },
+   {
+    "box": "alameda",
+    "day": "2021-09-02",
+    "of them with the centroid in the box": 0,
+    "rows whose dates hold the day": 0
+   },
+   {
+    "box": "alameda",
+    "day": "2023-09-29",
+    "of them with the centroid in the box": 0,
+    "rows whose dates hold the day": 0
+   }
+  ]
+ },
+ "title": "Groundsource dated places: loader against the second reader"
+}

@@ -2,16 +2,16 @@
 
 # Data card: FloodNet: Sensor Deployment Metadata
 
-Level of check (FS7): **facts confirmed; values to be recomputed by a second reader in F2**. Facts read from the primary source on 2026-11-25 in stage F0: 9 confirmed, 0 differs, 0 not checked, 1 not applicable.
+Level of check (FS7): **facts confirmed (6 read with no claim); values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 9 confirmed, 0 differs, 0 not checked, 1 not applicable. Of the confirmed, 6 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | NYC Department of Environmental Protection (DEP), data from FloodNet (NYU and CUNY), on NYC Open Data |
 | Used for | FS3, FV2, FT1 |
 | Licence | No licence field on the dataset (licenseId None). NYC Open Data terms apply (see passage). The publisher asks for attribution and a citation: list the project as &quot;FloodNet (New York University and The City University of New York)&quot; and cite Mydlarz et al. 2024, doi:10.1029/2023WR036806. (confirmed) |
-| Coverage in space | 496 sensors in all five boroughs, as of 2026-11-15; borough is the sensor&\#x27;s borough, with Queens 167 and Brooklyn 155 the largest. (confirmed) |
-| Coverage in time | Sensors installed from 2020-10-05 to 2026-10-30; removals 2021-12-10 to 2026-09-27; plain dates, no time zone. Refreshed every 2 weeks. (confirmed) |
-| Release | rowsUpdatedAt 2026-11-15T14:01:44Z; made public 2026-02-11 (publicationDate); updated every 2 weeks. Removed sensors stay in the table (44 rows have date\_removed). (confirmed) |
+| Coverage in space | 496 sensors in all five boroughs, as of 2026-11-15; borough is the sensor&\#x27;s borough, with Queens 167 and Brooklyn 155 the largest. (read, no claim) |
+| Coverage in time | Sensors installed from 2020-10-05 to 2026-10-30; removals 2021-12-10 to 2026-09-27; plain dates, no time zone. Refreshed every 2 weeks. (read, no claim) |
+| Release | rowsUpdatedAt 2026-11-15T14:01:44Z; made public 2026-02-11 (publicationDate); updated every 2 weeks. Removed sensors stay in the table (44 rows have date\_removed). (read, no claim) |
 
 ## Files fetched
 
@@ -28,6 +28,23 @@ Paths are relative to `data/cache/flood/` (not committed).
 
 Sensors sit only where the project could mount them (street furniture, mostly over sidewalks), usually above the local low point, so shallow floods and floods in the roadbed below curb height are missed; a sensor offline, not yet installed or retired records nothing, and the tables do not say when a sensor was offline. The network grew from 9 sensors in September 2021 to 68 in September 2023, so a count of sensors with events is mostly a count of where sensors were.
 
+## Transformation statement
+
+What the loader `flood_lab.sources.floodnet` does to the publisher's file, in its own words (the module's docstring). The second reader recomputes the result by another route (FS4).
+
+1. The flood-events table (NYC Open Data `aq7i-eu5q`) has one row per event a sensor recorded;
+   the sensor table (`kb2e-tjy3`) gives each sensor's position and dates of service.
+2. Times are GMT, written without a zone; they are kept as GMT (`start_utc`, `end_utc`) and
+   the New York calendar day of the start is added (`local_day`).
+3. `peak_depth_m` is the publisher's `max_depth_inches` times 0.0254. `duration_min` is the
+   publisher's `duration_mins`. Neither is recomputed from the depth profile.
+4. Longitude and latitude come from the sensor table by `sensor_id`.
+5. For CRC the rows go to `Observations.from_table`: support and station are the sensor, time
+   the start in GMT, value the peak depth in metres. Duration and the end time have no place in
+   that record and stay in the lab's table.
+
+A sensor measures water under itself at one point of a street. No event is not no flood nearby.
+
 ## Facts
 
 Claimed is what docs/flood/requirements.md says; observed is what the primary source says. Facts after the first eight are further facts of this source.
@@ -36,14 +53,14 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | --- | --- | --- | --- | --- | --- |
 | Identifier | NYC Open Data \`kb2e-tjy3\` | Dataset kb2e-tjy3, &quot;FloodNet: Sensor Deployment Metadata&quot;, one row per sensor, joined to events by sensor\_id. | confirmed | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
 | Address | NYC Open Data \`kb2e-tjy3\` | https://data.cityofnewyork.us/d/kb2e-tjy3 resolves; https://data.cityofnewyork.us/resource/kb2e-tjy3.csv works. The rows.csv bulk endpoint returned HTTP 410 (deprecated, sunset 2026-12-22), see floodnet-flood-events. | confirmed | <https://data.cityofnewyork.us/api/views/kb2e-tjy3/rows.csv?accessType=DOWNLOAD> | Outcome is about the download address, not the dataset id. As for the events table: the identifier is right; only the bulk address is retired. |
-| Fields | – | 16 fields: sensor\_name, sensor\_id, date\_installed (date), tidally\_influenced (Yes/No: 67 Yes, 429 No), date\_removed (date; 44 rows filled), street\_name, borough (text: Queens 167, Brooklyn 155, Bronx 74, Manhattan 53, Staten Island 47), zipcode, community\_board, council\_district, census\_tract (2020), nta, latitude, longitude (WGS84 degrees), lowest\_point\_height\_delta\_inches (inches; 1 row empty), location (point). Plus Socrata computed region columns. | confirmed | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
-| Coverage in space | – | 496 sensors in all five boroughs, as of 2026-11-15; borough is the sensor&\#x27;s borough, with Queens 167 and Brooklyn 155 the largest. | confirmed | <https://data.cityofnewyork.us/resource/kb2e-tjy3.csv?$limit=50000> | – |
-| row count | – | 496 rows (API count(\*)); date\_installed from 2020-10-05 to 2026-10-30; date\_removed from 2021-12-10 to 2026-09-27. | confirmed | <https://data.cityofnewyork.us/resource/kb2e-tjy3.json?$select=count(*)> | – |
-| Release | – | rowsUpdatedAt 2026-11-15T14:01:44Z; made public 2026-02-11 (publicationDate); updated every 2 weeks. Removed sensors stay in the table (44 rows have date\_removed). | confirmed | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
+| Fields | – | 16 fields: sensor\_name, sensor\_id, date\_installed (date), tidally\_influenced (Yes/No: 67 Yes, 429 No), date\_removed (date; 44 rows filled), street\_name, borough (text: Queens 167, Brooklyn 155, Bronx 74, Manhattan 53, Staten Island 47), zipcode, community\_board, council\_district, census\_tract (2020), nta, latitude, longitude (WGS84 degrees), lowest\_point\_height\_delta\_inches (inches; 1 row empty), location (point). Plus Socrata computed region columns. | read, no claim | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
+| Coverage in space | – | 496 sensors in all five boroughs, as of 2026-11-15; borough is the sensor&\#x27;s borough, with Queens 167 and Brooklyn 155 the largest. | read, no claim | <https://data.cityofnewyork.us/resource/kb2e-tjy3.csv?$limit=50000> | – |
+| row count | – | 496 rows (API count(\*)); date\_installed from 2020-10-05 to 2026-10-30; date\_removed from 2021-12-10 to 2026-09-27. | read, no claim | <https://data.cityofnewyork.us/resource/kb2e-tjy3.json?$select=count(*)> | – |
+| Release | – | rowsUpdatedAt 2026-11-15T14:01:44Z; made public 2026-02-11 (publicationDate); updated every 2 weeks. Removed sensors stay in the table (44 rows have date\_removed). | read, no claim | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
 | Checksum | – | sha256 of the CSV as fetched is in the file record. No publisher checksum; row count equals API count(\*). | not applicable | <https://data.cityofnewyork.us/resource/kb2e-tjy3.json?$select=count(*)> | The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file. |
 | Licence | NYC Open Data terms \*\*\[V\]\*\* | No licence field on the dataset (licenseId None). NYC Open Data terms apply (see passage). The publisher asks for attribution and a citation: list the project as &quot;FloodNet (New York University and The City University of New York)&quot; and cite Mydlarz et al. 2024, doi:10.1029/2023WR036806. | confirmed | <https://cityofnewyork.github.io/opendatatsm/publicpolicies.html> | Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/\#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team&\#x27;s own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for &\#x27;open data&\#x27;, &\#x27;data set&\#x27; and &\#x27;public data&\#x27; found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal. |
-| Coverage in time | – | Sensors installed from 2020-10-05 to 2026-10-30; removals 2021-12-10 to 2026-09-27; plain dates, no time zone. Refreshed every 2 weeks. | confirmed | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
-| sensors deployed by date | – | Sensors deployed on the date (date\_installed on or before it, and date\_removed empty or on or after it): 2021-09-01: 9 (Brooklyn 5, Queens 4); 2021-09-02: 9 (same); 2023-09-29: 68 (Brooklyn 24, Queens 20, Staten Island 13, Bronx 7, Manhattan 4). 4 of the 9 sensors deployed in September 2021 recorded no event on 1 September local (BK-4th-av-garfield-pl-0erv80, Q-davenport-ct-1-07zks0, Q-davenport-ct-2-07znk0, BK-marcy-av-ellery-st-007vc0); the tables do not say whether they were online. | confirmed | <https://data.cityofnewyork.us/resource/kb2e-tjy3.csv?$limit=50000> | Computed from kb2e-tjy3 date\_installed and date\_removed, borough as given there. A sensor with no event is not proof that no flood occurred at it (see Data Description: &quot;A sensor may also fail to capture a flood event if it was offline and awaiting repair or had not been deployed yet or retired&quot;). |
+| Coverage in time | – | Sensors installed from 2020-10-05 to 2026-10-30; removals 2021-12-10 to 2026-09-27; plain dates, no time zone. Refreshed every 2 weeks. | read, no claim | <https://data.cityofnewyork.us/api/views/kb2e-tjy3.json> | – |
+| sensors deployed by date | – | Sensors deployed on the date (date\_installed on or before it, and date\_removed empty or on or after it): 2021-09-01: 9 (Brooklyn 5, Queens 4); 2021-09-02: 9 (same); 2023-09-29: 68 (Brooklyn 24, Queens 20, Staten Island 13, Bronx 7, Manhattan 4). 4 of the 9 sensors deployed in September 2021 recorded no event on 1 September local (BK-4th-av-garfield-pl-0erv80, Q-davenport-ct-1-07zks0, Q-davenport-ct-2-07znk0, BK-marcy-av-ellery-st-007vc0); the tables do not say whether they were online. | read, no claim | <https://data.cityofnewyork.us/resource/kb2e-tjy3.csv?$limit=50000> | Computed from kb2e-tjy3 date\_installed and date\_removed, borough as given there. A sensor with no event is not proof that no flood occurred at it (see Data Description: &quot;A sensor may also fail to capture a flood event if it was offline and awaiting repair or had not been deployed yet or retired&quot;). |
 
 ### Passages
 
