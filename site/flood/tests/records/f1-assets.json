@@ -1,0 +1,723 @@
+{
+ "checks": [
+  {
+   "name": "table rules",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "schema.validate reports no fault; the table is written only then",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "every asset has a ground and a terrain elevation",
+   "note": "terrain from flood_lab.terrain.ground_elevation",
+   "passed": true,
+   "proposed": false,
+   "rule": "lab_ground_elev_m and lab_terrain_elev_m are filled for every asset",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "footprints matched to the elevation table",
+   "note": "the unmatched are described in the table 'unmatched_footprints'",
+   "passed": false,
+   "proposed": true,
+   "rule": "share of the study area's buildings (footprints with a real BIN) whose BIN is in the Building Elevation and Subgrade table",
+   "threshold": 0.95,
+   "value": 0.929103
+  },
+  {
+   "name": "every substation looked at",
+   "note": "not reviewed: S-250386730, S-339711332, S-383102724, S-383110539, S-861227475, S-1540230931",
+   "passed": false,
+   "proposed": false,
+   "rule": "every asset in substation_review.toml is 'kept' or 'removed'",
+   "threshold": 0,
+   "value": 6
+  },
+  {
+   "name": "table grade agrees with terrain",
+   "note": "terrain from flood_lab.terrain.ground_elevation",
+   "passed": true,
+   "proposed": true,
+   "rule": "absolute median of z_grade (m) minus terrain at the footprint centroid, where both exist",
+   "threshold": 0.3,
+   "value": -0.082
+  }
+ ],
+ "created_at": "2026-11-25T21:04:31Z",
+ "figures": [
+  "docs/flood/figures/f1/substation_contact_sheet.png",
+  "docs/flood/figures/f1/assets_map.png",
+  "docs/flood/figures/f1/first_floor_height.png",
+  "docs/flood/figures/f1/asset_counts.png",
+  "docs/flood/figures/f1/grade_minus_terrain.png"
+ ],
+ "id": "f1-assets",
+ "inputs": [
+  {
+   "bytes": 185632,
+   "path": "osm-substations/overpass.json",
+   "sha256": "776dcf0acf7d2caec0df1d14ff691513f078e05ab5f37d0b4ad73c4aacbba2f5",
+   "url": "https://overpass-api.de/api/interpreter"
+  },
+  {
+   "bytes": 18380697,
+   "path": "nyc-building-footprints/footprints-box.geojson",
+   "sha256": "44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43",
+   "url": ""
+  },
+  {
+   "bytes": 9589906,
+   "path": "nyc-building-elevation-subgrade/bes-box.csv",
+   "sha256": "8fa2abe31bd93ac91554431f4d6c50df962c4fc165621d9e499a0143c710fbd3",
+   "url": ""
+  },
+  {
+   "bytes": 20114815,
+   "path": "usace-national-structure-inventory/nsi_f1_box.json",
+   "sha256": "51651f224f0b5d9c579c8fda51fde6392ea607ce7af8e12c7399d8163ad7c937",
+   "url": ""
+  },
+  {
+   "bytes": 4586084,
+   "path": "nyc-nta-2020/nta2020.geojson",
+   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "url": ""
+  },
+  {
+   "bytes": 1716,
+   "path": "src/flood_lab/assets/values.toml",
+   "sha256": "52aaebdcf15729d7e02fcafddc0b5be8b0aa6aeb2c089f927724cef86e8b6f6b",
+   "url": ""
+  },
+  {
+   "bytes": 1331,
+   "path": "src/flood_lab/assets/substation_review.toml",
+   "sha256": "3c57cb6c8182a17efb6f82b70e124c9a5e1d7acce9d1af1cf4baf11abdab83da",
+   "url": ""
+  },
+  {
+   "bytes": 146734,
+   "path": "assets/imagery/S-250386730_naip2019.png",
+   "sha256": "b550a99cd8e88a6cbfdbea7dcdb6a6f7b3fdaca4a71a575a95f1ce79eb593ede",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=585919.71,4506232.97,586102.30,4506415.57&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 1182077,
+   "path": "assets/review/S-250386730_nys2018.png",
+   "sha256": "aa95c4611ed132e025d232a7d64d27ad0b0d0835fe51120c4f6510badaa7b43d",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=585919.71,4506232.97,586102.30,4506415.57&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 551149,
+   "path": "assets/imagery/S-339711332_naip2019.png",
+   "sha256": "e16f9ae9e0dd76aca62f19b3d07410eb3decab8c01ed1b2a3e5e39e59979d4ae",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=585561.12,4506268.65,586012.13,4506719.66&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 1549486,
+   "path": "assets/review/S-339711332_nys2018.png",
+   "sha256": "d029da3b98c0a5e441eb404f5010b5719fe307b3e5999de9ac6762279ae94c88",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=585561.12,4506268.65,586012.13,4506719.66&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 218947,
+   "path": "assets/imagery/S-383102724_naip2019.png",
+   "sha256": "ba36bf37b4f15f31a42ef09560fc5bb6eab1e8316ec0ec48cd746025384b5602",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=585892.84,4506270.27,586131.75,4506509.18&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 1276115,
+   "path": "assets/review/S-383102724_nys2018.png",
+   "sha256": "0eb70275837f1f0da41455d0c29def1cf9d358c726c49a0f8f9c85237a7415f3",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=585892.84,4506270.27,586131.75,4506509.18&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 224935,
+   "path": "assets/imagery/S-383110539_naip2019.png",
+   "sha256": "bd9f22405b989380b73ac5be2ba2f6e89a3472eb1200b7387b929a7d43730679",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=585756.16,4506272.56,585999.98,4506516.38&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 1236237,
+   "path": "assets/review/S-383110539_nys2018.png",
+   "sha256": "6d5d4c2fda9362e9497ec17996f0742599ef63867b99d8c9b9bdd1581df8ad0f",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=585756.16,4506272.56,585999.98,4506516.38&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 116854,
+   "path": "assets/imagery/S-861227475_naip2019.png",
+   "sha256": "b612d0b4c397ed5b114f6110e067af83bc64c922bde44fc57a025690bb9cad11",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=587243.09,4507805.14,587403.80,4507965.85&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 1191981,
+   "path": "assets/review/S-861227475_nys2018.png",
+   "sha256": "6d5c3b665bc6284cdc1dbefa8dbd4a37b46cb3e608cb464accde37aa27284f08",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=587243.09,4507805.14,587403.80,4507965.85&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 92999,
+   "path": "assets/imagery/S-1540230931_naip2019.png",
+   "sha256": "0c1583a7c84757e7b6222a06fb1951003b0e93f77aa0e5b5ee99edde24496a60",
+   "url": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=586890.65,4506670.83,587040.29,4506820.47&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 888374,
+   "path": "assets/review/S-1540230931_nys2018.png",
+   "sha256": "2730f3a09e09c475c7ebf5de8304794a51b250a7536ed3af3dcb44ae11923149",
+   "url": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=586890.65,4506670.83,587040.29,4506820.47&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+  },
+  {
+   "bytes": 85040,
+   "path": "assets/oed-spec/ConstructionValues.csv",
+   "sha256": "4bd6eb4a5f197b4548e335372f197e385bde477ecafbdb240c99ae2589615b13",
+   "url": ""
+  },
+  {
+   "bytes": 14119,
+   "path": "assets/oed-spec/CountryValues.csv",
+   "sha256": "ed21d3261975708f150c3091aa77b304ea9a43ca868356157dfca0ba996d7594",
+   "url": ""
+  },
+  {
+   "bytes": 10805,
+   "path": "assets/oed-spec/CurrencyValues.csv",
+   "sha256": "b52648eb787fc10804e8b87fcdbf9baef86f40d894470db0a9e0efa3f4f47276",
+   "url": ""
+  },
+  {
+   "bytes": 19517,
+   "path": "assets/oed-spec/OEDCRFieldAppendix.csv",
+   "sha256": "ff9b9629b7d5623b9ceaede019e8ce99191b4307aac0dfc9545f00aaa47f2784",
+   "url": ""
+  },
+  {
+   "bytes": 70372,
+   "path": "assets/oed-spec/OEDInputFields.csv",
+   "sha256": "54ff8972bb3f904e2d91df5d8d7d3054e5541f0fbb8a776daf22c560c5d2e829",
+   "url": ""
+  },
+  {
+   "bytes": 46453,
+   "path": "assets/oed-spec/OccupancyValues.csv",
+   "sha256": "d6d30cea04dc681bb36772e76365b98092ecea25d0561708637daed974a84054",
+   "url": ""
+  },
+  {
+   "bytes": 40310,
+   "path": "assets/oed-spec/OtherValues.csv",
+   "sha256": "4e5a13488d295fc71897b2e4c672f50c660176928b64527a1a1251545773586a",
+   "url": ""
+  },
+  {
+   "bytes": 2019,
+   "path": "assets/oed-spec/PerilValues.csv",
+   "sha256": "bd8777d239c28b359fc572dc5802fab63fe89f45d2292f5e4719b063410b0683",
+   "url": ""
+  },
+  {
+   "bytes": 1296,
+   "path": "assets/oed-spec/PerilsCovered.csv",
+   "sha256": "9f9a1432345058952038bfad7bedd42e98865b0f4dc69bbb8baff3575bdba054",
+   "url": ""
+  },
+  {
+   "bytes": 8491,
+   "path": "assets/oed-spec/README.md",
+   "sha256": "abbdbac69636874e709d32489e4086973d736c0233ac93aa2cd5ac0b1efe5366",
+   "url": ""
+  },
+  {
+   "bytes": 3343,
+   "path": "assets/oed-spec/sources.json",
+   "sha256": "8e4018ef57d10baa4fea2083bd5f694a05e8420818e086d63d611fe1a3335144",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Contact sheet: USGS NAIP 2019 (0.6 m, leaf-on, one date) with OpenStreetMap outlines, for looking, not measuring; it cannot show change since 2019 or what is inside a building. Map: buildings coloured by which joins succeeded; it shows the joins, not flood exposure. First-floor histogram: the city's table only, values read from street imagery and partly estimated; 0 (not measured) left out. Counts bar: substations are mapped outlines grouped by a placeholder rule. Grade-minus-terrain histogram: Values clipped at the axis ends.",
+  "Substation values are placeholders [P] bracketed by two published figures for other substations (values.toml); the mid is their geometric mean. Building values are the inventory's depreciated replacement value [S], August 2025 prices, not 2026 dollars.",
+  "Customers served (FD7): no public figure per substation exists, so lab_customers_served and lab_customers_tag are empty. A placeholder would need the population of the study area by census block (2020), a service-area rule assigning each block to one substation (for example the nearest area substation, which ignores the real feeder network), and a persons-per-customer ratio from a stated source; none of it is computed here.",
+  "terrain from flood_lab.terrain.ground_elevation.",
+  "The table has no column for: footprint area, the estimated-grade note (carried in lab_ground_elev_source as 'z_grade (estimated)'), the number of inventory points per footprint, the operator, location and building tags of a substation; they are in this record and in the cache file assets/buildings_detail.csv."
+ ],
+ "numbers": {
+  "assets_by_type": {
+   "building": 17744,
+   "substation": 6
+  },
+  "assets_without_ground_elevation": 0,
+  "assets_without_terrain_elevation": 0,
+  "building_value_total_usd": 41195360529,
+  "buildings": 17744,
+  "buildings_by_match": {
+   "footprint": 671,
+   "footprint+elevation": 4745,
+   "footprint+elevation+inventory": 11741,
+   "footprint+inventory": 587
+  },
+  "buildings_by_subgrade": {
+   "N": 8750,
+   "Y": 7736,
+   "no row": 1258
+  },
+  "buildings_ground_from_table": 16164,
+  "buildings_ground_from_table_estimated": 4893,
+  "buildings_ground_from_terrain_no_row": 1258,
+  "buildings_ground_from_terrain_zero_grade": 322,
+  "buildings_with_elevation_row": 16486,
+  "buildings_with_first_floor_height": 16164,
+  "buildings_with_inventory": 12328,
+  "buildings_with_several_inventory_points": 2480,
+  "buildings_with_storeys": 12328,
+  "buildings_with_value": 12328,
+  "buildings_with_year_built": 17460,
+  "buildings_without_elevation_row": 1258,
+  "elevation_rows_on_study_area": 16781,
+  "elevation_rows_on_study_area_without_footprint_in_file": 306,
+  "elevation_rows_on_study_area_without_study_area_building": 311,
+  "first_floor_height_m_subgrade_N": {
+   "mean": 0.39,
+   "median": 0.193,
+   "n": 8428,
+   "p05": 0.015,
+   "p25": 0.077,
+   "p75": 0.417,
+   "p95": 1.508
+  },
+  "first_floor_height_m_subgrade_Y": {
+   "mean": 2.166,
+   "median": 2.343,
+   "n": 7736,
+   "p05": 0.599,
+   "p25": 1.55,
+   "p75": 2.749,
+   "p95": 3.371
+  },
+  "footprints_on_study_area": 17747,
+  "footprints_on_study_area_million_bin_excluded": 3,
+  "footprints_on_study_area_without_bin_excluded": 0,
+  "footprints_read": 22960,
+  "footprints_sharing_a_bin_with_another": 0,
+  "grade_minus_terrain_m": {
+   "mean": -0.071,
+   "median": -0.082,
+   "n": 16164,
+   "p05": -1.074,
+   "p25": -0.368,
+   "p75": 0.172,
+   "p95": 1.093
+  },
+  "grade_minus_terrain_m_estimated_grades": {
+   "mean": -0.377,
+   "median": -0.35,
+   "n": 4893,
+   "p05": -1.455,
+   "p25": -0.717,
+   "p75": -0.037,
+   "p95": 0.659
+  },
+  "inventory_points_counted": 17660,
+  "inventory_points_inside_a_footprint": 14455,
+  "inventory_points_not_taken_on_buildings_with_several": 5246,
+  "inventory_points_on_buildings_with_several": 7726,
+  "inventory_points_on_other_footprints": 16,
+  "inventory_points_read": 22896,
+  "inventory_points_to_nearest_footprint": 3119,
+  "inventory_points_unmatched": 86,
+  "inventory_value_of_points_on_buildings_usd": 48370640327,
+  "inventory_value_taken_usd": 41195360529,
+  "rate_buildings_with_elevation_row": 0.929103,
+  "rate_buildings_with_inventory": 0.69477,
+  "substation_assets": 6,
+  "substation_assets_by_indoor": {
+   "no": 3,
+   "unknown": 2,
+   "yes": 1
+  },
+  "substation_assets_by_review": {
+   "not reviewed": 6
+  },
+  "substation_assets_by_value_class": {
+   "area": 3,
+   "none": 2,
+   "transmission": 1
+  },
+  "substation_assets_by_voltage": {
+   "138 kV": 3,
+   "345 kV": 1,
+   "untagged": 2
+  },
+  "substation_assets_on_study_area": 6,
+  "substation_outlines_in_assets": 8,
+  "substation_outlines_in_square": 12,
+  "substation_outlines_traction_left_out": 4,
+  "substation_outlines_unclosed_ways": 2,
+  "substation_value_high_total_usd": 1732000000,
+  "substation_value_low_total_usd": 43100000,
+  "substation_value_mid_total_kept_usd": 273128297,
+  "substation_value_mid_total_usd": 273128297,
+  "table_faults": 0,
+  "table_rows": 17750,
+  "terrain_provisional": false
+ },
+ "parameters": [
+  {
+   "name": "same_name_gap_m",
+   "source": "",
+   "tag": "P",
+   "value": 300.0
+  },
+  {
+   "name": "unnamed_gap_m",
+   "source": "FD3 (150 m)",
+   "tag": "P",
+   "value": 150.0
+  },
+  {
+   "name": "transmission_from_kv",
+   "source": "values.toml rule",
+   "tag": "P",
+   "value": 230.0
+  },
+  {
+   "name": "inventory_near_m",
+   "source": "",
+   "tag": "P",
+   "value": 15.0
+  },
+  {
+   "name": "foot_m",
+   "source": "international foot; US survey foot differs by 2 ppm",
+   "tag": "I",
+   "value": 0.3048
+  },
+  {
+   "name": "estimated_grade_phrase",
+   "source": "notes1 phrases of the table's guidance (facts nyc-building-elevation-subgrade)",
+   "tag": "I",
+   "value": "not visible"
+  },
+  {
+   "name": "image_margin_m",
+   "source": "",
+   "tag": "P",
+   "value": 60.0
+  },
+  {
+   "name": "image_pixels",
+   "source": "",
+   "tag": "P",
+   "value": 800
+  },
+  {
+   "name": "scale_bar_m",
+   "source": "",
+   "tag": "P",
+   "value": 50.0
+  },
+  {
+   "name": "min_elevation_match",
+   "source": "plan F1, proposed",
+   "tag": "P",
+   "value": 0.95
+  },
+  {
+   "name": "max_median_grade_minus_terrain_m",
+   "source": "proposed",
+   "tag": "P",
+   "value": 0.3
+  },
+  {
+   "name": "oed_spec_version",
+   "source": "OasisLMF/ODS_OpenExposureData tag 5.0.0",
+   "tag": "S",
+   "value": "5.0.0"
+  },
+  {
+   "name": "LocPerilsCovered",
+   "source": "OED 5.0.0 PerilValues.csv: OSF Flash / Surface / Pluvial Flood",
+   "tag": "S",
+   "value": "OSF"
+  },
+  {
+   "name": "FirstFloorHeightUnit",
+   "source": "OED 5.0.0 OtherValues.csv: Units 2 Meters",
+   "tag": "S",
+   "value": "2"
+  },
+  {
+   "name": "OccupancyCode_substation",
+   "source": "OED 5.0.0 OccupancyValues.csv: 1300 Utilities, Electrical",
+   "tag": "S",
+   "value": "1300"
+  },
+  {
+   "name": "PortNumber_AccNumber",
+   "source": "",
+   "tag": "P",
+   "value": "1"
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11"
+ },
+ "stage": "F1",
+ "tables": {
+  "review_images_in_cache": [
+   "assets/review/S-250386730_nys2018.png",
+   "assets/review/S-339711332_nys2018.png",
+   "assets/review/S-383102724_nys2018.png",
+   "assets/review/S-383110539_nys2018.png",
+   "assets/review/S-861227475_nys2018.png",
+   "assets/review/S-1540230931_nys2018.png"
+  ],
+  "substation_assets": [
+   {
+    "LocNumber": "S-250386730",
+    "lab_building_tag": "yes",
+    "lab_ground_elev_m": 9.500000953674316,
+    "lab_in_study_area": true,
+    "lab_indoor": "yes",
+    "lab_location_tag": "indoor",
+    "lab_name": "Water Street Substation",
+    "lab_operator": "Consolidated Edison",
+    "lab_osm_ids": "way/250386730",
+    "lab_outlines": 1,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "distribution",
+    "lab_value_class": "area",
+    "lab_value_high_usd": 380000000,
+    "lab_value_low_usd": 9100000,
+    "lab_value_mid_usd": 58804762,
+    "lab_value_tag": "P",
+    "lab_voltage_kv": 138.0
+   },
+   {
+    "LocNumber": "S-339711332",
+    "lab_building_tag": "",
+    "lab_ground_elev_m": 3.1899964809417725,
+    "lab_in_study_area": true,
+    "lab_indoor": "no",
+    "lab_location_tag": "outdoor",
+    "lab_name": "Farragut Substation",
+    "lab_operator": "Consolidated Edison",
+    "lab_osm_ids": "way/339711332;way/383110529;way/383110530",
+    "lab_outlines": 3,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "transmission",
+    "lab_value_class": "transmission",
+    "lab_value_high_usd": 592000000,
+    "lab_value_low_usd": 15800000,
+    "lab_value_mid_usd": 96714011,
+    "lab_value_tag": "P",
+    "lab_voltage_kv": 345.0
+   },
+   {
+    "LocNumber": "S-383102724",
+    "lab_building_tag": "",
+    "lab_ground_elev_m": 6.5300822257995605,
+    "lab_in_study_area": true,
+    "lab_indoor": "no",
+    "lab_location_tag": "outdoor",
+    "lab_name": "Hudson Avenue Substation",
+    "lab_operator": "Consolidated Edison",
+    "lab_osm_ids": "way/383102724",
+    "lab_outlines": 1,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "distribution",
+    "lab_value_class": "area",
+    "lab_value_high_usd": 380000000,
+    "lab_value_low_usd": 9100000,
+    "lab_value_mid_usd": 58804762,
+    "lab_value_tag": "P",
+    "lab_voltage_kv": 138.0
+   },
+   {
+    "LocNumber": "S-383110539",
+    "lab_building_tag": "",
+    "lab_ground_elev_m": 6.669998645782471,
+    "lab_in_study_area": true,
+    "lab_indoor": "no",
+    "lab_location_tag": "outdoor",
+    "lab_name": "Plymouth Substation",
+    "lab_operator": "Consolidated Edison",
+    "lab_osm_ids": "way/383110539",
+    "lab_outlines": 1,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "distribution",
+    "lab_value_class": "area",
+    "lab_value_high_usd": 380000000,
+    "lab_value_low_usd": 9100000,
+    "lab_value_mid_usd": 58804762,
+    "lab_value_tag": "P",
+    "lab_voltage_kv": 138.0
+   },
+   {
+    "LocNumber": "S-861227475",
+    "lab_building_tag": "",
+    "lab_ground_elev_m": 4.330014705657959,
+    "lab_in_study_area": true,
+    "lab_indoor": "unknown",
+    "lab_location_tag": "",
+    "lab_name": "",
+    "lab_operator": "",
+    "lab_osm_ids": "way/861227475",
+    "lab_outlines": 1,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "",
+    "lab_value_class": "",
+    "lab_value_high_usd": null,
+    "lab_value_low_usd": null,
+    "lab_value_mid_usd": null,
+    "lab_value_tag": "",
+    "lab_voltage_kv": null
+   },
+   {
+    "LocNumber": "S-1540230931",
+    "lab_building_tag": "yes",
+    "lab_ground_elev_m": 2.080003499984741,
+    "lab_in_study_area": true,
+    "lab_indoor": "unknown",
+    "lab_location_tag": "",
+    "lab_name": "Building 390",
+    "lab_operator": "",
+    "lab_osm_ids": "way/1540230931",
+    "lab_outlines": 1,
+    "lab_reviewed": "not reviewed",
+    "lab_substation_kind": "",
+    "lab_value_class": "",
+    "lab_value_high_usd": null,
+    "lab_value_low_usd": null,
+    "lab_value_mid_usd": null,
+    "lab_value_tag": "",
+    "lab_voltage_kv": null
+   }
+  ],
+  "traction_left_out": [
+   {
+    "name": "Stanton Substation",
+    "operator": "New York City Transit Authority",
+    "osm_id": "way/250266578"
+   },
+   {
+    "name": "Flatbush-Willoughby Substation",
+    "operator": "New York City Transit Authority",
+    "osm_id": "way/250367086"
+   },
+   {
+    "name": "Jay Street Substation",
+    "operator": "New York City Transit Authority",
+    "osm_id": "way/250374489"
+   },
+   {
+    "name": "York Street Substation",
+    "operator": "New York City Transit Authority",
+    "osm_id": "way/250386956"
+   }
+  ],
+  "unmatched_footprints": {
+   "by_construction_year": {
+    "1850s": 1,
+    "1860s": 6,
+    "1870s": 14,
+    "1880s": 6,
+    "1890s": 79,
+    "1900s": 102,
+    "1910s": 107,
+    "1920s": 106,
+    "1930s": 92,
+    "1940s": 11,
+    "1950s": 43,
+    "1960s": 8,
+    "1970s": 5,
+    "1980s": 12,
+    "1990s": 74,
+    "2000s": 107,
+    "2010s": 99,
+    "2020 to 2021": 63,
+    "2022 or later": 238,
+    "unknown": 85
+   },
+   "by_construction_year_matched": {
+    "1800s": 8,
+    "1810s": 1,
+    "1830s": 4,
+    "1840s": 20,
+    "1850s": 234,
+    "1860s": 343,
+    "1870s": 308,
+    "1880s": 133,
+    "1890s": 2340,
+    "1900s": 2027,
+    "1910s": 2354,
+    "1920s": 2073,
+    "1930s": 2191,
+    "1940s": 141,
+    "1950s": 589,
+    "1960s": 230,
+    "1970s": 204,
+    "1980s": 215,
+    "1990s": 635,
+    "2000s": 1427,
+    "2010s": 708,
+    "2020 to 2021": 73,
+    "2022 or later": 29,
+    "unknown": 199
+   },
+   "by_feature_code": {
+    "1001": 3,
+    "1003": 1,
+    "1004": 2,
+    "2100": 705,
+    "2110": 6,
+    "5100": 16,
+    "5110": 525
+   },
+   "by_feature_code_matched": {
+    "1006": 1,
+    "2100": 16483,
+    "5100": 1,
+    "5110": 1
+   },
+   "by_last_status": {
+    "Alteration": 17,
+    "Constructed": 1204,
+    "Correction": 1,
+    "Initialization": 4,
+    "Investigate Construction": 3,
+    "Marked for Construction": 2,
+    "Merged": 4,
+    "Split": 9,
+    "empty": 14
+   },
+   "count": 1258,
+   "footprint_area_m2": {
+    "mean": 345.078,
+    "median": 105.228,
+    "n": 1258,
+    "p05": 19.498,
+    "p25": 40.337,
+    "p75": 263.124,
+    "p95": 1511.969
+   },
+   "footprint_area_m2_matched": {
+    "mean": 228.651,
+    "median": 109.465,
+    "n": 16486,
+    "p05": 59.967,
+    "p25": 80.303,
+    "p75": 171.492,
+    "p95": 765.841
+   }
+  }
+ },
+ "title": "Assets of the study area: substations and buildings in one table"
+}

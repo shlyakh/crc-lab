@@ -1,0 +1,55 @@
+# Review of each substation asset on aerial imagery (requirement FD3, plan F1 step 2).
+# Filled in by a person who looked at the contact sheet
+# (docs/flood/figures/f1/substation_contact_sheet.png) and the sharper review images in
+# the cache (data/cache/flood/assets/review/<LocNumber>_nys2018.png).
+# decision: "kept" or "removed" ("not reviewed" until looked at); reason: why, required
+# when removed; indoor: "yes", "no" or "unknown" as seen, overrides the location tag when
+# "yes" or "no"; seen_on: the imagery looked at; note: anything else.
+
+# Water Street Substation; way/250386730
+["S-250386730"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
+
+# Farragut Substation; way/339711332;way/383110529;way/383110530
+["S-339711332"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
+
+# Hudson Avenue Substation; way/383102724
+["S-383102724"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
+
+# Plymouth Substation; way/383110539
+["S-383110539"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
+
+# no name; way/861227475
+["S-861227475"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
+
+# Building 390; way/1540230931
+["S-1540230931"]
+decision = "not reviewed"
+reason = ""
+indoor = ""
+seen_on = ""
+note = ""
