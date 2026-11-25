@@ -1,6 +1,6 @@
 # Plan: Flood Loss & Trigger Lab
 
-Version 2, 2026-11-25 (version 1 is tag `flood-requirements-v1`); first draft 2026-11-24. Companion to
+Version 2, 2026-11-25, tag `flood-requirements-v2` (version 1 is tag `flood-requirements-v1`); first draft 2026-11-24. Companion to
 `docs/flood/requirements.md`, whose IDs (FG1, FH3, ...) are cited here. Revised for crc-sdk 1.0.0 and
 crc-framework 1.0.0 (`docs/flood/crc-1.0-mapping.md`). Nothing is started. Stages run in order, one at a
 time; each ends with a visual test on the gallery, a report in `docs/flood/reports/`, and a stop for

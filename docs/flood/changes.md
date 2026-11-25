@@ -31,4 +31,4 @@ arrive.
 | Version | Date | Tag | What changed |
 | --- | --- | --- | --- |
 | 1 | 2026-11-25 | `flood-requirements-v1` | First reviewed version: moved to crc-sdk 1.0.0, source validation levels, flow diagrams, change procedure |
-| 2 | 2026-11-25 | (not tagged yet) | CH-1: loss statistics come from CRC. CH-2: the event-loss extension of CRC |
+| 2 | 2026-11-25 | `flood-requirements-v2` | CH-1: loss statistics come from CRC. CH-2: the event-loss extension of CRC |
