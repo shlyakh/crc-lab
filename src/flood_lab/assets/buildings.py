@@ -8,12 +8,19 @@ study area (the Brooklyn land inside the square):
   are placeholders for unassigned buildings and are never joined;
 * the National Structure Inventory (``usace-national-structure-inventory``), points without a BIN,
   to footprints by point in polygon; a point in no footprint goes to the nearest footprint within
-  ``NEAR_M``, else stays unmatched; a footprint with several points takes the one with the largest
-  ``val_struct`` and records how many it had.
+  ``NEAR_M``, else stays unmatched. A footprint with several points takes the SUM of their
+  ``val_struct`` as its value: the inventory's publisher states that stacked structures are several
+  records on one footprint with the value divided among them (facts file, fact ``known_limits``).
+  Occupancy class, foundation type, stories and inventory id are those of the point of largest
+  ``val_struct``; every distinct occupancy class is listed in ``lab_occupancy_all``.
 
 Units are converted once, here: the table's feet (NAVD88) become metres. A table value of 0 means
 "not measured" (the table's data dictionary) and is left empty, never read as sea level. A missing
-value is never filled with a default.
+value is never filled with a default. Where the grade is not measured, the table's subgrade flag
+is a default too, so ``lab_subgrade`` is left empty there. The table's guidance does not record
+whether the grade or the floor was the estimated value of a row whose notes say "not visible": its
+ground source says "z_grade (grade or floor estimated)", and its first-floor height carries the
+same doubt.
 """
 
 from __future__ import annotations
@@ -163,19 +170,34 @@ def join_inventory(
     return index, how
 
 
-def pick_inventory(nsi: pd.DataFrame, index: np.ndarray) -> tuple[dict[int, int], dict[int, int]]:
-    """(footprint -> row of the chosen point, footprint -> number of points it had)."""
+def pick_inventory(
+    nsi: pd.DataFrame, index: np.ndarray
+) -> tuple[dict[int, int], dict[int, list[int]]]:
+    """(footprint -> row of its point of largest value, footprint -> rows of all its points)."""
     chosen: dict[int, int] = {}
-    counts: dict[int, int] = {}
+    members: dict[int, list[int]] = {}
     value = pd.to_numeric(nsi["val_struct"], errors="coerce").to_numpy() if len(nsi) else []
     for row, footprint in enumerate(index):
         if footprint < 0:
             continue
-        counts[footprint] = counts.get(footprint, 0) + 1
+        members.setdefault(footprint, []).append(row)
         best = chosen.get(footprint)
         if best is None or (value[row], -row) > (value[best], -best):
             chosen[footprint] = row
-    return chosen, counts
+    return chosen, members
+
+
+def summed_value(values: np.ndarray, rows: list[int]) -> float | None:
+    """Sum of ``val_struct`` over the rows; None when no row has a value above zero."""
+    known = [float(values[r]) for r in rows if np.isfinite(values[r])]
+    total = float(sum(known))
+    return total if total else None
+
+
+def real_footprint_id(value: Any) -> str:
+    """The inventory's own footprint id (``36047_123``), or "" for ``none_...`` and empty."""
+    text = "" if value is None else str(value).strip()
+    return "" if not text or text.lower().startswith("none") or text == "nan" else text
 
 
 def match_words(has_bes: bool, has_nsi: bool) -> str:
@@ -267,17 +289,37 @@ def build(
     stats["inventory_points_to_nearest_footprint"] = int((to_study & (how == "near")).sum())
     stats["inventory_points_unmatched"] = int(unmatched_here.sum())
     stats["inventory_points_on_other_footprints"] = int(((index >= 0) & ~to_study & nsi_on).sum())
-    chosen, counts = pick_inventory(nsi, study_index)
+    chosen, members = pick_inventory(nsi, study_index)
+    counts = {k: len(v) for k, v in members.items()}
+    values = pd.to_numeric(nsi["val_struct"], errors="coerce").to_numpy() if len(nsi) else []
+    ids = nsi["ftprntid"].to_numpy() if "ftprntid" in nsi else np.full(len(nsi), "", dtype=object)
     stats["buildings_with_inventory"] = len(chosen)
     stats["rate_buildings_with_inventory"] = _rate(len(chosen), len(study))
     stats["buildings_with_several_inventory_points"] = sum(1 for c in counts.values() if c > 1)
     stats["inventory_points_on_buildings_with_several"] = sum(c for c in counts.values() if c > 1)
-    stats["inventory_points_not_taken_on_buildings_with_several"] = sum(
-        c - 1 for c in counts.values() if c > 1
-    )
-    values = pd.to_numeric(nsi["val_struct"], errors="coerce").to_numpy() if len(nsi) else []
     stats["inventory_value_of_points_on_buildings_usd"] = int(round(np.nansum(values[to_study])))
-    stats["inventory_value_taken_usd"] = int(round(sum(values[r] for r in chosen.values())))
+    largest = {f: values[r] for f, r in chosen.items()}
+    summed = {f: summed_value(values, rows) for f, rows in members.items()}
+    stats["inventory_value_summed_usd"] = int(round(sum(v or 0.0 for v in summed.values())))
+    stats["inventory_value_largest_point_only_usd"] = int(
+        round(sum(float(v) for v in largest.values() if np.isfinite(v)))
+    )
+    tied = {"by_inventory_footprint_id": [], "by_position": []}
+    for footprint, rows in members.items():
+        if len(rows) < 2:
+            continue
+        own = {real_footprint_id(ids[r]) for r in rows}
+        key = "by_inventory_footprint_id" if len(own) == 1 and "" not in own else "by_position"
+        tied[key].append(footprint)
+    for key, group in tied.items():
+        stats[f"buildings_with_several_points_tied_{key}"] = {
+            "buildings": len(group),
+            "points": sum(counts[f] for f in group),
+            "value_summed_usd": int(round(sum(summed[f] or 0.0 for f in group))),
+            "value_of_largest_point_usd": int(
+                round(sum(float(largest[f]) for f in group if np.isfinite(largest[f])))
+            ),
+        }
 
     # terrain, always
     cx = shapely.get_x(study["centre"].to_numpy())
@@ -287,6 +329,8 @@ def build(
     lon, lat = to_lonlat.transform(cx, cy)
     area = shapely.area(study["geometry"].to_numpy())
 
+    occupancy = nsi["occtype"].to_numpy() if len(nsi) else np.zeros(0, dtype=object)
+    stats["buildings_subgrade_left_empty_grade_not_measured"] = 0
     rows = []
     for i, (_, building) in enumerate(study.iterrows()):
         record = table.loc[building["bin"]] if has_bes[i] else None
@@ -295,7 +339,8 @@ def build(
         z = float(terrain[i]) if np.isfinite(terrain[i]) else None
         estimated = record is not None and ESTIMATED in str(record.get("notes1", "")).lower()
         if grade is not None:
-            ground, source = grade, "z_grade (estimated)" if estimated else "z_grade"
+            ground = grade
+            source = "z_grade (grade or floor estimated)" if estimated else "z_grade"
         elif z is not None:
             ground = z
             source = (
@@ -306,12 +351,16 @@ def build(
         else:
             ground, source = None, ""
         height = floor - grade if floor is not None and grade is not None else None
+        # the subgrade flag is a default where the grade was not measured: left empty there
+        subgrade = (
+            str(record["subgrade"]).strip() if record is not None and grade is not None else ""
+        )
+        if record is not None and grade is None and str(record["subgrade"]).strip():
+            stats["buildings_subgrade_left_empty_grade_not_measured"] += 1
         point = chosen.get(i)
         inv = nsi.iloc[point] if point is not None else None
-        value = (
-            float(inv["val_struct"]) if inv is not None and pd.notna(inv["val_struct"]) else None
-        )
-        value = value if value else None
+        value = summed.get(i)
+        classes = sorted({str(occupancy[r]) for r in members.get(i, []) if pd.notna(occupancy[r])})
         rows.append(
             {
                 "LocNumber": f"B-{building['bin']}",
@@ -330,16 +379,19 @@ def build(
                 "lab_terrain_elev_m": z,
                 "lab_first_floor_elev_m": floor,
                 "lab_first_floor_height_m": height,
-                "lab_subgrade": (str(record["subgrade"]).strip() if record is not None else ""),
+                "lab_subgrade": subgrade,
                 "lab_bin": building["bin"],
                 "lab_match": match_words(bool(has_bes[i]), inv is not None),
                 "lab_occupancy_hazus": str(inv["occtype"]) if inv is not None else "",
+                "lab_occupancy_all": ";".join(classes),
+                "lab_inventory_points": counts.get(i) or None,
                 "lab_foundation_type": str(inv["found_type"]) if inv is not None else "",
                 "lab_nsi_id": str(inv["fd_id"]) if inv is not None else "",
                 "lab_value_mid_usd": value,
                 "lab_value_tag": "S" if value is not None else "",
                 "lab_value_source": (
-                    "USACE NSI 2026 Base val_struct: depreciated replacement value, Aug 2025 prices"
+                    "USACE NSI 2026 Base val_struct summed over the building's inventory "
+                    "records (lab_inventory_points): depreciated replacement value, Aug 2025 prices"
                     if value is not None
                     else ""
                 ),

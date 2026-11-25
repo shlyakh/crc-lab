@@ -3,21 +3,25 @@
     FLOOD_CACHE=<cache> uv run --with matplotlib python -m flood_lab.checks.f1_assets
 
 Reads the cached OpenStreetMap substations, the city's footprints and Building Elevation and
-Subgrade table, the National Structure Inventory and the neighbourhood outlines; fetches the
-substation images once (then offline from the cache). Writes ``site/flood/data/assets_oed.csv``,
-``site/flood/data/substations.geojson``, the figures under ``docs/flood/figures/f1/``, the record
-``site/flood/tests/records/f1-assets.json``, and a per-building detail file in the cache
-(``assets/buildings_detail.csv``) with the fields the table has no column for.
+Subgrade table, the National Structure Inventory, the committed study area
+(``site/flood/data/study_area.geojson``, through ``flood_lab.terrain.study_area``) and the 1 m
+terrain; fetches the substation images once (then offline from the cache). Writes
+``site/flood/data/assets_oed.csv``, ``site/flood/data/substations.geojson``, the figures under
+``docs/flood/figures/f1/``, the record ``site/flood/tests/records/f1-assets.json``, and a
+per-building detail file in the cache (``assets/buildings_detail.csv``) with the fields the
+table has no column for.
 
-Ground elevation comes from ``flood_lab.terrain.ground_elevation``. While that module does not
-exist, a provisional sampler reads the USGS 1 m tile directly (see ``_provisional_terrain``); the
-record then says so.
+Ground elevation comes from ``flood_lab.terrain.ground_elevation``. Only when the environment
+variable ``FLOOD_PROVISIONAL_TERRAIN=1`` is set does a provisional sampler read the USGS 1 m tile
+directly instead (see ``_provisional_terrain``); the record then says so. Without it, a missing
+``flood_lab.terrain`` is an error, never a silent fallback.
 """
 
 from __future__ import annotations
 
 import csv
 import io
+import itertools
 import json
 import os
 from collections import Counter
@@ -44,6 +48,12 @@ MAX_MEDIAN_GRADE_DIFF_M = 0.3
 TILE = "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NY_CMPG_2013.tif"
 TILE_NODATA = -3.4028234663852886e38
 OED_SPEC = "assets/oed-spec"
+GROUPING_RULE = (
+    f"outlines with the same name within {sub.SAME_NAME_GAP_M:g} m of each other are one asset; "
+    f"outlines with no name are grouped among themselves within {sub.UNNAMED_GAP_M:g} m; "
+    "outlines with different names are never merged, however close; rail traction "
+    "substations are left out"
+)
 
 
 def _cache() -> Path:
@@ -52,13 +62,12 @@ def _cache() -> Path:
     return Path(value) if value else paths.CACHE
 
 
-def study_area(cache: Path):
-    """The Brooklyn land inside the square, from the city's 2020 neighbourhood outlines."""
-    import geopandas as gpd
+def study_area():
+    """The committed study area (Brooklyn land inside the square) in the project CRS: the one
+    definition, ``flood_lab.terrain.study_area``."""
+    from flood_lab import terrain
 
-    areas = gpd.read_file(cache / "nyc-nta-2020" / "nta2020.geojson").to_crs(domain.CRS)
-    land = shapely.union_all(areas.loc[areas["boroname"] == domain.BOROUGH, "geometry"].to_numpy())
-    return shapely.intersection(land, shapely.box(*domain.SQUARE))
+    return terrain.study_area()
 
 
 def _provisional_terrain(cache: Path):
@@ -90,12 +99,27 @@ def _provisional_terrain(cache: Path):
     return ground_elevation
 
 
+#: set to "1" to use the provisional sampler of the raw tile instead of flood_lab.terrain
+PROVISIONAL_VARIABLE = "FLOOD_PROVISIONAL_TERRAIN"
+
+
 def _terrain(cache: Path):
-    try:
-        from flood_lab.terrain import ground_elevation  # type: ignore[import-not-found]
-    except ImportError:
+    """(sampler, provisional): ``flood_lab.terrain`` unless the provisional sampler is asked for."""
+    if os.environ.get(PROVISIONAL_VARIABLE, "").strip() == "1":
         return _provisional_terrain(cache), True
+    from flood_lab.terrain import ground_elevation  # an ImportError here is an error
+
     return ground_elevation, False
+
+
+def centroid_distances(stations: list[dict[str, Any]]) -> dict[str, float]:
+    """Distance in metres between the centroids of each pair of assets, keyed "S-1 to S-2"."""
+    return {
+        f"{a['LocNumber']} {a['lab_name']} to {b['LocNumber']} {b['lab_name']}": round(
+            float(np.hypot(a["lab_x_m"] - b["lab_x_m"], a["lab_y_m"] - b["lab_y_m"])), 1
+        )
+        for a, b in itertools.combinations(stations, 2)
+    }
 
 
 # description -----------------------------------------------------------------------------------
@@ -347,7 +371,9 @@ def main() -> None:
     cache = _cache()
     out_cache = cache / "assets"
     elevation, provisional = _terrain(cache)
-    land = study_area(cache)
+    from flood_lab import terrain
+
+    land = study_area()
     shapely.prepare(land)
 
     # substations
@@ -355,8 +381,9 @@ def main() -> None:
     every = sub.outlines_from_overpass(json.loads(overpass.read_text()))
     outlines = sub.in_square(every)
     review = sub.load_review()
+    reviewer = sub.load_reviewer()
     stations, traction, groups = sub.build(outlines, elevation=elevation, land=land, review=review)
-    write_text_atomic(sub.REVIEW, sub.review_text(stations, review))
+    sub.write_review_template(stations)  # only where no review file exists; never overwrites
     write_text_atomic(
         GEOJSON,
         json.dumps(sub.geojson(stations, groups), indent=1, sort_keys=True, ensure_ascii=False)
@@ -364,19 +391,20 @@ def main() -> None:
     )
 
     # images
+    naip = cs.naip_date()
     panels, image_inputs, review_images = [], [], []
     for station, group in zip(stations, groups, strict=True):
         view = cs.view_of([o.geometry for o in group])
         key = station["LocNumber"]
-        naip = cs.fetch("naip2019", view, out_cache / "imagery" / f"{key}_naip2019.png")
+        aerial = cs.fetch("naip2019", view, out_cache / "imagery" / f"{key}_naip2019.png")
         nys = cs.fetch("nys2018", view, out_cache / "review" / f"{key}_nys2018.png")
         review_images.append(nys.relative_to(cache).as_posix())
-        for path, service in ((naip, "naip2019"), (nys, "nys2018")):
+        for path, service in ((aerial, "naip2019"), (nys, "nys2018")):
             image_inputs.append(Input.of(path, root=cache, url=cs.request_url(service, view)))
         kv = station["lab_voltage_kv"]
         panels.append(
             {
-                "image": naip,
+                "image": aerial,
                 "view": view,
                 "outlines": [o.geometry for o in group],
                 "label": (
@@ -390,7 +418,7 @@ def main() -> None:
     cs.sheet(
         panels,
         OUT / "substation_contact_sheet.png",
-        title="Substation assets on USGS NAIP 2019 (0.6 m); outlines from OpenStreetMap "
+        title=f"Substation assets on USGS NAIP {naip.year} (0.6 m); outlines from OpenStreetMap "
         "(© OpenStreetMap contributors, ODbL); bar 50 m",
     )
 
@@ -430,6 +458,9 @@ def main() -> None:
         and r["lab_terrain_elev_m"] is not None
     ]
     unreviewed = [s["LocNumber"] for s in stations if s["lab_reviewed"] == sub.NOT_REVIEWED]
+    con_edison = [
+        s for s in stations if s["lab_name"] and "Consolidated Edison" in s["lab_operator"]
+    ]
     rate = stats["rate_buildings_with_elevation_row"]
     kept = [s for s in stations if not s["lab_reviewed"].startswith("removed")]
 
@@ -464,13 +495,18 @@ def main() -> None:
         "substation_value_mid_total_kept_usd": total(kept, "mid"),
         "assets_by_type": {"substation": len(stations), "building": len(houses)},
         "building_value_total_usd": int(round(sum(r["BuildingTIV"] or 0 for r in houses))),
+        "substation_centroid_distances_named_con_edison_m": centroid_distances(con_edison),
+        "substation_review_reviewed_by": reviewer.reviewed_by,
+        "substation_review_person_reviewed_on": (
+            reviewer.person_reviewed_on.isoformat() if reviewer.person_reviewed_on else ""
+        ),
         "buildings_with_value": sum(1 for r in houses if r["BuildingTIV"]),
         "buildings_by_match": dict(sorted(Counter(r["lab_match"] for r in houses).items())),
         "buildings_ground_from_table": sum(
             1 for r in houses if r["lab_ground_elev_source"].startswith("z_grade")
         ),
         "buildings_ground_from_table_estimated": sum(
-            1 for r in houses if r["lab_ground_elev_source"] == "z_grade (estimated)"
+            1 for r in houses if r["lab_ground_elev_source"] == "z_grade (grade or floor estimated)"
         ),
         "buildings_ground_from_terrain_zero_grade": sum(
             1 for r in houses if "z_grade 0" in r["lab_ground_elev_source"]
@@ -482,7 +518,17 @@ def main() -> None:
             1 for r in houses if r["lab_first_floor_height_m"] is not None
         ),
         "buildings_by_subgrade": dict(
-            sorted(Counter(r["lab_subgrade"] or "no row" for r in houses).items())
+            sorted(
+                Counter(
+                    r["lab_subgrade"]
+                    or (
+                        "no row"
+                        if "elevation" not in r["lab_match"]
+                        else "empty: grade not measured"
+                    )
+                    for r in houses
+                ).items()
+            )
         ),
         "buildings_with_storeys": sum(1 for r in houses if r["NumberOfStoreys"] is not None),
         "buildings_with_year_built": sum(1 for r in houses if r["YearBuilt"] is not None),
@@ -533,7 +579,8 @@ def main() -> None:
         Input.of(cache / "nyc-building-footprints" / "footprints-box.geojson", root=cache),
         Input.of(cache / "nyc-building-elevation-subgrade" / "bes-box.csv", root=cache),
         Input.of(cache / "usace-national-structure-inventory" / "nsi_f1_box.json", root=cache),
-        Input.of(cache / "nyc-nta-2020" / "nta2020.geojson", root=cache),
+        Input.of(terrain.STUDY_AREA, root=paths.ROOT),
+        Input.of(cache / terrain.DEM_1M, root=cache),
         Input.of(sub.VALUES, root=paths.ROOT),
         Input.of(sub.REVIEW, root=paths.ROOT),
         *([Input.of(cache / TILE, root=cache)] if provisional else []),
@@ -541,8 +588,14 @@ def main() -> None:
         *[Input.of(p, root=cache) for p in sorted(spec.glob("*")) if p.is_file()],
     ]
     parameters = [
-        Parameter("same_name_gap_m", sub.SAME_NAME_GAP_M, "P"),
-        Parameter("unnamed_gap_m", sub.UNNAMED_GAP_M, "P", "FD3 (150 m)"),
+        Parameter(
+            "substation_grouping_rule",
+            GROUPING_RULE,
+            "P",
+            "flood_lab.assets.substations.group_outlines",
+        ),
+        Parameter("same_name_gap_m", sub.SAME_NAME_GAP_M, "P", "outlines with the same name"),
+        Parameter("unnamed_gap_m", sub.UNNAMED_GAP_M, "P", "outlines with no name, FD3 (150 m)"),
         Parameter("transmission_from_kv", sub.TRANSMISSION_KV, "P", "values.toml rule"),
         Parameter("inventory_near_m", bld.NEAR_M, "P"),
         Parameter("foot_m", bld.FOOT_M, "I", "international foot; US survey foot differs by 2 ppm"),
@@ -590,7 +643,10 @@ def main() -> None:
             not no_ground and not no_terrain,
             len(no_ground) + len(no_terrain),
             0,
-            note=terrain_words,
+            note="this check cannot fail as the build stands: the terrain sampler raises on a "
+            "point outside the terrain or on a pixel without value before any row is made, so "
+            "a missing elevation stops the run instead of reaching this count; kept as a guard "
+            "should the sampler change. " + terrain_words,
         ),
         Check(
             "footprints matched to the elevation table",
@@ -603,12 +659,22 @@ def main() -> None:
             note="the unmatched are described in the table 'unmatched_footprints'",
         ),
         Check(
-            "every substation looked at",
-            "every asset in substation_review.toml is 'kept' or 'removed'",
+            "every substation has a recorded review",
+            "each asset is 'kept' or 'removed' in substation_review.toml, with what was seen",
             not unreviewed,
             len(unreviewed),
             0,
-            note=f"not reviewed: {', '.join(unreviewed)}" if unreviewed else "",
+            note=(f"not reviewed: {', '.join(unreviewed)}; " if unreviewed else "")
+            + f"reviewed_by: {reviewer.reviewed_by or '(not stated)'}",
+        ),
+        Check(
+            "a person has looked at the substations",
+            "person_reviewed_on in substation_review.toml holds the date a person looked; "
+            "not judged while it is empty",
+            True if reviewer.person_reviewed_on else None,
+            reviewer.person_reviewed_on.isoformat() if reviewer.person_reviewed_on else "",
+            "a date",
+            note=f"the review entries were filled by: {reviewer.reviewed_by or '(not stated)'}",
         ),
         Check(
             "table grade agrees with terrain",
@@ -655,28 +721,63 @@ def main() -> None:
         "unmatched_footprints": describe_unmatched(houses),
         "review_images_in_cache": review_images,
     }
+    tied_id = stats["buildings_with_several_points_tied_by_inventory_footprint_id"]
+    tied_pos = stats["buildings_with_several_points_tied_by_position"]
     notes = [
-        "Contact sheet: USGS NAIP 2019 (0.6 m, leaf-on, one date) with OpenStreetMap outlines, "
-        "for looking, not measuring; it cannot show change since 2019 or what is inside a "
-        "building. Map: buildings coloured by which joins succeeded; it shows the joins, not "
+        f"Contact sheet: USGS NAIP {naip.year} (0.6 m, leaf-on, one date, {naip.acquired}) with "
+        "OpenStreetMap outlines, for looking, not measuring; it cannot show change since "
+        f"{naip.year} or what is inside a building. The service returns its current mosaic, not "
+        f"a chosen year: the year {naip.year} was read from its catalogue at one point on "
+        f"{naip.read_on} (facts file usgs-naip-imagery), so a later fetch may show another year. "
+        "Map: buildings coloured by which joins succeeded; it shows the joins, not "
         "flood exposure. First-floor histogram: the city's table only, values read from street "
         "imagery and partly estimated; 0 (not measured) left out. Counts bar: substations are "
         "mapped outlines grouped by a placeholder rule. Grade-minus-terrain histogram: "
         + ("provisional terrain, nearest pixel, datum shift ignored. " if provisional else "")
         + "Values clipped at the axis ends.",
         "Substation values are placeholders [P] bracketed by two published figures for other "
-        "substations (values.toml); the mid is their geometric mean. Building values are the "
-        "inventory's depreciated replacement value [S], August 2025 prices, not 2026 dollars.",
+        "substations (values.toml); the mid is their geometric mean. They are in the lab_value_* "
+        "columns with tag P only: BuildingTIV, an OED column, is empty for them. Building values "
+        "are the inventory's depreciated replacement value [S], August 2025 prices, not 2026 "
+        "dollars.",
+        "Building value rule: the SUM of val_struct over every inventory record assigned to the "
+        "building (inside its footprint, or the nearest footprint within "
+        f"{bld.NEAR_M:g} m), because the publisher states that stacked structures are several "
+        "records on one footprint with the value divided among them (facts file "
+        "usace-national-structure-inventory, fact known_limits). lab_inventory_points is the "
+        "number of records summed; lab_occupancy_all lists their distinct occupancy classes; "
+        "lab_occupancy_hazus, lab_foundation_type, NumberOfStoreys and lab_nsi_id are those of "
+        "the record of largest value. Total by this rule "
+        f"{stats['inventory_value_summed_usd']:,} USD; keeping only the largest record gave "
+        f"{stats['inventory_value_largest_point_only_usd']:,} USD. Of the "
+        f"{stats['buildings_with_several_inventory_points']:,} buildings with several records, "
+        f"{tied_id['buildings']:,} have records that all carry one real inventory footprint id "
+        f"(ftprntid, not none_...), worth {tied_id['value_summed_usd']:,} USD summed; "
+        f"{tied_pos['buildings']:,} do not (different or none_ ids), so their grouping rests on "
+        f"our spatial attribution, worth "
+        f"{tied_pos['value_summed_usd']:,} USD summed. A record attributed by position may "
+        "belong to a neighbour, so the second group is the less certain part of the sum.",
+        "Subgrade: where the table's grade is 0 (not measured) its subgrade flag is a default, "
+        "so lab_subgrade is left empty there "
+        f"({stats['buildings_subgrade_left_empty_grade_not_measured']:,} buildings). Where the "
+        "table's notes say the property was not visible, its guidance does not record whether "
+        "the grade or the floor was the estimated value: those rows have ground source "
+        "'z_grade (grade or floor estimated)', and their first-floor height carries the same "
+        "doubt.",
+        "Substation grouping, as the code applies it: " + GROUPING_RULE + ". Centroid "
+        "distances between the four named Con Edison assets, metres: "
+        + "; ".join(f"{k}: {v:g}" for k, v in centroid_distances(con_edison).items())
+        + ". Assets this close would be reached by the same water.",
         "Customers served (FD7): no public figure per substation exists, so lab_customers_served "
         "and lab_customers_tag are empty. A placeholder would need the population of the study "
         "area by census block (2020), a service-area rule assigning each block to one substation "
         "(for example the nearest area substation, which ignores the real feeder network), and a "
         "persons-per-customer ratio from a stated source; none of it is computed here.",
         terrain_words + ".",
-        "The table has no column for: footprint area, the estimated-grade note (carried in "
-        "lab_ground_elev_source as 'z_grade (estimated)'), the number of inventory points per "
-        "footprint, the operator, location and building tags of a substation; they are in this "
-        "record and in the cache file assets/buildings_detail.csv.",
+        "The table has no column for: footprint area, the operator, location and building tags "
+        "of a substation; they are in this record and in the cache file "
+        "assets/buildings_detail.csv. The estimated-grade note is carried in "
+        "lab_ground_elev_source as 'z_grade (grade or floor estimated)'.",
     ]
     Record(
         id="f1-assets",
@@ -692,7 +793,8 @@ def main() -> None:
     ).write(paths.RECORDS)
     print(json.dumps({k: numbers[k] for k in sorted(numbers)}, indent=1, default=str))
     for check in checks:
-        print(f"{'PASS' if check.passed else 'FAIL'}  {check.name}: {check.value}")
+        verdict = {True: "PASS", False: "FAIL", None: "NOT JUDGED"}[check.passed]
+        print(f"{verdict}  {check.name}: {check.value}")
 
 
 if __name__ == "__main__":

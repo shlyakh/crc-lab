@@ -18,6 +18,9 @@ Rules the table must keep (``validate`` checks them):
   ``lab_x_m`` and ``lab_y_m`` in the project CRS to within a metre;
 * every asset has a ground elevation in metres above NAVD88, with where it came from;
 * every money value carries its tag: S (stated by a source), I (inferred), P (placeholder);
+* a placeholder value never appears in an OED column: ``BuildingTIV`` is empty where the value's
+  tag is P, so that an export of the OED columns alone cannot carry a placeholder without its
+  label. An engine that needs a figure takes it from the ``lab_value_*`` columns with the tag;
 * a value that is not known is empty, never zero.
 """
 
@@ -58,7 +61,9 @@ LAB = (
     "lab_subgrade",  # buildings: "Y", "N" or empty
     "lab_bin",  # buildings: the city's building identification number
     "lab_match",  # buildings: how footprint, elevation table and inventory were joined
-    "lab_occupancy_hazus",  # buildings: occupancy class of the structure inventory
+    "lab_occupancy_hazus",  # buildings: occupancy class of the inventory record of largest value
+    "lab_occupancy_all",  # buildings: every occupancy class among its inventory records, "A;B"
+    "lab_inventory_points",  # buildings: number of inventory records summed into the value
     "lab_foundation_type",
     "lab_nsi_id",
     "lab_osm_ids",  # substations: the OpenStreetMap elements of the site, "way/1;way/2"
@@ -81,6 +86,30 @@ TAGS = ("S", "I", "P")
 #: New York City in round numbers, to catch swapped or projected coordinates
 LAT_RANGE = (40.4, 41.0)
 LON_RANGE = (-74.3, -73.6)
+
+try:
+    import pyproj as _pyproj
+
+    _TO_PROJECT = _pyproj.Transformer.from_crs("EPSG:4326", "EPSG:32618", always_xy=True)
+except ImportError:  # the table can still be checked for everything but this rule
+    _TO_PROJECT = None
+
+
+def _number(value: Any) -> float | None:
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _agrees(row: dict[str, Any]) -> bool:
+    """Longitude and latitude give the project coordinates of the row to within a metre."""
+    lon, lat = _number(row["Longitude"]), _number(row["Latitude"])
+    x, y = _number(row["lab_x_m"]), _number(row["lab_y_m"])
+    if None in (lon, lat, x, y):
+        return False
+    px, py = _TO_PROJECT.transform(lon, lat) if _TO_PROJECT else (x, y)
+    return abs(px - x) <= 1.0 and abs(py - y) <= 1.0
 
 
 def validate(rows: list[dict[str, Any]]) -> list[str]:
@@ -111,6 +140,10 @@ def validate(rows: list[dict[str, Any]]) -> list[str]:
                 faults.append(f"{where}: latitude and longitude are not in New York City")
         except (TypeError, ValueError):
             faults.append(f"{where}: latitude or longitude is not a number")
+        if row["lab_value_tag"] == "P" and row["BuildingTIV"] not in ("", None):
+            faults.append(f"{where}: BuildingTIV holds a placeholder value")
+        if _number(row["lab_x_m"]) is not None and not _agrees(row):
+            faults.append(f"{where}: longitude and latitude do not agree with lab_x_m and lab_y_m")
         if row["lab_ground_elev_m"] in ("", None) or not row["lab_ground_elev_source"]:
             faults.append(f"{where}: no ground elevation, or no source for it")
         if row["lab_terrain_elev_m"] in ("", None):

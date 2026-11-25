@@ -9,7 +9,10 @@ range by the class rules of ``values.toml`` (placeholders [P]).
 
 The review of each asset on aerial imagery is read from ``substation_review.toml``: an asset is
 ``not reviewed`` until the file says ``kept`` or ``removed``; a removed asset stays in the table
-with the reason. Customers served (FD7) stay empty: no public figure per substation exists.
+with the reason. The file's top-level ``reviewed_by`` says who filled it (a person or a model) and
+``person_reviewed_on`` the date a person looked, empty until then. Code never overwrites an
+existing review file; a template is written only where there is none.
+Customers served (FD7) stay empty: no public figure per substation exists.
 
 The ground elevation comes from a function passed in (``elevation(x, y)``, project CRS in, metres
 above NAVD88 out), so the terrain can be supplied by ``flood_lab.terrain`` or by a test.
@@ -19,9 +22,12 @@ from __future__ import annotations
 
 import json
 import math
+import os
+import tempfile
 import tomllib
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -222,22 +228,61 @@ def loc_number(group: list[Outline]) -> str:
 # review ----------------------------------------------------------------------------------------
 
 
-def load_review(path: Path = REVIEW) -> dict[str, dict[str, str]]:
+def _review_document(path: Path) -> dict[str, Any]:
     if not path.is_file():
         return {}
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
 
+def load_review(path: Path = REVIEW) -> dict[str, dict[str, str]]:
+    """The review entries, one table per asset; the top-level keys are left out."""
+    return {k: v for k, v in _review_document(path).items() if isinstance(v, dict)}
+
+
+@dataclass(frozen=True)
+class Reviewer:
+    """Who filled the review file, and whether a person has looked (top-level keys)."""
+
+    reviewed_by: str  # free text, "" when the file does not say
+    person_reviewed_on: date | None  # None until a person has looked
+
+
+def load_reviewer(path: Path = REVIEW) -> Reviewer:
+    """``reviewed_by`` and ``person_reviewed_on`` of the review file; both optional.
+
+    ``person_reviewed_on`` is a TOML date or an ISO date string; empty means no person has looked.
+    Anything else is an error, not a silent "not reviewed".
+    """
+    document = _review_document(path)
+    by = str(document.get("reviewed_by", "")).strip()
+    on = document.get("person_reviewed_on", "")
+    if isinstance(on, datetime):
+        on = on.date()
+    elif isinstance(on, str):
+        on = date.fromisoformat(on.strip()) if on.strip() else None
+    elif not isinstance(on, date):
+        raise ValueError(f"person_reviewed_on in {path} is not a date: {on!r}")
+    return Reviewer(by, on)
+
+
 def review_text(assets: list[dict[str, Any]], existing: dict[str, dict[str, str]]) -> str:
-    """The review file with every asset; entries already filled in are kept as they are."""
+    """A review file with every asset, as a template; entries already filled in are kept.
+
+    It is only ever written where no review file exists (``write_review_template``).
+    """
     lines = [
         "# Review of each substation asset on aerial imagery (requirement FD3, plan F1 step 2).",
-        "# Filled in by a person who looked at the contact sheet",
-        "# (docs/flood/figures/f1/substation_contact_sheet.png) and the sharper review images in",
-        "# the cache (data/cache/flood/assets/review/<LocNumber>_nys2018.png).",
+        "# Filled in by a reviewer, who must state who they are in reviewed_by, after looking at",
+        "# the contact sheet (docs/flood/figures/f1/substation_contact_sheet.png) and the sharper",
+        "# review images in the cache (data/cache/flood/assets/review/<LocNumber>_nys2018.png).",
+        "# reviewed_by: who filled the entries (a person or a model), and when;",
+        "# person_reviewed_on: the date a person looked (YYYY-MM-DD), empty until then.",
         '# decision: "kept" or "removed" ("not reviewed" until looked at); reason: why, required',
         '# when removed; indoor: "yes", "no" or "unknown" as seen, overrides the location tag when',
         '# "yes" or "no"; seen_on: the imagery looked at; note: anything else.',
+        "",
+        'reviewed_by = ""',
+        'person_reviewed_on = ""',
         "",
     ]
     for asset in assets:
@@ -250,6 +295,28 @@ def review_text(assets: list[dict[str, Any]], existing: dict[str, dict[str, str]
             lines.append(f"{name} = {json.dumps(str(entry.get(name, '')), ensure_ascii=False)}")
         lines.append("")
     return "\n".join(lines)
+
+
+def write_review_template(assets: list[dict[str, Any]], path: Path = REVIEW) -> bool:
+    """Write a template review file where none exists; never overwrite one. True if written.
+
+    The file is written to a temporary name and linked into place, which fails if a file
+    appeared there meanwhile, so an existing review is never replaced.
+    """
+    if path.exists():
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(dir=path.parent, suffix=".part")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(review_text(assets, {}))
+        try:
+            os.link(temporary, path)
+        except FileExistsError:
+            return False
+    finally:
+        Path(temporary).unlink(missing_ok=True)
+    return True
 
 
 def apply_review(row: dict[str, Any], entry: dict[str, str] | None) -> dict[str, Any]:

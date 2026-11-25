@@ -206,6 +206,7 @@ def test_building_joins() -> None:
             "occtype": ["RES3A", "COM1", "RES1", "RES1"],
             "found_type": ["B", "S", "B", "B"],
             "fd_id": [1, 2, 3, 4],
+            "ftprntid": ["36047_9", "36047_9", "none_3", "none_4"],
             "num_story": [2, 5, 1, 1],
         }
     )
@@ -221,13 +222,28 @@ def test_building_joins() -> None:
     assert stats["inventory_points_to_nearest_footprint"] == 1
     assert stats["inventory_points_unmatched"] == 1
     assert stats["buildings_with_several_inventory_points"] == 1
+    assert stats["inventory_value_summed_usd"] == 450  # 100 + 300 on one, 50 on the other
+    assert stats["inventory_value_largest_point_only_usd"] == 350
+    tied = stats["buildings_with_several_points_tied_by_inventory_footprint_id"]
+    assert tied == {
+        "buildings": 1,
+        "points": 2,
+        "value_summed_usd": 400,
+        "value_of_largest_point_usd": 300,
+    }
+    assert stats["buildings_with_several_points_tied_by_position"]["buildings"] == 0
+    assert stats["buildings_subgrade_left_empty_grade_not_measured"] == 1
 
     one = by["3000001"]
     assert one["lab_match"] == "footprint+elevation+inventory"
-    assert one["lab_nsi_id"] == "2" and one["BuildingTIV"] == 300.0  # the larger val_struct
+    # the value is the sum of the records; the other fields are those of the largest record
+    assert one["BuildingTIV"] == 400.0 and one["lab_value_mid_usd"] == 400.0
+    assert one["lab_nsi_id"] == "2" and one["lab_occupancy_hazus"] == "COM1"
+    assert one["lab_occupancy_all"] == "COM1;RES3A" and one["lab_inventory_points"] == 2
     assert one["detail_inventory_points"] == 2 and one["NumberOfStoreys"] == 5
     assert one["lab_ground_elev_m"] == pytest.approx(3.048)
-    assert one["lab_ground_elev_source"] == "z_grade (estimated)"
+    assert one["lab_ground_elev_source"] == "z_grade (grade or floor estimated)"
+    assert one["lab_subgrade"] == "Y"
     assert one["lab_first_floor_height_m"] == pytest.approx(0.9144)
     assert one["lab_value_tag"] == "S" and one["lab_terrain_elev_m"] == 2.0
 
@@ -236,6 +252,8 @@ def test_building_joins() -> None:
     assert two["detail_inventory_join"] == "near"
     assert two["lab_ground_elev_m"] == 2.0 and two["lab_ground_elev_source"].startswith("terrain")
     assert two["lab_first_floor_height_m"] is None and two["lab_first_floor_elev_m"] is None
+    assert two["lab_subgrade"] == ""  # the flag is a default where the grade is not measured
+    assert two["BuildingTIV"] == 50.0 and two["lab_inventory_points"] == 1
 
     three = by["3000003"]
     assert three["lab_match"] == "footprint" and three["BuildingTIV"] is None
@@ -246,10 +264,11 @@ def test_building_joins() -> None:
 
 
 def _asset(**changes) -> dict:
+    lon, lat = _lonlat(X0, Y0)
     row = {
         "LocNumber": "B-3000001",
-        "Latitude": 40.7,
-        "Longitude": -73.96,
+        "Latitude": lat,
+        "Longitude": lon,
         "lab_asset_type": "building",
         "lab_x_m": X0,
         "lab_y_m": Y0,
@@ -292,8 +311,38 @@ def test_the_writer_writes_the_same_bytes_twice(tmp_path) -> None:
     lines = first.read_text().splitlines()
     assert lines[0] == ",".join(schema.COLUMNS)
     building = dict(zip(schema.COLUMNS, lines[2].split(","), strict=True))
-    assert building["Latitude"] == "40.7000000" and building["BuildingTIV"] == "1234"
+    assert building["Latitude"] == f"{_lonlat(X0, Y0)[1]:.7f}" and building["BuildingTIV"] == "1234"
     assert building["FirstFloorHeight"] == "0.500" and building["FirstFloorHeightUnit"] == "2"
     assert building["LocPerilsCovered"] == "OSF" and building["OccupancyCode"] == ""
     substation = dict(zip(schema.COLUMNS, lines[1].split(","), strict=True))
     assert substation["LocName"] == "Hudson Avenue" and substation["FirstFloorHeightUnit"] == ""
+
+
+def test_a_placeholder_value_stays_out_of_the_oed_column() -> None:
+    station = _asset(
+        LocNumber="S-5",
+        lab_asset_type="substation",
+        lab_name="Alpha",
+        FirstFloorHeight=None,
+        BuildingTIV=None,
+        lab_value_low_usd=10.0,
+        lab_value_mid_usd=20.0,
+        lab_value_high_usd=40.0,
+        lab_value_tag="P",
+    )
+    row = oed.table([station], [])[0]
+    assert row["BuildingTIV"] == "" and row["lab_value_mid_usd"] == "20"
+    assert row["lab_value_tag"] == "P" and schema.validate([row]) == []
+
+
+def test_an_existing_review_file_is_never_overwritten(tmp_path) -> None:
+    rows, _, _ = sub.build([outline(10, 0, name="Alpha")], elevation=flat(), land=LAND)
+    path = tmp_path / "review.toml"
+    assert sub.write_review_template(rows, path)
+    text = path.read_text()
+    assert "Filled in by a person" not in text and "reviewed_by" in text
+    assert sub.load_reviewer(path) == sub.Reviewer("", None)
+    path.write_text('reviewed_by = "someone"\nperson_reviewed_on = 2026-12-01\n')
+    assert not sub.write_review_template(rows, path)
+    assert sub.load_reviewer(path).person_reviewed_on.isoformat() == "2026-12-01"
+    assert sub.load_review(path) == {}

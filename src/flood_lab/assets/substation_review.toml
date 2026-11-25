@@ -1,10 +1,18 @@
 # Review of each substation asset on aerial imagery (requirement FD3, plan F1 step 2).
-# Filled in by a person who looked at the contact sheet
-# (docs/flood/figures/f1/substation_contact_sheet.png) and the sharper review images in
-# the cache (data/cache/flood/assets/review/<LocNumber>_nys2018.png).
-# decision: "kept" or "removed" ("not reviewed" until looked at); reason: why, required
-# when removed; indoor: "yes", "no" or "unknown" as seen, overrides the location tag when
-# "yes" or "no"; seen_on: the imagery looked at; note: anything else.
+#
+# Looked at on 2026-11-25 by the coordinating model (Claude), not by a person: the contact sheet
+# (docs/flood/figures/f1/substation_contact_sheet.png, USGS NAIP) and the sharper review images
+# in the cache (data/cache/flood/assets/review/<LocNumber>_nys2018.png, New York State
+# orthoimagery 2018). When a person has looked, put the date in person_reviewed_on and change
+# any decision. What a picture from above cannot show: whether equipment is energised, who owns
+# it, and what is inside a building.
+#
+# decision: "kept" or "removed" ("not reviewed" until looked at); reason: why, required when
+# removed; indoor: "yes", "no" or "unknown" as seen, overrides the location tag when "yes" or
+# "no"; seen_on: the imagery looked at; note: anything else.
+
+reviewed_by = "the coordinating model (Claude), 2026-11-25"
+person_reviewed_on = ""
 
 # Water Street Substation; way/250386730
 ["S-250386730"]

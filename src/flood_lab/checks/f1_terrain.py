@@ -48,6 +48,10 @@ HISTOGRAM_BIN_M = 0.1
 WATER_COLOUR = "#60a5fa"
 DEEP_COLOUR = "#dc2626"
 DPI = 100
+#: cells of the 5 m grid recomputed from the 1 m terrain by window reads, and the seed [P]
+RECOMPUTE_CELLS = 2000
+RECOMPUTE_SEED = 20261125
+RECOMPUTE_TOLERANCE_M = 1e-4  # [P]
 
 
 def _png(figure, name: str) -> str:
@@ -167,6 +171,50 @@ def footprint_comparison(z, transform, water, study, outlines_land) -> tuple[dic
         "by_geom_source": by_source,
     }
     return result, d
+
+
+def recompute_5m(dem_1m, mean5, min5, max5, cells: int = RECOMPUTE_CELLS) -> dict[str, Any]:
+    """Mean, minimum and maximum of randomly drawn 5 m cells, recomputed from the 1 m file.
+
+    A different route from ``terrain.aggregate`` (which reshapes the whole square in memory): each
+    cell's 5 x 5 pixels are read from ``dem_1m.tif`` with a rasterio window read, at the offset of
+    the square in the file, and reduced in float64. A cell without value in the grid must have a
+    pixel without value in its window.
+    """
+    import rasterio
+    from rasterio.windows import Window
+
+    rng = np.random.default_rng(RECOMPUTE_SEED)
+    rows, cols = mean5.shape
+    picks = rng.choice(rows * cols, size=min(cells, rows * cols), replace=False)
+    worst = 0.0
+    wrong: list[list[int]] = []
+    with rasterio.open(dem_1m) as src:
+        col0 = int(round((domain.SQUARE[0] - src.transform.c) / src.transform.a))
+        row0 = int(round((src.transform.f - domain.SQUARE[3]) / -src.transform.e))
+        f = terrain.FACTOR
+        for pick in picks:
+            r, c = divmod(int(pick), cols)
+            block = src.read(1, window=Window(col0 + c * f, row0 + r * f, f, f)).astype("float64")
+            block[block == src.nodata] = np.nan
+            expected = (block.mean(), block.min(), block.max())
+            got = (mean5[r, c], min5[r, c], max5[r, c])
+            for e, g in zip(expected, got, strict=True):
+                if np.isnan(e) or np.isnan(g):
+                    ok = bool(np.isnan(e) and np.isnan(g))
+                else:
+                    worst = max(worst, abs(float(g) - e))
+                    ok = abs(float(g) - e) <= RECOMPUTE_TOLERANCE_M
+                if not ok:
+                    wrong.append([r, c])
+                    break
+    return {
+        "cells": int(len(picks)),
+        "seed": RECOMPUTE_SEED,
+        "cells_differing": len(wrong),
+        "first_differing_row_col": wrong[:5],
+        "largest_difference_m": float(f"{worst:.3g}"),
+    }
 
 
 def main() -> None:
@@ -371,7 +419,10 @@ def main() -> None:
     tables = {"deep_patches": patches, "footprints_by_geom_source": footprints["by_geom_source"]}
 
     # ---- checks -------------------------------------------------------------------------------
-    between = bool(np.all((min5 <= mean5) & (mean5 <= max5)))
+    finite = np.isfinite(mean5)
+    between = bool(np.all((min5[finite] <= mean5[finite]) & (mean5[finite] <= max5[finite])))
+    recomputed = recompute_5m(root / terrain.DEM_1M, mean5, min5, max5)
+    numbers["recomputed_5m_cells"] = recomputed
     lo, hi = STUDY_KM2
     km2 = study.area / 1e6
     checks = [
@@ -401,11 +452,23 @@ def main() -> None:
             proposed=True,
         ),
         Check(
-            "5 m mean between 5 m minimum and maximum",
-            "min <= mean <= max in every 5 m cell",
+            "the three bands of the 5 m grid are in order",
+            "band min <= band mean <= band max in every 5 m cell with a value: true of any mean, "
+            "so it catches swapped bands only",
             between,
             between,
             True,
+        ),
+        Check(
+            "5 m grid recomputed from the 1 m terrain",
+            f"for {recomputed['cells']} cells drawn with seed {RECOMPUTE_SEED}, the mean, minimum "
+            "and maximum of the cell's 5 x 5 pixels, read from dem_1m.tif with a rasterio window "
+            "read (not the reshape of flood_lab.terrain), equal the 5 m bands to within "
+            f"{RECOMPUTE_TOLERANCE_M:g} m",
+            recomputed["cells_differing"] == 0,
+            recomputed["cells_differing"],
+            0,
+            note=f"largest difference {recomputed['largest_difference_m']:g} m",
         ),
         Check(
             "study area size",
@@ -445,6 +508,9 @@ def main() -> None:
             "pyproj computation in flood_lab.terrain.horizontal_datum",
         ),
         Parameter("aggregation_5m", "mean, min, max of 25 pixels", "P"),
+        Parameter("recompute_cells", RECOMPUTE_CELLS, "P"),
+        Parameter("recompute_seed", RECOMPUTE_SEED, "P"),
+        Parameter("recompute_tolerance_m", RECOMPUTE_TOLERANCE_M, "P"),
         Parameter("ida_day", IDA_DAY.isoformat(), "S", "requirements D2"),
         Parameter("study_area_km2_range", list(STUDY_KM2), "P", "proposed"),
         Parameter("median_abs_m", MEDIAN_ABS_M, "P", "proposed"),
@@ -552,6 +618,8 @@ def main() -> None:
         title="Terrain: 1 m lidar, 5 m grid, water, deep patches and a check on datum and units",
         inputs=[
             Input.of(root / terrain.SOURCE_TILE, root=root),
+            Input.of(root / terrain.DEM_1M, root=root),
+            Input.of(root / terrain.DEM_5M, root=root),
             Input.of(root / terrain.OUTLINES, root=root),
             Input.of(root / terrain.FOOTPRINTS, root=root),
             Input.of(terrain.STUDY_AREA, root=paths.ROOT),

@@ -2,8 +2,10 @@
 
 For each substation asset one picture of the ground from above, with its outlines and a 50 m scale
 bar, laid out as one PNG, ``docs/flood/figures/f1/substation_contact_sheet.png``. The committed
-sheet uses USGS NAIP (2019, 0.6 m; public domain per the service description, facts file
-``usgs-naip-imagery``). The sharper New York State 2018 orthoimagery of the same views is saved to
+sheet uses USGS NAIP (0.6 m; public domain per the service description, facts file
+``usgs-naip-imagery``); its year is read from that facts file (``naip_date``), because the service
+returns its current mosaic and the year was read at one point on the day the facts were checked.
+The sharper New York State 2018 orthoimagery of the same views is saved to
 the cache only, for the person reviewing (``assets/review/<LocNumber>_nys2018.png``): its terms have
 not been read, so nothing from it enters the repository.
 
@@ -16,6 +18,7 @@ from __future__ import annotations
 import io
 import json
 import math
+import re
 import subprocess
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -29,7 +32,9 @@ import matplotlib.image as mpimg  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import shapely  # noqa: E402
 
-from flood_lab import domain  # noqa: E402
+from flood_lab import domain, paths  # noqa: E402
+from flood_lab import facts as facts_module  # noqa: E402
+from lab_common.io import write_json_atomic  # noqa: E402
 
 #: margin around the outlines of an asset, metres [P]
 MARGIN_M = 60.0
@@ -43,6 +48,35 @@ SERVICES = {
     "nys2018": "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage",
 }
 EPSG = domain.CRS.split(":")[1]
+#: the facts file that holds what was read about the imagery services
+FACTS_ID = "usgs-naip-imagery"
+
+
+@dataclass(frozen=True)
+class ImageryDate:
+    """The NAIP year and acquisition day as read from the catalogue, and the day it was read."""
+
+    year: int
+    acquired: str  # YYYY-MM-DD
+    read_on: str  # YYYY-MM-DD, the facts file's checked_on
+
+
+def naip_date(path: Path | None = None) -> ImageryDate:
+    """The NAIP year at the centre point, from the facts file (facts naip_years_resolution and
+    coverage_time). The service returns its current mosaic, so this is the year it held at one
+    point when it was read, not a property of the request."""
+    source = facts_module.load(path or paths.FACTS / f"{FACTS_ID}.toml")
+    years = source.fact("naip_years_resolution")
+    when = source.fact("coverage_time")
+    year = re.search(r"\bYear (\d{4})\b", years.passage if years else "")
+    day = re.search(r"NAIP at the point: (\d{4}-\d{2}-\d{2})", when.observed if when else "")
+    if not (year and day):
+        raise ValueError(f"facts file {FACTS_ID}: no NAIP year or acquisition day found")
+    if not day.group(1).startswith(year.group(1)):
+        raise ValueError(
+            f"facts file {FACTS_ID}: year {year.group(1)} and day {day.group(1)} differ"
+        )
+    return ImageryDate(int(year.group(1)), day.group(1), source.checked_on)
 
 
 @dataclass(frozen=True)
@@ -90,20 +124,19 @@ def fetch(service: str, view: View, path: Path, pixels: int = PIXELS) -> Path:
         temporary.unlink()
         raise RuntimeError(f"{url} did not return a PNG")
     temporary.replace(path)
-    meta.write_text(
-        json.dumps(
-            {
-                "url": url,
-                "service": service,
-                "bbox_epsg32618": [view.west, view.south, view.east, view.north],
-                "pixels": pixels,
-                "user_agent": USER_AGENT,
-                "fetched_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "bytes": len(data),
-            },
-            indent=1,
-        )
-        + "\n"
+    write_json_atomic(
+        meta,
+        {
+            "url": url,
+            "service": service,
+            "bbox_epsg32618": [view.west, view.south, view.east, view.north],
+            "pixels": pixels,
+            "user_agent": USER_AGENT,
+            "fetched_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "bytes": len(data),
+        },
+        indent=1,
+        separators=(",", ": "),
     )
     return path
 

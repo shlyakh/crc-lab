@@ -36,6 +36,10 @@ def test_each_rule_is_reported() -> None:
             _row(lab_value_low_usd=9, lab_value_mid_usd=5, lab_value_high_usd=7, lab_value_tag="P")
         ],
         "zero": [_row(lab_value_mid_usd=0, lab_value_tag="P")],
+        "BuildingTIV holds a placeholder": [
+            _row(lab_value_mid_usd=5e6, lab_value_tag="P", BuildingTIV=5e6)
+        ],
+        "do not agree": [_row(lab_x_m=586000.0, lab_y_m=4506000.0, Latitude=40.75)],
     }
     for words, rows in cases.items():
         faults = schema.validate(rows)

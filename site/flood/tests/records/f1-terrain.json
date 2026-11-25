@@ -28,13 +28,22 @@
    "value": 0.8316
   },
   {
-   "name": "5 m mean between 5 m minimum and maximum",
+   "name": "the three bands of the 5 m grid are in order",
    "note": "",
    "passed": true,
    "proposed": false,
-   "rule": "min <= mean <= max in every 5 m cell",
+   "rule": "band min <= band mean <= band max in every 5 m cell with a value: true of any mean, so it catches swapped bands only",
    "threshold": true,
    "value": true
+  },
+  {
+   "name": "5 m grid recomputed from the 1 m terrain",
+   "note": "largest difference 9.16e-07 m",
+   "passed": true,
+   "proposed": false,
+   "rule": "for 2000 cells drawn with seed 20261125, the mean, minimum and maximum of the cell's 5 x 5 pixels, read from dem_1m.tif with a rasterio window read (not the reshape of flood_lab.terrain), equal the 5 m bands to within 0.0001 m",
+   "threshold": 0,
+   "value": 0
   },
   {
    "name": "study area size",
@@ -58,7 +67,7 @@
    "value": "2014-04-21"
   }
  ],
- "created_at": "2026-11-25T21:03:26Z",
+ "created_at": "2026-11-25T21:24:52Z",
  "figures": [
   "docs/flood/figures/f1/hillshade.png",
   "docs/flood/figures/f1/elevation.png",
@@ -72,6 +81,18 @@
    "bytes": 269595298,
    "path": "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NY_CMPG_2013.tif",
    "sha256": "212a8b14b1f2b4976c88f8bcd7f54f6b8d12e202856c89e6ffe49f91173d1aaa",
+   "url": ""
+  },
+  {
+   "bytes": 48551365,
+   "path": "terrain/dem_1m.tif",
+   "sha256": "a5d390fe9fc97d161a07d6d1ef206a53ec75f89fdc65338b7471814043055090",
+   "url": ""
+  },
+  {
+   "bytes": 4574789,
+   "path": "terrain/dem_5m.tif",
+   "sha256": "83ab03d3cda0b090ea7295715e06c421924fcb2c014c177e22605e3a21f96a71",
    "url": ""
   },
   {
@@ -193,6 +214,13 @@
   "pixels_below_deep_threshold_margin_box": 32846,
   "pixels_below_minus_10_m_margin_box": 28615,
   "pixels_without_value_in_square": 0,
+  "recomputed_5m_cells": {
+   "cells": 2000,
+   "cells_differing": 0,
+   "first_differing_row_col": [],
+   "largest_difference_m": 9.16e-07,
+   "seed": 20261125
+  },
   "source_window_col_row_width_height": [
    5006,
    1006,
@@ -409,6 +437,24 @@
    "source": "",
    "tag": "P",
    "value": "mean, min, max of 25 pixels"
+  },
+  {
+   "name": "recompute_cells",
+   "source": "",
+   "tag": "P",
+   "value": 2000
+  },
+  {
+   "name": "recompute_seed",
+   "source": "",
+   "tag": "P",
+   "value": 20261125
+  },
+  {
+   "name": "recompute_tolerance_m",
+   "source": "",
+   "tag": "P",
+   "value": 0.0001
   },
   {
    "name": "ida_day",

@@ -59,7 +59,7 @@ DECIMALS = {
     "lab_value_high_usd": 0,
     "lab_customers_served": 0,
 }
-INTEGERS = ("NumberOfStoreys", "YearBuilt", "lab_outlines")
+INTEGERS = ("NumberOfStoreys", "YearBuilt", "lab_outlines", "lab_inventory_points")
 
 
 class TableFault(ValueError):
@@ -98,7 +98,9 @@ def table_row(asset: dict[str, Any]) -> dict[str, str]:
     if asset["lab_asset_type"] == "substation":
         full["LocName"] = short_name(asset.get("lab_name", ""))
         full["OccupancyCode"] = OCCUPANCY_SUBSTATION
-        full["BuildingTIV"] = asset.get("lab_value_mid_usd")
+        # a placeholder never sits in an OED column: the lab_value_* columns keep it with its tag
+        if asset.get("lab_value_tag") != "P":
+            full["BuildingTIV"] = asset.get("lab_value_mid_usd")
     if full.get("FirstFloorHeight") not in (None, ""):
         full["FirstFloorHeightUnit"] = METRES
     return {column: cell(column, full[column]) for column in schema.COLUMNS}

@@ -11,7 +11,7 @@
   },
   {
    "name": "every asset has a ground and a terrain elevation",
-   "note": "terrain from flood_lab.terrain.ground_elevation",
+   "note": "this check cannot fail as the build stands: the terrain sampler raises on a point outside the terrain or on a pixel without value before any row is made, so a missing elevation stops the run instead of reaching this count; kept as a guard should the sampler change. terrain from flood_lab.terrain.ground_elevation",
    "passed": true,
    "proposed": false,
    "rule": "lab_ground_elev_m and lab_terrain_elev_m are filled for every asset",
@@ -28,13 +28,22 @@
    "value": 0.929103
   },
   {
-   "name": "every substation looked at",
-   "note": "",
+   "name": "every substation has a recorded review",
+   "note": "reviewed_by: the coordinating model (Claude), 2026-11-25",
    "passed": true,
    "proposed": false,
-   "rule": "every asset in substation_review.toml is 'kept' or 'removed'",
+   "rule": "each asset is 'kept' or 'removed' in substation_review.toml, with what was seen",
    "threshold": 0,
    "value": 0
+  },
+  {
+   "name": "a person has looked at the substations",
+   "note": "the review entries were filled by: the coordinating model (Claude), 2026-11-25",
+   "passed": null,
+   "proposed": false,
+   "rule": "person_reviewed_on in substation_review.toml holds the date a person looked; not judged while it is empty",
+   "threshold": "a date",
+   "value": ""
   },
   {
    "name": "table grade agrees with terrain",
@@ -46,7 +55,7 @@
    "value": -0.082
   }
  ],
- "created_at": "2026-11-25T21:05:37Z",
+ "created_at": "2026-11-25T21:26:14Z",
  "figures": [
   "docs/flood/figures/f1/substation_contact_sheet.png",
   "docs/flood/figures/f1/assets_map.png",
@@ -81,9 +90,15 @@
    "url": ""
   },
   {
-   "bytes": 4586084,
-   "path": "nyc-nta-2020/nta2020.geojson",
-   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  },
+  {
+   "bytes": 48551365,
+   "path": "terrain/dem_1m.tif",
+   "sha256": "a5d390fe9fc97d161a07d6d1ef206a53ec75f89fdc65338b7471814043055090",
    "url": ""
   },
   {
@@ -93,9 +108,9 @@
    "url": ""
   },
   {
-   "bytes": 2544,
+   "bytes": 2926,
    "path": "src/flood_lab/assets/substation_review.toml",
-   "sha256": "b46fb78f3e17ca594ef489ac72b82823de76d9a762320c41b0a1b2d35b24a712",
+   "sha256": "9dda5caef5b93df67bb7f40d8ce2963d58e3e2b941924423ed757b7772ed5d82",
    "url": ""
   },
   {
@@ -238,11 +253,14 @@
   }
  ],
  "notes": [
-  "Contact sheet: USGS NAIP 2019 (0.6 m, leaf-on, one date) with OpenStreetMap outlines, for looking, not measuring; it cannot show change since 2019 or what is inside a building. Map: buildings coloured by which joins succeeded; it shows the joins, not flood exposure. First-floor histogram: the city's table only, values read from street imagery and partly estimated; 0 (not measured) left out. Counts bar: substations are mapped outlines grouped by a placeholder rule. Grade-minus-terrain histogram: Values clipped at the axis ends.",
-  "Substation values are placeholders [P] bracketed by two published figures for other substations (values.toml); the mid is their geometric mean. Building values are the inventory's depreciated replacement value [S], August 2025 prices, not 2026 dollars.",
+  "Contact sheet: USGS NAIP 2019 (0.6 m, leaf-on, one date, 2019-08-30) with OpenStreetMap outlines, for looking, not measuring; it cannot show change since 2019 or what is inside a building. The service returns its current mosaic, not a chosen year: the year 2019 was read from its catalogue at one point on 2026-11-25 (facts file usgs-naip-imagery), so a later fetch may show another year. Map: buildings coloured by which joins succeeded; it shows the joins, not flood exposure. First-floor histogram: the city's table only, values read from street imagery and partly estimated; 0 (not measured) left out. Counts bar: substations are mapped outlines grouped by a placeholder rule. Grade-minus-terrain histogram: Values clipped at the axis ends.",
+  "Substation values are placeholders [P] bracketed by two published figures for other substations (values.toml); the mid is their geometric mean. They are in the lab_value_* columns with tag P only: BuildingTIV, an OED column, is empty for them. Building values are the inventory's depreciated replacement value [S], August 2025 prices, not 2026 dollars.",
+  "Building value rule: the SUM of val_struct over every inventory record assigned to the building (inside its footprint, or the nearest footprint within 15 m), because the publisher states that stacked structures are several records on one footprint with the value divided among them (facts file usace-national-structure-inventory, fact known_limits). lab_inventory_points is the number of records summed; lab_occupancy_all lists their distinct occupancy classes; lab_occupancy_hazus, lab_foundation_type, NumberOfStoreys and lab_nsi_id are those of the record of largest value. Total by this rule 48,370,640,327 USD; keeping only the largest record gave 41,195,360,529 USD. Of the 2,480 buildings with several records, 1,923 have records that all carry one real inventory footprint id (ftprntid, not none_...), worth 23,912,919,661 USD summed; 557 do not (different or none_ ids), so their grouping rests on our spatial attribution, worth 7,456,042,297 USD summed. A record attributed by position may belong to a neighbour, so the second group is the less certain part of the sum.",
+  "Subgrade: where the table's grade is 0 (not measured) its subgrade flag is a default, so lab_subgrade is left empty there (322 buildings). Where the table's notes say the property was not visible, its guidance does not record whether the grade or the floor was the estimated value: those rows have ground source 'z_grade (grade or floor estimated)', and their first-floor height carries the same doubt.",
+  "Substation grouping, as the code applies it: outlines with the same name within 300 m of each other are one asset; outlines with no name are grouped among themselves within 150 m; outlines with different names are never merged, however close; rail traction substations are left out. Centroid distances between the four named Con Edison assets, metres: S-250386730 Water Street Substation to S-339711332 Farragut Substation: 281.2; S-250386730 Water Street Substation to S-383102724 Hudson Avenue Substation: 62.4; S-250386730 Water Street Substation to S-383110539 Plymouth Substation: 147.4; S-339711332 Farragut Substation to S-383102724 Hudson Avenue Substation: 251.9; S-339711332 Farragut Substation to S-383110539 Plymouth Substation: 139.5; S-383102724 Hudson Avenue Substation to S-383110539 Plymouth Substation: 136.2. Assets this close would be reached by the same water.",
   "Customers served (FD7): no public figure per substation exists, so lab_customers_served and lab_customers_tag are empty. A placeholder would need the population of the study area by census block (2020), a service-area rule assigning each block to one substation (for example the nearest area substation, which ignores the real feeder network), and a persons-per-customer ratio from a stated source; none of it is computed here.",
   "terrain from flood_lab.terrain.ground_elevation.",
-  "The table has no column for: footprint area, the estimated-grade note (carried in lab_ground_elev_source as 'z_grade (estimated)'), the number of inventory points per footprint, the operator, location and building tags of a substation; they are in this record and in the cache file assets/buildings_detail.csv."
+  "The table has no column for: footprint area, the operator, location and building tags of a substation; they are in this record and in the cache file assets/buildings_detail.csv. The estimated-grade note is carried in lab_ground_elev_source as 'z_grade (grade or floor estimated)'."
  ],
  "numbers": {
   "assets_by_type": {
@@ -251,7 +269,7 @@
   },
   "assets_without_ground_elevation": 0,
   "assets_without_terrain_elevation": 0,
-  "building_value_total_usd": 41195360529,
+  "building_value_total_usd": 48370640327,
   "buildings": 17744,
   "buildings_by_match": {
    "footprint": 671,
@@ -260,18 +278,32 @@
    "footprint+inventory": 587
   },
   "buildings_by_subgrade": {
-   "N": 8750,
+   "N": 8428,
    "Y": 7736,
+   "empty: grade not measured": 322,
    "no row": 1258
   },
   "buildings_ground_from_table": 16164,
   "buildings_ground_from_table_estimated": 4893,
   "buildings_ground_from_terrain_no_row": 1258,
   "buildings_ground_from_terrain_zero_grade": 322,
+  "buildings_subgrade_left_empty_grade_not_measured": 322,
   "buildings_with_elevation_row": 16486,
   "buildings_with_first_floor_height": 16164,
   "buildings_with_inventory": 12328,
   "buildings_with_several_inventory_points": 2480,
+  "buildings_with_several_points_tied_by_inventory_footprint_id": {
+   "buildings": 1923,
+   "points": 5787,
+   "value_of_largest_point_usd": 19206607330,
+   "value_summed_usd": 23912919661
+  },
+  "buildings_with_several_points_tied_by_position": {
+   "buildings": 557,
+   "points": 1939,
+   "value_of_largest_point_usd": 4987074831,
+   "value_summed_usd": 7456042297
+  },
   "buildings_with_storeys": 12328,
   "buildings_with_value": 12328,
   "buildings_with_year_built": 17460,
@@ -322,14 +354,14 @@
   },
   "inventory_points_counted": 17660,
   "inventory_points_inside_a_footprint": 14455,
-  "inventory_points_not_taken_on_buildings_with_several": 5246,
   "inventory_points_on_buildings_with_several": 7726,
   "inventory_points_on_other_footprints": 16,
   "inventory_points_read": 22896,
   "inventory_points_to_nearest_footprint": 3119,
   "inventory_points_unmatched": 86,
+  "inventory_value_largest_point_only_usd": 41195360529,
   "inventory_value_of_points_on_buildings_usd": 48370640327,
-  "inventory_value_taken_usd": 41195360529,
+  "inventory_value_summed_usd": 48370640327,
   "rate_buildings_with_elevation_row": 0.929103,
   "rate_buildings_with_inventory": 0.69477,
   "substation_assets": 6,
@@ -353,10 +385,20 @@
    "untagged": 2
   },
   "substation_assets_on_study_area": 6,
+  "substation_centroid_distances_named_con_edison_m": {
+   "S-250386730 Water Street Substation to S-339711332 Farragut Substation": 281.2,
+   "S-250386730 Water Street Substation to S-383102724 Hudson Avenue Substation": 62.4,
+   "S-250386730 Water Street Substation to S-383110539 Plymouth Substation": 147.4,
+   "S-339711332 Farragut Substation to S-383102724 Hudson Avenue Substation": 251.9,
+   "S-339711332 Farragut Substation to S-383110539 Plymouth Substation": 139.5,
+   "S-383102724 Hudson Avenue Substation to S-383110539 Plymouth Substation": 136.2
+  },
   "substation_outlines_in_assets": 8,
   "substation_outlines_in_square": 12,
   "substation_outlines_traction_left_out": 4,
   "substation_outlines_unclosed_ways": 2,
+  "substation_review_person_reviewed_on": "",
+  "substation_review_reviewed_by": "the coordinating model (Claude), 2026-11-25",
   "substation_value_high_total_usd": 1732000000,
   "substation_value_low_total_usd": 43100000,
   "substation_value_mid_total_kept_usd": 273128297,
@@ -367,14 +409,20 @@
  },
  "parameters": [
   {
+   "name": "substation_grouping_rule",
+   "source": "flood_lab.assets.substations.group_outlines",
+   "tag": "P",
+   "value": "outlines with the same name within 300 m of each other are one asset; outlines with no name are grouped among themselves within 150 m; outlines with different names are never merged, however close; rail traction substations are left out"
+  },
+  {
    "name": "same_name_gap_m",
-   "source": "",
+   "source": "outlines with the same name",
    "tag": "P",
    "value": 300.0
   },
   {
    "name": "unnamed_gap_m",
-   "source": "FD3 (150 m)",
+   "source": "outlines with no name, FD3 (150 m)",
    "tag": "P",
    "value": 150.0
   },
