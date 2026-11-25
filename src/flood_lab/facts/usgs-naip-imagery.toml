@@ -1,0 +1,236 @@
+id = "usgs-naip-imagery"
+title = "Aerial imagery of the F1 area: USGS NAIP (TNM image services) and NYS orthoimagery"
+publisher = "USGS / USDA Farm Service Agency (NAIP); New York State ITS GIS Program Office (NYS orthoimagery)"
+checked_on = "2026-11-25"
+stage = "F1"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD3"]
+known_biases = "Imagery is for looking at substations, not for measurement; each image is a single date (NAIP 2019-08-30 in leaf-on summer, NYS 2018 in spring). It does not show the study events and cannot show change since its date."
+
+[[fact]]
+name = "naip_years_resolution"
+claimed = "which years cover NYC, resolution"
+observed = "At the centre point (lon -73.9710, lat 40.7040) the USGSNAIPImagery and USGSNAIPPlus catalogues hold one source image: NAIP quad m_4007317_nw_18_060_20190830, year 2019, acquired 2019-08-30, 0.6 m, 4 bands (CNIR), USDA-FSA-APFO. Service: mosaic 'primarily of 0.6 meter resolution 4-band imagery'. No other NAIP year for the point appeared in either catalogue."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query"
+passage = "Year 2019, acquisition_date 1567123200000, resolution_value 0.6, resolution_units METER, band_count 4, vendor USDA-FSA-APFO ; The USGS NAIP Imagery service is a mosaic primarily of 0.6 meter resolution 4-band imagery"
+note = "An envelope query returned unrelated Alabama tiles and was discarded; only the point query was relied on. Older NYC NAIP years (for example 2017) may exist but were not returned."
+verdict_note = ""
+
+[[fact]]
+name = "naip_licence"
+claimed = "public domain?"
+observed = "The service description says NAIP imagery downloads are public domain; copyright text 'USGS, USDA, The National Map: Orthoimagery. January 09, 2025.' No separate terms page was read."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json"
+passage = "allows free downloads of public domain, NAIP compressed orthoimagery in JPEG 2000 (.jp2) format"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "naip_request"
+claimed = "how a small picture is requested"
+observed = "exportImage on the ImageServer with bbox, bboxSR, imageSR, size, format and f=image. The request used (400 m square in EPSG:32618 so the ground size is exact; image 800 x 800 px = 0.5 m per pixel, finer than the 0.6 m native): https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=586727.18,4506208.19,587127.18,4506608.19&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image . Service limit maxImageWidth/Height 4000. Result: 800 x 800 RGB PNG, 542,904 B, HTTP 200."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage"
+passage = "maxImageWidth 4000, maxImageHeight 4000 ; response content-type image/png"
+note = "Centre of the square in UTM 18N is (586927.18, 4506408.19), from lon -73.9710, lat 40.7040 by pyproj."
+verdict_note = ""
+
+[[fact]]
+name = "nys_orthos"
+claimed = "NYS GIS orthoimagery as an image service"
+observed = "https://orthos.its.ny.gov/arcgis/rest/services lists the ImageServer 2018_4Band (4-band, natural colour or CIR, native pixel 0.1524 m = 6 in, up to 40,000 x 40,000 px per export, extent covering NYC) and a wms/ folder of year MapServers up to 2025 plus Latest, NAIP_2019. The program page lists Kings County as flown in 2026, 2024, 2022, 2020, 2018, 2016, 2014, 2012, 2010 and earlier. Test image from 2018_4Band, same square and size: 800 x 800 RGB PNG, 1,388,544 B: https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=586727.18,4506208.19,587127.18,4506608.19&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+outcome = "confirmed"
+source_url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json"
+passage = "pixelSizeX 0.1524003048006096 ; description: 4-Band ESRI Dynamic Image Service for 2018 orthoimagery ; program page: 2018 18 Bronx, Broome, ... Kings, New York, ..."
+note = "The acquisition dates of lot 18 were not read (the lot page returned 404); only the year 2018 is known. Years 2020 to 2024 exist for Kings County per the program page and are served by the wms MapServers; they were not fetched."
+verdict_note = ""
+
+[[fact]]
+name = "nys_licence"
+claimed = "terms"
+observed = "The service record has licenseInfo and accessInformation empty; copyright text 'NYS ITS GIS Program Office'. The terms of use were not read."
+outcome = "not checked"
+source_url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json"
+passage = "copyrightText: NYS ITS GIS Program Office ; licenseInfo: null"
+note = "The program page links a Disclaimer at https://gis.ny.gov/ ; it was not opened."
+verdict_note = ""
+
+[[fact]]
+name = "nyc_ortho"
+claimed = "NYC's own orthoimagery as public tile or image service"
+observed = "Not obtained. https://maps.nyc.gov/arcgis/rest/services returned HTTP 490 (an HTML page, not a service list). The tile address pattern https://maps.nyc.gov/xyz/1.0.0/photo/<year>/18/77207/98569.png8 for 2016, 2018, 2020, 2022 and 2024 returned HTTP 200 with the same 10,519-byte PNG each time (identical checksum, a placeholder), so no NYC imagery was seen. Whether NYC offers ortho tiles at another address, their year, resolution and terms: not checked."
+outcome = "not checked"
+source_url = "https://maps.nyc.gov/xyz/1.0.0/photo/2018/18/77207/98569.png8"
+passage = "HTTP 200, 10519 bytes, identical for five years"
+note = "The tile pattern was recalled, not read from a NYC page; the failure is not evidence that no service exists."
+verdict_note = ""
+
+[[fact]]
+name = "detail_comparison"
+claimed = "which source shows more detail"
+observed = "The NYS 2018 image (0.15 m native) shows more detail than NAIP 2019 (0.6 m native): cars, roof equipment and container stacks resolve in NYS, while NAIP shows them as blocks. The NAIP image is leaf-on summer (2019-08-30), the NYS image spring (leaf-off, year 2018)."
+outcome = "confirmed"
+source_url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage"
+passage = "pixelSizeX 0.1524 vs resolution_value 0.6"
+note = "Judgement from viewing the two test PNGs of the same square; no measurement."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer ; https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer ; https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer"
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json"
+passage = "HTTP 200"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "RGB (NAIP four band R, G, B, NIR; the PNG is RGB), orthorectified image, UTM 18N NAD83 source tiles."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query"
+passage = "band_count 4, projection_name UTM, projection_zone 18N, datum NAD83"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "NAIP service: conterminous US; NYS service extent as given in the record (Web Mercator, from about lon -77.6 to -73.4 east-west; New York State, including the box)."
+outcome = "confirmed"
+source_url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json"
+passage = "extent xmin -8641406.14 ymin 4937244.81 xmax -8173099.82 ymax 5448297.75 (wkid 102100)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "NAIP at the point: 2019-08-30. NYS service 2018_4Band: 2018."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query"
+passage = "acquisition_date 1567123200000"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "NAIP service copyright text dated January 09, 2025 (NAIPPlus March 12, 2025). NYS: not stated."
+outcome = "confirmed"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json"
+passage = "copyrightText: USGS, USDA, The National Map: Orthoimagery. January 09, 2025."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "None published for service responses; sha256 of the saved files is in the [[file]] records."
+outcome = "not applicable"
+source_url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "f1/imagery/img/naip_usgs_400m_800px.png"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?bbox=586727.18,4506208.19,587127.18,4506608.19&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+bytes = 542904
+sha256 = "f95dd20eae5acd0a893e77fdde733fb586f9103eb244b804fb53a73fae6f9810"
+fetched_at = "2026-11-25T19:21:30Z"
+
+[[file]]
+path = "f1/imagery/img/nys_2018_400m_800px.png"
+url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage?bbox=586727.18,4506208.19,587127.18,4506608.19&bboxSR=32618&imageSR=32618&size=800,800&format=png&f=image"
+bytes = 1388544
+sha256 = "a497d0922a99b244a696b3f2db46be01df129c92b77e8322978a809f64702ef3"
+fetched_at = "2026-11-25T19:22:00Z"
+
+[[file]]
+path = "f1/imagery/raw/naip_imageserver.json"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json"
+bytes = 7184
+sha256 = "750f4e8ca6a525091876440712c40c85c953c67c5d0bebcc28e5fbeed52c40be"
+fetched_at = "2026-11-25T19:21:00Z"
+
+[[file]]
+path = "f1/imagery/raw/naipplus_imageserver.json"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer?f=json"
+bytes = 7632
+sha256 = "ffb936eb9d8e3ac80b48693f4c6e88b2c0a655238a606a41ebbb63f9a0b901e8"
+fetched_at = "2026-11-25T19:21:01Z"
+
+[[file]]
+path = "f1/imagery/raw/query_USGSNAIPImagery.json"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query (point -73.9710,40.7040, outFields=*)"
+bytes = 63323
+sha256 = "f9759fc5497d8457b4f9c8586ed1ea0638d17b20da46480e694259adf60df5e0"
+fetched_at = "2026-11-25T19:21:07Z"
+
+[[file]]
+path = "f1/imagery/raw/query_USGSNAIPPlus.json"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/query (point -73.9710,40.7040, outFields=*)"
+bytes = 63347
+sha256 = "dd21fbd3a6f05153c13521a996aca1eeafe7ec7620e44aaf829d575ef42896c2"
+fetched_at = "2026-11-25T19:21:07Z"
+
+[[file]]
+path = "f1/imagery/raw/naip_exportImage_json.json"
+url = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage?...&f=json"
+bytes = 358
+sha256 = "ece83662ac54e31ab23b0deb2e9c0ceaa7cf66ad9f56235cd6f11942b6df1c26"
+fetched_at = "2026-11-25T19:21:30Z"
+
+[[file]]
+path = "f1/imagery/raw/nys_2018_4band.json"
+url = "https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json"
+bytes = 3766
+sha256 = "a062954e8977efb4dc95078f9b59a9ab70e31c591137d091eecd70a68aa526a8"
+fetched_at = "2026-11-25T19:21:44Z"
+
+[[file]]
+path = "f1/imagery/raw/nys_orthos_wms_folder.json"
+url = "https://orthos.its.ny.gov/arcgis/rest/services/wms?f=json"
+bytes = 2284
+sha256 = "d0832dc16930b2e3885d4cc687fa4216bd5ba81ab119691f4f11ba4c22d6e92e"
+fetched_at = "2026-11-25T19:21:44Z"
+
+[[file]]
+path = "f1/imagery/raw/nys_orthos_root_full.json"
+url = "https://orthos.its.ny.gov/arcgis/rest/services?f=json"
+bytes = 129
+sha256 = "16f8e4ef560aa2c4f730cdbed5b7be49db4802d23253ce59264612994297213f"
+fetched_at = "2026-11-25T19:21:44Z"
+
+[[file]]
+path = "f1/imagery/raw/nys_orthoimagery_program.html"
+url = "https://gis.ny.gov/orthoimagery"
+bytes = 46108
+sha256 = "baa487ee58aa40efd7140be5fa40303bb0c733d69ebef6ed494b6bc845672367"
+fetched_at = "2026-11-25T19:38:33Z"

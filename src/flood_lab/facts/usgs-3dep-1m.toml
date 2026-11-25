@@ -1,0 +1,243 @@
+id = "usgs-3dep-1m"
+title = "USGS 3DEP 1 m DEM tiles over the F1 study box (north Brooklyn, 500 m margin)"
+publisher = "U.S. Geological Survey, 3D Elevation Program"
+checked_on = "2026-11-25"
+stage = "F1"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD2", "FH2"]
+known_biases = "Bare-earth model from 2013-14 lidar: buildings, grading, drainage and shoreline changes since then are absent. Water is hydro-flattened (a flat surface, here at -1.62 m), so water depth and channel shape are not terrain. Elevations are NAD83/NAVD88 metres; the tile CRS is EPSG:26918 (NAD83), the project CRS EPSG:32618 (WGS84); the two differ by about a metre at most and the numbers were used unchanged. Flight dates are a project range, not per-flight dates."
+
+[[fact]]
+name = "facts_identifier"
+claimed = "USGS 3DEP 1 m DEM for the box, vintage before September 2021"
+observed = "The National Map API lists 4 tiles of the 1 m DEM intersecting the margin box (total=4): (1) 'USGS one meter x58y451 NY CMPG 2013', project NY_CMPG_2013, published 2020-03-30, 269,599,375 B per API; (2) 'USGS one meter x59y451 NY CMPG 2013', same project, published 2020-03-30, 402,286,182 B; (3) 'USGS one meter x58y451 NJ SdL5 2014', project NJ_SdL5_2014, published 2020-03-30, 34,686,894 B; (4) 'USGS 1 Meter 18 x58y451 NJ_NE6County_B23', project NJ_NE6County_B23, published 2026-09-17, 45,328,865 B. ScienceBase item ids: 5eacfcc382cefae35a25102c (CMPG x58), 5eacfd5f82cefae35a25140e (CMPG x59), 5eacfcc382cefae35a251028 (SdL5 x58), 6aac9d8b1ba49b6a17badefa (B23 x58). Tile ids x58y451 and x59y451 are 3DEP 10 km tile indices (UTM 18N)."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "items[].title / publicationDate / sizeInBytes / downloadURL, total=4"
+note = "The API listed no A24 (2024) or Z18_2014 tiles for this box, unlike the earlier F0 listing of a wider rectangle. The only post-Ida tile is B23 (not downloaded). API sizeInBytes differs by a few kB from the object sizes on S3 (downloaded CMPG x58 is 269,595,298 B, x59 402,288,761 B, SdL5 34,682,947 B)."
+verdict_note = ""
+
+[[fact]]
+name = "lidar_flight_dates"
+claimed = "terrain flown before September 2021 preferred; vintage known"
+observed = "NY_CMPG_2013 (x58 and x59 tiles): source lidar begin 2013-08-06, end 2014-04-21. NJ_SdL5_2014 (x58): the same dates are stated, 2013-08-06 to 2014-04-21 (a copy of the CMPG range; the tile holds no data over the box, see coverage_space). NJ_NE6County_B23 (x58): begin 2023-04-13, end 2025-04-09, after Ida; listed, not downloaded. Only the project range is given; the individual flight dates inside the range are not in the tile metadata."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "<begdate>20130806</begdate> <enddate>20140421</enddate> ; B23: <begdate>20230413</begdate> <enddate>20250409</enddate> ; ScienceBase dates: {'type': 'Start', 'dateString': '2013-08-06'}, {'type': 'End', 'dateString': '2014-04-21'}"
+note = "B23 passage from https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NJ_NE6County_B23/USGS_1M_18_x58y451_NJ_NE6County_B23.xml. 'current' is stated as 'publication date'. Both 2013-14 and the B23 flights straddle nothing relevant: 2013-14 pre-dates 2021-09-01 and 2023-09-29 by years."
+verdict_note = ""
+
+[[fact]]
+name = "tile_chosen_and_downloaded"
+claimed = "download the pre-Ida tile(s) covering the box"
+observed = "Downloaded the two NY_CMPG_2013 tiles (672 MB, under the 1.2 GB limit) and the small NJ_SdL5_2014 tile (35 MB) for comparison. USGS_one_meter_x58y451_NY_CMPG_2013.tif alone covers the whole margin box and the study square; x59y451 adds only 6 columns (easting 589994 to 590000), which equal the x58 values to within 1e-6 m, so it is not needed. The SdL5 tile has no data over the box. Total downloaded about 707 MB."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "x58 raster bounds 579994 to 590006 E, 4499994 to 4510006 N; x59 bounds 589994 to 600006 E"
+note = "Reads from f1/terrain/raw/raster_facts_output.txt (script f1/scripts/raster_facts.py, run with uv rasterio<1.5.2) and f1/terrain/raw/raster_water_output.txt"
+verdict_note = ""
+
+[[fact]]
+name = "horizontal_crs_resolution"
+claimed = "1 m cells, project CRS EPSG:32618"
+observed = "All three files: CRS EPSG:26918 (NAD83 / UTM zone 18N), pixel size 1.0000000000003024 x 1.000000000000279 m (x58) and 1.0000000000000464 x 1.0 m (x59), size 10012 x 10012 px, float32, LZW. Bounds x58 (579993.9999999972, 4499993.999999997, 590006.0000000002, 4510006.0); x59 (589993.9999999998, 4499994.0, 600006.0000000002, 4510006.0). Nodata value -3.4028234663852886e+38. Tile sizes are 10,000 m plus a 6 m overlap each side."
+outcome = "confirmed"
+source_url = "f1/terrain/raw/raster_facts_output.txt (script f1/scripts/raster_facts.py, run with uv rasterio<1.5.2)"
+passage = "crs EPSG:26918 ... res (1.0000000000003024, 1.000000000000279) size 10012 10012 bounds (579993.9999999972, 4499993.999999997, 590006.0000000002, 4510006.0) nodata -3.4028234663852886e+38 dtype float32 compress lzw"
+note = "The raster header carries no vertical CRS (WKT has no VERT_CS)."
+verdict_note = ""
+
+[[fact]]
+name = "vertical_datum"
+claimed = "vertical datum recorded, metres"
+observed = "Metadata text: elevations in metres referenced to NAVD88; horizontal NAD83 UTM. The GeoTIFF header does not repeat it."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "All bare earth elevation values are in meters and are referenced to the North American Vertical Datum of 1988 (NAVD88)."
+note = "Geoid model not named in the tile record."
+verdict_note = ""
+
+[[fact]]
+name = "box_elevation_statistics"
+claimed = "min, max, mean elevation for the margin box"
+observed = "From USGS_one_meter_x58y451_NY_CMPG_2013.tif, margin box 585000-590000 E, 4504000-4509000 N (5000 x 5000 = 25,000,000 px): min -13.489982 m, max 31.369986 m, mean 9.228181 m, nodata pixels 0, pixels <= 0 m: 2,632,085 (10.53 %), of which exactly 0 m: 0. Study square 585500-589500 E, 4504500-4508500 N (16,000,000 px): min -13.489982, max 31.369986, mean 8.230928, nodata 0, <= 0 m: 1,900,819. The x59 sliver (6 x 5000 px): min 2.46, max 22.77, mean 12.31, no nodata."
+outcome = "confirmed"
+source_url = "f1/terrain/raw/raster_facts_output.txt (script f1/scripts/raster_facts.py, run with uv rasterio<1.5.2)"
+passage = "margin box ... valid 25000000 nodata 0; min -13.490 max 31.370 mean 9.228; <=0 m: 2632085"
+note = "Computed locally; the same box on the x58 tile read in raster_water.py gives identical counts."
+verdict_note = ""
+
+[[fact]]
+name = "water_treatment"
+claimed = "water is often hydro-flattened: what does the metadata say"
+observed = "The tile metadata carries only the theme keyword Hydro-Flattened and no description of how water was treated. In the raster, 2,570,523 pixels (10.28 % of the margin box, 1,846,518 in the study square) hold exactly -1.62 m, one constant value, consistent with a flat water surface; 32,846 pixels are below -5 m and 28,615 below -10 m (minimum -13.49), values near -12.8 m being the most common among them. What those deep values are (channel or dredged-area bathymetry, or artefacts) is not stated in the metadata and was not determined."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "<themekey>Hydro-Flattened</themekey>"
+note = "The reading of -1.62 m as the flattened river surface is an inference from the constant value. Pixels at or below 0 m are water for the most part; they are not land terrain."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = "tiles cover the margin box"
+observed = "x58y451 (CMPG 2013) covers the whole margin box without a nodata pixel. x59y451 covers a 6-pixel strip at the east edge. SdL5 x58y451 covers the same footprint but holds only nodata inside the box. B23 x58y451 footprint is the same tile (westbc -74.0538, eastbc -73.9341, southbc 40.6460, northbc 40.7371)."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "<westbc>-74.0538775123266</westbc> <eastbc>-73.9340434991584</eastbc> <northbc>40.7371094337443</northbc> <southbc>40.6458956206065</southbc>"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = "vintage known"
+observed = "Pre-Ida product: 2013-08-06 to 2014-04-21 (NY_CMPG_2013), published 2020-03-30. Post-Ida tile also covers the box: B23, 2023-04-13 to 2025-04-09, published 2026-09-17, 45,328,865 B (not downloaded): https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NJ_NE6County_B23/TIFF/USGS_1M_18_x58y451_NJ_NE6County_B23.tif"
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "publicationDate 2020-03-30 ; 2026-09-17"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Listing: https://tnmaccess.nationalmap.gov/api/v1/products (HTTP 200; the ScienceBase API answered 502 once and 200 on retry). Downloads: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/TIFF/USGS_one_meter_x58y451_NY_CMPG_2013.tif and ..._x59y451_NY_CMPG_2013.tif and NJ_SdL5_2014/TIFF/USGS_one_meter_x58y451_NJ_SdL5_2014.tif"
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "items[].downloadURL"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "public domain"
+observed = "USGS 3DEP products are public domain; acknowledgement of the originating agencies is requested; the standard USGS disclaimer applies."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "All 3DEP products are public domain. ; Acknowledgement of the originating agencies would be appreciated in products derived from these data."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Single band float32 bare-earth elevation, metres, NAVD88, 1 m grid."
+outcome = "confirmed"
+source_url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+passage = "The elevations in this DEM represent the topographic bare-earth surface."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "NY_CMPG_2013 and NJ_SdL5_2014 tiles published 2020-03-30 (file modification 2020-11-17); B23 published 2026-09-17."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "publicationDate"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No checksum is published for the tiles (ScienceBase file entries carried none; the S3 ETag of x58 is 0d15f3b186cc41774a4cec0ac41d2d1c-52, a multipart ETag, not an MD5). sha256 of the downloaded files is in the [[file]] records."
+outcome = "not applicable"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NY_CMPG_2013.tif"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/TIFF/USGS_one_meter_x58y451_NY_CMPG_2013.tif"
+bytes = 269595298
+sha256 = "212a8b14b1f2b4976c88f8bcd7f54f6b8d12e202856c89e6ffe49f91173d1aaa"
+fetched_at = "2026-11-25T19:13:25Z"
+
+[[file]]
+path = "f1/terrain/usgs-1m/USGS_one_meter_x59y451_NY_CMPG_2013.tif"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/TIFF/USGS_one_meter_x59y451_NY_CMPG_2013.tif"
+bytes = 402288761
+sha256 = "f261d410cda4c8ba474244fbaddf6701306a2eeb53fe0b31e6ed86db12e4c0e1"
+fetched_at = "2026-11-25T19:14:46Z"
+
+[[file]]
+path = "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NJ_SdL5_2014.tif"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NJ_SdL5_2014/TIFF/USGS_one_meter_x58y451_NJ_SdL5_2014.tif"
+bytes = 34682947
+sha256 = "f2b292281c554cb95b44f1063c19191e954320ab89ea47b883558ec2e07ee965"
+fetched_at = "2026-11-25T19:14:51Z"
+
+[[file]]
+path = "f1/terrain/raw/tnm_1m_margin.json"
+url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-73.9941,40.6820,-73.9343,40.7275&max=100"
+bytes = 15280
+sha256 = "7ccb9e4dcf43ab208154e5bab91c86f625bca5e8be316d1a89a6a91ac433dd9a"
+fetched_at = "2026-11-25T19:19:00Z"
+
+[[file]]
+path = "f1/terrain/raw/sb_B23_x58y451.json"
+url = "https://www.sciencebase.gov/catalog/item/6aac9d8b1ba49b6a17badefa?format=json"
+bytes = 10002
+sha256 = "bb5f4ce37bfa194341eb8806ffa977319e1737723d310ce39084375a263900e8"
+fetched_at = "2026-11-25T19:19:15Z"
+
+[[file]]
+path = "f1/terrain/raw/sb_SdL5_x58y451.json"
+url = "https://www.sciencebase.gov/catalog/item/5eacfcc382cefae35a251028?format=json"
+bytes = 10542
+sha256 = "5a276a4e6f67671555d9a5f71c93dadb450f29ae748d7735cf5eee8ec0785f75"
+fetched_at = "2026-11-25T19:19:33Z"
+
+[[file]]
+path = "f1/terrain/raw/sb_CMPG_x58y451.json"
+url = "https://www.sciencebase.gov/catalog/item/5eacfcc382cefae35a25102c?format=json"
+bytes = 10543
+sha256 = "72ae78b12dadfe2b2b6028f9559f945a086a8095b4ac33b855ba85630b09cc03"
+fetched_at = "2026-11-25T19:20:14Z"
+
+[[file]]
+path = "f1/terrain/raw/sb_CMPG_x59y451.json"
+url = "https://www.sciencebase.gov/catalog/item/5eacfd5f82cefae35a25140e?format=json"
+bytes = 10543
+sha256 = "5fad90c719539273dd48bb85e47f7f5db89dd42a929eddc3ba349a1697e15f2b"
+fetched_at = "2026-11-25T19:20:30Z"
+
+[[file]]
+path = "f1/terrain/raw/meta_CMPG_x58y451.xml"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x58y451_NY_CMPG_2013_meta.xml"
+bytes = 12215
+sha256 = "714de20056bda21597347846a2f22512bbc9f4efb5cc94aff146f27815f704bc"
+fetched_at = "2026-11-25T19:20:31Z"
+
+[[file]]
+path = "f1/terrain/raw/meta_CMPG_x59y451.xml"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_CMPG_2013/metadata/USGS_one_meter_x59y451_NY_CMPG_2013_meta.xml"
+bytes = 12215
+sha256 = "d322d58d04087bb9e9d7dee336f86f6a9f5ac99c76e5872afcae44ee897b16e8"
+fetched_at = "2026-11-25T19:20:31Z"
+
+[[file]]
+path = "f1/terrain/raw/meta_SdL5_x58y451.xml"
+url = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NJ_SdL5_2014/metadata/USGS_one_meter_x58y451_NJ_SdL5_2014_meta.xml"
+bytes = 12214
+sha256 = "25d798e7a40fd9a69e9c3002e55bf3d5c455769d8e32d04245337eab06b7a663"
+fetched_at = "2026-11-25T19:20:32Z"
+
+[[file]]
+path = "f1/terrain/raw/meta_B23_x58y451.xml"
+url = "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NJ_NE6County_B23/USGS_1M_18_x58y451_NJ_NE6County_B23.xml"
+bytes = 13730
+sha256 = "3c201a40214b29c2634242c8f851f94e2e5875d11bd202c296ae540c75fb25f7"
+fetched_at = "2026-11-25T19:20:32Z"

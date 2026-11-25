@@ -2,7 +2,7 @@
 
 # Data card: National Structure Inventory (NSI) 2026 Base
 
-Level of check (FS7): **facts checked: 9 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 9 confirmed, 0 differs, 1 not checked, 1 not applicable.
+Level of check (FS7): **facts checked: 11 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 0 differs, 1 not checked, 1 not applicable.
 
 | | |
 | --- | --- |
@@ -24,6 +24,7 @@ Paths are relative to `data/cache/flood/` (not committed).
 | usace-national-structure-inventory/docs/frequently-asked-questions.html | 94,756 | d7f4557b100c80d01aa9514909e52f3247eebbcaf5817fbe52dfde1d81ed4fde | 2026-11-25T16:56:49Z | <https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/frequently-asked-questions> |
 | usace-national-structure-inventory/docs/release-notes.html | 96,107 | a4020654f804ec98741ed5df9a2feef339d15784c343fe16ba333781c17d1626 | 2026-11-25T16:56:50Z | <https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/release-notes> |
 | usace-national-structure-inventory/docs/technical-documentation.html | 153,256 | c0319ff9f2f5c4fcd5972aa93c8de6b26fec320b2c7f54972c9c2b642442a8e9 | 2026-11-25T16:56:51Z | <https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation> |
+| usace-national-structure-inventory/nsi\_f1\_box.json | 20,114,815 | 51651f224f0b5d9c579c8fda51fde6392ea607ce7af8e12c7399d8163ad7c937 | 2026-11-25T19:12:03Z | <https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.9900,40.6850,-73.9900,40.7245,-73.9385,40.7245,-73.9385,40.6850,-73.9900,40.6850> |
 
 ## Known biases
 
@@ -46,6 +47,8 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Coverage in time | – | Describes current conditions, not 2021 or earlier: price level August 2025, population level April 2025, FIRM zone joined 2025 (firmzone &quot;Estimated 2025 flood zone&quot;), Census 2020 blocks. Buildings built or changed after 2021-09 are included. | confirmed | <https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation> | – |
 | Release | – | NSI 2026 Base; the pages give no release date or version number beyond &quot;2026&quot;. The previous base version was 2022. | confirmed | <https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/release-notes> | – |
 | Checksum | – | No publisher checksum for API output. SHA-256 of my sample is in the \[\[file\]\] entry. | not applicable | <https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.96,40.66,-73.96,40.67,-73.95,40.67,-73.95,40.66,-73.96,40.66> | – |
+| structures in study box | – | 22,896 structure records in one FeatureCollection (HTTP 200, 20,114,815 bytes, 42 property fields per record). By county of the census block (cbfips prefix): 21,452 Kings (36047, Brooklyn) and 1,444 New York (36061, Manhattan). By st\_damcat: RES 15,355; COM 5,808; PUB 953; IND 780. By occupancy-type family (letters of occtype): RES 15,645 (RES3 14,624, RES1 731, RES4 223, RES5 59, RES6 8); COM 5,490 (COM1 1,532, COM8 1,158, COM4 999, COM2 674, COM7 548, COM3 542, COM5 22, COM9 10, COM6 5); IND 780 (IND2 543, IND5 132, IND3 78, IND1 19, IND4 8); REL 629; EDU 274; GOV 50; AGR 28. Commonest occtype: RES3B 5,042; RES3A 4,125; RES3C 2,705; COM1 1,437; COM8 1,158; RES3D 1,034; COM4 999; RES3E 942. By foundation type found\_type: B (basement) 17,118 (74.8%); S (slab) 5,416; C (crawl) 362; no P, I, F or W. found\_ht (ft): min 0.25, first quartile 2, median 2, third quartile 2, max 2, mean 1.59, no nulls; values 0.25 (4,690), 0.5 (695), 0.75 (31), 2.0 (17,480) only. val\_struct (depreciated replacement value, USD, August 2025): sum 64,510,636,650 (64.5 billion), median 552,126; minimum 199, maximum 494,780,196; fullrep (not depreciated) sum 87,026,696,899. source: P (parcel) 15,543, H (HIFLD) 7,353. | confirmed | <https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.9900,40.6850,-73.9900,40.7245,-73.9385,40.7245,-73.9385,40.6850,-73.9900,40.6850> | Statistics are mine (scripts analyse\_f1.py, nsi\_county.py in f1/scripts). The st\_damcat classes and the occtype letters disagree (occtype REL, EDU, GOV fall under PUB in st\_damcat, as inferred from the counts; not read from the documentation). found\_ht takes only four values and is 2 ft for 76% of records, which looks like assignment from foundation-type rules, not measurement (same observation as in the F0 sample). The study&\#x27;s Brooklyn buildings are those with cbfips starting 36047; the box also returns 1,444 Manhattan records. |
+| join fields to city buildings | which identifier fields could join it to the city&\#x27;s buildings | There is no BIN, BBL or DOITT id in the 42 fields. What exists: (1) x, y: WGS84 longitude and latitude of the structure point (all inside the box; the structure is placed at the footprint or parcel centroid), so the join to city footprints or BES centroids is spatial (point in polygon, or nearest); (2) fd\_id: integer, unique per record (22,896 distinct), the NSI&\#x27;s own record key; (3) bid: text built on an Open Location Code (plus code) of the footprint plus suffixes, for example &quot;87G8M2RX+Q8H-3-4-3-4&quot;, filled in 11,596 records, empty (&quot;&quot;) in the others; (4) ftprntid: footprint id, either &quot;none\_&lt;number&gt;&quot; (11,300 records) or &quot;&lt;county FIPS&gt;\_&lt;number&gt;&quot; such as &quot;36047\_158616&quot; (5,647 distinct values over the other 11,596 records, so several records share a footprint: stacked structures); (5) usastrucid: filled in 9,744 records (for example &quot;7913338&quot;), empty in the others; (6) cbfips: 15-digit Census 2020 block id; (7) ftprntsrc: footprint source (P 11,280; NGA 9,657; Bing 1,852; ORNL 87; H 20). None of the ids was matched to a city id here. | confirmed | <https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.9900,40.6850,-73.9900,40.7245,-73.9385,40.7245,-73.9385,40.6850,-73.9900,40.6850> | No spatial join was run in this task, so the match rate of NSI points to city footprint polygons is not known. Note the NSI footprint ids (FIPS\_number, Bing, NGA) are not the city&\#x27;s BIN or DOITT id. The meaning of bid, ftprntid and usastrucid is inferred from values; the documentation page was not re-read for these three. |
 
 ### Passages
 
@@ -112,5 +115,17 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 <details><summary>Passage: Checksum</summary>
 
 <pre>n/a</pre>
+
+</details>
+
+<details><summary>Passage: structures in study box</summary>
+
+<pre>FeatureCollection of 22896 features (my count) ; found_type {&#x27;B&#x27;: 17118, &#x27;S&#x27;: 5416, &#x27;C&#x27;: 362} ; found_ht value counts {0.25: 4690, 0.5: 695, 0.75: 31, 2.0: 17480} ; val_struct median 552126.358368, sum 64510636650.06361</pre>
+
+</details>
+
+<details><summary>Passage: join fields to city buildings</summary>
+
+<pre>first feature: geometry {&#x27;type&#x27;: &#x27;Point&#x27;, &#x27;coordinates&#x27;: [-73.952602, 40.694044]} ; properties bid &#x27;&#x27;, fd_id 74109145, ftprntid &#x27;none_265587&#x27;, usastrucid &#x27;&#x27;, ftprntsrc &#x27;P&#x27;, cbfips &#x27;360470241001000&#x27; ; another record: bid &#x27;87G8M2RX+Q8H-3-4-3-4&#x27;, usastrucid &#x27;7913338&#x27;</pre>
 
 </details>

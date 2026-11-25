@@ -1,15 +1,19 @@
-"""F0, step 4: turn the fact drafts in the cache into the committed facts files.
+"""Turn the fact drafts in the cache into the committed facts files (requirement FS6).
 
-The drafts were written by lookup agents from the publishers' own pages and files
-(``data/cache/flood/f0/facts-draft/<id>.toml``, each fact with the address read and the passage).
-The coordinator reviews them and gives every fact its outcome. This script applies that review: the
-outcome the draft proposed stands unless ``VERDICTS`` below says otherwise, and each change carries
-its reason. It also adds what the lab uses the source for, the stage and the level of check
-(requirements FS4, FS6, section 7).
+The drafts are written by lookup agents from the publishers' own pages and files, one folder per
+stage (``data/cache/flood/f<n>/facts-draft/<id>.toml``, each fact with the address read and the
+passage). The coordinator reviews them and gives every fact its outcome. This script applies that
+review: the outcome a draft proposed stands unless ``VERDICTS`` below says otherwise, and each
+change carries its reason. It also adds what the lab uses the source for, the stage in which its
+facts were first checked, and the level of check (requirements FS4, FS6, section 7).
 
-    uv run python tools/flood/f0_accept_facts.py
+A later stage may add facts and files to a source an earlier stage checked: drafts of the same id
+are merged in stage order, a later fact of the same name replacing the earlier one.
 
-It refuses to write a file that ``flood_lab.facts`` does not accept.
+    uv run python tools/flood/accept_facts.py
+
+It refuses to write a file that ``flood_lab.facts`` does not accept. Facts files with no draft
+(written by the coordinator itself) are left alone.
 """
 
 from __future__ import annotations
@@ -24,7 +28,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from flood_lab import facts  # noqa: E402
 from lab_common.io import write_text_atomic  # noqa: E402
 
-DRAFTS = ROOT / "data" / "cache" / "flood" / "f0" / "facts-draft"
+CACHE = ROOT / "data" / "cache" / "flood"
 READER = "facts and second reader"
 
 #: id -> (level, second-reader stage, requirement ids)
@@ -55,6 +59,11 @@ SOURCES: dict[str, tuple[str, str, list[str]]] = {
     "hazus-flood-functions": ("facts", "", ["FR2", "FR3", "FM5"]),
     "ice-calculator": ("facts", "", ["FM5"]),
     "fema-bca": ("facts", "", ["FM4"]),
+    "usgs-3dep-1m": ("facts", "", ["FD2", "FH2"]),
+    "nyc-topobathy-2017": ("facts", "", ["FD2"]),
+    "usgs-naip-imagery": ("facts", "", ["FD3"]),
+    "nyc-building-footprints": ("facts", "", ["FD5"]),
+    "substation-cost-sources": ("facts", "", ["FD4"]),
 }
 
 #: (source id, fact name) -> (outcome, reason). Everything else keeps the proposed outcome.
@@ -121,13 +130,13 @@ def _quote(text: str) -> str:
     return '"' + escaped.replace("\t", "\\t") + '"'
 
 
-def _render(draft: dict, level: str, reader_stage: str, used_for: list[str]) -> str:
+def _render(draft: dict, stage: str, level: str, reader_stage: str, used_for: list[str]) -> str:
     lines = [
         f"id = {_quote(draft['id'])}",
         f"title = {_quote(draft['title'])}",
         f"publisher = {_quote(draft['publisher'])}",
         f"checked_on = {_quote(draft['checked_on'])}",
-        'stage = "F0"',
+        f"stage = {_quote(stage)}",
         f"level = {_quote(level)}",
         f"second_reader_stage = {_quote(reader_stage)}",
         "used_for = [" + ", ".join(_quote(item) for item in used_for) + "]",
@@ -177,21 +186,53 @@ def _render(draft: dict, level: str, reader_stage: str, used_for: list[str]) -> 
     return "\n".join(lines) + "\n"
 
 
+def _merged() -> dict[str, tuple[str, dict]]:
+    """Every source's drafts merged in stage order: id -> (first stage, merged draft)."""
+    merged: dict[str, tuple[str, dict]] = {}
+    folders = sorted(CACHE.glob("f*/facts-draft"), key=lambda p: int(p.parent.name[1:]))
+    for folder in folders:
+        stage = folder.parent.name.upper()
+        for path in sorted(folder.glob("*.toml")):
+            draft = tomllib.loads(path.read_text(encoding="utf-8"))
+            if draft["id"] not in merged:
+                merged[draft["id"]] = (stage, {**draft, "fact": [], "file": []})
+            first, whole = merged[draft["id"]]
+            for key in ("title", "publisher", "known_biases"):
+                whole.setdefault(key, draft.get(key, ""))
+            whole["checked_on"] = draft.get("checked_on", whole.get("checked_on", ""))
+            names = {fact["name"]: i for i, fact in enumerate(whole["fact"])}
+            for fact in draft.get("fact", []):
+                if fact["name"] in names:
+                    whole["fact"][names[fact["name"]]] = fact
+                else:
+                    whole["fact"].append(fact)
+            paths = {item["path"]: i for i, item in enumerate(whole["file"])}
+            for item in draft.get("file", []):
+                if item["path"] in paths:
+                    whole["file"][paths[item["path"]]] = item
+                else:
+                    whole["file"].append(item)
+    return merged
+
+
 def main() -> None:
     target = ROOT / "src" / "flood_lab" / "facts"
     seen, problems = [], []
-    for path in sorted(DRAFTS.glob("*.toml")):
-        draft = tomllib.loads(path.read_text(encoding="utf-8"))
-        if draft["id"] not in SOURCES:
-            problems.append(f"{path.name}: no entry in SOURCES")
+    for name, (stage, draft) in sorted(_merged().items()):
+        if name not in SOURCES:
+            problems.append(f"{name}: no entry in SOURCES")
             continue
-        text = _render(draft, *SOURCES[draft["id"]])
-        out = target / f"{draft['id']}.toml"
+        text = _render(draft, stage, *SOURCES[name])
+        out = target / f"{name}.toml"
+        previous = out.read_text(encoding="utf-8") if out.exists() else None
         write_text_atomic(out, text)
         try:
             source = facts.load(out)
         except ValueError as error:
-            out.unlink()
+            if previous is None:
+                out.unlink()
+            else:
+                write_text_atomic(out, previous)
             problems.append(str(error))
             continue
         seen.append((source.id, facts.summary(source)))

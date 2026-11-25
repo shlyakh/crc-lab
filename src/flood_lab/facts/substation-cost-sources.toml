@@ -1,0 +1,212 @@
+id = "substation-cost-sources"
+title = "Public figures for the replacement or construction cost of electrical substations, by voltage class"
+publisher = "Several: MISO; Black & Veatch for WECC; CAISO participating transmission owners (PG&E, SCE); Consolidated Edison (NY PSC Case 22-E-0064)"
+checked_on = "2026-11-25"
+stage = "F1"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD4"]
+known_biases = "None of these is a replacement value of an existing urban substation. MISO and B&V price transmission substations on greenfield, flat, rural assumptions; the California guides price generator interconnection equipment; Con Edison's figures are forecasts for two large indoor New York City substations. Price years differ (2012 or earlier, 2023, 2024, 2025) and some are not stated; figures are reported as stated and are not adjusted. The latest MISO guide (MTEP26, June 2026) keeps its tables in a workbook that was not opened. No distribution (area) substation figure except Con Edison's Idlewild forecast was found."
+
+[[fact]]
+name = "cost_miso_mtep24_substation"
+claimed = "MISO Transmission Cost Estimation Guide: per-position or per-substation costs by kV"
+observed = "TITLE: Transmission Cost Estimation Guide for MTEP24. PUBLISHER: MISO (Midcontinent Independent System Operator). DATE: May 1, 2024 (posted for the Planning Subcommittee, PSC item 04). TABLES: Table 4.2-1 \"Exploratory cost estimate - substation upgrade\" and Table 4.2-2 \"Exploratory cost estimate - new substation\", PDF page 42 (printed page 41). SCOPE: transmission substations, 69 kV to 765 kV; no distribution (area) substations. FIGURES AS STATED. Table 4.2-1, columns 69 / 115 / 138 / 161 / 230 / 345 / 500 / 765 kV. Add 1 position (ring bus): $1.3M, $1.5M, $1.7M, $1.8M, $2.2M, $3.4M, $5.3M, $17.4M. Add 1 position (breaker-and-a-half bus): $1.7M, $2.0M, $2.3M, $2.6M, $3.0M, $4.9M, $7.3M, $21.9M. Add 1 position (double-breaker bus): $2.0M, $2.3M, $2.6M, $2.9M, $3.4M, $5.4M, $8.0M, $22.7M. Add 2 positions (ring bus): $2.5M, $3.0M, $3.3M, $3.7M, $4.3M, $6.8M, $10.6M, $26.7M. Add 2 positions (breaker-and-a-half): $3.2M, $3.7M, $4.1M, $4.6M, $5.4M, $8.6M, $13.0M, $31.7M. Add 2 positions (double-breaker): $4.0M, $4.6M, $5.2M, $5.8M, $6.8M, $10.7M, $15.9M, $37.3M. Table 4.2-2, same columns. 4 positions (ring bus): $7.5M, $8.3M, $9.1M, $9.8M, $11.1M, $15.8M, $22.9M, $47.5M. 4 positions (breaker-and-a-half): $8.9M, $10.0M, $11.0M, $11.9M, $13.6M, $19.8M, $28.7M, $58.8M. 4 positions (double-breaker): $10.3M, $11.5M, $12.7M, $13.9M, $15.9M, $23.7M, $34.6M, $71.3M. 6 positions (ring bus): $9.4M, $10.6M, $11.6M, $12.6M, $14.5M, $21.1M, $30.8M, $63.0M. 6 positions (breaker-and-a-half): $11.4M, $12.9M, $14.2M, $15.5M, $18.0M, $26.9M, $39.3M, $80.8M. 6 positions (double-breaker): $13.4M, $15.2M, $16.8M, $18.4M, $21.3M, $32.3M, $47.4M, $97.3M. Both tables carry the footnote \"Includes contingency (30%) and AFUDC (7.5%)\". PRICE YEAR AS STATED: the guide says \"All cost estimate data in this document are in 2023 U.S. dollars. Cost data was escalated from 2023 U.S. dollars to 2024 U.S. dollars at a rate of 5%.\" (the two sentences do not agree on whether the tables are 2023 or 2024 dollars; not resolved here). INCLUDED: the cost build-up is by Table 2.3-1 to 2.3-12 unit costs: site work, circuit breakers, disconnect switches, bus, voltage and current transformers, power transformer ($/MVA, Table 2.3-7), control enclosure, relay panels, cable and conduit, each with material, installation, foundation; \"All applicable taxes are included\". Whether land is in Tables 4.2-1 and 4.2-2 is not stated in the passages read: Table 3.2-4 gives land required (acre) for a new 4-position substation (for example 3.0 / 3.8 / 4.5 acres at 345 kV for ring / breaker-and-a-half / double-breaker) and Table 2.1 gives land cost per acre separately. Power transformers are NOT in the position tables; Table 2.3-7 gives them in $/MVA by high-side and low-side class, for example 345 kV to 138 kV $6,880 and 138 kV to 138 kV $6,880 (as printed)."
+outcome = "confirmed"
+source_url = "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf"
+passage = "Table 4.2-2: Exploratory cost estimate - new substation | Scope of work 69 kV 115 kV 138 kV 161 kV 230 kV 345 kV 500 kV 765 kV | 4 positions (ring bus) $7.5M $8.3M $9.1M $9.8M $11.1M $15.8M $22.9M $47.5M | Includes contingency (30%) and AFUDC (7.5%) ; All cost estimate data in this document are in 2023 U.S. dollars. Cost data was escalated from 2023 U.S. dollars to 2024 U.S. dollars at a rate of 5%. All applicable taxes are included within the cost subcategories."
+note = "Read from the downloaded PDF with pdftotext -layout (f1/cost/miso-mtep24-guide-20240501.pdf). This is the latest MISO guide that prints the substation tables in the PDF. The MTEP25 (redline, March 2025) and MTEP26 (final, June 10 2026; draft March 11 2026) guides no longer print them: they say \"All tables referenced in this document are included in MISO's Exploratory Cost Estimate Workbook for MTEP26\" and cite the substation tables as Tables 2.4-1 and 2.4-2 and 3.2-1 to 3.2-5 of the workbook; the workbook (xlsx) was not found at any address I could open (the MISO planning pages list no workbook link in their static HTML; the stakeholder page is script-built). So the newest substation figures, MTEP26 in 2026 dollars at +4% escalation from 2025, are NOT checked. No secondary summary is quoted here."
+verdict_note = ""
+
+[[fact]]
+name = "cost_miso_mtep26_guide_status"
+claimed = "MISO Transmission Cost Estimation Guide, latest year"
+observed = "The latest guide is the MTEP26 edition dated June 10, 2026 (PDF 939,975 bytes). Its text says all tables are in MISO's Exploratory Cost Estimate Workbook for MTEP26 and that its cost data are in 2026 U.S. dollars, escalated from 2025 at 4% for most cost categories. The PDF contains no per-position or per-substation dollar figures: its substation sections 2.3, 3.2 and 4.2 describe assumptions only. The workbook address was not found, so the MTEP26 numbers are not checked. A draft of the same guide (March 2026) and the MTEP25 redline (March 2025) were also kept and carry the same statement."
+outcome = "not checked"
+source_url = "https://cdn.misoenergy.org/MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP26337433.pdf"
+passage = "All cost estimate data in this document are in 2026 U.S. dollars. Cost data was escalated from 2025 U.S. dollars to 2026 U.S. dollars at a rate of 4% for most cost categories ... All tables referenced in this document are included in MISO's Exploratory Cost Estimate Workbook for MTEP26. ; ... as shown in Cost Estimate Workbook Tables 2.4-1 and 2.4-2, MISO assumes a new four-position, breaker-and-a-half substation for the AC substation costs connected with a new converter station."
+note = "Reason: the workbook link is not in the PDF and not in the static HTML of https://www.misoenergy.org/planning/transmission-planning/ or of the stakeholder page https://www.misoenergy.org/engage/stakeholder-feedback/2026/psc-transmission-cost-estimation-guide-for-mtep26-20260311/ (script-built). A guess at the MTEP25 final PDF address returned HTTP 403. A person with a browser could download the workbook from MISO's Planning Subcommittee page for 2026-03-11."
+verdict_note = ""
+
+[[fact]]
+name = "cost_bv_wecc_2012"
+claimed = "WECC / Black & Veatch \"Capital Costs for Transmission and Substations\""
+observed = "TITLE: Capital Costs for Transmission and Substations, Recommendations for WECC Transmission Expansion Planning (B&V Project No. 176322). PUBLISHER: Black & Veatch for the Western Electricity Coordinating Council. DATE: October 2012 (the copies read are exhibits: ICNU/201 Mullins in Oregon PUC docket UE 286, filed 2014-07-03, and exhibit PE-22 in a Missouri PSC docket; a later update, February 2014, was not read). ADDRESS READ: the Oregon PUC exhibit PDF (58 pages; the report starts at exhibit page Mullins/1; substation section at PDF pages 38 to 39 and the summary Table 4-2 at PDF page 45), and a 3-page excerpt on the Missouri PSC site. SCOPE: transmission substations at 230, 345, 500 kV (WECC region); no distribution substations. FIGURES AS STATED, columns 230 kV / 345 kV / 500 kV substation. Table 3-1 / 4-2 Base Cost (New Substation): $1,648,000 / $2,060,000 / $2,472,000. Cost Per Line/XFMR Position: $1,442,000 / $2,163,000 / $2,884,000 (Ring Bus Multiplier 1; Breaker and a Half Multiplier 1.5). Transformer cost per MVA: 115/230 kV XFMR $7,000; 138/230 kV $7,000; 230/500 kV $11,000 (in the 230 kV column) ; 115/345 kV $10,000; 138/345 kV $10,000; 230/345 kV $10,000; 345/500 kV $13,000 (345 kV column); 115/500 kV $10,000; 138/500 kV $10,000; 230/500 kV $11,000; 345/500 kV $13,000 (500 kV column). Shunt reactor $20,000 per MVAR (all three); series capacitor $30,000 / $10,000 / $10,000 per MVAR; SVC $85,000 per MVAR; 500 kV HVDC converter station $445,000,000. INCLUDED: the base cost \"include[s] land, substation fence, control building, etc\" and assumes \"flat, barren land with relatively easy site access\"; position costs \"include the breaker, switches, structures, and protection schemes\"; transformer costs \"include foundation and oil containment\". PRICE YEAR: not stated in the passages read (the report speaks of transmission costs \"escalated from the original 2008 values\" for one table); the report is dated October 2012. To build a substation of N positions the report's method is base cost plus N positions plus transformers; no total is printed."
+outcome = "confirmed"
+source_url = "https://edocs.puc.state.or.us/efdocs/HTB/ue286htb14453.pdf"
+passage = "Table 3-1 New Base Substation Capital Costs | EQUIPMENT 230 KV SUBSTATION 345 KV SUBSTATION 500 KV SUBSTATION | Base Cost (New Substation) $1,648,000 $2,060,000 $2,472,000 ; Table 3-2 Line/Transformer Position Cost and Multipliers | Cost Per Line/XFMR Position $1,442,000 $2,163,000 $2,884,000 | Ring Bus Multiplier 1 1 1 | Breaker and a Half Multiplier 1.5 1.5 1.5 ; The new substation costs, which include land, substation fence, control building, etc are identified in Table 3-1 below."
+note = "The Missouri PSC excerpt (3 pages, f1/cost/bv-wecc-mo-efis.pdf) holds Tables 3-3 to 3-5 only; its figures agree with the Oregon copy. Both are copies of the report filed in rate cases, not the publisher's own file; the WECC site address I tried (https://www.wecc.org/Reliability/TEPPC_TransCapCost_BV.pdf) returned 404. No price-year statement was read, so the dollar year is open. 230 kV and 345 kV bases look low against MISO's figures; no adjustment made."
+verdict_note = ""
+
+[[fact]]
+name = "cost_caiso_pge_sce_2025"
+claimed = "CAISO / participating transmission owners' per-unit cost guides"
+observed = "TITLES: \"2025 PG&E Proposed Generator Interconnection Unit Cost Guide\" (revised as of 2025-02-24) and \"2025 Proposed SCE Generator Interconnection Unit Cost Guide\" (revised as of 2025-02-19). PUBLISHER: the transmission owners, posted by the California ISO (library page https://www.caiso.com/library/current-cost-guides, files posted 07/15/2025 as \"Final\"). Spreadsheets; sheet \"Cost Details\"; header cell I1 \"All costs are $x1,000\". SCOPE: transmission-level substation equipment for generator interconnection in California (60/70 to 500 kV), not distribution substations. FIGURES AS STATED (in $ thousands). PG&E, row 6 (columns 60/70 kV, 115 kV, 230 kV, 500 kV): \"Complete loop-in Substation, equipped with one line position to terminate a single gen-tie and loop in and out one existing PG&E T line. 1 complete Bay and 1 Partial Bay - 5 CBs\": 15000 (60/70 kV), 16000 (115 kV), 19000 (230 kV), no value at 500 kV. Row 10, with two existing lines looped (2 complete bays and 1 partial bay, 8 CBs): N/A, 20000, 23000, 65000. Transformer banks: 500/230 kV 4x1-phase (375 MVA each) 45000; 3x1-phase 37000; 230/115 kV 3-phase 420 MVA 11000; 230/60 or 70 kV 3-phase 200 MVA 9000; 115/60 or 70 kV 3-phase 200 MVA 8500. Line positions (60/70, 115, 230, 500 kV): single breaker 2000 / 2200 / 2400 / 6700; breaker-and-a-half (2 CB) 4600 / 5000 / 6000 / 18000; breaker-and-a-half (3 CB) 5600 / 6000 / 7200 / -. SCE, row 6 (columns 66, 115, 138, 230, 500 kV), loop-in substation with one gen-tie line position: 7172.93882743455 (66 kV), 8848.98776910275 (115 kV), N/A (138 kV), 32009.9781779314 (230 kV), 57268.072635732 (500 kV); transformer banks: 230/115 kV 20075.05; 230/66 kV 19846.56; 500/230 kV 3x1-phase 70291.42; single breaker position 2017.99 / 2396.60 / N/A / 3156.04 / 8632.40. INCLUDED (PG&E notes): unit costs \"include costs to procure materials, installation, engineering, project management costs, home office costs, and contingency\" and \"exclude allocated corporate overhead and AFUDC\"; PG&E contingency for substation equipment and installation \"0% (zero %)\"; SCE general contingency factor 35%; land \"will be at actual cost\" (PG&E row 163 \"Land cost for substations and T/L ROW ... Actual\"). PRICE YEAR: the 2025 PG&E file's sheet \"Escalation Rates & Factors\" is headed \"2023 PG&E Proposed Generator Interconnection Unit Cost Guide\" and says \"Current PTO Unit Cost Guide as posted on the CAISO website is in 2023 Constant Dollars.\" (a 2023 sheet left in the 2025 file; the 2025 price year is not stated in the cells read)."
+outcome = "confirmed"
+source_url = "https://www.caiso.com/documents/pge-2025-per-unit-cost-guide-final.xlsx"
+passage = "A2=2025 PG&E Proposed Generator Interconnection Unit Cost Guide ; I1=All costs are $x1,000 ; C6=Complete loop-in Substation, equipped with one line position to ... I6=15000 J6=16000 K6=19000 ; D35=Single Breaker (add third breaker to breaker and a half) I35=2000 J35=2200 K35=2400 L35=6700 ; Escalation Rates & Factors A4=Current PTO Unit Cost Guide as posted on the CAISO website is in 2023 Constant Dollars."
+note = "Files: f1/cost/caiso/pge-2025-per-unit-cost-guide-final.xlsx and sce-2025-per-unit-cost-guide-final.xlsx (SCE also reachable at https://www.caiso.com/documents/sce-2025-per-unit-cost-guide-final.xlsx). The SDG&E and other owners' guides were listed on the library page and not downloaded. These are generator-interconnection unit costs for California, with different scope from MISO's position tables; SCE shows the unrounded values as stored in the cells. The CAISO transmission plans give project-level costs, not unit costs, and were not used."
+verdict_note = ""
+
+[[fact]]
+name = "cost_coned_idlewild_2023"
+claimed = "NY Consolidated Edison rate-case or PSC material with a stated substation cost"
+observed = "TITLE: Petition of Consolidated Edison Company of New York, Inc. for Authorization and Cost Recovery for the Reliable Clean City - Idlewild Project, NY PSC Case 22-E-0064. PUBLISHER: Con Edison, filed with the New York Public Service Commission, August 22, 2023. ADDRESS READ: the DPS document system link above. SCOPE: both. A new 138 kV TRANSMISSION substation and a new 27 kV DISTRIBUTION AREA substation, in Queens, New York City. FIGURES AS STATED: \"Con Edison forecasts the total capital cost of the Project to be approximately $1.2 billion broken downs as follows: approximately $592 million for the Eastern Queens Transmission Substation; approximately $380 million for the Idlewild Distribution Area Substation; and approximately $242 million for electric facilities, e.g., feeders, for the new Springfield Network.\" The funding annex states \"The funding request is based on order of magnitude estimates\" with, in $000s: Eastern Queens $592,105; Idlewild Area Substation $380,127; Jamaica Network Split (Springfield) $242,066; Total Project Cost (including 2028) $1,214,298. DESCRIPTION: Eastern Queens is \"an indoor, 138kV, gas insulated switchgear substation arranged in a double ring bus configuration\" with circuit breakers and four 138 kV connections, expandable to five, and the re-routing of existing feeders 903 and 901 L and M; Idlewild is \"an indoor, 27 kV substation arranged in a double synchronous bus configuration\" with four 93 MVA, 138 kV/27 kV transformers (provision for a fifth), fifty feeder positions (seventeen new 27 kV feeders). Both co-located on a vacant company-owned parcel in Jamaica, Queens. In-service April 2028 (Eastern Queens) and May 2028 (Idlewild). PRICE YEAR: not stated in the passages read; the funding request is by year 2023 to 2028 and the \"Total Project Cost (including 2028)\" is a sum over the years (nominal or not is not stated)."
+outcome = "confirmed"
+source_url = "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId=%7BB0B81E8A-0100-CC67-8F61-5E885C254A5A%7D"
+passage = "Con Edison forecasts the total capital cost of the Project to be approximately $1.2 billion broken downs as follows: approximately $592 million for the Eastern Queens Transmission Substation; approximately $380 million for the Idlewild Distribution Area Substation ; The funding request is based on order of magnitude estimates. The breakdown for the total project cost (through 2028) is as follows (in $000s): Eastern Queens - $592,105 Idlewild Area Substation -$380,127 Jamaica Network Split (Springfield) - $242,066 Total Project Cost (including 2028): $1,214,298"
+note = "File f1/cost/coned-idlewild-petition-20230822.pdf. These are utility forecasts for two large indoor gas-insulated and four-transformer facilities, well above the MISO table range: an upper bound on a New York City installation, not a typical area substation. Other New York figures seen only as search-engine snippets and NOT checked (not opened): a $47.3 million Parkchester No. 1 fifth transformer approval in the Bronx (2025 trade press), and a $1.3 billion package including a Sunset Park 345 kV substation in Brooklyn. The Con Edison marginal cost study and the NYISO studies were not read. The area-substation counts and voltages in the Con Edison 2013-era testimony were not read."
+verdict_note = ""
+
+[[fact]]
+name = "cost_pjm_spp_nyiso_not_found"
+claimed = "PJM, SPP, NYISO unit-cost documents"
+observed = "No unit-cost document by voltage class was found for PJM, SPP or NYISO. PJM: the project-status page has a Transmission Cost Information Center spreadsheet and a Transmission Cost Planner (the planner needs an account), described in search snippets as project-level data; the spreadsheet was not opened and the page's static HTML shows no link to it. SPP: only interconnection-study reports with project-specific figures turned up; no SPP unit-cost guide. NYISO: no per-substation unit cost document found. Not checked: the PJM TEAC board white papers (project-level substation scopes in dollars) and SPP interconnection facilities studies (for example a stated 345 kV substation figure in one study) were seen only as snippets."
+outcome = "not checked"
+source_url = "https://www.pjm.com/planning/project-construction"
+passage = "n/a (no page read that states a figure)"
+note = "Reason: no address found for a PJM or SPP unit-cost table; https://www.pjm.com/planning/project-construction was fetched (HTTP 200, 33,257 bytes) but its HTML held no link with 'cost', 'tcic' or 'xls' in it. Secondary web pages that quote MISO figures (cost-benchmark articles) were seen and deliberately not used."
+verdict_note = ""
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "f1/cost/miso-mtep24-guide-20240501.pdf"
+url = "https://cdn.misoenergy.org/20240501%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP24632680.pdf"
+bytes = 1424167
+sha256 = "708b0103f8ea2ff458a09aa46334a537817a833814c8300a04fd07e4a74de167"
+fetched_at = "2026-11-25T19:13:36Z"
+
+[[file]]
+path = "f1/cost/miso-mtep26-guide.pdf"
+url = "https://cdn.misoenergy.org/MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP26337433.pdf"
+bytes = 939975
+sha256 = "7d98dc46067e6b467c2cecbad7bf6830558bb2414c8347a47e1b27a301f9eded"
+fetched_at = "2026-11-25T19:12:48Z"
+
+[[file]]
+path = "f1/cost/miso-mtep26-draft-20260311.pdf"
+url = "https://cdn.misoenergy.org/20260311%20PSC%20Item%2004%20MISO%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP26_Draft744888.pdf"
+bytes = 2928469
+sha256 = "ee5f54a0bcee04d9ea3288f71f28daeb265a1fae9190c9a2e18a0e6aba7863ed"
+fetched_at = "2026-11-25T19:12:49Z"
+
+[[file]]
+path = "f1/cost/miso-mtep25-redline-20250306.pdf"
+url = "https://cdn.misoenergy.org/20250306%20PSC%20Item%2004d%20Transmission%20Cost%20Estimation%20Guide%20for%20MTEP25_Redline682745.pdf"
+bytes = 2633259
+sha256 = "a781d3ce85f8409af4ac6293580a5f212ad0978bfb5b6974875e2e31be8fa1b5"
+fetched_at = "2026-11-25T19:13:37Z"
+
+[[file]]
+path = "f1/cost/bv-wecc-oregon-ue286.pdf"
+url = "https://edocs.puc.state.or.us/efdocs/HTB/ue286htb14453.pdf"
+bytes = 1690485
+sha256 = "8f16ed6ca2d159ba50146309b55a32c381c93125d4784f2db5ac1561631fe11a"
+fetched_at = "2026-11-25T19:14:06Z"
+
+[[file]]
+path = "f1/cost/bv-wecc-mo-efis.pdf"
+url = "https://www.efis.psc.mo.gov/Document/Display/280923"
+bytes = 143407
+sha256 = "05df5a463da3859fae88da10e8e3d1f8d38de7d45314c4055949a47e539f2fe9"
+fetched_at = "2026-11-25T19:14:08Z"
+
+[[file]]
+path = "f1/cost/caiso/pge-2025-per-unit-cost-guide-final.xlsx"
+url = "https://www.caiso.com/documents/pge-2025-per-unit-cost-guide-final.xlsx"
+bytes = 51394
+sha256 = "24e4e15faaac50e91ba3174ddbedf42fa888949513c872112625b9fb8b3631d1"
+fetched_at = "2026-11-25T19:15:42Z"
+
+[[file]]
+path = "f1/cost/caiso/sce-2025-per-unit-cost-guide-final.xlsx"
+url = "https://www.caiso.com/documents/sce-2025-per-unit-cost-guide-final.xlsx"
+bytes = 86106
+sha256 = "61fc542ba8551d63068e617ffa9675a13938bd720f835460083f7a3f861cb680"
+fetched_at = "2026-11-25T19:15:43Z"
+
+[[file]]
+path = "f1/cost/coned-idlewild-petition-20230822.pdf"
+url = "https://documents.dps.ny.gov/public/Common/ViewDoc.aspx?DocRefId=%7BB0B81E8A-0100-CC67-8F61-5E885C254A5A%7D"
+bytes = 676212
+sha256 = "3cb8f052289c70da2b2224059b5c4fb4a168a7954f614b3de51888d0af0dff7b"
+fetched_at = "2026-11-25T19:14:45Z"

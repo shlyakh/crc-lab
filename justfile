@@ -192,7 +192,7 @@ flood-checks:
 # Flood lab F0: the CRC 1.0.0 calls on toy data; area scoring from the cache; facts from the reviewed drafts
 flood-f0:
     uv run python tools/flood/f0_crc_calls.py --timing
-    uv run python tools/flood/f0_accept_facts.py
+    uv run python tools/flood/accept_facts.py
     uv run python -m flood_lab.checks.f0_area
     uv run --with matplotlib python -m flood_lab.checks.f0_area_maps
     uv run python -m flood_lab.data_cards

@@ -126,6 +126,66 @@ passage = "sample rows=1000 (1001 lines with header)"
 note = ""
 verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
 
+[[fact]]
+name = "lat_lon_columns"
+claimed = "it has latitude and longitude columns: confirm their names"
+observed = "The columns are `latitude` and `longitude` (WGS84, decimal degrees, a point per building centroid), plus `the_geom` (POINT) and `x`, `y` (State Plane feet). The $where with between on them works."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1"
+passage = "header: \"the_geom\",\"bin\",\"bbl\",\"borough\",\"block\",\"lot\",\"address\",\"z_grade\",\"z_floor\",\"subgrade\",\"notes1\",\"notes2\",\"notes3\",\"x\",\"y\",\"latitude\",\"longitude\",\"pluto_bbl\",..."
+note = "The CSV header lists 26 columns here; the F0 fact says 30 including computed regions. The difference was not investigated."
+verdict_note = ""
+
+[[fact]]
+name = "rows_in_study_box"
+claimed = ""
+observed = "22,083 rows for latitude 40.6850 to 40.7245 and longitude -73.9900 to -73.9385: 20,648 Brooklyn (borough 3) and 1,435 Manhattan (borough 1). One request, under the 50,000 limit; no paging needed. BIN is never empty and is unique in the box (22,083 distinct). z_grade (ft, NAVD88): min 0, quartiles 23.4 / 36.0 / 50.2, max 97.0."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+passage = "22084 lines in the CSV file including the header (the count by parsing: 22,083 rows)"
+note = "Counts are mine (/Users/yuri/work/crc/crc-lab/data/cache/flood/f1/scripts/analyse_f1.py). The box is on the centroid point, the footprint box is on the polygon; the two row sets are therefore not the same set at the edges."
+verdict_note = ""
+
+[[fact]]
+name = "zero_grade_or_floor_in_box"
+claimed = "A value of 0 means no measurement"
+observed = "z_grade = 0 in 455 rows; z_floor = 0 in 455 rows; both 0 in the same 455 rows (so rows with either = 0: 455, 2.1% of the box). In the F0 count for the whole table it is 14,039 and 14,038 (1.6%)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+passage = "z_grade==0: 455 ; z_floor==0: 455 ; either: 455 ; both: 455 (counts by pandas on the downloaded CSV)"
+note = "In the box z_floor = 0 never occurs with z_grade above 0, which agrees with the F0 observation for the table. Rows with 0 must be treated as missing, not as a floor at sea level."
+verdict_note = ""
+
+[[fact]]
+name = "subgrade_flag_in_box"
+claimed = ""
+observed = "subgrade = Y in 10,479 rows (47.5%), N in 11,604 (52.5%); no other value and no empty cell. (Whole table in F0: Y 54.8%.)"
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+passage = "subgrade {'N': 11604, 'Y': 10479}"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "estimated_grade_note_in_box"
+claimed = "the note about estimated grades"
+observed = "notes1 carries \"Property not Visible Due to Construction or Obstruction\" in 7,054 rows and \"Property not Visible from Street\" in 382 rows: 7,436 rows (33.7% of the box) have an estimated or not-seen value. The commonest notes1 value is \"Property was Successfully Measured\" (12,299 rows alone, and 2,022 more with \"; No Address Plate or Identification on Building\"). (Whole table in F0: 147,585 of 861,876, 17.1%.)"
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+passage = "notes1 values (top): 'Property was Successfully Measured' 12299 ; 'Property not Visible Due to Construction or Obstruction' 5885 ; 'Property was Successfully Measured; No Address Plate or Identification on Building' 2022 ; 'Property not Visible Due to Construction or Obstruction; No Address Plate or Identification on Building' 943 ; 'Property not Visible from Street; No Address Plate or Identification on Building' 381"
+note = "Estimated share in this box is about twice the table-wide share: the dense blocks of Williamsburg and Clinton Hill have more obstruction. The count is a case-insensitive substring match on 'not visible' (7,436) and, separately, on 'Construction or Obstruction' (7,054) and 'from Street' (382)."
+verdict_note = ""
+
+[[fact]]
+name = "bin_join_to_footprints"
+claimed = "BIN joins to the footprints' BIN"
+observed = "BIN joins, with the footprints of `5zhs-2jue` in the same box (22,960 footprint rows, 22,958 distinct BINs; 22,083 BES rows, all distinct). Matching BINs: 21,493 distinct BINs are in both. From the BES side: 21,493 of 22,083 rows (97.3%) have their BIN among the footprints; the 590 others have none. From the footprint side: 21,493 of 22,960 rows (93.6%) have their BIN in the BES; 1,467 footprints have none (of the 1,467, 3 are million BINs). Brooklyn only: 20,120 of 20,648 BES rows (97.4%) match a footprint; 20,120 of 21,547 Brooklyn-BIN footprints (93.4%) match a BES row. No BIN is duplicated among the matches on the BES side, and the 3 duplicated footprint BINs are the unassigned million BINs, so the join is one footprint to one BES row for every matched building. The BBL agrees between the two for 19,702 of the 21,493 joined pairs (91.7%) (BES `bbl` against footprint `base_bbl`; not a better key than the BIN). On the joined pairs with z_grade above 0 and footprint ground_elevation above 0 (21,089), z_grade minus ground_elevation has median -0.08 ft, 5th percentile -3.44 ft, 95th percentile +2.81 ft."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+passage = "FP rows with BIN in BES: 21493 ; BES rows with BIN in FP: 21493 ; BES brooklyn rows 20648, with BIN in FP 20120 ; FP Brooklyn rows 21547, in BES 20120 ; distinct FP bin 22958, in BES 21493 ; BBL equal in 19702 of 21493"
+note = "Done with duckdb on the two downloaded files, script /Users/yuri/work/crc/crc-lab/data/cache/flood/f1/scripts/analyse_f1.py. The footprints are the 2026-11 city file, the BES the 2021-22 vendor survey on the DOB footprints of 2022-02-26, so buildings built, demolished or renumbered since 2022 do not match: that is the likely cause of the 6.4% of footprints without a row. The match rates were not split by construction year."
+verdict_note = ""
+
 [[file]]
 path = "nyc-building-elevation-subgrade/sample-1000.csv"
 url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin"
@@ -153,3 +213,10 @@ url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
 bytes = 55894
 sha256 = "859e11da81c0bab1c8f9a49898e3b1977237d72c4a7e6505cffbafa0d7ddcd71"
 fetched_at = "2026-11-25T16:53:10Z"
+
+[[file]]
+path = "nyc-building-elevation-subgrade/bes-box.csv"
+url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&$limit=50000&$order=bin"
+bytes = 9589906
+sha256 = "8fa2abe31bd93ac91554431f4d6c50df962c4fc165621d9e499a0143c710fbd3"
+fetched_at = "2026-11-25T19:11:57Z"

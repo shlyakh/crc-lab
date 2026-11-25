@@ -2,7 +2,7 @@
 
 # Data card: Building Elevation and Subgrade (BES)
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 0 differs, 0 not checked, 1 not applicable.
+Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 16 confirmed, 0 differs, 0 not checked, 1 not applicable.
 
 | | |
 | --- | --- |
@@ -23,6 +23,7 @@ Paths are relative to `data/cache/flood/` (not committed).
 | nyc-building-elevation-subgrade/guidance.pdf | 217,866 | e4fb5ecdc8c42182ab6544d2cbb11d1b289898eec5b9691e4b750c5385c3dc89 | 2026-11-25T16:58:11Z | <https://data.cityofnewyork.us/api/views/bsin-59hv/files/ae1b369c-6ce1-4805-9ad0-aca9f62f3182?download=true&filename=Building%20Elevation%20and%20Subgrade%20Dataset%20Guidance.pdf> |
 | nyc-building-elevation-subgrade/dictionary.xlsx | 114,220 | 5fa93566d968c5b68dbb73cb49121c44194cc88db0ebb5ef731721408e7c1a69 | 2026-11-25T16:58:12Z | <https://data.cityofnewyork.us/api/views/bsin-59hv/files/fa3da2f9-6edd-4eed-b995-423042340202?download=true&filename=Building_Elevation_and_Subgrade-Data_Dictionary.xlsx> |
 | meta/bsin-59hv.json | 55,894 | 859e11da81c0bab1c8f9a49898e3b1977237d72c4a7e6505cffbafa0d7ddcd71 | 2026-11-25T16:53:10Z | <https://data.cityofnewyork.us/api/views/bsin-59hv.json> |
+| nyc-building-elevation-subgrade/bes-box.csv | 9,589,906 | 8fa2abe31bd93ac91554431f4d6c50df962c4fc165621d9e499a0143c710fbd3 | 2026-11-25T19:11:57Z | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin |
 
 ## Known biases
 
@@ -45,6 +46,12 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Release | – | rowsUpdatedAt 2023-09-19T16:07:13Z, made public 2023-09-19; metadata last modified 2023-10-25T14:59:28Z; &\#x27;Historical data&\#x27;, never updated. | confirmed | <https://data.cityofnewyork.us/api/views/bsin-59hv.json> | – |
 | Licence | NYC Open Data terms; read the guidance note on estimated grades | No licence field (licenseId None); NYC Open Data terms apply (see passage). No attribution requirement was found in the description or custom fields. | confirmed | <https://cityofnewyork.github.io/opendatatsm/publicpolicies.html> | Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/\#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team&\#x27;s own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for &\#x27;open data&\#x27;, &\#x27;data set&\#x27; and &\#x27;public data&\#x27; found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal. |
 | Checksum | – | The full table was not downloaded (task). The 1,000-row sample (first 1,000 rows ordered by bin, CSV) has its sha256 in the file record. The guidance PDF and the data dictionary were also kept. Publisher gives no checksum. | not applicable | <https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin> | The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file. |
+| lat lon columns | it has latitude and longitude columns: confirm their names | The columns are \`latitude\` and \`longitude\` (WGS84, decimal degrees, a point per building centroid), plus \`the\_geom\` (POINT) and \`x\`, \`y\` (State Plane feet). The $where with between on them works. | confirmed | <https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1> | The CSV header lists 26 columns here; the F0 fact says 30 including computed regions. The difference was not investigated. |
+| rows in study box | – | 22,083 rows for latitude 40.6850 to 40.7245 and longitude -73.9900 to -73.9385: 20,648 Brooklyn (borough 3) and 1,435 Manhattan (borough 1). One request, under the 50,000 limit; no paging needed. BIN is never empty and is unique in the box (22,083 distinct). z\_grade (ft, NAVD88): min 0, quartiles 23.4 / 36.0 / 50.2, max 97.0. | confirmed | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin | Counts are mine (/Users/yuri/work/crc/crc-lab/data/cache/flood/f1/scripts/analyse\_f1.py). The box is on the centroid point, the footprint box is on the polygon; the two row sets are therefore not the same set at the edges. |
+| zero grade or floor in box | A value of 0 means no measurement | z\_grade = 0 in 455 rows; z\_floor = 0 in 455 rows; both 0 in the same 455 rows (so rows with either = 0: 455, 2.1% of the box). In the F0 count for the whole table it is 14,039 and 14,038 (1.6%). | confirmed | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin | In the box z\_floor = 0 never occurs with z\_grade above 0, which agrees with the F0 observation for the table. Rows with 0 must be treated as missing, not as a floor at sea level. |
+| subgrade flag in box | – | subgrade = Y in 10,479 rows (47.5%), N in 11,604 (52.5%); no other value and no empty cell. (Whole table in F0: Y 54.8%.) | confirmed | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin | – |
+| estimated grade note in box | the note about estimated grades | notes1 carries &quot;Property not Visible Due to Construction or Obstruction&quot; in 7,054 rows and &quot;Property not Visible from Street&quot; in 382 rows: 7,436 rows (33.7% of the box) have an estimated or not-seen value. The commonest notes1 value is &quot;Property was Successfully Measured&quot; (12,299 rows alone, and 2,022 more with &quot;; No Address Plate or Identification on Building&quot;). (Whole table in F0: 147,585 of 861,876, 17.1%.) | confirmed | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin | Estimated share in this box is about twice the table-wide share: the dense blocks of Williamsburg and Clinton Hill have more obstruction. The count is a case-insensitive substring match on &\#x27;not visible&\#x27; (7,436) and, separately, on &\#x27;Construction or Obstruction&\#x27; (7,054) and &\#x27;from Street&\#x27; (382). |
+| bin join to footprints | BIN joins to the footprints&\#x27; BIN | BIN joins, with the footprints of \`5zhs-2jue\` in the same box (22,960 footprint rows, 22,958 distinct BINs; 22,083 BES rows, all distinct). Matching BINs: 21,493 distinct BINs are in both. From the BES side: 21,493 of 22,083 rows (97.3%) have their BIN among the footprints; the 590 others have none. From the footprint side: 21,493 of 22,960 rows (93.6%) have their BIN in the BES; 1,467 footprints have none (of the 1,467, 3 are million BINs). Brooklyn only: 20,120 of 20,648 BES rows (97.4%) match a footprint; 20,120 of 21,547 Brooklyn-BIN footprints (93.4%) match a BES row. No BIN is duplicated among the matches on the BES side, and the 3 duplicated footprint BINs are the unassigned million BINs, so the join is one footprint to one BES row for every matched building. The BBL agrees between the two for 19,702 of the 21,493 joined pairs (91.7%) (BES \`bbl\` against footprint \`base\_bbl\`; not a better key than the BIN). On the joined pairs with z\_grade above 0 and footprint ground\_elevation above 0 (21,089), z\_grade minus ground\_elevation has median -0.08 ft, 5th percentile -3.44 ft, 95th percentile +2.81 ft. | confirmed | https://data.cityofnewyork.us/resource/bsin-59hv.csv?$where=latitude between 40.6850 and 40.7245 and longitude between -73.9900 and -73.9385&amp;$limit=50000&amp;$order=bin | Done with duckdb on the two downloaded files, script /Users/yuri/work/crc/crc-lab/data/cache/flood/f1/scripts/analyse\_f1.py. The footprints are the 2026-11 city file, the BES the 2021-22 vendor survey on the DOB footprints of 2022-02-26, so buildings built, demolished or renumbered since 2022 do not match: that is the likely cause of the 6.4% of footprints without a row. The match rates were not split by construction year. |
 
 ### Passages
 
@@ -116,5 +123,41 @@ z_floor | number | The elevation of what is estimated to be the lowest actively 
 <details><summary>Passage: Checksum</summary>
 
 <pre>sample rows=1000 (1001 lines with header)</pre>
+
+</details>
+
+<details><summary>Passage: lat lon columns</summary>
+
+<pre>header: &quot;the_geom&quot;,&quot;bin&quot;,&quot;bbl&quot;,&quot;borough&quot;,&quot;block&quot;,&quot;lot&quot;,&quot;address&quot;,&quot;z_grade&quot;,&quot;z_floor&quot;,&quot;subgrade&quot;,&quot;notes1&quot;,&quot;notes2&quot;,&quot;notes3&quot;,&quot;x&quot;,&quot;y&quot;,&quot;latitude&quot;,&quot;longitude&quot;,&quot;pluto_bbl&quot;,...</pre>
+
+</details>
+
+<details><summary>Passage: rows in study box</summary>
+
+<pre>22084 lines in the CSV file including the header (the count by parsing: 22,083 rows)</pre>
+
+</details>
+
+<details><summary>Passage: zero grade or floor in box</summary>
+
+<pre>z_grade==0: 455 ; z_floor==0: 455 ; either: 455 ; both: 455 (counts by pandas on the downloaded CSV)</pre>
+
+</details>
+
+<details><summary>Passage: subgrade flag in box</summary>
+
+<pre>subgrade {&#x27;N&#x27;: 11604, &#x27;Y&#x27;: 10479}</pre>
+
+</details>
+
+<details><summary>Passage: estimated grade note in box</summary>
+
+<pre>notes1 values (top): &#x27;Property was Successfully Measured&#x27; 12299 ; &#x27;Property not Visible Due to Construction or Obstruction&#x27; 5885 ; &#x27;Property was Successfully Measured; No Address Plate or Identification on Building&#x27; 2022 ; &#x27;Property not Visible Due to Construction or Obstruction; No Address Plate or Identification on Building&#x27; 943 ; &#x27;Property not Visible from Street; No Address Plate or Identification on Building&#x27; 381</pre>
+
+</details>
+
+<details><summary>Passage: bin join to footprints</summary>
+
+<pre>FP rows with BIN in BES: 21493 ; BES rows with BIN in FP: 21493 ; BES brooklyn rows 20648, with BIN in FP 20120 ; FP Brooklyn rows 21547, in BES 20120 ; distinct FP bin 22958, in BES 21493 ; BBL equal in 19702 of 21493</pre>
 
 </details>
