@@ -30,6 +30,8 @@ BUDGET_S = 12 * 3600
 BALANCE_LIMIT = 0.01  # FH8
 #: plan F0 step 7: 150 runs if one takes under 10 minutes, about 100 otherwise
 CATALOGUE_SWITCH_S = 600
+#: FH8 as decided at the F0 stop: differences at the solver's dry threshold are not failures
+MONOTONE_TOLERANCE_M = 0.001
 #: share of the Docker VM's memory left to the solver when counting parallel runs [P]
 MEMORY_SHARE = 0.75
 
@@ -375,10 +377,16 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
     record.checks.append(
         Check(
             "monotone_in_rainfall",
-            "25 mm/h gives depth no greater than 50 mm/h in every 5 m cell (FH8)",
-            None if compare is None else compare["max_depth_minus_other_m"] <= 0.0,
+            "at 25 mm/h no cell is deeper than at 50 mm/h by more than 1 mm, and no cell wet to "
+            "0.05 m or more in either run is deeper at all (FH8, as decided at the F0 stop)",
+            None
+            if compare is None
+            else (
+                compare["max_depth_minus_other_m"] <= MONOTONE_TOLERANCE_M
+                and compare["max_depth_minus_other_where_either_wet_m"] <= 0.0
+            ),
             None if compare is None else compare["max_depth_minus_other_m"],
-            0.0,
+            MONOTONE_TOLERANCE_M,
             note=""
             if compare is None
             else (
@@ -387,8 +395,9 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
                 + ", ".join(f"{c['depth_m']:.4f}" for c in compare.get("deeper_cells", []))
                 + f" m, at {huthresh}; among cells wet "
                 "(0.05 m or more) in either run the largest difference is "
-                f"{compare.get('max_depth_minus_other_where_either_wet_m')} m. The rule is "
-                "kept strict as written; whether to judge it on wet cells only is for review."
+                f"{compare.get('max_depth_minus_other_where_either_wet_m')} m. As first written "
+                "(no cell deeper at all) the rule failed on these cells; the tolerance of 1 mm "
+                "was accepted at the F0 stop on 2026-11-25."
             ),
         )
     )

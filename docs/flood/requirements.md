@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 2, 2026-11-25, tag `flood-requirements-v2` (version 1 is tag `flood-requirements-v1`; what changed is in `docs/flood/changes.md`);
+Version 3, 2026-11-25, tag `flood-requirements-v3` (earlier versions are tags `flood-requirements-v1` and `-v2`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -39,8 +39,8 @@ FS6).
 
 | # | Decision | Status |
 | --- | --- | --- |
-| D1 | Study area: one 10–20 km² neighbourhood in Brooklyn or Queens, chosen in stage F0 by a scoring rule; search starts inside the Jamaica Bay watershed | Recommended by Claude; **confirm with Yuri before F0 ends** |
-| D2 | Storms: remnants of Ida (2021-09-01) for depth validation; 2023-09-29 for the trigger case study | Recommended; confirm with D1 |
+| D1 | Study area: the 16 km² square centred at 40.7048 N, 73.9642 W (UTM zone 18N, 585500 to 589500 m east, 4504500 to 4508500 m north): Williamsburg, South Williamsburg, Clinton Hill and part of Fort Greene and Bedford-Stuyvesant in Brooklyn. The study area is the Brooklyn land in the square; the square also holds part of the East River and of Manhattan, which the model needs as its boundary but which is not studied. Chosen in F0 by a scoring rule over Brooklyn and Queens (`docs/flood/reports/F0-derisk.md`, section 4): the only candidate with surveyed marks, sensors on 2023-09-29 and three substation sites. No sensor there recorded Ida. The search no longer starts from the Jamaica Bay watershed, where no surveyed mark exists | Decided by Yuri, 2026-11-25 |
+| D2 | Storms: remnants of Ida (2021-09-01) for depth validation, against the surveyed marks; 2023-09-29 for the trigger case study and for the sensor comparison | Decided by Yuri with D1, 2026-11-25 |
 | D3 | CRC (crc-sdk 1.0.0, crc-framework 1.0.0) is the loss engine: it computes every damage ratio, every per-asset damage distribution and expectation, and every statistic of a loss distribution (exceedance probabilities, VaR as a quantile, CVaR, mean), with the distribution held as a CRC `Distribution`. CRC 1.0.0 has no event set or event-loss table and no summing of losses across assets under dependence, so `flood_lab` does only that bookkeeping (losses per event, sums per event and per synthetic year) and hands the sums back to CRC. It is documented in `docs/algorithms.md` and recomputed by hand. What CRC lacks is written up as design feedback. Other engines are donors and cross-checks | Decided by Yuri; revised 2026-11-25, corrected the same day (CH-1) |
 | D4 | The depth solver is reused, not written: Deltares SFINCS built with HydroMT-SFINCS. It sits behind an interface a licensed model could replace | Decided by Yuri |
 | D5 | Assets: electrical substations first, buildings second | Decided by Yuri |
@@ -50,7 +50,7 @@ FS6).
 | D9 | Frequency comes from a stochastic storm catalogue (storm transposition), not from uniform design storms. Design storms are kept as a comparison | New, from the literature review; **confirm** |
 | D10 | A neural-network emulator of the solver extends the catalogue | New, from the literature review; **confirm** |
 | D11 | Every stage ends with a visual test on a generated gallery page, a report, and a stop for review | Decided by Yuri |
-| D12 | Fremont, California is a short closing chapter, not the study area | Recommended; confirm with D1 |
+| D12 | Fremont, California is a short closing chapter, not the study area | Decided by Yuri with D1, 2026-11-25 |
 | D13 | Target is Tier 1 (F0 to F8 and F11). Tiers 2 and 3 stay specified; Yuri decides on them at the F8 stop, with measured run times and token use per stage | Decided by Yuri, 2026-11-25 |
 | D14 | Each stage is built on its own short-lived branch (`flood/f<n>`), pushed for backup and merged into `main` only on Yuri's go at the stop. The flood page is not linked from the landing page before F11 | Decided by Yuri, 2026-11-25 |
 | D15 | Source validation by Claude Code: every source used has its facts confirmed from the primary source (FS6); a source whose values feed a published number also gets a second, independent reader (FS4) | Decided by Yuri, 2026-11-25 |
@@ -318,8 +318,9 @@ say what this file claims, stop and report; do not substitute a number.
   that justified it.
 - **FD2.** Terrain: 1 m lidar digital elevation model for the area, with its vintage and vertical datum
   recorded.
-- **FD3.** Substations from OpenStreetMap (`power=substation`): point, yard polygon where mapped, voltage
-  where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
+- **FD3.** Substations from OpenStreetMap (`power=substation`), as sites: outlines within 150 m of each
+  other are one site **[P]**; rail traction substations are left out; each site has its outlines, a point
+  (the centroid), voltage where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
   are recorded with a reason.
 - **FD4.** Substation replacement value as a low, mid and high figure per voltage class **[P]** until a
   public source is found (utility rate cases or grid-operator cost guides); the source or the placeholder tag
@@ -414,7 +415,9 @@ say what this file claims, stop and report; do not substitute a number.
   Between knots CRC 1.0.0 interpolates linearly in probability (0.x used the logarithm of return period);
   every recomputation uses the same rule and says so.
 - **FH8.** Water balance closes within 1% in every run; depth is non-decreasing with rainfall scaling in a
-  monotonicity test.
+  monotonicity test: at lower rainfall no cell is deeper by more than 1 mm, and no cell wet to 0.05 m or
+  more in either run is deeper at all (tolerance set at the F0 stop, after 4 of 39,800 toy cells at the
+  solver's dry threshold differed by under 0.1 mm).
 
 ### Validation against observations (FV)
 
@@ -802,12 +805,13 @@ right thing. These are the choices an outside evaluation (D16) is most likely to
 - The emulator design (FE1) against current practice.
 - The customers-served and outage-cost placeholders (FD7, FM5).
 
-## 14. Corrections from the F0 fact checks (proposed for version 3)
+## 14. Corrections from the F0 fact checks (accepted in version 3)
 
 F0 read the facts of every Tier 1 source from the publisher (FS6). Where the publisher differs from a
 paragraph above, the correction is listed here with the source's data card, which holds the address and the
-passage read. **Until Yuri accepts them at the F0 stop these are proposals; once accepted they are merged
-into the paragraphs above as version 3** (change CH-3). Data cards are in `docs/flood/data-cards/`.
+passage read. **Accepted on 2026-11-25 (change CH-3): where a row here and a paragraph above disagree, the row holds.**
+The paragraphs above are left as first written so that the change stays visible; a later version may
+fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 
 | Requirement | It says | The source says | Proposed correction |
 | --- | --- | --- | --- |

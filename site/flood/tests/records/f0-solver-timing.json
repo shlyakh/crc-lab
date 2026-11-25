@@ -20,11 +20,11 @@
   },
   {
    "name": "monotone_in_rainfall",
-   "note": "4 of 39800 cells deeper at 25 mm/h, all with depths of 0.0102, 0.0103, 0.0101, 0.0103 m, at the solver's dry threshold huthresh = 0.01 m (read from sfincs.inp); among cells wet (0.05 m or more) in either run the largest difference is -0.015596866607666016 m. The rule is kept strict as written; whether to judge it on wet cells only is for review.",
-   "passed": false,
+   "note": "4 of 39800 cells deeper at 25 mm/h, all with depths of 0.0102, 0.0103, 0.0101, 0.0103 m, at the solver's dry threshold huthresh = 0.01 m (read from sfincs.inp); among cells wet (0.05 m or more) in either run the largest difference is -0.015596866607666016 m. As first written (no cell deeper at all) the rule failed on these cells; the tolerance of 1 mm was accepted at the F0 stop on 2026-11-25.",
+   "passed": true,
    "proposed": false,
-   "rule": "25 mm/h gives depth no greater than 50 mm/h in every 5 m cell (FH8)",
-   "threshold": 0.0,
+   "rule": "at 25 mm/h no cell is deeper than at 50 mm/h by more than 1 mm, and no cell wet to 0.05 m or more in either run is deeper at all (FH8, as decided at the F0 stop)",
+   "threshold": 0.001,
    "value": 8.440017700195312e-05
   },
   {
@@ -37,7 +37,7 @@
    "value": 0.8120437264442444
   }
  ],
- "created_at": "2026-11-25T18:06:36Z",
+ "created_at": "2026-11-25T19:08:07Z",
  "figures": [
   "docs/flood/figures/f0/solver_timing.html",
   "docs/flood/figures/f0/toy_max_depth.html"
@@ -509,7 +509,7 @@
    "value": 600
   }
  ],
- "passed": false,
+ "passed": true,
  "schema": "flood_lab/0.1",
  "software": {
   "builder:hydromt": "1.4.1",

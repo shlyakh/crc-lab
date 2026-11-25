@@ -1,6 +1,6 @@
 # F0. De-risk, CRC 1.0.0 calls, source facts, area candidates
 
-Date: 2026-11-25 · branch `flood/f0` · crc-sdk 1.0.0, crc-framework 1.0.0 · awaiting review
+Date: 2026-11-25 · branch `flood/f0` · crc-sdk 1.0.0, crc-framework 1.0.0 · reviewed 2026-11-25, decisions at the end
 
 Stage F0 of `docs/flood/plan.md`. Its purpose was to test every risky assumption cheaply before anything
 is built on it. Numbers below come from the records under `site/flood/tests/records/` and the facts under
@@ -322,6 +322,22 @@ Memory is not a constraint for the solver (0.26 GB at 9 km²) or for CRC's raste
    machine. Confirm D9; D10 is Tier 2 and decided at F8.
 8. **Facts that need a person** (table in section 2): who reads the licence pages and the two
    publications that refuse automated access.
+
+## Decisions taken at the stop (2026-11-25)
+
+Yuri chose the study area and said to proceed. The other decisions follow this report's recommendations;
+each can be reversed (change CH-4 in `docs/flood/changes.md`).
+
+| # | Decision |
+| --- | --- |
+| 1 | **Study area: area 2**, the Williamsburg square (D1). D2 and D12 stand |
+| 2 | Limited Flood map: Yuri emails the city (on his list); ESRI's library is tried at the start of F2; F3 calibrates on the Moderate map alone if neither has worked; the map tiles possibly, for internal use only |
+| 3 | Monotonicity rule: 1 mm tolerance, and strict for cells wet to 0.05 m. The solver record now passes under it |
+| 4 | Corrections CH-3 accepted; requirements version 3 |
+| 5 | Rail traction substations left out |
+| 6 | Outage cost through the ICE Calculator's public API, with customer-hours beside it |
+| 7 | Storm catalogue confirmed at 150 runs |
+| 8 | Facts that need a person: still open, listed in section 2 |
 
 ## What was not done
 
