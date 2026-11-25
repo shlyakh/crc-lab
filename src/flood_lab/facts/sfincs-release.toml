@@ -1,0 +1,163 @@
+id = "sfincs-release"
+title = "Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs"
+publisher = "Deltares (GitHub Deltares/SFINCS, Zenodo, Docker Hub deltares/sfincs-cpu, PyPI hydromt-sfincs)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FH2"]
+known_biases = "The Docker images are linux/amd64 only: on Apple Silicon they run under emulation, which may be slow. The pre-compiled executables and Docker images are under the Deltares Freeware licence (no distribution, no modification) while the source is GPL-3.0. The documented curve-number fault is described only in release notes, not in the Zenodo record."
+
+[[fact]]
+name = "identifier"
+claimed = "latest SFINCS release is v2.5.0 (2026-11-02)"
+observed = "GitHub latest release: tag v2.5.0_Hautacam_release, name 'SFINCS v2.5.0 Hautacam Release 2026.02', published 2026-11-02T11:02:58Z, not a pre-release. Previous: v2.4.0_Galibier_release (2026-06-15), v2.3.0_mt_Faber_release (2025-11-19). GitHub tags also list patch versions v2.4.1, v2.3.3, v2.3.2, v2.3.1 without releases (Docker images exist for them)."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases/latest"
+passage = "tag_name=v2.5.0_Hautacam_release; published_at=2026-11-02T11:02:58Z; name=SFINCS v2.5.0 Hautacam Release 2026.02; prerelease=false"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "GitHub https://github.com/Deltares/SFINCS/releases/tag/v2.5.0_Hautacam_release; Zenodo https://doi.org/10.5281/zenodo.23883210 resolves to https://zenodo.org/records/23883210; Docker https://hub.docker.com/r/deltares/sfincs-cpu; pre-compiled Windows executable at https://download.deltares.nl/en/sfincs/."
+outcome = "confirmed"
+source_url = "https://zenodo.org/api/records/23883210"
+passage = "doi=10.5281/zenodo.23883210; doi_url=https://doi.org/10.5281/zenodo.23883210; resolves to https://zenodo.org/records/23883210"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "zenodo_record"
+claimed = "Zenodo doi:10.5281/zenodo.23883210"
+observed = "Record exists: id 23883210, created 2026-11-02T11:16:37Z, publication_date 2026-11-02, title 'SFINCS: Super-Fast INundation of CoastS model', version 'v2.5.0 Hautacam Release 2026.02', concept DOI 10.5281/zenodo.8038533, file SFINCS.ZIP 99,850,784 bytes, licence gpl-3.0-or-later (metadata)."
+outcome = "confirmed"
+source_url = "https://zenodo.org/api/records/23883210"
+passage = "metadata.version=v2.5.0 Hautacam Release 2026.02; metadata.publication_date=2026-11-02; metadata.license.id=gpl-3.0-or-later; files=[('SFINCS.ZIP', 99850784)]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "curve_number_fault"
+claimed = "Releases v2.3.0 and v2.4.0 have a documented fault in curve-number infiltration when storecumprcp = 0 [S] (same record)"
+observed = "Not in the Zenodo record (its description has no mention of storecumprcp or curve number). It is in GitHub release notes: v2.4.0 lists 'Fixed bug with Curve Number infiltration if storecumprcp = 0 (default).' and v2.5.0 lists 'Fixed bug with Curve Number infiltration if storecumprcp = 0 (default), now really.' So the fix in v2.4.0 was incomplete (v2.4.0 affected, fixed in v2.5.0). v2.3.0 release notes do not mention it; whether v2.3.0 is affected is not documented there (the v2.4.0 note implies the fault predates 2.4.0)."
+outcome = "differs"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases/tags/v2.5.0_Hautacam_release"
+passage = "v2.5.0 notes: 'Fixed bug with Curve Number infiltration if storecumprcp = 0 (default), now really.' ; v2.4.0 notes: 'Fixed bug with Curve Number infiltration if storecumprcp = 0 (default).' ; v2.3.0 notes: no match for storecumprcp/curve"
+note = "The claim's source ('same record') is wrong; correct source is the GitHub release notes."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "Source: GPL-3.0 (GitHub licence; Zenodo gpl-3.0-or-later). Pre-compiled Windows executables and Docker (linux) images: Deltares Freeware licence, per the Zenodo text: 'Permissions: Commercial use allowed, Research publishing allowed, no distribution, no modification'."
+outcome = "confirmed"
+source_url = "https://zenodo.org/api/records/23883210"
+passage = "SFINCS is available under Deltares Freeware license without monetary fee, meaning (summarised, for details always read license): Permissions: Commercial use allowed, Research publishing allowed, no distribution, no modification"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "docker_images"
+claimed = ""
+observed = "Docker Hub repositories: deltares/sfincs-cpu and deltares/sfincs-gpu. sfincs-cpu has 23 tags: latest (2026-11-06), sfincs-v2.5.0-Hautacam (2026-11-02), sfincs-v2.4.1 (2026-08-18), sfincs-v2.4.0-Galibier-Release, sfincs-v2.3.3, sfincs-v2.3.2, sfincs-v2.3.1, sfincs-v2.3.0-mt-Faber-Release, sfincs-v2.2.0-col-dEze-Release, sfincs-v2.1.3 ... down to sfincs-v2.0.0-AlpeDHuez, plus latestbranch. The v2.5.0 release notes name the tag 'sfincs-v2.5.0-Hautacam-Release', which does not exist on Docker Hub (registry returns MANIFEST_UNKNOWN); the real tag is sfincs-v2.5.0-Hautacam."
+outcome = "differs"
+source_url = "https://hub.docker.com/v2/repositories/deltares/sfincs-cpu/tags?page_size=100&ordering=last_updated"
+passage = "tags: ['latest','sfincs-v2.5.0-Hautacam','sfincs-v2.4.1','sfincs-v2.4.0-Galibier-Release','sfincs-v2.3.3','sfincs-v2.3.2','sfincs-v2.3.1','sfincs-v2.3.0-mt-Faber-Release',...]; docker manifest inspect deltares/sfincs-cpu:sfincs-v2.5.0-Hautacam-Release -> 'no such manifest'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "docker_architectures"
+claimed = "native Apple Silicon support [V] (section 8)"
+observed = "Every sfincs-cpu tag, including latest, sfincs-v2.5.0-Hautacam, sfincs-v2.4.1 and sfincs-v2.3.3, lists only architecture amd64, os linux (the 'unknown' entry on latest is the attestation manifest). The image config blob of sfincs-v2.5.0-Hautacam says architecture amd64, os linux. No arm64 image exists, so on Apple Silicon the container runs through emulation (--platform linux/amd64). Native Apple Silicon support is NOT confirmed by any image; a native build would need compiling the source (GPL-3.0) from GitHub."
+outcome = "differs"
+source_url = "https://hub.docker.com/v2/repositories/deltares/sfincs-cpu/tags?page_size=100&ordering=last_updated"
+passage = "latest: [('amd64',None,'linux',220486690),('unknown',None,'unknown',1196)]; sfincs-v2.5.0-Hautacam: [('amd64',None,'linux',220420953)]; config blob sha256:4a411c8a...: architecture=amd64 os=linux"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "hydromt_sfincs_latest"
+claimed = "hydromt-sfincs >=1.2.2, <2.0 [V]"
+observed = "Latest on PyPI is 2.0.0 (uploaded 2026-11-02T10:18:57Z), outside the claimed range; 1.2.2 was uploaded 2025-12-02; 2.0.0 release candidates rc1 to rc4 exist (2025-11-25 to 2026-10-28)."
+outcome = "differs"
+source_url = "https://pypi.org/pypi/hydromt-sfincs/json"
+passage = "info.version=2.0.0; releases: 1.2.2 2025-12-02T10:27:08, 2.0.0 2026-11-02T10:18:57, 2.0.0rc4 2026-10-28T15:07:53"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "hydromt_sfincs_requires"
+claimed = ""
+observed = "hydromt-sfincs 2.0.0: requires_python >=3.11; requires hydromt<2.0,>=1.4.1; GPLv3 classifier; other pins include geopandas>=1.1.3, pandas<4, xugrid>=0.15.1,<1.0, pyflwdir>=0.5.10. hydromt-sfincs 1.2.2: requires_python >=3.9; requires hydromt<1.0,>=0.10.1. So the 1.x line sits on hydromt 0.x and 2.0 on hydromt 1.x; they cannot share an environment's hydromt."
+outcome = "confirmed"
+source_url = "https://pypi.org/pypi/hydromt-sfincs/json"
+passage = "2.0.0 requires_dist: 'hydromt<2.0,>=1.4.1'; requires_python '>=3.11'; 1.2.2 requires_dist: 'hydromt<1.0,>=0.10.1'; requires_python '>=3.9'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "See identifier."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases/latest"
+passage = "see identifier"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Not applicable (software)."
+outcome = "not applicable"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Not applicable (software)."
+outcome = "not applicable"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Zenodo SFINCS.ZIP checksum not recorded here (file not downloaded; 99.9 MB)."
+outcome = "not checked"
+source_url = "https://zenodo.org/api/records/23883210"
+passage = "files[0].key=SFINCS.ZIP size=99850784"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "https://api.github.com/repos/Deltares/SFINCS/releases"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "raw/zenodo-23883210.json"
+url = "https://zenodo.org/api/records/23883210"
+bytes = 12488
+sha256 = "51d67b94a04a88f3b7705a8f412bff5430b6c07a4036b297058a77a9c310617f"
+fetched_at = "2026-11-25T16:58:01Z"
+
+[[file]]
+path = "raw/dockerhub-sfincs-cpu-tags.json"
+url = "https://hub.docker.com/v2/repositories/deltares/sfincs-cpu/tags?page_size=100&ordering=last_updated"
+bytes = 19403
+sha256 = "0ace4837c2bba1aa7c7c7f5ade786f8d0fa82c5fe413d66b5cf8614eb1bcffed"
+fetched_at = "2026-11-25T16:58:06Z"

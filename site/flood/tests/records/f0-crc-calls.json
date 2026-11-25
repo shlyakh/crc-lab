@@ -1,0 +1,672 @@
+{
+ "checks": [
+  {
+   "name": "from_raster",
+   "note": "Dataset.from_raster",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "from_raster_decreasing",
+   "note": "Dataset.from_raster, one decreasing cell",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "from_quantiles",
+   "note": "Dataset.from_quantiles, decode_curves",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "two_routes",
+   "note": "QuantileCurve.complete, Impact.expectation on both routes",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "impact",
+   "note": "Impact.tabulated, evaluate, expectation",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "evaluate",
+   "note": "Dataset.evaluate(Assets).return_periods(...).impact(...).read()",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "assets_not_lonlat",
+   "note": "Assets with UTM metres in the longitude and latitude columns",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "compute_risk",
+   "note": "compute_risk on three independent two-state outcomes",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "distribution",
+   "note": "Distribution.empirical and its figures; Impact.pushforward",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "observations",
+   "note": "Observations.from_table on ten irregular sensor events",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "layer",
+   "note": "Layer.from_table on ten polygons with a class code",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "timing",
+   "note": "Dataset.from_raster, 775 x 775 cells, seven probabilities",
+   "passed": true,
+   "proposed": false,
+   "rule": "behaves as read in docs/flood/crc-1.0-mapping.md",
+   "threshold": null,
+   "value": null
+  }
+ ],
+ "created_at": "2026-11-25T18:02:08Z",
+ "figures": [],
+ "id": "f0-crc-calls",
+ "inputs": [],
+ "notes": [
+  "Toy data only. Nothing here is a flood depth, an asset or a loss."
+ ],
+ "numbers": {},
+ "parameters": [
+  {
+   "name": "return_periods_years",
+   "source": "",
+   "tag": "P",
+   "value": [
+    2,
+    5,
+    10,
+    25,
+    50,
+    100,
+    500
+   ]
+  },
+  {
+   "name": "toy_damage_points_m_ratio",
+   "source": "",
+   "tag": "P",
+   "value": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.2
+    ],
+    [
+     1.0,
+     0.4
+    ],
+    [
+     3.0,
+     0.8
+    ],
+    [
+     10.0,
+     0.8
+    ]
+   ]
+  },
+  {
+   "name": "raster_crs",
+   "source": "",
+   "tag": "P",
+   "value": "EPSG:32618"
+  },
+  {
+   "name": "raster_nodata",
+   "source": "",
+   "tag": "P",
+   "value": -9999.0
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11"
+ },
+ "stage": "F0",
+ "tables": {
+  "assets_not_lonlat": {
+   "call": "Assets with UTM metres in the longitude and latitude columns",
+   "error_type": "ValidationError",
+   "matches_reading": true,
+   "message": "asset locations require finite WGS84 longitude/latitude",
+   "raised": true
+  },
+  "compute_risk": {
+   "branch_count": 8,
+   "call": "compute_risk on three independent two-state outcomes",
+   "levels": {
+    "0.9": {
+     "attribution": [
+      [
+       "a",
+       0.0,
+       24.0
+      ],
+      [
+       "b",
+       250.0,
+       149.9999999999999
+      ],
+      [
+       "c",
+       10.0,
+       205.00000000000023
+      ]
+     ],
+     "by_hand": [
+      260.0,
+      379.0000000000001
+     ],
+     "conditional_value_at_risk": 379.0000000000001,
+     "value_at_risk": 260.0
+    },
+    "0.99": {
+     "attribution": [
+      [
+       "a",
+       100.0,
+       10.000000000000018
+      ],
+      [
+       "b",
+       0.0,
+       249.99999999999994
+      ],
+      [
+       "c",
+       400.0,
+       400.0
+      ]
+     ],
+     "by_hand": [
+      500.0,
+      659.9999999999999
+     ],
+     "conditional_value_at_risk": 660.0,
+     "value_at_risk": 500.0
+    }
+   },
+   "limit": "each asset has exactly two loss states; a loss distribution per asset must first be reduced to two states",
+   "matches_reading": true,
+   "serves_as_independence_bracket": true
+  },
+  "distribution": {
+   "call": "Distribution.empirical and its figures; Impact.pushforward",
+   "conditional_value_at_risk_99": 288032.49954438204,
+   "exceedance_at_0_1e5_2e5": [
+    0.216,
+    0.095,
+    0.016
+   ],
+   "json_round_trip_equal": true,
+   "matches_reading": true,
+   "mean": 22112.568547913615,
+   "pushforward_mean": 0.05672666666666667,
+   "value_at_risk_99": 212516.4782563846
+  },
+  "evaluate": {
+   "call": "Dataset.evaluate(Assets).return_periods(...).impact(...).read()",
+   "columns": [
+    "asset_id",
+    "member_id",
+    "resource_id",
+    "variable_id",
+    "scenario_id",
+    "period_id",
+    "support_id",
+    "distance_metres",
+    "response_id",
+    "resolution_id",
+    "query_value",
+    "value",
+    "failure",
+    "asset"
+   ],
+   "failure_codes": [
+    "outside_max_distance",
+    "query_outside_support"
+   ],
+   "matches_reading": true,
+   "note": "one set of rows for the exposure (response_id empty) and one per named response; under SpatialMatch.nearest an unmatched asset fails with outside_max_distance",
+   "on_a_depth_and_ratio_at_100_years": [
+    1.1000000000000014,
+    0.4200000000000003
+   ],
+   "report_counts": "ExecutionCounts(requested=24, produced=24, skipped=0, no_data=12, matched_assets=2, unmatched_assets=1, usable_years=0, incomplete_years=0)",
+   "row_count": 24,
+   "rows": [
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 10.0,
+     "response_id": null,
+     "support_id": "asset-a",
+     "value": 0.0
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 100.0,
+     "response_id": null,
+     "support_id": "asset-a",
+     "value": 1.1000000000000014
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 500.0,
+     "response_id": null,
+     "support_id": "asset-a",
+     "value": 2.4
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": "query_outside_support",
+     "query_value": 1000.0,
+     "response_id": null,
+     "support_id": "asset-a",
+     "value": null
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 10.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-a",
+     "value": 0.0
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 100.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-a",
+     "value": 0.4200000000000003
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": null,
+     "query_value": 500.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-a",
+     "value": 0.6799999999999999
+    },
+    {
+     "asset_id": "on-a",
+     "distance_metres": 0.0,
+     "failure": "query_outside_support",
+     "query_value": 1000.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-a",
+     "value": null
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 10.0,
+     "response_id": null,
+     "support_id": "asset-b",
+     "value": 0.3
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 100.0,
+     "response_id": null,
+     "support_id": "asset-b",
+     "value": 1.2000000000000015
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 500.0,
+     "response_id": null,
+     "support_id": "asset-b",
+     "value": 2.5
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": "query_outside_support",
+     "query_value": 1000.0,
+     "response_id": null,
+     "support_id": "asset-b",
+     "value": null
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 10.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-b",
+     "value": 0.12
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 100.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-b",
+     "value": 0.44000000000000034
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": null,
+     "query_value": 500.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-b",
+     "value": 0.7000000000000001
+    },
+    {
+     "asset_id": "near-b",
+     "distance_metres": 13.95727487491482,
+     "failure": "query_outside_support",
+     "query_value": 1000.0,
+     "response_id": "damage_ratio",
+     "support_id": "asset-b",
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 10.0,
+     "response_id": null,
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 100.0,
+     "response_id": null,
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 500.0,
+     "response_id": null,
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 1000.0,
+     "response_id": null,
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 10.0,
+     "response_id": "damage_ratio",
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 100.0,
+     "response_id": "damage_ratio",
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 500.0,
+     "response_id": "damage_ratio",
+     "support_id": null,
+     "value": null
+    },
+    {
+     "asset_id": "far-away",
+     "distance_metres": null,
+     "failure": "outside_max_distance",
+     "query_value": 1000.0,
+     "response_id": "damage_ratio",
+     "support_id": null,
+     "value": null
+    }
+   ]
+  },
+  "from_quantiles": {
+   "asset_a_depth_at_0.955_linear_in_probability": 0.2999999999999993,
+   "asset_a_depth_at_dry_probability": 0.0,
+   "asset_a_depth_just_below": 0.0,
+   "asset_a_knots": [
+    [
+     0.0,
+     0.93,
+     0.98,
+     0.99,
+     0.998
+    ],
+    [
+     0.0,
+     0.0,
+     0.6,
+     1.1,
+     2.4
+    ]
+   ],
+   "call": "Dataset.from_quantiles, decode_curves",
+   "expected_at_0.955": 0.2999999999999993,
+   "matches_reading": true,
+   "rows_returned": 3
+  },
+  "from_raster": {
+   "all_dry_cell_delivered_with_zeros": true,
+   "call": "Dataset.from_raster",
+   "cells_compared": 399,
+   "cells_differing": 0,
+   "cells_in_raster": 400,
+   "columns": [
+    "variable_id",
+    "scenario_id",
+    "period_id",
+    "support_id",
+    "cell_id",
+    "geometry",
+    "curve",
+    "fit",
+    "failure"
+   ],
+   "geometry_type": "Polygon",
+   "largest_difference": 0.0,
+   "masked_cell_delivered": false,
+   "matches_reading": true,
+   "report_counts": "ExecutionCounts(requested=400, produced=399, skipped=1, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0)",
+   "rows_returned": 399
+  },
+  "from_raster_decreasing": {
+   "call": "Dataset.from_raster, one decreasing cell",
+   "error_type": "ValidationError",
+   "matches_reading": true,
+   "message": "quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing",
+   "message_names_the_cell": false,
+   "raised": true,
+   "rows_after_running_maximum": 400
+  },
+  "impact": {
+   "call": "Impact.tabulated, evaluate, expectation",
+   "depth_beyond_table": {
+    "error_type": "ImpactError",
+    "message": "out_of_domain at /0: exposure is outside the table domain",
+    "raised": true
+   },
+   "expectation": 0.05672666666666667,
+   "expectation_by_fine_trapezoid": 0.056726666662499994,
+   "expectation_of_incomplete_curve": {
+    "error_type": "TypeError",
+    "message": "distribution must be Distribution",
+    "raised": true
+   },
+   "expected_ratios": [
+    0.1,
+    0.3,
+    0.6
+   ],
+   "matches_reading": true,
+   "ratios_at_0.25_0.75_2.0_m": [
+    0.1,
+    0.30000000000000004,
+    0.6000000000000001
+   ]
+  },
+  "layer": {
+   "accepted": true,
+   "attributes_equal": true,
+   "call": "Layer.from_table on ten polygons with a class code",
+   "columns": [
+    "variable_id",
+    "scenario_id",
+    "period_id",
+    "support_id",
+    "cell_id",
+    "geometry",
+    "value",
+    "label",
+    "failure"
+   ],
+   "geometry_equal": true,
+   "matches_reading": true,
+   "rows_returned": 10
+  },
+  "observations": {
+   "call": "Observations.from_table on ten irregular sensor events",
+   "columns": [
+    "variable_id",
+    "scenario_id",
+    "period_id",
+    "support_id",
+    "cell_id",
+    "geometry",
+    "time",
+    "value",
+    "station_id",
+    "group_id",
+    "failure",
+    "coverage"
+   ],
+   "matches_reading": true,
+   "rows_equal": true,
+   "rows_returned": 10,
+   "values_equal": true,
+   "without_sampling": "accepted"
+  },
+  "timing": {
+   "call": "Dataset.from_raster, 775 x 775 cells, seven probabilities",
+   "cells": 600625,
+   "cells_per_second": 6269,
+   "matches_reading": true,
+   "peak_memory_before_gib": 0.34,
+   "peak_memory_gib": 0.55,
+   "rows_returned": 600625,
+   "seconds": 95.8,
+   "table_bytes_gib": 0.27
+  },
+  "two_routes": {
+   "call": "QuantileCurve.complete, Impact.expectation on both routes",
+   "depths_at_fixed_probabilities": [
+    0.0,
+    0.0,
+    0.0,
+    0.35999999999999943,
+    0.6,
+    1.1,
+    2.4
+   ],
+   "dry_probability": 0.93,
+   "exceedance_of_zero_exact": 0.06999999999999995,
+   "exceedance_of_zero_fixed": 0.09999999999999998,
+   "expected_damage_exact_by_numpy": 0.01514,
+   "expected_damage_exact_knots": 0.015140000000000013,
+   "expected_damage_fixed_by_numpy": 0.0173,
+   "expected_damage_fixed_probabilities": 0.017299999999999992,
+   "matches_reading": true,
+   "relative_difference": 0.14266842800528254
+  }
+ },
+ "title": "CRC 1.0.0 calls the flood lab relies on, run once on toy data"
+}

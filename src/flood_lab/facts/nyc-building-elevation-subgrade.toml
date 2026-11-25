@@ -1,0 +1,155 @@
+id = "nyc-building-elevation-subgrade"
+title = "Building Elevation and Subgrade (BES)"
+publisher = "NYC Department of City Planning (DCP), on NYC Open Data"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD5"]
+known_biases = "Everything comes from what a vendor's operators could see in street-level photos and LiDAR from the road: buildings hidden by construction or obstruction (135,503 rows) have estimated grade, 14,039 rows have no measurement (value 0), and subgrade space reachable only from inside (cellars in large buildings) is not recorded, so 'no subgrade' means 'none seen'. Small accessory buildings such as sheds are excluded. The 1,000-row sample fetched is the first 1,000 by BIN and covers Manhattan only."
+
+[[fact]]
+name = "identifier"
+claimed = "NYC Open Data `bsin-59hv`"
+observed = "Dataset bsin-59hv, \"Building Elevation and Subgrade (BES)\", attribution Department of City Planning (DCP), one row per building centroid."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+passage = "name=Building Elevation and Subgrade (BES) ; attribution=Department of City Planning (DCP)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "NYC Open Data `bsin-59hv`"
+observed = "https://data.cityofnewyork.us/d/bsin-59hv resolves (dictionary gives https://data.cityofnewyork.us/City-Government/Building-Elevation-and-Subgrade-BES-/bsin-59hv). SODA2 endpoint https://data.cityofnewyork.us/resource/bsin-59hv.json works without token."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.json?$select=count(*)"
+passage = "[{\"count\":\"861876\"}]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "30 columns incl. computed regions. Main: bin (number, DOB building id), bbl (text, from the 22v1 DOB footprints), borough (code 1 Manhattan, 2 Bronx, 3 Brooklyn, 4 Queens, 5 Staten Island), block, lot, address, z_grade (number, FEET, NAVD88: elevation of the lowest adjacent grade), z_floor (number, FEET, NAVD88: elevation of the lowest actively used floor), subgrade (text), notes1, notes2, notes3 (text), x, y (NAD83 State Plane), latitude, longitude (WGS84), pluto_bbl, council, borocd, ctlabel, boroct2020, nta2020, ntaname, cdta2020, cdtaname. The data dictionary spells the notes fields notes_1..3 and the datum NADV88 in one place; the table has notes1..3."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+passage = """
+z_grade | number | The elevation of the building at it's lowest adjacent grade - the lowest point where the building touches the ground (feet).
+z_floor | number | The elevation of what is estimated to be the lowest actively used floor (feet)
+[dictionary, Column Information] z_grade ... Feet, recorded in the NAVD88 vertical datum"""
+note = "Vertical datum NAVD88 (feet). Horizontal: NAD 1983 (x, y in State Plane feet; latitude and longitude WGS84). Street level elevation is not provided: \"This study does not contain measurements that indicate street level elevation.\""
+verdict_note = ""
+
+[[fact]]
+name = "datum_units"
+claimed = ""
+observed = "Feet above sea level in NAVD88 for z_grade and z_floor. Range in the table: z_grade -13.096 to 402.839; z_floor 0.0 to 404.397."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+passage = "Each record contains a grade and first floor measurement for each building (recorded as feet above sea-level in the NADV88 vertical datum) and indicates if subgrade space exists."
+note = "The description misspells the datum as \"NADV88\" in two places; the column descriptions and dictionary say NAVD88."
+verdict_note = ""
+
+[[fact]]
+name = "grade_estimates"
+claimed = "read the guidance note on estimated grades"
+observed = "Grade and floor were read by vendor operators from street-level LiDAR point clouds and photo imagery (captured every 16 feet, March to July 2021 per the dictionary). Where the lowest adjacent grade was below street level or hidden, the value is an estimate from context clues (door or window height); the estimate is flagged only through notes1 ('Property not Visible Due to Construction or Obstruction', 135,503 rows, or 'Property not Visible from Street', 12,082 rows; 147,585 in all), and there is no record of which of grade or floor was estimated. A value of 0 means no measurement: z_grade = 0 in 14,039 rows, z_floor = 0 in 14,038 (14,038 rows have both at 0, one row has z_grade 0 only). The estimated accuracy is called 'reasonable' without a figure."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv/files/ae1b369c-6ce1-4805-9ad0-aca9f62f3182"
+passage = """
+In many instances where the lowest adjacent grade was below street level, the derived measurement in the dataset is an estimate. Any building centroid that has an estimated grade elevation will note “Property not visible due to construction or obstruction” under note_1. Estimates were made by individual data operators based on context clues in the imagery.
+[dictionary] While note_1 records if estimates were taken, there is no record of which of the two observed measurements (or both) was the estimated value. DCP has established that the accuracy of estimated spot elevations is reasonable provided that one of the methodologies previously described has been followed.
+[dictionary, z_grade] When no measurement has been taken, the field value will be 0"""
+note = "The guidance PDF and the Excel dictionary disagree on dates: the dataset description says imagery \"collected ... between March and July of 2021\" and the limitations row says \"only records what was captured by the data vendor between March and August of 2022\"; the footprints are the DOB file of 2022-02-26. Counts from API queries: notes1 like '%Construction or Obstruction%' = 135503; notes1 like '%Not Visible%' or '%not Visible%' = 147585; z_grade=0 -> 14039; z_grade=0 and z_floor=0 -> 14038; z_floor=0 and z_grade>0 -> 0."
+verdict_note = ""
+
+[[fact]]
+name = "subgrade_flag"
+claimed = "subgrade-space flag"
+observed = "Column subgrade is text with two values: 'Y' (472,003 rows) and 'N' (389,873 rows); the dictionary calls them Yes/No. 'Y' requires a space below street level not solely for parking AND a door or window through which water may enter, seen from outside. notes3 is filled exactly for the 472,003 'Y' rows ('Visible Door or Window in subgrade space', 310,268; the same plus 'Negative grade driveway walkway leading down to subgrade space', 161,735)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.json?$select=subgrade,count(*)&$group=subgrade"
+passage = "[{\"subgrade\":\"Y\",\"count\":\"472003\"},{\"subgrade\":\"N\",\"count\":\"389873\"}]"
+note = "Dictionary: \"There are two requirements for a structure to be marked \"Yes\" as having a subgrade space. There must be a space that goes below street level that is not solely designated for parking and there must be a door or window through which water may enter the structure.\" Guidance: \"This dataset should not be treated as an inventory of subgrade spaces in New York City.\""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "All five boroughs: 861,876 building centroids (Queens 331,103; Brooklyn 273,513; Staten Island 123,614; Bronx 88,939; Manhattan 44,706; 1 row without borough). Excludes small accessory buildings such as sheds."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.json?$select=borough,count(*)&$group=borough"
+passage = "borough 4: 331103 ; 3: 273513 ; 5: 123614 ; 2: 88939 ; 1: 44706 ; null: 1"
+note = "The 1,000-row sample file is ordered by bin and so holds Manhattan buildings only; it is a format sample, not a sample of the city."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "One-time capture, no planned updates. Footprints: DOB file of 2022-02-26; imagery date given as March to July 2021 in one dictionary row and as March to August 2022 in another (see grade_estimates)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+passage = "Update Frequency Details: This is a one time data capture with no planned updates ; Date Made Public: 9/19/2023"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "rowsUpdatedAt 2023-09-19T16:07:13Z, made public 2023-09-19; metadata last modified 2023-10-25T14:59:28Z; 'Historical data', never updated."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+passage = "rowsUpdatedAt=1695139633 (2023-09-19T16:07:13Z) ; viewLastModified=1698245968 (2023-10-25T14:59:28Z)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "NYC Open Data terms; read the guidance note on estimated grades"
+observed = "No licence field (licenseId None); NYC Open Data terms apply (see passage). No attribution requirement was found in the description or custom fields."
+outcome = "confirmed"
+source_url = "https://cityofnewyork.github.io/opendatatsm/publicpolicies.html"
+passage = """
+[Technical Standards Manual, public policies page] Local Law 11 of 2012, specifically § 23-502 d, requires that data sets must be available without registration requirement, license requirement, or usage restrictions, except as provided below. ... DoITT may require third party entities such as application developers to explicitly identify the source, version, and modifications made to a public data set, should they publicly re-publish it elsewhere or incorporate the public data set into an application. ... By accessing data sets and feeds available through the NYC OpenData portal (or the “Site”), the user agrees to all of the Terms of Use of NYC.gov as well as the NYC.gov Privacy Policy. The user also agrees to any additional terms of use defined by entities providing data or feeds through the Site. ... Public data sets made available on the NYC OpenData portal are provided for informational purposes. The City does not warranty the completeness, accuracy, content, or fitness for any particular purpose or use of any public data set made available on the NYC OpenData portal ...
+[Technical Standards Manual, 5/12/2023 revision, section 2.3.2, https://www.nyc.gov/content/dam/nycgov/opendata/downloads/open-data-coordinators/NYC_OpenData_TechnicalStandardsManual.pdf] Upon publication to NYC Open Data, datasets become a public resource available to anyone, without restriction or licensing requirements (see NYC Open Data’s Terms of Use for more information)."""
+note = "Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team's own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for 'open data', 'data set' and 'public data' found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal."
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "The full table was not downloaded (task). The 1,000-row sample (first 1,000 rows ordered by bin, CSV) has its sha256 in the file record. The guidance PDF and the data dictionary were also kept. Publisher gives no checksum."
+outcome = "not applicable"
+source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin"
+passage = "sample rows=1000 (1001 lines with header)"
+note = ""
+verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
+
+[[file]]
+path = "nyc-building-elevation-subgrade/sample-1000.csv"
+url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin"
+bytes = 445626
+sha256 = "66d674aeab0778b5d506a074983763bf78cef3f94dcb85accba5c1ba36151a5f"
+fetched_at = "2026-11-25T16:58:10Z"
+
+[[file]]
+path = "nyc-building-elevation-subgrade/guidance.pdf"
+url = "https://data.cityofnewyork.us/api/views/bsin-59hv/files/ae1b369c-6ce1-4805-9ad0-aca9f62f3182?download=true&filename=Building%20Elevation%20and%20Subgrade%20Dataset%20Guidance.pdf"
+bytes = 217866
+sha256 = "e4fb5ecdc8c42182ab6544d2cbb11d1b289898eec5b9691e4b750c5385c3dc89"
+fetched_at = "2026-11-25T16:58:11Z"
+
+[[file]]
+path = "nyc-building-elevation-subgrade/dictionary.xlsx"
+url = "https://data.cityofnewyork.us/api/views/bsin-59hv/files/fa3da2f9-6edd-4eed-b995-423042340202?download=true&filename=Building_Elevation_and_Subgrade-Data_Dictionary.xlsx"
+bytes = 114220
+sha256 = "5fa93566d968c5b68dbb73cb49121c44194cc88db0ebb5ef731721408e7c1a69"
+fetched_at = "2026-11-25T16:58:12Z"
+
+[[file]]
+path = "meta/bsin-59hv.json"
+url = "https://data.cityofnewyork.us/api/views/bsin-59hv.json"
+bytes = 55894
+sha256 = "859e11da81c0bab1c8f9a49898e3b1977237d72c4a7e6505cffbafa0d7ddcd71"
+fetched_at = "2026-11-25T16:53:10Z"

@@ -16,6 +16,7 @@ ALLOWED = {
     "crc_lab": {"lab_common"},
     "crc_data_explorer": {"lab_common"},
     "data_source_check": set(),
+    "flood_lab": {"lab_common"},
 }
 
 

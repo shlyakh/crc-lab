@@ -1,0 +1,106 @@
+id = "hazus-flood-functions"
+title = "FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual"
+publisher = "FEMA (Hazus); open-source tool repository nhrap-hazus/FAST on GitHub"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FR2", "FR3", "FM5"]
+known_biases = "FEMA's own pages and documents returned HTTP 403 to the data-source-check client (www.fema.gov), so the Inventory Technical Manual, Table 10-12 and the 4 ft functional depth were NOT read. The current-version statement comes from an Internet Archive copy of FEMA's Hazus page (secondary). The FAST lookup tables are Hazus 4.0 data; the repository is archived by its owner ('no longer receiving updates')."
+
+[[fact]]
+name = "identifier"
+claimed = "Hazus Inventory Technical Manual 4.2 SP3, Table 10-12"
+observed = "Not checked: https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf and the Hazus page return HTTP 403 (Access Denied) to the client; no other copy of the manual found. The 4 ft (1.22 m) functional depth for slab-on-grade low- and high-voltage substations and its table number are unconfirmed."
+outcome = "not checked"
+source_url = "https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf"
+passage = "HTTP 403 'Access Denied'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "current_version"
+claimed = ""
+observed = "Current Hazus is 7.2 (Internet Archive copy of FEMA's Hazus page, snapshot 2026-11-14): 'Hazus 7.2 is available'; Hazus 6.1 is no longer available for download since 2026-03-03; not all functionality of 6.1 and earlier exists in 7.0, 7.1 or 7.2. The Hazus 4.2 SP3 manual is therefore an old version."
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps/products-tools/hazus"
+passage = "Hazus 7.2 Release Hazus 7.2 is available ... Hazus 6.1 No Longer Available for Downloads FEMA no longer supports the download of Hazus 6.1 as of March 3, 2026 due to the retirement of ArcGIS Desktop. To continue your work, please download Hazus 7.2 from the Map Service Center."
+note = "Secondary (web.archive.org copy)."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Machine-readable depth-damage functions: FEMA's open-source Flood Assessment Structure Tool repository https://github.com/nhrap-hazus/FAST, folder Lookuptables: Building_DDF_Riverine_LUT_Hazus4p0.csv, Building_DDF_CoastalA_LUT_Hazus4p0.csv, Building_DDF_CoastalV_LUT_Hazus4p0.csv, Content_DDF_*_LUT_Hazus4p0.csv, Inventory_DDF_LUT_Hazus4p0.csv, AllDDF.xlsx, flBldgContDmgFn.csv, OccupancyTypes.csv (plus DefaultDDFAssignmentTables.xlsx). These are Hazus 4.0 tables for buildings and contents. Not downloaded; whether they contain substation (essential/utility) curves was not checked. Current Hazus 7.2 data come with the software from the FEMA Map Service Center (msc.fema.gov did not respond, HTTP 000)."
+outcome = "confirmed"
+source_url = "https://github.com/nhrap-hazus/FAST"
+passage = "Lookuptables/README.txt: 'DDFs and other tables were obtained from Hazus 4.0 SQL database. We verified that no additions, changes, or deletions to the DDFs occurred in Hazus 3.1, 3.2, and 4.0.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Public domain (section 7)"
+observed = "FAST repository: GPL-3.0 (GitHub licence). Public-domain status of the Hazus tables is not stated in the sources read; FEMA's page was not readable. Repository archived in effect: last push 2022-03-30, README: 'ATTENTION: The latest version of this tool is available at https://msc.fema.gov/portal/resources/hazus This github repository is no longer receiving updates.'"
+outcome = "differs"
+source_url = "https://api.github.com/repos/nhrap-hazus/FAST"
+passage = "license.spdx_id=GPL-3.0; pushed_at=2022-03-30T00:17:01Z"
+note = "The claim 'public domain' is unverified; code licence is GPL-3.0."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "FAST latest GitHub release 0.0.7 (2021-03-17)."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/nhrap-hazus/FAST/releases"
+passage = "tag_name=0.0.7 published_at=2021-03-17T22:03:34Z"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "FAST uses depth damage functions assigned by occupancy type, first floor elevation, foundation type and number of stories (Riverine, CoastalA, CoastalV)."
+outcome = "confirmed"
+source_url = "https://github.com/nhrap-hazus/FAST"
+passage = "FAST uses the Hazus Flood model methodology to assign depth damage functions to buildings according to their occupancy type, first floor elevation, foundation type, and number of stories."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Not applicable (US-wide tables)."
+outcome = "not applicable"
+source_url = "https://github.com/nhrap-hazus/FAST"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "https://github.com/nhrap-hazus/FAST"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No files kept."
+outcome = "not applicable"
+source_url = "https://github.com/nhrap-hazus/FAST"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "raw/wb-fema-hazus.html"
+url = "http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps/products-tools/hazus"
+bytes = 164417
+sha256 = "4aaf9cb4eb4505d6203d856557545ef046511bb40fb2e6ebf19ccc0c63629781"
+fetched_at = "2026-11-25T17:05:53Z"

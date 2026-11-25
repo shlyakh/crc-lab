@@ -1,0 +1,177 @@
+id = "usgs-ida-depth-rasters"
+title = "Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021"
+publisher = "U.S. Geological Survey, New York Water Science Center (via ScienceBase)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FV1"]
+known_biases = "Covers only discs of 250 m radius around 83 surveyed marks; everywhere else there is no depth. The depth is the mark minus lidar ground, assuming flat water, so it is derived from the marks and not an independent observation. Drains and subway spaces are ignored and the lidar is 2017, four years before the event."
+
+[[fact]]
+name = "identifier"
+claimed = "USGS data release \"Geospatial Datasets of Water Surface Elevation and Water Depth in New York City\" (no identifier given)"
+observed = "DOI 10.5066/P9JF4OWB; ScienceBase item 63badf22d34e92aad3cd279e. Title: \"Geospatial Datasets of Water Surface Elevation and Water Depth in New York City, NY Associated with the Remnants of Hurricane Ida - September 1, 2021\". Authors Finkelstein, Gazoorian, Capurso, 2023. It cites the marks release (10.5066/P9OMBJPQ)."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "citation=\"Finkelstein, J.S., Gazoorian, C.L., and Capurso, W.D., 2023, Geospatial datasets of water surface elevation and water depth in New York City, NY associated with the remnants of Hurricane Ida – September 1, 2021: U.S. Geological Survey data release, https://doi.org/10.5066/P9JF4OWB.\" ; identifiers[0].key=doi:10.5066/P9JF4OWB"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "https://doi.org/10.5066/P9JF4OWB redirects (HTTP 200) to https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e. Item JSON read from the address in source_url. The ArcGIS web map is https://usgs.maps.arcgis.com/apps/mapviewer/index.html?webmap=43dd2a6725d84dc7b72ee54a74be47e8 (not opened)."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "curl -sL https://doi.org/10.5066/P9JF4OWB -> url_effective https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "contents"
+claimed = ""
+observed = "HWM_Inundation_Raster_Data.zip 46,879,805 B (897 files, 234,374,594 B unzipped: 79 InundationDepth, 48 WaterLevelAbove1stFloor, 68 WaterLevelBelow1stFloor GeoTIFFs plus .xml/.aux/.tfw/.ovr); HWM_Inundation_Extents.zip 1,728,277 B (polygon shapefiles); HWM_Mapping_Buffers.zip 100,135 B; HWM_Measurements_Info.csv 3,997 B (83 sites); HWM_Inundation_Mapping_Metadata.xml 26,226 B; and an ArcGIS service definition Inundation_Map_Data_NYC.sd 69,911,055 B. Nothing exceeds 200 MB; all listed, only the raster zip and the two small files were downloaded."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "files: HWM_Inundation_Raster_Data.zip 46879805 (MD5 5d45ea1c678893035570253fe824705c); HWM_Inundation_Extents.zip 1728277; HWM_Mapping_Buffers.zip 100135; HWM_Measurements_Info.csv 3997; HWM_Inundation_Mapping_Metadata.xml 26226 ; facet Inundation_Map_Data_NYC.sd 69911055"
+note = "Raster counts from `unzip -l` on my copy. 79 InundationDepth rasters for 83 sites: not every site has an outdoor raster (not explained on the page)."
+verdict_note = ""
+
+[[fact]]
+name = "what_the_depth_is"
+claimed = ""
+observed = "NOT a hydrodynamic model. Depth = surveyed HWM elevation minus lidar ground elevation, within a 250 m circle around each mark, assuming a single constant water surface across that circle, connected low ground only, ground more than 1 ft below the mark treated as flowing water and removed. Sinks (subways, storm drains) ignored. Buildings inundated only if z_floor <= water level and the building has a subgrade space."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "\"These depth maps assume a constant water-surface elevation across the landscape around each HWM and show where potential inundation may have occurred during the rainfall event.\" ; \"1) The extent of inundation was limited by the land-surface elevation within a 250-meter distance buffer around each HWM location.\" ; \"5) All potential sinks were ignored.\""
+note = "For validation this means the raster at a mark is almost a restatement of that mark (depth = mark minus lidar); it is not an independent observation away from the marks."
+verdict_note = ""
+
+[[fact]]
+name = "resolution"
+claimed = ""
+observed = "1-ft cells (\"1-ft discretization\"), snapped to the source lidar. Checked on one raster (NYBRO31256_InundationDepth.tif): extent 1032257..1033231 ft by 236491..236935 ft = 974 x 444 pixels, so 1 ft cells. Depth values in feet."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "\"The polygons were converted to a tiff file raster with a 1-ft discretization and snapped to match the source lidar.\" ; \"The water depth data is presented as tiff files (raster format), in feet above land-surface elevation (Quantum Spatial, 2018)\""
+note = "The metadata sentence \"The lidar has a 1-ft discretization\" is ambiguous (cell size or vertical rounding). Pixel size taken from the raster itself; vertical rounding of the lidar values not checked."
+verdict_note = ""
+
+[[fact]]
+name = "horizontal_crs"
+claimed = ""
+observed = "NAD83 / New York Long Island (ftUS), EPSG:2263 (FIPS 3104, US survey feet)."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "Horizontal coordinate system: \"NAD_1983_StatePlane_New_York_Long_Island_FIPS_3104_Feet\" ... AUTHORITY[\"EPSG\",2263] ; gdalinfo on NYBRO31256_InundationDepth.tif: PROJCRS[\"NAD83 / New York Long Island (ftUS)\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "vertical_datum"
+claimed = "datum"
+observed = "HWM elevations: NAVD88 feet. Ground elevation: NYC 2017 topobathymetric lidar DEM (Quantum Spatial 2018; NAVD88 per NYC). The depth rasters themselves are heights above ground in feet and carry no datum; the metadata page I read does not restate NAVD88 for the lidar."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "HWM_Measurements_Info.csv attribute: \"Measured_HWM_elevation_in_Feet: Measured elevation of HWM, in feet, referenced to NAVD 1988.\" ; lidar source: \"NYC 2017 LiDAR TopoBathymetric Hydroenforced Unfilled DEM (mosaic)\" (Quantum Spatial, 20180709) ; NYC page states NAVD88 Geoid 12B (see lidar-terrain)."
+note = "Lidar datum is inferred from the NYC publication of the same DEM, not from this release."
+verdict_note = ""
+
+[[fact]]
+name = "method"
+claimed = ""
+observed = "ArcMap 10.8.1 raster calculator: [HWM elevation raster] minus [lidar mosaicked with building z_floor from the DCP Building Elevation and Subgrade table]; one mark per site (best quality grade, higher elevation if tied). Validation: \"ensure that the inundation depths presented make logical sense\"; no numerical error statistic given. Accuracy depends on HWM, lidar, and first-floor data."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "\"Inundation rasters were validated to ensure that the inundation depths presented make logical sense in the context of the surroundings and landscape around each HWM.\" ; \"Accuracy of the inundation depth data is dependent on the accuracy of the HWM measurement collected by the U.S. Geological Survey (Capurso and others, 2023), building first-floor elevation dataset(Department of City Planning (DCP), 2023), lidar dataset (Quantum Spatial, 2018), and assumptions and constraints described in the metadata.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "US public domain"
+observed = "No licence statement beyond a disclaimer and a request: \"None.\" as use constraint, \"Acknowledgement of the U.S. Geological Survey would be appreciated in products derived from this data release\", plus a no-warranty and no-liability notice. The words \"public domain\" do not appear on this record. The rasters are labelled a \"quick reference planning tool\"."
+outcome = "not checked"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "\"None. Acknowledgement of the U.S. Geological Survey would be appreciated in products derived from this data release. Although these data have been used by the USGS, no warranty expressed or implied is made by the USGS as to the accuracy of the data.\" ; \"The USGS provides these inundation rasters “as-is” for a quick reference planning tool but assumes no legal liability or responsibility resulting from the use of this information.\""
+note = "Public-domain status not stated on the record; see usgs-ida-high-water-marks licence fact."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Rasters: single band, depth in feet, ranges differ per mark. Three kinds per site: InundationDepth (outdoors), WaterLevelAbove1stFloor, WaterLevelBelow1stFloor (building footprints). HWM_Measurements_Info.csv columns: Site_name, Measured_HWM_elevation_in_Feet (4.2 to 240.7), Latitude, Longitude (NAD83, 40.58908..40.89424, -74.1566..-73.7651), HWM_measurement_number."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "'InundationDepth.tif' (depth of water, outside of buildings); 'WaterLevelAbove1stFloor.tif' (depth of water above 1st floor elevation of buildings, in ft); and 'WaterLevelBelow1stFloor.tif' (Distance below 1st floor to water surface, in ft)."
+note = "Column names are from the CSV header; the metadata gives ranges 4.2 to 240.7 for the elevation column."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Only within 250 m of each of 83 HWM sites, five boroughs; of the 83, 55 sites fall in the Brooklyn-Queens box (my count from HWM_Measurements_Info.csv, lon -74.05..-73.70, lat 40.55..40.80). Not a continuous map."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "summary: \"This data release contains maps of water-depth and inundation extents for areas within 250 meters of surveyed HWM locations.\""
+note = "Box count is mine; this counts all sites inside the box including any in Manhattan."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Event of 2021-09-01. Dates on item: Start 2021-09-07, End 2021-09-23 (survey window); published 2023-03-31."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "dates: Start 2021-09-07 ; End 2021-09-23 ; Publication 2023-03-31"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Published 2023-03-31 (FGDC metadata date 20230331). No version number."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+passage = "<pubdate>20230331</pubdate> (Geospatial datasets of water surface elevation and water depth in New York City... Raster tiff files, Troy, NY, U.S. Geological Survey)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "MD5 of my download of HWM_Inundation_Raster_Data.zip equals the published 5d45ea1c678893035570253fe824705c. HWM_Measurements_Info.csv MD5 matches (d3eada94fd3e3b323c8fd772ea14212b). The metadata XML has the same size (26,226 B) but a different MD5 (mine 0563a7925b6e12248e89eaa125759386, published 4e751e3b4d889d2e56db5d2d1dd698ba)."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+passage = "files[].checksum MD5: HWM_Inundation_Raster_Data.zip 5d45ea1c678893035570253fe824705c ; HWM_Measurements_Info.csv d3eada94fd3e3b323c8fd772ea14212b ; HWM_Inundation_Mapping_Metadata.xml 4e751e3b4d889d2e56db5d2d1dd698ba"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "usgs-ida-depth-rasters/raster_zip/HWM_Inundation_Raster_Data.zip"
+url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__c1%2F8f%2Fc7%2Fc18fc70d5a7e920d07895b75884f76fa25ee234a"
+bytes = 46879805
+sha256 = "62623d6d8f9ba1c24878b53b0a1de5e1164427ddcd05a240d5607189a7d75440"
+fetched_at = "2026-11-25T17:00:35Z"
+
+[[file]]
+path = "usgs-ida-depth-rasters/HWM_Measurements_Info.csv"
+url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__48%2Fe4%2Fda%2F48e4dac64dd1d5549ffe4cbf0c1acc99a7cceddb"
+bytes = 3997
+sha256 = "f93ae3d2a462526e1e49a772a93d215428b6b42ffaf8c8227f517845941458ac"
+fetched_at = "2026-11-25T16:53:58Z"
+
+[[file]]
+path = "usgs-ida-depth-rasters/HWM_Inundation_Mapping_Metadata.xml"
+url = "https://www.sciencebase.gov/catalog/file/get/63badf22d34e92aad3cd279e?f=__disk__74%2F82%2F91%2F74829135b81999cf615c9a3416efcb9003c0de8f"
+bytes = 26226
+sha256 = "86c68bd4310ef6560fb9b7cd75cbc43490c9fbb50b69319954ea36185a44ba8e"
+fetched_at = "2026-11-25T16:53:57Z"
+
+[[file]]
+path = "usgs-ida-depth-rasters/sciencebase_item.json"
+url = "https://www.sciencebase.gov/catalog/item/63badf22d34e92aad3cd279e?format=json"
+bytes = 21249
+sha256 = "c92e09e7f05a3aa239250c5aa5cf472ce80f3ba11c09d911b0534b2c184aec1d"
+fetched_at = "2026-11-25T16:53:50Z"

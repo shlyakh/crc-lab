@@ -1,0 +1,232 @@
+id = "lidar-terrain"
+title = "Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM"
+publisher = "U.S. Geological Survey (3DEP); City of New York Office of Technology and Innovation (OTI)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD2"]
+known_biases = "The 1 m grid is a patchwork of lidar projects from 2013 to 2025, none from the Ida year; the city product is 1 ft and from 2017, so buildings, grading and drainage changes since then are absent. Bare-earth models remove buildings; hydro-flattening and hydro-enforcement alter water bodies and culverts, which matters for pluvial flooding."
+
+[[fact]]
+name = "identifier"
+claimed = "USGS 3DEP or NYC topobathymetric lidar (no identifiers); FD2 \"1 m lidar digital elevation model for the area, with its vintage and vertical datum recorded\""
+observed = "Candidates: (A) USGS 3DEP \"Digital Elevation Model (DEM) 1 meter\", ScienceBase collection 543e6b86e4b0fd76af69cf4c, in this box as projects NY_LongIsland_A24, NJ_NE6County_B23, NY_CMPG_2013, NY_LongIsland_Z18_2014, NJ_SdL5_2014 (27 tiles); (B) NYC Open Data 7sc8-jtbz \"Topobathymetric LiDAR Data (2017)\" (Office of Technology and Innovation), also on the NYS GIS Clearinghouse; (C) NYC Open Data dpc8-z3jc \"1 foot Digital Elevation Model (DEM)\" from 2010 lidar. Neither NYC product is 1 m."
+outcome = "differs"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-74.05,40.55,-73.70,40.80&max=100"
+passage = "TNM Access API: total=27 products for bbox; items include \"USGS 1 Meter 18 x60y451 NY_LongIsland_A24\", \"USGS one meter x59y451 NY CMPG 2013\", \"USGS 1 Meter 18 x58y451 NJ_NE6County_B23\" ; NYC: name=\"Topobathymetric LiDAR Data (2017)\" id 7sc8-jtbz ; name=\"1 foot Digital Elevation Model (DEM)\" id dpc8-z3jc"
+note = "Differs from FD2 only in that the city product is 1 ft, not 1 m, and the USGS 1 m product is a mix of projects. The 1 m grid is available from USGS only."
+verdict_note = ""
+
+[[fact]]
+name = "usgs_3dep_vintage"
+claimed = "\"with its vintage\""
+observed = "Brooklyn/Queens area is split between projects in the 3DEP catalogue: NY_CMPG_2013 (lidar 2013-08-06 to 2014-04-21; the only 3DEP source listed for tiles x59y449-452, lon -73.94..-73.82), NY_LongIsland_A24 (flown 2024-03-24 to 2024-04-16, published 2026-08-19; east tiles x60, x61), NJ_NE6County_B23 (2023-04-13 to 2025-04-09, published 2026-09-17; west tiles x58), older NY_LongIsland_Z18_2014 and NJ_SdL5_2014 (published 2020-03-30). Everything newer than 2021-09 (A24, B23) post-dates Ida; the 2013-14 and 2014 projects pre-date it."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/6a8905171ba49bf481207cc1"
+passage = "A24 item dates: {\"type\": \"Start\", \"dateString\": \"2024-03-24\"}, {\"type\": \"End\", \"dateString\": \"2024-04-16\"}, Publication 2026-08-19 ; B23 item dates: Start 2023-04-13, End 2025-04-09, Publication 2026-09-17 ; CMPG 2013 item dates: Start 2013-08-06, End 2014-04-21, Publication 2020-03-30"
+note = "Dates are collection dates stated on each tile's ScienceBase item (B23 spans two years across a multi-county project). The x58..x61 tile numbers are 3DEP 10 km tile indices (UTM 18N)."
+verdict_note = ""
+
+[[fact]]
+name = "usgs_3dep_resolution_crs_datum"
+claimed = "\"vertical datum recorded\""
+observed = "1 m cells; tiles are 10,000 m x 10,000 m GeoTIFFs in NAD83 UTM zone 18N (metres; zone from the tile name, 18); bare-earth elevations in metres referenced to NAVD88. Geoid model not named on the tile record pages I read."
+outcome = "confirmed"
+source_url = "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NY_LongIsland_A24/USGS_1M_18_x60y451_NY_LongIsland_A24.xml"
+passage = "\"The spatial reference used for tiles of the one-meter DEM within the conterminous United States (CONUS) is Universal Transverse Mercator (UTM) in units of meters, and in conformance with the North American Datum of 1983 (NAD83). All bare earth elevation values are in meters and are referenced to the North American Vertical Datum of 1988 (NAVD88).\" ; \"This is a 10,000 meter by 10,000 meter tile.\""
+note = "Stated in the collection-level text repeated on each tile; the A24 and B23 tile XML both carry it. Not checked inside the GeoTIFF headers (nothing downloaded)."
+verdict_note = ""
+
+[[fact]]
+name = "usgs_3dep_access_size"
+claimed = ""
+observed = "Access: TNM Access API https://tnmaccess.nationalmap.gov/api/v1/products (dataset \"Digital Elevation Model (DEM) 1 meter\", bbox parameter) returns a downloadURL per tile on s3 (https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/<project>/TIFF/USGS_1M_18_x__y___<project>.tif). The 27 tiles intersecting the Brooklyn-Queens rectangle total 5,154 MB in all projects together (duplicates between projects): A24 5 tiles 1,110 MB, B23 3 tiles 264 MB, CMPG_2013 11 tiles 2,300 MB, LongIsland_Z18_2014 5 tiles 1,257 MB, NJ_SdL5_2014 3 tiles 224 MB. A single-vintage cover with the newest data per tile = 3 B23 + 5 A24 + the 4 x59 CMPG 2013 tiles = about 2.3 GB. Tiles also cover Staten Island, Manhattan, the Bronx edge and Nassau, so this overstates Brooklyn+Queens. One tile is 7 MB to 525 MB. The first TNM call returned HTTP 504; the retry succeeded."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-74.05,40.55,-73.70,40.80&max=100"
+passage = "items[].sizeInBytes summed per project (my arithmetic); example: {\"title\": \"USGS 1 Meter 18 x60y451 NY_LongIsland_A24\", \"sizeInBytes\": 157021442, \"downloadURL\": \"https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NY_LongIsland_A24/TIFF/USGS_1M_18_x60y451_NY_LongIsland_A24.tif\"}"
+note = "Sizes are from the API listing; no tile downloaded (rule: facts only)."
+verdict_note = ""
+
+[[fact]]
+name = "usgs_3dep_licence"
+claimed = "Public domain / NYC terms"
+observed = "USGS 3DEP: public domain, with the standard USGS disclaimer and a request to acknowledge the originating agencies."
+outcome = "confirmed"
+source_url = "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NY_LongIsland_A24/USGS_1M_18_x60y451_NY_LongIsland_A24.xml"
+passage = "\"All 3DEP products are public domain.\" ; \"Acknowledgement of the originating agencies would be appreciated in products derived from these data.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "nyc_topobathy_2017_identifier_vintage"
+claimed = "\"NYC topobathymetric lidar\""
+observed = "NYC Open Data 7sc8-jtbz \"Topobathymetric LiDAR Data (2017)\", provider Office of Technology and Innovation (OTI), made public 3/11/2019. Collected by Quantum Spatial: topographic (Leica ALS80, at least 8 pulses/m2) 2017-05-03 to 2017-05-17 in 50% leaf-off; bathymetric (Riegl VQ-880-G) 2017-07-04 to 2017-07-26. This is the most recent NYC-owned vintage I found: a search of the NYC Open Data catalogue (Socrata discovery API, q=lidar and q=elevation) found no later lidar DEM; the other NYC DEM, dpc8-z3jc, is from 2010 lidar. It pre-dates Ida (2021-09) by four years. (The USGS tiles A24/B23 are newer but also post-date the event.)"
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "\"Topographic and bathymetric LiDAR data was collected for New York City in 2017.  Topographic data was collected for the entire city, plus an additional 100 meter buffer, using a Leica ALS80 sensor equipped to capture at least 8 pulse/m<sup>2</sup>. Dates of capture for topographic data were between 05/03/2017 and 05/17/2017 during 50% leaf-off conditions.\" ; \"Date Made Public\": \"3/11/2019\" ; attribution \"Office of Technology and Innovation (OTI)\""
+note = "\"Most recent vintage\" rests on a catalogue search, which is not proof that nothing newer exists."
+verdict_note = ""
+
+[[fact]]
+name = "nyc_topobathy_2017_resolution_crs_datum"
+claimed = "\"1 m\"; \"vertical datum recorded\""
+observed = "Resolution 1 foot (not 1 m). Horizontal: NAD83, New York State Plane Long Island, US survey feet (EPSG:2263). Vertical: NAVD88, Geoid 12B, US survey feet. Products: bare-earth DEM, hydro-flattened DEM, hydro-enforced DEM filled and unfilled, highest-hit DSM, classified LAZ."
+outcome = "differs"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "\"The horizontal datum for all datasets is NAD83, the vertical datum is NAVD88, Geoid 12B, and the data is projected in New York State Plane - Long Island. Units are in US Survey Feet.\" ; GitHub metadata (Metadata_LiDAR_Summary.md): \"2017 | 1 foot | Topographic: 5/3/2017 - 5/17/2017 ... Bathymetric: 7/4/2017 - 7/26/2017\"; \"New York State Plane Coordinates, Long Island East Zone, NAD83, US foot (epsg:2263)\" ; \"Vertical Datum NAVD88 Geoid 12B\""
+note = "GitHub summary https://github.com/CityOfNewYork/nyc-geo-metadata/blob/master/Metadata/Metadata_LiDAR_Summary.md was read (stream, not kept). Resampling 1 ft (0.3048 m) to a 1 m project grid is straightforward."
+verdict_note = ""
+
+[[fact]]
+name = "nyc_topobathy_2017_access_size_tiling"
+claimed = ""
+observed = "Access: whole-city attachments on https://data.cityofnewyork.us/City-Government/Topobathymetric-LiDAR-Data-2017-/7sc8-jtbz (Socrata files API; asset ids are in the metadata.attachments field). Whole-city sizes (Content-Range of a 1-byte ranged GET): Bare_Earth_Hydroenforced_Filled.zip 12,626,260,567 B; Bare_Earth_Hydroenforced_Unfilled.zip 15,570,842,895 B; Bare_Earth_Topographic_Hydroflattened.zip 15,571,266,230 B; Highest_Hit.zip 30,067,537,190 B; TopoBathymetric_Classified_LAZ.zip 109,471,608,019 B; the description says the files total 180 GB. Per-borough tiles can be had from https://finder.nyc.gov/orthoimagery (named in the description; not opened) and the NYS GIS FTP ftp://ftp.gis.ny.gov/elevation/DEM/NYC_TopoBathymetric2017_Hydroenforced_Unfilled/ (cited by the USGS release). Brooklyn+Queens share of each zip: not determinable from what I read. Tile size: not verified from a primary source (a web search summary said 25,000 ft x 25,000 ft; treat as unconfirmed)."
+outcome = "not checked"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "description: \"Please note that the total size is 180GB, so the download may take some time ...\" ; \"You can also visit https://finder.nyc.gov/orthoimagery to download raw LiDAR data for specific tiles.\" ; Content-Range: bytes 0-0/15570842895 (Bare_Earth_Hydroenforced_Unfilled.zip)"
+note = "No file downloaded. The unfilled hydro-enforced DEM is the one the USGS Ida depth release used."
+verdict_note = ""
+
+[[fact]]
+name = "nyc_licence"
+claimed = "Public domain / NYC terms"
+observed = "The Socrata record carries no licence (license and licenseId null; metadata says Access Rights Public). The NYC Open Data terms-of-use page could not be reached (nyc.gov terms.html and the PDF returned 404; the opendata.cityofnewyork.us overview page returned a script shell without the terms text). So the NYC terms were not read."
+outcome = "not checked"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "license=null ; licenseId=null ; GitHub metadata: \"Access Rights |Public\""
+note = "Read https://opendata.cityofnewyork.us/overview/#termsofuse in a browser to close this."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Public domain / NYC terms"
+observed = "USGS 3DEP: public domain (confirmed, see usgs_3dep_licence). NYC 2017 topobathymetric DEM: no licence on the record and the NYC terms not read (see nyc_licence). Overall: half confirmed."
+outcome = "not checked"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "USGS: \"All 3DEP products are public domain.\" ; NYC: license=null"
+note = "Split result; the 3DEP half is enough for FD2 if the USGS tiles are chosen."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Both are single-band elevation rasters of the bare earth. USGS: metres, NAVD88, 1 m cells, 10 km tiles. NYC: US survey feet, NAVD88 Geoid 12B, 1 ft cells (NYC 2010 DEM dpc8-z3jc: \"Cell values correspond to the ground elevation value (feet) above sea level\"). Product variants for NYC 2017: bare earth, hydro-flattened, hydro-enforced filled and unfilled, plus DSM (highest hit)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/dpc8-z3jc.json"
+passage = "\"The DEM was generated by interpolating the LiDAR ground points to create a 1 foot resolution seamless surface. Cell values correspond to the ground elevation value (feet) above sea level.\" ; \"The elevations in this DEM represent the topographic bare-earth surface.\""
+note = "Raster headers not inspected (nothing downloaded)."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "USGS: https://tnmaccess.nationalmap.gov/api/v1/products (HTTP 200 on retry) and tile download URLs on https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/ ; NYC: https://data.cityofnewyork.us/City-Government/Topobathymetric-LiDAR-Data-2017-/7sc8-jtbz (API view JSON https://data.cityofnewyork.us/api/views/7sc8-jtbz.json, HTTP 200); NYS GIS: https://gis.ny.gov/nys-dem (HTTP 200)."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products"
+passage = "items[0].downloadURL=\"https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NJ_NE6County_B23/TIFF/USGS_1M_18_x58y449_NJ_NE6County_B23.tif\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "USGS: tiles listed above for the rectangle; each project covers only part of the box (the centre strip lon -73.94..-73.82 is listed only in the 2013 project). NYC 2017: the entire city plus a 100 m buffer (topographic), bathymetry only in select areas."
+outcome = "confirmed"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-74.05,40.55,-73.70,40.80&max=100"
+passage = "TNM items x59y450, x59y451, x59y452: only \"NY CMPG 2013\" listed ; NYC: \"Topographic data was collected for the entire city, plus an additional 100 meter buffer\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "See vintage facts: 2013-14, 2014, 2017 (NYC), 2023-25, 2024. Ida is 2021-09-01."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "dates quoted above"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "USGS tiles published 2020-03-30 (older projects), 2026-08-19 (A24), 2026-09-17 (B23). NYC dataset made public 2019-03-11, Socrata view last modified 2025-09-11 (viewLastModified 1757599909)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+passage = "viewLastModified=1757599909 ; \"Date Made Public\": \"3/11/2019\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Nothing downloaded; ScienceBase listings carry no MD5 on these tile items that I read, and the NYC Socrata files carry none."
+outcome = "not applicable"
+source_url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-74.05,40.55,-73.70,40.80&max=100"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "lidar-terrain/tnm_products_1m_dem.json"
+url = "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital%20Elevation%20Model%20(DEM)%201%20meter&bbox=-74.05,40.55,-73.70,40.80&max=100"
+bytes = 99858
+sha256 = "b587bf68d79e7a4064084ec722cc654bd66a4d2109d331613f6d9fa3885595fd"
+fetched_at = "2026-11-25T16:58:04Z"
+
+[[file]]
+path = "lidar-terrain/sciencebase_NY_LongIsland_A24_x60y451.json"
+url = "https://www.sciencebase.gov/catalog/item/6a8905171ba49bf481207cc1?format=json"
+bytes = 9495
+sha256 = "30ffe21d52295bdff43ac30ec25353e9f72519ba4ab20e4d1dff8f7b5d520330"
+fetched_at = "2026-11-25T16:58:15Z"
+
+[[file]]
+path = "lidar-terrain/sciencebase_NJ_NE6County_B23_x58y449.json"
+url = "https://www.sciencebase.gov/catalog/item/6aac9d8b1ba49b6a17badefc?format=json"
+bytes = 10002
+sha256 = "d0c82fd4cfca602af212c692fd791e752ac60591f148e35fe1e9f8a850791dc9"
+fetched_at = "2026-11-25T16:58:15Z"
+
+[[file]]
+path = "lidar-terrain/sciencebase_NY_CMPG_2013_x60y451.json"
+url = "https://www.sciencebase.gov/catalog/item/5eacfdff82cefae35a251816?format=json"
+bytes = 10543
+sha256 = "7b3160f57a3aff75ef640507b347a41281f424561a4a81e18a9a3ba321d44b3d"
+fetched_at = "2026-11-25T16:58:15Z"
+
+[[file]]
+path = "lidar-terrain/USGS_1M_18_x60y451_NY_LongIsland_A24.xml"
+url = "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NY_LongIsland_A24/USGS_1M_18_x60y451_NY_LongIsland_A24.xml"
+bytes = 13462
+sha256 = "7c59078aa5245de7722ebaf6cf42014ac59f90dd7ea1a73c4ec56266c810216f"
+fetched_at = "2026-11-25T16:58:23Z"
+
+[[file]]
+path = "lidar-terrain/USGS_1M_18_x58y451_NJ_NE6County_B23.xml"
+url = "https://thor-f5.er.usgs.gov/ngtoc/metadata/waf/elevation/1_meter/geotiff/NJ_NE6County_B23/USGS_1M_18_x58y451_NJ_NE6County_B23.xml"
+bytes = 13730
+sha256 = "3c201a40214b29c2634242c8f851f94e2e5875d11bd202c296ae540c75fb25f7"
+fetched_at = "2026-11-25T16:58:23Z"
+
+[[file]]
+path = "lidar-terrain/nyc_opendata_7sc8-jtbz.json"
+url = "https://data.cityofnewyork.us/api/views/7sc8-jtbz.json"
+bytes = 6265
+sha256 = "c1e7f403cac651525ce5c962a3d0fa166063f0ca814998e3020480b927f1c7b8"
+fetched_at = "2026-11-25T16:58:42Z"
+
+[[file]]
+path = "lidar-terrain/nyc_opendata_dpc8-z3jc.json"
+url = "https://data.cityofnewyork.us/api/views/dpc8-z3jc.json"
+bytes = 4986
+sha256 = "5aa8fcb7f25b320630c9ce5c3e2c31901aa7417e63722a842eb9cb04b7191f2c"
+fetched_at = "2026-11-25T16:58:55Z"
+
+[[file]]
+path = "lidar-terrain/nys_gis_nys-dem.html"
+url = "https://gis.ny.gov/nys-dem"
+bytes = 52978
+sha256 = "5311d1abe7c985d00ae18405f9a4f43e32b4a8e36528e512e1d56a62bb47e88d"
+fetched_at = "2026-11-25T16:58:42Z"

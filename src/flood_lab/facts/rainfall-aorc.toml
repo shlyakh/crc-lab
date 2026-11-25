@@ -1,0 +1,106 @@
+id = "rainfall-aorc"
+title = "NOAA Analysis of Record for Calibration (AORC) v1.1"
+publisher = "NOAA Office of Water Prediction (OWP), served through the NOAA Open Data Dissemination (NODD) program on AWS"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FH5", "FT5"]
+known_biases = "Registry notice of 2026-04-02: about 0.04% of rows were incorrectly masked by brittle pipeline components and the Zarr files were being regenerated; whether corrected data are posted was not found. Data are produced with a 10-day lag so that corrections to the input Stage IV and NLDAS data are included, so AORC precipitation is not independent of Stage IV. Version 1.0 had issues that v1.1 addressed (Fall et al. 2023, Table 1)."
+
+[[fact]]
+name = "identifier"
+claimed = "NOAA AORC v1.1 (FH5, section 7)"
+observed = "AORC version 1.1, 1-km (30 arc-second) CONUS and Alaska dataset; S3 bucket noaa-nws-aorc-v1-1-1km (ARN arn:aws:s3:::noaa-nws-aorc-v1-1-1km, us-east-1); publisher NOAA (NODD); documented in Fall et al. 2023, J. Am. Water Resour. Assoc. 59(6):1246-1272."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
+passage = "NOAA Analysis of Record for Calibration (AORC) Dataset ... Description: 1-km resolution AORC version 1.1; Resource type S3 Bucket; Amazon Resource Name (ARN) arn:aws:s3:::noaa-nws-aorc-v1-1-1km; AWS Region us-east-1; AWS CLI Access (No AWS account required) aws s3 ls --no-sign-request s3://noaa-nws-aorc-v1-1-1km/"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Public bucket, one Zarr v2 store per year: https://noaa-nws-aorc-v1-1-1km.s3.amazonaws.com/<YYYY>.zarr/ (consolidated metadata at <YYYY>.zarr/.zmetadata). Listing at the bucket root: index.html plus 1979.zarr/ to 2025.zarr/ (47 year stores, KeyCount 48)."
+outcome = "confirmed"
+source_url = "https://noaa-nws-aorc-v1-1-1km.s3.amazonaws.com/?list-type=2&delimiter=/"
+passage = "<KeyCount>48</KeyCount> ... <CommonPrefixes><Prefix>1979.zarr/</Prefix> ... <Prefix>2025.zarr/</Prefix> (listing; no 2026.zarr prefix: ?list-type=2&prefix=2026 returns KeyCount 0)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Eight variables. Precipitation is APCP_surface, long_name 'Total Precipitation', units 'kg/m^2' (equal to mm of liquid water), stored as int16 with scale_factor 0.1, _FillValue -32767, dims (time, latitude, longitude), array shape [8760, 4201, 8401] for a 365-day year, chunks [144, 128, 256], compressor zstd level 3. Hourly accumulation ends at the top of each hour. Other variables: TMP_2maboveground (K), SPFH_2maboveground (g/g per the registry text; kg/kg in a later sentence), DLWRF_surface and DSWRF_surface (W m-2), PRES_surface (Pa), UGRD_10maboveground and VGRD_10maboveground (m s-1)."
+outcome = "confirmed"
+source_url = "https://noaa-nws-aorc-v1-1-1km.s3.amazonaws.com/2023.zarr/.zmetadata"
+passage = "APCP_surface/.zattrs: {'_ARRAY_DIMENSIONS': ['time','latitude','longitude'], '_FillValue': -32767, 'aorc_version': 'v1.1', 'crs': 'EPSG:4326', 'long_name': 'Total Precipitation', 'scale_factor': 0.10000000149011612, 'short_name': 'APCP_surface', 'units': 'kg/m^2'}; APCP_surface/.zarray: chunks [144,128,256], dtype <i2, shape [8760,4201,8401]. Registry: 'one-hour Accumulated Surface Precipitation (APCP) ending at the \"top\" of each hour, in liquid water-equivalent units (kg m-2 to the nearest 0.1 kg m-2)'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Continental US (from 1979) and Alaska (from 1981) and hydrologically contributing areas; regular latitude/longitude grid, mesh 30 arc seconds (~800 m per the registry; 1 km in the bucket name); netCDF source grid 4201 latitudes 25.0 to 53.0 and 8401 longitudes -125.0 to -67; outermost rows and columns of the stored grid are filled with missing values. CRS attribute: EPSG:4326."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
+passage = "It is defined on a latitude/longitude spatial grid with a mesh length of 30 arc seconds (~800 m), and a temporal resolution of one hour ... 4201 latitude values (ranging from 25.0 to 53.0), and 8401 longitude values (ranging from -125.0 to -67)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Hourly from 1979-01-01 (CONUS) to the end of 2025: the 2025.zarr store holds 8760 hours and its last valid time value (time/60 chunk, 120 valid of 144) is 2025-12-31 23:00 UTC. No 2026 store exists on 2026-11-25. First store 1979.zarr. Registry says 'to the near-present'; update frequency 'To be determined'."
+outcome = "confirmed"
+source_url = "https://noaa-nws-aorc-v1-1-1km.s3.amazonaws.com/2025.zarr/time/60"
+passage = "decoded with numcodecs/zstd by f0/scripts/aorc_time.py: 'last valid 2025-12-31 23:00:00+00:00 120'; registry: 'It spans the period from 1979 across the Continental U.S. (CONUS) and from 1981 across Alaska, to the near-present (at all locations).' Update Frequency To be determined"
+note = "The bucket is 10-day-lag near-real-time by design but holds no 2026 data now; the 2026-04-02 regeneration notice may explain it."
+verdict_note = ""
+
+[[fact]]
+name = "read_pattern"
+claimed = ""
+observed = "One year for a small box: open <YYYY>.zarr with xarray/zarr (Zarr v2, consolidated metadata) and slice APCP_surface on latitude/longitude; only the chunks (144 h x 128 x 256 cells, about 18 MB uncompressed per variable-chunk per the registry) that intersect the box are read. Size of APCP_surface for 2023 on S3: 66,431 objects, 3,681,366,969 bytes (about 3.7 GB for the whole CONUS grid, one variable). The registry also says one year of all 8 variables was chunked at 18 MB per chunk."
+outcome = "confirmed"
+source_url = "https://noaa-nws-aorc-v1-1-1km.s3.amazonaws.com/?list-type=2&prefix=2023.zarr/APCP_surface/"
+passage = "f0/scripts/aorc_size.py: ('2023.zarr/APCP_surface/', 66431 objects, 3681366969 bytes). Registry: 'one year of data takes 28 mins to load via NetCDF while only taking 3.2 seconds to load via Zarr ... The chunks consist of the following dimensions: 144 time, 128 latitude, and 256 longitude.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Public (section 7)"
+observed = "NODD terms: open to the public and can be used as desired; NOAA requests attribution for unaltered data; may not state or imply endorsement; modified data must not be presented as original."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
+passage = "NOAA data disseminated through NODD are open to the public and can be used as desired. ... NOAA requests attribution for the use or dissemination of unaltered NOAA data. However, it is not permissible to state or imply endorsement by or affiliation with NOAA."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = "AORC v1.1"
+observed = "Version 1.1 (v1.0 completed November 2019; v1.1 created to address issues in the v1.0 CONUS dataset, Table 1 of Fall et al. 2023). Zarr metadata aorc_version 'v1.1'. Object LastModified for 2023.zarr and 2025.zarr chunks seen: 2026-02-19 and 2026-03-04 (regeneration state unknown)."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
+passage = "The initial AORC Version 1.0 dataset was completed in November 2019 ... The AORC version 1.1 dataset was created to address issues \" see Table 1 in Fall et al., 2023 \" in the version 1.0 CONUS dataset."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No checksum published by the publisher; S3 ETags only."
+outcome = "not applicable"
+source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
+passage = "no checksum statement on the registry page"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "raw/aorc-registry.html"
+url = "https://registry.opendata.aws/noaa-nws-aorc/"
+bytes = 22468
+sha256 = "194b0062e82eb6ebd04f91a307c1be6ee0b1f0d73e3d0177655fb4f246441f57"
+fetched_at = "2026-11-25T16:53:10Z"

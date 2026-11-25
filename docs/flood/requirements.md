@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 2, 2026-11-25, tag `flood-requirements-v2` (version 1 is tag `flood-requirements-v1`; what changed is in `docs/flood/changes.md`);
+Version 3, 2026-11-25, tag `flood-requirements-v3` (earlier versions are tags `flood-requirements-v1` and `-v2`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -39,8 +39,8 @@ FS6).
 
 | # | Decision | Status |
 | --- | --- | --- |
-| D1 | Study area: one 10–20 km² neighbourhood in Brooklyn or Queens, chosen in stage F0 by a scoring rule; search starts inside the Jamaica Bay watershed | Recommended by Claude; **confirm with Yuri before F0 ends** |
-| D2 | Storms: remnants of Ida (2021-09-01) for depth validation; 2023-09-29 for the trigger case study | Recommended; confirm with D1 |
+| D1 | Study area: the 16 km² square centred at 40.7048 N, 73.9642 W (UTM zone 18N, 585500 to 589500 m east, 4504500 to 4508500 m north): Williamsburg, South Williamsburg, Clinton Hill and part of Fort Greene and Bedford-Stuyvesant in Brooklyn. The study area is the Brooklyn land in the square; the square also holds part of the East River and of Manhattan, which the model needs as its boundary but which is not studied. Chosen in F0 by a scoring rule over Brooklyn and Queens (`docs/flood/reports/F0-derisk.md`, section 4): the only candidate with surveyed marks, sensors on 2023-09-29 and three substation sites. No sensor there recorded Ida. The search no longer starts from the Jamaica Bay watershed, where no surveyed mark exists | Decided by Yuri, 2026-11-25 |
+| D2 | Storms: remnants of Ida (2021-09-01) for depth validation, against the surveyed marks; 2023-09-29 for the trigger case study and for the sensor comparison | Decided by Yuri with D1, 2026-11-25 |
 | D3 | CRC (crc-sdk 1.0.0, crc-framework 1.0.0) is the loss engine: it computes every damage ratio, every per-asset damage distribution and expectation, and every statistic of a loss distribution (exceedance probabilities, VaR as a quantile, CVaR, mean), with the distribution held as a CRC `Distribution`. CRC 1.0.0 has no event set or event-loss table and no summing of losses across assets under dependence, so `flood_lab` does only that bookkeeping (losses per event, sums per event and per synthetic year) and hands the sums back to CRC. It is documented in `docs/algorithms.md` and recomputed by hand. What CRC lacks is written up as design feedback. Other engines are donors and cross-checks | Decided by Yuri; revised 2026-11-25, corrected the same day (CH-1) |
 | D4 | The depth solver is reused, not written: Deltares SFINCS built with HydroMT-SFINCS. It sits behind an interface a licensed model could replace | Decided by Yuri |
 | D5 | Assets: electrical substations first, buildings second | Decided by Yuri |
@@ -50,7 +50,7 @@ FS6).
 | D9 | Frequency comes from a stochastic storm catalogue (storm transposition), not from uniform design storms. Design storms are kept as a comparison | New, from the literature review; **confirm** |
 | D10 | A neural-network emulator of the solver extends the catalogue | New, from the literature review; **confirm** |
 | D11 | Every stage ends with a visual test on a generated gallery page, a report, and a stop for review | Decided by Yuri |
-| D12 | Fremont, California is a short closing chapter, not the study area | Recommended; confirm with D1 |
+| D12 | Fremont, California is a short closing chapter, not the study area | Decided by Yuri with D1, 2026-11-25 |
 | D13 | Target is Tier 1 (F0 to F8 and F11). Tiers 2 and 3 stay specified; Yuri decides on them at the F8 stop, with measured run times and token use per stage | Decided by Yuri, 2026-11-25 |
 | D14 | Each stage is built on its own short-lived branch (`flood/f<n>`), pushed for backup and merged into `main` only on Yuri's go at the stop. The flood page is not linked from the landing page before F11 | Decided by Yuri, 2026-11-25 |
 | D15 | Source validation by Claude Code: every source used has its facts confirmed from the primary source (FS6); a source whose values feed a published number also gets a second, independent reader (FS4) | Decided by Yuri, 2026-11-25 |
@@ -318,8 +318,9 @@ say what this file claims, stop and report; do not substitute a number.
   that justified it.
 - **FD2.** Terrain: 1 m lidar digital elevation model for the area, with its vintage and vertical datum
   recorded.
-- **FD3.** Substations from OpenStreetMap (`power=substation`): point, yard polygon where mapped, voltage
-  where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
+- **FD3.** Substations from OpenStreetMap (`power=substation`), as sites: outlines within 150 m of each
+  other are one site **[P]**; rail traction substations are left out; each site has its outlines, a point
+  (the centroid), voltage where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
   are recorded with a reason.
 - **FD4.** Substation replacement value as a low, mid and high figure per voltage class **[P]** until a
   public source is found (utility rate cases or grid-operator cost guides); the source or the placeholder tag
@@ -414,7 +415,9 @@ say what this file claims, stop and report; do not substitute a number.
   Between knots CRC 1.0.0 interpolates linearly in probability (0.x used the logarithm of return period);
   every recomputation uses the same rule and says so.
 - **FH8.** Water balance closes within 1% in every run; depth is non-decreasing with rainfall scaling in a
-  monotonicity test.
+  monotonicity test: at lower rainfall no cell is deeper by more than 1 mm, and no cell wet to 0.05 m or
+  more in either run is deeper at all (tolerance set at the F0 stop, after 4 of 39,800 toy cells at the
+  solver's dry threshold differed by under 0.1 mm).
 
 ### Validation against observations (FV)
 
@@ -801,3 +804,45 @@ right thing. These are the choices an outside evaluation (D16) is most likely to
 - The fusion and scoring method (FT6, FT7), which FT8 already says is assembled from adjacent literature.
 - The emulator design (FE1) against current practice.
 - The customers-served and outage-cost placeholders (FD7, FM5).
+
+## 14. Corrections from the F0 fact checks (accepted in version 3)
+
+F0 read the facts of every Tier 1 source from the publisher (FS6). Where the publisher differs from a
+paragraph above, the correction is listed here with the source's data card, which holds the address and the
+passage read. **Accepted on 2026-11-25 (change CH-3): where a row here and a paragraph above disagree, the row holds.**
+The paragraphs above are left as first written so that the change stays visible; a later version may
+fold the rows into them. Data cards are in `docs/flood/data-cards/`.
+
+| Requirement | It says | The source says | Proposed correction |
+| --- | --- | --- | --- |
+| FV1, §9 | "83 sites" of surveyed marks | 159 marks at 83 sites; 108 marks at 55 sites in the Brooklyn and Queens box; 7 of those have no height above ground (`usgs-ida-high-water-marks`) | Count marks and sites apart. Use height above ground where given; where it is blank, elevation (NAVD88, feet) less terrain |
+| FV1 | Error "beside the 0.20 m of the published research model" | 0.20 m is the calibrated model's error on 8 marks; before calibration it was 0.40 m (`jamaica-bay-ida-depth-map`) | Quote both, and say the 0.20 m is a fitted figure, not an independent test |
+| §7, FV1 | USGS depth rasters listed with the marks | They are each mark's level less lidar ground within 250 m, assuming flat water: derived from the marks (`usgs-ida-depth-rasters`) | Not a second check on depth. Use only as a picture of the marks |
+| FV3 | Compare with the Jamaica Bay depth map "after its licence is read" | CC BY 4.0. The depth data is a shapefile; the `.tif` is a picture without coordinates | May be shown with credit. Use the shapefile. Only if the chosen area overlaps Jamaica Bay |
+| FD2 | "1 m lidar digital elevation model" | The city's 2017 product is 1 ft, in feet, EPSG:2263, NAVD88. The 1 m product is USGS 3DEP, whose newest flights over parts of the box are from 2023 to 2025, after Ida (`lidar-terrain`) | F1 chooses per the area: terrain flown before the storm it is used to replay, units converted once at the reader, vintage recorded |
+| FD3 | Substation "point, yard polygon where mapped" | All 187 in the box are outlines, none a point; 95 carry a voltage; 35 are rail traction substations (`osm-substations`) | Point is the centroid of the outline. Rail traction substations are flagged and left out of the utility case unless Yuri wants them |
+| FS1 | Two depth classes in four layers | The two layers with sea-level rise carry a third code, "Future High Tides", which is tidal flooding, not a rainfall depth (`nyc-stormwater-flood-maps`) | The reader keeps the third code apart; it never enters a depth class |
+| FS1 | Areas "of at least 0.25 contiguous acres" | The dictionary says some smaller areas are present | State the rule as the publisher's intent, not a property to test |
+| FS1, FH3 | Four layers read by the reader | The Limited Flood layer (1.77 in/hr) is stored in ESRI's compressed geodatabase format, which the open reader cannot open | Open until a route is found (F0 is trying one). FH3 calibrates on this map and the 2.13 in/hr one: without it, calibration has one map |
+| FS1, §9 item 1 | Storm duration behind each intensity: to be read | Not published. The 2021 plan gives rounded one-hour totals for two scenarios and has no Limited scenario | F3 assumes a one-hour storm at the stated intensity **[P]**, says so, and tests the sensitivity to duration |
+| §9 item 4 | Return periods of the three intensities: open | At one point (40.65, -73.85), one-hour duration, NOAA Atlas 14: 1.77 in/hr lies between 5 and 10 years, 2.13 between 10 and 25, 3.66 between 100 and 500 (`noaa-atlas-14`) | A first reading only; F3 repeats it at the chosen area |
+| FS2 | Reader for the Parquet file | The file's metadata carries a wrong key and DuckDB refuses it until the metadata is removed. The schema is described only in an unreviewed preprint. The publisher's own review found 60% of 400 rows accurate (`groundsource`) | The reader strips the metadata and says so; the primer (FS5) states the accuracy and its source |
+| FS3 | FloodNet tables | Times are GMT. Nine sensors were deployed in Brooklyn and Queens at Ida, five recorded it; 44 were deployed on 2023-09-29, 17 recorded it. The bulk-download address is retired (`floodnet-flood-events`, `floodnet-sensors`) | Convert to local time before matching a day. FV2 for Ida rests on at most five sensors in two boroughs |
+| FV5, FT5 | Storm Events by date | Times are on the standard-time clock all year; Coastal Flood events are by forecast zone, not county (`noaa-storm-events`) | The reader states its clock rule and reads zone events too |
+| FT5, §7 | NFIP redacted claims | The current dataset is version 3; version 2, which the claim-date preprint used, is gone. Coordinates are rounded to 0.1 degree; the census block group is given (`nfip-redacted-claims`) | Read version 3; place a claim by its block group, never by its coordinates |
+| FV5, FT5 | 311 complaints | Two naming schemes for the same complaint types are in use (`nyc-311`) | Count both |
+| FR2 | Hazus-type curve "about 7% at 1.2 m and 15% at about 3 m" | Read from the 1.1.0 spreadsheet: 0.0694 at 1.2 m, 0.1569 at 3.0 m; the three curves are identical and stop at 3.05 m with 0.16 (`substation-curves-nirandjan`) | Confirmed. Above 3.05 m the table is held flat to the stated maximum depth, tagged **[P]** |
+| FR2 | Williams et al. values at 3 m | Not read: the publisher refuses automated access; the licence is CC BY-NC-ND 4.0 (`substation-curves-other`) | Still open; needs a person with access to read the paper, or question 7 decides for the lognormal alternative |
+| FR2, FM5 | Hazus functional depth 4 ft, Table 10-12 | Not read: FEMA's site refuses automated access. Current Hazus is 7.2 (`hazus-flood-functions`) | Still open for F6 |
+| FR3, §7 | Hazus functions "public domain" | FEMA's open tool that carries the tables is GPL-3.0; no public-domain statement was read | Record GPL-3.0 for the tool's tables until FEMA's own statement is read |
+| FM4 | 7% with 3.1% "as a sensitivity" | 7% confirmed. 3.1% was revoked and is not an alternative FEMA accepts (`fema-bca`) | Keep 3.1% only as a sensitivity labelled "not a FEMA rate". Useful life and toolkit version still open for F7 |
+| FM5 | ICE Calculator damage functions × customers | The coefficients are licensed spreadsheets, not reusable offline; the online tool and its API are public (`ice-calculator`) | Outage cost comes from the tool or its API, with the inputs and the response stored. Question for Yuri below |
+| FH5, §8 | RainyDay "current GitHub release" | No release or tag exists; the active repository's environment pins Python 3.8 (`rainyday`) | Pin a commit; its own environment |
+| FH2, §8 | SFINCS in Docker; "native Apple Silicon support" unverified; hydromt-sfincs 1.2.2 to below 2.0 | Every published image is for Intel processors only, so it runs here under emulation. The executables and images carry Deltares' freeware licence (no redistribution); the source is GPL-3.0. hydromt-sfincs 2.0.0 (2026-11-02) is the current line (`sfincs-release`) | See the F0 report for the measured speed and the builder version used. Never redistribute the image or binary |
+| FH2 | Fault in v2.3.0 and v2.4.0 | The release notes say v2.4.0 claimed a fix and v2.5.0 fixed it "now really"; they say nothing of v2.3.0 | "Do not use releases before v2.5.0 with curve-number infiltration" |
+| FH5, FT5 | AORC rainfall | Version 1.1 ends on 2025-12-31 (`rainfall-aorc`) | Candidate days and the catalogue end in 2025 |
+| FX2 | `flood-adapt` 1.1.13 "states CC0-1.0 on PyPI" | Only PyPI's classifier says CC0; the LICENSE file in the package is GPL-3.0. It expects SFINCS 2.1.1 and Delft-FIAT 0.2.1 as external programs and pins hydromt-sfincs below 2.0 (F0 install trial) | Record GPL-3.0. Its own environment; solver and builder versions are named causes of disagreement in F10 |
+| FX4 | Oasis becomes a design note if PiWind does not run in two hours | It runs: 78 s in a Linux container with one process; on macOS only with a workaround (F0 install trial) | Oasis stays a run in F10, in a Linux container |
+| §7 licences | "US public domain", "Public", "Attribution" for the USGS marks and rasters, the structure inventory, Storm Events, the NFIP claims, Atlas 14 | No licence statement was found on the pages that could be read; several agency pages refuse automated access | Shown as "licence not stated on the pages read" until a person reads them. None is shown on the public page as public domain on our say-so |
+
+New questions for Yuri from F0 are in the F0 report (`docs/flood/reports/F0-*.md`).

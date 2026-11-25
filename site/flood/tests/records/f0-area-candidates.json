@@ -1,0 +1,331 @@
+{
+ "checks": [
+  {
+   "name": "at least one window passes the rule",
+   "note": "over all windows scored; thresholds are proposed starting values (plan F0)",
+   "passed": true,
+   "proposed": true,
+   "rule": "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substation sites that are not rail traction substations, in one window",
+   "threshold": 1,
+   "value": 6
+  },
+  {
+   "name": "the best-scoring window passes the rule",
+   "note": "thresholds are the proposed starting values of plan F0",
+   "passed": false,
+   "proposed": true,
+   "rule": "the window with the highest score meets the same rule",
+   "threshold": 1,
+   "value": 0
+  }
+ ],
+ "created_at": "2026-11-25T18:51:13Z",
+ "figures": [
+  "docs/flood/figures/f0/area_candidates.html"
+ ],
+ "id": "f0-area-candidates",
+ "inputs": [
+  {
+   "bytes": 62220,
+   "path": "usgs-ida-high-water-marks/FilteredHWMs_NewYork.csv",
+   "sha256": "c2ed5ed975a6b4914e1152f00732ab35853daa695f8118b0c516290131bc9af7",
+   "url": ""
+  },
+  {
+   "bytes": 114096,
+   "path": "floodnet-sensors/kb2e-tjy3.csv",
+   "sha256": "7fa594a6960efac45ec50ddfb02ea0ed86cd2c962a8477e192ca5a9c723fb612",
+   "url": ""
+  },
+  {
+   "bytes": 6115669,
+   "path": "floodnet-flood-events/aq7i-eu5q.csv",
+   "sha256": "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054",
+   "url": ""
+  },
+  {
+   "bytes": 185632,
+   "path": "osm-substations/overpass.json",
+   "sha256": "776dcf0acf7d2caec0df1d14ff691513f078e05ab5f37d0b4ad73c4aacbba2f5",
+   "url": ""
+  },
+  {
+   "bytes": 1286582,
+   "path": "groundsource/extract_nyc_alameda.parquet",
+   "sha256": "02c840f1a63d3267fe67b91e69946d8507b9acd960083fb96abdc8a61fd8042b",
+   "url": ""
+  },
+  {
+   "bytes": 4586084,
+   "path": "nyc-nta-2020/nta2020.geojson",
+   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "url": ""
+  },
+  {
+   "bytes": 33785094,
+   "path": "nyc-stormwater-flood-maps/NYCFloodStormwaterFloodMaps.zip",
+   "sha256": "5effe9bcca896660f44a5e50c348ab4ebf7550ff3c764ef77f06d775f0c010f5",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Counts in 16 km\u00b2 windows on a 500 m step. A window is a candidate when at least 60% of it is land of Brooklyn or Queens, by the city's 2020 neighbourhood outlines, and only marks, sensors, substations and reports on that land (within 50 m) are counted. The Jamaica Bay watershed boundary was not used. The Limited Flood map could not be read and is not counted.",
+  "Substations: of the 128 OpenStreetMap substations on that land (187 were fetched for the whole box), 20 are tagged substation=traction (rail traction substations); these are not counted by the pass rule, the score or the figure. 30 carry no substation=* tag at all; they are not known to be rail and are counted. Outlines closer than 150 m are one site: 108 outlines that are not rail make 90 sites, of which 28 have an outline within 100 m of flooding on the city's 2.13 in/hr map. Windows passing the rule: 6 counting sites, 15 counting outlines that are not rail, 25 counting every outline."
+ ],
+ "numbers": {
+  "largest_count_in_any_window": {
+   "deep_flood_ha": 28.25,
+   "groundsource_small_ida": 11.0,
+   "groundsource_small_sep29": 15.0,
+   "high_water_marks": 33.0,
+   "sensors_ida_2021": 3.0,
+   "sensors_sep29_2023": 7.0,
+   "substation_sites": 11.0,
+   "substation_sites_near_mapped_flood": 5.0,
+   "substations": 12.0,
+   "substations_not_rail": 11.0
+  },
+  "marks_fetched": 159,
+  "marks_in_box": 106,
+  "sensors_with_event_ida_in_box": 5,
+  "sensors_with_event_sep29_2023_in_box": 17,
+  "substation_sites_near_mapped_flood": 28,
+  "substation_sites_not_rail": 90,
+  "substations_fetched": 187,
+  "substations_fetched_rail_traction": 20,
+  "substations_fetched_without_substation_tag": 30,
+  "substations_in_box": 128,
+  "substations_in_brooklyn_or_queens": 128,
+  "substations_not_rail_in_box": 108,
+  "substations_rail_traction_in_box": 20,
+  "windows_in_box": 2650,
+  "windows_passing_rule": 6,
+  "windows_passing_rule_counting_all_substations": 25,
+  "windows_passing_rule_counting_outlines_not_rail": 15,
+  "windows_scored": 1562
+ },
+ "parameters": [
+  {
+   "name": "window_side_m",
+   "source": "",
+   "tag": "P",
+   "value": 4000.0
+  },
+  {
+   "name": "window_step_m",
+   "source": "",
+   "tag": "P",
+   "value": 500.0
+  },
+  {
+   "name": "search_box_lonlat",
+   "source": "",
+   "tag": "P",
+   "value": [
+    -74.05,
+    40.55,
+    -73.7,
+    40.8
+   ]
+  },
+  {
+   "name": "pass_rule_minimum_counts",
+   "source": "",
+   "tag": "P",
+   "value": {
+    "high_water_marks": 8,
+    "sensors_sep29_2023": 5,
+    "substation_sites": 3
+   }
+  },
+  {
+   "name": "score_unit_per_criterion",
+   "source": "",
+   "tag": "P",
+   "value": {
+    "deep_flood_ha": 20,
+    "groundsource_small_ida": 5,
+    "groundsource_small_sep29": 5,
+    "high_water_marks": 8,
+    "sensors_ida_2021": 3,
+    "sensors_sep29_2023": 5,
+    "substation_sites": 3,
+    "substation_sites_near_mapped_flood": 2
+   }
+  },
+  {
+   "name": "groundsource_largest_place_km2",
+   "source": "",
+   "tag": "P",
+   "value": 2.0
+  },
+  {
+   "name": "least_share_of_window_in_brooklyn_or_queens",
+   "source": "",
+   "tag": "P",
+   "value": 0.6
+  },
+  {
+   "name": "substation_site_gap_m",
+   "source": "",
+   "tag": "P",
+   "value": 150.0
+  },
+  {
+   "name": "near_mapped_flood_m",
+   "source": "",
+   "tag": "P",
+   "value": 100.0
+  },
+  {
+   "name": "deep_class_code",
+   "source": "flood-map data dictionary: 1 ft and greater",
+   "tag": "S",
+   "value": 2
+  },
+  {
+   "name": "flood_map_class_column",
+   "source": "",
+   "tag": "I",
+   "value": "Flooding_Category"
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11"
+ },
+ "stage": "F0",
+ "tables": {
+  "best_five": [
+   {
+    "bounds_utm18n_m": [
+     583500.0,
+     4501000.0,
+     587500.0,
+     4505000.0
+    ],
+    "centre_lonlat": [
+     -73.9884,
+     40.6735
+    ],
+    "deep_flood_ha": 3.8,
+    "groundsource_small_ida": 11.0,
+    "groundsource_small_sep29": 11.0,
+    "high_water_marks": 19.0,
+    "passes_rule": false,
+    "score": 9.157,
+    "sensors_ida_2021": 3.0,
+    "sensors_sep29_2023": 4.0,
+    "share_in_brooklyn_or_queens": 0.93,
+    "substation_sites": 2.0,
+    "substation_sites_near_mapped_flood": 1.0,
+    "substations": 4.0,
+    "substations_not_rail": 3.0
+   },
+   {
+    "bounds_utm18n_m": [
+     585500.0,
+     4504500.0,
+     589500.0,
+     4508500.0
+    ],
+    "centre_lonlat": [
+     -73.9642,
+     40.7048
+    ],
+    "deep_flood_ha": 12.3,
+    "groundsource_small_ida": 7.0,
+    "groundsource_small_sep29": 8.0,
+    "high_water_marks": 11.0,
+    "passes_rule": true,
+    "score": 7.991,
+    "sensors_ida_2021": 0.0,
+    "sensors_sep29_2023": 5.0,
+    "share_in_brooklyn_or_queens": 0.78,
+    "substation_sites": 3.0,
+    "substation_sites_near_mapped_flood": 2.0,
+    "substations": 11.0,
+    "substations_not_rail": 8.0
+   },
+   {
+    "bounds_utm18n_m": [
+     596000.0,
+     4500500.0,
+     600000.0,
+     4504500.0
+    ],
+    "centre_lonlat": [
+     -73.8406,
+     40.6676
+    ],
+    "deep_flood_ha": 6.9,
+    "groundsource_small_ida": 6.0,
+    "groundsource_small_sep29": 7.0,
+    "high_water_marks": 0.0,
+    "passes_rule": false,
+    "score": 7.914,
+    "sensors_ida_2021": 2.0,
+    "sensors_sep29_2023": 4.0,
+    "share_in_brooklyn_or_queens": 0.96,
+    "substation_sites": 6.0,
+    "substation_sites_near_mapped_flood": 3.0,
+    "substations": 6.0,
+    "substations_not_rail": 6.0
+   },
+   {
+    "bounds_utm18n_m": [
+     590000.0,
+     4510000.0,
+     594000.0,
+     4514000.0
+    ],
+    "centre_lonlat": [
+     -73.9101,
+     40.7538
+    ],
+    "deep_flood_ha": 13.8,
+    "groundsource_small_ida": 7.0,
+    "groundsource_small_sep29": 2.0,
+    "high_water_marks": 9.0,
+    "passes_rule": false,
+    "score": 6.449,
+    "sensors_ida_2021": 0.0,
+    "sensors_sep29_2023": 0.0,
+    "share_in_brooklyn_or_queens": 1.0,
+    "substation_sites": 4.0,
+    "substation_sites_near_mapped_flood": 3.0,
+    "substations": 9.0,
+    "substations_not_rail": 7.0
+   },
+   {
+    "bounds_utm18n_m": [
+     602000.0,
+     4504500.0,
+     606000.0,
+     4508500.0
+    ],
+    "centre_lonlat": [
+     -73.7689,
+     40.7028
+    ],
+    "deep_flood_ha": 23.5,
+    "groundsource_small_ida": 6.0,
+    "groundsource_small_sep29": 2.0,
+    "high_water_marks": 4.0,
+    "passes_rule": false,
+    "score": 6.442,
+    "sensors_ida_2021": 0.0,
+    "sensors_sep29_2023": 0.0,
+    "share_in_brooklyn_or_queens": 1.0,
+    "substation_sites": 5.0,
+    "substation_sites_near_mapped_flood": 3.0,
+    "substations": 5.0,
+    "substations_not_rail": 5.0
+   }
+  ]
+ },
+ "title": "Candidate study areas scored by what was observed in them"
+}

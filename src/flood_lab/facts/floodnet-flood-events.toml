@@ -1,0 +1,174 @@
+id = "floodnet-flood-events"
+title = "FloodNet: Street Flooding Events Measured by FloodNet Sensors"
+publisher = "NYC Department of Environmental Protection (DEP), data from FloodNet (NYU and CUNY), on NYC Open Data"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts and second reader"
+second_reader_stage = "F2"
+used_for = ["FS3", "FV2", "FT1"]
+known_biases = "Sensors sit only where the project could mount them (street furniture, mostly over sidewalks), usually above the local low point, so shallow floods and floods in the roadbed below curb height are missed; a sensor offline, not yet installed or retired records nothing, and the tables do not say when a sensor was offline. The network grew from 9 sensors in September 2021 to 68 in September 2023, so a count of sensors with events is mostly a count of where sensors were."
+
+[[fact]]
+name = "identifier"
+claimed = "NYC Open Data `aq7i-eu5q`"
+observed = "Dataset aq7i-eu5q, \"FloodNet: Street Flooding Events Measured by FloodNet Sensors\", attribution DEP, one row per flood event per sensor."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q.json"
+passage = "name=FloodNet: Street Flooding Events Measured by FloodNet Sensors ; id=aq7i-eu5q ; attribution=Department of Environmental Protection (DEP)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "NYC Open Data `aq7i-eu5q`"
+observed = "https://data.cityofnewyork.us/d/aq7i-eu5q resolves; SODA2 endpoint https://data.cityofnewyork.us/resource/aq7i-eu5q.csv works without token. The bulk endpoint https://data.cityofnewyork.us/api/views/aq7i-eu5q/rows.csv?accessType=DOWNLOAD (the one the task named) returned HTTP 410: \"This feature has been deprecated\", deprecatedAt 1791331200 (2026-10-07), sunsetAt 1797897600 (2026-12-22)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q/rows.csv?accessType=DOWNLOAD"
+passage = "{\"code\":\"feature_deprecated\",\"deprecatedAt\":1791331200,\"deprecationInfoLink\":\"https://support.socrata.com/hc/en-us/articles/43491231777047\",\"error\":true,\"message\":\"This feature has been deprecated\",\"sunsetAt\":1797897600}"
+note = "Outcome is about the download address, not the dataset id. The deprecation notice page was behind a bot check and could not be read; whether /resource/<id>.csv is also affected is not known. Both tables were fetched in full with /resource/<id>.csv?$limit=50000; the 3611 and 496 rows equal the count(*) from the API, so nothing was cut."
+verdict_note = "The identifier is as the requirements give it. The retired bulk-download address was not a claim of the requirements; the reader uses the resource address."
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "13 fields. sensor_name (text), sensor_id (text; key to the sensor table), flood_start_time and flood_end_time (timestamps, GMT), max_depth_inches (inches), onset_time_mins, drain_time_mins, duration_mins, duration_above_4_inches_mins, duration_above_12_inches_mins, duration_above_24_inches_mins (minutes; drain_time_mins empty in 1 row), flood_profile_depth_inches (JSON array, inches) and flood_profile_time_secs (JSON array, seconds from flood start). A flood event is a series of depth measurements above 10 mm, one-minute sampling, reviewed by a neural-network classifier and by a person. No borough or coordinates in this table."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q.json"
+passage = """
+max_depth_inches | number | The maximum flood depth (in inches) measured at the sensor location during the event
+flood_start_time | calendar_date | Start time of the measured flood event (i.e., time when flood waters began accumulating beneath sensor, in GMT)
+duration_above_4_inches_mins | number | The amount of time during the flood event that measured water depths were equal to or greater than 4 inches.
+A flood event is defined as a series of water depth measurements greater than 10 mm; all measured flood events presented here have undergone QC by a member of the FloodNet team."""
+note = "Depth is as measured under the sensor, not at the lowest point of the street: see sensor table field lowest_point_height_delta_inches. 2 events (Q-davenport-ct-2-07znk0, 2021-01-16 and 2021-02-02) start before the sensor date_installed (2021-03-05)."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "322 of the 496 sensors in the sensor table have at least one event row (3611 events); every event sensor_id is in the sensor table. Locations only through the sensor table (latitude, longitude, borough); network spans all five boroughs."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.csv?$limit=50000"
+passage = "rows=3611 ; distinct sensor_id=322 ; sensor_ids not in kb2e-tjy3: 0 (computed from the files fetched)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "row_count"
+claimed = ""
+observed = "3611 rows (API count(*)); events by start year (UTC): 2020: 2, 2021: 58, 2022: 142, 2023: 362, 2024: 662, 2025: 682, 2026: 1703. Earliest flood_start_time 2020-11-16T01:41:17, latest 2026-11-09T12:46:10 (GMT). max_depth_inches ranges 0.43 to 46.14."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.json?$select=count(*)"
+passage = "[{\"count\":\"3611\"}]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "rowsUpdatedAt 2026-11-15T14:01:22Z; made public 2026-03-03 (publicationDate 2026-02-25); update every 2 weeks. Data Description document dated 03.05.2026. The data changes every 2 weeks, so a count taken later may differ; the files here are a snapshot."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q.json"
+passage = "rowsUpdatedAt=1794751282 (2026-11-15T14:01:22Z) ; Update Frequency: Every 2 weeks"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "sha256 of the CSV as fetched is in the file record. The publisher gives no checksum; row count equals API count(*)."
+outcome = "not applicable"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.json?$select=count(*)"
+passage = "csv data rows=3611 ; count(*)=3611"
+note = ""
+verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
+
+[[fact]]
+name = "licence"
+claimed = "NYC Open Data terms **[V]**"
+observed = "No licence field on the dataset (licenseId None). NYC Open Data terms apply (see passage). The publisher asks for attribution and a citation: list the project as \"FloodNet (New York University and The City University of New York)\" and cite Mydlarz et al. 2024, doi:10.1029/2023WR036806."
+outcome = "confirmed"
+source_url = "https://cityofnewyork.github.io/opendatatsm/publicpolicies.html"
+passage = """
+[Technical Standards Manual, public policies page] Local Law 11 of 2012, specifically § 23-502 d, requires that data sets must be available without registration requirement, license requirement, or usage restrictions, except as provided below. ... DoITT may require third party entities such as application developers to explicitly identify the source, version, and modifications made to a public data set, should they publicly re-publish it elsewhere or incorporate the public data set into an application. ... By accessing data sets and feeds available through the NYC OpenData portal (or the “Site”), the user agrees to all of the Terms of Use of NYC.gov as well as the NYC.gov Privacy Policy. The user also agrees to any additional terms of use defined by entities providing data or feeds through the Site. ... Public data sets made available on the NYC OpenData portal are provided for informational purposes. The City does not warranty the completeness, accuracy, content, or fitness for any particular purpose or use of any public data set made available on the NYC OpenData portal ...
+[Technical Standards Manual, 5/12/2023 revision, section 2.3.2, https://www.nyc.gov/content/dam/nycgov/opendata/downloads/open-data-coordinators/NYC_OpenData_TechnicalStandardsManual.pdf] Upon publication to NYC Open Data, datasets become a public resource available to anyone, without restriction or licensing requirements (see NYC Open Data’s Terms of Use for more information).
+[Data Description, 03.05.2026, section Citation] If using the data or including it in any publication or public presentation, the project should be listed as “FloodNet (New York University and The City University of New York)”, and cited as the following: Mydlarz, C., ... Silverman, A.I. (2024) FloodNet: Low-cost ultrasonic sensors for real-time measurement of hyperlocal, street-level floods in New York City. Water Resources Research, 60, e2023WR036806. https://doi.org/10.1029/2023WR036806"""
+note = "Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team's own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for 'open data', 'data set' and 'public data' found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Flood events run from 2020-11-16 to 2026-11-09 (flood_start_time); the first sensor deployment is October 2020. Times are in GMT (UTC) as stated in the field description, so a New York evening is the next calendar day. Refreshed every 2 weeks."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q.json"
+passage = "Update: {\"Automation\":\"Yes\",\"Date Made Public\":\"3/3/2026\",\"Update Frequency\":\"Every 2 weeks\",\"Data Change Frequency\":\"As Needed\"} ; Data Description: The sensor network grew in size from its first sensor deployment in October 2020 with sensors being retired for various reasons."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "sensors_with_event_2021-09-01"
+claimed = "FS3 / §9 item 3: FloodNet had sensors recording inside candidate areas on both dates. Open (F0)."
+observed = "New York local date 2021-09-01: 5 sensors with an event (5 events): Brooklyn 3, Queens 2, no other borough. Sensors: BK-9th-st-smith-st-0etvg0, BK-hoyt-st-5th-st-007sk0, BK-carroll-st-4th-av-0ery00, Q-russell-st-2-07zt40, Q-russell-st-1-07zqc0. Their GMT start times are 2021-09-02 00:11 to 02:03."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.csv?$limit=50000"
+passage = "flood_start_time (GMT) -> sensor: 2021-09-02T00:11:58 BK-9th-st-smith-st-0etvg0 27.76 in ; 2021-09-02T01:24:41 BK-hoyt-st-5th-st-007sk0 10.35 in ; 2021-09-02T01:27:16 BK-carroll-st-4th-av-0ery00 35.59 in ; 2021-09-02T01:51:03 Q-russell-st-2-07zt40 2.87 in ; 2021-09-02T02:03:01 Q-russell-st-1-07zqc0 1.50 in"
+note = "Matching rule: an event belongs to a calendar date when its flood_start_time (stated to be GMT) converted to America/New_York local time falls on that date; the borough of the event is the borough of its sensor_id in kb2e-tjy3 (the events table has no borough). Alternative rules are given in the note. Counts are of distinct sensor_id. If the GMT date is used instead, 2021-09-01 has 0 events and 2021-09-02 has the same 5 sensors (Brooklyn 3, Queens 2): the whole Ida rainfall of the evening of 1 September local time falls on 2 September GMT. Counting events whose [start, end] interval overlaps the local day: 2021-09-01 gives the same 5; 2021-09-02 local gives 3 sensors (Brooklyn 1, Queens 2) because three events run past local midnight."
+verdict_note = ""
+
+[[fact]]
+name = "sensors_with_event_2021-09-02"
+claimed = ""
+observed = "New York local date 2021-09-02: 0 events, 0 sensors. By GMT date: 5 sensors (Brooklyn 3, Queens 2), the same as under 2021-09-01 local. By interval overlap with the local day: 3 sensors (Brooklyn 1, Queens 2). Union of the two local days: 5 sensors (Brooklyn 3, Queens 2)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.csv?$limit=50000"
+passage = "local-date match 2021-09-02: events=0 ; GMT-date match: events=5, sensors=5 {Brooklyn 3, Queens 2} ; overlap match: sensors=3 {Brooklyn 1, Queens 2}"
+note = "Matching rule: an event belongs to a calendar date when its flood_start_time (stated to be GMT) converted to America/New_York local time falls on that date; the borough of the event is the borough of its sensor_id in kb2e-tjy3 (the events table has no borough). Alternative rules are given in the note. Counts are of distinct sensor_id."
+verdict_note = ""
+
+[[fact]]
+name = "sensors_with_event_2023-09-29"
+claimed = ""
+observed = "New York local date 2023-09-29: 23 sensors with an event (29 events): Brooklyn 10, Queens 7, Staten Island 4, Bronx 2, Manhattan 0. For Brooklyn and Queens: 17 sensors. By GMT date: 24 sensors (31 events): Brooklyn 10, Queens 8, Staten Island 4, Bronx 2. By overlap with the local day: 23 sensors (31 events), Brooklyn 10, Queens 7, Staten Island 4, Bronx 2."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.csv?$limit=50000"
+passage = "local-date match 2023-09-29: events=29, sensors=23 {Brooklyn 10, Queens 7, Staten Island 4, Bronx 2} ; GMT match: events=31 sensors=24 {Brooklyn 10, Queens 8, Staten Island 4, Bronx 2}"
+note = "Matching rule: an event belongs to a calendar date when its flood_start_time (stated to be GMT) converted to America/New_York local time falls on that date; the borough of the event is the borough of its sensor_id in kb2e-tjy3 (the events table has no borough). Alternative rules are given in the note. Counts are of distinct sensor_id. Peak depths that day include BK-carroll-st-4th-av-0ery00 35.94 in and BK-9th-st-smith-st-0mlfc0 25.35 in."
+verdict_note = ""
+
+[[fact]]
+name = "sensors_deployed_by_date"
+claimed = ""
+observed = "Sensors deployed on the date (date_installed on or before it, and date_removed empty or on or after it): 2021-09-01: 9 (Brooklyn 5, Queens 4); 2021-09-02: 9 (same); 2023-09-29: 68 (Brooklyn 24, Queens 20, Staten Island 13, Bronx 7, Manhattan 4). 4 of the 9 sensors deployed in September 2021 recorded no event on 1 September local (BK-4th-av-garfield-pl-0erv80, Q-davenport-ct-1-07zks0, Q-davenport-ct-2-07znk0, BK-marcy-av-ellery-st-007vc0); the tables do not say whether they were online."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/kb2e-tjy3.csv?$limit=50000"
+passage = "2021-09-01 deployed=9 {Brooklyn 5, Queens 4}; 2021-09-02 deployed=9; 2023-09-29 deployed=68 {Brooklyn 24, Queens 20, Staten Island 13, Bronx 7, Manhattan 4}"
+note = "Computed from kb2e-tjy3 date_installed and date_removed, borough as given there. A sensor with no event is not proof that no flood occurred at it (see Data Description: \"A sensor may also fail to capture a flood event if it was offline and awaiting repair or had not been deployed yet or retired\")."
+verdict_note = ""
+
+[[file]]
+path = "floodnet-flood-events/aq7i-eu5q.csv"
+url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.csv?$limit=50000"
+bytes = 6115669
+sha256 = "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054"
+fetched_at = "2026-11-25T16:57:29Z"
+
+[[file]]
+path = "floodnet-flood-events/data-description.pdf"
+url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q/files/babcd697-b065-4ef2-8990-fae85df3809f?download=true&filename=Floodnet_Open_Data_-_Data_Description_03.05.2026.pdf"
+bytes = 4572059
+sha256 = "b5253c42f1a7efe0bcc566583cad70ee75bfaac5296ad4323a2d586d70853ed5"
+fetched_at = "2026-11-25T16:56:57Z"
+
+[[file]]
+path = "floodnet-flood-events/flood-events-dictionary.xlsx"
+url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q/files/451c6766-5034-47fd-827e-9fb4ce9e32c5?download=true&filename=Flood%20Events_Data%20Dictionary.xlsx"
+bytes = 66977
+sha256 = "dda03af1eb0661f3bc8c6d2a0d9d0f55eb03036f4032ae7050a11634c42574d0"
+fetched_at = "2026-11-25T16:56:58Z"
+
+[[file]]
+path = "meta/aq7i-eu5q.json"
+url = "https://data.cityofnewyork.us/api/views/aq7i-eu5q.json"
+bytes = 52866
+sha256 = "f3590993cabb448d7f28291e3265ac997c19675dd406d51caef7c66afa191d97"
+fetched_at = "2026-11-25T16:53:04Z"

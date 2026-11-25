@@ -1,0 +1,154 @@
+id = "ice-calculator"
+title = "Interruption Cost Estimate (ICE) Calculator 2.x"
+publisher = "Lawrence Berkeley National Laboratory and Resource Innovations, Inc. (icecalculator.com)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FM5"]
+known_biases = "Costs are for interruptions up to 24 hours only (long outages are outside the survey-based method); the model is a survey-based econometric model (4,156 residential and 5,287 non-residential responses in 2.2); the underlying equations and coefficients are copyrighted and licensed, not published. The 2.0-versus-2.2 memorandum shows estimates changed between versions."
+
+[[fact]]
+name = "identifier"
+claimed = "ICE Calculator 2.0 released 2025-04-28, 2.2 in February 2026"
+observed = "Release dates from the site's own bundle (main-22UAKSGH.js, version table; JavaScript months are zero-based): interruption.2.0.0 new Date(2025,3,26) = 2025-04-26; interruption.2.1.0 new Date(2025,7,24) = 2025-08-24; interruption.2.2.0 new Date(2026,1,19) = 2026-02-19 ('New interruption cost model based on results from the Phase 1 and Phase 2 surveying activities'); Guam and Puerto Rico models 1.0.0 also 2026-02-19. The LBNL memo says version 2.0 was 'released in April 2025'. So 2.2 in February 2026 is confirmed; the day of 2.0 is 26 April per the site bundle, not 28 April."
+outcome = "differs"
+source_url = "https://icecalculator.com/main-22UAKSGH.js"
+passage = "\"interruption.2.0.0\":{version:\"interruption.2.0.0\",releaseDate:new Date(2025,3,26) ... \"interruption.2.1.0\" ... new Date(2025,7,24) ... \"interruption.2.2.0\":{version:\"interruption.2.2.0\",releaseDate:new Date(2026,1,19),isDeprecated:!1 ; memo: 'version 2.0 (released in April 2025)'"
+note = "Day of 2.0 release inferred from the app's own version table; the memo gives only the month."
+verdict_note = ""
+
+[[fact]]
+name = "customer_classes"
+claimed = "residential and non-residential"
+observed = "Version 2.2 interruption model: two sectors, 'residential' and 'non-residential' (chunk for interruption.2.2.0). The main app bundle also defines a three-sector layout (Residential, Small-Medium Non-Residential, Large Non-Residential & Public Sector) for some other model version or region; which one was not determined. The 2.0/2.2 memo counts 'residential and non-residential' responses. Models for Guam and Puerto Rico are separate."
+outcome = "confirmed"
+source_url = "https://icecalculator.com/chunk-YS3XBJST.js"
+passage = "sectors:[{sectorType:\"residential\",id:\"res\",name:\"Residential\",numberOfCustomers:0},{sectorType:\"non-residential\",id:\"nonres\",name:\"Non-Residential\",numberOfCustomers:0}]"
+note = "Three-class layout found in main-22UAKSGH.js (initializeSectorsForRegion: res, smnr, lnrp); for 2.2.0 the two-class chunk applies."
+verdict_note = ""
+
+[[fact]]
+name = "duration_limit"
+claimed = "24 hours or less"
+observed = "Confirmed by the FAQ for ICE 2: 'The focus of the updated ICE Calculator is on the costs of power interruptions lasting up to 24 hours.' Survey-based CDFs cannot provide complete information beyond 24 hours (DOE research cited). Exception: Puerto Rico and Guam can be estimated to 30 days (max CAIDI 43,200 minutes). Input bounds in the app: CAIDI max 1440 min, SAIDI max 2160, SAIFI max 100."
+outcome = "confirmed"
+source_url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/FAQs+for+ICE+Calculator+2.pdf"
+passage = "Does the ICE Calculator estimate the cost of power interruptions lasting longer than 24 hours? The focus of the updated ICE Calculator is on the costs of power interruptions lasting up to 24 hours."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "reuse_terms"
+claimed = "whether the damage-function coefficients may be used offline [V]"
+observed = "NOT freely reusable offline. The online tool and its API stay in the public domain; the spreadsheets (the equations and coefficients) are available only under a licensing agreement; LBNL and partners hold copyright on the underlying models. The Phase 1 final report describes the econometric structure (residential: a GLM; non-residential: a Probit plus a GLM) and lists explanatory variables with significance, but no coefficient values were found in its text (grep of 'coefficient' hits only method sections; report not read in full). So a published coefficient set for offline use was not found; calling the API is the permitted route."
+outcome = "differs"
+source_url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/FAQs+for+ICE+Calculator+2.pdf"
+passage = "Those equations include both the explanatory variables included in the models and their coefficients. ... Berkeley Lab-and our partners-filed for and received copyright protection from the U.S. government. Users that wish to access the spreadsheets will now need to go through a process to secure a license. As always, access to the online version of the ICE Calculator-and the Application Programming Interface-will remain in the public domain.  ; site: 'Berkeley Lab and our research partners hold a copyright for the underlying models (e.g., the equations) used by the ICE Calculator.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Tool https://icecalculator.com/ (Angular app; API v2 documented in the app); documents at https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/ (FAQ, Phase I final report 29 May 2025, ICE 2.0 vs 2.2 memo 31 Mar 2026). LBNL's emp.lbl.gov pages returned HTTP 403 to the client (not read)."
+outcome = "confirmed"
+source_url = "https://icecalculator.com/"
+passage = "bundle links: FAQs+for+ICE+Calculator+2.pdf; ICE+2.0+Phase+I+Final+Report+29May2025.pdf; ICE+2.0+vs.+2.2_31Mar2026.pdf"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Free tool; check reuse terms"
+observed = "Online use and API free and public domain per the FAQ; spreadsheets licensed; copyright notice: 'Copyright (c) The Regents of the University of California, through Lawrence Berkeley National Laboratory ... and Resource Innovations, Inc. All rights reserved'; DOE-funded so the US Government keeps a licence."
+outcome = "confirmed"
+source_url = "https://icecalculator.com/main-22UAKSGH.js"
+passage = "The Interruption Cost Estimate (ICE) Calculator spreadsheets. Copyright (c) <year>, The Regents of the University of California, through Lawrence Berkeley National Laboratory ... and Resource Innovations, Inc. All rights reserved."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Current: interruption/reliability model 2.2.0 (2026-02-19). Memo 'Key Differences Between Version 2.0 and 2.2' dated 31 Mar 2026: 2.2 adds six utilities (SCE, PG&E, SDG&E, Ameren-Missouri, Evergy-Missouri, Liberty-Missouri) and seven additional factors; sample grows from 3,026/3,874 to 4,156/5,287 residential/non-residential responses."
+outcome = "confirmed"
+source_url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/ICE+2.0+vs.+2.2_31Mar2026.pdf"
+passage = "The ICE Calculator 2.2 model is now based on 4,156 and 5,287 validated residential and non-residential responses"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "United States (state-level inputs), plus Guam and Puerto Rico."
+outcome = "confirmed"
+source_url = "https://icecalculator.com/main-22UAKSGH.js"
+passage = "guam.interruption.1.0.0, puerto-rico.interruption.1.0.0 entries"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Not applicable (cost model)."
+outcome = "not applicable"
+source_url = "https://icecalculator.com/"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Inputs: number of customers per class, reliability metrics (SAIDI, SAIFI, CAIDI), state, annual use; outputs include cost per customer event, per unserved kWh, per minute."
+outcome = "confirmed"
+source_url = "https://icecalculator.com/chunk-YS3XBJST.js"
+passage = "costPerCustomerEvent, costPerUnservedKwh, costPerMinuteInterrupt, annualCostPerCustomer"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No checksums published."
+outcome = "not applicable"
+source_url = "https://icecalculator.com/"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "ice-calculator/faq-ice2.pdf"
+url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/FAQs+for+ICE+Calculator+2.pdf"
+bytes = 233785
+sha256 = "95990b99db48894e915613783f338a4360fdb4be61c99ff544a33bfc61034aa4"
+fetched_at = "2026-11-25T17:03:23Z"
+
+[[file]]
+path = "ice-calculator/ice2-phase1-report.pdf"
+url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/ICE+2.0+Phase+I+Final+Report+29May2025.pdf"
+bytes = 3343952
+sha256 = "5b986ad8619e3816ab68138b862b2dcd01996f0899897a0cf3d895e0bfc1c6e9"
+fetched_at = "2026-11-25T17:03:30Z"
+
+[[file]]
+path = "ice-calculator/ice-2.0-vs-2.2.pdf"
+url = "https://ice-calc-docs.s3.us-west-2.amazonaws.com/documents/ICE+2.0+vs.+2.2_31Mar2026.pdf"
+bytes = 716742
+sha256 = "ecf5a586375b9bc8403efea7cba8ffccdc26b504b345e620a7d83933733031c0"
+fetched_at = "2026-11-25T17:03:35Z"
+
+[[file]]
+path = "raw/ice/main-22UAKSGH.js"
+url = "https://icecalculator.com/main-22UAKSGH.js"
+bytes = 2656977
+sha256 = "19a086725239a0fe444bd37a70189475a62bb0f84868e19b1bc9fafc8b32a21b"
+fetched_at = "2026-11-25T17:02:25Z"
+
+[[file]]
+path = "raw/ice/chunk-YS3XBJST.js"
+url = "https://icecalculator.com/chunk-YS3XBJST.js"
+bytes = 10726
+sha256 = "549b3b7bd014c16fd7a45220eae31f04ca7d660c38c6ca02e767bd1ba0b10c1f"
+fetched_at = "2026-11-25T17:03:00Z"

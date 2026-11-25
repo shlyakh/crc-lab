@@ -1,0 +1,181 @@
+id = "jamaica-bay-ida-depth-map"
+title = "Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed"
+publisher = "Stevens Institute of Technology and co-authors (Kasaei, Orton, Ralston, Warner), via Mendeley Data"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FV3", "FH3"]
+known_biases = "Jamaica Bay watershed only. A model product (about 50 m grid, no buildings, no explicit sewers, one lumped drain rate), not an observation, calibrated and scored on a handful of high-water marks, so its 0.20 m is an in-sample figure. The 8 or 18 marks behind it are not independent of the USGS set used elsewhere in this study."
+
+[[fact]]
+name = "identifier"
+claimed = "Mendeley Data doi:10.17632/hs2zt6ngwd.1"
+observed = "DOI 10.17632/hs2zt6ngwd.1 (status allocated), dataset id hs2zt6ngwd, version 1 (the only version), published 2024-11-15T13:42:43Z. Title \"Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed\". Contributors Shima Kasaei (owner), Philip Orton (Stevens), David Ralston (WHOI), John Warner (USGS)."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "doi={\"id\":\"10.17632/hs2zt6ngwd.1\",\"status\":\"allocated\"} ; version=1 ; publish_date=\"2024-11-15T13:42:43.278Z\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Record: https://data.mendeley.com/datasets/hs2zt6ngwd/1 ; API: https://data.mendeley.com/public-api/datasets/hs2zt6ngwd (HTTP 200, 11,456 B). https://doi.org/10.17632/hs2zt6ngwd.1 redirects to the record."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "links={\"view\": \"https://data.mendeley.com/datasets/hs2zt6ngwd\"}"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Read before showing (licence not yet read)"
+observed = "Licence stated on the record: \"CC BY 4.0\", full name \"Creative Commons Attribution 4.0 International\", https://creativecommons.org/licenses/by/4.0. Share, copy, adapt with credit, a link to the licence and indication of changes; further permission may be needed for third-party content in the dataset."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "data_licence={\"short_name\": \"CC BY 4.0\", \"full_name\": \"Creative Commons Attribution 4.0 International\", \"url\": \"http://creativecommons.org/licenses/by/4.0\", \"description\": \"You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made...\"}"
+note = "The paper itself is also CC BY 4.0 (HESS page and Crossref)."
+verdict_note = ""
+
+[[fact]]
+name = "contents"
+claimed = ""
+observed = "Nine files, 21,877,753 B in total (record size), a shapefile set plus one TIFF: Ida_flood_map.cpg 5 B; .dbf 9,779,101 B; .prj 562 B; .sbn 1,065,196 B; .sbx 56,172 B; .shp 3,076,600 B; .shp.xml 10,656 B; .shx 879,100 B; .tif 7,010,361 B. All far below 200 MB. I downloaded the .tif, .shp.xml and .prj only."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "files[].filename/size as listed ; size=21877753"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Shapefile Ida_flood_map: 109,875 records per the metadata (the number follows \"Feature Class\" in the XML; a record count, I did not open the .dbf). Attributes: water_elev (Double), dem_m (\"DEM values are measured in meters (m) relative to NAVD88\"), flood_dept (Single; unit not stated in the metadata text), class (0: <0.1 m, 1: >=0.1 and <0.3 m, 2: >=0.3 and <0.91 m, 3: >=0.91 m), Latitude, Longitude. CRS NAD83 / New York Long Island (ftUS), EPSG:2263. The .tif is NOT a depth raster: 2333 x 1750 pixels, 3-band 8-bit RGB, no georeferencing, TIFF tag \"MATLAB Handle Graphics\" (a picture of the map)."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/fc3f9b35-6d86-4d80-aecf-101ffdfbf5bf/file_downloaded"
+passage = "XML: \"dem_m DEM (m) Single 13 0 0 DEM values are measured in meters (m) relative to NAVD88. NYCEM\" ; \"class Class Integer 5 5 0 Based on flood depth; 0: <0.1 m 1: >=0.1 and <0.3 m 2: >=0.3 and <0.91m 3: >=0.91 m\" ; gdalinfo Ida_flood_map.tif: Size is 2333, 1750 ; Band 1 Type=Byte, ColorInterp=Red ; TIFFTAG_IMAGEDESCRIPTION=MATLAB Handle Graphics"
+note = "Unit of flood_dept is not stated in the metadata I read, and the 109,875 figure and the shapefile extent were not verified against the .shp/.dbf. The published 30 cm DEM is referred to in the description but not in the shapefile."
+verdict_note = ""
+
+[[fact]]
+name = "resolution_method"
+claimed = ""
+observed = "Description: interpolated map from modeled peak water elevations and a \"high-resolution 30 cm DEM\", from a simplified hydrodynamic model on an \"approximately 50-meter resolution grid\" that \"neglects the presence of buildings and does not explicitly represent the stormwater sewer system\"; a calibrated constant \"drain rate\" stands for drainage and infiltration."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "description: \"This interpolated flood map was developed using modeled peak water elevations combined with a high-resolution 30 cm DEM.\" ; \"...simplified hydrodynamic modeling on an approximately 50-meter resolution grid that neglects the presence of buildings and does not explicitly represent the stormwater sewer system.  A calibrated spatially- and temporally constant “drain rate” represents the stormwater system drainage and infiltration across the domain.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "paper_citation"
+claimed = "\"Kasaei et al. 2025, HESS 29:2043\""
+observed = "Kasaei, S., Orton, P. M., Ralston, D. K., Warner, J. C.: \"Pluvial and potential compound flooding in a coupled coastal modeling framework: New York City during post-tropical Cyclone Ida (2021)\", Hydrology and Earth System Sciences 29, 2043-2058, 2025, https://doi.org/10.5194/hess-29-2043-2025, published 23 April 2025 (received 5 Jul 2024, accepted 12 Feb 2025). The Mendeley record links only the 2024 preprint (EGUsphere egusphere-2024-2058, titled \"Pluvial and compound flooding in a coupled coastal system modeling framework...\") and does not link the final paper."
+outcome = "confirmed"
+source_url = "https://api.crossref.org/works/10.5194/hess-29-2043-2025"
+passage = "Crossref: container-title=[\"Hydrology and Earth System Sciences\"], volume=29, page=2043-2058, issued=[[2025,4,23]], DOI 10.5194/hess-29-2043-2025 ; Mendeley related_links=[{\"type\":\"article\",\"rel\":\"source_of\",\"href\":\"https://doi.org/10.5194/egusphere-2024-2058\"}] ; method=\"For more information on the methods, please see the paper (https://doi.org/10.5194/egusphere-2024-2058).\""
+note = "Citation in requirements.md is correct. Final paper title differs from the preprint title that the dataset record cites."
+verdict_note = ""
+
+[[fact]]
+name = "rmse_0_20_m"
+claimed = "the 0.20 m of the published research model [S] (Kasaei et al. 2025, HESS 29:2043, abstract)"
+observed = "The abstract says RMSE of 20 cm against high-water marks: same number as 0.20 m. Caveat: the paper validates against seven USGS marks inside its modeled area plus one from the Community Flood Watch Project (eight for Ida); the Mendeley record says \"18 locations\" for the calibration using two storms (Ida and 29 Sep 2023). The uncalibrated base run (no drain rate) had RMSE 40 cm and mean error 13 cm. Calibrated drain rate 13 mm/h."
+outcome = "confirmed"
+source_url = "https://hess.copernicus.org/articles/29/2043/2025/"
+passage = "abstract: \"We generate a spatially continuous flood map of Ida with a root-mean-square error (RMSE) of 20 cm when compared to high-water marks\" ; text: \"we reference surveyed high-water marks (HWMs) from the USGS website for the event, finding seven locations within our modeled area; one more HWM is from the Community Flood Watch Project\" ; \"The calibrated drain rate of 13 mm h −1 from our model\" ; Mendeley: \"based on a calibration process that utilized two storms and high watermarks at 18 locations.\""
+note = "The 20 cm is in-sample (a calibration error, not an independent test) on very few marks; do not compare a model validated against the full 159 marks to it as if like for like."
+verdict_note = ""
+
+[[fact]]
+name = "single_drainage_rate"
+claimed = "the model represented infiltration and stormwater conveyance as a single drainage rate"
+observed = "Confirmed: infiltration and stormwater conveyance are lumped into one drain rate, applied as a spatially uniform, constant calibration parameter over the land area; bare-earth surface, no buildings, no explicit sewer."
+outcome = "confirmed"
+source_url = "https://hess.copernicus.org/articles/29/2043/2025/"
+passage = "abstract: \"We modify the model to capture the volumetric effects of rainfall and parameterize soil infiltration and a stormwater conveyance system as the drainage rate.\" ; text: \"Because the model does not explicitly include infiltration or a stormwater system, we account for the drainage with a collective “drain rate”.\" ; \"For the Jamaica Bay watershed simulations, we assume a uniform, constant drain rate for the land area and use it as a calibration parameter\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Jamaica Bay watershed in Brooklyn and Queens only; the metadata summary says \"Jamaica Bay watershed area in Brooklyn and Queens\". Extent of the shapefile not computed. Overlap with the Brooklyn-Queens box is partial by construction."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/fc3f9b35-6d86-4d80-aecf-101ffdfbf5bf/file_downloaded"
+passage = "XML abstract: \"This dataset shows the simulated flooding impacts of post-tropical cyclone Ida on the Jamaica Bay watershed area in Brooklyn and Queens.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Event: post-tropical cyclone Ida, 2021 (the record says Ida (2021); peak water elevation only, no time series)."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "name=\"Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Version 1, published 2024-11-15; created 2024-11-12; modified 2024-11-14. No later version."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "versions=[{\"version\": 1, \"available\": true, \"publish_date\": \"2024-11-15T13:42:43.278Z\"}]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Mendeley gives SHA-256 for each file; mine match for Ida_flood_map.prj (496a9166...), Ida_flood_map.shp.xml (d34f9b8f...) and Ida_flood_map.tif (1e852650...)."
+outcome = "confirmed"
+source_url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+passage = "files[].content_details.sha256_hash: .tif 1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e ; .prj 496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9 ; .shp.xml d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/Ida_flood_map.tif"
+url = "https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/56a6c5ce-661e-437e-81b0-72b4c0ba9cfe/file_downloaded"
+bytes = 7010361
+sha256 = "1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e"
+fetched_at = "2026-11-25T16:54:30Z"
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/Ida_flood_map.shp.xml"
+url = "https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/fc3f9b35-6d86-4d80-aecf-101ffdfbf5bf/file_downloaded"
+bytes = 10656
+sha256 = "d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628"
+fetched_at = "2026-11-25T16:54:21Z"
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/Ida_flood_map.prj"
+url = "https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/e766220f-1958-48f3-9510-0a4d2d8f2d28/file_downloaded"
+bytes = 562
+sha256 = "496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9"
+fetched_at = "2026-11-25T16:54:22Z"
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/mendeley_record.json"
+url = "https://data.mendeley.com/public-api/datasets/hs2zt6ngwd"
+bytes = 11456
+sha256 = "b8815a56d1a1379d1db627eb277e7fc5309ba17bc3f34e484b07e67f3a700c62"
+fetched_at = "2026-11-25T16:54:12Z"
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/paper/crossref.json"
+url = "https://api.crossref.org/works/10.5194/hess-29-2043-2025"
+bytes = 30122
+sha256 = "3d2baeff52c268ccb3fc504d2f1d0d6675ad936a10a889b5bd46efe7d53d5f33"
+fetched_at = "2026-11-25T16:54:38Z"
+
+[[file]]
+path = "jamaica-bay-ida-depth-map/paper/hess_29_2043.html"
+url = "https://hess.copernicus.org/articles/29/2043/2025/"
+bytes = 278277
+sha256 = "58ae9798ecd015507f69362e500c9066de5504356cd4d40895430740e77a42be"
+fetched_at = "2026-11-25T16:54:43Z"

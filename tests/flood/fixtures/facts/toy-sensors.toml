@@ -1,0 +1,90 @@
+id = "toy-sensors"
+title = "Toy sensors"
+publisher = "Toy network"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts and second reader"
+second_reader_stage = "F2"
+used_for = ["FS3"]
+known_biases = "Sensors sit where the network put them."
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "identifier as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """identifier=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "address as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """address=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "licence as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """licence=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "fields as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """fields=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "coverage_space as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """coverage_space=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "coverage_time as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """coverage_time=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "release as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """release=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "checksum as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """checksum=value"""
+note = ""
+verdict_note = ""
+

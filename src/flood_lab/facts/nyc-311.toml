@@ -1,0 +1,159 @@
+id = "nyc-311"
+title = "311 Service Requests from 2020 to Present"
+publisher = "NYC Office of Technology and Innovation (OTI), on NYC Open Data"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FV5", "FT5"]
+known_biases = "Each row is a call, web or app report made by a person, so counts follow who knows the service and reports, where people are at home or online, and duplicate reports of one event (the dataset has no flag for duplicates). It holds only 'service requests that can be directed to specific agencies'. A report is not a measured flood and says nothing about depth; absence of complaints in an area is not absence of flooding."
+
+[[fact]]
+name = "identifier"
+claimed = "311 service requests: NYC Open Data (find the current dataset id in F0)"
+observed = "Current id for 2021 and 2023 is erm2-nwe9, '311 Service Requests from 2020 to Present' (rows from 2020-01-01; 23,266,679 rows on 2026-11-25; max created_date 2026-11-23). 2010 to 2019 is 76ig-c548 ('311 Service Requests from 2010 to 2019', found in the portal catalogue, not used here). The older per-year datasets (2004 to 2009) exist as well."
+outcome = "confirmed"
+source_url = "https://api.us.socrata.com/api/catalog/v1?domains=data.cityofnewyork.us&q=311%20service%20requests&limit=25"
+passage = """
+erm2-nwe9 | 311 Service Requests from 2020 to Present | dataset | updated 2026-11-25
+76ig-c548 | 311 Service Requests from 2010 to 2019 | dataset | updated 2025-12-26
+[erm2-nwe9 description] For data from 2010-2019 see: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-2019/76ig-c548/about_data"""
+note = "The dataset description links a page about recent changes to this dataset (https://opendata.cityofnewyork.us/311-service-requests-from-2010-to-present-updates/); I did not read it, so I do not know when or why the table was split into 2010-2019 and 2020-to-present or whether the complaint-type renaming is described there."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "https://data.cityofnewyork.us/resource/erm2-nwe9.json works without token (rate-limited without one; one query timed out once with 'service-unavailable')."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+passage = "name=311 Service Requests from 2020 to Present ; attribution=311 ; agency OTI ; Update Frequency: Daily ; Date Made Public: 10/18/2011"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Main fields: unique_key, created_date, closed_date (floating timestamps, no zone in the API; the dictionary I searched does not state a time zone), agency, complaint_type, descriptor, descriptor_2, location_type, incident_zip, incident_address, street_name, cross streets, status, resolution_description, community_board, council_district, police_precinct, bbl, borough (BRONX, BROOKLYN, MANHATTAN, QUEENS, STATEN ISLAND, or 'Unspecified'), x/y_coordinate_state_plane, open_data_channel_type, latitude, longitude, location, and others. The dictionary calls complaint_type 'Problem' and descriptor 'Problem Detail'."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+passage = """
+complaint_type | text | This is the first level of a hierarchy identifying the topic of the incident or condition.
+descriptor | text | This is associated to the Problem (formerly Complaint Type), and provides further detail on the incident or condition.
+This dataset is updated daily and expected values for many fields will change over time. The lists of expected values associated with each column are not exhaustive."""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "flood_complaint_types"
+claimed = ""
+observed = "Two naming schemes for the same DEP sewer requests appear in 2021 to 2023 data. Legacy: complaint_type 'Sewer' with descriptors 'Street Flooding (SJ)', 'Highway Flooding (SH)', 'Sewer Backup (Use Comments) (SA)', 'Catch Basin Clogged/Flooding (Use Comments) (SC)', 'Catch Basin Sunken/Damaged/Raised (SC1)', 'Catch Basin Grating Missing (SA4)', 'Catch Basin Search (SC2)', 'Manhole Overflow (Use Comments) (SA1)', 'Culvert Blocked/Needs Cleaning (SE)'. Current: complaint_type 'Sewer Maintenance' with descriptors 'Flooding on Street', 'Flooding on Highway', 'Backup', 'Catch Basin Clogged', 'Catch Basin Sunken', 'Catch Basin Grate Missing', 'Manhole Overflow', 'Culvert'. Both appear on 2023-09-29 (legacy 'Sewer/Sewer Backup' 923, current 'Sewer Maintenance/Backup' 870 in Brooklyn and Queens); on 2021-09-01/02 no 'Sewer Maintenance' rows appear in Brooklyn and Queens, only the legacy names. Related: 'Water System / Excessive Water In Basement (WEFB)' (2021) and 'Water Maintenance / Water in Basement' (2023); 'Standing Water' (a handful); 'Water Drainage / Drain/Pipe Clogged'."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?$select=complaint_type,descriptor,count(*)&$group=complaint_type,descriptor"
+passage = """
+[dictionary, DEP rows] Department of Environmental Protection | Sewer Maintenance | Backup | N/A | Yes | Sewer
+Department of Environmental Protection | Sewer Maintenance | Catch Basin Clogged | N/A | Yes | Sewer
+Department of Environmental Protection | Sewer Maintenance | Flooding on Street | N/A | Yes | Street
+Department of Environmental Protection | Sewer Maintenance | Flooding on Highway | N/A | Yes | Highway
+[2021-09-01/02, Brooklyn and Queens] Sewer | Sewer Backup (Use Comments) (SA) | 2245 ; Sewer | Street Flooding (SJ) | 424 ; Sewer | Catch Basin Clogged/Flooding (Use Comments) (SC) | 297
+[2023-09-29] Sewer | Sewer Backup (Use Comments) (SA) | 923 ; Sewer Maintenance | Backup | 870 ; Sewer | Street Flooding (SJ) | 481 ; Sewer Maintenance | Flooding on Street | 469 ; Sewer | Catch Basin Clogged/Flooding (Use Comments) (SC) | 321 ; Sewer Maintenance | Catch Basin Clogged | 290"""
+note = "A query on the legacy names alone would roughly halve the 2023 counts. The mapping between the two sets is mine; the dictionary lists the new names only. First created_date for Sewer Maintenance/Backup is 2020-03-02 (6,004 rows to 2026-11-23)."
+verdict_note = ""
+
+[[fact]]
+name = "count_2021-09-01"
+claimed = ""
+observed = "Brooklyn and Queens, created_date on 2021-09-01: street flooding 193 (Brooklyn 78, Queens 115); sewer backup 670 (317, 353); catch basin clogged/flooding 111 (70, 41). The three together: 974 (Brooklyn 465, Queens 509)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+passage = "street_flooding 2021-09-01 {BROOKLYN 78, QUEENS 115}; sewer_backup {BROOKLYN 317, QUEENS 353}; catch_basin_clogged_flooding {BROOKLYN 70, QUEENS 41}; all three {BROOKLYN 465, QUEENS 509}"
+note = "Query form: https://data.cityofnewyork.us/resource/erm2-nwe9.json?$select=borough,count(*)&$group=borough&$where=created_date >= '<day>T00:00:00' AND created_date < '<next day>T00:00:00' AND borough in('BROOKLYN','QUEENS') AND (<condition>) . Conditions: street flooding = (complaint_type='Sewer' AND descriptor='Street Flooding (SJ)') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Street'); sewer backup = (complaint_type='Sewer' AND descriptor='Sewer Backup (Use Comments) (SA)') OR (complaint_type='Sewer Maintenance' AND descriptor='Backup'); catch basin = (complaint_type='Sewer' AND descriptor='Catch Basin Clogged/Flooding (Use Comments) (SC)') OR (complaint_type='Sewer Maintenance' AND descriptor='Catch Basin Clogged'). created_date taken as given (no time-zone conversion; the API does not state one). Highway flooding (SH) and other catch basin descriptors are excluded."
+verdict_note = ""
+
+[[fact]]
+name = "count_2021-09-02"
+claimed = ""
+observed = "Brooklyn and Queens, created_date on 2021-09-02: street flooding 231 (Brooklyn 99, Queens 132); sewer backup 1,576 (740, 836); catch basin clogged/flooding 186 (96, 90). The three together: 1,993 (Brooklyn 935, Queens 1,058)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+passage = "street_flooding 2021-09-02 {BROOKLYN 99, QUEENS 132}; sewer_backup {BROOKLYN 740, QUEENS 836}; catch_basin_clogged_flooding {BROOKLYN 96, QUEENS 90}; all three {BROOKLYN 935, QUEENS 1058}"
+note = "Query form: https://data.cityofnewyork.us/resource/erm2-nwe9.json?$select=borough,count(*)&$group=borough&$where=created_date >= '<day>T00:00:00' AND created_date < '<next day>T00:00:00' AND borough in('BROOKLYN','QUEENS') AND (<condition>) . Conditions: street flooding = (complaint_type='Sewer' AND descriptor='Street Flooding (SJ)') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Street'); sewer backup = (complaint_type='Sewer' AND descriptor='Sewer Backup (Use Comments) (SA)') OR (complaint_type='Sewer Maintenance' AND descriptor='Backup'); catch basin = (complaint_type='Sewer' AND descriptor='Catch Basin Clogged/Flooding (Use Comments) (SC)') OR (complaint_type='Sewer Maintenance' AND descriptor='Catch Basin Clogged'). created_date taken as given (no time-zone conversion; the API does not state one). Highway flooding (SH) and other catch basin descriptors are excluded. Sums of the three sets equal the combined query (no row falls in two sets)."
+verdict_note = ""
+
+[[fact]]
+name = "count_2023-09-29"
+claimed = ""
+observed = "Brooklyn and Queens, created_date on 2023-09-29: street flooding 950 (Brooklyn 625, Queens 325); sewer backup 1,793 (1,174, 619); catch basin clogged/flooding 611 (322, 289). The three together: 3,354 (Brooklyn 2,121, Queens 1,233)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+passage = "street_flooding 2023-09-29 {BROOKLYN 625, QUEENS 325}; sewer_backup {BROOKLYN 1174, QUEENS 619}; catch_basin_clogged_flooding {BROOKLYN 322, QUEENS 289}; all three {BROOKLYN 2121, QUEENS 1233}"
+note = "Query form: https://data.cityofnewyork.us/resource/erm2-nwe9.json?$select=borough,count(*)&$group=borough&$where=created_date >= '<day>T00:00:00' AND created_date < '<next day>T00:00:00' AND borough in('BROOKLYN','QUEENS') AND (<condition>) . Conditions: street flooding = (complaint_type='Sewer' AND descriptor='Street Flooding (SJ)') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Street'); sewer backup = (complaint_type='Sewer' AND descriptor='Sewer Backup (Use Comments) (SA)') OR (complaint_type='Sewer Maintenance' AND descriptor='Backup'); catch basin = (complaint_type='Sewer' AND descriptor='Catch Basin Clogged/Flooding (Use Comments) (SC)') OR (complaint_type='Sewer Maintenance' AND descriptor='Catch Basin Clogged'). created_date taken as given (no time-zone conversion; the API does not state one). Highway flooding (SH) and other catch basin descriptors are excluded."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "All five boroughs; borough is 'provided by the submitter and confirmed by geovalidation'. Location (latitude, longitude, state-plane x/y) is geovalidated and can be empty. Only requests that can be directed to specific agencies."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+passage = """
+This dataset represents only service requests that can be directed to specific agencies.
+Borough | One of New York City's five boroughs | BRONX, BROOKLYN, MANHATTAN, QUEENS, STATEN ISLAND | The information in this column is provided by the submitter and confirmed by geovalidation"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "2020-01-01 to 2026-11-23 (created_date min and max on 2026-11-25), updated daily."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?$select=min(created_date),max(created_date)"
+passage = "[{\"min_created_date\":\"2020-01-01T00:00:00.000\",\"max_created_date\":\"2026-11-23T15:09:01.000\"}]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "rowsUpdatedAt 2026-11-25T02:39:07Z; made public 2011 (original), the 2020-to-present table published 2025-12-23; metadata last modified 2025-12-29. Total rows 23,266,679 at the time of reading."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+passage = "rowsUpdatedAt=1795574347 approx (2026-11-25T02:39:07Z); Update Frequency: Daily"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "NYC Open Data terms"
+observed = "No licence field (licenseId None); NYC Open Data terms apply (see passage). The dataset states it 'does not reveal any personally identifying information about the customer'."
+outcome = "confirmed"
+source_url = "https://cityofnewyork.github.io/opendatatsm/publicpolicies.html"
+passage = """
+[Technical Standards Manual, public policies page] Local Law 11 of 2012, specifically § 23-502 d, requires that data sets must be available without registration requirement, license requirement, or usage restrictions, except as provided below. ... DoITT may require third party entities such as application developers to explicitly identify the source, version, and modifications made to a public data set, should they publicly re-publish it elsewhere or incorporate the public data set into an application. ... By accessing data sets and feeds available through the NYC OpenData portal (or the “Site”), the user agrees to all of the Terms of Use of NYC.gov as well as the NYC.gov Privacy Policy. The user also agrees to any additional terms of use defined by entities providing data or feeds through the Site. ... Public data sets made available on the NYC OpenData portal are provided for informational purposes. The City does not warranty the completeness, accuracy, content, or fitness for any particular purpose or use of any public data set made available on the NYC OpenData portal ...
+[Technical Standards Manual, 5/12/2023 revision, section 2.3.2, https://www.nyc.gov/content/dam/nycgov/opendata/downloads/open-data-coordinators/NYC_OpenData_TechnicalStandardsManual.pdf] Upon publication to NYC Open Data, datasets become a public resource available to anyone, without restriction or licensing requirements (see NYC Open Data’s Terms of Use for more information)."""
+note = "Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team's own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for 'open data', 'data set' and 'public data' found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal."
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No file was downloaded from this source: counts come from API queries and only the data dictionary (xlsx) was kept; its sha256 is in the file record."
+outcome = "not applicable"
+source_url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "nyc-311/dictionary.xlsx"
+url = "https://data.cityofnewyork.us/api/views/erm2-nwe9/files/c5cc6926-45bb-4af3-8aab-0ee6a29bcf4d?download=true&filename=311_ServiceRequest_2020-present_DataDictionary_Updated_2025.xlsx"
+bytes = 424095
+sha256 = "6cc30e13eb41ee7c2f3c4e6b1078df1065ecf97513b551911b3271189d2e94fc"
+fetched_at = "2026-11-25T17:02:35Z"
+
+[[file]]
+path = "meta/erm2-nwe9.json"
+url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
+bytes = 25591
+sha256 = "4d7acf75c64c59095f44c1572a7305d622d3ab8a7b49c2925d08761854ba2168"
+fetched_at = "2026-11-25T16:59:33Z"

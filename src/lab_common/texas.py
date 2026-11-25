@@ -20,6 +20,8 @@ import pyarrow as pa
 import shapely
 from crc_sdk.geometry.vector import polyfill_wkb
 
+from lab_common.io import write_json_atomic  # noqa: F401  (kept importable from here)
+
 TIGER_URL = "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_us_state_500k.zip"
 TIGER_FILE = "cb_2024_us_state_500k"
 STATE = "TX"
@@ -90,13 +92,3 @@ def write_geojson(boundary: Boundary, path: Path, tolerance: float = 0.01) -> No
         ],
     }
     write_json_atomic(path, feature)
-
-
-def write_json_atomic(path: Path, payload: object, **dumps: object) -> None:
-    """Write JSON through a temporary file, then ``os.replace`` (AGENTS.md rule)."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(dir=path.parent, suffix=".part")
-    with os.fdopen(fd, "w") as handle:
-        json.dump(payload, handle, separators=(",", ":"), **dumps)
-    os.chmod(tmp, 0o644)
-    os.replace(tmp, path)
