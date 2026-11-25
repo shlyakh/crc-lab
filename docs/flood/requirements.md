@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 5, 2026-11-25, tag `flood-requirements-v5` (earlier versions are tags `flood-requirements-v1` to `-v4`; what changed is in `docs/flood/changes.md`);
+Version 6, 2026-11-25, tag `flood-requirements-v6` (earlier versions are tags `flood-requirements-v1` to `-v5`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -854,3 +854,42 @@ fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 | §7 licences | "US public domain", "Public", "Attribution" for the USGS marks and rasters, the structure inventory, Storm Events, the NFIP claims, Atlas 14 | No licence statement was found on the pages that could be read; several agency pages refuse automated access | Shown as "licence not stated on the pages read" until a person reads them. None is shown on the public page as public domain on our say-so |
 
 New questions for Yuri from F0 are in the F0 report (`docs/flood/reports/F0-*.md`).
+
+## 15. Changes for the demos of 1 and 4 December (accepted in version 6)
+
+From `docs/flood/demo-plan.md` (changes CH-8 to CH-13, accepted on 2026-11-25). As in section 14, **where a
+row here and a paragraph above disagree, the row holds**; the paragraphs above are left as first written.
+
+| Requirement | It says | From version 6 |
+| --- | --- | --- |
+| FG6, D11 | One stage at a time; each ends with a report and a stop; the next does not start without Yuri's go | One stage at a time, each in its own session and on its own branch, each with its report. Yuri reviews once a day. When all checks of a stage pass, the next may start without waiting, on a branch made from the finished stage's branch; merges into `main` stay on Yuri's go (D14), at the daily review. A failing check, a fact that differs, or a number that would have to be invented still stops everything until he decides |
+| D13 | Tier 1 is F0 to F8 and F11; tiers 2 and 3 are decided at the F8 stop | Order until 2026-12-04: F3, F4, F5 (first part), F6, F7, the component prototype, a reduced F11, then F9, F8, and the second page. F9 is brought forward from Tier 2. F10 and Tier 3 are decided after 4 December |
+| FH5, FH7, FE1 | The catalogue's runs keep peak depth and a record | Every run keeps its whole peak-depth grid and its storm descriptors, as training data for F9. The catalogue runs unattended from the calibration freeze. A figure made before it completes prints the number of storms it used (at least 60) and is rebuilt afterwards |
+| FV5 | "Who saw the flood" in F5 | F5 in two parts: surveyed marks and sensors first; FV5 after 1 December |
+| FM4 | 7%, with 3.1% as a sensitivity | Unchanged, and shown in the break-even view of FM7; 3.1% always labelled "not a FEMA rate" |
+| FP1 to FP9, D14 | One page after F8 | F11 in two parts: before 1 December the lead-asset card, loss curves, break-even chart, flow diagram and test gallery, with FP10; the storm player (FP2) and the rest after. The flood pages are public once deployed (Yuri, 2026-11-25) |
+
+New requirements. IDs follow the rule that none is reused.
+
+- **FM7.** Break-even view. The benefit-cost ratio as a function of replacement value, with the placeholder
+  range of FD4 shaded and the value at which the ratio is 1 marked, at 7% and at 3.1% (labelled as above).
+  Results that need no replacement value (damage ratio, loss as a share of value) are shown apart from
+  those that do. Measure cost (FM3) and project life (FM4) are named on the view with their tags; where
+  either is a placeholder the view shows how far the break-even value moves across its range.
+- **FA1.** Component prototype, time-boxed to 5 hours, after F7 passes: one substation as three components
+  (control house, switchgear, transformers), each with a height above ground, a share of value and its own
+  depth-damage curve.
+- **FA2.** Whole-asset damage is the value-weighted sum of component damage, computed through CRC impact
+  functions.
+- **FA3.** Recombination test: the components together reproduce the single-curve Hazus-type result of FR2
+  within a stated tolerance, or the difference is reported.
+- **FA4.** A measure applied to one component only.
+- **FA5.** Value shares and per-component curves are placeholders **[P]** on every figure unless a source is
+  found (a source would need the fact check of FS6). A proposal note on how CRC 1.0.0 would express a
+  composite asset is written whether or not the prototype is built.
+- **FP10.** A single-asset path that re-runs F6 and F7 for one substation and one raise height in under a
+  minute and regenerates its card and its test record.
+
+The lead asset is chosen by the rule in the demo plan (§4): the substation site with the greatest modelled
+depth in the Ida replay among those near mapped flooding. If no site is wet in any catalogue storm the
+build stops and reports, and the study area's buildings become the lead asset.
