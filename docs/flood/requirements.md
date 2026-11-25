@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 1 (draft for review), 2026-11-25; first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
+Version 1, 2026-11-25 (tag `flood-requirements-v1`); first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
 
@@ -66,6 +66,170 @@ sewer-uncertainty stage.
 **Out of scope.** Flood mapping from satellite imagery; coastal surge; climate scenarios beyond one rainfall
 scaling; the city's real sewer network (not public); engineering-grade or regulatory use of any depth;
 anything commercial using CRC Open data (CC BY-NC 4.0).
+
+### Flow: sources, frameworks and checks
+
+Two diagrams. The first follows the data from its sources to the results and shows which software does
+each step. The second shows how the other loss engines are used: as checks on the same inputs, never as
+the source of a published number (D3, D7).
+
+**From sources to results.** Colours: blue is a source, grey is `flood_lab`'s own code, orange is the
+depth solver and its tools, green is CRC 1.0.0, purple is the emulator (Tier 2).
+
+```mermaid
+flowchart TD
+  subgraph SRC["Sources: facts confirmed in F0 (FS6)"]
+    S1["Lidar terrain, land cover"]
+    S2["Radar and gridded rainfall<br/>MRMS, AORC or Stage IV, Atlas 14"]
+    S3["NYC stormwater flood maps"]
+    S4["Observations of flooding<br/>USGS high-water marks, FloodNet,<br/>Groundsource, 311, Storm Events, NFIP claims"]
+    S5["Assets<br/>OSM substations, building elevations,<br/>National Structure Inventory"]
+    S6["Damage curves, costs<br/>Hazus, Nirandjan, Williams, Bor,<br/>ICE Calculator, FEMA rates"]
+  end
+
+  subgraph HAZ["Hazard: depth on the project grid"]
+    H1["HydroMT-SFINCS<br/>model build (FH2)"]
+    H2["RainyDay<br/>storm catalogue (FH5)"]
+    H3["SFINCS solver<br/>replays, catalogue runs,<br/>design storms (FH4 to FH6)"]
+    H4["flood_lab<br/>drainage calibration (FH3)"]
+    H5["flood_lab<br/>depth frequency per cell (FH7)"]
+    H6["Emulator, PyTorch<br/>more synthetic years (FE, Tier 2)"]
+  end
+
+  subgraph CHK["Checks on depth (FV)"]
+    V1["flood_lab<br/>model against marks and sensors,<br/>who saw the flood"]
+  end
+
+  subgraph CRC["CRC 1.0.0 (crc-sdk, crc-framework)"]
+    C1["Dataset.from_raster, from_quantiles<br/>depth-frequency curves"]
+    C2["Impact.tabulated<br/>damage curves and measures"]
+    C3["Impact.evaluate<br/>damage ratio per event and asset"]
+    C4["complete + Impact.expectation,<br/>evaluate(...).impact(...)<br/>expected annual damage, loss at a return period"]
+    C5["Layer, Observations<br/>city maps, FloodNet (FS1, FS3)"]
+  end
+
+  subgraph OWN["flood_lab: what CRC 1.0.0 does not hold"]
+    A1["assets_oed.csv, curves.yaml (FD6, FR1)"]
+    L1["Event-loss table (FR4)"]
+    L2["Exceedance curves, VaR, CVaR,<br/>dependence brackets, bootstrap (FR5 to FR8)"]
+    L3["Measures: benefit-cost,<br/>outage cost (FM)"]
+    T1["Trigger indices, payout (FT1 to FT4)"]
+    T2["Fused labels, basis risk (FT5 to FT7)"]
+  end
+
+  OUT["Page, gallery of checks, investment one-pagers (FP)"]
+
+  S1 --> H1
+  S2 --> H2
+  S2 --> H3
+  H1 --> H3
+  H2 --> H3
+  S3 --> H4
+  H4 --> H3
+  H3 --> H5
+  H3 -.-> H6
+  H6 -.-> L1
+  H3 --> V1
+  S4 --> V1
+  H5 --> C1
+  S3 --> C5
+  S4 --> C5
+  S5 --> A1
+  S6 --> A1
+  A1 --> C2
+  H3 --> C3
+  C2 --> C3
+  C1 --> C4
+  C2 --> C4
+  C3 --> L1
+  L1 --> L2
+  C4 --> L2
+  L2 --> L3
+  H3 --> T1
+  S4 --> T2
+  T1 --> T2
+  L1 --> T2
+  V1 --> OUT
+  L2 --> OUT
+  L3 --> OUT
+  T2 --> OUT
+
+  classDef src fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef own fill:#e5e7eb,stroke:#4b5563,color:#111
+  classDef solver fill:#ffedd5,stroke:#c2410c,color:#111
+  classDef crc fill:#dcfce7,stroke:#15803d,color:#111
+  classDef emu fill:#ede9fe,stroke:#6d28d9,color:#111
+  class S1,S2,S3,S4,S5,S6 src
+  class H4,H5,V1,A1,L1,L2,L3,T1,T2,OUT own
+  class H1,H2,H3 solver
+  class C1,C2,C3,C4,C5 crc
+  class H6 emu
+```
+
+**How the other engines check the result (F10, Tier 2; not part of the Tier 1 target).** Every engine is
+given the same four inputs as files and runs in its own environment (FG4). Only CRC's result is
+published; the others are compared with it (FX1, FX5).
+
+```mermaid
+flowchart LR
+  subgraph IN["Same inputs, exchanged as files"]
+    I1["assets_oed.csv (FD6)"]
+    I2["curves.yaml (FR1)"]
+    I3["Event depths from the solver,<br/>with catalogue frequencies"]
+    I4["One measure (FM1)"]
+  end
+
+  subgraph ENG["Loss engines"]
+    E0["CRC 1.0.0 + flood_lab<br/>the published result"]
+    E1["CLIMADA<br/>hazard from event depths, impact,<br/>exceedance curve, cost-benefit of the measure (FX3)"]
+    E2["Oasis LMF<br/>footprint, vulnerability, damage bins, occurrence,<br/>average annual loss and exceedance tables (FX4)"]
+    E3["FloodAdapt: SFINCS + Delft-FIAT<br/>one event and one measure reproduced (FX2)"]
+  end
+
+  CMP["flood_lab crosscheck/compare.py (FX5)<br/>per-asset damage within 0.1%: CRC, CLIMADA, FIAT<br/>within half a damage bin: Oasis<br/>expected annual loss within 1%"]
+  RES["Engine-agreement panel,<br/>each difference explained<br/>or recorded as a finding"]
+  FLT["A curve altered on purpose<br/>in one engine must be caught"]
+
+  I1 --> E0
+  I2 --> E0
+  I3 --> E0
+  I4 --> E0
+  I1 --> E1
+  I2 --> E1
+  I3 --> E1
+  I4 --> E1
+  I1 --> E2
+  I2 --> E2
+  I3 --> E2
+  I1 --> E3
+  I2 --> E3
+  I4 --> E3
+  E0 --> CMP
+  E1 --> CMP
+  E2 --> CMP
+  E3 --> CMP
+  FLT -.-> CMP
+  CMP --> RES
+
+  classDef own fill:#e5e7eb,stroke:#4b5563,color:#111
+  classDef crc fill:#dcfce7,stroke:#15803d,color:#111
+  classDef other fill:#fef9c3,stroke:#a16207,color:#111
+  class I1,I2,I3,I4,CMP,RES,FLT own
+  class E0 crc
+  class E1,E2,E3 other
+```
+
+What each engine adds as a check, and what it cannot show:
+
+| Engine | Stage | What agreement shows | What it does not show |
+| --- | --- | --- | --- |
+| CLIMADA | F10 | The damage ratios, the expected annual loss and the exceedance curve computed by `flood_lab` on CRC's ratios match an independent implementation; the measure's benefit matches its cost-benefit module | That the depths or the curves are right: both engines are given the same ones |
+| Oasis LMF | F10, or a design note if the F0 trial fails | The event-loss table and its annual and exceedance figures match an insurance-market engine, within its damage-bin resolution | Anything finer than a damage bin |
+| FloodAdapt (SFINCS with Delft-FIAT) | F10 | One event and one measure give the same per-asset damage through FIAT; a second build of the same solver model gives the same depths | Frequency: one event only. A difference in solver version is a known cause of disagreement (FH2) |
+| Second readers, hand recomputation | F2, F5, F6 (Tier 1) | The inputs were read correctly and three assets' losses can be recomputed to the cent | (This is the check Tier 1 relies on; the engines above come after it) |
+
+In Tier 1 the only contact with the other engines is F0's time-boxed install trials of Oasis and
+FloodAdapt, which decide whether F10 is feasible as written.
 
 ## 4. Tags
 
@@ -560,9 +724,9 @@ Not checked at all in the verification pass, so still **[V]**. Each now has a st
 6. Is the optional news-extraction stage wanted before or after the first public version?
 7. The expert-derived substation curves are reported to carry a no-derivatives licence. Is citing their
    published 3 m values enough, or should the high curve come from the lognormal alternative instead?
-8. Disk: if F0's budget (FG7) does not fit in the free space, may `data/cache/validation/` (19 GiB of
-   publisher files that can be downloaded again, some only on a good day for the publisher's server) be
-   cleared, in whole or in part?
+8. Answered 2026-11-25: yes. If F0's budget (FG7) does not fit in the free space, `data/cache/validation/`
+   (19 GiB of publisher files that can be downloaded again, some only on a good day for the publisher's
+   server) may be cleared. F0 clears only what the budget needs and says what it removed.
 
 ## 13. Where an outside review is most useful
 

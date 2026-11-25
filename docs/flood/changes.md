@@ -28,4 +28,4 @@ arrive.
 
 | Version | Date | Tag | What changed |
 | --- | --- | --- | --- |
-| 1 | 2026-11-25 | `flood-requirements-v1` (set when merged) | First reviewed version: moved to crc-sdk 1.0.0, source validation levels, change procedure |
+| 1 | 2026-11-25 | `flood-requirements-v1` | First reviewed version: moved to crc-sdk 1.0.0, source validation levels, flow diagrams, change procedure |
