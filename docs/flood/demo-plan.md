@@ -6,7 +6,9 @@ Shlyakhter, with Claude. Companion to `docs/flood/requirements.md` (version 6) a
 (numbered CH-5 to CH-10 in the draft, which collided with changes accepted at the F1 and F2 stops),
 assessed against the build as it stood after F2, and accepted by Yuri on 2026-11-25. The requirements
 carry them in their section 15 and the plan in its section "Until 4 December". Section 11 here is the
-review that went with the acceptance.
+review that went with the acceptance. What could make a demo show something other than planned, and what to
+show instead if the substations turn out not to be in danger, is in `docs/flood/demo-concerns.md`; the
+passages a person has to read are in `docs/flood/reading-list.md`.
 
 This file says what is shown, to whom, on which date, and what the build must therefore finish first.
 
