@@ -200,6 +200,7 @@ def test_only_reruns_the_named_source_and_a_staged_rerun_is_not_repeated(
     def fake_assess(source_id: str, *, live: bool, page_data: Path, cache: Path) -> dict:
         calls.append(source_id)
         fresh = build.load_records(source_id) | {"run_at": "2999-01-01T00:00:00Z"}
+        fresh = {k: v for k, v in fresh.items() if not k.startswith("profile")}  # a full run
         (page_data / "records").mkdir(parents=True, exist_ok=True)
         (page_data / "records" / f"{source_id}.json").write_text(json.dumps(fresh))
         return fresh

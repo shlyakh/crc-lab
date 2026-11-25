@@ -309,7 +309,6 @@ def test_a_second_run_from_the_caches_gives_the_same_records(
     assert first["exploration"]["stations"] == second["exploration"]["stations"]
 
 
-@pytest.mark.skip(reason="until the first 1.0.0 run is accepted")
 def test_committed_records_match_the_inventory() -> None:
     source = next(s for s in inventory.load_sources("crc_sdk") if s.id == "ghcnh")
     records = build.load_records("ghcnh")

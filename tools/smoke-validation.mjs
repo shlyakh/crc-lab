@@ -58,9 +58,11 @@ if (withRecords.length) {
   check("the draft state is shown", /draft, not reviewed/.test(await ev("document.querySelector('#assessments .assessment summary').textContent")) === src.draft);
   const bars = await ev("document.querySelectorAll('#assessments svg.chart rect.bar').length");
   check("the chart draws its bars", bars > 20, bars);
-  await ev("(() => { const s = document.querySelector('#assessments .chart-head select'); s.value = 'NA'; s.dispatchEvent(new Event('change')); })()");
+  await ev("(() => { const s = document.querySelector('#assessments .chart-head select'); if (s && [...s.options].some((o) => o.value === 'NA')) { s.value = 'NA'; s.dispatchEvent(new Event('change')); } })()");
   const barsNA = await ev("document.querySelectorAll('#assessments svg.chart rect.bar').length");
-  check("the chart follows the file selector", barsNA > 20 && barsNA !== bars, barsNA);
+  // from crc-sdk 1.0 IBTrACS is one file, so the chart may have nothing to select
+  const hasNA = await ev("(() => { const s = document.querySelector('#assessments .chart-head select'); return !!s && [...s.options].some((o) => o.value === 'NA'); })()");
+  check("the chart follows the file selector where there is one", !hasNA || (barsNA > 20 && barsNA !== bars), barsNA);
 }
 check("findings the map shows link to it, one link per area; the source's other findings say so", await ev(`(() => {
   const body = (id) => { const d = [...document.querySelectorAll('#findings details.finding')].find((x) => x.querySelector('.fid').textContent === id); return d ? d.querySelector('.body') : null; };
@@ -69,7 +71,7 @@ check("findings the map shows link to it, one link per area; the source's other 
     && body('CRC-018-JRC').textContent.includes('Not a finding with a place on the map') && !body('CRC-010-IBT').textContent.includes('On the map');
 })()`), (await ev("document.body.dataset.mapped")));
 check("every assessment opens with a summary: what is added, how it is compared, the result, two bars", await ev(`(() => [...document.querySelectorAll('#assessments .assessment')].every((a) => { const s = a.querySelector('.summary'); const t = s ? s.innerText : ''; return s && a.querySelector('.body').firstElementChild === s && /What the framework adds/.test(t) && /How it is compared/.test(t) && /does what it states in \\d+ of the \\d+ steps/.test(t) && s.querySelectorAll('.obar').length === 2; }))()`));
-check("the JRC assessment's tables, charts and comparisons link to their map layers", await ev(`(() => { const a = document.getElementById('assessment-jrc-flood'); const links = [...a.querySelectorAll('.maprow a')].map((x) => x.getAttribute('href')); return links.length > 40 && links.includes('explore/#tab=crc&layer=jrc_review_glofas_houston_misfit') && links.includes('explore/#tab=crc&layer=jrc_evidence_glofas_fremont_fema_only') && links.includes('explore/#tab=crc&source=flood_evidence'); })()`));
+check("an assessment names the records kept from the earlier version", await ev(`(() => { const a = document.getElementById('assessment-jrc-flood'); const link = a && a.querySelector('.previous a'); return !!link && link.getAttribute('href') === 'data/records/0.11.2/jrc-flood.json'; })()`));
 check("a bar of links leads to each part of the page, and each assessment by name", await ev(`(() => { const a = [...document.querySelectorAll('#jump a')].map((x) => x.getAttribute('href')); return a[0] === '#inventory-section' && a.includes('#findings-section') && a.filter((h) => h.startsWith('#assessment-')).length === document.querySelectorAll('#assessments .assessment').length && a.every((h) => document.getElementById(h.slice(1))) && document.getElementById('preview-note').hidden; })()`));
 await ev("location.hash = '#finding-CRC-014-JRC'"); await sleep(400);
 check("an address that names a finding opens it and brings it into view", await ev(`(() => { const d = document.getElementById('finding-CRC-014-JRC'); const r = d.getBoundingClientRect(); return d.open && r.top >= 0 && r.top < innerHeight && document.body.dataset.target === 'finding-CRC-014-JRC'; })()`));

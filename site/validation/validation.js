@@ -264,6 +264,10 @@ function renderAssessment(source, rec, findings, watch) {
         ` · run of ${rec.run_at.slice(0, 10)}`)));
   const body = el("div", { class: "body" });
   body.append(summaryBlock(source, rec, findings));
+  if ((source.previous || []).length) {
+    body.append(el("p", { class: "note previous" }, `This assessment ran on ${Object.entries(rec.versions || {}).map(([k, v]) => `${k} ${v}`).join(", ")}. Records of earlier versions, as they were: `,
+      ...source.previous.flatMap((p, i) => [i ? ", " : "", el("a", { href: `data/${p.records}`, text: `crc-sdk ${p.crc_sdk}` })]), "."));
+  }
   body.append(el("h3", { class: "part", text: "In detail: what was counted" }));
   body.append(el("div", { class: "tiles" }, ...(rec.headline || []).map(([n, label]) => el("div", { class: "tile" }, el("b", { text: fmt(n) }), el("span", { text: label })))));
 

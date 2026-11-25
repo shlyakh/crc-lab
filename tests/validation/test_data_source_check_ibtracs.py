@@ -190,7 +190,6 @@ def test_every_step_of_the_statement_is_borne_by_a_check_or_says_why(
     assert used == set(by_step)  # no check points at a step the statement lacks
 
 
-@pytest.mark.skip(reason="until the first 1.0.0 run is accepted")
 def test_committed_records_match_the_inventory() -> None:
     """The source file, the committed records and the generated page data agree."""
     source = next(s for s in inventory.load_sources("crc_sdk") if s.id == "ibtracs")

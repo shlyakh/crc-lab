@@ -624,3 +624,58 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-035-GHC"
+source = "ghcnh"
+kind = "observation"
+title = "With the default completeness rule no station-year of forty Texas airport stations carries a value"
+documented = "docs/sources.md:93: 'The default is `Coverage.complete()`'; docs/sources.md:259-260: a day needs 24 hourly reports. `Coverage.minimum_fraction` relaxes the year, not the day."
+observed = "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ)."
+consequence = "The default read of hourly airport stations returns rows without values only. A user must find and pass a coverage fraction to get anything, and even then a day with 23 reports is discarded. Curves fitted from these stations at 0.11 cannot be reproduced with any setting of 1.0, because the day rule changed and is not adjustable."
+evidence = [
+  "crc_sdk/_station_reduction.py:65-75, 108-117",
+  "crc_sdk/_aggregation.py:95-116, 772-776",
+  "docs/sources.md:93, 259-260",
+  "check records ghcnh/annual[*] and the tables 'From stations to annual values' and 'Stations' (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-036-GHC"
+source = "ghcnh"
+kind = "observation"
+title = "One unusable report in one station's file stops the read of every selected station"
+documented = "docs/execution.md:185-186: terminals raise `ValidationError`. docs/execution.md also says expected data failures are kept as rows."
+observed = "On constructed station files: station A alone returns its row. `select(stations=[A, C])`, where C's file holds one report of another station, raises `ValidationError: GHCNh returned an unrequested station` and returns nothing for A. The same holds for an unreadable DATE, a missing coordinate, a non-finite temperature, and two reports at one time and position (crc_sdk/_observed_decoders.py:409-421; crc_sdk/_evidence.py:672-674). At 0.11 such reports were dropped and the read went on. Not met in NOAA's files of the 40 stations assessed."
+consequence = "One malformed file among hundreds loses the whole selection, and the user is not left with the stations that were good. The assessment's adapter reads one station at a time for this reason."
+evidence = [
+  "crc_sdk/_observed_decoders.py:409-421",
+  "crc_sdk/_evidence.py:672-674",
+  "tests/validation/test_data_source_check_ghcnh.py (the refusal cases on constructed files)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"
+
+[[finding]]
+id = "CRC-037-GHC"
+source = "ghcnh"
+kind = "observation"
+title = "GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version"
+documented = "docs/data-licences.md:9-11: licence and attribution are recorded 'when known' and retain 'the source's actual terms'."
+observed = "Every GHCNh resource carries the attribution 'NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.' and the licence 'NOAA open-use terms; originator terms may apply' (crc_sdk/_observed_sources.py:118-122; checks provenance[*], 1,000 files). CO-OPS is NOAA's tides and water-level service and does not publish GHCNh; the constant is shared by the NOAA providers. No GHCNh version or DOI is recorded; 0.11 recorded `ghcnh-v1` and `CC0-1.0`."
+consequence = "The attribution a user would reproduce names an office that is not the publisher, and the output no longer says which version of the dataset it came from."
+evidence = [
+  "crc_sdk/_observed_sources.py:118-122",
+  "docs/data-licences.md:9-11",
+  "check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
+]
+basis = "reproduced"
+status = "open"
+found_on = "2026-11-24"
+framework_version = "1.0.0"

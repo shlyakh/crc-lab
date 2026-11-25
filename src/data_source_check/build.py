@@ -139,6 +139,16 @@ def assess_source(
     return run
 
 
+def _previous(source_id: str, page_data: Path) -> list[dict[str, str]]:
+    """Records of the source kept from earlier framework versions (``records/<version>/``)."""
+    folders = sorted(p for p in (page_data / "records").glob("*/") if p.is_dir())
+    return [
+        {"crc_sdk": folder.name, "records": f"records/{folder.name}/{source_id}.json"}
+        for folder in reversed(folders)
+        if (folder / f"{source_id}.json").exists()
+    ]
+
+
 def build_inventory(
     page_data: Path = PAGE_DATA, docs: Path = DOCS, records_from: Path = PAGE_DATA
 ) -> dict[str, object]:
@@ -157,6 +167,7 @@ def build_inventory(
         "sources": [
             source.to_dict()
             | {"records": f"records/{source.id}.json" if records[source.id] else ""}
+            | {"previous": _previous(source.id, records_from)}
             for source in sources
         ],
         "findings": [finding.to_dict() for finding in findings],

@@ -162,8 +162,15 @@ def read(dataset: str, bounds: Sequence[float], folder: Path, *,
     return run
 
 
-def materialize(dataset: str, bounds: Sequence[float], folder: Path, *, live: bool,
-                publisher: Path | None = None, isolated: bool = True) -> dict[str, Any]:  # fmt: skip
+def materialize(
+    dataset: str,
+    bounds: Sequence[float],
+    folder: Path,
+    *,
+    live: bool,
+    publisher: Path | None = None,
+    isolated: bool = True,
+) -> dict[str, Any]:
     """The stored answer of a read, made first if the folder does not hold it."""
     stored = folder / "run.json"
     if not stored.exists():

@@ -133,7 +133,6 @@ def test_every_check_bears_on_a_step_of_the_statement(
     assert used == steps, (used - steps, steps - used)
 
 
-@pytest.mark.skip(reason="until the first 1.0.0 run is accepted")
 def test_committed_records_match_the_inventory() -> None:
     source = next(s for s in inventory.load_sources("crc_sdk") if s.id == "jrc-flood")
     records = build.load_records("jrc-flood")

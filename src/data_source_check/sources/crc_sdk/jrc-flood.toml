@@ -33,6 +33,7 @@ code_ref = "crc_sdk/_providers/jrc.py:62-84; crc_sdk/_climate_sources.py:421-453
 id = "transport"
 text = "Reads each depth file by range requests for the window of the box only, pinned to the file's ETag so that a file changed during the read is refused."
 code_ref = "crc_sdk/_climate_io.py:404-420, 423-515, 626-650"
+note = "Not exercised on 2026-11-24: the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held. The values it decoded from those files are compared in the values checks."
 
 [[statement]]
 id = "release"

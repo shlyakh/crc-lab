@@ -107,7 +107,7 @@ def test_build_writes_page_data_and_inventory_text(tmp_path: Path) -> None:
     assert ibtracs["records"] == "records/ibtracs.json"
     assert {step["outcome"] for step in ibtracs["statement"]} == {"confirmed", "not checked"}
     report = (tmp_path / "docs" / "sources" / "ibtracs.md").read_text()
-    assert "Draft: not yet reviewed" in report and "values[ALL]" in report
+    assert "Draft: not yet reviewed" in report and "values[USA]" in report
 
 
 def _imports(path: Path) -> list[str]:
