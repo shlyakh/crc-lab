@@ -3,9 +3,9 @@
     python -m flood_lab.check_site
 
 Fails when the gallery is missing, a record lacks a required key, a record names a figure that does
-not exist (or whose copy under ``site/flood/tests/figures/`` is missing or differs), a facts
-file does not load, or the committed gallery or data cards differ from what the generators would
-write now.
+not exist (or whose copy under ``site/flood/tests/figures/`` is missing or differs), that folder
+holds a file no record names (an orphan copy), a facts file does not load, or the committed
+gallery or data cards differ from what the generators would write now.
 Stands alone like the other projects' ``check_site`` modules; offline, from committed files only.
 """
 
@@ -26,6 +26,7 @@ def faults(root: Path = paths.ROOT) -> list[str]:
     if not layout.page.exists():
         found.append("missing: site/flood/tests/index.html (run `python -m flood_lab.gallery`)")
     records_ok = True
+    named: set[str] = set()
     for path in sorted(layout.records.glob("*.json")) if layout.records.is_dir() else []:
         try:
             document = json.loads(path.read_text(encoding="utf-8"))
@@ -49,10 +50,19 @@ def faults(root: Path = paths.ROOT) -> list[str]:
                 found.append(f"record {path.name}: figure {figure} does not exist")
                 records_ok = False
                 continue
+            named.add(address)
             copy = layout.tests / address
             if not copy.is_file() or copy.read_bytes() != original.read_bytes():
                 found.append(
                     f"stale: site/flood/tests/{address} is missing or differs from {figure}"
+                )
+    if records_ok and layout.copies.is_dir():
+        for path in sorted(p for p in layout.copies.rglob("*") if p.is_file()):
+            address = path.relative_to(layout.tests).as_posix()
+            if address not in named:
+                found.append(
+                    f"orphan: site/flood/tests/{address} is named by no record (run `python -m "
+                    "flood_lab.gallery`, which removes it)"
                 )
     facts_ok = True
     for path in sorted(layout.facts.glob("*.toml")) if layout.facts.is_dir() else []:

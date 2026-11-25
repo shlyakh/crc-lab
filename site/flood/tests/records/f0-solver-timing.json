@@ -20,7 +20,7 @@
   },
   {
    "name": "monotone_in_rainfall",
-   "note": "4 of 39800 cells deeper at 25 mm/h, all with depths of 0.0102, 0.0103, 0.0101, 0.0103 m, at the solver's dry threshold huthresh = 0.01 m; among cells wet (0.05 m or more) in either run the largest difference is -0.015596866607666016 m. The rule is kept strict as written; whether to judge it on wet cells only is for review.",
+   "note": "4 of 39800 cells deeper at 25 mm/h, all with depths of 0.0102, 0.0103, 0.0101, 0.0103 m, at the solver's dry threshold huthresh = 0.01 m (read from sfincs.inp); among cells wet (0.05 m or more) in either run the largest difference is -0.015596866607666016 m. The rule is kept strict as written; whether to judge it on wet cells only is for review.",
    "passed": false,
    "proposed": false,
    "rule": "25 mm/h gives depth no greater than 50 mm/h in every 5 m cell (FH8)",
@@ -37,7 +37,7 @@
    "value": 0.8120437264442444
   }
  ],
- "created_at": "2026-11-25T17:46:57Z",
+ "created_at": "2026-11-25T18:06:36Z",
  "figures": [
   "docs/flood/figures/f0/solver_timing.html",
   "docs/flood/figures/f0/toy_max_depth.html"
@@ -193,15 +193,65 @@
    "path": "models/toy_3km_r50/analysis.json",
    "sha256": "e20d6ae062f457a5cc132f726ebf807604b5d1ff2dd73cb15de5e04834791493",
    "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/par_toy_3km_r50_1/sfincs.inp",
+   "sha256": "dd7b4d4852352931c76b653f49801fc1a38139f6ab5a91398c952f712416fa51",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/par_toy_3km_r50_2/sfincs.inp",
+   "sha256": "dd7b4d4852352931c76b653f49801fc1a38139f6ab5a91398c952f712416fa51",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/par_toy_3km_r50_3/sfincs.inp",
+   "sha256": "dd7b4d4852352931c76b653f49801fc1a38139f6ab5a91398c952f712416fa51",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/par_toy_3km_r50_4/sfincs.inp",
+   "sha256": "dd7b4d4852352931c76b653f49801fc1a38139f6ab5a91398c952f712416fa51",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/toy_1km_r25/sfincs.inp",
+   "sha256": "96846f8358e69add343163b4fe09f75d2065e17b18bfc4c945282c6577fa6a0d",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/toy_1km_r50/sfincs.inp",
+   "sha256": "96846f8358e69add343163b4fe09f75d2065e17b18bfc4c945282c6577fa6a0d",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/toy_2km_r50/sfincs.inp",
+   "sha256": "7d1e51bb9ee7ed17732c847e356a571bd311bf2ef6bfcd7cfb8f594e7b3106c8",
+   "url": ""
+  },
+  {
+   "bytes": 1193,
+   "path": "models/toy_3km_r50/sfincs.inp",
+   "sha256": "dd7b4d4852352931c76b653f49801fc1a38139f6ab5a91398c952f712416fa51",
+   "url": ""
   }
  ],
  "notes": [
-  "The image tag is built for linux/amd64 only; every run here is emulated (Rosetta).",
+  "The image tag is built for linux/amd64 only; every run here is a linux/amd64 image on an arm64 host, emulated by Docker Desktop.",
   "Wall time is measured around 'docker run' and includes container start.",
   "Parallel batches: the runs start together; batch wall time is the longest run.",
-  "Every toy value is a placeholder [P]; the toy exists to time the solver."
+  "Every toy value is a placeholder [P]; the toy exists to time the solver.",
+  "Catalogue size: plan F0's rule sets 150 runs, since one run at 600,000 cells is estimated at 425 s, under 600 s. Those 150 runs take about 17.7 hours of solver time one after another on this machine, more than the 12 hours used as a yardstick (about 101 runs fit in 12 hours). Running in parallel does not shorten it: 2 runs at once gave 0.96 times the throughput of runs one after another; 4 runs at once gave 0.89 times the throughput of runs one after another. Real terrain with buildings may need a smaller time step than the toy, which would make each run longer."
  ],
  "numbers": {
+  "catalogue_hours_at_target_sequential": 17.7,
   "catalogue_target_runs": 150,
   "depth_1km_50mm": {
    "cell_5m_max_m": 1.1398476362228394,
@@ -476,7 +526,7 @@
   "sfincs_build_date": "2026-10-30",
   "sfincs_image": "deltares/sfincs-cpu:sfincs-v2.5.0-Hautacam",
   "sfincs_image_digest": "deltares/sfincs-cpu@sha256:ad4f57175b317ec51b8fe6bc3af5079f958c206ffe1308fbce5bc7e8abc479f3",
-  "sfincs_platform": "linux/amd64 under Rosetta on arm64 (Docker Desktop)"
+  "sfincs_platform": "linux/amd64 image on an arm64 host, emulated by Docker Desktop"
  },
  "stage": "F0",
  "tables": {

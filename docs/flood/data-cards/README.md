@@ -6,29 +6,29 @@ One card per source whose facts were read from the primary source (FS6). Require
 
 | Source | Level (FS7) | Confirmed | Differs | Not checked | Not applicable | Stage |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| [DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings (arXiv 2607.16050), section 3.1.1](deluge-claim-date-rule.md) | facts confirmed | 8 | 0 | 1 | 3 | F0 |
-| [FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life](fema-bca.md) | facts confirmed | 5 | 0 | 3 | 4 | F0 |
-| [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed; values to be recomputed by a second reader in F2 | 13 | 0 | 0 | 0 | F0 |
-| [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed; values to be recomputed by a second reader in F2 | 10 | 0 | 0 | 0 | F0 |
+| [DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings (arXiv 2607.16050), section 3.1.1](deluge-claim-date-rule.md) | facts checked: 8 confirmed, 1 not checked | 8 | 0 | 1 | 3 | F0 |
+| [FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life](fema-bca.md) | facts checked: 5 confirmed, 3 not checked | 5 | 0 | 3 | 4 | F0 |
+| [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed; values to be recomputed by a second reader in F2 | 12 | 0 | 0 | 1 | F0 |
+| [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed; values to be recomputed by a second reader in F2 | 9 | 0 | 0 | 1 | F0 |
 | [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed; values to be recomputed by a second reader in F2 | 19 | 0 | 0 | 9 | F0 |
-| [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts confirmed | 4 | 1 | 1 | 3 | F0 |
-| [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts confirmed | 7 | 2 | 0 | 2 | F0 |
+| [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 confirmed, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
+| [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 7 confirmed, 2 differ | 7 | 2 | 0 | 2 | F0 |
 | [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed | 13 | 0 | 0 | 0 | F0 |
-| [Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM](lidar-terrain.md) | facts confirmed | 10 | 2 | 3 | 1 | F0 |
-| [OpenFEMA NFIP Redacted Claims (v3, entity NfipClaims)](nfip-redacted-claims.md) | facts confirmed | 7 | 0 | 1 | 5 | F0 |
-| [NOAA Atlas 14 Volume 10 Version 3, point precipitation frequency, Jamaica Bay point (40.65, -73.85)](noaa-atlas-14.md) | facts confirmed | 10 | 0 | 1 | 2 | F0 |
-| [NOAA Storm Events Database, bulk CSV files](noaa-storm-events.md) | facts confirmed | 10 | 1 | 1 | 5 | F0 |
+| [Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM](lidar-terrain.md) | facts checked: 10 confirmed, 2 differ, 3 not checked | 10 | 2 | 3 | 1 | F0 |
+| [OpenFEMA NFIP Redacted Claims (v3, entity NfipClaims)](nfip-redacted-claims.md) | facts checked: 7 confirmed, 1 not checked | 7 | 0 | 1 | 5 | F0 |
+| [NOAA Atlas 14 Volume 10 Version 3, point precipitation frequency, Jamaica Bay point (40.65, -73.85)](noaa-atlas-14.md) | facts checked: 10 confirmed, 1 not checked | 10 | 0 | 1 | 2 | F0 |
+| [NOAA Storm Events Database, bulk CSV files](noaa-storm-events.md) | facts checked: 10 confirmed, 1 differ, 1 not checked | 10 | 1 | 1 | 5 | F0 |
 | [311 Service Requests from 2020 to Present](nyc-311.md) | facts confirmed | 11 | 0 | 0 | 1 | F0 |
-| [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 11 | 0 | 0 | 0 | F0 |
-| [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts confirmed; values to be recomputed by a second reader in F2 | 12 | 2 | 2 | 0 | F0 |
-| [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts confirmed | 12 | 1 | 0 | 1 | F0 |
+| [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 10 | 0 | 0 | 1 | F0 |
+| [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 11 confirmed, 2 differ, 2 not checked; values to be recomputed by a second reader in F2 | 11 | 2 | 2 | 1 | F0 |
+| [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts checked: 12 confirmed, 1 differ | 12 | 1 | 0 | 1 | F0 |
 | [NOAA Analysis of Record for Calibration (AORC) v1.1](rainfall-aorc.md) | facts confirmed | 8 | 0 | 0 | 1 | F0 |
-| [NOAA MRMS quantitative precipitation estimates (QPE)](rainfall-mrms.md) | facts confirmed; values to be recomputed by a second reader in F5 | 6 | 0 | 1 | 1 | F0 |
-| [NCEP Stage IV multi-sensor precipitation analysis (archive at NSF NCAR GDEX d507005)](rainfall-stage-iv.md) | facts confirmed | 6 | 0 | 1 | 2 | F0 |
-| [RainyDay stochastic storm transposition](rainyday.md) | facts confirmed | 5 | 1 | 1 | 3 | F0 |
-| [Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs](sfincs-release.md) | facts confirmed | 6 | 4 | 1 | 3 | F0 |
-| [Nirandjan et al. 2024 physical vulnerability database, Table D2 version 1.1.0](substation-curves-nirandjan.md) | facts confirmed | 7 | 0 | 1 | 2 | F0 |
-| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts confirmed | 12 | 0 | 1 | 4 | F0 |
-| [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts confirmed | 9 | 0 | 1 | 1 | F0 |
-| [Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021](usgs-ida-depth-rasters.md) | facts confirmed | 13 | 0 | 1 | 0 | F0 |
-| [USGS high-water marks for the remnants of Hurricane Ida, five boroughs of New York City](usgs-ida-high-water-marks.md) | facts confirmed; values to be recomputed by a second reader in F5 | 11 | 1 | 2 | 0 | F0 |
+| [NOAA MRMS quantitative precipitation estimates (QPE)](rainfall-mrms.md) | facts checked: 6 confirmed, 1 not checked; values to be recomputed by a second reader in F5 | 6 | 0 | 1 | 1 | F0 |
+| [NCEP Stage IV multi-sensor precipitation analysis (archive at NSF NCAR GDEX d507005)](rainfall-stage-iv.md) | facts checked: 6 confirmed, 1 not checked | 6 | 0 | 1 | 2 | F0 |
+| [RainyDay stochastic storm transposition](rainyday.md) | facts checked: 5 confirmed, 1 differ, 1 not checked | 5 | 1 | 1 | 3 | F0 |
+| [Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs](sfincs-release.md) | facts checked: 6 confirmed, 4 differ, 1 not checked | 6 | 4 | 1 | 3 | F0 |
+| [Nirandjan et al. 2024 physical vulnerability database, Table D2 version 1.1.0](substation-curves-nirandjan.md) | facts checked: 7 confirmed, 1 not checked | 7 | 0 | 1 | 2 | F0 |
+| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts checked: 12 confirmed, 1 not checked | 12 | 0 | 1 | 4 | F0 |
+| [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts checked: 9 confirmed, 1 not checked | 9 | 0 | 1 | 1 | F0 |
+| [Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021](usgs-ida-depth-rasters.md) | facts checked: 13 confirmed, 1 not checked | 13 | 0 | 1 | 0 | F0 |
+| [USGS high-water marks for the remnants of Hurricane Ida, five boroughs of New York City](usgs-ida-high-water-marks.md) | facts checked: 11 confirmed, 1 differ, 2 not checked; values to be recomputed by a second reader in F5 | 11 | 1 | 2 | 0 | F0 |

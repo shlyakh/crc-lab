@@ -58,6 +58,22 @@ class Grid:
         return west, south, west + self.window * self.step, south + self.window * self.step
 
 
+def fine_to_bins(fine_north_first: np.ndarray, grid: Grid, cell_m: float) -> np.ndarray:
+    """Hectares per bin from a fine 0/1 raster whose row 0 is the north edge, as rasters are.
+
+    The raster covers the grid exactly, ``grid.step / cell_m`` fine cells to a bin; the result is
+    indexed like ``Grid.count``: [row from south, column from west].
+    """
+    fine = int(round(grid.step / cell_m))
+    if abs(fine * cell_m - grid.step) > 1e-9:
+        raise ValueError("the bin side must be a whole number of fine cells")
+    if fine_north_first.shape != (grid.ny * fine, grid.nx * fine):
+        raise ValueError("the fine raster must cover the grid exactly")
+    south_first = fine_north_first[::-1]
+    cells = south_first.reshape(grid.ny, fine, grid.nx, fine).sum(axis=(1, 3))
+    return cells * cell_m**2 / 1e4
+
+
 def make_grid(bounds_utm: tuple[float, float, float, float], *, step: float, side: float) -> Grid:
     west, south, east, north = bounds_utm
     x0, y0 = np.floor(west / step) * step, np.floor(south / step) * step

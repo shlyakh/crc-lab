@@ -89,8 +89,26 @@ def runs_in_budget(seconds_per_run: float, budget: float = BUDGET_S) -> int:
     return int(budget // seconds_per_run)
 
 
+def inp_value(path: Path, key: str) -> str | None:
+    """The value of ``key`` in a SFINCS ``sfincs.inp`` (``key = value`` lines); None if absent."""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name, sep, value = line.partition("=")
+        if sep and name.strip().lower() == key.lower():
+            return value.strip()
+    return None
+
+
 def _load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _platform(image_platform: str, runs: list[dict[str, Any]]) -> str:
+    """The image platform and the host architecture Docker reported, as the runner wrote them."""
+    host = next((r["docker_host"] for r in runs if r.get("docker_host")), {})
+    arch = host.get("architecture", "")
+    if image_platform == "linux/amd64" and arch in ("aarch64", "arm64"):
+        return "linux/amd64 image on an arm64 host, emulated by Docker Desktop"
+    return f"{image_platform} image on a host Docker reports as {arch or 'unknown'}"
 
 
 def collect(models: Path) -> dict[str, Any]:
@@ -163,7 +181,9 @@ def _fig_timing(
         yaxis_title="wall time (s)",
         template="plotly_white",
     )
-    write_text_atomic(path, fig.to_html(include_plotlyjs="cdn", full_html=True))
+    write_text_atomic(
+        path, fig.to_html(include_plotlyjs="cdn", full_html=True, div_id="f0-solver-timing")
+    )
 
 
 def _fig_depth(grid: dict[str, Any], path: Path) -> None:
@@ -190,7 +210,9 @@ def _fig_depth(grid: dict[str, Any], path: Path) -> None:
         yaxis_scaleanchor="x",
         template="plotly_white",
     )
-    write_text_atomic(path, fig.to_html(include_plotlyjs="cdn", full_html=True))
+    write_text_atomic(
+        path, fig.to_html(include_plotlyjs="cdn", full_html=True, div_id="f0-toy-max-depth")
+    )
 
 
 def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURES / "f0") -> Record:
@@ -240,7 +262,7 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
             "sfincs_build_date": first["parsed"].get("sfincs_build_date", "unknown"),
             "sfincs_image": first["image"],
             "sfincs_image_digest": first["image_digest"],
-            "sfincs_platform": first["platform"] + " under Rosetta on arm64 (Docker Desktop)",
+            "sfincs_platform": _platform(first["platform"], all_runs),
             **{f"builder:{k}": v for k, v in toy["builder"].items()},
         }
     )
@@ -265,7 +287,11 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
     if ext:
         numbers["extrapolation"] = ext
         numbers["runs_in_12h_sequential"] = runs_in_budget(ext["planning_s"])
-        numbers["catalogue_target_runs"] = 150 if ext["planning_s"] < CATALOGUE_SWITCH_S else 100
+        target_runs = 150 if ext["planning_s"] < CATALOGUE_SWITCH_S else 100
+        numbers["catalogue_target_runs"] = target_runs
+        numbers["catalogue_hours_at_target_sequential"] = round(
+            target_runs * ext["planning_s"] / 3600, 1
+        )
         largest = max(sizes)
         mem_largest = max(memory.get(largest, [0])) or None
         if mem_largest and host:
@@ -320,6 +346,24 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
             BALANCE_LIMIT,
         )
     )
+    thresholds = {
+        name: inp_value(models / name / "sfincs.inp", "huthresh")
+        for name in folders
+        if (models / name / "sfincs.inp").exists()
+    }
+    record.inputs += [
+        Input.of(models / name / "sfincs.inp", root=models.parent) for name in thresholds
+    ]
+    read = sorted({v for v in thresholds.values() if v is not None})
+    if len(read) == 1 and None not in thresholds.values():
+        huthresh = f"the solver's dry threshold huthresh = {read[0]} m (read from sfincs.inp)"
+    elif not read:
+        huthresh = "the solver's default dry threshold (huthresh is not set in sfincs.inp)"
+    else:
+        huthresh = (
+            "the solver's dry threshold huthresh, which differs between the models' sfincs.inp: "
+            + ", ".join(f"{k} {v or 'default'}" for k, v in sorted(thresholds.items()))
+        )
     compare = next(
         (
             e["analysis"]["compare_to"]
@@ -341,7 +385,7 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
                 f"{compare['cells_deeper_than_other']} of {compare['cells']} cells deeper at "
                 f"25 mm/h, all with depths of "
                 + ", ".join(f"{c['depth_m']:.4f}" for c in compare.get("deeper_cells", []))
-                + " m, at the solver's dry threshold huthresh = 0.01 m; among cells wet "
+                + f" m, at {huthresh}; among cells wet "
                 "(0.05 m or more) in either run the largest difference is "
                 f"{compare.get('max_depth_minus_other_where_either_wet_m')} m. The rule is "
                 "kept strict as written; whether to judge it on wet cells only is for review."
@@ -378,11 +422,41 @@ def build(models: Path = MODELS, records: Path = RECORDS, figures: Path = FIGURE
         _fig_depth(one_km["depth_5m_grid"], figures / "toy_max_depth.html")
         record.figures.append("docs/flood/figures/f0/toy_max_depth.html")
     record.notes += [
-        "The image tag is built for linux/amd64 only; every run here is emulated (Rosetta).",
+        "The image tag is built for linux/amd64 only; every run here is a "
+        f"{record.software['sfincs_platform']}.",
         "Wall time is measured around 'docker run' and includes container start.",
         "Parallel batches: the runs start together; batch wall time is the longest run.",
         "Every toy value is a placeholder [P]; the toy exists to time the solver.",
     ]
+    if ext and "catalogue_hours_at_target_sequential" in numbers:
+        par = numbers.get("parallel", {})
+        ratios = "; ".join(
+            f"{v['runs']} runs at once gave {v['throughput_vs_sequential']:.2f} times the "
+            "throughput of runs one after another"
+            for v in par.values()
+        )
+        record.notes.append(
+            f"Catalogue size: plan F0's rule sets {numbers['catalogue_target_runs']} runs, since "
+            f"one run at {TARGET_CELLS:,} cells is estimated at {ext['planning_s']:.0f} s, "
+            + ("under" if ext["planning_s"] < CATALOGUE_SWITCH_S else "not under")
+            + f" {CATALOGUE_SWITCH_S} s. Those {numbers['catalogue_target_runs']} runs take about "
+            f"{numbers['catalogue_hours_at_target_sequential']} hours of solver time one after "
+            "another on this machine, "
+            + (
+                "more"
+                if numbers["catalogue_hours_at_target_sequential"] > BUDGET_S / 3600
+                else "not more"
+            )
+            + " than the 12 hours used as a yardstick (about "
+            f"{numbers['runs_in_12h_sequential']} runs fit in 12 hours). "
+            + (
+                f"Running in parallel does not shorten it: {ratios}."
+                if par and max(v["throughput_vs_sequential"] for v in par.values()) <= 1
+                else f"Runs in parallel were measured as follows: {ratios or 'not measured'}."
+            )
+            + " Real terrain with buildings may need a smaller time step than the toy, which "
+            "would make each run longer."
+        )
     record.write(records)
     return record
 

@@ -397,8 +397,11 @@ def sources_section(sources: list[Source], layout: Layout) -> str:
         head
         + _caption(
             "One row per facts file, one column per fact that FS6 requires; hover a cell for what "
-            "the source says. The level is named as in FS7: facts confirmed is a reading of the "
-            "primary source, not a recomputation of its values.",
+            "the source says. The level is named as in FS7: facts confirmed means every fact of "
+            "the source was read from the primary source and agrees with the requirements (or does "
+            "not apply); otherwise the level reads facts checked, with how many facts were "
+            "confirmed, differ or were not checked. Either is a reading of the primary source, "
+            "not a recomputation of its values.",
             "Source facts",
         )
         + '<div class="scroll"><table class="data grid"><thead><tr><th class="l">Source</th>'
@@ -408,11 +411,24 @@ def sources_section(sources: list[Source], layout: Layout) -> str:
     )
 
 
+def _tile_row(label: str, items: list[tuple[str, str, int]]) -> str:
+    """One labelled row of count tiles; each item is (data-count key, shown label, count)."""
+    return (
+        f'<div class="tile-row"><span class="row-label">{e(label)}</span>'
+        + "".join(
+            f'<div class="tile" data-count="{e(key)}"><b>{count}</b><span>{e(shown)}</span></div>'
+            for key, shown, count in items
+        )
+        + "</div>"
+    )
+
+
 def tiles(records: list[dict[str, Any]], sources: list[Source]) -> str:
-    outcome = dict.fromkeys(OUTCOMES, 0)
+    required = dict.fromkeys(OUTCOMES, 0)
+    further = dict.fromkeys(OUTCOMES, 0)
     for source in sources:
-        for key, count in summary(source).items():
-            outcome[key] += count
+        for fact in source.facts:
+            (required if fact.required else further)[fact.outcome] += 1
     verdicts = {"pass": 0, "fail": 0, "not judged": 0}
     for record in records:
         if not record["checks"] or record["passed"] is None:
@@ -420,12 +436,15 @@ def tiles(records: list[dict[str, Any]], sources: list[Source]) -> str:
         else:
             verdicts["pass" if record["passed"] else "fail"] += 1
     items = [("records", len(records)), *verdicts.items(), ("sources", len(sources))]
-    items += [(f"facts {k}", v) for k, v in outcome.items()]
     return (
         '<section class="tiles" aria-label="Counts">'
-        + "".join(
-            f'<div class="tile" data-count="{e(k)}"><b>{v}</b><span>{e(k)}</span></div>'
-            for k, v in items
+        + _tile_row("Records and sources", [(k, k, v) for k, v in items])
+        + _tile_row(
+            f"Required facts (FS6, {len(REQUIRED)} per source), by outcome",
+            [(f"required {k}", k, v) for k, v in required.items()],
+        )
+        + _tile_row(
+            "Further facts, by outcome", [(f"further {k}", k, v) for k, v in further.items()]
         )
         + "</section>"
     )
@@ -466,7 +485,9 @@ h3 { font-size: var(--f-l); margin: 0; font-weight: 650; }
 .intro p { max-width: 76ch; margin: 0 0 var(--s2); }
 .sec-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4);
   padding-bottom: var(--s2); border-bottom: 1px solid var(--rule-2); margin-bottom: var(--s3); }
-.tiles { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.tiles { display: flex; flex-direction: column; gap: var(--s2); }
+.tile-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--s2); }
+.row-label { flex: 0 0 100%; font-size: var(--f-xs); color: var(--ink-2); }
 .tile { border: 1px solid var(--rule-2); background: var(--surface); padding: var(--s2) var(--s3);
   min-width: 96px; display: flex; flex-direction: column; }
 .tile b { font-size: var(--f-xl); font-variant-numeric: tabular-nums; }

@@ -46,3 +46,15 @@ def test_the_best_windows_do_not_overlap_more_than_allowed() -> None:
 def test_a_window_must_be_a_whole_number_of_bins() -> None:
     with pytest.raises(ValueError):
         scoring.make_grid((0.0, 0.0, 1000.0, 1000.0), step=300.0, side=1000.0)
+
+
+def test_a_fine_raster_north_row_first_lands_in_the_bin_counted_from_the_south() -> None:
+    grid = scoring.make_grid((0.0, 0.0, 1500.0, 1000.0), step=500.0, side=500.0)  # 2 rows, 3 cols
+    fine = np.zeros((grid.ny * 2, grid.nx * 2), dtype=np.uint8)  # 250 m cells, 2 to a bin
+    fine[0, 5] = 1  # the north-east fine cell of the raster
+    bins = scoring.fine_to_bins(fine, grid, 250.0)
+    assert bins.shape == (2, 3)
+    assert bins[1, 2] == 6.25 and bins.sum() == 6.25  # 250 m x 250 m is 6.25 ha, north-east bin
+    assert grid.count(np.array([1400.0]), np.array([900.0]))[1, 2] == 1  # same bin as a point
+    with pytest.raises(ValueError):
+        scoring.fine_to_bins(fine[1:], grid, 250.0)

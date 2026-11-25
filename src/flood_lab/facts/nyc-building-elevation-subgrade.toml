@@ -120,11 +120,11 @@ verdict_note = ""
 name = "checksum"
 claimed = ""
 observed = "The full table was not downloaded (task). The 1,000-row sample (first 1,000 rows ordered by bin, CSV) has its sha256 in the file record. The guidance PDF and the data dictionary were also kept. Publisher gives no checksum."
-outcome = "confirmed"
+outcome = "not applicable"
 source_url = "https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin"
 passage = "sample rows=1000 (1001 lines with header)"
 note = ""
-verdict_note = ""
+verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
 
 [[file]]
 path = "nyc-building-elevation-subgrade/sample-1000.csv"

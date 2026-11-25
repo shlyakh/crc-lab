@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 RETURN_PERIODS = (2, 5, 10, 25, 50, 100, 500)
@@ -169,7 +170,9 @@ def probe_from_raster_decreasing(tmp: Path) -> dict[str, Any]:
             "message": message[:400],
             "message_names_the_cell": "5" in message and ("row" in message or "pixel" in message),
             "rows_after_running_maximum": again.table.num_rows,
-            "matches_reading": again.table.num_rows == 400,
+            "matches_reading": type(error).__name__ == "ValidationError"
+            and "nondecreasing" in message
+            and again.table.num_rows == 400,
         }
 
 
@@ -224,6 +227,13 @@ def probe_from_quantiles() -> dict[str, Any]:
     }
 
 
+def _numpy_mean(probabilities: list[float], depths: list[float]) -> float:
+    """Mean damage ratio of a curve that is linear in probability, by a fine trapezoid sum."""
+    grid = np.linspace(0.0, 1.0, 2_000_001)
+    ratio = np.interp(np.interp(grid, probabilities, depths), *zip(*DAMAGE_POINTS, strict=True))
+    return float(np.trapezoid(ratio, grid))
+
+
 def probe_two_routes() -> dict[str, Any]:
     """The same cell by fixed probabilities (raster route) and by its own knots (point route)."""
     from crc_framework import QuantileCurve, TailCompletion
@@ -248,8 +258,20 @@ def probe_two_routes() -> dict[str, Any]:
         "relative_difference": (fixed_mean - exact_mean) / exact_mean,
         "exceedance_of_zero_exact": float(exact_law.exceedance(0.0)),
         "exceedance_of_zero_fixed": float(fixed_law.exceedance(0.0)),
+        "expected_damage_exact_by_numpy": _numpy_mean(
+            [0.0, dry, 0.98, 0.99, 0.998, 1.0], [0, 0, 0.6, 1.1, 2.4, 2.4]
+        ),
+        "expected_damage_fixed_by_numpy": _numpy_mean(
+            [0.0, *PROBABILITIES, 1.0], [0.0, *fixed_values, 2.4]
+        ),
         "matches_reading": abs(float(exact_law.exceedance(0.0)) - (1 - dry)) < 1e-9
-        and fixed_mean != exact_mean,
+        and abs(
+            exact_mean - _numpy_mean([0.0, dry, 0.98, 0.99, 0.998, 1.0], [0, 0, 0.6, 1.1, 2.4, 2.4])
+        )
+        < 1e-6
+        and abs(fixed_mean - _numpy_mean([0.0, *PROBABILITIES, 1.0], [0.0, *fixed_values, 2.4]))
+        < 1e-6
+        and fixed_mean > exact_mean,
     }
 
 
@@ -354,6 +376,29 @@ def probe_evaluate() -> dict[str, Any]:
     }
 
 
+def probe_assets_not_lonlat() -> dict[str, Any]:
+    """Assets take longitude and latitude only: what happens when given UTM metres instead."""
+    from crc_sdk import Assets, Dataset, Distance, PointColumns, SpatialMatch
+
+    depth = Dataset.from_quantiles(_points_table(0.93), variable=_variable(), probability=_annual())
+    out: dict[str, Any] = {"call": "Assets with UTM metres in the longitude and latitude columns"}
+    try:
+        assets = Assets(
+            {"asset_id": ["utm"], "x": [598_100.0], "y": [4_499_900.0]},
+            id_column="asset_id",
+            location=PointColumns(longitude="x", latitude="y"),
+        )
+        spatial = SpatialMatch.nearest(max_distance=Distance.kilometres(1))
+        rows = (
+            depth.evaluate(assets, spatial=spatial).return_periods([100]).read().table.to_pylist()
+        )
+        out |= {"raised": False, "failure": (rows[0].get("failure") or {}).get("code")}
+    except Exception as error:  # noqa: BLE001  the refusal is what is being observed
+        out |= {"raised": True, "error_type": type(error).__name__, "message": str(error)[:300]}
+    out["matches_reading"] = bool(out["raised"])
+    return out
+
+
 def probe_compute_risk() -> dict[str, Any]:
     from crc_framework import BinaryOutcome, compute_risk
 
@@ -438,7 +483,10 @@ def probe_distribution() -> dict[str, Any]:
         and abs(cvar - np.sort(annual)[-10:].mean()) < 1e-6
         and exceed == [float((annual > x).mean()) for x in (0.0, 1e5, 2e5)]
         and float(again.quantile(0.99)) == var
-        and abs(pushed_mean - float(_damage().expectation(depth))) < 1e-12
+        and abs(
+            pushed_mean - _numpy_mean([0, 0.5, 0.9, 0.99, 0.998, 1.0], [0, 0, 0.3, 1.2, 2.5, 4.0])
+        )
+        < 1e-6
     )
     return {
         "call": "Distribution.empirical and its figures; Impact.pushforward",
@@ -450,6 +498,18 @@ def probe_distribution() -> dict[str, Any]:
         "pushforward_mean": pushed_mean,
         "matches_reading": bool(ok),
     }
+
+
+def _observation_rows(table: Any) -> list[tuple[Any, ...]]:
+    """(sensor, time as written, value, longitude, latitude) of every row read back."""
+    import shapely
+
+    rows = []
+    for row in table.to_pylist():
+        point = shapely.from_wkb(row["geometry"])
+        stamp = pd.Timestamp(row["time"]).tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
+        rows.append((row["support_id"], stamp, row["value"], round(point.x, 9), round(point.y, 9)))
+    return sorted(rows)
 
 
 def probe_observations() -> dict[str, Any]:
@@ -472,6 +532,18 @@ def probe_observations() -> dict[str, Any]:
             "rows_returned": got.num_rows,
             "columns": got.column_names,
             "values_equal": sorted(got["value"].to_pylist()) == sorted(table["value"]),
+            "rows_equal": _observation_rows(got)
+            == sorted(
+                (s, t, v, round(x, 9), round(y, 9))
+                for s, t, v, x, y in zip(
+                    table["support_id"],
+                    table["time"],
+                    table["value"],
+                    table["longitude"],
+                    table["latitude"],
+                    strict=True,
+                )
+            ),
         }
     except Exception as error:  # noqa: BLE001
         out |= {
@@ -479,7 +551,9 @@ def probe_observations() -> dict[str, Any]:
             "error_type": type(error).__name__,
             "message": str(error)[:400],
         }
-    out["matches_reading"] = out.get("without_sampling") == "accepted" and out.get("values_equal")
+    out["matches_reading"] = bool(
+        out.get("without_sampling") == "accepted" and out.get("rows_equal")
+    )
     return out
 
 
@@ -510,6 +584,15 @@ def probe_layer() -> dict[str, Any]:
             "accepted": True,
             "rows_returned": got.num_rows,
             "columns": got.column_names,
+            "attributes_equal": sorted(
+                zip(
+                    got["support_id"].to_pylist(),
+                    got["value"].to_pylist(),
+                    got["label"].to_pylist(),
+                    strict=True,
+                )
+            )
+            == sorted(zip(table["support_id"], table["value"], table["label"], strict=True)),
             "geometry_equal": all(
                 shapely.from_wkb(a).equals(shapely.from_wkb(b))
                 for a, b in zip(sorted(got["geometry"].to_pylist()), sorted(polygons), strict=True)
@@ -517,7 +600,9 @@ def probe_layer() -> dict[str, Any]:
         }
     except Exception as error:  # noqa: BLE001
         out |= {"accepted": False, "error_type": type(error).__name__, "message": str(error)[:400]}
-    out["matches_reading"] = bool(out.get("accepted") and out.get("geometry_equal"))
+    out["matches_reading"] = bool(
+        out.get("accepted") and out.get("geometry_equal") and out.get("attributes_equal")
+    )
     return out
 
 
@@ -565,6 +650,7 @@ def main() -> None:
             "two_routes": probe_two_routes,
             "impact": probe_impact,
             "evaluate": probe_evaluate,
+            "assets_not_lonlat": probe_assets_not_lonlat,
             "compute_risk": probe_compute_risk,
             "distribution": probe_distribution,
             "observations": probe_observations,

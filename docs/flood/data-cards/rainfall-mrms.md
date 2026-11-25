@@ -2,7 +2,7 @@
 
 # Data card: NOAA MRMS quantitative precipitation estimates (QPE)
 
-Level of check (FS7): **facts confirmed; values to be recomputed by a second reader in F5**. Facts read from the primary source on 2026-11-25 in stage F0: 6 confirmed, 0 differs, 1 not checked, 1 not applicable.
+Level of check (FS7): **facts checked: 6 confirmed, 1 not checked; values to be recomputed by a second reader in F5**. Facts read from the primary source on 2026-11-25 in stage F0: 6 confirmed, 0 differs, 1 not checked, 1 not applicable.
 
 | | |
 | --- | --- |

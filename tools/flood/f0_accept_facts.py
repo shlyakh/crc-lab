@@ -96,6 +96,15 @@ VERDICTS: dict[tuple[str, str], tuple[str, str]] = {
     ),
 }
 
+#: sources whose publisher states a checksum that our copy was compared with
+PUBLISHER_CHECKSUM = {
+    "groundsource",
+    "usgs-ida-depth-rasters",
+    "usgs-ida-high-water-marks",
+    "jamaica-bay-ida-depth-map",
+    "substation-curves-nirandjan",
+}
+
 FACT_KEYS = ("name", "claimed", "observed", "outcome", "source_url", "passage", "note")
 FILE_KEYS = ("path", "url", "bytes", "sha256", "fetched_at")
 
@@ -137,6 +146,13 @@ def _render(draft: dict, level: str, reader_stage: str, used_for: list[str]) -> 
     ]
     for fact in [*draft["fact"], *padded]:
         outcome, reason = VERDICTS.get((draft["id"], fact["name"]), (fact["outcome_proposed"], ""))
+        no_publisher_sum = fact["name"] == "checksum" and draft["id"] not in PUBLISHER_CHECKSUM
+        if no_publisher_sum and outcome == "confirmed":
+            outcome, reason = (
+                "not applicable",
+                "The publisher gives no checksum to compare with; the checksum of our copy is "
+                "recorded with the file.",
+            )
         extra = {k: v for k, v in fact.items() if k not in (*FACT_KEYS, "outcome_proposed")}
         note = fact.get("note", "")
         if extra:

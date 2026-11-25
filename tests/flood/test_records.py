@@ -53,3 +53,19 @@ def test_a_failed_write_leaves_the_old_file(tmp_path: Path) -> None:
     assert [p.name for p in tmp_path.iterdir()] == ["a.json"]
     write_text_atomic(tmp_path / "b" / "c.txt", "x")
     assert (tmp_path / "b" / "c.txt").read_text() == "x"
+
+
+def test_json_writer_is_compact_unless_separators_are_passed(tmp_path: Path) -> None:
+    """The bytes of the writer in ``lab_common.texas`` before F0: compact, also with ``indent``."""
+    path = tmp_path / "a.json"
+    write_json_atomic(path, {"a": [1, 2]})
+    assert path.read_text() == '{"a":[1,2]}'
+    write_json_atomic(path, {"a": [1, 2]}, indent=1)
+    assert path.read_text() == '{\n "a":[\n  1,\n  2\n ]\n}'
+    write_json_atomic(path, {"a": [1, 2]}, indent=1, separators=(",", ": "))
+    assert path.read_text() == '{\n "a": [\n  1,\n  2\n ]\n}'
+
+
+def test_a_record_keeps_a_space_after_its_colons(tmp_path: Path) -> None:
+    text = Record("t3", "F0", "x", numbers={"n": 3}).write(tmp_path).read_text()
+    assert '\n "numbers": {\n  "n": 3\n }' in text

@@ -14,7 +14,9 @@ FIXTURES = Path(__file__).parent / "fixtures" / "facts"
 def test_level_wording(tmp_path: Path) -> None:
     maps = data_cards.card(load(FIXTURES / "toy-flood-maps.toml"), tmp_path)
     sensors = data_cards.card(load(FIXTURES / "toy-sensors.toml"), tmp_path)
-    assert "Level of check (FS7): **facts confirmed**." in maps
+    # one fact differs and one was not checked: not "facts confirmed"; not applicable is not counted
+    assert "Level of check (FS7): **facts checked: 6 confirmed, 1 differ, 1 not checked**." in maps
+    assert "facts confirmed" not in maps
     assert "**facts confirmed; values to be recomputed by a second reader in F2**" in sensors
     for text in (maps, sensors):
         assert "verified" not in text.lower()
@@ -54,7 +56,10 @@ def test_byte_identical_on_second_run(tmp_path: Path) -> None:
     assert {p.name: p.read_bytes() for p in out.iterdir()} == first
     assert sorted(first) == ["README.md", "toy-flood-maps.md", "toy-sensors.md"]
     index = first["README.md"].decode()
-    assert "| [Toy flood maps](toy-flood-maps.md) | facts confirmed | 6 | 1 | 1 | 1 | F0 |" in index
+    assert (
+        "| [Toy flood maps](toy-flood-maps.md) | facts checked: 6 confirmed, 1 differ, "
+        "1 not checked | 6 | 1 | 1 | 1 | F0 |"
+    ) in index
 
 
 def test_stale_generated_card_removed_and_empty_folder(tmp_path: Path) -> None:
@@ -64,3 +69,23 @@ def test_stale_generated_card_removed_and_empty_folder(tmp_path: Path) -> None:
     data_cards.write(tmp_path / "no-facts", tmp_path, out)
     assert sorted(p.name for p in out.iterdir()) == ["README.md", "handwritten.md"]
     assert "No sources checked yet." in (out / "README.md").read_text()
+
+
+def test_second_reader_level_keeps_the_facts_counts(tmp_path: Path) -> None:
+    from dataclasses import replace
+
+    from flood_lab.facts import level_words
+
+    maps = replace(
+        load(FIXTURES / "toy-flood-maps.toml"),
+        level="facts and second reader",
+        second_reader_stage="F2",
+    )
+    assert level_words(maps, tmp_path) == (
+        "facts checked: 6 confirmed, 1 differ, 1 not checked; "
+        "values to be recomputed by a second reader in F2"
+    )
+    only_unread = replace(maps, facts=tuple(f for f in maps.facts if f.outcome != "differs"))
+    assert level_words(only_unread, tmp_path).startswith(
+        "facts checked: 6 confirmed, 1 not checked;"
+    )

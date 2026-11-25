@@ -24,13 +24,22 @@ import shapely
 
 from flood_lab import area_scoring as scoring
 from flood_lab import paths
+from flood_lab.localtime import local_day
 from flood_lab.records import Check, Input, Parameter, Record
+from lab_common.io import write_text_atomic
 
 STEP_M = 500.0
 SIDE_M = 4000.0  # 16 km2, inside the 10 to 20 km2 of decision D1
 STORMS = {"ida_2021": ("2021-09-01", "2021-09-02"), "sep29_2023": ("2023-09-29",)}
-#: the pass rule of plan F0; all three are proposed starting values
-RULE = {"high_water_marks": 8, "sensors_sep29_2023": 5, "substations": 3}
+#: the pass rule of plan F0; all three are proposed starting values. Rail traction substations
+#: are left out, as in the score and the figure
+RULE = {"high_water_marks": 8, "sensors_sep29_2023": 5, "substations_not_rail": 3}
+#: the same rule counting every OpenStreetMap substation, rail included, shown for comparison
+RULE_ALL_SUBSTATIONS = {
+    "high_water_marks": 8,
+    "sensors_sep29_2023": 5,
+    "substations": 3,
+}
 #: what one unit of score means for each criterion (proposed)
 SCORE = {
     "high_water_marks": 8,
@@ -63,8 +72,7 @@ def _sensors() -> tuple[pd.DataFrame, pd.DataFrame]:
         paths.CACHE / "floodnet-flood-events" / "aq7i-eu5q.csv",
         usecols=["sensor_id", "flood_start_time", "max_depth_inches"],
     )
-    start = pd.to_datetime(events["flood_start_time"], utc=True)
-    events["local_day"] = start.dt.tz_convert("America/New_York").dt.strftime("%Y-%m-%d")
+    events["local_day"] = local_day(events["flood_start_time"]).to_numpy()
     sensors["x"], sensors["y"] = _TO_UTM.transform(sensors["longitude"], sensors["latitude"])
     return sensors, events
 
@@ -127,9 +135,7 @@ def _deep_flood_bins(grid: scoring.Grid) -> tuple[np.ndarray, str]:
     burned = features.rasterize(
         [(geometry, 1) for geometry in deep], out_shape=(height, width), transform=transform
     )
-    south_up = burned[::-1]  # row 0 at the south, as the grid counts
-    bins = south_up.reshape(grid.ny, fine, grid.nx, fine).sum(axis=(1, 3)) * MAP_CELL_M**2 / 1e4
-    return bins, code_column
+    return scoring.fine_to_bins(burned, grid, MAP_CELL_M), code_column
 
 
 def _figure_map(grid, chosen, table, layers) -> str:
@@ -170,8 +176,9 @@ def _figure_map(grid, chosen, table, layers) -> str:
         height=760, legend={"orientation": "h", "y": -0.12},
     )  # fmt: skip
     path = paths.FIGURES / "f0" / "area_candidates.html"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    figure.write_html(path, include_plotlyjs="cdn", full_html=True)
+    write_text_atomic(
+        path, figure.to_html(include_plotlyjs="cdn", full_html=True, div_id="f0-area-candidates")
+    )
     return str(path.relative_to(paths.ROOT))
 
 
@@ -216,6 +223,7 @@ def main() -> None:
     counts = {name: grid.window_sums(values) for name, values in bins.items()}
     scores = scoring.score(counts, SCORE)
     passing = scoring.passes(counts, RULE)
+    passing_all = scoring.passes(counts, RULE_ALL_SUBSTATIONS)
     chosen = scoring.pick(scores, grid, n=5, max_overlap=0.25)
 
     table = []
@@ -231,7 +239,8 @@ def main() -> None:
         entry |= {name: round(float(values[row, col]), 1) for name, values in counts.items()}
         table.append(entry)
 
-    best_passing = [e for e in table if e["passes_rule"]]
+    untagged = int(stations["kind"].eq("").sum())
+    rail = int(stations["rail"].sum())
     maxima = {name: float(values.max()) for name, values in counts.items()}
     figure = _figure_map(
         grid, chosen, table,
@@ -270,30 +279,53 @@ def main() -> None:
         numbers={
             "windows_scored": int(scores.size),
             "windows_passing_rule": int(passing.sum()),
+            "windows_passing_rule_counting_substations_not_rail": int(passing.sum()),
+            "windows_passing_rule_counting_all_substations": int(passing_all.sum()),
             "largest_count_in_any_window": maxima,
             "marks_in_box": int(bins["high_water_marks"].sum()),
             "sensors_with_event_sep29_2023_in_box": int(bins["sensors_sep29_2023"].sum()),
             "sensors_with_event_ida_in_box": int(bins["sensors_ida_2021"].sum()),
             "substations_in_box": int(bins["substations"].sum()),
             "substations_not_rail_in_box": int(bins["substations_not_rail"].sum()),
+            "substations_rail_traction_in_box": int(bins["substations"].sum())
+            - int(bins["substations_not_rail"].sum()),
+            "substations_fetched": len(stations),
+            "substations_fetched_rail_traction": rail,
+            "substations_fetched_without_substation_tag": untagged,
         },
         tables={"best_five": table},
         checks=[
             Check(
-                "an area passes the rule",
-                "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations",
-                bool(best_passing),
+                "at least one window passes the rule",
+                "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations "
+                "that are not rail traction substations, in one window",
+                bool(passing.sum() >= 1),
                 value=int(passing.sum()),
                 threshold=1,
                 proposed=True,
+                note="over all windows scored; thresholds are proposed starting values (plan F0)",
+            ),
+            Check(
+                "the best-scoring window passes the rule",
+                "the window with the highest score meets the same rule",
+                bool(table[0]["passes_rule"]),
+                value=int(table[0]["passes_rule"]),
+                threshold=1,
+                proposed=True,
                 note="thresholds are the proposed starting values of plan F0",
-            )
+            ),
         ],
         figures=[figure],
         notes=[
             "Counts in 16 km² windows on a 500 m step. The search box is a rectangle, so it also "
             "takes in parts of Manhattan, Nassau County and New Jersey; the Jamaica Bay watershed "
             "boundary was not used. The Limited Flood map could not be read and is not counted.",
+            f"Substations: of the {len(stations)} OpenStreetMap substations fetched, {rail} are "
+            "tagged substation=traction (rail traction substations); these are not counted by "
+            "the pass rule, the score or the figure. "
+            f"{untagged} carry no substation=* tag at all; they are not known to be rail and are "
+            f"counted. Counting every substation instead, {int(passing_all.sum())} windows would "
+            f"pass the rule, against {int(passing.sum())}.",
         ],
     )
     print("record:", record.write(paths.RECORDS))

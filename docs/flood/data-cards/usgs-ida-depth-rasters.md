@@ -2,7 +2,7 @@
 
 # Data card: Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 13 confirmed, 0 differs, 1 not checked, 0 not applicable.
+Level of check (FS7): **facts checked: 13 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 13 confirmed, 0 differs, 1 not checked, 0 not applicable.
 
 | | |
 | --- | --- |

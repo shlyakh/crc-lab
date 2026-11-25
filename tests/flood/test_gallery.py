@@ -74,8 +74,16 @@ def test_captions_from_the_first_note(layout: gallery.Layout) -> None:
 def test_sources_counted_with_differs(layout: gallery.Layout) -> None:
     page = gallery.render(layout)
     assert '<div class="tile" data-count="sources"><b>2</b>' in page
-    assert '<div class="tile" data-count="facts differs"><b>1</b>' in page
-    assert '<div class="tile" data-count="facts confirmed"><b>14</b>' in page
+    # required facts and further facts are counted apart, each row labelled
+    assert "Required facts (FS6, 8 per source), by outcome" in page
+    assert "Further facts, by outcome" in page
+    assert '<div class="tile" data-count="required confirmed"><b>14</b>' in page
+    assert '<div class="tile" data-count="required differs"><b>1</b>' in page
+    assert '<div class="tile" data-count="required not checked"><b>1</b>' in page
+    assert '<div class="tile" data-count="required not applicable"><b>0</b>' in page
+    assert '<div class="tile" data-count="further confirmed"><b>0</b>' in page
+    assert '<div class="tile" data-count="further not applicable"><b>1</b>' in page
+    assert "facts checked: 6 confirmed, 1 differ, 1 not checked" in page
     assert "1 fact(s) differ from docs/flood/requirements.md: licence" in page
     assert "facts confirmed; values to be recomputed by a second reader in F2" in page
     assert 'class="o o-differs" title="Toy terms, attribution required"' in page
@@ -125,3 +133,17 @@ def test_site_check_fails_on_broken_facts_and_stale_cards(layout: gallery.Layout
     facts = layout.facts / "toy-sensors.toml"
     facts.write_text(facts.read_text().replace('level = "facts and second reader"', 'level = "x"'))
     assert any("unknown level" in f for f in check_site.faults(layout.root))
+
+
+def test_site_check_fails_on_an_orphan_figure_copy(layout: gallery.Layout) -> None:
+    gallery.write(layout)
+    data_cards.write(layout.facts, layout.records, layout.data_cards)
+    assert check_site.faults(layout.root) == []
+    orphan = layout.copies / "f0" / "old.png"
+    orphan.write_bytes(b"\x89PNG old")
+    assert check_site.faults(layout.root) == [
+        "orphan: site/flood/tests/figures/f0/old.png is named by no record (run `python -m "
+        "flood_lab.gallery`, which removes it)"
+    ]
+    gallery.write(layout)
+    assert not orphan.exists() and check_site.faults(layout.root) == []

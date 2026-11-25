@@ -235,15 +235,32 @@ def second_reader(source: Source, records: Path = paths.RECORDS) -> dict[str, An
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
 
 
-def level_words(source: Source, records: Path = paths.RECORDS) -> str:
-    """The level named in the words of FS7."""
-    if source.level == "facts":
+def facts_words(source: Source) -> str:
+    """The facts' outcomes in words: "facts confirmed" only when none differs or is unread."""
+    counts = summary(source)
+    if counts["differs"] == 0 and counts["not checked"] == 0:
         return "facts confirmed"
+    parts = [
+        f"{counts[outcome]} {word}"
+        for outcome, word in (
+            ("confirmed", "confirmed"),
+            ("differs", "differ"),
+            ("not checked", "not checked"),
+        )
+        if counts[outcome]
+    ]
+    return "facts checked: " + ", ".join(parts)
+
+
+def level_words(source: Source, records: Path = paths.RECORDS) -> str:
+    """The level named in the words of FS7, with the facts' outcomes."""
+    words = facts_words(source)
+    if source.level == "facts":
+        return words
     record = second_reader(source, records)
     if record is None:
         return (
-            "facts confirmed; values to be recomputed by a second reader in "
-            f"{source.second_reader_stage}"
+            f"{words}; values to be recomputed by a second reader in {source.second_reader_stage}"
         )
     verdict = {True: "passed", False: "failed", None: "not judged"}[record.get("passed")]
-    return f"facts confirmed; values recomputed by a second reader in {record['stage']} ({verdict})"
+    return f"{words}; values recomputed by a second reader in {record['stage']} ({verdict})"

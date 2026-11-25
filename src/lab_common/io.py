@@ -26,7 +26,10 @@ def write_text_atomic(path: Path, text: str) -> None:
 
 
 def write_json_atomic(path: Path, payload: object, **dumps: object) -> None:
-    """Write JSON atomically. Compact by default; pass ``indent=`` and others to ``json.dumps``."""
-    if "indent" not in dumps:
-        dumps.setdefault("separators", (",", ":"))
+    """Write JSON atomically; other keywords go to ``json.dumps``.
+
+    The separators are compact, ``(",", ":")``, unless the caller passes ``separators``, also when
+    it passes ``indent``: the bytes are those the writer in ``lab_common.texas`` always wrote.
+    """
+    dumps.setdefault("separators", (",", ":"))
     write_text_atomic(path, json.dumps(payload, **dumps))  # type: ignore[arg-type]

@@ -1,16 +1,25 @@
 {
  "checks": [
   {
-   "name": "an area passes the rule",
+   "name": "at least one window passes the rule",
+   "note": "over all windows scored; thresholds are proposed starting values (plan F0)",
+   "passed": true,
+   "proposed": true,
+   "rule": "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations that are not rail traction substations, in one window",
+   "threshold": 1,
+   "value": 20
+  },
+  {
+   "name": "the best-scoring window passes the rule",
    "note": "thresholds are the proposed starting values of plan F0",
    "passed": true,
    "proposed": true,
-   "rule": "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations",
+   "rule": "the window with the highest score meets the same rule",
    "threshold": 1,
-   "value": 26
+   "value": 1
   }
  ],
- "created_at": "2026-11-25T17:12:10Z",
+ "created_at": "2026-11-25T18:06:35Z",
  "figures": [
   "docs/flood/figures/f0/area_candidates.html"
  ],
@@ -54,7 +63,8 @@
   }
  ],
  "notes": [
-  "Counts in 16 km\u00b2 windows on a 500 m step. The search box is a rectangle, so it also takes in parts of Manhattan, Nassau County and New Jersey; the Jamaica Bay watershed boundary was not used. The Limited Flood map could not be read and is not counted."
+  "Counts in 16 km\u00b2 windows on a 500 m step. The search box is a rectangle, so it also takes in parts of Manhattan, Nassau County and New Jersey; the Jamaica Bay watershed boundary was not used. The Limited Flood map could not be read and is not counted.",
+  "Substations: of the 187 OpenStreetMap substations fetched, 35 are tagged substation=traction (rail traction substations); these are not counted by the pass rule, the score or the figure. 48 carry no substation=* tag at all; they are not known to be rail and are counted. Counting every substation instead, 26 windows would pass the rule, against 20."
  ],
  "numbers": {
   "largest_count_in_any_window": {
@@ -70,9 +80,15 @@
   "marks_in_box": 108,
   "sensors_with_event_ida_in_box": 5,
   "sensors_with_event_sep29_2023_in_box": 17,
+  "substations_fetched": 187,
+  "substations_fetched_rail_traction": 35,
+  "substations_fetched_without_substation_tag": 48,
   "substations_in_box": 187,
   "substations_not_rail_in_box": 152,
-  "windows_passing_rule": 26,
+  "substations_rail_traction_in_box": 35,
+  "windows_passing_rule": 20,
+  "windows_passing_rule_counting_all_substations": 26,
+  "windows_passing_rule_counting_substations_not_rail": 20,
   "windows_scored": 2650
  },
  "parameters": [
@@ -106,7 +122,7 @@
    "value": {
     "high_water_marks": 8,
     "sensors_sep29_2023": 5,
-    "substations": 3
+    "substations_not_rail": 3
    }
   },
   {

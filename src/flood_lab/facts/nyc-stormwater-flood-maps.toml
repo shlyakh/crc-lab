@@ -193,11 +193,11 @@ verdict_note = ""
 name = "checksum"
 claimed = ""
 observed = "sha256 of the zip as fetched is in the file record. The publisher gives no checksum; the byte count 33,785,094 equals the API field blobFileSize."
-outcome = "confirmed"
+outcome = "not applicable"
 source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
 passage = "blobFileSize=33785094 ; downloaded bytes=33785094"
 note = ""
-verdict_note = ""
+verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
 
 [[file]]
 path = "nyc-stormwater-flood-maps/NYCFloodStormwaterFloodMaps.zip"

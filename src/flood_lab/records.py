@@ -116,5 +116,7 @@ class Record:
 
     def write(self, folder: Path) -> Path:
         path = folder / f"{self.id}.json"
-        write_json_atomic(path, self.document(), indent=1, sort_keys=True, default=str)
+        write_json_atomic(
+            path, self.document(), indent=1, separators=(",", ": "), sort_keys=True, default=str
+        )
         return path

@@ -76,11 +76,11 @@ verdict_note = ""
 name = "checksum"
 claimed = ""
 observed = "sha256 of the CSV as fetched is in the file record. The publisher gives no checksum; row count equals API count(*)."
-outcome = "confirmed"
+outcome = "not applicable"
 source_url = "https://data.cityofnewyork.us/resource/aq7i-eu5q.json?$select=count(*)"
 passage = "csv data rows=3611 ; count(*)=3611"
 note = ""
-verdict_note = ""
+verdict_note = "The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file."
 
 [[fact]]
 name = "licence"

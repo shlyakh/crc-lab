@@ -2,7 +2,7 @@
 
 # Data card: Building Elevation and Subgrade (BES)
 
-Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 11 confirmed, 0 differs, 0 not checked, 0 not applicable.
+Level of check (FS7): **facts confirmed**. Facts read from the primary source on 2026-11-25 in stage F0: 10 confirmed, 0 differs, 0 not checked, 1 not applicable.
 
 | | |
 | --- | --- |
@@ -44,7 +44,7 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Coverage in time | – | One-time capture, no planned updates. Footprints: DOB file of 2022-02-26; imagery date given as March to July 2021 in one dictionary row and as March to August 2022 in another (see grade\_estimates). | confirmed | <https://data.cityofnewyork.us/api/views/bsin-59hv.json> | – |
 | Release | – | rowsUpdatedAt 2023-09-19T16:07:13Z, made public 2023-09-19; metadata last modified 2023-10-25T14:59:28Z; &\#x27;Historical data&\#x27;, never updated. | confirmed | <https://data.cityofnewyork.us/api/views/bsin-59hv.json> | – |
 | Licence | NYC Open Data terms; read the guidance note on estimated grades | No licence field (licenseId None); NYC Open Data terms apply (see passage). No attribution requirement was found in the description or custom fields. | confirmed | <https://cityofnewyork.github.io/opendatatsm/publicpolicies.html> | Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/\#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team&\#x27;s own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for &\#x27;open data&\#x27;, &\#x27;data set&\#x27; and &\#x27;public data&\#x27; found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal. |
-| Checksum | – | The full table was not downloaded (task). The 1,000-row sample (first 1,000 rows ordered by bin, CSV) has its sha256 in the file record. The guidance PDF and the data dictionary were also kept. Publisher gives no checksum. | confirmed | <https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin> | – |
+| Checksum | – | The full table was not downloaded (task). The 1,000-row sample (first 1,000 rows ordered by bin, CSV) has its sha256 in the file record. The guidance PDF and the data dictionary were also kept. Publisher gives no checksum. | not applicable | <https://data.cityofnewyork.us/resource/bsin-59hv.csv?$limit=1000&$order=bin> | The publisher gives no checksum to compare with; the checksum of our copy is recorded with the file. |
 
 ### Passages
 
