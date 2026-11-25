@@ -52,30 +52,30 @@ v1-probes sdk_version framework_version *flags:
 
 # Rebuild every explorer data file from CRC Open and the Census boundary (needs the network)
 data:
-    uv run python -m crc_data_explorer.build
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # Same, then check shipped values against crc-sdk's for_assets at sampled cells
 verify:
-    uv run python -m crc_data_explorer.build --verify
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # NOAA Storm Events: snapshot (about 400 MB, cached), Texas event table, explorer layer
 storm-events:
-    uv run python -m crc_lab.storm_events.build
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # Same, plus the two-source comparison report (needs the Source Cooperative copy in the cache)
 storm-events-compare:
-    uv run python -m crc_lab.storm_events.build --compare
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 # Sources track: IBTrACS tracks, CO-OPS water-level stations, GHCNh station curves (network, ~10 min)
 sources:
-    uv run python -m crc_data_explorer.sources --verify
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # Hail-size and thunderstorm-gust curves from the Storm Events table, into CRC and the explorer
 curves:
-    uv run python -m crc_lab.curves.build
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # Same, plus the sensitivity note (pooling ring, start year, family) at ten cities
 curves-sensitivity:
-    uv run python -m crc_lab.curves.build --sensitivity
+    @echo 'Awaiting the port to crc-sdk 1.0: site/data holds a frozen build made with 0.11.2 (site/data/README.md)'; exit 1
 
 # Solar plants (USPVDB), replacement value (NREL ATB), hail exposure by local report density
 assets:

@@ -1,6 +1,9 @@
 # Verifying the data sources of Climate Risk Commons: what has been built
 
-Written 2026-11-24. State described: crc-lab `main` on crc-sdk 0.11.2 and crc-framework 0.6.0.
+Written 2026-11-24. State described: crc-lab on crc-sdk 0.11.2 and crc-framework 0.6.0. The project moved to
+crc-sdk 1.0.0 later the same day: the method and the parts described here are unchanged, the numbers in
+section 5 and the register in section 6 are those of 0.11.2, and `docs/reports/u3-crc-1.0.0.md` gives the
+records and findings on 1.0.0.
 
 This document describes one of the three projects in crc-lab, the **source validation project**: what it
 is for, the parts it is made of, what it has checked so far, what it found, and how it is kept current as

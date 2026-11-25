@@ -12,7 +12,9 @@ A lab for working with [Climate Risk Commons](https://climateriskcommons.org/) (
   against the publisher's originals, with a register of findings.
 
 Start with `docs/baseline-crc-sdk-0.11.1.md` (what exists and how it uses CRC), `AGENTS.md` (layout and
-rules) and `docs/upstream-updates.md` (how the pin follows CRC releases). One branch: `main`.
+rules), `docs/upstream-updates.md` (how the pin follows CRC releases) and `docs/reports/u3-crc-1.0.0.md`
+(the move to crc-sdk 1.0.0: the validation project is ported; the explorer and hail data are a frozen
+build made with 0.11.2). One branch: `main`.
 
 ## Explorer
 

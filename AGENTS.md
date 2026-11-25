@@ -33,6 +33,18 @@ Reference clones, read-only, pinned to the versions this repo uses (see `../READ
 
 Earlier scope (energy infrastructure, ERA5 layers, dependence) is in `docs/archive/` and is not current.
 
+## State on crc-sdk 1.0.0 (2026-11-24)
+
+The pins are crc-sdk 1.0.0 and crc-framework 1.0.0, a rewrite of both interfaces
+(`docs/reports/u3-crc-1.0.0.md`, `docs/crc-1.0-briefing.md`). Only the source validation project is ported,
+for its four assessed sources; each statement describes what 1.0 does by default (nothing is fitted). The
+explorer, the hail project where it calls CRC, `lab_common/horizons.py`, the ERA5 and NOAA water-level
+drafts and `adapters/crc/jrc_flood_011.py` still use 0.11 names: do not run them, and do not "fix" one
+import at a time; each is a port. Their tests are parked in `tests/conftest.py` (`PARKED_FILES`,
+`PARKED_TESTS`), and a test run prints the count. In 1.0 everything is imported from `crc_sdk` (providers
+such as `JRC`, `IBTrACS`, `NEX`, `GHCNh`, `CRCOpen`; `select(area=Bounds(...))`, `read()`); the descriptions
+of module paths further down this file predate the move where they name `crc_sdk.workflows`.
+
 ## Projects in this repository
 
 crc-lab holds separate projects. Each has its own package and page; `tests/test_projects.py` keeps the
@@ -165,8 +177,10 @@ polygon. Browser libraries are pinned by URL in `index.html` (h3-js before deck.
 - One branch: `main`. Side work happens in short-lived branches and is merged; no long-lived preview branches.
 - `site/demo.webm` is re-recorded after each major release (`node tools/record-demo.mjs <work dir> <url>` against
   `just serve`), not on every change.
-- `site/data/sources/` (IBTrACS, CO-OPS, GHCNh, ERA5 files built through crc-sdk) is committed; rebuild with
-  `just sources` when fresher data is wanted or a pin changes. Everything else under `site/data/` is built in CI.
+- Everything under `site/data/` is committed since the move to crc-sdk 1.0.0 (2026-11-24): it is a frozen
+  build made with crc-sdk 0.11.2 (`site/data/README.md`). `just data`, `just storm-events`, `just curves` and
+  `just sources` stop with a message, and the pages workflow builds none of it, until the explorer and the
+  hail project are ported to 1.0.
 - Source groups in `site/layers.json`: "Reached through crc-sdk" and "Experimental new sources" (second).
 
 ## Task runner: why `just`
