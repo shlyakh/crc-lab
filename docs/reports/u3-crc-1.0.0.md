@@ -35,16 +35,19 @@ fits are gone with them. Explicit fits are a later step. The 0.11.2 records are 
 | `ibtracs` | 78 of 78 confirmed | 32 of 32 confirmed | One file (`ALL`; the eleven subsets are gone), every agency: 233,822,080 values, 0 differ |
 | `ghcnh` | 8 of 8 confirmed | 13 of 13 confirmed | Observations and the annual reduction: 1,000 station-years from 13,885,491 hourly reports, 0 values differ |
 | `nex-gddp-cmip6` | 23 of 24 confirmed, 1 differs | 34 of 35 confirmed, 1 differs | 17,264 cell values, 0 differ; `versions-served` differs (the file version cannot be chosen) |
-| `jrc-flood` | 40 of 44 confirmed, 4 differ | 38 of 39 confirmed, 1 not checked (four small areas) | Published depths at probabilities 1 - 1/T: 4,341,724 pixels, 440,723 delivered, 3,073,486 depths, 0 differ |
+| `jrc-flood` | 40 of 44 confirmed, 4 differ | 39 of 39 confirmed (four small areas) | Published depths at probabilities 1 - 1/T: 4,341,724 pixels, 440,723 delivered, 3,073,486 depths, 0 differ |
 
 Two limits on the JRC flood record:
 
 - It covers the four small areas of the quick profile (Houston, Austin, Fremont, Rhine), not the Texas
-  box. The Texas run was started and had not ended after four hours (see CRC-022-JRC below).
-- The JRC server did not answer on the evening of the release. crc-sdk was given local copies of the
-  publisher's files, held from the 0.11.2 run, in place of the server: its decoding is verified, its
-  downloads are not. The `transport` step is `not checked`, and four probes that need the server did not
-  run (`docs/reports/v1-probes-1.0.0.md`).
+  box. Five reads of the Texas box were tried between the evening of 2026-11-24 and the next morning. Three
+  ended within 90 seconds on a connection that JRC's server reset or closed (crc-sdk 1.0.0 has no second
+  try for a download), one ended when the laptop slept, and the fifth was still running when this was
+  written. Its run time on 1.0.0 is not known.
+- The JRC server did not answer on the evening of the release, and the first record of that evening was
+  made from local copies of the publisher's files. The record now published was run on 2026-11-25 with all
+  four areas read by crc-sdk from JRC's server, so the `transport` step is confirmed. The four probes that
+  need the server have not been run again (`docs/reports/v1-probes-1.0.0.md`).
 
 ## Findings
 
@@ -60,7 +63,7 @@ The register has 37 findings. Two statuses were added: `no longer applies` (the 
 | CRC-013-FWK | open | superseded by CRC-026-FWK | The fit case was run again; which number format converges has swapped |
 | CRC-014-JRC | open | superseded by CRC-023-JRC | Pixels are skipped by a different rule and are now counted, with dry pixels in the same count |
 | CRC-016-JRC | open | superseded by CRC-024-JRC | Outside coverage there is no error any more: an empty result reported as complete |
-| CRC-022-JRC | open | open, worse on first sight | The Texas read had not ended after four hours at about 22,000 pixels a second, against 27 minutes for the whole run on 0.11; memory stayed near 110 MB against 5.8 GB. Not yet entered as numbers |
+| CRC-022-JRC | open | open, not measured | No read of the Texas box has completed on 1.0.0 (see above); the small areas were read at about 3,400 to 19,000 pixels a second including the download |
 | CRC-017, 019, 021 (JRC); CRC-002, 004 to 009 | open | open, not re-run | No run on 1.0.0 yet |
 
 Entered at 1.0.0, all open, none sent upstream:
@@ -104,13 +107,14 @@ Entered at 1.0.0, all open, none sent upstream:
 | --- | --- |
 | The plan allowed four hours; the work took about six | Publisher connection resets (NOAA, NASA) and the JRC outage |
 | The JRC server was down all evening | The local-copy route (`publisher_at`) was added so the decoding could still be verified |
-| The Texas box takes hours on 1.0.0 | The full JRC re-run no longer fits the rule "every source is re-run in full before acceptance" within a working day; the rule or the box needs a decision |
+| No read of the Texas box completed | A read of 28 remote files ends on the first dropped connection. The published record is the four small areas until one completes; the rule "every source is re-run in full before acceptance" is not met for JRC flood and the record says so |
 | Three sources were ported in parallel in separate worktrees | Worked; the worktrees were made from `main` and had to be moved to the branch first |
 
 ## Open
 
-- Texas JRC run: outcome, then the full record or a decision on the box.
-- JRC network probes and CRC-021 when the JRC server answers.
+- Texas JRC run: a completed read, then the full record.
+- JRC network probes and CRC-021, now that the JRC server answers.
+- A dropped connection ends a crc-sdk read (seen with JRC and NOAA): not yet in the register.
 - The older open findings on 1.0.0.
 - Port of the explorer and the hail project; explicit fits; ERA5 and NOAA water levels; CRC Open (readable
   on 1.0.0: `CRCOpen().inspect()` lists 875 series in one release).

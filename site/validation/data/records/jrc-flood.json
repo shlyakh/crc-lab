@@ -13,14 +13,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -37,7 +37,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -61,14 +61,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -106,7 +106,7 @@
     "rows_repeated": 0,
     "skipped_reference": 1045703
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -132,14 +132,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -156,7 +156,7 @@
     "values_compared": 1575372,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -183,14 +183,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -204,7 +204,7 @@
     "rows_checked": 603,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -229,14 +229,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -266,7 +266,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -291,14 +291,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -312,7 +312,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -336,14 +336,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -365,7 +365,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -389,14 +389,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -412,7 +412,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -436,14 +436,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -458,7 +458,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -482,14 +482,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -506,7 +506,7 @@
      "ID38_N30_W100"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -530,14 +530,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -575,7 +575,7 @@
     "rows_repeated": 0,
     "skipped_reference": 336778
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -601,14 +601,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -625,7 +625,7 @@
     "values_compared": 160917,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -652,14 +652,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -673,7 +673,7 @@
     "rows_checked": 646,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -698,14 +698,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -735,7 +735,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -760,14 +760,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -781,7 +781,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -805,14 +805,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -834,7 +834,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -858,14 +858,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -881,7 +881,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -905,14 +905,14 @@
     {
      "bytes": 469531701,
      "files": 14,
-     "retrieved_at": "2026-11-17T05:21:16Z",
+     "retrieved_at": "2026-11-23T18:55:46Z",
      "role": "publisher's files",
      "sha256": "f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -927,7 +927,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -951,14 +951,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -974,7 +974,7 @@
      "ID18_N40_W130"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -998,14 +998,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1043,7 +1043,7 @@
     "rows_repeated": 0,
     "skipped_reference": 77632
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1069,14 +1069,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1093,7 +1093,7 @@
     "values_compared": 60290,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1120,14 +1120,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1141,7 +1141,7 @@
     "rows_checked": 204,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1166,14 +1166,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1203,7 +1203,7 @@
      "jrc:glofas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1228,14 +1228,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1249,7 +1249,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1273,14 +1273,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1302,7 +1302,7 @@
     "whole_files_compared": 2,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1326,14 +1326,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1349,7 +1349,7 @@
     ],
     "readme_version": "2.1.2"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1373,14 +1373,14 @@
     {
      "bytes": 27676062,
      "files": 7,
-     "retrieved_at": "2026-11-17T05:21:06Z",
+     "retrieved_at": "2026-11-23T18:57:36Z",
      "role": "publisher's files",
      "sha256": "b38896d0338179c206d853c43a927129ae5d2c6f9353458efaa10eac6f947314",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard"
     }
@@ -1395,7 +1395,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T01:56:35Z",
+   "run_at": "2026-11-25T10:50:05Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1419,14 +1419,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1442,7 +1442,7 @@
      "continental"
     ]
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1466,14 +1466,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1511,7 +1511,7 @@
     "rows_repeated": 0,
     "skipped_reference": 2440888
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1537,14 +1537,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1561,7 +1561,7 @@
     "values_compared": 1276907,
     "values_differing": 0
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1588,14 +1588,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1609,7 +1609,7 @@
     "rows_checked": 603,
     "rows_repeated": 0
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1634,14 +1634,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1671,7 +1671,7 @@
      "jrc:efas:flood_depth"
     ]
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1696,14 +1696,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1717,7 +1717,7 @@
     "only_crc_sdk": [],
     "only_reference": []
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1741,14 +1741,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1770,7 +1770,7 @@
     "whole_files_compared": 1,
     "whole_files_differing": 0
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1794,14 +1794,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1817,7 +1817,7 @@
     ],
     "readme_version": "3.1.1"
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1841,14 +1841,14 @@
     {
      "bytes": 2804642262,
      "files": 9,
-     "retrieved_at": "2026-11-17T05:46:18Z",
+     "retrieved_at": "2026-11-23T19:17:30Z",
      "role": "publisher's files",
      "sha256": "0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e",
      "sha256_of": "the list of file names and their sha256",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     },
     {
-     "read_from": "a local copy of the publisher's files",
+     "read_from": "the publisher",
      "role": "crc-sdk read",
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
@@ -1863,7 +1863,7 @@
     ],
     "readme": "Open Data Commons Open Database License v1.0"
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1901,7 +1901,7 @@
     "rows_only_in_the_whole_box": 0,
     "rows_west": 7135
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1944,7 +1944,7 @@
     "reported_valid": true,
     "rows": 0
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
@@ -1970,23 +1970,20 @@
      "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard; https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-EFAS/flood_hazard"
     }
    ],
-   "method": "crc-sdk's own downloads from the publisher (range requests pinned to the file's ETag) were not exercised: it read a local copy of the publisher's files.",
-   "note": "the publisher's server did not answer",
-   "outcome": "not checked",
+   "method": "crc-sdk read from the publisher's server; the values it returned are compared in the values checks.",
+   "note": "",
+   "outcome": "confirmed",
    "result": {
-    "read_from_a_local_copy": [
-     "efas",
-     "glofas"
-    ]
+    "read_from_a_local_copy": []
    },
-   "run_at": "2026-11-25T01:56:36Z",
+   "run_at": "2026-11-25T10:50:06Z",
    "sample": {},
    "schema": "data_source_check/0.1",
    "source": "jrc-flood",
    "steps": [
     "transport"
    ],
-   "summary": "the publisher's server did not answer",
+   "summary": "",
    "tier": "verification",
    "tolerance": {
     "values": "exact equality"
@@ -2192,8 +2189,8 @@
      "units": "m",
      "version": "3.1.1"
     },
-    "crc_sdk_read_from": "a local copy of the publisher's files",
-    "publisher_answered": false,
+    "crc_sdk_read_from": "the publisher",
+    "publisher_answered": true,
     "release": "3.1.1",
     "return_periods": [
      10,
@@ -2234,8 +2231,8 @@
      "units": "m",
      "version": "2.1.2"
     },
-    "crc_sdk_read_from": "a local copy of the publisher's files",
-    "publisher_answered": false,
+    "crc_sdk_read_from": "the publisher",
+    "publisher_answered": true,
     "release": "2.1.2",
     "return_periods": [
      10,
@@ -2279,37 +2276,37 @@
     "area": "glofas-houston",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 928.1,
-    "read_from": "a local copy of the publisher's files",
+    "peak_memory_mb": 1070.4,
+    "read_from": "the publisher",
     "rows": 252578,
-    "seconds": 74.66
+    "seconds": 110.67
    },
    {
     "area": "glofas-austin",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 261.7,
-    "read_from": "a local copy of the publisher's files",
+    "peak_memory_mb": 324.0,
+    "read_from": "the publisher",
     "rows": 24423,
-    "seconds": 15.74
+    "seconds": 53.37
    },
    {
     "area": "glofas-fremont",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 213.2,
-    "read_from": "a local copy of the publisher's files",
+    "peak_memory_mb": 231.5,
+    "read_from": "the publisher",
     "rows": 9369,
-    "seconds": 3.93
+    "seconds": 25.74
    },
    {
     "area": "efas-rhine",
     "error": "",
     "error_type": "",
-    "peak_memory_mb": 716.0,
-    "read_from": "a local copy of the publisher's files",
+    "peak_memory_mb": 791.0,
+    "read_from": "the publisher",
     "rows": 154353,
-    "seconds": 112.85
+    "seconds": 137.29
    }
   ]
  },
@@ -2332,7 +2329,7 @@
    "depths that differ"
   ],
   [
-   "38 of 39",
+   "39 of 39",
    "checks confirmed"
   ],
   [
@@ -2348,7 +2345,7 @@
  },
  "profile": "quick",
  "profile_covers": "without the Texas box: Houston, Austin, Fremont, California, Rhine, Bonn to Mainz",
- "run_at": "2026-11-25T01:56:36Z",
+ "run_at": "2026-11-25T10:50:06Z",
  "schema": "data_source_check/0.1",
  "seed": 20261124,
  "source": "jrc-flood",
@@ -2427,34 +2424,34 @@
    "rows": [
     [
      "Houston",
-     "a local copy of the publisher's files",
+     "the publisher",
      "252,578",
-     "74.66",
-     "928.1",
+     "110.67",
+     "1070.4",
      ""
     ],
     [
      "Austin",
-     "a local copy of the publisher's files",
+     "the publisher",
      "24,423",
-     "15.74",
-     "261.7",
+     "53.37",
+     "324.0",
      ""
     ],
     [
      "Fremont, California",
-     "a local copy of the publisher's files",
+     "the publisher",
      "9,369",
-     "3.93",
-     "213.2",
+     "25.74",
+     "231.5",
      ""
     ],
     [
      "Rhine, Bonn to Mainz",
-     "a local copy of the publisher's files",
+     "the publisher",
      "154,353",
-     "112.85",
-     "716.0",
+     "137.29",
+     "791.0",
      ""
     ]
    ],

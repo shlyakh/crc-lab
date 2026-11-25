@@ -4,16 +4,50 @@
   "unclaimed_symbols": []
  },
  "installed": {
-  "crc-framework": "0.6.0",
-  "crc-sdk": "0.11.2"
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0"
  },
  "needs_attention": false,
- "reruns": [],
- "run_at": "2026-11-23T23:57:23Z",
+ "reruns": [
+  {
+   "before": {
+    "checks": 39,
+    "confirmed": 38,
+    "not checked": 1
+   },
+   "checks_added": [],
+   "checks_removed": [],
+   "newly_differing": [],
+   "now": {
+    "checks": 39,
+    "confirmed": 39
+   },
+   "outcomes_changed": [
+    {
+     "check": "transport",
+     "now": "confirmed",
+     "was": "not checked"
+    }
+   ],
+   "profile": "quick",
+   "source": "jrc-flood",
+   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/jrc-flood.json",
+   "summaries_changed": [],
+   "versions_before": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   },
+   "versions_now": {
+    "crc-framework": "1.0.0",
+    "crc-sdk": "1.0.0"
+   }
+  }
+ ],
+ "run_at": "2026-11-25T10:49:52Z",
  "sources": [
   {
-   "assessed_at": "2026-11-23T19:12:19Z",
-   "files": 11,
+   "assessed_at": "2026-11-24T23:38:04Z",
+   "files": 1,
    "files_changed": [],
    "files_unreachable": [],
    "reasons": [],
@@ -22,17 +56,19 @@
    "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-23T19:12:48Z",
-   "files": 1008,
+   "assessed_at": "2026-11-25T01:55:26Z",
+   "files": 1009,
    "files_changed": [],
-   "files_unreachable": [],
+   "files_unreachable": [
+    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2008/parquet/GHCNh_USW00000188_2008.parquet"
+   ],
    "reasons": [],
    "source": "ghcnh",
    "stale": false,
    "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-23T20:49:23Z",
+   "assessed_at": "2026-11-25T01:56:36Z",
    "files": 0,
    "files_changed": [],
    "files_unreachable": [],
@@ -42,8 +78,8 @@
    "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-23T20:57:25Z",
-   "files": 8,
+   "assessed_at": "2026-11-24T23:57:52Z",
+   "files": 6,
    "files_changed": [],
    "files_unreachable": [],
    "reasons": [],

@@ -1,6 +1,6 @@
 # JRC flood hazard maps (GloFAS, EFAS): assessment
 
-Generated from the records of the run of 2026-11-25T01:56:36Z against crc-framework 1.0.0, crc-sdk 1.0.0. **Draft: not yet reviewed.**
+Generated from the records of the run of 2026-11-25T10:50:06Z against crc-framework 1.0.0, crc-sdk 1.0.0. **Draft: not yet reviewed.**
 Do not edit: change the source file or re-run the assessment and rebuild.
 
 - **What the framework adds:** From crc-sdk 1.0 nothing is added to the depths: each pixel of JRC's maps comes back with the depths the publisher gives at its return periods, placed at probabilities 1 - 1/T, with an identifier built from the pixel's position, the H3 cell of its centre and its outline. A pixel with fewer than two depths, or with a depth lower than one at a shorter return period, is left out and counted. Up to 0.11 crc-sdk fitted a Gumbel curve per pixel; that assessment is kept as the previous version.
@@ -30,10 +30,10 @@ Each read ran in a process of its own.
 
 | Area | Read from | Rows | Seconds | Peak memory, MB | Error |
 | --- | --- | --- | --- | --- | --- |
-| Houston | a local copy of the publisher's files | 252,578 | 74.66 | 928.1 |  |
-| Austin | a local copy of the publisher's files | 24,423 | 15.74 | 261.7 |  |
-| Fremont, California | a local copy of the publisher's files | 9,369 | 3.93 | 213.2 |  |
-| Rhine, Bonn to Mainz | a local copy of the publisher's files | 154,353 | 112.85 | 716.0 |  |
+| Houston | the publisher | 252,578 | 110.67 | 1070.4 |  |
+| Austin | the publisher | 24,423 | 53.37 | 324.0 |  |
+| Fremont, California | the publisher | 9,369 | 25.74 | 231.5 |  |
+| Rhine, Bonn to Mainz | the publisher | 154,353 | 137.29 | 791.0 |  |
 
 ### Outside the coverage
 
@@ -50,7 +50,7 @@ Assessed at crc-sdk 1.0.0 on the default path, where nothing is fitted. The expl
 | Step | What crc-sdk does | Code | Outcome |
 | --- | --- | --- | --- |
 | files | Reads the publisher's README.txt, for GloFAS the tile index `tile_extents.geojson`, and one depth file per return period written in the code (GloFAS 10, 20, 50, 75, 100, 200, 500 years; EFAS also 30 and 40) for every GloFAS tile whose extent meets the box, or for EFAS the one continental file. | crc_sdk/_providers/jrc.py:62-84; crc_sdk/_climate_sources.py:421-453 | **confirmed** |
-| transport | Reads each depth file by range requests for the window of the box only, pinned to the file's ETag so that a file changed during the read is refused. | crc_sdk/_climate_io.py:404-420, 423-515, 626-650 | **not checked**. Not exercised on 2026-11-24: the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held. The values it decoded from those files are compared in the values checks. |
+| transport | Reads each depth file by range requests for the window of the box only, pinned to the file's ETag so that a file changed during the read is refused. | crc_sdk/_climate_io.py:404-420, 423-515, 626-650 | **confirmed**. Not exercised on 2026-11-24: the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held. The values it decoded from those files are compared in the values checks. |
 | release | Reads the release from the README (the text after 'Dataset version') and refuses to run when it is not the one written in the code (GloFAS 2.1.2, EFAS 3.1.1). The file addresses hold no version. | crc_sdk/_climate_sources.py:306-330; crc_sdk/_providers/jrc.py:62-80 | **confirmed** |
 | area | Takes every pixel of the publisher's grid that the box touches. | crc_sdk/_climate_io.py:105-133, 166-170 | **confirmed** |
 | nodata | Treats the file's nodata value and non-finite values as no depth. | crc_sdk/_climate_io.py:139-141, 173-178 | **confirmed** |
@@ -185,19 +185,19 @@ Ask crc-sdk for a box that lies outside the product's coverage and record what c
 
 ### transport
 
-crc-sdk's own downloads from the publisher (range requests pinned to the file's ETag) were not exercised: it read a local copy of the publisher's files. Steps: transport. Tolerance: values: exact equality.
+crc-sdk read from the publisher's server; the values it returned are compared in the values checks. Steps: transport. Tolerance: values: exact equality.
 
 | Check | Outcome | Result |
 | --- | --- | --- |
-| transport | not checked | the publisher's server did not answer |
+| transport | confirmed |  |
 
 ## Inputs
 
 | Role | File | SHA-256 | Retrieved |
 | --- | --- | --- | --- |
-| publisher's files | flood_hazard | f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4 | 2026-11-17T05:21:16Z |
+| publisher's files | flood_hazard | f18fdee5375f9819e55eac5acb129d564247c1156a34b587a4331fe0f73ebed4 | 2026-11-23T18:55:46Z |
 | crc-sdk read | flood_hazard |  |  |
-| publisher's files | flood_hazard | 0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e | 2026-11-17T05:46:18Z |
+| publisher's files | flood_hazard | 0ff55fa48a4650a522f16460dccafc1027952c4a561460a1b97ae34e33ad4c8e | 2026-11-23T19:17:30Z |
 | crc-sdk read | flood_hazard |  |  |
 | crc-sdk reads | flood_hazard |  |  |
 | crc-sdk read | flood_hazard |  |  |

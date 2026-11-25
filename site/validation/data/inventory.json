@@ -1108,7 +1108,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-25T03:20:16Z",
+ "generated": "2026-11-25T10:50:34Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -1985,7 +1985,7 @@
      "code_ref": "crc_sdk/_climate_io.py:404-420, 423-515, 626-650",
      "id": "transport",
      "note": "Not exercised on 2026-11-24: the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held. The values it decoded from those files are compared in the values checks.",
-     "outcome": "not checked",
+     "outcome": "confirmed",
      "text": "Reads each depth file by range requests for the window of the box only, pinned to the file's ETag so that a file changed during the read is refused."
     },
     {
