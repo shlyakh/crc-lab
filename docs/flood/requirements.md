@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 3, 2026-11-25, tag `flood-requirements-v3` (earlier versions are tags `flood-requirements-v1` and `-v2`; what changed is in `docs/flood/changes.md`);
+Version 4, 2026-11-25, tag `flood-requirements-v4` (earlier versions are tags `flood-requirements-v1` to `-v3`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -318,18 +318,26 @@ say what this file claims, stop and report; do not substitute a number.
   that justified it.
 - **FD2.** Terrain: 1 m lidar digital elevation model for the area, with its vintage and vertical datum
   recorded.
-- **FD3.** Substations from OpenStreetMap (`power=substation`), as sites: outlines within 150 m of each
-  other are one site **[P]**; rail traction substations are left out; each site has its outlines, a point
-  (the centroid), voltage where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
+- **FD3.** Substations from OpenStreetMap (`power=substation`). An asset is a named substation:
+  outlines with the same name within 300 m are one asset **[P]**; outlines with no name are grouped among
+  themselves within 150 m **[P]**; outlines with different names stay separate assets however close, and
+  the distances between them are recorded, since neighbours are affected by the same water. (The F0 area
+  scoring counted sites, merging everything within 150 m; that count chose the area and is not the asset
+  list.) Rail traction substations are left out. Each asset has its outlines, a point (the centroid),
+  voltage where tagged, and a flag for indoor or enclosed. Each is checked by eye on aerial imagery in F1; removals
   are recorded with a reason.
 - **FD4.** Substation replacement value as a low, mid and high figure per voltage class **[P]** until a
   public source is found (utility rate cases or grid-operator cost guides); the source or the placeholder tag
   is shown wherever the value is.
 - **FD5.** Buildings from the city's Building Elevation and Subgrade table (grade elevation, first-floor
   elevation, subgrade-space flag) joined to footprints, with occupancy, basement and replacement value from
-  the USACE National Structure Inventory.
-- **FD6.** One asset table, `assets_oed.csv`, in Oasis Open Exposure Data column names, plus extra columns
-  for substation fields. All four engines read this file or an export of it. It carries WGS84 longitude
+  the USACE National Structure Inventory. The inventory has no building number and is joined by position;
+  it divides one building's value over several records, so a building's value is the sum over its
+  records, and every occupancy class among them is kept. A value that was not measured (a zero in the
+  city's table) is left empty, never filled with a default.
+- **FD6.** One asset table, `assets_oed.csv`, in Oasis Open Exposure Data column names (specification
+  5.0.0), plus extra columns for substation fields. A placeholder value never sits in an OED column: it
+  stays in the lab's own columns with its tag, so that no export can carry it without its label. All four engines read this file or an export of it. It carries WGS84 longitude
   and latitude beside the project-grid coordinates: CRC's `Assets` accepts WGS84 points only.
 - **FD7.** Customers served per substation for outage cost: **[P]** allocation by population in the nearest
   substation's area unless a public figure is found. Label it a placeholder.

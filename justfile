@@ -192,8 +192,24 @@ flood-checks:
 # Flood lab F0: the CRC 1.0.0 calls on toy data; area scoring from the cache; facts from the reviewed drafts
 flood-f0:
     uv run python tools/flood/f0_crc_calls.py --timing
-    uv run python tools/flood/f0_accept_facts.py
+    uv run python tools/flood/accept_facts.py
     uv run python -m flood_lab.checks.f0_area
     uv run --with matplotlib python -m flood_lab.checks.f0_area_maps
     uv run python -m flood_lab.data_cards
     uv run python -m flood_lab.gallery
+
+# Flood lab F1: terrain for the study square from the cached USGS tile; the 5 m grid; the study area outline
+flood-f1-terrain:
+    uv run python -m flood_lab.terrain
+
+# Flood lab F1: SFINCS grid and sub-grid tables on the real terrain, in the builder's own environment
+flood-f1-grid:
+    uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' python src/flood_lab/hazard/real_grid.py --cache data/cache/flood
+
+# Flood lab F1: the terrain record and its figures
+flood-f1-check:
+    uv run --with matplotlib python -m flood_lab.checks.f1_terrain
+
+# Flood lab F1: substations, buildings and the asset table, with the record and its figures
+flood-f1-assets:
+    uv run --with matplotlib python -m flood_lab.checks.f1_assets

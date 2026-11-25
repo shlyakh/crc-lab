@@ -1,0 +1,120 @@
+id = "nyc-building-footprints"
+title = "NYC Building Footprints (BUILDING, `5zhs-2jue`)"
+publisher = "NYC Office of Technology and Innovation (OTI, formerly DoITT), on NYC Open Data"
+checked_on = "2026-11-25"
+stage = "F1"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD5"]
+known_biases = "Footprints are updated daily by city staff, so the layer is the city as of the download, not as of a storm date; construction_year is reliable only after 2017 and mostly from the tax roll before 2002 (accurate to a decade at best). ground_elevation is a lowest-adjacent-ground value in feet, NAVD88 only for photogrammetric or modern sources, with accuracy that varies; height_roof is zero or null where unavailable. The BIN is not unique (million BINs for unassigned buildings) and a building may be split in several footprints sharing a BIN. Garages (feature code 5110) and other auxiliary structures are in the layer. Numbers in the GeoJSON are strings."
+
+[[fact]]
+name = "identifier"
+claimed = "NYC Open Data `nqwf-w8eh` (long-standing id; ids change)"
+observed = "The current dataset is `5zhs-2jue`, named \"BUILDING\", agency Office of Technology and Innovation (OTI, formerly DoITT). `nqwf-w8eh` now returns 404 \"Not found\" from the views API. The catalogue also lists `jh45-qr5r` \"Building Footprints (Map)\", a map view that points at the same table (same tableId 19907009), and `x7wt-jhdr` / `ipkp-snf6` \"Building Footprints Historic\". The point (centroid) layers are `u9wf-3gbt` BUILDING_P and `9xsq-wn7d` BUILDING_HISTORIC_P. Use `5zhs-2jue`."
+outcome = "differs"
+source_url = "https://data.cityofnewyork.us/api/views/5zhs-2jue.json"
+passage = "5zhs-2jue name=BUILDING viewType=tabular tableId=19907009 ; catalogue: 5zhs-2jue \"BUILDING\" updatedAt 2026-11-23T00:17:54.000Z type dataset ; jh45-qr5r \"Building Footprints (Map)\" display=visualization_canvas_map tableId=19907009 ; https://data.cityofnewyork.us/api/views/nqwf-w8eh.json -> {\"code\":\"not_found\",\"message\":\"Not found\"}"
+note = "The id in the task (`nqwf-w8eh`) is retired; the catalogue query was https://api.us.socrata.com/api/catalog/v1?domains=data.cityofnewyork.us&q=building%20footprints (HTTP 200). The dataset title on the portal is now \"BUILDING\", not \"Building Footprints\"."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "resource API `/resource/<id>.geojson`"
+observed = "Portal page https://data.cityofnewyork.us/d/5zhs-2jue; SODA endpoint https://data.cityofnewyork.us/resource/5zhs-2jue.geojson works without token. Geometry column name in the metadata is `the_geom` (type multipolygon), as the task assumed. Whole table: 1,082,928 rows."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/5zhs-2jue.json?$select=count(*)"
+passage = "[{\"count\":\"1082928\"}] ; columns[0]: fieldName=the_geom dataTypeName=multipolygon description=\"Geometry column used for mapping\""
+note = "The query used for the download is in the [[file]] entry; within_box(the_geom, north lat, west lon, south lat, east lon). All 22,960 returned features have geometry type MultiPolygon. The box query returned vertices out to lon -73.990002 and lat 40.684998, i.e. features that cross the box edge are kept (consistent with an intersects test; not proven for every edge case)."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Terms of use: read"
+observed = "No licence field on the dataset (licenseId none). The publisher's metadata says open-data policies and restrictions apply and links the city's Terms of Use; public access. The NYC Open Data policy (Local Law 11 of 2012) requires data sets to be available without registration, licence or usage restriction; the general NYC terms are already read in the F0 facts for `nyc-building-elevation-subgrade` (fact `licence`)."
+outcome = "confirmed"
+source_url = "https://raw.githubusercontent.com/CityOfNewYork/nyc-geo-metadata/master/Metadata/Metadata_BuildingFootprints.md"
+passage = "**Use Limitations** |Open Data policies and restrictions apply. See [Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse) ; **Access Rights** |Public"
+note = "The terms-of-use page itself was not re-read here; see the F0 note about its address."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = "BIN, BBL, construction year, roof height `heightroof`, ground elevation `groundelev`, feature code, last status"
+observed = "The Socrata table has 16 columns: the_geom, name, bin, doitt_id, shape_area, base_bbl, objectid, construction_year, feature_code, geom_source, ground_elevation, height_roof, last_edited_date, last_status_type, mappluto_bbl, shape_length. The names `heightroof` and `groundelev` are the SHAPEFILE names (HEIGHTROOF, GROUNDELEV); in the Socrata table and the GeoJSON they are `height_roof` and `ground_elevation`. Units: ground_elevation is feet, lowest elevation at the building ground level, NAVD88 when collected photogrammetrically or from modern sources, accuracy varies; height_roof is feet above ground elevation (not above sea level), zero or null means not available. construction_year: year completed, accurate for buildings built after 2017; before 2002 mostly from the tax roll, accurate to a decade at best; null (or 0) means not available. feature_code: 1000 Parking, 1001 Gas Station Canopy, 1002 Storage Tank, 1003 Placeholder (triangle for permitted bldg), 1004 Auxiliary Structure, 1005 Temporary Structure, 1006 Cantilevered Building, 2100 Building, 2110 Skybridge, 5100 Building Under Construction, 5110 Garage. last_status_type: Demolition, Alteration, Geometry, Initialization, Correction, Marked for Construction, Marked For Demolition, Constructed (also seen in the box: Split, Merged, Investigate Construction). bin: DOB building id, first digit borough (1 Manhattan, 2 Bronx, 3 Brooklyn, 4 Queens, 5 Staten Island); BINs ending 000000 (1000000, 3000000 ...) mean unassigned or unknown, so the BIN is not unique. base_bbl: tax lot the footprint lies in (text); mappluto_bbl: the key to join MapPLUTO (condominium billing BBL). doitt_id is the consistent unique building key; objectid is a synthetic key (\"Use DOITT_ID instead\"). shape_area and shape_length: \"Do not use\" (Web Mercator, not area preserving). Horizontal: published in WGS84 (GeoJSON), captured in NY State Plane Long Island East, NAD83, US foot (EPSG:2263). In the GeoJSON every property value is a string, numbers included."
+outcome = "confirmed"
+source_url = "https://raw.githubusercontent.com/CityOfNewYork/nyc-geo-metadata/master/Metadata/Metadata_BuildingFootprints.md"
+passage = "GROUND_ELEVATION | GROUNDELEV | Lowest elevation at the building ground level, in feet. Calculated from LiDAR or photogrammetrically. | number | Accuracy varies but when collected photogrammetrically or from modern sources this value is based on the North American Vertical Datum of 1988 ; HEIGHT_ROOF | HEIGHTROOF | Roof height above ground elevation, in feet (not above sea level). | number | Records where this is zero or NULL mean that this information was not available. ; BIN ... In some cases where these 6 digits are all zeros (e.g. 1000000, 2000000, etc.) the BIN is unassigned or unknown. ... Due to \"million BINs\" this identifier is not unique ; FEATURE_CODE | FEAT_CODE | Type of Building. List of values: 1000 = Parking 1001 = Gas Station Canopy ... 5110 = Garage"
+note = "Features captured: all buildings over 400 sq ft and taller than 12 ft, plus others with BINs; excluded: interior divisions, temporary trailers or tents, jet bridges, awnings, scaffolds, sidewalk sheds, small backyard sheds with no visible car access. Positional accuracy for photogrammetric features +/- 2 ft (95%); manual features less accurate. The ground_elevation datum is stated conditionally (NAVD88 only when collected photogrammetrically or from modern sources): older values may not be NAVD88. The portal's column descriptions for construction_year, feature_code, ground_elevation, height_roof, last_status_type are empty; the meanings come from the GitHub metadata page."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "New York City, five boroughs, 1,082,928 footprints in the table."
+outcome = "confirmed"
+source_url = "https://raw.githubusercontent.com/CityOfNewYork/nyc-geo-metadata/master/Metadata/Metadata_BuildingFootprints.md"
+passage = "**Spatial Coverage** |New York City, NY"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "A living, continuously edited layer, not a snapshot: last_edited_date is per feature. The imagery behind it is captured annually. Whatever the date of a storm replayed, the layer shows the buildings as of the download (2026-11-23 update), with demolitions removed and new buildings added; construction_year is accurate only for buildings built after 2017."
+outcome = "confirmed"
+source_url = "https://raw.githubusercontent.com/CityOfNewYork/nyc-geo-metadata/master/Metadata/Metadata_BuildingFootprints.md"
+passage = "**Update Frequency**: Features are updated daily by OTI staff and released publicly on NYC Open Data and NYCMaps ; CONSTRUCTION_YEAR ... Accurate for buildings constructed after 2017."
+note = "Whether Hurricane Ida (2021-09) buildings are all present, or later ones absent, is not tested here; filter on construction_year if a 2021 stock is needed."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = "update frequency"
+observed = "Portal field Update Frequency = Weekly, Automation = No, Date Made Public 5/3/2016. rowsUpdatedAt 1795393074 = 2026-11-23T00:17:54Z; publicationDate 1748378881 = 2025-05-27T20:48:01Z; viewLastModified 1783525924 = 2026-07-08T15:52:04Z. The GitHub metadata page is dated 10/09/2025. No version number."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/5zhs-2jue.json"
+passage = "Update {'Automation': 'No', 'Date Made Public': '5/3/2016', 'Update Frequency': 'Weekly'} ; Dataset Information {'Agency': 'Office of Technology and Innovation (OTI)'} ; rowsUpdatedAt=1795393074"
+note = "The timestamps are as the API reports them (the 2026 dates are the current ones as of this check)."
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "The publisher gives no checksum for the API output; the sha256 of the copy is in the [[file]] entry. The download is a point-in-time copy of a living table."
+outcome = "not applicable"
+source_url = "https://data.cityofnewyork.us/resource/5zhs-2jue.geojson?$where=within_box(the_geom, 40.7245, -73.9900, 40.6850, -73.9385)&$limit=50000&$order=objectid"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "rows_in_study_box"
+claimed = ""
+observed = "22,960 features returned for the box (lon -73.9900 to -73.9385, lat 40.6850 to 40.7245), one request, under the 50,000 limit, so no paging was needed (the first request already returned fewer than $limit rows). Of these 21,547 carry a Brooklyn BIN (first digit 3) and 1,413 a Manhattan BIN (first digit 1; the western edge of the box reaches the Lower East Side). All 22,960 have a BIN (none null); 3 of them are \"million BINs\" (unassigned), and 22,958 BINs are distinct (the same BIN on 3 rows). ground_elevation: 22,949 not null, of which 22,938 above 0 and 11 equal to 0 (11 null); Brooklyn BINs: 21,525 above 0. height_roof: 22,960 not null, 22,942 above 0 and 18 equal to 0; Brooklyn BINs: 21,531 above 0. construction_year: 22,630 not null (none zero), 330 missing. ground_elevation (ft): min 0, quartiles 24 / 36 / 50, max 360; height_roof (ft): min 0, quartiles 31.5 / 38.8 / 47.7, max 1,035. feature_code: 2100 Building 22,292; 5110 Garage 630; 5100 Under Construction 19; 2110 Skybridge 7; 1006 3; 1001 3; 1004 3; 1003 2; 1000 1. last_status_type: Constructed 22,708; Alteration 162; empty 29; Split 22; Merged 13; Correction 8; Investigate Construction 6; Initialization 6; Marked for Construction 3; Marked for Demolition 2; Demolition 1."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/5zhs-2jue.geojson?$where=within_box(the_geom, 40.7245, -73.9900, 40.6850, -73.9385)&$limit=50000&$order=objectid"
+passage = "FeatureCollection of 22960 features (my count) ; first feature properties: base_bbl 3017190001, construction_year 1958, ground_elevation 12, feature_code 2100, height_roof 65.16, last_status_type Constructed, bin 3325583, geom_source Photogrammetric, doitt_id 393051"
+note = "Counts are mine, from /Users/yuri/work/crc/crc-lab/data/cache/flood/f1/scripts/analyse_f1.py and brooklyn_subset.py (output in f1/analysis-output.txt). height_roof maxima of 1,035 ft and ground_elevation up to 360 ft were not checked; the 360 ft value is implausible for this part of Brooklyn and is an outlier to inspect before use. The task named the box within_box on the geometry; the vertex extent (-73.990002, 40.684998 to -73.938501, 40.724502) shows edge-crossing features are included. A feature whose geometry crosses the box edge but whose vertices all lie outside was not tested for."
+verdict_note = ""
+
+[[file]]
+path = "nyc-building-footprints/footprints-box.geojson"
+url = "https://data.cityofnewyork.us/resource/5zhs-2jue.geojson?$where=within_box(the_geom, 40.7245, -73.9900, 40.6850, -73.9385)&$limit=50000&$order=objectid"
+bytes = 18380697
+sha256 = "44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43"
+fetched_at = "2026-11-25T19:11:22Z"
+
+[[file]]
+path = "nyc-building-footprints/meta/5zhs-2jue.json"
+url = "https://data.cityofnewyork.us/api/views/5zhs-2jue.json"
+bytes = 28828
+sha256 = "7fdfbea04798e30495dae97e9a53ac8ea181b029fbd8b6b13bfa51e4f5b498f0"
+fetched_at = "2026-11-25T19:11:28Z"
+
+[[file]]
+path = "nyc-building-footprints/meta/Metadata_BuildingFootprints.md"
+url = "https://raw.githubusercontent.com/CityOfNewYork/nyc-geo-metadata/master/Metadata/Metadata_BuildingFootprints.md"
+bytes = 13532
+sha256 = "94ce69397ddeb3ac1fc3b08dd4994751b3f55e3b02d092c8f665998aae3554e8"
+fetched_at = "2026-11-25T19:11:28Z"

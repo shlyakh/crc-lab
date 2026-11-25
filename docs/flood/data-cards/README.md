@@ -19,17 +19,22 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [NOAA Atlas 14 Volume 10 Version 3, point precipitation frequency, Jamaica Bay point (40.65, -73.85)](noaa-atlas-14.md) | facts checked: 10 confirmed, 1 not checked | 10 | 0 | 1 | 2 | F0 |
 | [NOAA Storm Events Database, bulk CSV files](noaa-storm-events.md) | facts checked: 10 confirmed, 1 differ, 1 not checked | 10 | 1 | 1 | 5 | F0 |
 | [311 Service Requests from 2020 to Present](nyc-311.md) | facts confirmed | 11 | 0 | 0 | 1 | F0 |
-| [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 10 | 0 | 0 | 1 | F0 |
+| [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 16 | 0 | 0 | 1 | F0 |
+| [NYC Building Footprints (BUILDING, \`5zhs-2jue\`)](nyc-building-footprints.md) | facts checked: 7 confirmed, 1 differ | 7 | 1 | 0 | 1 | F1 |
 | [2020 Neighborhood Tabulation Areas (NTAs)](nyc-nta-2020.md) | facts confirmed | 7 | 0 | 0 | 1 | F0 |
 | [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 11 confirmed, 2 differ, 2 not checked; values to be recomputed by a second reader in F2 | 11 | 2 | 2 | 1 | F0 |
+| [NYC 2017 topobathymetric lidar DEM (NYC Open Data 7sc8-jtbz), packaging for the F1 box](nyc-topobathy-2017.md) | facts checked: 10 confirmed, 1 not checked | 10 | 0 | 1 | 2 | F1 |
 | [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts checked: 12 confirmed, 1 differ | 12 | 1 | 0 | 1 | F0 |
 | [NOAA Analysis of Record for Calibration (AORC) v1.1](rainfall-aorc.md) | facts confirmed | 8 | 0 | 0 | 1 | F0 |
 | [NOAA MRMS quantitative precipitation estimates (QPE)](rainfall-mrms.md) | facts checked: 6 confirmed, 1 not checked; values to be recomputed by a second reader in F5 | 6 | 0 | 1 | 1 | F0 |
 | [NCEP Stage IV multi-sensor precipitation analysis (archive at NSF NCAR GDEX d507005)](rainfall-stage-iv.md) | facts checked: 6 confirmed, 1 not checked | 6 | 0 | 1 | 2 | F0 |
 | [RainyDay stochastic storm transposition](rainyday.md) | facts checked: 5 confirmed, 1 differ, 1 not checked | 5 | 1 | 1 | 3 | F0 |
 | [Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs](sfincs-release.md) | facts checked: 6 confirmed, 4 differ, 1 not checked | 6 | 4 | 1 | 3 | F0 |
+| [Public figures for the replacement or construction cost of electrical substations, by voltage class](substation-cost-sources.md) | facts checked: 4 confirmed, 2 not checked | 4 | 0 | 2 | 8 | F1 |
 | [Nirandjan et al. 2024 physical vulnerability database, Table D2 version 1.1.0](substation-curves-nirandjan.md) | facts checked: 7 confirmed, 1 not checked | 7 | 0 | 1 | 2 | F0 |
 | [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts checked: 12 confirmed, 1 not checked | 12 | 0 | 1 | 4 | F0 |
-| [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts checked: 9 confirmed, 1 not checked | 9 | 0 | 1 | 1 | F0 |
+| [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts checked: 11 confirmed, 1 not checked | 11 | 0 | 1 | 1 | F0 |
+| [USGS 3DEP 1 m DEM tiles over the F1 study box (north Brooklyn, 500 m margin)](usgs-3dep-1m.md) | facts confirmed | 13 | 0 | 0 | 2 | F1 |
 | [Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021](usgs-ida-depth-rasters.md) | facts checked: 13 confirmed, 1 not checked | 13 | 0 | 1 | 0 | F0 |
 | [USGS high-water marks for the remnants of Hurricane Ida, five boroughs of New York City](usgs-ida-high-water-marks.md) | facts checked: 11 confirmed, 1 differ, 2 not checked; values to be recomputed by a second reader in F5 | 11 | 1 | 2 | 0 | F0 |
+| [Aerial imagery of the F1 area: USGS NAIP (TNM image services) and NYS orthoimagery](usgs-naip-imagery.md) | facts checked: 10 confirmed, 2 not checked | 10 | 0 | 2 | 3 | F1 |

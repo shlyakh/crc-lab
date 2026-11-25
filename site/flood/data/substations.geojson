@@ -1,0 +1,402 @@
+{
+ "attribution": "© OpenStreetMap contributors, ODbL (https://www.openstreetmap.org/copyright)",
+ "features": [
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9822264,
+       40.7032848
+      ],
+      [
+       -73.9822245,
+       40.7033179
+      ],
+      [
+       -73.9822181,
+       40.7034276
+      ],
+      [
+       -73.9822148,
+       40.7034275
+      ],
+      [
+       -73.9822077,
+       40.70355
+      ],
+      [
+       -73.9814818,
+       40.7035263
+      ],
+      [
+       -73.9814975,
+       40.7032561
+      ],
+      [
+       -73.9818844,
+       40.7032691
+      ],
+      [
+       -73.9818922,
+       40.703134
+      ],
+      [
+       -73.9821839,
+       40.7031438
+      ],
+      [
+       -73.9821759,
+       40.7032831
+      ],
+      [
+       -73.9822264,
+       40.7032848
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-250386730",
+    "closed": true,
+    "kind": "distribution",
+    "name": "Water Street Substation",
+    "osm_id": "way/250386730",
+    "reviewed": "kept",
+    "voltage_kv": 138.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9844688,
+       40.7044103
+      ],
+      [
+       -73.9845817,
+       40.7044159
+      ],
+      [
+       -73.9859056,
+       40.7044578
+      ],
+      [
+       -73.986373,
+       40.7044725
+      ],
+      [
+       -73.9863722,
+       40.7044938
+      ],
+      [
+       -73.9864527,
+       40.7044961
+      ],
+      [
+       -73.986446,
+       40.7046475
+      ],
+      [
+       -73.9864459,
+       40.7046593
+      ],
+      [
+       -73.9863986,
+       40.7054125
+      ],
+      [
+       -73.9834523,
+       40.705644
+      ],
+      [
+       -73.9834382,
+       40.7054699
+      ],
+      [
+       -73.9834422,
+       40.7054137
+      ],
+      [
+       -73.9834468,
+       40.7053482
+      ],
+      [
+       -73.9831562,
+       40.7053404
+      ],
+      [
+       -73.98252,
+       40.7054456
+      ],
+      [
+       -73.9826677,
+       40.7043495
+      ],
+      [
+       -73.9844688,
+       40.7044103
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-339711332",
+    "closed": true,
+    "kind": "transmission",
+    "name": "Farragut Substation",
+    "osm_id": "way/339711332",
+    "reviewed": "kept",
+    "voltage_kv": 345.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      -73.9826677,
+      40.7043495
+     ],
+     [
+      -73.9826767,
+      40.7042829
+     ],
+     [
+      -73.9826821,
+      40.7042429
+     ]
+    ],
+    "type": "LineString"
+   },
+   "properties": {
+    "LocNumber": "S-339711332",
+    "closed": false,
+    "kind": "transmission",
+    "name": "Farragut Substation",
+    "osm_id": "way/383110529",
+    "reviewed": "kept",
+    "voltage_kv": 345.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      -73.9841304,
+      40.7041315
+     ],
+     [
+      -73.9844845,
+      40.7041437
+     ],
+     [
+      -73.9844734,
+      40.7043415
+     ],
+     [
+      -73.9844688,
+      40.7044103
+     ]
+    ],
+    "type": "LineString"
+   },
+   "properties": {
+    "LocNumber": "S-339711332",
+    "closed": false,
+    "kind": "transmission",
+    "name": "Farragut Substation",
+    "osm_id": "way/383110530",
+    "reviewed": "kept",
+    "voltage_kv": 345.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9811232,
+       40.7041846
+      ],
+      [
+       -73.9811565,
+       40.7036338
+      ],
+      [
+       -73.9823344,
+       40.7036753
+      ],
+      [
+       -73.9825052,
+       40.7036808
+      ],
+      [
+       -73.9825384,
+       40.7036822
+      ],
+      [
+       -73.9824596,
+       40.7042253
+      ],
+      [
+       -73.9811232,
+       40.7041846
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-383102724",
+    "closed": true,
+    "kind": "distribution",
+    "name": "Hudson Avenue Substation",
+    "osm_id": "way/383102724",
+    "reviewed": "kept",
+    "voltage_kv": 138.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9827571,
+       40.7036903
+      ],
+      [
+       -73.9828837,
+       40.7036869
+      ],
+      [
+       -73.9841556,
+       40.7037273
+      ],
+      [
+       -73.9841384,
+       40.7040049
+      ],
+      [
+       -73.9841304,
+       40.7041315
+      ],
+      [
+       -73.9841188,
+       40.7042875
+      ],
+      [
+       -73.9826821,
+       40.7042429
+      ],
+      [
+       -73.9827571,
+       40.7036903
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-383110539",
+    "closed": true,
+    "kind": "distribution",
+    "name": "Plymouth Substation",
+    "osm_id": "way/383110539",
+    "reviewed": "kept",
+    "voltage_kv": 138.0
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9658635,
+       40.7172417
+      ],
+      [
+       -73.9659979,
+       40.7171056
+      ],
+      [
+       -73.9663446,
+       40.717296
+      ],
+      [
+       -73.9662303,
+       40.7174237
+      ],
+      [
+       -73.9658635,
+       40.7172417
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-861227475",
+    "closed": true,
+    "kind": "",
+    "name": "",
+    "osm_id": "way/861227475",
+    "reviewed": "kept",
+    "voltage_kv": null
+   },
+   "type": "Feature"
+  },
+  {
+   "geometry": {
+    "coordinates": [
+     [
+      [
+       -73.9703765,
+       40.7069619
+      ],
+      [
+       -73.9705168,
+       40.7069022
+      ],
+      [
+       -73.9705937,
+       40.7070188
+      ],
+      [
+       -73.9706232,
+       40.7071286
+      ],
+      [
+       -73.970516,
+       40.7071692
+      ],
+      [
+       -73.9703765,
+       40.7069619
+      ]
+     ]
+    ],
+    "type": "Polygon"
+   },
+   "properties": {
+    "LocNumber": "S-1540230931",
+    "closed": true,
+    "kind": "",
+    "name": "Building 390",
+    "osm_id": "way/1540230931",
+    "reviewed": "removed: A roofless ruin on a Navy Yard pier; OpenStreetMap tags it abandoned=building with a historical use as a substation, built 1942. Not a working substation.",
+    "voltage_kv": null
+   },
+   "type": "Feature"
+  }
+ ],
+ "type": "FeatureCollection"
+}

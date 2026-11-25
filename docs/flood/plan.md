@@ -258,8 +258,9 @@ corrected in this stage.
 **Visual test.** Hillshade with footprints and yards; histogram of first-floor height above ground, split
 by subgrade flag; the substation contact sheet; a bar of asset counts by type and voltage.
 
-**Pass.** Every asset has a ground elevation; at least 95% of footprints matched (*proposed*); every
-substation has been looked at and the sheet is in the report.
+**Pass.** Every asset has a ground elevation; at least 95% of buildings proper matched to the city's
+elevation table (*proposed*; garages are outside that table, decided at the F1 stop); every substation
+has been looked at and the sheet is in the report.
 
 **Overrun.** Limit buildings to blocks touched by any flood-map polygon.
 
