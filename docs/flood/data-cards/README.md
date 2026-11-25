@@ -20,6 +20,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [NOAA Storm Events Database, bulk CSV files](noaa-storm-events.md) | facts checked: 10 confirmed, 1 differ, 1 not checked | 10 | 1 | 1 | 5 | F0 |
 | [311 Service Requests from 2020 to Present](nyc-311.md) | facts confirmed | 11 | 0 | 0 | 1 | F0 |
 | [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 10 | 0 | 0 | 1 | F0 |
+| [2020 Neighborhood Tabulation Areas (NTAs)](nyc-nta-2020.md) | facts confirmed | 7 | 0 | 0 | 1 | F0 |
 | [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 11 confirmed, 2 differ, 2 not checked; values to be recomputed by a second reader in F2 | 11 | 2 | 2 | 1 | F0 |
 | [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts checked: 12 confirmed, 1 differ | 12 | 1 | 0 | 1 | F0 |
 | [NOAA Analysis of Record for Calibration (AORC) v1.1](rainfall-aorc.md) | facts confirmed | 8 | 0 | 0 | 1 | F0 |

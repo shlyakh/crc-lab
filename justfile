@@ -194,5 +194,6 @@ flood-f0:
     uv run python tools/flood/f0_crc_calls.py --timing
     uv run python tools/flood/f0_accept_facts.py
     uv run python -m flood_lab.checks.f0_area
+    uv run --with matplotlib python -m flood_lab.checks.f0_area_maps
     uv run python -m flood_lab.data_cards
     uv run python -m flood_lab.gallery

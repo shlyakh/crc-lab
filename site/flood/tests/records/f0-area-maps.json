@@ -1,0 +1,199 @@
+{
+ "checks": [
+  {
+   "name": "the points drawn inside each area equal the counts of the scoring",
+   "note": "the scoring counts in bins and the map tests each point against the outline, so this compares two ways of counting",
+   "passed": true,
+   "proposed": false,
+   "rule": "for every area: marks, sensors of each storm, substation sites and sites near mapped flooding drawn inside the outline equal the counts in the record f0-area-candidates",
+   "threshold": null,
+   "value": null
+  }
+ ],
+ "created_at": "2026-11-25T18:51:38Z",
+ "figures": [
+  "docs/flood/figures/f0/area_overview.png",
+  "docs/flood/figures/f0/area_1.png",
+  "docs/flood/figures/f0/area_2.png",
+  "docs/flood/figures/f0/area_3.png",
+  "docs/flood/figures/f0/area_4.png",
+  "docs/flood/figures/f0/area_5.png"
+ ],
+ "id": "f0-area-maps",
+ "inputs": [
+  {
+   "bytes": 8702,
+   "path": "site/flood/tests/records/f0-area-candidates.json",
+   "sha256": "1af210cacac91dc2c13ce233c18f83671423ad80286ad52b93077c78841b3ca0",
+   "url": ""
+  },
+  {
+   "bytes": 4586084,
+   "path": "nyc-nta-2020/nta2020.geojson",
+   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "url": ""
+  },
+  {
+   "bytes": 33785094,
+   "path": "nyc-stormwater-flood-maps/NYCFloodStormwaterFloodMaps.zip",
+   "sha256": "5effe9bcca896660f44a5e50c348ab4ebf7550ff3c764ef77f06d775f0c010f5",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Flooded areas are the city's published 2.13 in/hr map with current sea levels, not a result of this study. Neighbourhood names and outlines are the planning department's 2020 tabulation areas. Only points on Brooklyn or Queens land are drawn. Points outside an area's outline are drawn smaller. No streets are drawn."
+ ],
+ "numbers": {},
+ "parameters": [
+  {
+   "name": "margin_around_each_area_m",
+   "source": "",
+   "tag": "P",
+   "value": 600.0
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11"
+ },
+ "stage": "F0",
+ "tables": {
+  "areas": [
+   {
+    "area": 1,
+    "counted_by_f0_area": {
+     "exposed": 1.0,
+     "ida": 3.0,
+     "marks": 19.0,
+     "sep29": 4.0,
+     "sites": 2.0
+    },
+    "drawn_inside": {
+     "exposed": 1,
+     "ida": 3,
+     "marks": 19,
+     "sep29": 4,
+     "sites": 2
+    },
+    "neighbourhoods_with_over_0.4_km2_inside": [
+     "Carroll Gardens-Cobble Hill-Gowanus-Red Hook",
+     "Clinton Hill",
+     "Downtown Brooklyn-DUMBO-Boerum Hill",
+     "Fort Greene",
+     "Park Slope",
+     "Prospect Heights",
+     "Sunset Park (West)",
+     "Windsor Terrace-South Slope"
+    ]
+   },
+   {
+    "area": 2,
+    "counted_by_f0_area": {
+     "exposed": 2.0,
+     "ida": 0.0,
+     "marks": 11.0,
+     "sep29": 5.0,
+     "sites": 3.0
+    },
+    "drawn_inside": {
+     "exposed": 2,
+     "ida": 0,
+     "marks": 11,
+     "sep29": 5,
+     "sites": 3
+    },
+    "neighbourhoods_with_over_0.4_km2_inside": [
+     "Bedford-Stuyvesant (West)",
+     "Clinton Hill",
+     "Downtown Brooklyn-DUMBO-Boerum Hill",
+     "East Williamsburg",
+     "Fort Greene",
+     "Lower East Side",
+     "South Williamsburg",
+     "Williamsburg"
+    ]
+   },
+   {
+    "area": 3,
+    "counted_by_f0_area": {
+     "exposed": 3.0,
+     "ida": 2.0,
+     "marks": 0.0,
+     "sep29": 4.0,
+     "sites": 6.0
+    },
+    "drawn_inside": {
+     "exposed": 3,
+     "ida": 2,
+     "marks": 0,
+     "sep29": 4,
+     "sites": 6
+    },
+    "neighbourhoods_with_over_0.4_km2_inside": [
+     "East New York-City Line",
+     "Howard Beach-Lindenwood",
+     "Ozone Park",
+     "Ozone Park (North)",
+     "South Ozone Park"
+    ]
+   },
+   {
+    "area": 4,
+    "counted_by_f0_area": {
+     "exposed": 3.0,
+     "ida": 0.0,
+     "marks": 9.0,
+     "sep29": 0.0,
+     "sites": 4.0
+    },
+    "drawn_inside": {
+     "exposed": 3,
+     "ida": 0,
+     "marks": 9,
+     "sep29": 0,
+     "sites": 4
+    },
+    "neighbourhoods_with_over_0.4_km2_inside": [
+     "Astoria (Central)",
+     "Astoria (East)-Woodside (North)",
+     "Astoria (North)-Ditmars-Steinway",
+     "Elmhurst",
+     "Jackson Heights",
+     "Queensbridge-Ravenswood-Dutch Kills",
+     "Sunnyside",
+     "Woodside"
+    ]
+   },
+   {
+    "area": 5,
+    "counted_by_f0_area": {
+     "exposed": 3.0,
+     "ida": 0.0,
+     "marks": 4.0,
+     "sep29": 0.0,
+     "sites": 5.0
+    },
+    "drawn_inside": {
+     "exposed": 3,
+     "ida": 0,
+     "marks": 4,
+     "sep29": 0,
+     "sites": 5
+    },
+    "neighbourhoods_with_over_0.4_km2_inside": [
+     "Baisley Park",
+     "Hollis",
+     "Jamaica",
+     "Jamaica Estates-Holliswood",
+     "Queens Village",
+     "South Jamaica",
+     "St. Albans"
+    ]
+   }
+  ]
+ },
+ "title": "Maps of the five candidate study areas"
+}

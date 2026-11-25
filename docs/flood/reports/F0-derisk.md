@@ -11,7 +11,7 @@ shows the same records with their figures.
 
 | Rule (plan F0) | Result |
 | --- | --- |
-| An area has at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations (*proposed*) | **Passes.** 20 of the 16 km² windows pass, counting substations that are not rail. The best-scoring window passes |
+| An area has at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations (*proposed*) | **Passes, narrowly.** 6 of 1562 candidate areas pass, counting substations as sites that are not rail. The best-scoring area does not pass, so the record's second check fails |
 | The toy solver model runs | **Passes**, 13 of 13 runs; water balance within 0.12% |
 | Every CRC call in the mapping has a result | **Passes.** 12 probes, all as read |
 | No fact of a Tier 1 source is left "not checked" without a reason | **Passes**: 23 facts are not checked, each with its reason on the data card. They are listed below because several need a person |
@@ -44,17 +44,17 @@ No new candidate finding for the register came out of this block.
 
 ## 2. Source facts (FS6)
 
-26 sources, each with a facts file and a generated data card (`docs/flood/data-cards/`). Four lookup
+27 sources, each with a facts file and a generated data card (`docs/flood/data-cards/`). Four lookup
 agents read the publishers' pages, metadata and files; the main model reviewed every fact that was not
 confirmed and every licence fact, and checked the Groundsource checksum against Zenodo itself. Facts
 marked confirmed rest on the address and passage recorded with each; they were not all re-read.
 
 | | Confirmed | Differs | Not checked | Not applicable |
 | --- | --- | --- | --- | --- |
-| The eight required facts, 26 sources | 150 | 5 | 14 | 39 |
-| All facts | 241 | 15 | 23 | 57 |
+| The eight required facts, 27 sources | 157 | 5 | 14 | 40 |
+| All facts | 248 | 15 | 23 | 58 |
 
-Seven sources read "facts confirmed"; nineteen read "facts checked" with their counts. No source is yet
+8 sources read "facts confirmed"; 19 read "facts checked" with their counts. The 27th source, the city's neighbourhood outlines, was added for the maps of section 4 and its facts were read by the main model. No source is yet
 "values recomputed": the second readers are F2 and F5.
 
 Where a publisher differs from the requirements, the correction is proposed in requirements §14 (29 rows,
@@ -116,31 +116,132 @@ for two hours and one dry hour, a constant drainage rate of 10 mm/h (`qinf`).
 
 ## 4. Candidate areas (D1)
 
-Record `f0-area-candidates`, figure `docs/flood/figures/f0/area_candidates.html`. Squares of 16 km² on a
-500 m step over a box around Brooklyn and Queens, each counted the same way. Score: each criterion's count
-over its unit, capped at 2, summed (all units are proposed values in the record).
+Records `f0-area-candidates` and `f0-area-maps`. Squares of 16 km² on a 500 m step; a square is a
+candidate when at least 60% of it is land of Brooklyn or Queens, and only marks, sensors and substations
+on that land are counted. 1562 candidates were scored. Score: each criterion's count over
+its unit, capped at 2, summed (units are proposed values in the record).
 
-| # | Centre (lon, lat) | Roughly | Score | Marks | Sensors 2023-09-29 | Sensors Ida | Substations not rail | Deep flooding, ha | Passes |
+**Substations are counted as sites.** One fenced complex is often mapped as several outlines, so outlines
+closer than 150 m are one site: 108 outlines that are not rail make
+90 sites. 28 of those sites have an
+outline within 100 m of flooding on the city's 2.13 in/hr map. This replaced a count of outlines after
+the first maps showed that the six "substations" of the then-best area were one complex on the
+waterfront, none of it near mapped flooding.
+
+![Overview of the five candidate areas](../figures/f0/area_overview.png)
+
+*The five best areas by score over Brooklyn and Queens. Flooding shown is the city's published map, not a
+result of this study. No streets are drawn. Limits: counts of what was observed, not of what flooded.*
+
+| # | Centre | Score | Marks | Sensors 2023-09-29 | Sensors Ida | Substation sites | Sites near mapped flooding | Deep flooding, ha | Passes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | -73.976, 40.687 | Downtown Brooklyn, Fort Greene, Gowanus, Park Slope | 9.88 | 14 | 6 | 3 | 6 | 6.6 | yes |
-| 2 | -74.000, 40.669 | Red Hook, Carroll Gardens, Sunset Park north | 8.40 | 15 | 4 | 3 | 4 | 3.8 | no |
-| 3 | -73.964, 40.714 | Williamsburg, Greenpoint south | 8.24 | 11 | 5 | 0 | 9 | 13.2 | yes |
-| 4 | -73.935, 40.696 | Bushwick, Bedford-Stuyvesant | 6.53 | 12 | 5 | 0 | 1 | 25.9 | no |
-| 5 | -73.841, 40.668 | Howard Beach, Ozone Park (Jamaica Bay) | 6.41 | 0 | 4 | 2 | 6 | 6.9 | no |
+| 1 | 40.6735 N, 73.9884 W | 9.16 | 19 | 4 | 3 | 2 | 1 | 3.8 | no |
+| 2 | 40.7048 N, 73.9642 W | 7.99 | 11 | 5 | 0 | 3 | 2 | 12.3 | yes |
+| 3 | 40.6676 N, 73.8406 W | 7.91 | 0 | 4 | 2 | 6 | 3 | 6.9 | no |
+| 4 | 40.7538 N, 73.9101 W | 6.45 | 9 | 0 | 0 | 4 | 3 | 13.8 | no |
+| 5 | 40.7028 N, 73.7689 W | 6.44 | 4 | 0 | 0 | 5 | 3 | 23.5 | no |
 
-The neighbourhood names are my reading of the coordinates, not from a boundary file.
+Neighbourhoods with more than 0.4 km² inside each area, from the city's 2020 tabulation areas:
 
-- **The recommendation D1 started from does not hold.** The best window by the Jamaica Bay shore has no
-  surveyed high-water mark in it. The marks are concentrated in north-west Brooklyn and central Queens.
-- **Area 1 is the only one with all of:** marks, sensors on both storms, and substations.
-- **Limits of the scoring:** the box is a rectangle and takes in parts of Manhattan, Nassau County and New
-  Jersey; the Jamaica Bay watershed boundary was not used; the Limited Flood map is not counted; 48
-  substations carry no type tag and are counted; rail traction substations (35) are not.
-- **What area 1 costs:** it does not overlap the published Jamaica Bay model, so the comparison of FV3
-  falls away; and the Gowanus Canal is tidal, so the open boundary and the sea level matter more than in
-  an inland area.
+- **Area 1:** Carroll Gardens-Cobble Hill-Gowanus-Red Hook, Clinton Hill, Downtown Brooklyn-DUMBO-Boerum Hill, Fort Greene, Park Slope, Prospect Heights, Sunset Park (West), Windsor Terrace-South Slope.
+- **Area 2:** Bedford-Stuyvesant (West), Clinton Hill, Downtown Brooklyn-DUMBO-Boerum Hill, East Williamsburg, Fort Greene, Lower East Side, South Williamsburg, Williamsburg.
+- **Area 3:** East New York-City Line, Howard Beach-Lindenwood, Ozone Park, Ozone Park (North), South Ozone Park.
+- **Area 4:** Astoria (Central), Astoria (East)-Woodside (North), Astoria (North)-Ditmars-Steinway, Elmhurst, Jackson Heights, Queensbridge-Ravenswood-Dutch Kills, Sunnyside, Woodside.
+- **Area 5:** Baisley Park, Hollis, Jamaica, Jamaica Estates-Holliswood, Queens Village, South Jamaica, St. Albans.
 
-## 5. Other engines: install trials (FX2, FX4)
+**No area has everything.** 6 candidates pass the rule (8 marks, 5 sensors on
+2023-09-29, 3 substation sites), all of them around area 2. The best-scoring area does not pass.
+
+- **Area 1** has the best evidence of depth: 19 surveyed marks and sensors on both storms. It has two
+  substation sites, one near mapped flooding. It misses the rule by one sensor and one site.
+- **Area 2** passes: 11 marks, 5 sensors on 2023-09-29, 3 substation sites of which 2 are near mapped
+  flooding. No sensor there recorded Ida, so Ida depth rests on the marks alone. Its marks and sensors sit
+  in the east (the South Williamsburg and Bushwick edge) and its substations on the western waterfront.
+- **Area 3** is the Jamaica Bay candidate the requirements started from: 6 substation sites, 3 near mapped
+  flooding, but no surveyed mark at all, so depth could not be validated against a survey.
+- **Areas 4 and 5** have substations and some marks but no sensor that recorded either storm.
+
+![Area 1](../figures/f0/area_1.png)
+
+*Area 1. Marks and Ida sensors cluster around the Gowanus Canal; one substation site near mapped flooding.*
+
+![Area 2](../figures/f0/area_2.png)
+
+*Area 2. The only area that passes the rule. Flooding, marks and sensors in the east; substations in the west.*
+
+![Area 3](../figures/f0/area_3.png)
+
+*Area 3. Most substation sites and most of them near mapped flooding; no surveyed mark.*
+
+![Area 4](../figures/f0/area_4.png)
+
+*Area 4. Marks and substations, no sensor event on either storm.*
+
+![Area 5](../figures/f0/area_5.png)
+
+*Area 5. Largest mapped deep flooding of the five; few marks, no sensor event.*
+
+Limits of the scoring: "near mapped flooding" uses the city's 2.13 in/hr map only, as an indication of
+exposure, not a finding; the Limited Flood map is not counted; 30 substations on this land carry no type
+tag and are counted; rail traction substations (20 on this land) are not; a square of another shape or
+size (D1 allows 10 to 20 km²) was not tried.
+
+## 5. The Limited Flood map
+
+The city publishes four stormwater flood maps in one file (NYC Open Data `9i7c-xyvv`). Three were read.
+The fourth, "Limited Flood (1.77 inches per hr) with Current Sea Levels", was not.
+
+**What is wrong with it.** Each map is an ESRI file geodatabase, a folder of about 46 files. In the
+Limited map's folder one file, the table that holds the polygons (`a00000009.gdbtable.cdf`), is in ESRI's
+compressed form; the other three maps hold theirs uncompressed. ESRI's "compress" tool makes a
+geodatabase smaller and read-only, and the format is proprietary. The open reader (GDAL 3.12.4, driver
+OpenFileGDB) opens the folder, lists no layer, and says: "a .gdbtable.cdf file using Compressed Data
+Format (CDF) that is unhandled by the OpenFileGDB driver, but could be handled by the FileGDB driver."
+The publication looks like an oversight on one layer, not a choice: the other three are plain.
+
+**Why it matters.** Requirement FH3 calibrates the drainage allowance, the stand-in for the sewers, on
+the two maps that assume today's sea level: Limited (1.77 in/hr) and Moderate (2.13 in/hr). With two maps
+one allowance has to reproduce flooded area at two rainfall intensities, which tests whether a single
+number can stand in for the sewers. With one map the allowance is simply fitted to it, and the only
+remaining check is the Extreme map (3.66 in/hr), which assumes 2080 sea level and so is not a clean test.
+Nothing else in Tier 1 uses the Limited map.
+
+**What was tried.**
+
+| Route | Result |
+| --- | --- |
+| The open reader, GDAL OpenFileGDB | Refuses the compressed table (message above) |
+| GDAL's FileGDB driver, which wraps ESRI's own library, from conda-forge in a container | No package provides it: conda-forge has no FileGDB plugin, by search of `libgdal*`, `*fgdb*`, `*filegdb*` |
+| Another format on the NYC Open Data record | The record has only the one zip |
+| The same polygons from a city agency on ArcGIS Online | The Mayor's Office of Climate and Environmental Justice publishes the Moderate and Extreme maps as polygons, not the Limited one. NYC Emergency Management publishes the Limited map only as map tiles (a picture) |
+| Copies by students and other third parties | Found for the Moderate map; none for the Limited map; not used in any case |
+
+**The tile service, which is the nearest thing to a second copy.** NYC Emergency Management's "Limited
+Flood with Current Sea Levels" (ArcGIS Online item `10107aa652904218a30e5ba7c09f8ab9`, credited to DEP,
+edited 2025-06-06) is a set of PNG map tiles down to zoom level 19, about 0.3 m per pixel, with a legend
+of the same two classes (4 in to under 1 ft; 1 ft and greater). Flooded area per class could be recovered
+from the tile colours at well under the model's 5 m cell. Two cautions: it is a rendering, so class edges
+are anti-aliased and the colours must be mapped back to classes; and its terms say "No data or metadata
+provided shall be disclosed, given, sold, otherwise transferred or made available directly or indirectly
+to any third party for any purpose, except as permitted in writing by the New York City Emergency
+Management", although the same text classes the data as public. So it could inform a calibration kept
+inside the lab, but nothing derived from it could be published without the agency's written permission.
+
+**Options.**
+
+| Option | Cost | What it gives |
+| --- | --- | --- |
+| (a) Ask the city for a re-export. The dataset page gives StormwaterResiliency@cityhall.nyc.gov | One email from Yuri; an unknown wait | The publisher's own polygons, publishable under the Open Data terms. It would also fix the file for everyone |
+| (b) Someone with ArcGIS Pro opens the geodatabase and exports it | Minutes for a person with a licence | The publisher's own polygons |
+| (c) ESRI's File Geodatabase API, which ESRI distributes as a binary library, used directly or through a GDAL built against it | A time-boxed attempt, about two hours, outcome uncertain; whether ESRI's terms allow it must be read first | The publisher's own polygons, by command, repeatable |
+| (d) Recover the two classes from the city's tiles | About three hours; needs a decision on the terms above | A raster of the same map, for internal calibration only |
+| (e) Calibrate on the Moderate map alone | Nothing | F3 proceeds; the "one allowance, two intensities" test is lost and the report says so |
+
+**Recommended.** (a) today, since it costs one email and is the only route that repairs the source; (c) as
+a time-boxed attempt at the start of F2, where the flood-map reader is written; (e) as the fallback so that
+F3 is not blocked. (d) only if you want it and are content that its result stays unpublished.
+
+## 6. Other engines: install trials (FX2, FX4)
 
 Two time-boxed trials, nothing written to the repository; logs are in
 `data/cache/flood/f0/trials/` (git-ignored) and summarised here.
@@ -179,7 +280,7 @@ Two time-boxed trials, nothing written to the repository; logs are in
 - **For F10 this is the engine at risk:** running one event with one measure needs FIAT installed some
   other way and a model built or converted for the older builder. Its 4 hours in the plan look low.
 
-## 6. Disk and memory (FG7)
+## 7. Disk and memory (FG7)
 
 Free disk on 2026-11-25 after F0: 30Gi. The flood cache holds 1.8G; the solver image and
 the builder environment about 1.6 GB more.
@@ -200,15 +301,16 @@ Memory is not a constraint for the solver (0.26 GB at 9 km²) or for CRC's raste
 
 ## Decisions for Yuri
 
-1. **Study area (D1, D2, D12).** Recommended: area 1, with Ida and 2023-09-29 as the two storms and
-   Fremont kept as a chapter. Alternative: area 3 if a canal-free area is preferred (no sensor recorded
-   Ida there). Staying with Jamaica Bay means validating depth without surveyed marks.
-2. **The Limited Flood map.** It is stored in ESRI's compressed format, which the open reader refuses;
-   no packaged copy of ESRI's reader was found, and no city agency publishes this layer as polygons
-   (only as map tiles). Options: (a) ask the city for a re-export, the dataset page gives
-   StormwaterResiliency@cityhall.nyc.gov; (b) someone with ArcGIS converts it; (c) one more attempt in F2
-   with ESRI's own library; (d) calibrate on the one readable current-sea-level map and say so.
-   Recommended: (a) and (c) now, (d) as the fallback so F3 is not blocked.
+1. **Study area (D1, D2, D12).** No area has everything (section 4, with maps). The choice is between
+   depth evidence and substations: area 1 has the most marks and sensors on both storms but two
+   substation sites; area 2 passes the rule with three sites, two near mapped flooding, and no Ida
+   sensor; area 3 by Jamaica Bay has six sites and no surveyed mark. Recommended: area 2, because
+   substations are the first asset class (D5) and it is the only area where both depth and assets can
+   be studied. If the investment case may rest on buildings instead, area 1 gives the better-validated
+   depths. A rectangle of up to 20 km² joining parts of areas 1 and 2 was not tried and can be.
+2. **The Limited Flood map** (section 5). Recommended: you email the city for a re-export, I make a
+   time-boxed attempt with ESRI's own library at the start of F2, and F3 calibrates on the Moderate map
+   alone if neither has worked by then.
 3. **Monotonicity rule (FH8).** Proposed: "no cell wet to 0.05 m or more is deeper at lower rainfall, and
    no cell at all is deeper by more than 1 mm". As written the rule fails on 4 cells by under 0.1 mm.
 4. **Corrections to the requirements (CH-3).** The 29 rows of §14; accept, change or decline.
@@ -237,14 +339,15 @@ Memory is not a constraint for the solver (0.26 GB at 9 km²) or for CRC's raste
 
 - Figures live under `docs/flood/figures/`; the gallery copies them under `site/flood/tests/figures/`.
 - A second reader's record is named `second-reader-<source id>.json`.
-- F0's thresholds stay as proposed, with the rule counting substations that are not rail.
+- F0's thresholds stay as proposed, with the rule counting substation sites that are not rail, on
+  Brooklyn or Queens land.
 - hydromt-sfincs 2.0.0 and RainyDay pinned by commit replace the versions guessed in requirements §8.
 
 ## Review before the stop
 
 One fresh Opus agent reviewed the whole stage diff without being told what to expect. It reported ten
 findings; none changed a headline number. Fixed before this report: the pass rule counted rail
-substations while the score did not (26 windows became 20); every source was labelled "facts confirmed"
+substations while the score did not; every source was labelled "facts confirmed"
 whatever its outcomes; checksum outcomes were uneven; five CRC probes tested less than the mapping said;
 figures changed on every rebuild; the shared writer had changed the bytes other projects would write; two
 statements in the timing record were typed, not read. It confirmed by its own recount the mark counts
@@ -254,7 +357,7 @@ water balance and the checksums of all 96 cached files.
 ## Checks
 
 `just test`: 329 passed, 3 skipped; parked count unchanged (8 test files and 3 tests). `just lint` clean.
-`just site-flood` passes: 3 records, 26 sources.
+`just site-flood` passes: 4 records, 27 sources.
 
 ## Models and tokens
 

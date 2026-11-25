@@ -31,9 +31,11 @@ from lab_common.io import write_text_atomic
 STEP_M = 500.0
 SIDE_M = 4000.0  # 16 km2, inside the 10 to 20 km2 of decision D1
 STORMS = {"ida_2021": ("2021-09-01", "2021-09-02"), "sep29_2023": ("2023-09-29",)}
-#: the pass rule of plan F0; all three are proposed starting values. Rail traction substations
-#: are left out, as in the score and the figure
-RULE = {"high_water_marks": 8, "sensors_sep29_2023": 5, "substations_not_rail": 3}
+#: the pass rule of plan F0; all three are proposed starting values. A substation is counted as
+#: a site: outlines closer than SITE_GAP_M are one site, and rail traction substations are left out
+RULE = {"high_water_marks": 8, "sensors_sep29_2023": 5, "substation_sites": 3}
+#: the same rule counting every mapped outline that is not rail, shown for comparison
+RULE_OUTLINES = {"high_water_marks": 8, "sensors_sep29_2023": 5, "substations_not_rail": 3}
 #: the same rule counting every OpenStreetMap substation, rail included, shown for comparison
 RULE_ALL_SUBSTATIONS = {
     "high_water_marks": 8,
@@ -45,7 +47,8 @@ SCORE = {
     "high_water_marks": 8,
     "sensors_sep29_2023": 5,
     "sensors_ida_2021": 3,
-    "substations_not_rail": 3,
+    "substation_sites": 3,
+    "substation_sites_near_mapped_flood": 2,
     "deep_flood_ha": 20,
     "groundsource_small_ida": 5,
     "groundsource_small_sep29": 5,
@@ -53,6 +56,14 @@ SCORE = {
 #: a Groundsource row counts for a window only if its place is small enough to say where
 GROUNDSOURCE_MAX_KM2 = 2.0
 MAP_CELL_M = 25.0
+#: substation outlines whose hulls are closer than this are one site (one fenced complex is often
+#: mapped as several outlines)
+SITE_GAP_M = 150.0
+#: a site is "near mapped flooding" when any of its outlines is within this of the city's map
+NEAR_FLOOD_M = 100.0
+#: a window is a candidate only if at least this share of it is land of Brooklyn or Queens
+MIN_SHARE_IN_BOROUGHS = 0.6
+BOROUGHS = ("Brooklyn", "Queens")
 MODERATE = "Moderate Flood (2.13 inches per hr) with Current Sea Levels"
 
 _TO_UTM = pyproj.Transformer.from_crs("EPSG:4326", scoring.CRS, always_xy=True)
@@ -87,6 +98,10 @@ def _substations() -> pd.DataFrame:
             rings = [m["geometry"] for m in element["members"] if m.get("geometry")]
         points = [(p["lon"], p["lat"]) for ring in rings for p in ring]
         centre = shapely.MultiPoint(points).centroid
+        hull = shapely.transform(
+            shapely.MultiPoint(points).convex_hull,
+            lambda c: np.column_stack(_TO_UTM.transform(c[:, 0], c[:, 1])),
+        )
         tags = element.get("tags", {})
         rows.append(
             {
@@ -97,6 +112,7 @@ def _substations() -> pd.DataFrame:
                 "operator": tags.get("operator", ""),
                 "voltage": tags.get("voltage", ""),
                 "name": tags.get("name", ""),
+                "hull": hull,
             }
         )
     frame = pd.DataFrame(rows)
@@ -114,11 +130,61 @@ def _groundsource() -> pd.DataFrame:
     return frame.drop(columns="geometry_wkb")
 
 
-def _deep_flood_bins(grid: scoring.Grid) -> tuple[np.ndarray, str]:
-    """Hectares per bin of the deeper class (1 ft and more) on the 2.13 in/hr current map."""
-    import pyogrio
+def _sites(stations: pd.DataFrame, mapped_flood) -> pd.DataFrame:
+    """Substation sites: outlines within SITE_GAP_M of each other merged, one row per site."""
+    hulls = stations["hull"].to_numpy()
+    merged = shapely.union_all(shapely.buffer(hulls, SITE_GAP_M / 2))
+    parts = list(merged.geoms) if merged.geom_type == "MultiPolygon" else [merged]
+    shapely.prepare(mapped_flood)
+    rows = []
+    for part in parts:
+        members = [hull for hull in hulls if part.intersects(hull)]
+        outline = shapely.union_all(members)
+        rows.append(
+            {
+                "x": outline.centroid.x,
+                "y": outline.centroid.y,
+                "outlines": len(members),
+                "near_mapped_flood": bool(shapely.dwithin(outline, mapped_flood, NEAR_FLOOD_M)),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _borough_land():
+    """Land of Brooklyn and Queens as one geometry (the city's 2020 NTA outlines)."""
+    import geopandas as gpd
+
+    areas = gpd.read_file(paths.CACHE / "nyc-nta-2020" / "nta2020.geojson").to_crs(scoring.CRS)
+    return shapely.union_all(areas.loc[areas["boroname"].isin(BOROUGHS), "geometry"].to_numpy())
+
+
+def _on_land(frame: pd.DataFrame, land) -> pd.DataFrame:
+    """Rows whose point lies on that land, within 50 m to keep piers and shoreline points."""
+    points = shapely.points(frame["x"].to_numpy(), frame["y"].to_numpy())
+    return frame[shapely.dwithin(points, land, 50.0)]
+
+
+def _borough_share(grid: scoring.Grid, land_geometry) -> np.ndarray:
+    """Share of each window that is land of Brooklyn or Queens."""
     from rasterio import features
     from rasterio.transform import from_origin
+
+    land = list(land_geometry.geoms)
+    fine = int(grid.step / MAP_CELL_M)
+    transform = from_origin(grid.x0, grid.y0 + grid.ny * grid.step, MAP_CELL_M, MAP_CELL_M)
+    burned = features.rasterize(
+        [(geometry, 1) for geometry in land],
+        out_shape=(grid.ny * fine, grid.nx * fine),
+        transform=transform,
+    )
+    hectares = grid.window_sums(scoring.fine_to_bins(burned, grid, MAP_CELL_M))
+    return hectares / (SIDE_M**2 / 1e4)
+
+
+def _flood_layer():
+    """The 2.13 in/hr map with current sea levels, in the project CRS, and its class column."""
+    import pyogrio
 
     archive = paths.CACHE / "nyc-stormwater-flood-maps" / "NYCFloodStormwaterFloodMaps.zip"
     folder = paths.CACHE / "nyc-stormwater-flood-maps" / "extracted"
@@ -128,14 +194,23 @@ def _deep_flood_bins(grid: scoring.Grid) -> tuple[np.ndarray, str]:
     gdb = next(p for p in folder.rglob("*.gdb") if MODERATE in str(p))
     layer = pyogrio.read_dataframe(gdb).to_crs(scoring.CRS)
     code_column = next(c for c in layer.columns if c.lower().startswith("flooding_category"))
-    deep = shapely.force_2d(layer.loc[layer[code_column] == 2, "geometry"].to_numpy())
+    layer["geometry"] = shapely.force_2d(layer.geometry.to_numpy())
+    return layer, code_column
+
+
+def _deep_flood_bins(grid: scoring.Grid, layer, code_column: str) -> np.ndarray:
+    """Hectares per bin of the deeper class (1 ft and more) on the 2.13 in/hr current map."""
+    from rasterio import features
+    from rasterio.transform import from_origin
+
+    deep = layer.loc[layer[code_column] == 2, "geometry"].to_numpy()
     fine = int(grid.step / MAP_CELL_M)
     height, width = grid.ny * fine, grid.nx * fine
     transform = from_origin(grid.x0, grid.y0 + grid.ny * grid.step, MAP_CELL_M, MAP_CELL_M)
     burned = features.rasterize(
         [(geometry, 1) for geometry in deep], out_shape=(height, width), transform=transform
     )
-    return scoring.fine_to_bins(burned, grid, MAP_CELL_M), code_column
+    return scoring.fine_to_bins(burned, grid, MAP_CELL_M)
 
 
 def _figure_map(grid, chosen, table, layers) -> str:
@@ -203,15 +278,30 @@ def main() -> None:
             covers |= (reports["start_date"] <= day) & (reports["end_date"] >= day)
         return reports[covers]
 
+    land = _borough_land()
+    shapely.prepare(land)
+    in_box = {"marks": len(marks), "stations": len(stations)}
+    marks, sensors, stations, reports = (
+        _on_land(marks, land),
+        _on_land(sensors, land),
+        _on_land(stations, land),
+        _on_land(reports, land),
+    )
     ida, sep29 = with_event(STORMS["ida_2021"]), with_event(STORMS["sep29_2023"])
-    deep_bins, code_column = _deep_flood_bins(grid)
+    layer, code_column = _flood_layer()
+    deep_bins = _deep_flood_bins(grid, layer, code_column)
     not_rail = stations[~stations["rail"]]
+    mapped = shapely.union_all(layer.loc[layer[code_column].isin([1, 2]), "geometry"].to_numpy())
+    sites = _sites(not_rail, mapped)
+    exposed = sites[sites["near_mapped_flood"]]
     bins = {
         "high_water_marks": grid.count(marks["x"], marks["y"]),
         "sensors_sep29_2023": grid.count(sep29["x"], sep29["y"]),
         "sensors_ida_2021": grid.count(ida["x"], ida["y"]),
         "substations": grid.count(stations["x"], stations["y"]),
         "substations_not_rail": grid.count(not_rail["x"], not_rail["y"]),
+        "substation_sites": grid.count(sites["x"], sites["y"]),
+        "substation_sites_near_mapped_flood": grid.count(exposed["x"], exposed["y"]),
         "deep_flood_ha": deep_bins,
         "groundsource_small_ida": grid.count(
             *reports_on(STORMS["ida_2021"])[["x", "y"]].T.to_numpy()
@@ -221,9 +311,12 @@ def main() -> None:
         ),
     }
     counts = {name: grid.window_sums(values) for name, values in bins.items()}
-    scores = scoring.score(counts, SCORE)
-    passing = scoring.passes(counts, RULE)
-    passing_all = scoring.passes(counts, RULE_ALL_SUBSTATIONS)
+    share = _borough_share(grid, land)
+    candidate = share >= MIN_SHARE_IN_BOROUGHS
+    scores = np.where(candidate, scoring.score(counts, SCORE), -1.0)
+    passing = scoring.passes(counts, RULE) & candidate
+    passing_all = scoring.passes(counts, RULE_ALL_SUBSTATIONS) & candidate
+    passing_outlines = scoring.passes(counts, RULE_OUTLINES) & candidate
     chosen = scoring.pick(scores, grid, n=5, max_overlap=0.25)
 
     table = []
@@ -235,6 +328,7 @@ def main() -> None:
             "bounds_utm18n_m": [w, s, e, n],
             "score": round(float(scores[row, col]), 3),
             "passes_rule": bool(passing[row, col]),
+            "share_in_brooklyn_or_queens": round(float(share[row, col]), 2),
         }
         entry |= {name: round(float(values[row, col]), 1) for name, values in counts.items()}
         table.append(entry)
@@ -248,7 +342,7 @@ def main() -> None:
             "High-water marks (Ida)": marks,
             "Sensors with an event on 2023-09-29": sep29,
             "Sensors with an Ida event": ida,
-            "Substations (not rail)": not_rail,
+            "Substations (not rail)": sites,
         },
     )  # fmt: skip
     cache = paths.CACHE
@@ -262,6 +356,7 @@ def main() -> None:
             Input.of(cache / "floodnet-flood-events" / "aq7i-eu5q.csv", root=cache),
             Input.of(cache / "osm-substations" / "overpass.json", root=cache),
             Input.of(cache / "groundsource" / "extract_nyc_alameda.parquet", root=cache),
+            Input.of(cache / "nyc-nta-2020" / "nta2020.geojson", root=cache),
             Input.of(
                 cache / "nyc-stormwater-flood-maps" / "NYCFloodStormwaterFloodMaps.zip", root=cache
             ),
@@ -273,13 +368,19 @@ def main() -> None:
             Parameter("pass_rule_minimum_counts", RULE, "P"),
             Parameter("score_unit_per_criterion", SCORE, "P"),
             Parameter("groundsource_largest_place_km2", GROUNDSOURCE_MAX_KM2, "P"),
+            Parameter("least_share_of_window_in_brooklyn_or_queens", MIN_SHARE_IN_BOROUGHS, "P"),
+            Parameter("substation_site_gap_m", SITE_GAP_M, "P"),
+            Parameter("near_mapped_flood_m", NEAR_FLOOD_M, "P"),
             Parameter("deep_class_code", 2, "S", "flood-map data dictionary: 1 ft and greater"),
             Parameter("flood_map_class_column", code_column, "I"),
         ],
         numbers={
-            "windows_scored": int(scores.size),
+            "windows_in_box": int(scores.size),
+            "windows_scored": int(candidate.sum()),
             "windows_passing_rule": int(passing.sum()),
-            "windows_passing_rule_counting_substations_not_rail": int(passing.sum()),
+            "windows_passing_rule_counting_outlines_not_rail": int(passing_outlines.sum()),
+            "substation_sites_not_rail": len(sites),
+            "substation_sites_near_mapped_flood": len(exposed),
             "windows_passing_rule_counting_all_substations": int(passing_all.sum()),
             "largest_count_in_any_window": maxima,
             "marks_in_box": int(bins["high_water_marks"].sum()),
@@ -289,7 +390,9 @@ def main() -> None:
             "substations_not_rail_in_box": int(bins["substations_not_rail"].sum()),
             "substations_rail_traction_in_box": int(bins["substations"].sum())
             - int(bins["substations_not_rail"].sum()),
-            "substations_fetched": len(stations),
+            "marks_fetched": in_box["marks"],
+            "substations_fetched": in_box["stations"],
+            "substations_in_brooklyn_or_queens": len(stations),
             "substations_fetched_rail_traction": rail,
             "substations_fetched_without_substation_tag": untagged,
         },
@@ -297,8 +400,8 @@ def main() -> None:
         checks=[
             Check(
                 "at least one window passes the rule",
-                "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations "
-                "that are not rail traction substations, in one window",
+                "at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substation "
+                "sites that are not rail traction substations, in one window",
                 bool(passing.sum() >= 1),
                 value=int(passing.sum()),
                 threshold=1,
@@ -317,15 +420,22 @@ def main() -> None:
         ],
         figures=[figure],
         notes=[
-            "Counts in 16 km² windows on a 500 m step. The search box is a rectangle, so it also "
-            "takes in parts of Manhattan, Nassau County and New Jersey; the Jamaica Bay watershed "
-            "boundary was not used. The Limited Flood map could not be read and is not counted.",
-            f"Substations: of the {len(stations)} OpenStreetMap substations fetched, {rail} are "
+            "Counts in 16 km² windows on a 500 m step. A window is a candidate when at least "
+            f"{MIN_SHARE_IN_BOROUGHS:.0%} of it is land of Brooklyn or Queens, by the city's 2020 "
+            "neighbourhood outlines, and only marks, sensors, substations and reports on that "
+            "land (within 50 m) are counted. The Jamaica Bay watershed boundary was not used. "
+            "The Limited Flood map could not be read and is not counted.",
+            f"Substations: of the {len(stations)} OpenStreetMap substations on that land "
+            f"({in_box['stations']} were fetched for the whole box), {rail} are "
             "tagged substation=traction (rail traction substations); these are not counted by "
             "the pass rule, the score or the figure. "
             f"{untagged} carry no substation=* tag at all; they are not known to be rail and are "
-            f"counted. Counting every substation instead, {int(passing_all.sum())} windows would "
-            f"pass the rule, against {int(passing.sum())}.",
+            f"counted. Outlines closer than {SITE_GAP_M:.0f} m are one site: {len(not_rail)} "
+            f"outlines that are not rail make {len(sites)} sites, of which {len(exposed)} have an "
+            f"outline within {NEAR_FLOOD_M:.0f} m of flooding on the city's 2.13 in/hr map. "
+            f"Windows passing the rule: {int(passing.sum())} counting sites, "
+            f"{int(passing_outlines.sum())} counting outlines that are not rail, "
+            f"{int(passing_all.sum())} counting every outline.",
         ],
     )
     print("record:", record.write(paths.RECORDS))
