@@ -1,0 +1,11 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+call: IBTrACS(agency=IBTrACS.Agency.NEWDELHI).read(runtime=Runtime(cache=Cache.reuse(...)))
+rows returned:            1461388
+distinct storm points:    730694  (rows per point: 2)
+rows with a value:        18072
+rows with no value:       1443316  (98.8%)
+failure codes:            [('source_no_data', 1443316), (None, 18072)]
+report counts:            produced=1461388, no_data=1443316
+expected: the New Delhi agency's observations (rows where it reported a value)
+observed: 1461388 rows, of which 1443316 have no value
+REPRODUCED

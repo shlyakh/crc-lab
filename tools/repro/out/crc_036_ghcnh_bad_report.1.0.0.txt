@@ -1,0 +1,6 @@
+crc-sdk 1.0.0
+call: GHCNh(indicator=ANNUAL_MAXIMUM_DAILY_MAXIMUM_TEMPERATURE).select(stations=['USW00012960', 'USW00012918'], time=Period.window(2020, 2020)).read()
+control: USW00012960 read alone returns 1 row(s)
+expected: a row for USW00012960, and an UnavailableStationYear diagnostic for USW00012918 2020
+observed: ValidationError: duplicate evidence record: ('noaa:hourly_air_temperature', None, 'period:077ed79f7eaf75b6b1076a2f22799175c8b3bfe60c5b0e5a5787a768a8f87916', 'USW00012918@bfadc752133d0501ae4e', 618196844814794751, '2020-01-01T00:53:00'); no rows for any station
+REPRODUCED

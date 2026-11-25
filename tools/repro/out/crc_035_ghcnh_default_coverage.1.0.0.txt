@@ -1,0 +1,30 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+call: GHCNh(indicator=ANNUAL_MAXIMUM_DAILY_MAXIMUM_TEMPERATURE[, coverage=Coverage.minimum_fraction(0.9)])
+      .select(stations=[<id>], time=Period.window(2019, 2022)).read()
+station      name               year   default      0.9  complete days
+USW00013904  Austin             2019         -     38.9    359 of 365  
+USW00013904  Austin             2020         -     40.6    362 of 366  
+USW00013904  Austin             2021         -     37.2    363 of 365  
+USW00013904  Austin             2022         -     40.6    363 of 365  
+USW00003927  Dallas/Fort Worth  2019         -     38.3    359 of 365  
+USW00003927  Dallas/Fort Worth  2020         -     40.6    363 of 366  
+USW00003927  Dallas/Fort Worth  2021         -     38.3    364 of 365  
+USW00003927  Dallas/Fort Worth  2022         -     42.8    362 of 365  
+USW00012960  Houston IAH        2019         -     38.3    364 of 365  
+USW00012960  Houston IAH        2020         -     37.8    361 of 366  
+USW00012960  Houston IAH        2021         -     36.7    359 of 365  
+USW00012960  Houston IAH        2022         -     40.0    360 of 365  
+USW00012921  San Antonio        2019      39.4     39.4    365 of 365  
+USW00012921  San Antonio        2020         -     41.1    365 of 366  
+USW00012921  San Antonio        2021         -     37.2    364 of 365  
+USW00012921  San Antonio        2022      41.1     41.1    365 of 365  
+USW00023044  El Paso            2019         -     40.0    360 of 365  
+USW00023044  El Paso            2020         -     42.8    361 of 366  
+USW00023044  El Paso            2021         -     41.7    356 of 365  
+USW00023044  El Paso            2022         -     41.1    357 of 365  
+(value '-': no value; 'complete days': the default row's coverage; last station's failures: ['incomplete_year'])
+NOAA's file USW00013904 2022: 365 days with a temperature report in all 24 hours (before any quality check)
+expected: annual values for major hourly airport stations with the default coverage
+observed: values present, default: 2 of 20; Coverage.minimum_fraction(0.9): 20 of 20
+observed: station-years lacking 1 to 10 complete days: 18; of these without a default value: 18
+REPRODUCED

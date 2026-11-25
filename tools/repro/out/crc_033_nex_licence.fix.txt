@@ -1,0 +1,6 @@
+crc-sdk 1.0.0 (git fix/nex-licence 4c87369ee4)
+call: NEX(indicator=ANNUAL_MAXIMUM_DAILY_PRECIPITATION, model='ACCESS-CM2', scenario='historical', member='r1i1p1f1').select(area=Bounds(west=-95.5, south=29.5, east=-95.25, north=29.75), time=Period.window(2014, 2014)).read()
+  pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc (dropped connections tried again: 2)
+expected: license='CC-BY 4.0' (global attribute cmip6_license in that file)
+observed: license='CC-BY 4.0'
+NOT REPRODUCED

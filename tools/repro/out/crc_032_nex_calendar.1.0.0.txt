@@ -1,0 +1,8 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+file header: pr_day_BCC-CSM2-MR_historical_r1i1p1f1_gn_2014_v2.0.nc: time:calendar = '365_day'
+call: NEX().inspect() -> 626 series of 35 models; BCC-CSM2-MR: 20 series, e.g. historical r1i1p1f1
+call: NEX(indicator=ANNUAL_MAXIMUM_DAILY_PRECIPITATION, model='BCC-CSM2-MR', scenario='historical', member='r1i1p1f1')
+      .select(area=Bounds(**{'west': -97.8, 'south': 30.2, 'east': -97.7, 'north': 30.3}), time=Period.window(2014, 2014)).read()
+expected: a model listed by inspection can be read (its 365_day calendar recorded)
+observed: ValidationError: NEX source does not use its published Gregorian calendar
+REPRODUCED

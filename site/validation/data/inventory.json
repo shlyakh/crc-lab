@@ -713,7 +713,7 @@
    "id": "CRC-030-IBT",
    "kind": "doc-code difference",
    "note": "",
-   "observed": "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262).",
+   "observed": "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262). The package's own interface declaration, crc_sdk/contracts/api/public-api.json, states this default, so the default is intended and the difference is in the wording of docs/sources.md, where `explicit` may also be meant as `typed`.",
    "source": "ibtracs",
    "status": "open",
    "status_text": "open",
@@ -785,7 +785,7 @@
    "id": "CRC-033-NEX",
    "kind": "doc-code difference",
    "note": "",
-   "observed": "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file says `CC-BY-SA 4.0` (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: CC-BY-SA 4.0'). NASA's archive-level CC0 statement is not recorded either. No warning is raised.",
+   "observed": "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file states one: `CC-BY-SA 4.0` in the four temperature files (tasmax, tasmin) and `CC-BY 4.0` in the four precipitation files of the same model, ACCESS-CM2 (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: ...'). NASA's archive-level CC0 statement is not recorded either. No warning is raised.",
    "source": "nex-gddp-cmip6",
    "status": "open",
    "status_text": "open",
@@ -833,7 +833,7 @@
    "id": "CRC-035-GHC",
    "kind": "observation",
    "note": "",
-   "observed": "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ).",
+   "observed": "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ). A second look on 2026-11-25 at five major airports (Austin, Dallas/Fort Worth, Houston, San Antonio, El Paso), 2019 to 2022: 2 of 20 station-years carry a default value, both with 365 of 365 complete days; the other 18 have 356 to 364 complete days and no value; all 20 have one at a 0.9 fraction (tools/repro/crc_035_ghcnh_default_coverage.py). So the default gives a value only for a year in which every day has all 24 reports.",
    "source": "ghcnh",
    "status": "open",
    "status_text": "open",
@@ -1108,7 +1108,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-25T10:50:34Z",
+ "generated": "2026-11-25T11:47:08Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {

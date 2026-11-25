@@ -1,0 +1,5 @@
+crc-sdk 1.0.0 (git fix/ghcnh-bad-report ee466416cc)
+call: GHCNh(indicator=ANNUAL_MAXIMUM_DAILY_MAXIMUM_TEMPERATURE).select(stations=['USW00012960', 'USW00012918'], time=Period.window(2020, 2020)).read()
+expected: a row for USW00012960, and an UnavailableStationYear diagnostic for USW00012918 2020
+observed: rows for ['USW00012960']; diagnostics [('USW00012918', 2020, 'decoding', "The file holds an unusable report (duplicate evidence record: ('noaa:hourly_air_temperature', None, 'period:077ed79f7eaf75b6b1076a2f22799175c8b3bfe60c5b0e5a5787a768a8f87916', 'USW00012918@bfadc752133d0501ae4e', 618196844814794751, '2020-01-01T00:53:00')) for station 'USW00012918' in 2020. Historical point support is unknown.")]
+NOT REPRODUCED

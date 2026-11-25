@@ -1,0 +1,9 @@
+crc-sdk 1.0.0
+call: NEX(indicator=ANNUAL_MAXIMUM_DAILY_PRECIPITATION, model='ACCESS-CM2', scenario='historical', member='r1i1p1f1').select(area=Bounds(west=-95.5, south=29.5, east=-95.25, north=29.75), time=Period.window(2015, 2015)).read()
+files read: ['pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc'] (dropped connections tried again: 1)
+rows: 9, years ['2015'], with a value: 0
+counts: requested=9 produced=9 incomplete_years=9
+  diagnostic incomplete_year [warning, reduction]: 9 annual source observations do not meet the explicit completeness policy.
+expected: an error, or a diagnostic stating the source publishes no 2015
+observed: none names it
+REPRODUCED

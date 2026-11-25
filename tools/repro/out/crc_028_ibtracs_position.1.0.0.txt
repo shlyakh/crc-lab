@@ -1,0 +1,12 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+publisher's file: ibtracs.ALL.list.v04r01.csv (333 MB, at /var/folders/_x/xxnz7zw16c315zf2q_vw4h1c0000gn/T/ibtracs-repro)
+call: IBTrACS(agency=IBTrACS.Agency.TOKYO).read(runtime=Runtime(cache=Cache.reuse(...)))
+Tokyo wind rows with a value: 51285; of these, where LAT/LON != TOKYO_LAT/LON: 40012 (by more than 0.1 degree: 31292)
+point (SID:time)                            LAT, LON   TOKYO_LAT, _LON      row lat, lon
+1985005N04157:1985-01-08T12:00:00    13.10,  147.70     10.70,  147.00     13.10,  147.70
+1985005N04157:1985-01-08T09:00:00    12.40,  148.20     10.50,  147.60     12.40,  148.20
+1997333N06194:1997-12-07T12:00:00     7.60,  179.50      9.20, -179.40      7.60,  179.50
+1997238N19112:1997-08-29T21:00:00    22.60,  118.40     21.20,  118.10     22.60,  118.40
+expected: rows of the Tokyo agency at TOKYO_LAT/TOKYO_LON, or the position used stated
+observed: of the 40012 rows where the two differ, 40012 carry LAT/LON
+REPRODUCED

@@ -1,0 +1,9 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+documented: docs/sources.md:43: | `IBTrACS` | Native storm point observations for an explicit `Agency`; event groups and positions remain distinct |
+call:      IBTrACS()
+signature: IBTrACS(*, agency: 'IBTrACS.Agency' = <Agency.USA: 'USA'>, release: 'ReleaseReference | None' = None) -> 'None'
+public-api.json declares agency default: {'enum': 'IBTrACS.Agency.USA'}
+expected:  no agency is read unless the caller names one (constructor requires `agency`)
+observed:  IBTrACS() accepted; agency defaults to <Agency.USA: 'USA'>
+explain(): Read IBTrACS point observations for the declared agency
+REPRODUCED

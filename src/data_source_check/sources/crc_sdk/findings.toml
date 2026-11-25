@@ -543,7 +543,7 @@ source = "ibtracs"
 kind = "doc-code difference"
 title = "The documentation says an explicit agency; the constructor defaults to the United States agencies"
 documented = "docs/sources.md:43: 'Native storm point observations for an explicit `Agency`'."
-observed = "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262)."
+observed = "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262). The package's own interface declaration, crc_sdk/contracts/api/public-api.json, states this default, so the default is intended and the difference is in the wording of docs/sources.md, where `explicit` may also be meant as `typed`."
 consequence = "A user who omits the agency gets one agency's winds, with a 60-second averaging period, without having chosen it; for basins outside the United States agencies' responsibility that is not the WMO-designated centre."
 evidence = [
   "docs/sources.md:43",
@@ -596,7 +596,7 @@ source = "nex-gddp-cmip6"
 kind = "doc-code difference"
 title = "No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning"
 documented = "docs/data-licences.md:9-11: licence and attribution are recorded 'when known'; 'there is no invented default license or attribution'. Up to 0.11 crc-sdk kept the file's model licence beside NASA's CC0 and warned when it was not CC0."
-observed = "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file says `CC-BY-SA 4.0` (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: CC-BY-SA 4.0'). NASA's archive-level CC0 statement is not recorded either. No warning is raised."
+observed = "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file states one: `CC-BY-SA 4.0` in the four temperature files (tasmax, tasmin) and `CC-BY 4.0` in the four precipitation files of the same model, ACCESS-CM2 (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: ...'). NASA's archive-level CC0 statement is not recorded either. No warning is raised."
 consequence = "Output derived from a share-alike model carries no licence and no warning, where the previous version recorded the licence and warned. A user cannot see from the output that redistribution has a condition."
 evidence = [
   "crc_sdk/_climate_sampling.py:1856-1862",
@@ -631,7 +631,7 @@ source = "ghcnh"
 kind = "observation"
 title = "With the default completeness rule no station-year of forty Texas airport stations carries a value"
 documented = "docs/sources.md:93: 'The default is `Coverage.complete()`'; docs/sources.md:259-260: a day needs 24 hourly reports. `Coverage.minimum_fraction` relaxes the year, not the day."
-observed = "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ)."
+observed = "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ). A second look on 2026-11-25 at five major airports (Austin, Dallas/Fort Worth, Houston, San Antonio, El Paso), 2019 to 2022: 2 of 20 station-years carry a default value, both with 365 of 365 complete days; the other 18 have 356 to 364 complete days and no value; all 20 have one at a 0.9 fraction (tools/repro/crc_035_ghcnh_default_coverage.py). So the default gives a value only for a year in which every day has all 24 reports."
 consequence = "The default read of hourly airport stations returns rows without values only. A user must find and pass a coverage fraction to get anything, and even then a day with 23 reports is discarded. Curves fitted from these stations at 0.11 cannot be reproduced with any setting of 1.0, because the day rule changed and is not adjustable."
 evidence = [
   "crc_sdk/_station_reduction.py:65-75, 108-117",

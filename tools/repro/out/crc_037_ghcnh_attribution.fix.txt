@@ -1,0 +1,8 @@
+crc-sdk 1.0.0 (git fix/ghcnh-attribution 90d1228388)
+call: GHCNh().select(stations='USW00012960', time=Period.window(2020, 2020)).observations().read()
+rows read: 11915
+  ghcnh-station-list.csv           attribution: 'NOAA National Centers for Environmental Information; original source records retained.'
+  GHCNh_USW00012960_2020.parquet   attribution: 'NOAA National Centers for Environmental Information; original source records retained.'
+expected: every resource attributed 'NOAA National Centers for Environmental Information; original source records retained.'
+observed: ['NOAA National Centers for Environmental Information; original source records retained.']
+NOT REPRODUCED

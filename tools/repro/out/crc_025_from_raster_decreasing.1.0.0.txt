@@ -1,0 +1,8 @@
+crc-sdk 1.0.0, crc-framework 1.0.0, rasterio 1.5.1
+call: Dataset.from_raster({1 - 1/T: file}, variable=..., probability=Probability.annual(tail=Tail.UPPER)).select(area=...).read()
+input: 3 x 3 pixels, T = (10, 50, 100); pixel (row 1, column 2) is 1.0, 1.0, 0.25 m in the second set
+expected: 9 rows for the first set; for the second, 8 rows, or an error naming the pixel
+observed, all pixels nondecreasing: 9 rows
+observed, one pixel decreasing:     ValidationError: quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing; counts requested=6 produced=0; diagnostic support_id=[None]
+observed: the error names the pixel: no
+REPRODUCED

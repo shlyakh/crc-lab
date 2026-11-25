@@ -1,0 +1,15 @@
+crc-sdk 1.0.0, crc-framework 1.0.0, rasterio 1.5.1
+box: {'west': -122.15, 'south': 37.42, 'east': -121.85, 'north': 37.62}; publisher files: https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard/RP<T>/ID18_N40_W130_RP<T>_depth.tif (cache: /var/folders/_x/xxnz7zw16c315zf2q_vw4h1c0000gn/T/glofas-repro)
+call: JRC(product=JRC.Product.GLOFAS).select(area=Bounds(**BOX)).read()
+publisher's files, pixels touched by the box:
+  all                                            87001
+  dry (no depth at any return period)            76398
+  flooded, one depth only                          459
+  flooded, depth lower at a longer period          775
+  flooded, a nondecreasing curve                  9369
+crc-sdk: requested 87001, produced 9369, rows 9369, skipped 77632; rows' tiles ['ID18_N40_W130']
+  diagnostic source_no_data support_id=None: Skipped 77632 source supports whose values are not a quantile curve: fewer than two valid probability values, or values that decrease as probability rises.
+expected: 10603 rows (every flooded pixel), or the 1234 flooded pixels left out reported apart from the dry ones
+observed: 9369 rows; skipped 77632 = 76398 dry + 459 one depth + 775 decreasing: True
+observed: flooded pixels left out: 1234 of 10603 (11.6%), not named in the report
+REPRODUCED

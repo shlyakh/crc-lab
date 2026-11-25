@@ -1,0 +1,13 @@
+crc-sdk 1.0.0, crc-framework 1.0.0
+call: JRC(product=JRC.Product.GLOFAS).select(area=Bounds(**box)).read(), two boxes;
+      result.metadata.source.resources[*].uri and .sha256
+sha256 (first 16 hex)      resource
+sha256:4185931c8171485b...  RP10/ID18_N40_W130_RP10_depth.tif#crc-window=-122.09999999999999,37.5,-122.08,37.520000000000003
+sha256:285c6ddae756a957...  RP10/ID18_N40_W130_RP10_depth.tif#crc-window=-122,37.5,-121.98,37.520000000000003
+sha256:23edeba4fe82bfd9...  RP10/ID18_N40_W130_RP10_depth.tif (publisher's file, whole)
+sha256:24509d4fee4623b3...  tile_extents.geojson (recorded by read 1)
+sha256:24509d4fee4623b3...  tile_extents.geojson (publisher's file, whole)
+expected: the SHA-256 recorded for the depth file is the publisher file's, in both reads
+observed: the two reads record different checksums for RP10/ID18_N40_W130_RP10_depth.tif; equal to the publisher file's: [False, False]
+observed (control, file read whole): recorded == publisher: True
+REPRODUCED
