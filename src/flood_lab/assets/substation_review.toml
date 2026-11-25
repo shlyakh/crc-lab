@@ -8,48 +8,48 @@
 
 # Water Street Substation; way/250386730
 ["S-250386730"]
-decision = "not reviewed"
+decision = "kept"
 reason = ""
-indoor = ""
-seen_on = ""
-note = ""
+indoor = "yes"
+seen_on = "NAIP 2019; New York State 2018"
+note = "A roofed building fills most of the outline; a row of transformer bays along its north side is open to the sky. Treated as indoor, with that exception noted."
 
 # Farragut Substation; way/339711332;way/383110529;way/383110530
 ["S-339711332"]
-decision = "not reviewed"
+decision = "kept"
 reason = ""
-indoor = ""
-seen_on = ""
-note = ""
+indoor = "no"
+seen_on = "NAIP 2019; New York State 2018"
+note = "A large open-air switchyard on the East River bulkhead: bus work, breakers and transformers in rows, no roof. Two of the three mapped outlines are fence lines, not closed shapes."
 
 # Hudson Avenue Substation; way/383102724
 ["S-383102724"]
-decision = "not reviewed"
+decision = "kept"
 reason = ""
-indoor = ""
-seen_on = ""
-note = ""
+indoor = "no"
+seen_on = "NAIP 2019; New York State 2018"
+note = "Open-air equipment on three sides of one white-roofed building. Treated as outdoor; part of it is enclosed."
 
 # Plymouth Substation; way/383110539
 ["S-383110539"]
-decision = "not reviewed"
+decision = "kept"
 reason = ""
-indoor = ""
-seen_on = ""
-note = ""
+indoor = "no"
+seen_on = "NAIP 2019; New York State 2018"
+note = "Open-air bus work and transformers in the north half, long low buildings with open-topped bays in the south half. Treated as outdoor."
 
 # no name; way/861227475
 ["S-861227475"]
-decision = "not reviewed"
+decision = "kept"
 reason = ""
-indoor = ""
-seen_on = ""
-note = ""
+indoor = "no"
+seen_on = "NAIP 2019; New York State 2018"
+note = "A small fenced open-air yard with transformers, beside an industrial plant with stacks and cooling fans on the Williamsburg waterfront. It looks like the transformer yard of that plant, not a utility substation serving customers; that is a reading of the picture, not confirmed. It has no voltage or type tag and so no value class."
 
 # Building 390; way/1540230931
 ["S-1540230931"]
-decision = "not reviewed"
-reason = ""
-indoor = ""
-seen_on = ""
+decision = "removed"
+reason = "A roofless ruin on a Navy Yard pier; OpenStreetMap tags it abandoned=building with a historical use as a substation, built 1942. Not a working substation."
+indoor = "unknown"
+seen_on = "NAIP 2019; New York State 2018"
 note = ""

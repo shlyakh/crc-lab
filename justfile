@@ -209,3 +209,7 @@ flood-f1-grid:
 # Flood lab F1: the terrain record and its figures
 flood-f1-check:
     uv run --with matplotlib python -m flood_lab.checks.f1_terrain
+
+# Flood lab F1: substations, buildings and the asset table, with the record and its figures
+flood-f1-assets:
+    uv run --with matplotlib python -m flood_lab.checks.f1_assets

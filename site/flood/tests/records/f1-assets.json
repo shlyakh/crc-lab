@@ -29,12 +29,12 @@
   },
   {
    "name": "every substation looked at",
-   "note": "not reviewed: S-250386730, S-339711332, S-383102724, S-383110539, S-861227475, S-1540230931",
-   "passed": false,
+   "note": "",
+   "passed": true,
    "proposed": false,
    "rule": "every asset in substation_review.toml is 'kept' or 'removed'",
    "threshold": 0,
-   "value": 6
+   "value": 0
   },
   {
    "name": "table grade agrees with terrain",
@@ -46,7 +46,7 @@
    "value": -0.082
   }
  ],
- "created_at": "2026-11-25T21:04:31Z",
+ "created_at": "2026-11-25T21:05:37Z",
  "figures": [
   "docs/flood/figures/f1/substation_contact_sheet.png",
   "docs/flood/figures/f1/assets_map.png",
@@ -93,9 +93,9 @@
    "url": ""
   },
   {
-   "bytes": 1331,
+   "bytes": 2544,
    "path": "src/flood_lab/assets/substation_review.toml",
-   "sha256": "3c57cb6c8182a17efb6f82b70e124c9a5e1d7acce9d1af1cf4baf11abdab83da",
+   "sha256": "b46fb78f3e17ca594ef489ac72b82823de76d9a762320c41b0a1b2d35b24a712",
    "url": ""
   },
   {
@@ -334,12 +334,13 @@
   "rate_buildings_with_inventory": 0.69477,
   "substation_assets": 6,
   "substation_assets_by_indoor": {
-   "no": 3,
-   "unknown": 2,
+   "no": 4,
+   "unknown": 1,
    "yes": 1
   },
   "substation_assets_by_review": {
-   "not reviewed": 6
+   "kept": 5,
+   "removed: A roofless ruin on a Navy Yard pier; OpenStreetMap tags it abandoned=building with a historical use as a substation, built 1942. Not a working substation.": 1
   },
   "substation_assets_by_value_class": {
    "area": 3,
@@ -491,7 +492,7 @@
     "lab_operator": "Consolidated Edison",
     "lab_osm_ids": "way/250386730",
     "lab_outlines": 1,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "kept",
     "lab_substation_kind": "distribution",
     "lab_value_class": "area",
     "lab_value_high_usd": 380000000,
@@ -511,7 +512,7 @@
     "lab_operator": "Consolidated Edison",
     "lab_osm_ids": "way/339711332;way/383110529;way/383110530",
     "lab_outlines": 3,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "kept",
     "lab_substation_kind": "transmission",
     "lab_value_class": "transmission",
     "lab_value_high_usd": 592000000,
@@ -531,7 +532,7 @@
     "lab_operator": "Consolidated Edison",
     "lab_osm_ids": "way/383102724",
     "lab_outlines": 1,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "kept",
     "lab_substation_kind": "distribution",
     "lab_value_class": "area",
     "lab_value_high_usd": 380000000,
@@ -551,7 +552,7 @@
     "lab_operator": "Consolidated Edison",
     "lab_osm_ids": "way/383110539",
     "lab_outlines": 1,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "kept",
     "lab_substation_kind": "distribution",
     "lab_value_class": "area",
     "lab_value_high_usd": 380000000,
@@ -565,13 +566,13 @@
     "lab_building_tag": "",
     "lab_ground_elev_m": 4.330014705657959,
     "lab_in_study_area": true,
-    "lab_indoor": "unknown",
+    "lab_indoor": "no",
     "lab_location_tag": "",
     "lab_name": "",
     "lab_operator": "",
     "lab_osm_ids": "way/861227475",
     "lab_outlines": 1,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "kept",
     "lab_substation_kind": "",
     "lab_value_class": "",
     "lab_value_high_usd": null,
@@ -591,7 +592,7 @@
     "lab_operator": "",
     "lab_osm_ids": "way/1540230931",
     "lab_outlines": 1,
-    "lab_reviewed": "not reviewed",
+    "lab_reviewed": "removed: A roofless ruin on a Navy Yard pier; OpenStreetMap tags it abandoned=building with a historical use as a substation, built 1942. Not a working substation.",
     "lab_substation_kind": "",
     "lab_value_class": "",
     "lab_value_high_usd": null,

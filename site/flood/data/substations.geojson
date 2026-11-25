@@ -63,7 +63,7 @@
     "kind": "distribution",
     "name": "Water Street Substation",
     "osm_id": "way/250386730",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 138.0
    },
    "type": "Feature"
@@ -150,7 +150,7 @@
     "kind": "transmission",
     "name": "Farragut Substation",
     "osm_id": "way/339711332",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 345.0
    },
    "type": "Feature"
@@ -179,7 +179,7 @@
     "kind": "transmission",
     "name": "Farragut Substation",
     "osm_id": "way/383110529",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 345.0
    },
    "type": "Feature"
@@ -212,7 +212,7 @@
     "kind": "transmission",
     "name": "Farragut Substation",
     "osm_id": "way/383110530",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 345.0
    },
    "type": "Feature"
@@ -259,7 +259,7 @@
     "kind": "distribution",
     "name": "Hudson Avenue Substation",
     "osm_id": "way/383102724",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 138.0
    },
    "type": "Feature"
@@ -310,7 +310,7 @@
     "kind": "distribution",
     "name": "Plymouth Substation",
     "osm_id": "way/383110539",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": 138.0
    },
    "type": "Feature"
@@ -349,7 +349,7 @@
     "kind": "",
     "name": "",
     "osm_id": "way/861227475",
-    "reviewed": "not reviewed",
+    "reviewed": "kept",
     "voltage_kv": null
    },
    "type": "Feature"
@@ -392,7 +392,7 @@
     "kind": "",
     "name": "Building 390",
     "osm_id": "way/1540230931",
-    "reviewed": "not reviewed",
+    "reviewed": "removed: A roofless ruin on a Navy Yard pier; OpenStreetMap tags it abandoned=building with a historical use as a substation, built 1942. Not a working substation.",
     "voltage_kv": null
    },
    "type": "Feature"

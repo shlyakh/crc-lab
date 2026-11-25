@@ -1,9 +1,14 @@
 """The one asset table, ``site/flood/data/assets_oed.csv`` (requirement FD6).
 
 Every engine reads this file or an export of it. Columns in Oasis Open Exposure Data (OED) names
-come first; the lab's own columns start with ``lab_``. The OED names and codes below were written
-from memory of the OED specification and are tagged [V]: the stage that builds the table checks
-each against the specification (``OasisLMF/ODS_OpenExposureData``) and corrects this file.
+come first; the lab's own columns start with ``lab_``. The sixteen OED names were checked in F1
+against the OED specification, version 5.0.0 (``OasisLMF/ODS_OpenExposureData``, tag 5.0.0): all
+exist. Codes used, from the same version: ``CountryCode`` US; ``LocCurrency`` USD;
+``LocPerilsCovered`` OSF (flash, surface or pluvial flood); ``FirstFloorHeightUnit`` 2 (metres;
+the specification's default, 1, is feet); ``OccupancyCode`` 1300 (utilities, electrical) for a
+substation. ``OccupancyCode`` of a building and ``ConstructionCode`` are left empty: no mapping
+from the structure inventory's occupancy classes to OED codes was read, and no source gives a
+construction class. ``LocName`` is at most 20 characters in the specification.
 
 Rules the table must keep (``validate`` checks them):
 
@@ -20,7 +25,7 @@ from __future__ import annotations
 
 from typing import Any
 
-#: OED columns [V], in file order
+#: OED columns (names checked against OED 5.0.0), in file order
 OED = (
     "PortNumber",
     "AccNumber",
