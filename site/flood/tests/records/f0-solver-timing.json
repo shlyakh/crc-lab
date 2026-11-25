@@ -1,0 +1,685 @@
+{
+ "checks": [
+  {
+   "name": "runs_completed",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every run exits 0, prints 'Simulation finished' and stays under 20 minutes",
+   "threshold": 13,
+   "value": "13 of 13"
+  },
+  {
+   "name": "water_balance",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|rain - infiltrated - stored - out| / rain within 1% in every analysed run (FH8)",
+   "threshold": 0.01,
+   "value": 0.0011549955190431368
+  },
+  {
+   "name": "monotone_in_rainfall",
+   "note": "4 of 39800 cells deeper at 25 mm/h, all with depths of 0.0102, 0.0103, 0.0101, 0.0103 m, at the solver's dry threshold huthresh = 0.01 m; among cells wet (0.05 m or more) in either run the largest difference is -0.015596866607666016 m. The rule is kept strict as written; whether to judge it on wet cells only is for review.",
+   "passed": false,
+   "proposed": false,
+   "rule": "25 mm/h gives depth no greater than 50 mm/h in every 5 m cell (FH8)",
+   "threshold": 0.0,
+   "value": 8.440017700195312e-05
+  },
+  {
+   "name": "deeper_in_depressions",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "mean maximum depth in the depressions exceeds the 95th percentile on the slope",
+   "threshold": 0.09857004880905151,
+   "value": 0.8120437264442444
+  }
+ ],
+ "created_at": "2026-11-25T17:46:57Z",
+ "figures": [
+  "docs/flood/figures/f0/solver_timing.html",
+  "docs/flood/figures/f0/toy_max_depth.html"
+ ],
+ "id": "f0-solver-timing",
+ "inputs": [
+  {
+   "bytes": 4326,
+   "path": "models/par_toy_3km_r50_1/toy_model.json",
+   "sha256": "0f8be329b2f5af14d78076076988217a6cc9eb0906cae4403dd977fde17bc110",
+   "url": ""
+  },
+  {
+   "bytes": 1272,
+   "path": "models/par_toy_3km_r50_1/run_par2-1.json",
+   "sha256": "65fd01688eb58c10e7154ccf28f99294f0a153f0e540feafac9108215c7116ff",
+   "url": ""
+  },
+  {
+   "bytes": 1271,
+   "path": "models/par_toy_3km_r50_1/run_par4-1.json",
+   "sha256": "a401d1fb04804225e0ef555fa2503f79884f93738ae28052c2909229024dda79",
+   "url": ""
+  },
+  {
+   "bytes": 4326,
+   "path": "models/par_toy_3km_r50_2/toy_model.json",
+   "sha256": "0f8be329b2f5af14d78076076988217a6cc9eb0906cae4403dd977fde17bc110",
+   "url": ""
+  },
+  {
+   "bytes": 1270,
+   "path": "models/par_toy_3km_r50_2/run_par2-2.json",
+   "sha256": "7fec9529a268b2c5beb92156a75dccd2a14a5d9b098a3a68ae793b6aeb533211",
+   "url": ""
+  },
+  {
+   "bytes": 1270,
+   "path": "models/par_toy_3km_r50_2/run_par4-2.json",
+   "sha256": "77a0935e09859bab76b208779cf6e6cbc20bcafce5c5a5a745e2eba9dfa16cb3",
+   "url": ""
+  },
+  {
+   "bytes": 4326,
+   "path": "models/par_toy_3km_r50_3/toy_model.json",
+   "sha256": "0f8be329b2f5af14d78076076988217a6cc9eb0906cae4403dd977fde17bc110",
+   "url": ""
+  },
+  {
+   "bytes": 1271,
+   "path": "models/par_toy_3km_r50_3/run_par4-3.json",
+   "sha256": "d1a499c0d598417a445bb3aa0beb601246c1828a7298c19304560eff4970c391",
+   "url": ""
+  },
+  {
+   "bytes": 4326,
+   "path": "models/par_toy_3km_r50_4/toy_model.json",
+   "sha256": "0f8be329b2f5af14d78076076988217a6cc9eb0906cae4403dd977fde17bc110",
+   "url": ""
+  },
+  {
+   "bytes": 1272,
+   "path": "models/par_toy_3km_r50_4/run_par4-4.json",
+   "sha256": "4dc1814fdce81bbc1ad76361d9e1fe6f7386a81f3152ad635a705b399f7903a5",
+   "url": ""
+  },
+  {
+   "bytes": 1234,
+   "path": "models/toy_1km_r25/toy_model.json",
+   "sha256": "b19f901c6ae269f1ed20f84f8d5a522d3a596ea835d61fa93ee2f73f111b6b79",
+   "url": ""
+  },
+  {
+   "bytes": 1146,
+   "path": "models/toy_1km_r25/run_run1.json",
+   "sha256": "3ae545482e0c707896ab4843e79d4942663811e3dd73d9f9b59d697c268711ed",
+   "url": ""
+  },
+  {
+   "bytes": 325294,
+   "path": "models/toy_1km_r25/analysis.json",
+   "sha256": "b1057a79b8797505c0e98877e537990227405cc8bbe4ae57034d361b8ba0da6a",
+   "url": ""
+  },
+  {
+   "bytes": 1234,
+   "path": "models/toy_1km_r50/toy_model.json",
+   "sha256": "3d1adee64b8f63a4679ccc314053152a6729c030a0e7c004eed0c580143fc003",
+   "url": ""
+  },
+  {
+   "bytes": 1145,
+   "path": "models/toy_1km_r50/run_run1.json",
+   "sha256": "51dae5a456e854227c1cfe1031192024726cb7fea94f01ffb7146bf2ecafcce6",
+   "url": ""
+  },
+  {
+   "bytes": 1145,
+   "path": "models/toy_1km_r50/run_run2.json",
+   "sha256": "3d3851f535afc9a7b7ea3fa9130788395d891fc88662bd2bb5b79a91c55b30d2",
+   "url": ""
+  },
+  {
+   "bytes": 328479,
+   "path": "models/toy_1km_r50/analysis.json",
+   "sha256": "9cec34f88b99c98b340f1210fc45b742d6e374951bf2df623dfbc7233973006c",
+   "url": ""
+  },
+  {
+   "bytes": 2389,
+   "path": "models/toy_2km_r50/toy_model.json",
+   "sha256": "3305d86d543818b87321ef507fdd9919c70a20f67e7cde500390f9efab37a38e",
+   "url": ""
+  },
+  {
+   "bytes": 1246,
+   "path": "models/toy_2km_r50/run_run1.json",
+   "sha256": "16662ad8cefca3fe1965bd44ace18387e6ba34eba4f7de799e3de4fdf898d9c6",
+   "url": ""
+  },
+  {
+   "bytes": 1247,
+   "path": "models/toy_2km_r50/run_run2.json",
+   "sha256": "c93fd81bbc5dad1f70ce34cbb6fb76cdd565e22834965b8a65c42e900bc8d1c2",
+   "url": ""
+  },
+  {
+   "bytes": 1538,
+   "path": "models/toy_2km_r50/analysis.json",
+   "sha256": "72870045a42b1b8c4941767695bbc89d0df353160a8fd813381e4bbf5056c19b",
+   "url": ""
+  },
+  {
+   "bytes": 4326,
+   "path": "models/toy_3km_r50/toy_model.json",
+   "sha256": "0f8be329b2f5af14d78076076988217a6cc9eb0906cae4403dd977fde17bc110",
+   "url": ""
+  },
+  {
+   "bytes": 1248,
+   "path": "models/toy_3km_r50/run_run1.json",
+   "sha256": "aa9013b1954222b8dcdb4e00c849188d374629273d44209d2c29626ae3389e6b",
+   "url": ""
+  },
+  {
+   "bytes": 1248,
+   "path": "models/toy_3km_r50/run_run2.json",
+   "sha256": "60e076f429ab696eda2418c96a1796c52bef2f8252ef0a1eb636401bf16ef93d",
+   "url": ""
+  },
+  {
+   "bytes": 1537,
+   "path": "models/toy_3km_r50/analysis.json",
+   "sha256": "e20d6ae062f457a5cc132f726ebf807604b5d1ff2dd73cb15de5e04834791493",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "The image tag is built for linux/amd64 only; every run here is emulated (Rosetta).",
+  "Wall time is measured around 'docker run' and includes container start.",
+  "Parallel batches: the runs start together; batch wall time is the longest run.",
+  "Every toy value is a placeholder [P]; the toy exists to time the solver."
+ ],
+ "numbers": {
+  "catalogue_target_runs": 150,
+  "depth_1km_50mm": {
+   "cell_5m_max_m": 1.1398476362228394,
+   "how": "1 m: zsmax of the 5 m cell minus the 1 m terrain, floored at 0; 5 m: zsmax minus zb, the cell's lowest sub-grid level",
+   "subgrid_1m_depressions_mean_m": 0.8120437264442444,
+   "subgrid_1m_max_m": 1.1436097621917725,
+   "subgrid_1m_slope_mean_m": 0.021887004375457764,
+   "subgrid_1m_slope_p95_m": 0.09857004880905151,
+   "zb_equals_subgrid_z_zmin": true
+  },
+  "docker_host": {
+   "architecture": "aarch64",
+   "mem_total_bytes": 8319705088,
+   "ncpu": 8
+  },
+  "extrapolation": {
+   "arithmetic": [
+    "fit of log(wall) on log(cells) over 6 runs: wall = 0.0001179 * cells^1.135",
+    "fitted: 0.0001179 * 600000^1.135 = 425.0 s",
+    "linear from 360000 cells: 218.3 s * 600000 / 360000 = 363.9 s",
+    "planning value: the larger, 425.0 s"
+   ],
+   "fitted_s": 424.95530330293496,
+   "linear_from_largest_s": 363.88333333333327,
+   "planning_s": 424.95530330293496,
+   "power_a": 0.00011792312853731968,
+   "power_b": 1.134747772549527
+  },
+  "memory_per_run_at_target_bytes_linear": 442848596.6666667,
+  "parallel": {
+   "2": {
+    "batch_wall_s": 454.52,
+    "runs": 2,
+    "runs_in_12h_at_target": 97,
+    "throughput_vs_sequential": 0.9607057995247733
+   },
+   "4": {
+    "batch_wall_s": 978.5,
+    "runs": 4,
+    "runs_in_12h_at_target": 90,
+    "throughput_vs_sequential": 0.8925089422585589
+   }
+  },
+  "parallel_runs_memory_allows": 14,
+  "peak_memory_bytes_by_cells": {
+   "160000": [
+    124990259,
+    123417395
+   ],
+   "360000": [
+    259732275,
+    258369126,
+    259941990,
+    265709158,
+    261200281,
+    259417702,
+    259207987,
+    259627417
+   ],
+   "40000": [
+    43851448,
+    43673190,
+    43285217
+   ]
+  },
+  "runs_in_12h_sequential": 101,
+  "wall_time_s_by_cells": {
+   "160000": [
+    104.71,
+    113.03
+   ],
+   "360000": [
+    212.91,
+    223.75
+   ],
+   "40000": [
+    17.79,
+    19.65
+   ]
+  }
+ },
+ "parameters": [
+  {
+   "name": "toy.seed",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 20261125
+  },
+  {
+   "name": "toy.x0",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 598000.0
+  },
+  {
+   "name": "toy.y0",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 4500000.0
+  },
+  {
+   "name": "toy.epsg",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 32618
+  },
+  {
+   "name": "toy.dem_res_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 1.0
+  },
+  {
+   "name": "toy.cell_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 5.0
+  },
+  {
+   "name": "toy.z_south_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 2.0
+  },
+  {
+   "name": "toy.slope",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 0.004
+  },
+  {
+   "name": "toy.street_pitch_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 100.0
+  },
+  {
+   "name": "toy.street_width_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 16.0
+  },
+  {
+   "name": "toy.street_drop_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 0.2
+  },
+  {
+   "name": "toy.depressions_per_km2",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 3
+  },
+  {
+   "name": "toy.depression_depth_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": [
+    1.0,
+    1.5
+   ]
+  },
+  {
+   "name": "toy.depression_sigma_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": [
+    25.0,
+    40.0
+   ]
+  },
+  {
+   "name": "toy.noise_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 0.01
+  },
+  {
+   "name": "toy.boundary_level_m",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 1.0
+  },
+  {
+   "name": "toy.manning",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 0.03
+  },
+  {
+   "name": "toy.qinf_mm_per_h",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 10.0
+  },
+  {
+   "name": "toy.rain_hours",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 2.0
+  },
+  {
+   "name": "toy.dry_hours",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 1.0
+  },
+  {
+   "name": "toy.subgrid_levels",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 10
+  },
+  {
+   "name": "toy.subgrid_pixels_per_cell",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 10
+  },
+  {
+   "name": "toy.dthisout_s",
+   "source": "made-up toy value",
+   "tag": "P",
+   "value": 10.0
+  },
+  {
+   "name": "target_cells",
+   "source": "plan F0: 15 km2 of 5 m cells",
+   "tag": "P",
+   "value": 600000
+  },
+  {
+   "name": "budget_s",
+   "source": "12 hours of machine time, from the brief",
+   "tag": "P",
+   "value": 43200
+  },
+  {
+   "name": "memory_share",
+   "source": "share of the VM's memory given to runs",
+   "tag": "P",
+   "value": 0.75
+  },
+  {
+   "name": "balance_limit",
+   "source": "requirements FH8",
+   "tag": "S",
+   "value": 0.01
+  },
+  {
+   "name": "catalogue_switch_s",
+   "source": "plan F0 step 7",
+   "tag": "S",
+   "value": 600
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "builder:hydromt": "1.4.1",
+  "builder:hydromt-sfincs": "2.0.0",
+  "builder:netCDF4": "1.7.5.1.post1",
+  "builder:numpy": "2.5.4",
+  "builder:rasterio": "1.5.1",
+  "builder:xarray": "2026.9.0",
+  "builder:xugrid": "0.15.3",
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11",
+  "sfincs": "v2.5.0 Hautacam Release 2026.02",
+  "sfincs_build_date": "2026-10-30",
+  "sfincs_image": "deltares/sfincs-cpu:sfincs-v2.5.0-Hautacam",
+  "sfincs_image_digest": "deltares/sfincs-cpu@sha256:ad4f57175b317ec51b8fe6bc3af5079f958c206ffe1308fbce5bc7e8abc479f3",
+  "sfincs_platform": "linux/amd64 under Rosetta on arm64 (Docker Desktop)"
+ },
+ "stage": "F0",
+ "tables": {
+  "monotone": {
+   "cells": 39800,
+   "cells_deeper_than_other": 4,
+   "deeper_cells": [
+    {
+     "col": 34,
+     "depth_m": 0.01023721694946289,
+     "other_depth_m": 0.010152816772460938,
+     "row_from_south": 36
+    },
+    {
+     "col": 93,
+     "depth_m": 0.01031494140625,
+     "other_depth_m": 0.010233879089355469,
+     "row_from_south": 76
+    },
+    {
+     "col": 118,
+     "depth_m": 0.010141372680664062,
+     "other_depth_m": 0.010134220123291016,
+     "row_from_south": 134
+    },
+    {
+     "col": 49,
+     "depth_m": 0.010333061218261719,
+     "other_depth_m": 0.010292530059814453,
+     "row_from_south": 175
+    }
+   ],
+   "folder": "toy_1km_r50",
+   "max_depth_minus_other_m": 8.440017700195312e-05,
+   "max_depth_minus_other_where_either_wet_m": -0.015596866607666016,
+   "rain_mm_per_h": 50.0
+  },
+  "runs": [
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_1",
+    "label": "par2-1",
+    "peak_memory_bytes": 259732275,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 453.843,
+    "wall_time_s": 454.52
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_1",
+    "label": "par4-1",
+    "peak_memory_bytes": 258369126,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 944.935,
+    "wall_time_s": 945.81
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_2",
+    "label": "par2-2",
+    "peak_memory_bytes": 259941990,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 452.512,
+    "wall_time_s": 453.4
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_2",
+    "label": "par4-2",
+    "peak_memory_bytes": 265709158,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 976.524,
+    "wall_time_s": 977.45
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_3",
+    "label": "par4-3",
+    "peak_memory_bytes": 261200281,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 977.877,
+    "wall_time_s": 978.5
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "par_toy_3km_r50_4",
+    "label": "par4-4",
+    "peak_memory_bytes": 259417702,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 939.701,
+    "wall_time_s": 940.64
+   },
+   {
+    "cells": 40000,
+    "exit_code": 0,
+    "folder": "toy_1km_r25",
+    "label": "run1",
+    "peak_memory_bytes": 43851448,
+    "rain_mm_per_h": 25.0,
+    "solver_total_time_s": 21.237,
+    "wall_time_s": 21.61
+   },
+   {
+    "cells": 40000,
+    "exit_code": 0,
+    "folder": "toy_1km_r50",
+    "label": "run1",
+    "peak_memory_bytes": 43673190,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 17.347,
+    "wall_time_s": 17.79
+   },
+   {
+    "cells": 40000,
+    "exit_code": 0,
+    "folder": "toy_1km_r50",
+    "label": "run2",
+    "peak_memory_bytes": 43285217,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 19.285,
+    "wall_time_s": 19.65
+   },
+   {
+    "cells": 160000,
+    "exit_code": 0,
+    "folder": "toy_2km_r50",
+    "label": "run1",
+    "peak_memory_bytes": 124990259,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 104.175,
+    "wall_time_s": 104.71
+   },
+   {
+    "cells": 160000,
+    "exit_code": 0,
+    "folder": "toy_2km_r50",
+    "label": "run2",
+    "peak_memory_bytes": 123417395,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 112.538,
+    "wall_time_s": 113.03
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "toy_3km_r50",
+    "label": "run1",
+    "peak_memory_bytes": 259207987,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 212.317,
+    "wall_time_s": 212.91
+   },
+   {
+    "cells": 360000,
+    "exit_code": 0,
+    "folder": "toy_3km_r50",
+    "label": "run2",
+    "peak_memory_bytes": 259627417,
+    "rain_mm_per_h": 50.0,
+    "solver_total_time_s": 223.264,
+    "wall_time_s": 223.75
+   }
+  ],
+  "water_balance": {
+   "toy_1km_r25": {
+    "infiltrated_m3": 23581.220703125,
+    "out_m3": 17644.732586992905,
+    "rain_m3": 49750.625,
+    "residual_m3": 57.461748944595456,
+    "residual_share": 0.0011549955190431368,
+    "stored_m3": 8467.2099609375
+   },
+   "toy_1km_r50": {
+    "infiltrated_m3": 24014.658203125,
+    "out_m3": 64442.071625432,
+    "rain_m3": 99501.25,
+    "residual_m3": -44.161469181999564,
+    "residual_share": -0.0004438282853933952,
+    "stored_m3": 11088.681640625
+   },
+   "toy_2km_r50": {
+    "infiltrated_m3": 98639.5859375,
+    "out_m3": 232772.31489412487,
+    "rain_m3": 399004.4375,
+    "residual_m3": 10.239793375134468,
+    "residual_share": 2.56633571277875e-05,
+    "stored_m3": 67582.296875
+   },
+   "toy_3km_r50": {
+    "infiltrated_m3": 231311.328125,
+    "out_m3": 432727.6636331156,
+    "rain_m3": 898518.875,
+    "residual_m3": 238.85199188441038,
+    "residual_share": 0.00026582857470235153,
+    "stored_m3": 234241.03125
+   }
+  }
+ },
+ "title": "SFINCS and HydroMT-SFINCS stood up; toy model timed at three sizes"
+}
