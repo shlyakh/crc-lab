@@ -270,4 +270,5 @@ water balance and the checksums of all 96 cached files.
 | Facts loader, data cards, gallery, site check | Opus | 119,517 |
 | Blind review of the stage | Opus | 184,852 |
 | Fixes from the review | Opus | 134,239 |
-| FloodAdapt and Oasis install trials | Opus | not yet reported when this was written; given in the stop message |
+| FloodAdapt and Oasis install trials | Opus | 186,602 |
+| **Agents in total** | 5 Sonnet, 5 Opus | **1,700,310** (Sonnet 906,747; Opus 793,563) |
