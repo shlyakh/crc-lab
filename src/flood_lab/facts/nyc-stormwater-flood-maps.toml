@@ -1,0 +1,263 @@
+id = "nyc-stormwater-flood-maps"
+title = "NYC Stormwater Flood Maps"
+publisher = "NYC Department of Environmental Protection (DEP), published on NYC Open Data"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts and second reader"
+second_reader_stage = "F2"
+used_for = ["FS1", "FH3"]
+known_biases = "Rain-only maps from a model with the drainage system assumed fully working and catch basins clear; parks of 100,000 sq ft or more, non-residential non-commercial lots of 250,000 sq ft or more and lots with railway were masked out, so flooding there is not shown. Areas under 0.25 acre are dropped (with exceptions), and coastal storm surge is not modelled. The publisher says very little observed data on surface flooding exists to check the maps against."
+
+[[fact]]
+name = "identifier"
+claimed = "NYC Open Data `9i7c-xyvv`, file `NYCFloodStormwaterFloodMaps.zip` **[S]**"
+observed = "Dataset 9i7c-xyvv, name 'NYC Stormwater Flood Maps', assetType 'file' (viewType 'blobby'), blobFilename 'NYCFloodStormwaterFloodMaps.zip', blobMimeType application/zip, blobFileSize 33785094, attribution DEP, category Environment."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
+passage = "blobFilename=NYCFloodStormwaterFloodMaps.zip ; blobFileSize=33785094 ; blobId=6ce7b252-a38c-47ae-a823-680f443227e5 ; name=NYC Stormwater Flood Maps ; assetType=file"
+note = "The zip is fetched from https://data.cityofnewyork.us/api/views/9i7c-xyvv/files/6ce7b252-a38c-47ae-a823-680f443227e5?download=true&filename=NYCFloodStormwaterFloodMaps.zip (303 redirect to a signed S3 address). The older per-scenario datasets that the viewer links to (7r5q-vr7p, 5rzh-cyqd, w8eg-8ha6) now answer \"authentication_required\", so 9i7c-xyvv is the only public address."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "NYC Open Data `9i7c-xyvv` About page"
+observed = "The About page address resolves and the metadata API answers without a token. The description points to the NYC Stormwater Resiliency Plan and to the viewer http://nyc.gov/stormwater-map (a redirect page to an ArcGIS experience)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/Environment/NYC-Stormwater-Flood-Maps/9i7c-xyvv/about_data"
+passage = "Please see the New York City Stormwater Resiliency Plan for more information about the methodology applied to develop the maps. Please direct questions or comments to StormwaterResiliency@cityhall.nyc.gov."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "scenario_names"
+claimed = "The four layers are Limited Flood (1.77 in/hr, current sea levels), Moderate Flood (2.13 in/hr, current sea levels), Moderate Flood (2.13 in/hr, 2050 sea level rise) and Extreme Flood (3.66 in/hr, 2080 sea level rise)"
+observed = "Four names and four intensities exactly as claimed (1.77, 2.13, 2.13, 3.66 inches/hr). The zip holds four geodatabases with these four names."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
+passage = """
+<li>NYC Stormwater Flood Map - Extreme Flood (3.66 inches/hr) with 2080 Sea Level Rise </li>
+<li>NYC Stormwater Flood Map - Moderate Flood (2.13 inches/hr) with 2050 Sea Level Rise </li>
+<li>NYC Stormwater Flood Map - Moderate Flood (2.13 inches/hr) with Current Sea Levels </li>
+<li>NYC Stormwater Flood Map - Limited Flood (1.77 inches/hr) with Current Sea Levels </li>"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "sea_level_assumptions"
+claimed = "Limited and Moderate: current sea levels; Moderate: 2050 sea level rise; Extreme: 2080 sea level rise"
+observed = "Names confirmed. Quantities: 2050 layer = 'High Estimate of 30 inches sea level rise' (NPCC 90th percentile, 2050s); 2080 layer = 'High Estimate of 58 inches sea level rise' (NPCC 90th percentile, 2080s). The Resiliency Plan (May 2021) gives the same as 'MHHW + 2.5 feet' and 'MHHW + 4.8 feet'. For the two 'Current Sea Levels' layers no tide level is stated in the dictionaries or in the plan."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv/files/6ce7b252-a38c-47ae-a823-680f443227e5 (inside the zip: dictionaries for the 2050 and 2080 layers); https://www1.nyc.gov/assets/orr/pdf/publications/stormwater-resiliency-plan.pdf"
+passage = """
+[2050 layer dictionary, Flooding_Category] 3 - Future High Tides 2050 ... Future High Tides 2050 category sourced from DCP Flood Hazard Mapper High Tide 2050s High Estimate of 30 inches sea level rise.
+[2080 layer dictionary] 3 - Future High Tides 2080 ... High Tide 2080s High Estimate of 58 inches sea level rise.
+[Plan, Table 2] Moderate 10-yr MHHW + 2.5 feet ; Extreme 100-yr MHHW + 4.8 feet"""
+note = "The plan describes only two scenarios (Moderate, Extreme). The two current-sea-level layers and the 2.13/1.77/3.66 figures are not in the plan: it says \"approximately two inches of rain falling in one hour\" and \"approximately 3.5 inches of rain falling in one hour\". The plan is dated May 2021, the maps were republished in 2024; whether the plan describes the 2024 maps exactly is not stated."
+verdict_note = ""
+
+[[fact]]
+name = "min_area_and_depth_rule"
+claimed = "they show areas of at least 0.25 contiguous acres with 4 inches or more **[S]**"
+observed = "The rule is stated as claimed, but the data dictionary adds an exception: the dataset 'contains some potential flooding areas less than 0.25 acres due to proximity and overlap with masking layers'. The plan says the threshold was set 'through an iterative approach' and uses 'greater-than-or-equal-to four (4) inches' in one place and 'greater than 4 inches' in another."
+outcome = "differs"
+source_url = "Inside the zip: each layer dictionary, sheet Dataset Information, row \"How is this data collected?\"; plan Appendix B, Mapping approach"
+passage = "The New York City Stormwater Flood Maps show areas of potential flooding of at least 0.25 contiguous acres with flood depths of 4 inches or more.  This dataset contains some potential flooding areas less than 0.25 acres due to proximity and overlap with masking layers."
+note = "Outcome is \"differs\" only in the sense that the rule is not strict; the rule itself is confirmed. A loader must not assume every polygon part is at least 0.25 acre."
+verdict_note = ""
+
+[[fact]]
+name = "depth_classes"
+claimed = "the two depth classes (4 in to 1 ft, over 1 ft)"
+observed = "Two depth classes exist (code 1 = 4 in to under 1 ft, code 2 = 1 ft and greater), but the two layers with sea-level rise carry a THIRD code, 3, which is not a depth class: 'Future High Tides 2050' / '2080', coastal tidal inundation taken from the NYC Flood Hazard Mapper. The two current-sea-level layers have codes 1 and 2 only (per their dictionaries; the Limited layer could not be read, see 'layers')."
+outcome = "differs"
+source_url = "Inside the zip: Column Information sheet of each layer dictionary, row Flooding_Category"
+passage = """
+[2080 and 2050 layers] 1 - Nuisance Flooding (greater or equal to 4 in. and less than 1 ft.)
+2 - Deep and Contiguous Flooding (1 ft. and greater)
+3 - Future High Tides 2080   (2050 layer: Future High Tides 2050)
+[Current-sea-level layers] 1 - Nuisance Flooding (greater or equal to 4 in. and less than 1 ft.)
+2 - Deep and Contiguous Flooding (1 ft. and greater)
+[Plan] The maps depict two ranges of ponding depth: 1) Areas with ponding depth greater than 4 inches 2) Areas with ponding depth greater than 1 foot. In the maps, the areas with ponding depth greater than 1 foot are displayed on top of the areas greater than 4 inches"""
+note = "Plan: the 1-foot areas are drawn on top of the 4-inch areas; in the geodatabases the three classes are separate non-overlapping-by-code rows (one multipolygon per code), I did not test whether code 1 geometry also contains code 2 areas. The plan says tidal layers are \"overlaid in the map on top of all rainfall-derived flooding\". The loader should drop or separate code 3 before rasterising depth classes."
+verdict_note = ""
+
+[[fact]]
+name = "class_codes"
+claimed = "class codes **[V]**"
+observed = "Flooding_Category is a short integer coded value domain. Codes read from the data: Extreme 3.66/2080: {1,2,3}; Moderate 2.13/2050: {1,2,3}; Moderate 2.13/current: {1,2}. Limited 1.77/current: not read (file unreadable here, dictionary says 2 categories: 1 and 2)."
+outcome = "confirmed"
+source_url = "zip, geodatabases read with pyogrio/GDAL 3.12 (OpenFileGDB driver); dictionaries as in depth_classes"
+passage = """
+Extreme_Flood_3_66 ... 2080: Flooding_Category values [1, 2, 3] (int16)
+Moderate_Flood_2_13 ... 2050: Flooding_Category values [1, 2, 3]
+Moderate_Flood_2_13 ... Current_Sea_Levels: Flooding_Category values [1, 2]
+Limited_Flood_1_77 ... Current_Sea_Levels: not readable (see layers)"""
+note = "Meanings come from the dictionary text in depth_classes."
+verdict_note = ""
+
+[[fact]]
+name = "layers"
+claimed = ""
+observed = "One feature class per geodatabase, each a 3D MultiPolygon in EPSG:2263 (NAD83 / New York Long Island, US feet). Feature counts: Extreme 2080 = 3, Moderate 2050 = 3, Moderate current = 2 (one multipolygon per class code). Limited current: the geodatabase opens in GDAL 3.12.4 but the layer is stored with a Compressed Data Format (.gdbtable.cdf, 2.46 MB) that the OpenFileGDB driver cannot read, so layer name, count and CRS were not read; no ESRI FileGDB driver is installed here. Its dictionary and file name say one feature class with two categories."
+outcome = "not checked"
+source_url = "zip, GDAL ogrinfo / pyogrio output"
+passage = """
+NYC_Stormwater_Flood_Map_Extreme_Flood_3_66_inches_per_hr_with_2080_Sea_Level_Rise MultiPolygon Z n=3 crs=EPSG:2263 fields=['Flooding_Category','Shape_Length','Shape_Area']
+NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_per_hr_with_2050_Sea_Level_Rise MultiPolygon Z n=3 crs=EPSG:2263 fields=same
+NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels MultiPolygon Z n=2 crs=EPSG:2263 fields=same
+NYC_Stormwater_Flood_Map_Limited_Flood_1_77_inches_per_hr_with_Current_Sea_Levels: Warning 1: ... layer has a .../a00000009.gdbtable.cdf file using Compressed Data Format (CDF) that is unhandled by the OpenFileGDB driver, but could be handled by the FileGDB driver."""
+note = "A reader for the Limited layer needs the ESRI FileGDB SDK driver or a re-export by the city. The geodatabase inner layer name for Moderate 2050 is spelled \"..._2_13_per_hr_...\" (no \"inches\"), unlike the others. Aggregate area per class code (sq ft, Shape_Area): Extreme 396,453,915 / 303,648,177 / 345,584,598; Moderate 2050 85,815,427 / 45,326,429 / 138,941,956; Moderate current 78,077,948 / 40,126,225."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Fields: OBJECTID (internal), Shape (geometry), Shape_Length (feet), Shape_Area (square feet), Flooding_Category (coded integer, see class_codes). No depth value, no date, no scenario column: the scenario is the layer."
+outcome = "confirmed"
+source_url = "zip, any layer dictionary, sheet Column Information"
+passage = """
+Shape_Length | Feature length | GIS ArcMap created field. Length units are in feet.
+Shape_Area | Feature area | GIS ArcMap created field. Area units in are square feet.
+Flooding_Category | Category of flooding classified by depth of ponding or tidal inundation from sea level rise"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Citywide, all five boroughs (one layer per scenario for the whole city). CRS NAD 1983 StatePlane New York Long Island FIPS 3104 (US feet). Masking: parks >= 100,000 sq ft, non-residential non-commercial PLUTO lots >= 250,000 sq ft, and lots intersecting railway infrastructure were masked out for lack of drainage information. Rainfall assumed uniform over the city. Brooklyn and Queens are covered (13 sewershed models, including Newtown Creek-Brooklyn, Coney Island-Owl's Head, Jamaica-26th Ward, Tallman Island, Rockaway, Bowery Bay)."
+outcome = "confirmed"
+source_url = "plan appendix B (Map masking); layer dictionaries (Additional geospatial information)"
+passage = """
+Some areas of the City were masked out because there was insufficient information about their drainage infrastructure to represent the flood risk. These include Open Space Parks from the NYC Planimetric Database greater-than-or-equal-to 100,000 square feet, Non-Residential and Non-Commercial PLUTO Lots greater-than-or-equal-to 250,000 square feet, and PLUTO lots that intersected railway infrastructure.
+NAD 1983 StatePlane New York Long Isl FIPS 3104 (US Feet)"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "No event time: the maps are design-scenario ponding depths (peak depth per cell), not a historical date. The terrain is the 2017 Hydro-Enforced DEM; the models were calibrated mostly on events smaller than a 5-year storm. The dataset was created 2024-07-03; the plan is dated May 2021."
+outcome = "confirmed"
+source_url = "plan appendix B"
+passage = "the 2D mesh was constructed using Geographic Information System (GIS) processing of the 2017 Hydro-Enforced Digital Elevation Model (DEM) ... the peak ponding depth that occurs under the simulated scenario was exported from each grid cell in the 2D mesh of the H&H model."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "storm_duration"
+claimed = "storm DURATION behind each intensity **[V]**"
+observed = "Not stated for 1.77, 2.13 or 3.66 in/hr in the dataset description, in any of the four dictionaries, in the viewer text, or in the Resiliency Plan. The plan (2021) describes its Moderate scenario as \"approximately two inches of rain falling in one hour\" (10-year) and Extreme as \"approximately 3.5 inches of rain falling in one hour\" (100-year), i.e. one hour, but with rounded figures, not 2.13 and 3.66, and it has no Limited scenario. The 2024 DEP stormwater analysis report (searched by text for 1.77, 2.13, 3.66 and \"per hour\") does not contain those figures; it uses 2.1 in/hr for its own analysis."
+outcome = "not checked"
+source_url = "https://www1.nyc.gov/assets/orr/pdf/publications/stormwater-resiliency-plan.pdf"
+passage = "This scenario reflects approximately two inches of rain falling in one hour (also referred to as the 10-year storm, with approximately 10 percent chance of occurrence in any given year) combined with 2.5 feet of SLR ... This scenario reflects approximately 3.5 inches of rain falling in one hour (also referred to as the 100-year storm, with approximately 1 percent chance of occurrence in any given year) combined with 4.8 feet of SLR"
+note = "Duration of the 1.77, 2.13 and 3.66 in/hr rainfalls: not found in a primary source; do not state one. The \"in/hr\" label together with the plan suggests one-hour design storms but that is an inference. The plan also says 1.75 in/hr is the 5-year one-hour storm, close to but not equal to 1.77; the plan does not say the Limited map uses it. Return periods against Atlas 14 are for F3."
+verdict_note = ""
+
+[[fact]]
+name = "model"
+claimed = "model used **[V]**"
+observed = "Hydrologic and hydraulic (H&H) models built in Innovyze InfoWorks ICM: 13 models, one per sewershed draining to a water resource recovery facility, 1D sewer network coupled to a 2D overland mesh (Phase 2), from the City calibrated LTCP models. 10-year scenarios: direct 1D-2D run. 100-year scenario: a composite approach (5-year run, then the remaining 100-year minus 5-year volume placed on the 2D mesh without sewers). Oakwood Beach used rain-on-mesh only. Plan is dated May 2021; the dictionaries only say \"hydrologic and hydraulic computer models\"."
+outcome = "confirmed"
+source_url = "https://www1.nyc.gov/assets/orr/pdf/publications/stormwater-resiliency-plan.pdf"
+passage = """
+The models were built in Innovyze’s InfoWorks ICM software which facilitates coupling of a 1-dimensionsal (1-D) rainfall-runoff and sewer routing component with a 2-dimensional (2D) overland flow and flood visualization component.
+Phase 2 modeling developed an H&H model for each hydraulically independent area of the city, resulting in 13 different models"""
+note = "The plan describes the Moderate (10-yr) and Extreme (100-yr) maps. Which approach produced the 1.77 in/hr Limited map is not stated. Whether a given layer used the 1D-2D or the composite approach is stated only for 10-yr and 100-yr."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "NYC Open Data terms **[V]**"
+observed = "No licence is attached to the dataset (Socrata licenseId is None). Terms: the general NYC Open Data terms (see passage). Each layer dictionary adds a disclaimer: informational purposes only, not for design or flood plain determination, no warranty."
+outcome = "confirmed"
+source_url = "https://cityofnewyork.github.io/opendatatsm/publicpolicies.html"
+passage = """
+[Technical Standards Manual, public policies page] Local Law 11 of 2012, specifically § 23-502 d, requires that data sets must be available without registration requirement, license requirement, or usage restrictions, except as provided below. ... DoITT may require third party entities such as application developers to explicitly identify the source, version, and modifications made to a public data set, should they publicly re-publish it elsewhere or incorporate the public data set into an application. ... By accessing data sets and feeds available through the NYC OpenData portal (or the “Site”), the user agrees to all of the Terms of Use of NYC.gov as well as the NYC.gov Privacy Policy. The user also agrees to any additional terms of use defined by entities providing data or feeds through the Site. ... Public data sets made available on the NYC OpenData portal are provided for informational purposes. The City does not warranty the completeness, accuracy, content, or fitness for any particular purpose or use of any public data set made available on the NYC OpenData portal ...
+[Technical Standards Manual, 5/12/2023 revision, section 2.3.2, https://www.nyc.gov/content/dam/nycgov/opendata/downloads/open-data-coordinators/NYC_OpenData_TechnicalStandardsManual.pdf] Upon publication to NYC Open Data, datasets become a public resource available to anyone, without restriction or licensing requirements (see NYC Open Data’s Terms of Use for more information).
+[Layer dictionary, limitations] The City disclaims any liability for errors and make no warranties express or implied ... Any determination of topography or contours, or any depiction of physical improvements, property lines or boundaries is for general information only and shall not be used for the design, modification, or construction of improvements to real property or for flood plain determination."""
+note = "Fact 5 of the task (general NYC Open Data terms), repeated under each source. I did not find a stand-alone Terms of Use page for the portal: https://www.nyc.gov/html/data/terms.html and the old PDF address return 404, and https://opendata.cityofnewyork.us/overview/#termsofuse redirects to a script-built nyc.gov page that gave no terms text to curl. The passage comes from the Open Data team's own Technical Standards Manual (web page of the NYC github organisation, and the PDF), which quotes the Terms of Use. The nyc.gov-wide terms the passage refers to are at https://www.nyc.gov/main/terms-of-use (read; general website terms; a search of its text for 'open data', 'data set' and 'public data' found no passage on data sets). The Socrata API shows licenseId = None for every dataset below, i.e. no licence is attached on the portal."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = "updated 2024-10-17 **[S]**"
+observed = "Metadata viewLastModified = 2024-10-17T18:10:13Z (the date on the About page and on catalog.data.gov). The data itself: rowsUpdatedAt = createdAt = 2024-07-03T21:04:08Z, publicationDate 2024-07-03T21:21:04Z; files inside the zip are dated 2024-06-27 to 2024-08-02. The declared update frequency is Annually, automation No, and no later update exists on 2026-11-25."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
+passage = "viewLastModified=1729188613 (2024-10-17T18:10:13Z) ; rowsUpdatedAt=1720040648 (2024-07-03T21:04:08Z) ; custom_fields Update: {\"Automation\":\"No\",\"Update Frequency\":\"Annually\"}"
+note = "The 2024-10-17 date is a metadata edit, not a data re-issue."
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "sha256 of the zip as fetched is in the file record. The publisher gives no checksum; the byte count 33,785,094 equals the API field blobFileSize."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
+passage = "blobFileSize=33785094 ; downloaded bytes=33785094"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "nyc-stormwater-flood-maps/NYCFloodStormwaterFloodMaps.zip"
+url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv/files/6ce7b252-a38c-47ae-a823-680f443227e5?download=true&filename=NYCFloodStormwaterFloodMaps.zip"
+bytes = 33785094
+sha256 = "5effe9bcca896660f44a5e50c348ab4ebf7550ff3c764ef77f06d775f0c010f5"
+fetched_at = "2026-11-25T16:53:30Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/plan/stormwater-resiliency-plan.pdf"
+url = "https://www1.nyc.gov/assets/orr/pdf/publications/stormwater-resiliency-plan.pdf"
+bytes = 7027172
+sha256 = "f5b90332af29b49c036587488dd53457b5541d37e255ef0e4c8b0ad8f29f64e7"
+fetched_at = "2026-11-25T16:54:17Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/plan/2024-stormwater-analysis-report.pdf"
+url = "https://www.nyc.gov/assets/dep/downloads/pdf/water/stormwater/2024-stormwater-analysis-report.pdf"
+bytes = 52265068
+sha256 = "4c09027cf813d37c9719f69909b980ecbfd12558c74f5eabac1eeeaad36a5917"
+fetched_at = "2026-11-25T16:54:50Z"
+
+[[file]]
+path = "meta/9i7c-xyvv.json"
+url = "https://data.cityofnewyork.us/api/views/9i7c-xyvv.json"
+bytes = 4508
+sha256 = "665722034d35eda27d85c37576e5a14a006a686797881f01135b25a3a12fae9d"
+fetched_at = "2026-11-25T16:53:04Z"
+
+[[file]]
+path = "meta/tsm.pdf"
+url = "https://www.nyc.gov/content/dam/nycgov/opendata/downloads/open-data-coordinators/NYC_OpenData_TechnicalStandardsManual.pdf"
+bytes = 480616
+sha256 = "efd0e814fdf603d1e6d9f2b2b718f5ca5f65768607068ad6a95a9dd983f25937"
+fetched_at = "2026-11-25T16:55:57Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/dictionaries/NYC Stormwater Flood Map - Extreme Flood (3.66 inches per hr) with 2080 Sea Level Rise.xlsx"
+url = "inside NYCFloodStormwaterFloodMaps.zip (copied out unchanged)"
+bytes = 113903
+sha256 = "44c2929231a376273aa1068d0a62191b01459e1d96c6af01a5df802512e6ec10"
+fetched_at = "2026-11-25T17:04:02Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/dictionaries/NYC Stormwater Flood Map - Limited Flood (1.77 inches per hr) with Current Sea Levels.xlsx"
+url = "inside NYCFloodStormwaterFloodMaps.zip (copied out unchanged)"
+bytes = 113562
+sha256 = "b905e59a1a1507cc1525228f18414a4b6a240ef6e4f73753ff5c9e2b3479e710"
+fetched_at = "2026-11-25T17:04:02Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/dictionaries/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with 2050 Sea Level Rise.xlsx"
+url = "inside NYCFloodStormwaterFloodMaps.zip (copied out unchanged)"
+bytes = 113825
+sha256 = "fc8150a51573707b5d98266d2f638b89dcd19e4832ee396ae8c8bae7adc533a9"
+fetched_at = "2026-11-25T17:04:02Z"
+
+[[file]]
+path = "nyc-stormwater-flood-maps/dictionaries/NYC Stormwater Flood Map - Moderate Flood (2.13 inches per hr) with Current Sea Levels.xlsx"
+url = "inside NYCFloodStormwaterFloodMaps.zip (copied out unchanged)"
+bytes = 113657
+sha256 = "25bbd11827d0fc7d94ff810a9e86c206c5307fd9d0c9148b34c23a82584f0854"
+fetched_at = "2026-11-25T17:04:02Z"

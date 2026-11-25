@@ -1,0 +1,177 @@
+id = "usgs-ida-high-water-marks"
+title = "USGS high-water marks for the remnants of Hurricane Ida, five boroughs of New York City"
+publisher = "U.S. Geological Survey, New York Water Science Center (via ScienceBase)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts and second reader"
+second_reader_stage = "F5"
+used_for = ["FV1"]
+known_biases = "Marks exist only where crews found and surveyed debris, mud or seed lines, up to 2.5 months after the event, in the five boroughs (159 marks at 83 sites; 54 sites in Brooklyn and Queens). Areas without such evidence, and basements and subway spaces, are not represented. Horizontal positions are map or phone fixes (WGS84 from digital map), and the whole set is tagged \"Riverine\" and mostly \"swift water\" although the event was pluvial."
+
+[[fact]]
+name = "identifier"
+claimed = "ScienceBase item `618975c8d34ec04fc9c5a049`"
+observed = "Item id 618975c8d34ec04fc9c5a049 exists; DOI 10.5066/P9OMBJPQ; title \"High-Water Marks in the Five Boroughs of New York City from Flash Flooding Caused by the Remnants of Hurricane Ida, September 1, 2021\"; authors W.D. Capurso, A.E. Simonson, M.L. Noll, R. Busciolano, J.S. Finkelstein (USGS New York Water Science Center), 2023."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "id=618975c8d34ec04fc9c5a049 ; identifiers[0].key=doi:10.5066/P9OMBJPQ ; citation=\"Capurso, W.D., Simonson, A.E., Noll, M.L., Busciolano, R., and Finkelstein, J.S., 2023, High-water marks in the five boroughs of New York City from flash flooding caused by the remnants of Hurricane Ida, September 1, 2021: U.S. Geological Survey data release, https://doi.org/10.5066/P9OMBJPQ.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "JSON at https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+observed = "The address returns the item JSON (HTTP 200, 30,397 bytes). Landing page https://doi.org/10.5066/P9OMBJPQ was not opened; the DOI of the depth-raster release resolved to ScienceBase as expected."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "link={\"rel\": \"self\", \"url\": \"https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049\"}"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "what_item_holds"
+claimed = ""
+observed = "Four attached files (CSV of marks, data dictionary CSV, FGDC metadata XML, a rainfall-AEP PNG) plus a shapefile facet FilteredHWMs_NewYork_CoverageFinal (zipped as High_WaterMarks.zip), WMS/WFS/KML services."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "files: NOAA_AEP_3hr.PNG 949641 B; STN_FilteredHWMs_data_dictionary.csv 2687 B; FilteredHWMs_NewYork.csv 62220 B; Ida_HWM_Metadata.xml 12281 B ; facet name=FilteredHWMs_NewYork_CoverageFinal boundingBox={minY 40.589076, minX -74.156962, maxY 40.894235, maxX -73.765121}"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "site_count"
+claimed = "\"83 sites\" (section 9: \"USGS high-water-mark release details (83 sites)\")"
+observed = "83 distinct site numbers (site_no) in the CSV; the item summary says 83 locations."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "summary: \"...were used to determine high-water mark elevations at 83 locations.\" CSV: distinct site_no = 83 (counted by me)."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "mark_count"
+claimed = "\"83 sites\" (read together with FV1 \"surveyed high-water marks\")"
+observed = "The table holds 159 marks (159 distinct hwm_id) at those 83 sites, most sites have 2 or 3 marks. The FGDC metadata says 159 points. 83 is the number of sites, not of marks. The companion depth-raster release uses ONE mark per site (83)."
+outcome = "differs"
+source_url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__d6%2F2e%2Fce%2Fd62eceb8383f78ccf672291f1f41de8b0c82a4c1"
+passage = "FGDC Ida_HWM_Metadata.xml: <ptvctcnt>159</ptvctcnt> ; FilteredHWMs_NewYork.csv: 159 data rows, 159 distinct hwm_id, 83 distinct site_no (my count). Depth-raster metadata: \"Most HWM sites have 2 or 3 measurements for validation purposes. Only 1 measurement was selected for the inundation mapping at each site location\"."
+note = "Differs only if 83 is read as a count of marks. requirements.md says \"sites\" in section 9, so the wording is right; check FV1 and any statement that uses \"83 marks\". Counts are mine, from the CSV."
+verdict_note = ""
+
+[[fact]]
+name = "marks_in_box"
+claimed = ""
+observed = "Inside the box lon -74.05..-73.70, lat 40.55..40.80 using latitude_dd and longitude_dd: 108 marks at 55 sites. By countyName: Queens County 64, Kings County (Brooklyn) 42, New York County 2 (Manhattan, inside the box but not Brooklyn or Queens). Brooklyn + Queens by county: 106 marks at 54 sites. Whole file by county: Queens 64, Kings 42, Bronx 24, Richmond 23, New York 6."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__d6%2F2e%2Fce%2Fd62eceb8383f78ccf672291f1f41de8b0c82a4c1"
+passage = "Counted with Python csv from FilteredHWMs_NewYork.csv (first line of file is a citation line, header is line 2): fields latitude_dd, longitude_dd, countyName."
+note = "Count is my own computation on the downloaded file, not a statement by the publisher."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = "elevation datum, height above ground, quality, coordinates and their datum"
+observed = "26 columns: latitude_dd, longitude_dd, hwmTypeName, hwmQualityName, verticalDatumName, verticalMethodName, markerName, horizontalMethodName, horizontalDatumName, site_no, siteDescription, countyName, hwm_id, waterbody, site_id, event_id, hwm_locationdescription, survey_date, elev_ft, height_above_gnd, hwm_notes, hwm_environment, flag_date, stillwater, uncertainty, hwm_label. Elevation datum: all 159 rows NAVD88, in feet (elev_ft). Height above ground: height_above_gnd, feet; blank in 7 rows (all 7 are in Brooklyn/Queens). Quality: hwmQualityName, Excellent +/-0.05 ft 32, Good +/-0.10 ft 54, Fair +/-0.20 ft 58, Poor +/-0.40 ft 15. Coordinates: latitude_dd, longitude_dd, horizontalDatumName \"WGS84 (from Digital Map)\" for all rows, horizontalMethodName e.g. \"Phone/Car GPS\" (so the horizontal position is a map/phone fix, not survey grade). verticalMethodName: RT-GNSS 145, Static-GNSS 9, Other 5."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__33%2F22%2F4a%2F33224a39b0e8562de0b0baf00376b033fc5908fd"
+passage = "dictionary: \"elev_ft,Surveyed elevation of highigh-water mark in feet.\" ; \"height_above_gnd,Distance from high-water mark to ground in feet.\" ; \"hwmQualityName,Flagging uncertainty of high-water mark.\" ; \"verticalDatumName,Reference datum used to survey elevation of high-water mark.\" ; \"horizontalDatumName,Reference datum used to establish the horizontal location of the high-water mark.\" ; \"uncertainty,Uncertainty of high-water mark survey, in feet.\" ; \"stillwater, 1 = high-water mark was likely caused in tranquil water location. 0 = high-water mark was likely caused by swiftly moving water.\""
+note = "Counts of values are mine. Worth knowing for validation: stillwater=0 (swift water) for 136 of 159 marks; hwm_environment is \"Riverine\" for all 159 although this was a pluvial event; uncertainty column is 0.1 ft for 154 marks and 0.5 ft for 5."
+verdict_note = ""
+
+[[fact]]
+name = "vertical_datum"
+claimed = "elevation datum"
+observed = "NAVD88, feet (US survey feet per the FGDC metadata), altitude resolution 0.1."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__1d%2Fec%2Fc6%2F1decc642b9e84e35905781079519e75d5d9f90a0"
+passage = "<altdatum>North American Vertical Datum of 1988</altdatum> <altres>0.1</altres> <altunits>US Survey Feet</altunits> ; CSV verticalDatumName = NAVD88 in 159 of 159 rows"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "US public domain"
+observed = "The item states no licence: rights is null and the FGDC metadata says access and use constraints \"none\". The page I fetched does not itself say \"public domain\". Consistent with, but not proof of, USGS public-domain practice (I did not read the USGS policy text; the usgs.gov copyright page I fetched only returned headings)."
+outcome = "not checked"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "rights=null ; FGDC: <accconst>none</accconst> <useconst>none</useconst>"
+note = "Needs a statement from the USGS policy page or the data release page to be confirmed; ScienceBase JSON and FGDC metadata are silent."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = "USGS high-water marks for Ida in New York City"
+observed = "Five boroughs of NYC; bounding box lon -74.156962..-73.765121, lat 40.589076..40.894235. Marks flagged between Sep 7 and Nov 23 2021, FEMA mission assignment 4615DR-NY-DOI-USGS-01. Not a systematic sample: marks are where field crews found mud, debris and seed lines."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "summary: \"survey was conducted between September 7 and November 23, 2021, and is based on observations of mud, debris, and seed lines left by the flooding.\" ; purpose: \"...data were obtained in direct support and for situational awareness of FEMA disaster operations...\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Event: remnants of Hurricane Ida, September 1, 2021 (event_id 312). Survey Sept 7 - Nov 23, 2021 per summary; dates item Start 2021-09, End 2022-01; the depth-raster metadata says one site was resurveyed 3/14/2023."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "dates: [{\"type\": \"Start\", \"dateString\": \"2021-09\"}, {\"type\": \"End\", \"dateString\": \"2022-01\"}] ; event_id=312 in all 159 rows"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Published 2023-03-31, last updated in ScienceBase 2023-03-31T14:10:35Z, created 2021-11-08. Version label: none given. The 2023 date means the file is a later revision than marks available in the Flood Event Viewer in 2021-22."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "dates: {\"type\": \"Publication\", \"dateString\": \"2023-03-31\"} ; provenance: {\"dateCreated\": \"2021-11-08T19:08:56Z\", \"lastUpdated\": \"2023-03-31T14:10:35Z\"}"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "stn_flood_event_viewer_service"
+claimed = "The marks may also be served by the USGS Short-Term Network / Flood Event Viewer (https://stn.wim.usgs.gov/STNServices/)"
+observed = "Could not be read: STNServices/Events.json, Events/312/HWMs.json and Events/312.json each returned HTTP 403 \"Access forbidden\" to curl with the required user agent (also with Accept: application/json). The item itself points to https://stn.wim.usgs.gov/fev/#2021Ida as the viewer."
+outcome = "not checked"
+source_url = "https://stn.wim.usgs.gov/STNServices/Events/312/HWMs.json"
+passage = "HTTP 403: \"<title>Access forbidden!</title> ... You don't have permission to access the requested object.\""
+note = "Event id 312 comes from the CSV, not from the service. Not retried with a browser user agent, to follow the rule on headers."
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Publisher MD5 (ScienceBase) matches my download for FilteredHWMs_NewYork.csv (d94bf8e74f13c4ee0b922b090bb4a78d) and the data dictionary (db5b88212a40c33ec24c2261ae3cee13). For Ida_HWM_Metadata.xml the sizes agree (12281 B) but my MD5 (5653ee0f5366cc6e8776854d001f9992) differs from the published 584a3633a782f3ecdf2ba72dbef2559a."
+outcome = "confirmed"
+source_url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+passage = "files[].checksum: FilteredHWMs_NewYork.csv MD5 d94bf8e74f13c4ee0b922b090bb4a78d ; STN_FilteredHWMs_data_dictionary.csv MD5 db5b88212a40c33ec24c2261ae3cee13 ; Ida_HWM_Metadata.xml MD5 584a3633a782f3ecdf2ba72dbef2559a"
+note = "XML mismatch is unexplained (possibly the server regenerates the XML); the CSV, which carries the data, matches. SHA-256 of every kept file is in the [[file]] entries."
+verdict_note = ""
+
+[[file]]
+path = "usgs-ida-high-water-marks/FilteredHWMs_NewYork.csv"
+url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__d6%2F2e%2Fce%2Fd62eceb8383f78ccf672291f1f41de8b0c82a4c1"
+bytes = 62220
+sha256 = "c2ed5ed975a6b4914e1152f00732ab35853daa695f8118b0c516290131bc9af7"
+fetched_at = "2026-11-25T16:53:12Z"
+
+[[file]]
+path = "usgs-ida-high-water-marks/STN_FilteredHWMs_data_dictionary.csv"
+url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__33%2F22%2F4a%2F33224a39b0e8562de0b0baf00376b033fc5908fd"
+bytes = 2687
+sha256 = "37f184be36a03bb4e3d6b3bf9528ce4e6b7d7145d6d5fc23bcbca54c14e473bf"
+fetched_at = "2026-11-25T16:53:12Z"
+
+[[file]]
+path = "usgs-ida-high-water-marks/Ida_HWM_Metadata.xml"
+url = "https://www.sciencebase.gov/catalog/file/get/618975c8d34ec04fc9c5a049?f=__disk__1d%2Fec%2Fc6%2F1decc642b9e84e35905781079519e75d5d9f90a0"
+bytes = 12281
+sha256 = "85b487199eda4d682caab6e3f79a60b12412847ac7a1e5c9515b7839e398b6a7"
+fetched_at = "2026-11-25T16:53:13Z"
+
+[[file]]
+path = "usgs-ida-high-water-marks/sciencebase_item.json"
+url = "https://www.sciencebase.gov/catalog/item/618975c8d34ec04fc9c5a049?format=json"
+bytes = 30397
+sha256 = "73e2b6b3dca07df46243b1674e348739d28459f4ae188b2d476d316fde3a9412"
+fetched_at = "2026-11-25T16:53:04Z"

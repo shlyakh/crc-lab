@@ -1,0 +1,157 @@
+id = "fema-bca"
+title = "FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life"
+publisher = "FEMA (read through Internet Archive copies because www.fema.gov returns HTTP 403 to the client)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FM4"]
+known_biases = "All FEMA facts come from Internet Archive copies (secondary): news page snapshot 2025-09-14, BCA landing page snapshot 2026-10-31. The standard useful-life table was not located. The statement applies to Hazard Mitigation Assistance projects not obligated before 2025-04-08 and to Public Assistance projects not awarded by that date."
+
+[[fact]]
+name = "discount_rate"
+claimed = "7% since 2025-04-08, from 'News and Notes About Benefit-Cost Analysis' posted 2025-06-17"
+observed = "Confirmed: on 8 April (2025) OMB revoked the November 2023 update of Circular A-94 (3.1%) and reinstated the 1992 version, returning the rate to 7%; HMA projects not obligated/awarded by FEMA as of 8 April 2025 must use 7%; Public Assistance projects not awarded by then should use 7%. Page 'Last updated June 17, 2025'. The snapshot text gives the day and month but not the year; the 2025 year follows from the 'April 8, 2025' in the HMA sentence."
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news"
+passage = "On April 8, the Office of Management and Budget (OMB) revoked the November 2023 update to OMB Circular No. A-94 ..., which had set the discount rate at 3.1%. OMB reinstated its October 1992 version of Circular A-94, returning the discount rate to 7%. ... Hazard Mitigation Assistance projects that have not been obligated/awarded by FEMA as of April 8, 2025, must use the 7% discount rate when using a Benefit-Cost Analysis (BCA) to calculate cost effectiveness. ... Last updated June 17, 2025"
+note = "Secondary (web.archive.org snapshot of FEMA's page)."
+verdict_note = ""
+
+[[fact]]
+name = "alternative_rate"
+claimed = "3.1% as a sensitivity"
+observed = "No alternative rate is allowed by the text read: the 3.1% rate is described as revoked. 3.1% as a sensitivity is the study's own choice, not a FEMA option. A 2026 landing-page snapshot has no discount-rate text."
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news"
+passage = "must use the 7% discount rate; 3.1% only mentioned as the revoked rate"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "toolkit_version"
+claimed = "current BCA Toolkit version"
+observed = "June 2025 (snapshot 2025-09-14): 'The current version of the BCA Toolkit, Version 6.0, was released in 2019. Changes and updated features are implemented regularly.' The 2026-10-31 landing page announces an 'Oct. 1, 2026, BCA Toolkit update, which adds new import and export options, updates hazard and economic data, and improves flood-analysis and project-review features', with no version number found in the text read, so the current version number is not confirmed."
+outcome = "not checked"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "News and Notes Learn about the Oct. 1, 2026, BCA Toolkit update, which adds new import and export options, updates hazard and economic data, and improves flood-analysis and project-review features. ; (2025) The current version of the BCA Toolkit, Version 6.0, was released in 2019."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "useful_life"
+claimed = "standard project useful life for elevation and for floodproofing or flood barriers (table and address)"
+observed = "Not found. The FEMA standard-values methodology report v13 (2024) has no 'useful life' text. The 2011 Supplement to the BCA Reference Guide shows only 'Project useful life of 100 years (FEMA standard value for acquisition)'. The table with elevation and floodproofing lives (BCA Reference Guide) was not located or fetched."
+outcome = "not checked"
+source_url = "http://web.archive.org/web/20250707012856/https://www.fema.gov/sites/default/files/2020-08/fema_bca_guide-supplement.pdf"
+passage = "Project useful life of 100 years (FEMA standard value for acquisition)."
+note = "Do not state a useful life for elevation or floodproofing until read."
+verdict_note = ""
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "FEMA BCA pages: https://www.fema.gov/grants/tools/benefit-cost-analysis (landing; HTTP 403 live) and .../grants/guidance-tools/benefit-cost-analysis/news (News and Notes)."
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "Benefit-cost analysis (BCA) is a decision-making tool that FEMA uses to evaluate the cost-effectiveness of hazard mitigation projects."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news ; http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news"
+passage = "see identifier"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "US federal agency pages; no licence statement read."
+outcome = "not checked"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "News page 'Last updated June 17, 2025' in the 2025-09-14 snapshot; landing page 'Last updated October 29, 2026' in the 2026-10-31 snapshot."
+outcome = "confirmed"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "Last updated October 29, 2026"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "A publication or a rule, not a data file: it has no such fact."
+outcome = "not applicable"
+source_url = ""
+passage = ""
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "raw/wb-fema-bca-news.html"
+url = "http://web.archive.org/web/20250914063508/https://www.fema.gov/grants/guidance-tools/benefit-cost-analysis/news"
+bytes = 130640
+sha256 = "dd0705ae3f8b1a3d45afa3868d7a48fbf0c2aa32b565b754b2dadb1f5fa45d6b"
+fetched_at = "2026-11-25T17:04:35Z"
+
+[[file]]
+path = "raw/wb-fema-bca.html"
+url = "http://web.archive.org/web/20261031194051/https://www.fema.gov/grants/tools/benefit-cost-analysis"
+bytes = 159463
+sha256 = "7dc0a0714df0e5ca12292603581a6d66d70191b0978ed2f1835b86dd54053f97"
+fetched_at = "2026-11-25T17:04:02Z"
+
+[[file]]
+path = "fema-bca/wb-fema-standard-economic-values-v13-2024.pdf"
+url = "http://web.archive.org/web/20250707012856if_/https://www.fema.gov/sites/default/files/documents/fema-standard-economic-values-methodology-report-v13-2024.pdf.pdf"
+bytes = 1398683
+sha256 = "cb2b10bca881c18bd5b41f020a7cac082edea05dfad1b32902cccbd62b193709"
+fetched_at = "2026-11-25T17:05:00Z"
+
+[[file]]
+path = "fema-bca/wb-fema-bca-guide-supplement.pdf"
+url = "http://web.archive.org/web/20250707012856if_/https://www.fema.gov/sites/default/files/2020-08/fema_bca_guide-supplement.pdf"
+bytes = 9638194
+sha256 = "ed7f1dee90e50cc18c85705efb3d188538a5a9ae44935c1fcc7d8a6fb257d410"
+fetched_at = "2026-11-25T17:05:36Z"

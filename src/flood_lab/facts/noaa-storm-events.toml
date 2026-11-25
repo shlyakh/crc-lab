@@ -1,0 +1,221 @@
+id = "noaa-storm-events"
+title = "NOAA Storm Events Database, bulk CSV files"
+publisher = "NOAA National Centers for Environmental Information (NCEI), from National Weather Service reports"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FV5", "FT5"]
+known_biases = "Events are what the National Weather Service office for a county chose to enter, from spotters, public, media, officials and gauges; reporting depends on population, observers and office practice, so a flash flood entry means somebody reported it, and no entry means only that nobody did. Damage fields are estimates and are often 0.00K."
+
+[[fact]]
+name = "identifier"
+claimed = "NOAA's bulk files, read by a small flood_lab reader for the New York counties"
+observed = "Directory of bulk CSV files; tables: details, locations, fatalities, linked by EVENT_ID; one file per table per year."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/README"
+passage = "README: \"This directory contains CSV (Comma-Separated Values) text files which represent a dump or export of the Storm Events Database.\" ; Storm-Data-Bulk-csv-Format.pdf: \"There are 3 files linked by the event ID number. Details, locations and fatalities\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Directory https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/ (README and Storm-Data-Bulk-csv-Format.pdf there). The searchable web database is https://www.ncei.noaa.gov/access/storm-events-database/ (its pages are rendered by script and could not be read with curl)."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+passage = "index lists: README, Storm-Data-Bulk-csv-Format.pdf, Storm-Data-Export-Format.pdf, and StormEvents_{details,locations,fatalities}-ftp_v1.0_dYYYY_cYYYYMMDD.csv.gz"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "file_naming"
+claimed = ""
+observed = "StormEvents_details-ftp_v1.0_d2021_c20261119.csv.gz : table (details, locations, fatalities), v1.0 = version of the CSV structure, dYYYY = data year, cYYYYMMDD = date the file was created; gzip."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/README"
+passage = "README: \"The 'v1.0' describes the version of the internal CSV structure... The 'd1972' describes the year of data... The 'c20140508' describes the date that the file was created. We will update the current yearly file each month. A change in this value will indicate that new data is available. Additionally, updates and corrections may be made to previous years.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "files_2021_2023"
+claimed = "the files for 2021 and 2023"
+observed = "The directory listing on 2026-11-25 holds THREE creation dates for each of these years, with no note on which is current: details 2021 and 2023 at c20260323, c20261118 and c20261119; locations 2021 and 2023 at c20260707, c20261118 and c20261119 (and fatalities likewise). The newest (c20261119) was fetched: details 2021 (61,389 rows), details 2023 (75,593 rows), locations 2021, locations 2023. Older creation dates remain listed and may differ in content; they were not compared."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+passage = "listing: StormEvents_details-ftp_v1.0_d2021_c20260323.csv.gz, ..._d2021_c20261118.csv.gz, ..._d2021_c20261119.csv.gz ; same for d2023 ; StormEvents_locations-ftp_v1.0_d2021_c20260707.csv.gz, ..._c20261118, ..._c20261119 ; row counts from the fetched files via duckdb: YEAR 2021 61389, YEAR 2023 75593"
+note = "A study must pin the creation date it used (c20261119 here). Earlier years are reprocessed from time to time, so counts can change between creation dates."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = "fields with units"
+observed = "Details file has 51 columns (BEGIN_YEARMONTH ... EVENT_NARRATIVE, DATA_SOURCE); the PDF documents 50 of them and does not describe DATA_SOURCE (value \"CSV\" in all 136,982 rows of the two files). Units: injuries and deaths in persons; DAMAGE_PROPERTY and DAMAGE_CROPS in dollars as text with K or M suffix (\"10.00K = $10,000; 10.00M = $10,000,000\"); MAGNITUDE in knots (wind) or inches (hail), not used for floods; BEGIN_RANGE and END_RANGE in miles; TOR_LENGTH miles; TOR_WIDTH yards; coordinates decimal degrees; FLOOD_CAUSE text (\"Reported or estimated cause of the flood\", e.g. Heavy Rain). Locations file: YEARMONTH, EPISODE_ID, EVENT_ID, LOCATION_INDEX, RANGE, AZIMUTH, LOCATION, LATITUDE, LONGITUDE, LAT2, LON2."
+outcome = "differs"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+passage = "PDF: \"damage_property Ex: 10.00K, 0.00K, 10.00M The estimated amount of damage to property incurred by the weather event (e.g. 10.00K = $10,000; 10.00M = $10,000,000)\" ; \"begin_range Ex: 0.59, 0.69, 4.84, 1.17 (in miles)\" ; \"flood_cause Ex: Ice Jam, Heavy Rain, Heavy Rain/Snow Melt  Reported or estimated cause of the flood.\" ; locations PDF names \"lat\" and \"lon\", the 2021 locations file header is: YEARMONTH,EPISODE_ID,EVENT_ID,LOCATION_INDEX,RANGE,AZIMUTH,LOCATION,LATITUDE,LONGITUDE,LAT2,LON2"
+note = "Outcome \"differs\" is about the documentation, not about requirements.md: the documentation (PDF) and the files disagree in three places. (1) Locations columns are LATITUDE, LONGITUDE, LAT2, LON2 plus YEARMONTH, not lat and lon; LAT2/LON2 look like the same coordinates times 100000 (3817400, 9859400 for 38.29/-98.99, not explained in the PDF). (2) Date-time text in the files is \"01-SEP-21 22:00:00\" (DD-MON-YY), the PDF shows MM/DD/YYYY. (3) DATA_SOURCE is undocumented."
+verdict_note = "Here it is the publisher's documentation that differs from the publisher's files; the requirements make no claim about the fields."
+
+[[fact]]
+name = "flood_event_types"
+claimed = "Flash Flood, Flood, Heavy Rain, Coastal Flood"
+observed = "All four exist in the permitted event list. Flash Flood and Flood and Heavy Rain are county-based (C); Coastal Flood is zone-based (Z). Also in the list: Lakeshore Flood (Z), Storm Surge/Tide (Z), Debris Flow (C)."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+passage = "PDF Table from NWS Directive 10-1605 section 2.1.1: \"Coastal Flood Z ... Debris Flow C ... Flash Flood C ... Flood C ... Heavy Rain C ... Lakeshore Flood Z ... Storm Surge/Tide Z\""
+note = "Consequence: a Coastal Flood entry for New York City is written against a forecast zone (e.g. SOUTHERN QUEENS), not a county, so a county filter misses it (the two files hold one: SOUTHERN QUEENS, zone type Z)."
+verdict_note = ""
+
+[[fact]]
+name = "place_representation"
+claimed = "county or zone FIPS, begin and end coordinates"
+observed = "Each event carries CZ_TYPE (C county or parish, Z NWS public forecast zone, M marine), CZ_FIPS (county FIPS or zone number), CZ_NAME, STATE and STATE_FIPS, WFO, plus BEGIN_LAT/BEGIN_LON and END_LAT/END_LON (decimal degrees; in the New York rows 2 to 4 decimals) and begin/end range-azimuth-location text. Further points in the locations file (LOCATION_INDEX per event). For the five New York City counties: CZ_TYPE C, CZ_FIPS (unpadded in the file) 5 Bronx, 47 Kings, 61 New York, 81 Queens, 85 Richmond."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+passage = "PDF: \"cz_type Ex: C, Z , M  Indicates whether the event happened in a (C) County/Parish, (Z) NWS Public Forecast Zone or (M) Marine.\" ; \"begin_lat Ex: 29.7898 The latitude in decimal degrees of the begin point of the event or damage path.\" ; file: duckdb, STATE='NEW YORK' and CZ_TYPE='C': BRONX 5 (18 events), KINGS 47 (28), NEW YORK 61 (17), QUEENS 81 (44), RICHMOND 85 (15) in 2021+2023"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "United States (states, territories, marine zones); this stage uses the five New York City counties."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+passage = "\"state Ex: GEORGIA, WYOMING, COLORADO The state name where the event occurred\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = "2021 and 2023"
+observed = "Yearly files from 1950 on (README, update note of 5/14/2014); here YEAR 2021 and 2023 present, details files contain events by BEGIN date within the data year."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/README"
+passage = "README: \"Data from 1950 to 1996 has been added to the database and exported to CSV files in this directory.\" ; files fetched: YEAR values 2021 (61,389 rows) and 2023 (75,593 rows)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "time_zone"
+claimed = "time zone handling"
+observed = "Times are in local standard time of the county or zone (\"usually in LST\"), with the zone in CZ_TIMEZONE. All 122 rows for the five New York City counties in 2021 and 2023 say EST-5, including events in September when New York is on daylight time, so the text clock is EST (UTC-5), one hour behind the wall clock. Dates here were matched on that EST clock as written."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+passage = "PDF: \"begin_date_time Ex: 04/1/2012 20:48:00 MM/DD/YYYY hh:mm:ss (24 hour time usually in LST)\" ; \"cz_timezone Ex: EST-5, MST-7, CST-6 Time Zone for the County/Parish, Zone or Marine Name.\" ; file: select CZ_TIMEZONE,count(*) from n group by 1 -> [(EST-5,122)]"
+note = "Sensitivity of the counts to the clock: shifting all times +1 hour (EST to EDT) changes events covering 2021-09-01 from 36 to 35, 2021-09-02 from 4 to 8, and 2023-09-29 stays 15. \"usually\" means the PDF does not guarantee LST for every row."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Attribution"
+observed = "Terms of use and requested attribution not read: the NCEI pages that would carry them (https://www.ncei.noaa.gov/access/storm-events-database/, .../faq.jsp, the NCEI metadata record gov.noaa.ncdc:C00510) are rendered by script or returned errors (HTTP 502, 503, empty page) to curl and to a page fetcher. The README and the PDF in the data directory contain no licence or attribution wording."
+outcome = "not checked"
+source_url = "https://www.ncei.noaa.gov/access/storm-events-database/"
+passage = "README (full text read) and Storm-Data-Bulk-csv-Format.pdf (full text read): no terms-of-use, citation or attribution sentence found. Attempted: https://www.ncei.noaa.gov/products/storm-events-database (404), https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00510 (HTTP 000/502), https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00510/html (503), https://www.ncei.noaa.gov/stormevents/faq.jsp (page body only the title)."
+note = "Retry later or ask for the NCEI use-limitation text; do not assume public domain from NOAA being a US agency."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Files created 2026-11-19 (c20261119) fetched on 2026-11-25; the directory is updated monthly and past years may be corrected."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/README"
+passage = "README: \"We will update the current yearly file each month.\"; fetched names ..._c20261119.csv.gz"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "The publisher gives no checksum for these files (no checksum file in the directory listing). Local sha256 recorded in the file entries."
+outcome = "not applicable"
+source_url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/"
+passage = "directory listing shows no .md5 or .sha file"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "events_nyc_counties_2021-09-01"
+claimed = ""
+observed = "Five New York City counties (county-type events), events covering 2021-09-01 on the EST clock: Flash Flood 36, all other types 0 (Flood 0, Heavy Rain 0, Coastal Flood 0, Thunderstorm Wind 0). Events whose BEGIN date is 2021-09-01: 36. Flash Flood by county: BRONX 5, KINGS 7, NEW YORK 4, QUEENS 13, RICHMOND 7. Coastal Flood in the New York zones on this date: 0."
+outcome = "not applicable"
+source_url = "file via duckdb (script f0/scripts/noaa_counts.py, output f0/noaa_counts.out)"
+passage = "filter: STATE=NEW YORK, CZ_TYPE=C, CZ_FIPS in (5,47,61,81,85); parsed BEGIN_DATE_TIME/END_DATE_TIME as written (EST); an event counts if date(begin) <= 2021-09-01 <= date(end). Result by EVENT_TYPE: [(Flash Flood, 36)]. Begin-date-only: [(Flash Flood, 36)]"
+note = "All three dates have flash flood entries. The 2021-09-02 events began on 2021-09-01 at 23:56 EST (one of the four) or after midnight; 2021-09-01 holds 36 events, most at 17:45-23:00 EST. Largest damage entry for 2021-09-01 in the five counties: 54.00M (event 987540, New York county)."
+verdict_note = ""
+
+[[fact]]
+name = "events_nyc_counties_2021-09-02"
+claimed = ""
+observed = "Five New York City counties (county-type events), events covering 2021-09-02 on the EST clock: Flash Flood 4, all other types 0 (Flood 0, Heavy Rain 0, Coastal Flood 0, Thunderstorm Wind 0). Events whose BEGIN date is 2021-09-02: 3. Flash Flood by county: BRONX 2, NEW YORK 1, RICHMOND 1. Coastal Flood in the New York zones on this date: 0."
+outcome = "not applicable"
+source_url = "file via duckdb (script f0/scripts/noaa_counts.py, output f0/noaa_counts.out)"
+passage = "filter: STATE=NEW YORK, CZ_TYPE=C, CZ_FIPS in (5,47,61,81,85); parsed BEGIN_DATE_TIME/END_DATE_TIME as written (EST); an event counts if date(begin) <= 2021-09-02 <= date(end). Result by EVENT_TYPE: [(Flash Flood, 4)]. Begin-date-only: [(Flash Flood, 3)]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "events_nyc_counties_2023-09-29"
+claimed = ""
+observed = "Five New York City counties (county-type events), events covering 2023-09-29 on the EST clock: Flash Flood 15, all other types 0 (Flood 0, Heavy Rain 0, Coastal Flood 0, Thunderstorm Wind 0). Events whose BEGIN date is 2023-09-29: 15. Flash Flood by county: BRONX 1, KINGS 7, QUEENS 7. Coastal Flood in the New York zones on this date: 0."
+outcome = "not applicable"
+source_url = "file via duckdb (script f0/scripts/noaa_counts.py, output f0/noaa_counts.out)"
+passage = "filter: STATE=NEW YORK, CZ_TYPE=C, CZ_FIPS in (5,47,61,81,85); parsed BEGIN_DATE_TIME/END_DATE_TIME as written (EST); an event counts if date(begin) <= 2023-09-29 <= date(end). Result by EVENT_TYPE: [(Flash Flood, 15)]. Begin-date-only: [(Flash Flood, 15)]"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "events_nyc_flood_types_by_year"
+claimed = ""
+observed = "Five New York City counties, all dates in the two years: 2021 Flash Flood 64, Flood 1 (Bronx), Heavy Rain 0, Coastal Flood 0 (county type); 2023 Flash Flood 18, Flood 0, Heavy Rain 0. Other types present: Hail 6+1, Lightning 3+2, Thunderstorm Wind 24+3. Zone-type Coastal Flood: one, SOUTHERN QUEENS."
+outcome = "not applicable"
+source_url = "file via duckdb (script f0/scripts/noaa_counts.py)"
+passage = "5-county event types: [(2021,Flash Flood,64),(2021,Flood,1),(2021,Hail,6),(2021,Lightning,3),(2021,Thunderstorm Wind,24),(2023,Flash Flood,18),(2023,Hail,1),(2023,Lightning,2),(2023,Thunderstorm Wind,3)]"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "noaa-storm-events/StormEvents_details-ftp_v1.0_d2021_c20261119.csv.gz"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2021_c20261119.csv.gz"
+bytes = 13590067
+sha256 = "152e89ea4fae613ebe7a572451fc147da4f996d4956118f6d5b9f5044d6b06c8"
+fetched_at = "2026-11-25T16:53:28Z"
+
+[[file]]
+path = "noaa-storm-events/StormEvents_details-ftp_v1.0_d2023_c20261119.csv.gz"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2023_c20261119.csv.gz"
+bytes = 16415689
+sha256 = "731b7c9e73900a815f0352f65c469903976f1c971614963eb5cd37196d0b47a4"
+fetched_at = "2026-11-25T16:53:33Z"
+
+[[file]]
+path = "noaa-storm-events/StormEvents_locations-ftp_v1.0_d2021_c20261119.csv.gz"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_locations-ftp_v1.0_d2021_c20261119.csv.gz"
+bytes = 1246648
+sha256 = "f6c6f34aff2df96228d4ebcbc8fafc02429fb11deb5d960dcd4d463c17235896"
+fetched_at = "2026-11-25T16:53:34Z"
+
+[[file]]
+path = "noaa-storm-events/StormEvents_locations-ftp_v1.0_d2023_c20261119.csv.gz"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_locations-ftp_v1.0_d2023_c20261119.csv.gz"
+bytes = 1022219
+sha256 = "7c42d9eff029753cf6a2e6fe5ae74ec42c03119502e3a66bf34ad50ac986e8ce"
+fetched_at = "2026-11-25T16:53:35Z"
+
+[[file]]
+path = "noaa-storm-events/Storm-Data-Bulk-csv-Format.pdf"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/Storm-Data-Bulk-csv-Format.pdf"
+bytes = 341218
+sha256 = "3bd18968d34da43e192f8a7fb8e5548c4fa7d24ede016d2d068d849ee1392df6"
+fetched_at = "2026-11-25T16:53:20Z"
+
+[[file]]
+path = "noaa-storm-events/README"
+url = "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/README"
+bytes = 2013
+sha256 = "a397a60ef942a5ce6594935be1a854a045e1eaca0ea68398fd41f95d66dacb34"
+fetched_at = "2026-11-25T16:53:20Z"

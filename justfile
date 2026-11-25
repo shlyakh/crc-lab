@@ -151,7 +151,7 @@ validation-draft-accept source:
     uv run python -m data_source_check.draft accept {{source}}
 
 # Check that the static site is complete, project by project
-site: site-hail site-explorer site-validation
+site: site-hail site-explorer site-validation site-flood
 
 # Texas hail risk: page files and the layers of origin crc-lab
 site-hail:
@@ -176,3 +176,23 @@ serve:
 # Serve the site from one container (http://127.0.0.1:8080)
 up:
     docker compose up --build
+
+# Flood lab: the gallery and data cards are complete and match what the generators write now
+site-flood:
+    uv run python -m flood_lab.check_site
+
+# Flood lab: data cards from the reviewed source facts (src/flood_lab/facts/)
+flood-facts:
+    uv run python -m flood_lab.data_cards
+
+# Flood lab: rebuild the gallery of visual tests from the committed records, offline
+flood-checks:
+    uv run python -m flood_lab.gallery
+
+# Flood lab F0: the CRC 1.0.0 calls on toy data; area scoring from the cache; facts from the reviewed drafts
+flood-f0:
+    uv run python tools/flood/f0_crc_calls.py --timing
+    uv run python tools/flood/f0_accept_facts.py
+    uv run python -m flood_lab.checks.f0_area
+    uv run python -m flood_lab.data_cards
+    uv run python -m flood_lab.gallery

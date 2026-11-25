@@ -26,6 +26,7 @@ jobs:
       - run: uv run python -m crc_lab.check_site
       - run: uv run python -m crc_data_explorer.check_site
       - run: uv run python -m data_source_check.check_site
+      - run: uv run python -m flood_lab.check_site
       # Keep the D0 explainers at their existing Pages URL (/explainers/...)
       - run: mkdir -p site/explainers && cp docs/explainers/*.html docs/explainers/README.md site/explainers/
       - uses: actions/upload-pages-artifact@v3

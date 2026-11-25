@@ -1,0 +1,154 @@
+id = "usace-national-structure-inventory"
+title = "National Structure Inventory (NSI) 2026 Base"
+publisher = "U.S. Army Corps of Engineers (NSI development team)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD5"]
+known_biases = "A modeled inventory, not a survey: attributes are estimated from parcels, footprints, Census data and regional distributions, so foundation height, basement and values are typical rather than measured. Prices are August 2025, the inventory reflects roughly 2025 buildings and population, and stacked structures are counted as several records on one footprint."
+
+[[fact]]
+name = "identifier"
+claimed = "USACE National Structure Inventory"
+observed = "Current version: NSI 2026 Base (\"first update to the base layer since the release of the 2022 version\"). Documentation at https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/ (versions 2026 latest, 2022, 2019)."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/release-notes"
+passage = "\"The National Structure Inventory (NSI) 2026 version is a significant update to the NSI base level dataset and is the first update to the base layer since the release of the 2022 version.\" ; \"Dataset version: NSI 2026 Base Price level: August 2025 Population level: April 2025 Primary coordinate system: WGS84\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "API root https://nsi.sec.usace.army.mil/nsiapi/ (the bare root returns 404 JSON, the site root 403; the documented endpoints work). Structures by polygon: GET https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=lon,lat,lon,lat,... (a closed ring of at least 4 corner pairs; not min/max form); by county: ?fips=<5-digit FIPS>; optional &fmt=fc (feature collection, default) or &fmt=fs (feature stream); POST of a GeoJSON polygon for complex shapes. /stats?bbox=... for summary. State GeoPackage and GeoParquet downloads on the NSI Download page (the download tool still serves 2022 data per the release notes)."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/api-reference-guide"
+passage = "\"The root url of the NSI API is: https://nsi.sec.usace.army.mil/nsiapi/\" ; \"https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-81.58418,30.25165,-81.58161,30.26939,-81.55898,30.26939,-81.55281,30.24998,-81.58418,30.25165\" ; \"https://nsi.sec.usace.army.mil/nsiapi/structures?fips=15005&fmt=fs\" ; \"For situations where the same structure inventory is leveraged multiple times, it is best to download the inventory, store it locally\""
+note = "The /stats call with my ring returned {\"message\":\"Not Found\"}; not investigated. Sample call (HTTP 200): https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.96,40.66,-73.96,40.67,-73.95,40.67,-73.95,40.66,-73.96,40.66"
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = "occupancy type, foundation type or basement, first-floor height found_ht, replacement value val_struct, stories, ground elevation"
+observed = "All present in the public 2026 schema and in my sample: occtype (e.g. RES3C, COM4; Hazus-style damage function name), st_damcat (RES/COM/IND/PUB), found_type (C crawl, B basement, S slab, P pier, I pile, F fill, W solid wall), found_ht (\"foundation height of the structure in feet from the ground elevation\"), num_story, val_struct (depreciated replacement value in dollars), val_cont, val_vehic, fullrep (full non-depreciated replacement value, new in 2026), depindex, sqft, ftprntsqft, bldheight (metres), ground_elv (feet, NAVD88) and grnd_elv_m (metres, NAVD88), med_yr_blt (median of the census tract, not the building), firmzone, zone_sub, static_bfe, x/y WGS84. A basement is only the found_type=B flag: the detailed `basement` field (finished/unfinished/none) is a restricted field for federal users and mission partners. Sample record keys (43): bid, bldgtype, bldheight, cbfips, creprcnt, crerank, depindex, fd_id, firmzone, found_ht, found_type, ftprntid, ftprntsqft, ftprntsrc, fullrep, grnd_elv_m, ground_elv, med_yr_blt, novehprob, num_story, o65disable, occtype, pctlowclr, pop2amo65, pop2amu65, pop2pmo65, pop2pmu65, resunits, source, sqft, st_damcat, static_bfe, students, u65disable, usastrucid, val_cont, val_struct, val_vehic, vehperunit, x, y, zone_sub."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation"
+passage = "found_ht \"Describes the foundation height of the structure in feet from the ground elevation.\" ; found_type \"(C = Crawl, B = Basement, S = Slab, P = Pier, I = Pile, F = Fill, W = Solid Wall)\" ; val_struct \"Value in dollars of the structure. The base NSI estimates depreciated replacement value.\" ; fullrep \"The full, not depreciated, estimated replacement value of the structure record.\" ; grnd_elv_m \"Ground elevation (in meters, NAVD88) at the structure.\" ; ground_elv \"Ground elevation (in feet, NAVD88) at the structure.\" ; Private fields: \"basement Basement type of the structure (i.e. finished, unfinished, none).\""
+note = "The doc list has no number-of-stories unit note; num_story is a count. Sample shows ground_elv 96.04 ft and grnd_elv_m 29.27 m for a Crown Heights point, consistent with each other. Ground elevation source per the doc: USGS National Elevation Dataset 10 m, so it is coarser than the 1 m lidar."
+verdict_note = ""
+
+[[fact]]
+name = "price_year"
+claimed = "price year of the values"
+observed = "Values are at August 2025 price levels; replacement cost, not market value; land excluded. val_struct is depreciated replacement value, fullrep is not depreciated. USACE normally uses depreciated, FEMA Hazus often full."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/frequently-asked-questions"
+passage = "\"What is the price level of the NSI? NSI dollar values represent estimated replacement costs as of approximately August 2025. NSI values reflect full and depreciated replacement cost, not market value. They exclude land value and broader market effects such as location premiums.\" ; technical documentation: \"All values are reported in August 2025 price levels.\""
+note = "Event-year losses for 2021 would need deflating by a price index; the NSI itself gives none."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Public"
+observed = "No licence or terms of use stated in the documentation pages I read (API guide, technical documentation, FAQ, release notes, mission page). The mission says the aim is to \"Provide access to the data to as many people and agencies as possible\". Some fields are restricted to federal users. The nsi.sec.usace.army.mil site root returned 403 and the NSI home page was not read."
+outcome = "not checked"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/mission-vision-and-goals"
+passage = "Goals: \"Provide access to the data to as many people and agencies as possible.\" ; technical documentation: \"Some NSI fields are restricted to federal users and mission partners because they contain source-specific, sensitive, licensed, or otherwise restricted information.\""
+note = "\"Public\" in requirements.md is plausible (the API answers anonymously) but no statement was found; look for terms on the NSI download page or a USACE statement."
+verdict_note = ""
+
+[[fact]]
+name = "known_limits"
+claimed = ""
+observed = "Stated by the publisher: a modeled national inventory, not a structure-by-structure verification; errors possible in location, occupancy, square footage, stories, foundation type and height, population, value; meant for screening and regional use; \"not intended for legal or regulatory determinations\"; local review and surveys recommended; stacked structures (several records on one footprint, with value divided); structure placed at footprint or parcel centroid; garages not separate."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation"
+passage = "\"The NSI Base dataset should be understood as a modeled national exposure inventory rather than a structure-by-structure verification dataset.\" ; \"individual structure records may contain errors in location, occupancy type, square footage, number of stories, foundation type, foundation height, population, or value.\" ; FAQ: \"NSI is not intended for legal or regulatory determinations or for analyses requiring precise structure-level accuracy.\""
+note = "In my sample 1,586 records sit on 1,586 fd_id but fewer footprints (stacked structures); count distinct ftprntid to count buildings (FAQ advice)."
+verdict_note = ""
+
+[[fact]]
+name = "sample_summary"
+claimed = ""
+observed = "Sample box lon -73.96..-73.95, lat 40.66..40.67 (Prospect Heights / Crown Heights, Brooklyn): 1,586 structure records in one FeatureCollection, 1,390,724 B. st_damcat RES 1250, COM 265, PUB 57, IND 14; found_type B 1238, S 322, C 26; found_ht 0.25 to 2 ft (no nulls); num_story mostly 2 (1004), then 3 (217), 1 (149), 4 (114); val_struct median 466,231 USD; source P (parcel) 1258, H (HIFLD) 328; top occtype RES3A 417, RES1-2SWB 407, RES3C 111. No nulls in found_ht, val_struct, ground_elv, fullrep, num_story."
+outcome = "confirmed"
+source_url = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.96,40.66,-73.96,40.67,-73.95,40.67,-73.95,40.66,-73.96,40.66"
+passage = "FeatureCollection of 1586 features (my count); first feature properties: found_ht 2, found_type B, occtype RES3C, val_struct 2409559.7452, fullrep 3393746.12, ground_elv 96.040825, grnd_elv_m 29.273243, num_story 2, med_yr_blt 1938"
+note = "Statistics are mine. Note: found_ht never exceeds 2 ft in this box and basements are flagged for 78% of records: the values look like regional-distribution assignments (doc: foundation types assigned from tax-assessor data and \"regional distributions\"), not measured first-floor heights, and will differ from the city Building Elevation and Subgrade table."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "The 50 states and DC; US territories are not included. About 134 million structures nationally."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/frequently-asked-questions"
+passage = "\"The NSI includes the 50 states and the District of Columbia. Due to data availability and consistency constraints, U.S. Territories are not currently included.\" ; \"NSI 2026 includes approximately 134 million structures compared to roughly 130 million utilized building footprints.\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Describes current conditions, not 2021 or earlier: price level August 2025, population level April 2025, FIRM zone joined 2025 (firmzone \"Estimated 2025 flood zone\"), Census 2020 blocks. Buildings built or changed after 2021-09 are included."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation"
+passage = "\"Dataset version: NSI 2026 Base Price level: August 2025 Population level: April 2025\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "NSI 2026 Base; the pages give no release date or version number beyond \"2026\". The previous base version was 2022."
+outcome = "confirmed"
+source_url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/release-notes"
+passage = "\"NSI 2026 version ... is the first update to the base layer since the release of the 2022 version.\" No date found."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No publisher checksum for API output. SHA-256 of my sample is in the [[file]] entry."
+outcome = "not applicable"
+source_url = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.96,40.66,-73.96,40.67,-73.95,40.67,-73.95,40.66,-73.96,40.66"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "usace-national-structure-inventory/nsi_brooklyn_sample.json"
+url = "https://nsi.sec.usace.army.mil/nsiapi/structures?bbox=-73.96,40.66,-73.96,40.67,-73.95,40.67,-73.95,40.66,-73.96,40.66"
+bytes = 1390724
+sha256 = "b27a2a5f64bec5677864fb9866aca259fecbc7835d38da6c4fc8e9f8369cad71"
+fetched_at = "2026-11-25T16:56:56Z"
+
+[[file]]
+path = "usace-national-structure-inventory/docs/api-reference-guide.html"
+url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/api-reference-guide"
+bytes = 89120
+sha256 = "edcb9f4374ac7e4646b46392eba53974abd95e049e937fffe8e09c51e23ee2db"
+fetched_at = "2026-11-25T16:56:48Z"
+
+[[file]]
+path = "usace-national-structure-inventory/docs/frequently-asked-questions.html"
+url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/frequently-asked-questions"
+bytes = 94756
+sha256 = "d7f4557b100c80d01aa9514909e52f3247eebbcaf5817fbe52dfde1d81ed4fde"
+fetched_at = "2026-11-25T16:56:49Z"
+
+[[file]]
+path = "usace-national-structure-inventory/docs/release-notes.html"
+url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/release-notes"
+bytes = 96107
+sha256 = "a4020654f804ec98741ed5df9a2feef339d15784c343fe16ba333781c17d1626"
+fetched_at = "2026-11-25T16:56:50Z"
+
+[[file]]
+path = "usace-national-structure-inventory/docs/technical-documentation.html"
+url = "https://www.hec.usace.army.mil/confluence/nsi/technicalreferences/latest/technical-documentation"
+bytes = 153256
+sha256 = "c0319ff9f2f5c4fcd5972aa93c8de6b26fec320b2c7f54972c9c2b642442a8e9"
+fetched_at = "2026-11-25T16:56:51Z"

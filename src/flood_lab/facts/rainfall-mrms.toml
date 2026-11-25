@@ -1,0 +1,110 @@
+id = "rainfall-mrms"
+title = "NOAA MRMS quantitative precipitation estimates (QPE)"
+publisher = "NOAA NSSL / NWS NCEP (MRMS); archived on AWS by the NOAA NODD program and at Iowa State (mtarchive)"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts and second reader"
+second_reader_stage = "F5"
+used_for = ["FH4"]
+known_biases = "Registry: MRMS was upgraded from version 11 to 12 on 2020-10-14 and products before that date should be used with caution (the AWS archive starts on 2020-10-14). Pass 1 has a 20-minute latency and Pass 2 a 1-hour latency (NSSL table); the grid resolution of the files was not read (no file downloaded) so it is not recorded here. The mtarchive copy for 2021-09-01 has no Pass 1 or 15-minute product, only Pass 2, RadarOnly 1H and PrecipRate."
+
+[[fact]]
+name = "identifier"
+claimed = "MRMS (replays), FH4"
+observed = "Products for the two storms: RadarOnly_QPE_01H (radar-only 1-hour accumulation, table frequency 2-min), RadarOnly_QPE_15M (15-minute accumulation), PrecipRate (radar precipitation rate, mm/hr, 2-min), MultiSensor_QPE_01H_Pass1 (multi-sensor 1-hour, 20-minute latency, 60-min frequency) and MultiSensor_QPE_01H_Pass2 (1-hour latency, 60-min frequency); units mm. Also 03H to 72H accumulations for Pass1, Pass2 and RadarOnly."
+outcome = "confirmed"
+source_url = "https://www.nssl.noaa.gov/projects/mrms/operational/tables.php"
+passage = "209 6 1 PrecipRate 2-min mm/hr ... Radar Precipitation Rate; 209 6 2 RadarOnly_QPE_01H 2-min mm ... Radar precipitation accumulation 1-hour; 209 6 30 MultiSensor_QPE_01H_Pass1 60-min mm ... Multi-sensor accumulation 1-hour (20-minute latency); 209 6 37 MultiSensor_QPE_01H_Pass2 60-min mm ... Multi-sensor accumulation 1-hour (1-hour latency); 209 6 45 RadarOnly_QPE_15M 15-min mm ... Radar precipitation accumulation 15-minute"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "AWS: s3://noaa-mrms-pds/CONUS/<product>/<YYYYMMDD>/MRMS_<product>_<YYYYMMDD-HHMMSS>.grib2.gz, anonymous HTTPS https://noaa-mrms-pds.s3.amazonaws.com/. Iowa State: https://mtarchive.geol.iastate.edu/<YYYY>/<MM>/<DD>/mrms/ncep/<Product>/ with product dirs MultiSensor_QPE_01H_Pass2, PrecipRate, RadarOnly_QPE_01H (also 24H, 72H). Listed (not downloaded), both dates exist in both archives. AWS 2021-09-01: CONUS/MultiSensor_QPE_01H_Pass2_00.00/20210901/MRMS_MultiSensor_QPE_01H_Pass2_00.00_20210901-000000.grib2.gz (788,773 bytes) and ..._20210901-010000.grib2.gz (711,249 bytes); CONUS/RadarOnly_QPE_01H_00.00/20210901/MRMS_RadarOnly_QPE_01H_00.00_20210901-000000.grib2.gz (829,708). AWS 2023-09-29: CONUS/MultiSensor_QPE_01H_Pass2_00.00/20230929/MRMS_MultiSensor_QPE_01H_Pass2_00.00_20230929-000000.grib2.gz (429,354) and ..._20230929-010000.grib2.gz (375,730); CONUS/PrecipRate_00.00/20230929/MRMS_PrecipRate_00.00_20230929-000000.grib2.gz (322,165). Pass1, RadarOnly_QPE_01H and PrecipRate (2-minute files -000000, -000200, -000400 ...) also exist on AWS for both dates. mtarchive: .../2021/09/01/mrms/ncep/MultiSensor_QPE_01H_Pass2/MultiSensor_QPE_01H_Pass2_00.00_20210901-000000.grib2.gz to ..._20210901-230000.grib2.gz; same for 2023/09/29."
+outcome = "confirmed"
+source_url = "https://noaa-mrms-pds.s3.amazonaws.com/?list-type=2&prefix=CONUS/MultiSensor_QPE_01H_Pass2_00.00/20210901/&max-keys=3"
+passage = "<Key>CONUS/MultiSensor_QPE_01H_Pass2_00.00/20210901/MRMS_MultiSensor_QPE_01H_Pass2_00.00_20210901-000000.grib2.gz</Key><Size>788773</Size> ; <Key>CONUS/MultiSensor_QPE_01H_Pass2_00.00/20230929/MRMS_MultiSensor_QPE_01H_Pass2_00.00_20230929-000000.grib2.gz</Key><Size>429354</Size> ; mtarchive listing: href=\"MultiSensor_QPE_01H_Pass2_00.00_20230929-230000.grib2.gz\""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "GRIB2, gzip-compressed, one file per time stamp; accumulations in mm, PrecipRate in mm/hr, missing -1 (NSSL table: Missing -1, Range Folded n/a, No Coverage -3)."
+outcome = "confirmed"
+source_url = "https://www.nssl.noaa.gov/projects/mrms/operational/tables.php"
+passage = "PrecipRate 2-min mm/hr -1 n/a -3; RadarOnly_QPE_01H 2-min mm -1 n/a -3"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "CONUS folder in the bucket (sibling folders ALASKA, CARIB, GUAM, HAWAII, CONUS_5KM). Grid spacing and extent were not read from a primary page or file (no grid downloaded)."
+outcome = "not checked"
+source_url = "https://noaa-mrms-pds.s3.amazonaws.com/?list-type=2&delimiter=/"
+passage = "Prefixes: ALASKA/ ANC/ CARIB/ CONUS/ CONUS_5KM/ ConvectProb/ GUAM/ HAWAII/ ProbSevere/ unsupported/"
+note = "Resolution unconfirmed here; do not state 1 km until read from the grib2 header or an NSSL page."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "AWS archive: earliest date folder for the four products is 20201014 (listing, sorted ascending); registry update cycle 2 minutes in real time. Iowa State archive has the two storm dates. Both storm dates are after the 2020-10-14 version-12 upgrade."
+outcome = "confirmed"
+source_url = "https://noaa-mrms-pds.s3.amazonaws.com/?list-type=2&prefix=CONUS/MultiSensor_QPE_01H_Pass2_00.00/&delimiter=/&max-keys=3"
+passage = "<Prefix>CONUS/MultiSensor_QPE_01H_Pass2_00.00/20201014/</Prefix> (first); same for Pass1, RadarOnly_QPE_01H, PrecipRate. Registry: 'MRMS was upgraded from version 11 to 12 on October 14, 2020 ... we advise caution when using MRMS version 11 products released before October 14, 2020.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Public (section 7)"
+observed = "AWS copy: NODD terms (open, attribution requested, no endorsement). Iowa State: 'There are no usage restrictions for this website'."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-mrms-pds/"
+passage = "NOAA data disseminated through NODD are open to the public and can be used as desired ... NOAA requests attribution ... ; mtarchive home: There are no usage restrictions for this website."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "MRMS v12 operational since 2020-10-14 per registry; archive layout above."
+outcome = "confirmed"
+source_url = "https://registry.opendata.aws/noaa-mrms-pds/"
+passage = "MRMS was upgraded from version 11 to 12 on October 14, 2020."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "No checksum published; S3 ETag only."
+outcome = "not applicable"
+source_url = "https://noaa-mrms-pds.s3.amazonaws.com/"
+passage = "no checksum"
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "raw/mrms-registry.html"
+url = "https://registry.opendata.aws/noaa-mrms-pds/"
+bytes = 15167
+sha256 = "8cd3fc03b1d267a97353202d92d46cc878650ce1322729e9cda08554d6c2eba1"
+fetched_at = "2026-11-25T16:55:50Z"
+
+[[file]]
+path = "raw/mrms-tables.html"
+url = "https://www.nssl.noaa.gov/projects/mrms/operational/tables.php"
+bytes = 132251
+sha256 = "ecde6af9a3827f79ab320b9775d36475c5e6087f3a5fdc219422641c253a3907"
+fetched_at = "2026-11-25T16:56:23Z"
+
+[[file]]
+path = "raw/nssl-mrms.html"
+url = "https://www.nssl.noaa.gov/projects/mrms/"
+bytes = 46888
+sha256 = "269552bec4571ece1226d2ad658cc42fc24bbeaf32705f77e9f4597a60d3e113"
+fetched_at = "2026-11-25T16:56:13Z"
