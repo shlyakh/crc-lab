@@ -23,9 +23,11 @@ arrive.
 | ID | Date | From | What | Requirements touched | Assessment | Decision | Entered in version |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | CH-0 | 2026-11-25 | example | *Example row, not a proposal:* add a second rainfall record as a check on the catalogue | FH5, §7 | F4 not started, nothing to re-run; one more download and data card, about 2 h; needs FS6 | none | none |
+| CH-1 | 2026-11-25 | Yuri | Correction: version 1 said exceedance curves, VaR and CVaR are `flood_lab` code. CRC 1.0.0 has them: a loss distribution is a `Distribution` (`empirical`, `exceedance`, `quantile`, `statistics` with CVaR, `to_json`), and `Impact.pushforward` gives an asset's damage distribution. Only the event-loss table and the sums across assets per event and year are the lab's | D3, FR5, FR6, FR8, §10, flow diagram, mapping | Nothing built, nothing to re-run. Less own code in F6, same hours. Checked by a run on made-up numbers against numpy | accepted | 2 |
 
 ## Versions of the requirements
 
 | Version | Date | Tag | What changed |
 | --- | --- | --- | --- |
 | 1 | 2026-11-25 | `flood-requirements-v1` | First reviewed version: moved to crc-sdk 1.0.0, source validation levels, flow diagrams, change procedure |
+| 2 | 2026-11-25 | (not tagged yet) | CH-1: loss statistics come from CRC |

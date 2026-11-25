@@ -1,6 +1,6 @@
 # Plan: Flood Loss & Trigger Lab
 
-Version 1, 2026-11-25 (tag `flood-requirements-v1`); first draft 2026-11-24. Companion to
+Version 2, 2026-11-25 (version 1 is tag `flood-requirements-v1`); first draft 2026-11-24. Companion to
 `docs/flood/requirements.md`, whose IDs (FG1, FH3, ...) are cited here. Revised for crc-sdk 1.0.0 and
 crc-framework 1.0.0 (`docs/flood/crc-1.0-mapping.md`). Nothing is started. Stages run in order, one at a
 time; each ends with a visual test on the gallery, a report in `docs/flood/reports/`, and a stop for
@@ -69,7 +69,7 @@ by what the task needs, not the main model's by default.
 | F3 | Model design, drainage calibration, the freeze | Scripted build, water-balance and monotonicity tests, figures | Atlas 14 values for §9 item 4 |
 | F4 | Transposition domain and its justification; depth frequency and the load into CRC | RainyDay environment, batch runner, design storms | Rainfall record download and card |
 | F5 | Reading of the errors; the statement FV4 may require; each loader against its second reader | Comparisons and figures; second readers for the marks and the radar rainfall, by an agent that does not see the loaders | 311 and Storm Events loads |
-| F6 | Curve values against primary sources; CRC damage and expectation; brackets; `docs/algorithms.md` | Event-loss table, metrics, bootstrap, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
+| F6 | Curve values against primary sources; CRC damage, expectation and loss statistics; brackets; `docs/algorithms.md` | Event-loss table, sums per event and year, bootstrap resampling, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
 | F7 | Identity tests; the investment one-pager | Measures, benefit-cost, outage cost | FEMA useful life and toolkit version |
 | F8 | Label fusion and scoring; what may be said of the pilot | Indices, payout, planted tests; claims with the date rule | Primary sources for §9 item 6 |
 | F11 | Captions and limits; final check with Yuri | The page | Smoke script, document lists |
@@ -155,8 +155,10 @@ src/flood_lab/
   curves/
     curves.yaml  load.py  export.py                                   FR1-FR3
   risk/
-    event_loss.py  metrics.py  dependence.py  (own code)              FR4-FR8
-    crc_adapter.py     Impact.tabulated, evaluate, expectation        FR1-FR5
+    event_loss.py  dependence.py  (own: table, sums per event, year)  FR4, FR6
+    metrics.py         sums in, figures from CRC Distribution         FR5, FR8
+    crc_adapter.py     Impact.tabulated, evaluate, expectation,
+                       pushforward; Distribution.empirical            FR1-FR5
   measures/
     measures.yaml  apply.py  bca.py  outage.py                        FM1-FM6
   trigger/
@@ -192,6 +194,9 @@ tests/flood/
    - `evaluate(Assets).return_periods([10, 100, 500]).impact(...)`, with one asset outside the grid and
      one query outside the knots, to see the failure rows;
    - `compute_risk` on three assets, against a hand sum, for FR6;
+   - `Distribution.empirical` on made-up annual losses: `exceedance`, `quantile`, `statistics` with CVaR,
+     `to_json` and back; `Impact.pushforward` on one curve (both were run once on 2026-11-25 and agreed
+     with a numpy recomputation; F0 keeps them as tests);
    - `Observations.from_table` and `Layer.from_table` on ten rows each, read back;
    - the time and memory of a 600,000-cell `from_raster` read.
    Anything that differs from the mapping is corrected there and in the requirement, and is a candidate
@@ -355,8 +360,9 @@ states that substation-level claims are not supported and proposes what to do (c
    in F10.
 3. Event-loss table (FR4): damage ratios from CRC's `Impact.evaluate`, the table and the money in
    `flood_lab`.
-4. Metrics from the table in `flood_lab` code (FR5); per asset from CRC's curves, expected annual damage
-   by `complete` and `expectation` and loss at 10, 100 and 500 years by `evaluate(...).impact(...)`, with
+4. Metrics (FR5): sums per event and per synthetic year in `flood_lab`, then exceedance curves, VaR,
+   CVaR and expected annual loss from CRC's `Distribution.empirical`; per asset from CRC's curves, the
+   damage distribution by `pushforward`, expected annual damage by `complete` and `expectation` and loss at 10, 100 and 500 years by `evaluate(...).impact(...)`, with
    failure rows counted; the two curve routes of FH7 compared at the assets; the dependence brackets
    (FR6), with `compute_risk` if F0 showed it fits.
 5. Hand recomputation of three assets in a notebook, by an agent that does not see the code (FR7);

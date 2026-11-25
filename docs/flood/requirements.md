@@ -1,6 +1,7 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 1, 2026-11-25 (tag `flood-requirements-v1`); first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
+Version 2, 2026-11-25 (version 1 is tag `flood-requirements-v1`; what changed is in `docs/flood/changes.md`);
+first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
 
@@ -40,7 +41,7 @@ FS6).
 | --- | --- | --- |
 | D1 | Study area: one 10–20 km² neighbourhood in Brooklyn or Queens, chosen in stage F0 by a scoring rule; search starts inside the Jamaica Bay watershed | Recommended by Claude; **confirm with Yuri before F0 ends** |
 | D2 | Storms: remnants of Ida (2021-09-01) for depth validation; 2023-09-29 for the trigger case study | Recommended; confirm with D1 |
-| D3 | CRC (crc-sdk 1.0.0, crc-framework 1.0.0) is the loss engine: it computes every damage ratio and every per-asset expectation. CRC 1.0.0 has no event-loss table and no portfolio aggregation, so `flood_lab` builds those from CRC's ratios in its own code, documented in `docs/algorithms.md` and recomputed by hand. What CRC lacks is written up as design feedback. Other engines are donors and cross-checks | Decided by Yuri; revised 2026-11-25 |
+| D3 | CRC (crc-sdk 1.0.0, crc-framework 1.0.0) is the loss engine: it computes every damage ratio, every per-asset damage distribution and expectation, and every statistic of a loss distribution (exceedance probabilities, VaR as a quantile, CVaR, mean), with the distribution held as a CRC `Distribution`. CRC 1.0.0 has no event set or event-loss table and no summing of losses across assets under dependence, so `flood_lab` does only that bookkeeping (losses per event, sums per event and per synthetic year) and hands the sums back to CRC. It is documented in `docs/algorithms.md` and recomputed by hand. What CRC lacks is written up as design feedback. Other engines are donors and cross-checks | Decided by Yuri; revised 2026-11-25, corrected the same day (CH-1) |
 | D4 | The depth solver is reused, not written: Deltares SFINCS built with HydroMT-SFINCS. It sits behind an interface a licensed model could replace | Decided by Yuri |
 | D5 | Assets: electrical substations first, buildings second | Decided by Yuri |
 | D6 | Resilience measures are modifications of the damage curve; report loss before and after and a benefit-cost ratio | Decided by Yuri |
@@ -106,12 +107,13 @@ flowchart TD
     C3["Impact.evaluate<br/>damage ratio per event and asset"]
     C4["complete + Impact.expectation,<br/>evaluate(...).impact(...)<br/>expected annual damage, loss at a return period"]
     C5["Layer, Observations<br/>city maps, FloodNet (FS1, FS3)"]
+    C6["Distribution.empirical<br/>exceedance curve, VaR, CVaR,<br/>expected annual loss (FR5)"]
   end
 
-  subgraph OWN["flood_lab: what CRC 1.0.0 does not hold"]
+  subgraph OWN["flood_lab: bookkeeping CRC 1.0.0 has no type for"]
     A1["assets_oed.csv, curves.yaml (FD6, FR1)"]
     L1["Event-loss table (FR4)"]
-    L2["Exceedance curves, VaR, CVaR,<br/>dependence brackets, bootstrap (FR5 to FR8)"]
+    L2["Sums per event and per year,<br/>dependence brackets, bootstrap resampling<br/>(FR5, FR6, FR8)"]
     L3["Measures: benefit-cost,<br/>outage cost (FM)"]
     T1["Trigger indices, payout (FT1 to FT4)"]
     T2["Fused labels, basis risk (FT5 to FT7)"]
@@ -143,14 +145,15 @@ flowchart TD
   C2 --> C4
   C3 --> L1
   L1 --> L2
-  C4 --> L2
-  L2 --> L3
+  L2 --> C6
+  C4 --> C6
+  C6 --> L3
   H3 --> T1
   S4 --> T2
   T1 --> T2
   L1 --> T2
   V1 --> OUT
-  L2 --> OUT
+  C6 --> OUT
   L3 --> OUT
   T2 --> OUT
 
@@ -162,7 +165,7 @@ flowchart TD
   class S1,S2,S3,S4,S5,S6 src
   class H4,H5,V1,A1,L1,L2,L3,T1,T2,OUT own
   class H1,H2,H3 solver
-  class C1,C2,C3,C4,C5 crc
+  class C1,C2,C3,C4,C5,C6 crc
   class H6 emu
 ```
 
@@ -223,7 +226,7 @@ What each engine adds as a check, and what it cannot show:
 
 | Engine | Stage | What agreement shows | What it does not show |
 | --- | --- | --- | --- |
-| CLIMADA | F10 | The damage ratios, the expected annual loss and the exceedance curve computed by `flood_lab` on CRC's ratios match an independent implementation; the measure's benefit matches its cost-benefit module | That the depths or the curves are right: both engines are given the same ones |
+| CLIMADA | F10 | The damage ratios, `flood_lab`'s sums per event and year, and CRC's expected annual loss and exceedance curve from them match an independent implementation; the measure's benefit matches its cost-benefit module | That the depths or the curves are right: both engines are given the same ones |
 | Oasis LMF | F10, or a design note if the F0 trial fails | The event-loss table and its annual and exceedance figures match an insurance-market engine, within its damage-bin resolution | Anything finer than a damage bin |
 | FloodAdapt (SFINCS with Delft-FIAT) | F10 | One event and one measure give the same per-asset damage through FIAT; a second build of the same solver model gives the same depths | Frequency: one event only. A difference in solver version is a known cause of disagreement (FH2) |
 | Second readers, hand recomputation | F2, F5, F6 (Tier 1) | The inputs were read correctly and three assets' losses can be recomputed to the cent | (This is the check Tier 1 relies on; the engines above come after it) |
@@ -451,20 +454,26 @@ say what this file claims, stop and report; do not substitute a number.
 - **FR4.** Loss per event per asset: the damage ratio comes from CRC (`Impact.evaluate` on the event's
   depths); the event-loss table is `flood_lab`'s own, since CRC 1.0.0 has none: event id, annual rate or
   synthetic year, asset id, depth, damage ratio for each curve, loss (ratio times value).
-- **FR5.** From the event-loss table, in `flood_lab` code: expected annual loss, occurrence and aggregate
-  exceedance curves, 1-in-100 loss, VaR and CVaR at 99%. Also from CRC's curves, per asset, and both
-  shown: expected annual damage as `curve.complete(TailCompletion(...))` then `Impact.expectation`, with
-  the tail completion a stated choice **[P]**; and loss at 10, 100 and 500 years from
+- **FR5.** From the event-loss table: `flood_lab` sums losses per synthetic year (aggregate) and takes
+  the largest event of each year (occurrence); each set of annual values becomes a CRC
+  `Distribution.empirical`, and CRC gives the figures: the exceedance curve (`exceedance`), 1-in-100 loss
+  and VaR at 99% (`quantile`), CVaR at 99% and expected annual loss (`statistics`). The distributions
+  are stored as CRC writes them (`to_json`) beside the record. Also from CRC's curves, per asset, and
+  both shown: the damage distribution as `Impact.pushforward` of the completed depth curve, expected
+  annual damage as `curve.complete(TailCompletion(...))` then `Impact.expectation`, with the tail
+  completion a stated choice **[P]**; and loss at 10, 100 and 500 years from
   `evaluate(assets).return_periods(...).impact(...)`. Rows that CRC returns as failures (a query outside
   a curve's knots, an asset no cell covers) are counted and reported, never dropped silently.
 - **FR6.** Dependence brackets: portfolio 1-in-100 loss under "all assets at the same return period" and
   under independence, with the event-table result between them. CRC 1.0.0's `compute_risk` sums
   independent two-state outcomes and gives VaR and CVaR; it is not an annual loss. F0 tests whether it
-  can serve as the independence bracket; if not, the bracket is own code.
+  can serve as the independence bracket; if not, the bracket is own code. CRC has no way to add losses
+  of assets that flood together, which is why the event-table sum is the lab's.
 - **FR7.** Three assets recomputed by hand in a notebook must match to the cent. The notebook is written
   by an agent that is not shown the code it checks.
 - **FR8.** Sampling uncertainty: bootstrap interval on expected annual loss and on the 1-in-100 loss from
-  resampling synthetic years.
+  resampling synthetic years (the resampling is own code; each resample's figures come from CRC as in
+  FR5).
 
 ### Resilience measures (FM)
 
@@ -697,8 +706,9 @@ Not checked at all in the verification pass, so still **[V]**. Each now has a st
 - Two real storms test whether an index discriminates. They cannot set a frequency.
 - The emulator is trained and tested in one neighbourhood only.
 - CRC Open data, where used, is CC BY-NC 4.0 and excluded from any commercial output.
-- CRC computes damage ratios and per-asset expectations; the event-loss table and the portfolio figures
-  are this project's own code on top of them.
+- CRC computes the damage ratios, the per-asset distributions and the statistics of every loss
+  distribution. The event-loss table and the sums of losses per event and per year, which carry the
+  dependence between assets, are this project's own code.
 - A source marked "facts confirmed" has had its identity, licence, fields and coverage read from the
   publisher; only a source marked "values recomputed" has been read a second time by independent code.
 

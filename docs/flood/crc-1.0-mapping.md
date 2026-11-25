@@ -2,7 +2,7 @@
 
 Written 2026-11-25 for crc-sdk 1.0.0 and crc-framework 1.0.0. Companion to `docs/flood/requirements.md`.
 
-**Status of every row: read, not run.** The calls were read in the reference clones (`../upstream/crc-sdk`
+**Status of every row but two: read, not run** (the two that were run say so). The calls were read in the reference clones (`../upstream/crc-sdk`
 and `../upstream/crc-framework-rs`, both at `v1.0.0`, identical to the installed wheels). None has been run
 for the flood lab. Stage F0 runs each once (requirements §9, item 12) and fills the last column; a row that
 does not behave as read stops the stage until this file and the requirement are corrected.
@@ -26,7 +26,8 @@ Paths: **sdk** is `../upstream/crc-sdk/crc_sdk/`, **fw** is
 | Assets | FD6 | `Assets(table, id_column=, location=PointColumns(longitude=, latitude=), columns=)` | sdk `_assets.py:315`, `:137` | WGS84 only; another declared coordinate system is refused | |
 | Curves out of a dataset | FR5 | `decode_curves(rows)` | sdk `_curves.py:11` | From rows to framework curves, as upstream's own pipeline does before `expectation` | |
 | Independence bracket (to be tested) | FR6 | `compute_risk(...)` | fw `_risk.py:114` | A sum of independent two-state outcomes with VaR, CVaR and attribution. It is not an annual loss. Default limit 2^20 branches | |
-| Statistics of a sample | FR5, FR8 | `Distribution.empirical(samples)`, `.statistics(...)` | fw `_distribution.py:292`, `:451` | Mean and CVaR of a sample; a candidate check on our own portfolio numbers, not their source | |
+| A loss distribution and its figures | FR5, FR8 | `Distribution.empirical(samples)`; `.exceedance(values)`, `.quantile(level)`, `.statistics(metrics=[MEAN, CVAR], level=, tail=)`; `.to_json()` | fw `_distribution.py:292`, `:400`, `:451` | The structure that holds a loss distribution: annual losses in, then the exceedance curve, VaR (a quantile), CVaR and mean, exact on the sample, ties kept as atoms. Run on 2026-11-25 on 1,000 made-up annual losses: VaR, CVaR, mean and exceedance equal a numpy recomputation; the JSON form reads back equal | Run once, agrees |
+| Damage distribution of one asset | FR5 | `Impact.pushforward(law)` | fw `_impacts.py:564` | The distribution of the damage ratio from a completed depth curve, with the same methods. Run on 2026-11-25 on one made-up curve: its mean equals `Impact.expectation` | Run once, agrees |
 | Sensor events | FS3 | `Observations.from_table(table, TimeSeriesColumns(...))` | sdk `_evidence_recipes.py:245`, `_table_input.py:64` | Dated values at longitude and latitude points, with a station and a group. Cannot go through `evaluate` or `impact` | |
 | City flood-map classes | FS1 | `Layer.from_table(...)` | sdk `_evidence_recipes.py:453` | Geometry with attributes, no time, no curve. Shown and joined, not evaluated | |
 | River flood maps, Fremont | FC1 | `JRC(product=JRC.Product.GLOFAS).select(area=Bounds(...)).read()` | sdk `_climate_sources.py:179-200`, `_providers/jrc.py:59-66` | The publisher's depths at 10, 20, 50, 75, 100, 200 and 500 years; no curve. Pixels with one depth or a decreasing depth get no row (CRC-023-JRC) | |
@@ -39,7 +40,7 @@ named says.
 | Not in 1.0.0 | Requirement | What the lab does |
 | --- | --- | --- |
 | An event set, an event-loss table, annual rates per event | FR4 | Own table; ratios from `Impact.evaluate` |
-| Occurrence and aggregate exceedance curves; portfolio aggregation with dependence | FR5, FR6 | Own code, in `docs/algorithms.md`, recomputed by hand (FR7) |
+| Adding the losses of assets that flood together (`compute_risk` adds independent two-state outcomes only); the split into occurrence and aggregate | FR5, FR6 | Own sums per event and per synthetic year; the sums go into `Distribution.empirical` and CRC gives the exceedance curve, VaR and CVaR |
 | A record with a date and a polygon | FS2 | Groundsource stays a `flood_lab` table |
 | Resilience measures | FM1, FM2 | A measure is a second damage table |
 | Uncertainty of a result, intervals on a fit | FR8 | Bootstrap over synthetic years, own code |
