@@ -1,6 +1,6 @@
 # F1. Terrain and assets
 
-Date: 2026-11-25 · branch `flood/f1` · crc-sdk 1.0.0, crc-framework 1.0.0 · awaiting review
+Date: 2026-11-25 · branch `flood/f1` · crc-sdk 1.0.0, crc-framework 1.0.0 · reviewed 2026-11-25, decisions at the end
 
 Stage F1 of `docs/flood/plan.md`, for the study area decided at the F0 stop: the Brooklyn land in the
 4 km square centred at 40.7048 N, 73.9642 W (`src/flood_lab/domain.py`). Numbers below come from the
@@ -181,6 +181,21 @@ codes are empty: no mapping from the inventory's classes was read.
    sum of its inventory records; no placeholder in a standard exposure column. Accept or change.
 8. **The Navy Yard pits** (for F3): fill them to quay level in the model, or leave them and exclude them
    from results.
+
+## Decisions taken at the stop (2026-11-25)
+
+Yuri agreed with the recommendations (change CH-6 in `docs/flood/changes.md`).
+
+| # | Decision |
+| --- | --- |
+| 1 | The 95% rule is judged on buildings proper: 95.9%, passes. Garages are outside the city's elevation table. The record was rebuilt and its note gives both rates |
+| 2 | The two calls on the contact sheet stand as recommended (Building 390 removed, the unnamed yard kept). The record still shows "a person has looked" as not judged: no date of a person's look has been entered |
+| 3 | The Vinegar Hill complex is the study's substation case |
+| 4 | Placeholder substation values are acceptable for the first public version, labelled |
+| 5 | Buildings with no value stay without a loss until F6 |
+| 6 | Inventory values are summed, with the split shown |
+| 7 | Requirement changes CH-5 accepted; requirements version 4 |
+| 8 | The Navy Yard pits: no recommendation was made; F3 proposes how to treat them |
 
 ## What was not done
 

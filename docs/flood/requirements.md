@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 3, 2026-11-25, tag `flood-requirements-v3` (earlier versions are tags `flood-requirements-v1` and `-v2`; what changed is in `docs/flood/changes.md`);
+Version 4, 2026-11-25, tag `flood-requirements-v4` (earlier versions are tags `flood-requirements-v1` to `-v3`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.

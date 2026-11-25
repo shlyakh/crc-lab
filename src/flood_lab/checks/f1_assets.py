@@ -43,6 +43,8 @@ FIG = "docs/flood/figures/f1"
 GEOJSON = paths.SITE / "data" / "substations.geojson"
 #: share of the study area's footprints with a row in the elevation table (plan F1) [P], proposed
 MIN_ELEVATION_MATCH = 0.95
+#: the footprints' feature code for a building proper (5110 is a garage)
+BUILDING_FEATURE_CODE = "2100"
 #: largest absolute median of table grade minus terrain, metres [P], proposed
 MAX_MEDIAN_GRADE_DIFF_M = 0.3
 TILE = "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NY_CMPG_2013.tif"
@@ -461,7 +463,12 @@ def main() -> None:
     con_edison = [
         s for s in stations if s["lab_name"] and "Consolidated Edison" in s["lab_operator"]
     ]
-    rate = stats["rate_buildings_with_elevation_row"]
+    rate_all = stats["rate_buildings_with_elevation_row"]
+    # decided at the F1 stop: the rule is judged on buildings proper; the city's elevation table
+    # does not cover garages (footprint feature code 5110) or other minor structures
+    proper = [r for r in houses if str(r["detail_feature_code"]) == BUILDING_FEATURE_CODE]
+    proper_matched = sum("elevation" in r["lab_match"] for r in proper)
+    rate = round(proper_matched / len(proper), 6) if proper else None
     kept = [s for s in stations if not s["lab_reviewed"].startswith("removed")]
 
     def total(selection, level):
@@ -650,13 +657,15 @@ def main() -> None:
         ),
         Check(
             "footprints matched to the elevation table",
-            "share of the study area's buildings (footprints with a real BIN) whose BIN is in "
-            "the Building Elevation and Subgrade table",
+            "share of the study area's buildings proper (footprint feature code 2100) whose BIN "
+            "is in the Building Elevation and Subgrade table (rule as decided at the F1 stop)",
             rate is not None and rate >= MIN_ELEVATION_MATCH,
             rate,
             MIN_ELEVATION_MATCH,
             proposed=True,
-            note="the unmatched are described in the table 'unmatched_footprints'",
+            note=f"over every footprint, garages included, the share is {rate_all}; the "
+            f"elevation table does not cover garages. {proper_matched} of {len(proper)} buildings "
+            "proper matched. The unmatched are described in the table 'unmatched_footprints'",
         ),
         Check(
             "every substation has a recorded review",
