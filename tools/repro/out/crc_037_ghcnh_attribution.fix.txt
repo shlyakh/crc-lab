@@ -1,4 +1,4 @@
-crc-sdk 1.0.0 (git fix/ghcnh-attribution 90d1228388)
+crc-sdk 1.0.0 (git fix/ghcnh-attribution 7cff738eec)
 call: GHCNh().select(stations='USW00012960', time=Period.window(2020, 2020)).observations().read()
 rows read: 11915
   ghcnh-station-list.csv           attribution: 'NOAA National Centers for Environmental Information; original source records retained.'
