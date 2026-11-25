@@ -1,31 +1,93 @@
 # Plan: Flood Loss & Trigger Lab
 
-Draft, 2026-11-24. Companion to `docs/flood/requirements.md`, whose IDs (FG1, FH3, ...) are cited here.
-Nothing is started. Stages run in order, one at a time; each ends with a visual test on the gallery, a
-report in `docs/flood/reports/`, and a stop for Yuri's review.
+Version 1 (draft for review), 2026-11-25; first draft 2026-11-24. Companion to
+`docs/flood/requirements.md`, whose IDs (FG1, FH3, ...) are cited here. Revised for crc-sdk 1.0.0 and
+crc-framework 1.0.0 (`docs/flood/crc-1.0-mapping.md`). Nothing is started. Stages run in order, one at a
+time; each ends with a visual test on the gallery, a report in `docs/flood/reports/`, and a stop for
+Yuri's review. The target is Tier 1 (D13).
 
 ## How to work
 
-1. Read `AGENTS.md`, then the requirements, then this plan. All repository rules apply.
-2. Before a stage: restate its goal and list anything in "Verify before use" (requirements §9) that falls
+### A stage
+
+1. One stage, one session, one branch. The stage is built on `flood/f<n>`, made from `main`, pushed for
+   backup, and merged into `main` only on Yuri's go at the stop (D14). The count of parked tests
+   (`tests/conftest.py`: 8 files and 3 tests) must not grow.
+2. Before a stage: read `AGENTS.md`, the requirements, this plan and the last report. Restate the stage's
+   goal and list anything in "Verify before use" (requirements §9) and any source fact (FS6) that falls
    in it. Check those first.
-3. During a stage: write code under `src/flood_lab/`, tests under `tests/flood/`, a `just flood-<stage>`
-   target, and the stage's check script under `src/flood_lab/checks/`.
-4. End of a stage: run `just flood-checks`, `just test`, `just lint`. Write the report: what was built,
-   numbers with their tags, the visual test figure, pass or fail against the rule, what was not done,
-   questions for Yuri. Then stop.
-5. If a source cannot be reached, a pass rule fails, or a number would have to be invented: stop and
-   report. Do not work around it.
-6. Hours are estimates for one person with AI coding tools. If a stage reaches 150% of its hours, stop
-   and report with the overrun rule's cut applied or proposed.
+3. During a stage: code under `src/flood_lab/`, tests under `tests/flood/`, a `just flood-<stage>` target,
+   and the stage's check script under `src/flood_lab/checks/`.
+4. End of a stage: run `just flood-checks`, `just test`, `just lint`. Assess the open rows of
+   `docs/flood/changes.md` (D16). Write the report: what was built, numbers with their tags, the visual test
+   figure, pass or fail against the rule, what was not done, the outcome of each source check, the
+   assessment of each open change, questions for Yuri, and which model did which task with its tokens.
+   Then stop.
+5. If a source cannot be reached, a pass rule fails, a fact differs from the requirements, or a number
+   would have to be invented: stop and report. Do not work around it.
+6. Hours are estimates for one person with AI coding tools; they are not a forecast of agent run time,
+   which each report states as measured. If a stage reaches 150% of its hours, stop and report with the
+   overrun rule's cut applied or proposed.
+
+### Who does what
+
+The main model of the session coordinates (Claude Fable 5.2 as of this version). Agents are given a model
+by what the task needs, not the main model's by default.
+
+1. **The main model fixes the contracts first**: record fields, table columns, function signatures, the
+   files each agent may touch. Then it writes each brief.
+2. **The main model keeps what is costly to get wrong**: every call into CRC 1.0.0, calibration,
+   frequency and risk arithmetic, label fusion, pass-or-fail verdicts, the verdict on every source fact,
+   findings, the stage report, and any debugging that outlives one retry by an agent.
+3. **Opus builds** well-specified modules against those contracts, with tests. **Sonnet** does lookups in
+   primary sources, downloads with checksums, data cards and mechanical edits. **Haiku** only lists or
+   counts.
+4. **Independent means a different agent.** A second reader (FS4) and the hand recomputation (FR7) are
+   written by an agent that is not shown the code they check. The main model compares the results.
+5. **Shared files have one writer**, the main model: `justfile`, `pyproject.toml`, `site/layers.json`,
+   `curves.yaml`, `records.py`, `findings.toml`, `AGENTS.md`, `docs/algorithms.md`, the requirements and
+   this plan. Agents return what they need added.
+6. **Parallel only where files are disjoint**, each agent in its own worktree made from the stage branch.
+   Otherwise one at a time.
+7. **Long runs are commands, not agents**: solver batches, training and large downloads run in the
+   background under `caffeinate -i`, resumable, one record per run (FG10).
+8. **Every brief carries**: the requirement IDs, the contract, the files the agent may touch, "never
+   invent a number; if a source cannot be reached, stop and say so", and the checks to run before
+   returning. A lookup returns the passage it read and its address, not only the value.
+9. **Before each stop** the main model reads every figure and has one fresh Opus agent review the stage's
+   diff for defects, without being told what to expect.
+10. **Tokens are reported** per agent as the tool gives them. The main session's own tokens are not
+    visible to it and are reported as not available.
+
+### Models by stage, Tier 1
+
+| Stage | Main model | Opus | Sonnet |
+| --- | --- | --- | --- |
+| F0 | The CRC 1.0.0 block; record format; `lab_common/io.py`; area scoring rule and the choice put to Yuri; the verdict on every source fact; budgets | Solver and HydroMT environment with the timed toy model; package skeleton and gallery; FloodAdapt and Oasis trials, time-boxed | Source probes and fact checks in parallel, a few sources per agent, each with its data card and the passages read |
+| F1 | Grid and datum decisions; review of the substation contact sheet before Yuri sees it | Terrain and sub-grid; then the buildings join and the asset table | Search for a public substation cost source |
+| F2 | The CRC loaders; comparison verdicts; the primer | Second readers, by an agent that does not see the loaders; fault tests | Dataset fields and licence terms |
+| F3 | Model design, drainage calibration, the freeze | Scripted build, water-balance and monotonicity tests, figures | Atlas 14 values for §9 item 4 |
+| F4 | Transposition domain and its justification; depth frequency and the load into CRC | RainyDay environment, batch runner, design storms | Rainfall record download and card |
+| F5 | Reading of the errors; the statement FV4 may require; each loader against its second reader | Comparisons and figures; second readers for the marks and the radar rainfall, by an agent that does not see the loaders | 311 and Storm Events loads |
+| F6 | Curve values against primary sources; CRC damage and expectation; brackets; `docs/algorithms.md` | Event-loss table, metrics, bootstrap, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
+| F7 | Identity tests; the investment one-pager | Measures, benefit-cost, outage cost | FEMA useful life and toolkit version |
+| F8 | Label fusion and scoring; what may be said of the pilot | Indices, payout, planted tests; claims with the date rule | Primary sources for §9 item 6 |
+| F11 | Captions and limits; final check with Yuri | The page | Smoke script, document lists |
+
+Work that may run in parallel in Tier 1: the F0 probes and fact checks; F1 beside F2 (both need only F0),
+if Yuri wants to review them together; inside F2 and F5, the second readers beside the loaders. Tiers 2
+and 3 get their table at the F8 stop. F10 is the natural fan-out: one Opus agent per engine, each in its
+own environment.
 
 ## Visual tests
 
 Each stage has a script `checks/f<n>_<slug>.py` that writes figures to `docs/flood/figures/f<n>/` and one
 record `site/flood/tests/records/f<n>.json` (inputs with checksums, numbers, thresholds, pass or fail).
 `site/flood/tests/index.html` is a static page that renders one card per record: title, figure, numbers,
-badge. Map-type checks are also registered as layers in `site/layers.json` (origin `crc-lab`, group
-`flood`) so they can be inspected in the existing viewer. Figures use plotly, as elsewhere in the repo,
+badge. It also has one card per source with the outcome of each fact (FS6) and, where there is one, of
+the second reader (FS4), the two levels named apart (FS7). Map-type checks are also registered as layers
+in `site/layers.json` (origin `crc-lab`, under a flood heading) so they can be inspected in the existing
+viewer. Figures use plotly, as elsewhere in the repo,
 with the depth colour scale of FP7. Thresholds marked *proposed* are starting values; if one looks wrong
 once real numbers exist, say so in the report and propose a new one. Do not change a threshold silently.
 
@@ -33,19 +95,23 @@ once real numbers exist, say so in the report and propose a new one. Do not chan
 
 | Tier | Stages | Hours | Running total |
 | --- | --- | --- | --- |
-| 1. Core | F0–F8, F11 | 68 | 68 |
-| 2. Emulator and cross-checks | F9, F10 | 23 | 91 |
-| 3. Optional | F12, F13, F14 | 18 | 109 |
+| 1. Core | F0–F8, F11 | 76 | 76 |
+| 2. Emulator and cross-checks | F9, F10 | 23 | 99 |
+| 3. Optional | F12, F13, F14 | 18 | 117 |
+
+Tier 1 was 68 hours in the first draft. The revision of 2026-11-25 adds 8: four for crc-sdk 1.0.0 (the
+F0 block of calls, the primer in F2, the two curve routes in F6) and four for source validation (fact
+checks in F0, two more second readers in F5).
 
 | Stage | Title | Hours | Depends on |
 | --- | --- | --- | --- |
-| F0 | De-risk, time the solver, choose the area, gallery skeleton | 4 | none |
+| F0 | De-risk, CRC 1.0.0 calls, source facts, time the solver, choose the area, gallery skeleton | 8 | none |
 | F1 | Terrain and assets | 6 | F0 |
-| F2 | Three sources into CRC with reference readers | 5 | F0 |
+| F2 | Sources: what goes into CRC and what does not, with second readers | 6 | F0 |
 | F3 | Solver model, drainage calibration, two storm replays | 8 | F1, F2 |
 | F4 | Storm catalogue and batch runs | 8 | F3 |
-| F5 | Validation against observations; who saw the flood | 7 | F3, F2 |
-| F6 | Curves, event-loss table and risk in CRC | 9 | F4, F1 |
+| F5 | Validation against observations; who saw the flood | 9 | F3, F2 |
+| F6 | Curves, event-loss table and risk with CRC | 10 | F4, F1 |
 | F7 | Resilience measures, outage cost, benefit-cost | 6 | F6 |
 | F8 | Triggers, fused labels, basis risk | 8 | F4, F5, F6 |
 | F9 | Emulator and extended catalogue | 10 | F4, F6 |
@@ -67,10 +133,14 @@ later, each adds its panel to the page as its last step.
 ```
 src/flood_lab/
   domain.py            study area, grid, CRS                          FD1
-  records.py           record writer (reuse lab_common atomic writer)  FG2
-  reference/           independent readers; never import crc          FS1-FS4
+  records.py           own record format; writer from lab_common/io.py FG2
+  depth_scale.py       the one set of depth class breaks              FP7
+  check_site.py        what the pages workflow runs                   FG8
+  reference/           independent readers; never import crc          FS4
     nyc_flood_maps.py  groundsource.py  floodnet.py
-  sources/             loaders that call crc-sdk                       FS1-FS3
+    high_water_marks.py  radar_rainfall.py  storm_events.py
+  facts/               one file per source: facts and outcomes        FS6
+  sources/             loaders; CRC Layer and Observations            FS1-FS3
   hazard/
     base.py            HazardSource                                   FH1
     city_maps.py
@@ -79,13 +149,14 @@ src/flood_lab/
     replay.py          storm replays                                  FH4
     catalogue.py       RainyDay transposition, batch runs             FH5
     design_storms.py   Atlas 14 comparison                            FH6
-    frequency.py       per-cell depth frequency -> CRC curves         FH7
+    frequency.py       depth frequency -> from_raster, from_quantiles FH7
   assets/
     substations.py  buildings.py  values.py  oed.py                   FD3-FD7
   curves/
     curves.yaml  load.py  export.py                                   FR1-FR3
   risk/
-    event_loss.py  metrics.py  dependence.py  crc_adapter.py          FR4-FR8
+    event_loss.py  metrics.py  dependence.py  (own code)              FR4-FR8
+    crc_adapter.py     Impact.tabulated, evaluate, expectation        FR1-FR5
   measures/
     measures.yaml  apply.py  bca.py  outage.py                        FM1-FM6
   trigger/
@@ -98,41 +169,66 @@ src/flood_lab/
   news/                optional                                       FN1-FN4
   checks/              one script per stage
 site/flood/            index.html, flood.js, tests/
-docs/flood/            requirements.md, plan.md, reports/, figures/, data-cards/
+docs/flood/            requirements.md, plan.md, crc-1.0-mapping.md, changes.md,
+                       reports/, figures/, data-cards/
+docs/primers/          point-observations.md                          FS5
+src/lab_common/io.py   atomic writers (new, shared)                   FG2
 tests/flood/
 ```
 
-## F0. De-risk, time the solver, choose the area (4 h)
+## F0. De-risk, CRC 1.0.0 calls, source facts, choose the area (8 h)
 
 **Goal.** Prove every risky assumption cheaply, pick the study area by a rule, and stand up the gallery.
 
 **Steps.**
 
-1. Create the package skeleton, the separation test (FG1), `records.py`, and an empty gallery page.
-2. Download and checksum: flood maps, FloodNet events and sensors, Ida high-water marks, Groundsource,
+1. The CRC 1.0.0 block, first, by the main model (§9 item 12; F2, F4 and F6 rest on it). On toy data,
+   each call of `docs/flood/crc-1.0-mapping.md` once, its last column filled:
+   - `Dataset.from_raster` on a small EPSG:32618 raster set with dry cells and a nodata value that is not
+     0; then with one decreasing cell, to see the failure of CRC-025-OWN and confirm the clean-up rule;
+   - `Dataset.from_quantiles` at three points with a dry-year knot; the difference between the two routes;
+   - `Impact.tabulated`, `evaluate` at three depths, `expectation` after `complete(TailCompletion(...))`,
+     and a depth beyond the table;
+   - `evaluate(Assets).return_periods([10, 100, 500]).impact(...)`, with one asset outside the grid and
+     one query outside the knots, to see the failure rows;
+   - `compute_risk` on three assets, against a hand sum, for FR6;
+   - `Observations.from_table` and `Layer.from_table` on ten rows each, read back;
+   - the time and memory of a 600,000-cell `from_raster` read.
+   Anything that differs from the mapping is corrected there and in the requirement, and is a candidate
+   finding (FG9).
+2. Create `src/lab_common/io.py` (FG2), the package skeleton, the separation tests (FG1), `records.py`,
+   and an empty gallery page.
+3. Download and checksum: flood maps, FloodNet events and sensors, Ida high-water marks, Groundsource,
    OpenStreetMap substations for Brooklyn and Queens. Write a data card for each (FG3).
-3. Verify items 1, 2, 3 and 5 of requirements §9. Record what the sources actually say.
-4. Score candidate areas of 10–20 km² (a sliding window inside the Jamaica Bay watershed, then all of
+4. Source facts (D15, FS6) for every source of Tier 1 in the requirements' §7 table, from the primary source,
+   one outcome per fact, by Sonnet agents in parallel with the main model giving each verdict. This
+   covers items 1, 2, 3 and 5 of §9 and the F0 rows of §9's "not checked" table. Record what the sources
+   actually say.
+5. Set the disk and memory budget (FG7) from the sizes found in steps 3 and 4.
+6. Score candidate areas of 10–20 km² (a sliding window inside the Jamaica Bay watershed, then all of
    Brooklyn and Queens): high-water marks, sensors with an event on 2023-09-29, sensors with an event on
    2021-09-01, substations, hectares in the deep class of the 2.13 in/hr current map, Groundsource rows
    on each date.
-5. Install SFINCS (Docker; see FH2 for which release and which two to avoid) and HydroMT-SFINCS in
+7. Install SFINCS (Docker; see FH2 for which release and which two to avoid) and HydroMT-SFINCS in
    their own environment. Build a 1 km² toy model, run one
    two-hour storm, and time it. Extrapolate to the full area at 5 m. Set the catalogue size for F4 from
-   this: target 150 runs if a run takes under 10 minutes, about 100 otherwise.
-6. Push one made-up tabulated damage curve through CRC's impact path for three points and read back a mean.
-7. Build Oasis's PiWind example end to end. Time-box two hours; record the result (FX4).
-8. Install the `flood-adapt` Python package in its own environment; read its LICENSE file and its
+   this: target 150 runs if a run takes under 10 minutes, about 100 otherwise. Record whether the image
+   runs natively on Apple Silicon or under emulation.
+8. Build Oasis's PiWind example end to end. Time-box two hours; record the result (FX4).
+9. Install the `flood-adapt` Python package in its own environment; read its LICENSE file and its
    dependency pins; try loading the toy model without the GUI.
 
 **Visual test.** Candidate map with the top five areas outlined; a count table per area; a bar of solver
-run time against cell count from the toy model.
+run time against cell count from the toy model. The mapping table with its result column, one row per
+CRC call. A source table: one row per Tier 1 source, one cell per fact, coloured by outcome.
 
 **Pass.** An area has at least 8 high-water marks, 5 sensors with a 2023-09-29 event and 3 substations
-(*proposed*); the toy model runs; the CRC impact call returns a mean. If no area passes, report the best
-three with their trade-offs and stop.
+(*proposed*); the toy model runs; every CRC call in the mapping has a result, and each one that differs
+from the reading has its requirement corrected; no fact of a Tier 1 source is left "not checked" without
+a reason. If no area passes, report the best three with their trade-offs and stop.
 
-**Stop.** Yuri confirms the area and decisions D1, D2, D9, D10, D12, and the tier.
+**Stop.** Yuri confirms the area and decisions D1, D2, D9, D10, D12, the budgets, and any requirement
+corrected in this stage.
 
 ## F1. Terrain and assets (6 h)
 
@@ -155,24 +251,30 @@ substation has been looked at and the sheet is in the report.
 
 **Overrun.** Limit buildings to blocks touched by any flood-map polygon.
 
-## F2. Three sources into CRC (5 h)
+## F2. Sources: what goes into CRC and what does not (6 h)
 
 **Steps.**
 
-1. Reference readers for the flood maps, Groundsource and FloodNet (FS1–FS3), with offline tests on small
-   constructed files and deliberate faults (FS4).
-2. Loaders: flood-map classes through `from_raster`; Groundsource as an event source in the style of
-   `crc_lab.storm_events`; FloodNet as a point-event table.
-3. Inventory entries and transformation statements under `src/data_source_check/sources/crc_sdk/` only if
-   the loader goes through crc-sdk; otherwise under `docs/flood/data-cards/`. Do not publish to the
-   validation page without Yuri's word.
-4. Add a Groundsource section to `docs/primers/event-sources-in-crc.md`.
+1. Second readers for the flood maps, Groundsource and FloodNet (FS4), with offline tests on small
+   constructed files and deliberate faults. Written by an agent that does not see the loaders.
+2. Loaders (D8): flood-map classes rasterised onto the project grid, and the polygons into CRC with
+   `Layer.from_table` (FS1); FloodNet as a per-sensor, per-event table and into CRC with
+   `Observations.from_table` (FS3); Groundsource as a `flood_lab` table of dated places (FS2).
+3. A transformation statement for each loader, in `docs/flood/data-cards/`. These sources are the lab's
+   own, not crc-sdk's, so nothing is added to the validation inventory or its page.
+4. The primer `docs/primers/point-observations.md` with its script (FS5), and a link to it from
+   `docs/primers/event-sources-in-crc.md`.
+5. In the report, a table "what CRC 1.0.0 held and what it did not" for the three sources, with what a
+   type for dated polygons would need. Candidate findings follow FG9.
 
 **Visual test.** Per scenario, a difference map between loader and reference reader (must be empty); a map
 of Groundsource rows for 2021-09-01/02 in the New York box coloured by polygon size; a histogram of the
 latest dates in the file; a map of sensors coloured by whether they recorded each storm.
 
-**Pass.** Zero differing cells and rows; a shifted polygon and a dropped row are both caught.
+The primer's figures count as part of the test: they are made by its script from cached data.
+
+**Pass.** Zero differing cells and rows; a shifted polygon and a dropped row are both caught; what was
+loaded into CRC reads back equal to what was put in; the primer's script runs offline.
 
 ## F3. Solver model, calibration, replays (8 h)
 
@@ -204,7 +306,9 @@ mismatch as a finding and continue with the best fit.
    storm statistics inside it for homogeneity); generate synthetic years; keep the storms that matter.
 2. Batch-run the solver over the kept storms, resumable, one record per run.
 3. Six Atlas 14 uniform design storms (FH6).
-4. Per-cell depth frequency from the catalogue with a dry-year point mass; load as CRC curves (FH7).
+4. Per-cell depth frequency from the catalogue with a dry-year point mass; load into CRC by both routes
+   of FH7 (`from_raster` for the grid after the non-decreasing clean-up, `from_quantiles` at the asset
+   points) and read back.
 5. Compare frequency from the catalogue with frequency from the design storms.
 
 **Visual test.** Storm-centre map over the transposition domain; rainfall frequency at the area from the
@@ -213,48 +317,61 @@ and 500 years from the catalogue beside the design-storm maps; a count of buildi
 each method.
 
 **Pass.** Catalogue rainfall frequency at the centroid within the Atlas 14 confidence band for 2 to 100
-years (*proposed*); every batch run has a record; depth non-decreasing with return period in 99% of cells.
+years (*proposed*); every batch run has a record; depth non-decreasing with return period in 99% of cells
+before the clean-up, and in every cell after it, with the number of cells changed reported; the curves
+read back from CRC equal the ones loaded.
 
 **Overrun.** Fewer storms (not below 60), and say what tail that supports.
 
-## F5. Validation against observations (7 h)
+## F5. Validation against observations (9 h)
 
 **Steps.**
 
-1. Sample Ida replay depth at each high-water mark (FV1).
-2. Sensor comparison for both storms (FV2).
-3. Jamaica Bay map comparison after reading its licence (FV3).
-4. Who saw the flood (FV5): load 311 and Storm Events for both dates; count and map all five sources.
-5. No retuning (FV4).
+1. Second readers for the high-water marks and for the radar rainfall of one replay window (FS4), by an
+   agent that does not see the loaders; deliberate-fault tests; outcomes on the source cards. This comes
+   first: FV1's figures rest on the marks.
+2. Sample Ida replay depth at each high-water mark (FV1).
+3. Sensor comparison for both storms (FV2).
+4. Jamaica Bay map comparison after reading its licence (FV3).
+5. Who saw the flood (FV5): load 311 and Storm Events (the `flood_lab` reader) for both dates; count and
+   map all five sources.
+6. No retuning (FV4).
 
 **Visual test.** Modelled against surveyed depth with a one-to-one line, bias and error printed, the
 published 0.20 m marked. One small panel per sensor: measured depth through the storm with the modelled
 peak. Error map. The who-saw-the-flood bar chart and map for each storm.
 
-**Pass.** None is forced; the stage reports. Above 0.5 m root-mean-square error (*proposed*) the report
+**Pass.** The two second readers agree with their loaders, and a deliberate fault in each is caught. For
+the model against observations none is forced; the stage reports. Above 0.5 m root-mean-square error (*proposed*) the report
 states that substation-level claims are not supported and proposes what to do (classes only, or F14).
 
-## F6. Curves, event-loss table and risk in CRC (9 h)
+## F6. Curves, event-loss table and risk with CRC (10 h)
 
 **Steps.**
 
 1. Verify item 7 of §9. Enter the substation curve envelope (FR2) and the building curves in `curves.yaml` with
    sources and tags (FR1–FR3). Unit tests: monotone, bounded, zero below threshold.
-2. Exporters to CRC first; the others in F10.
-3. Event-loss table through CRC's impact functions (FR4).
-4. Metrics from the table (FR5), the per-cell route through `compute_risk`, and the dependence brackets
-   (FR6).
-5. Hand recomputation of three assets in a notebook (FR7); bootstrap intervals (FR8).
+2. Exporters to CRC first (`Impact.tabulated`, every table to the stated maximum depth; FR1); the others
+   in F10.
+3. Event-loss table (FR4): damage ratios from CRC's `Impact.evaluate`, the table and the money in
+   `flood_lab`.
+4. Metrics from the table in `flood_lab` code (FR5); per asset from CRC's curves, expected annual damage
+   by `complete` and `expectation` and loss at 10, 100 and 500 years by `evaluate(...).impact(...)`, with
+   failure rows counted; the two curve routes of FH7 compared at the assets; the dependence brackets
+   (FR6), with `compute_risk` if F0 showed it fits.
+5. Hand recomputation of three assets in a notebook, by an agent that does not see the code (FR7);
+   bootstrap intervals (FR8).
 6. Add entries to `docs/algorithms.md` for every new calculation.
 
 **Visual test.** A card per substation: depth-frequency curve with catalogue points, the damage-curve
 envelope with that asset's 10-, 100- and 500-year depths marked, loss by return period as a band. Portfolio
 occurrence and aggregate exceedance curves with bootstrap bands. A bracket chart: 1-in-100 loss under full
 dependence, from the event table, and under independence. A bar pair: expected annual loss from the event
-table and from per-cell curves.
+table and from CRC's curves, the latter by both routes of FH7.
 
 **Pass.** Hand recomputation matches; the event-table 1-in-100 loss lies between the two brackets; the two
-expected-annual-loss routes are within 5% or the difference is explained (*proposed*).
+expected-annual-loss routes are within 5% or the difference is explained (*proposed*); every failure row
+CRC returned is accounted for.
 
 ## F7. Measures, outage cost, benefit-cost (6 h)
 
@@ -337,10 +454,12 @@ expected annual loss by engine with tolerance flags. A list of differences found
 
 **Steps.**
 
-1. `site/flood/` with FP1–FP5, generated from records; register layers; link from the landing page.
-2. Finalise the gallery (FP6).
-3. Extend `tools/smoke.mjs` (FP9); record a three-minute walk-through with `tools/record-demo.mjs`.
-4. Update `README.md`, `AGENTS.md` (a "Flood lab" entry under Projects) and `docs/index.md`.
+1. `site/flood/` with FP1–FP5, generated from records; register layers; link from the landing page,
+   keeping the strings `tests/test_projects.py` checks there.
+2. Finalise the gallery (FP6), with the source cards.
+3. `tools/smoke-flood.mjs` (FP9); record a three-minute walk-through with `tools/record-demo.mjs`.
+4. `flood_lab.check_site` into `just site` (`site-flood`) and `.github/workflows/pages.yml` (FG8).
+5. Update `README.md`, `AGENTS.md` (a "Flood lab" entry under Projects) and `docs/index.md`.
 
 **Visual test.** Smoke-test screenshots at desktop and phone width, committed and compared on rebuild.
 
@@ -349,10 +468,13 @@ can name the most exposed substation and say whether raising it pays, within two
 
 ## F12. Fremont chapter (5 h)
 
-**Steps.** FC1 with the F8 index code; verify item 11 of §9; FC2 if a reach exists; FC3.
+**Steps.** FC1 with the F8 index code, on the publisher's depths at seven return periods as crc-sdk 1.0.0
+returns them, read under `caffeinate -i` or from the copy the validation project keeps; source facts
+(FS6) for the reanalysis and the gauge; verify item 11 of §9 and the back-test wording; FC2 if a reach
+exists; FC3.
 
 **Visual test.** Largest connected flooded area against return period with the 0.58 square mile line, and
-the map at the crossing. If the reach exists: winter 2017 flow from reanalysis, gauge and GloFAS, each
+the map at the crossing, with the flooded pixels that get no row from crc-sdk marked. If the reach exists: winter 2017 flow from reanalysis, gauge and GloFAS, each
 with its ten-year level; annual maxima against gauge peaks.
 
 **Pass.** The planted-rectangle test; if FC2 is built, the February 2017 peak within one day of the gauge.
@@ -384,4 +506,5 @@ whose wet or dry state changes.
 3. FloodNet events: count of sensors with an event on each date, by borough.
 4. Docker pull of SFINCS and a hello-world run.
 
-If any of the first three contradicts the requirements, stop and report before going further.
+If any of the first three contradicts the requirements, stop and report before going further. The CRC
+1.0.0 block (step 1) follows directly; it needs no download.

@@ -1,11 +1,18 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Draft, 2026-11-24. Author: Yuri Shlyakhter, with Claude. Handoff document for the Claude Code build in
-crc-lab. The stages, hours and tests are in `docs/flood/plan.md`. Nothing here is started.
+Version 1 (draft for review), 2026-11-25; first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
+Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
+are in `docs/flood/plan.md`. Nothing here is started.
 
-Read first, in this order: `AGENTS.md` (repository rules, which all apply), this file, `docs/flood/plan.md`,
-`docs/validation/method.md` (the verification method reused here), `docs/algorithms.md` §11–12 (the hail
-damage and annual-loss code this project parallels).
+Revised on 2026-11-25 for crc-sdk 1.0.0 and crc-framework 1.0.0, which crc-lab moved to after the first
+draft. What each requirement asks of CRC 1.0.0 is in `docs/flood/crc-1.0-mapping.md`; those calls were read
+in the code and are run for the first time in F0. Proposed changes after this version go through
+`docs/flood/changes.md`. Requirement IDs are never reused or renumbered.
+
+Read first, in this order: `AGENTS.md` (repository rules, which all apply; its section "State on crc-sdk
+1.0.0" says which parts of crc-lab do not run), this file, `docs/flood/plan.md`,
+`docs/flood/crc-1.0-mapping.md`, `docs/validation/method.md` (the verification method reused here),
+`docs/algorithms.md` §11–12 (the hail damage and annual-loss calculations this project parallels).
 
 ## 1. Purpose
 
@@ -22,8 +29,10 @@ engine. It has two audiences and must serve both from the same numbers.
 No company is named as an audience anywhere in the code, the reports or the page. Companies are named only
 as the publisher of a cited public source.
 
-It must also show two things about Yuri's own work: that bringing new hazard sources and loss calculations
-into CRC is easy, and that every number is checked by independent recomputation.
+It must also show two things about Yuri's own work: how far CRC 1.0.0 takes a new hazard source and a new
+loss calculation, shown with what went in and what did not; and that every number is checked, with the
+level of each check stated (source facts confirmed, or values recomputed by an independent reader; FS4,
+FS6).
 
 ## 2. Decisions
 
@@ -31,16 +40,20 @@ into CRC is easy, and that every number is checked by independent recomputation.
 | --- | --- | --- |
 | D1 | Study area: one 10–20 km² neighbourhood in Brooklyn or Queens, chosen in stage F0 by a scoring rule; search starts inside the Jamaica Bay watershed | Recommended by Claude; **confirm with Yuri before F0 ends** |
 | D2 | Storms: remnants of Ida (2021-09-01) for depth validation; 2023-09-29 for the trigger case study | Recommended; confirm with D1 |
-| D3 | CRC (crc-sdk 0.11.2, crc-framework 0.6.0) is the only loss engine. Other engines are donors and cross-checks | Decided by Yuri |
+| D3 | CRC (crc-sdk 1.0.0, crc-framework 1.0.0) is the loss engine: it computes every damage ratio and every per-asset expectation. CRC 1.0.0 has no event-loss table and no portfolio aggregation, so `flood_lab` builds those from CRC's ratios in its own code, documented in `docs/algorithms.md` and recomputed by hand. What CRC lacks is written up as design feedback. Other engines are donors and cross-checks | Decided by Yuri; revised 2026-11-25 |
 | D4 | The depth solver is reused, not written: Deltares SFINCS built with HydroMT-SFINCS. It sits behind an interface a licensed model could replace | Decided by Yuri |
 | D5 | Assets: electrical substations first, buildings second | Decided by Yuri |
 | D6 | Resilience measures are modifications of the damage curve; report loss before and after and a benefit-cost ratio | Decided by Yuri |
 | D7 | Cross-check engines: CLIMADA and Oasis LMF (Yuri's choice), and Delft-FIAT through Deltares FloodAdapt (added after the literature review) | Decided; FloodAdapt as the FIAT route is new, confirm |
-| D8 | Google Groundsource enters as an event source; Google's runoff reanalysis enters the Fremont chapter only | Decided by Yuri |
+| D8 | Into CRC goes what CRC 1.0.0 can hold: FloodNet sensor events, the city flood maps as a map layer, and the catalogue's depth-frequency curves. Google Groundsource stays a `flood_lab` table with its reference reader (1.0.0 has no record with a date and a polygon), and a primer shows how to work with it and with point observations in general (FS5). The F2 report says plainly what CRC could and could not hold. Google's runoff reanalysis enters the Fremont chapter only | Decided by Yuri; revised 2026-11-25 |
 | D9 | Frequency comes from a stochastic storm catalogue (storm transposition), not from uniform design storms. Design storms are kept as a comparison | New, from the literature review; **confirm** |
 | D10 | A neural-network emulator of the solver extends the catalogue | New, from the literature review; **confirm** |
 | D11 | Every stage ends with a visual test on a generated gallery page, a report, and a stop for review | Decided by Yuri |
 | D12 | Fremont, California is a short closing chapter, not the study area | Recommended; confirm with D1 |
+| D13 | Target is Tier 1 (F0 to F8 and F11). Tiers 2 and 3 stay specified; Yuri decides on them at the F8 stop, with measured run times and token use per stage | Decided by Yuri, 2026-11-25 |
+| D14 | Each stage is built on its own short-lived branch (`flood/f<n>`), pushed for backup and merged into `main` only on Yuri's go at the stop. The flood page is not linked from the landing page before F11 | Decided by Yuri, 2026-11-25 |
+| D15 | Source validation by Claude Code: every source used has its facts confirmed from the primary source (FS6); a source whose values feed a published number also gets a second, independent reader (FS4) | Decided by Yuri, 2026-11-25 |
+| D16 | The requirements stay open to Yuri's own outside evaluation for missing sources and techniques; proposals enter through `docs/flood/changes.md` and are decided at stage stops | Decided by Yuri, 2026-11-25 |
 
 ## 3. Scope
 
@@ -87,20 +100,41 @@ say what this file claims, stop and report; do not substitute a number.
 
 - **FG1.** New package `src/flood_lab/`, page `site/flood/`, docs `docs/flood/`, reports
   `docs/flood/reports/F<n>-<slug>.md`, tests `tests/flood/`. Add the package to the wheel list in
-  `pyproject.toml` and to the separation test in `tests/test_projects.py`: `flood_lab` may import
-  `lab_common` only; its `reference/` and `crosscheck/` code may not import crc-sdk or crc-framework.
+  `pyproject.toml` and to the separation test in `tests/test_projects.py` as `"flood_lab": {"lab_common"}`:
+  `flood_lab` may import `lab_common` only, and never `crc_lab`, `crc_data_explorer` or
+  `data_source_check`. Inside the package only `sources/` and `risk/` import `crc_sdk` or `crc_framework`,
+  and only by 1.0 names (`just upstream-surface` flags any other); `reference/` and `crosscheck/` never
+  do. A test holds both rules. `just test` is green today with 8 test files and 3 tests parked for the
+  1.0 port (`tests/conftest.py`); the flood lab must not add to that count.
 - **FG2.** Every output file is written atomically and has a JSON record: inputs with checksums, grid,
   software versions (crc pins, solver, builder), parameters with their tags, numbers produced, pass or fail.
-  Pages and reports are generated from records, never typed.
-- **FG3.** Every dataset gets a data card: source, date fetched, licence, coverage, known biases.
+  Pages and reports are generated from records, never typed. The writer: `lab_common.texas`, where
+  `write_json_atomic` lives, does not import on crc-sdk 1.0.0, so F0 adds `src/lab_common/io.py`
+  (`write_json_atomic`, `write_text_atomic`) and `texas.py` takes the writer from it. The record format is
+  `flood_lab`'s own (`records.py`); the validation project's cannot be imported.
+- **FG3.** Every dataset gets a data card: source, date fetched, licence, coverage, known biases, and the
+  outcome of each fact checked under FS6.
 - **FG4.** Heavy or conflicting dependencies run in their own environments and exchange files only: the
   solver (Docker image or binary), HydroMT, PyTorch, CLIMADA, Oasis, FloodAdapt. Use the
-  `uv run --no-project --with ...` pattern already used by `just v1-probes`. The main environment's pins do
-  not change.
+  `uv run --no-project --with ...` pattern already used by `just v1-probes`, on Python 3.12; any such
+  environment that pulls rasterio repeats the main environment's constraint (`rasterio<1.5.2` on macOS,
+  see `pyproject.toml`). The main environment's pins do not change.
 - **FG5.** `just flood-<stage>` rebuilds one stage; `just flood-checks` rebuilds every visual test and the
   gallery from cached data, offline.
 - **FG6.** One stage at a time. Each ends with its report and a stop. Do not start the next stage without
   Yuri's go.
+- **FG7.** Disk and memory are budgeted. The machine is an Apple M3 with 8 cores, 16 GiB of memory and
+  about 37 GiB of free disk on 2026-11-25 (19 GiB more is held by `data/cache/validation/`). Downloads
+  and runs go under `data/cache/flood/` (already git-ignored). F0 sets a budget per dataset and for the
+  solver runs; a stage stops before it would pass the budget.
+- **FG8.** Everything the page needs is committed. The pages workflow runs `flood_lab.check_site` and
+  never the solver; `just site` gains `site-flood`.
+- **FG9.** A CRC behaviour met on the way that differs from its documentation, or that a user would not
+  expect, is a candidate finding: it is entered in `src/data_source_check/sources/crc_sdk/findings.toml`
+  (next free number CRC-039; statuses as in `core/records.py`) with a draft in `local/upstream-review.md`.
+  Nothing is sent upstream until Yuri has reviewed the draft.
+- **FG10.** Long reads and runs use `caffeinate -i` and are resumable: publishers drop connections, and
+  crc-sdk 1.0.0 does not try a download a second time (CRC-038-FWK).
 
 ### Data and assets (FD)
 
@@ -118,28 +152,53 @@ say what this file claims, stop and report; do not substitute a number.
   elevation, subgrade-space flag) joined to footprints, with occupancy, basement and replacement value from
   the USACE National Structure Inventory.
 - **FD6.** One asset table, `assets_oed.csv`, in Oasis Open Exposure Data column names, plus extra columns
-  for substation fields. All four engines read this file or an export of it.
+  for substation fields. All four engines read this file or an export of it. It carries WGS84 longitude
+  and latitude beside the project-grid coordinates: CRC's `Assets` accepts WGS84 points only.
 - **FD7.** Customers served per substation for outage cost: **[P]** allocation by population in the nearest
   substation's area unless a public figure is found. Label it a placeholder.
 
-### Sources into CRC (FS)
+### Sources, and what goes into CRC (FS)
 
 - **FS1.** NYC Stormwater Flood Maps: a reference reader that shares no code with crc-sdk reads the four
-  scenario polygons; a loader brings the depth classes into CRC's format with `from_raster`; a transformation
-  statement goes into the validation inventory. The four layers are Limited Flood (1.77 in/hr, current
+  scenario polygons; a loader rasterises the depth classes onto the project grid for `flood_lab`
+  (calibration in FH3, the `HazardSource` of FH1) and loads the polygons into CRC as a map layer with
+  `Layer.from_table`. They are not loaded as curves: a depth class is not a probability curve, and the
+  four scenarios mix rainfall intensities with sea levels, so they are not one probability axis. A
+  transformation statement is written for the loader. The four layers are Limited Flood (1.77 in/hr, current
   sea levels), Moderate Flood (2.13 in/hr, current sea levels), Moderate Flood (2.13 in/hr, 2050 sea level
   rise) and Extreme Flood (3.66 in/hr, 2080 sea level rise); they show areas of at least 0.25 contiguous
   acres with 4 inches or more **[S]** (NYC Open Data `9i7c-xyvv`, About page, updated 2024-10-17). The
   class codes, the storm duration behind each intensity, the model used and the terms of use are **[V]**:
   read the data dictionary and the Stormwater Resiliency Plan.
 - **FS2.** Groundsource: reader for the Zenodo Parquet file with checksum check; filter to the New York and
-  Alameda County boxes; an adapter in the style of the Storm Events source; a section added to
-  `docs/primers/event-sources-in-crc.md`. Document that `area_km2` is the area of the named place, not of
+  Alameda County boxes; a `flood_lab` table of dated places (date range, place polygon, `area_km2`). It is
+  not loaded into CRC: 1.0.0 has no record that holds a date and a polygon, and the F2 report says so,
+  with what a type for it would need. Document that `area_km2` is the area of the named place, not of
   the flood.
 - **FS3.** FloodNet: readers for the flood-events table and the sensor-deployment table; a per-sensor,
-  per-event peak depth and duration table.
-- **FS4.** Verification outcome for FS1–FS3 follows `docs/validation/method.md`: confirmed, differs, not
-  checked, not applicable; each comparison has a test that breaks a rule on purpose and must then differ.
+  per-event peak depth and duration table; the same table loaded into CRC with `Observations.from_table`
+  and read back.
+- **FS4.** Second reader. For each source whose values feed a published number, an independent reader
+  that shares no code with the loader recomputes the loaded values, and the outcome follows
+  `docs/validation/method.md`: confirmed, differs, not checked, not applicable. Each comparison has a
+  test that breaks a rule on purpose and must then differ. Sources: the flood maps, Groundsource and
+  FloodNet (F2); the USGS Ida high-water marks, on which FV1's error figures rest, and the radar rainfall
+  that forces the replays, one event window decoded twice (F5). The second reader is written by an agent
+  that is not shown the loader (plan, "How to work").
+- **FS5.** Primer `docs/primers/point-observations.md`, with a script that runs from cached data: FloodNet
+  as sensor observations in CRC; Groundsource as dated places (what a row is, what `area_km2` means,
+  centroid against polygon, who reports and who does not, the latest dates in the file); what may be asked
+  of such data (did something happen here on this day) and what may not (how deep, how often); and how
+  both relate to CRC's curves. The older `docs/primers/event-sources-in-crc.md` describes the 0.11
+  interface and is linked from it, not extended.
+- **FS6.** Facts. For every source a stage uses, these are read from the primary source and recorded with
+  an outcome each (the four of FS4): identifier and address, licence or terms of use, fields with units,
+  coverage in space and time, release or version, checksum of the file fetched. The outcomes are on the
+  data card and in the gallery. A fact that differs from this file stops the stage until this file is
+  corrected. F0 does this for every source of Tier 1, so no stage starts on an unread source; the sources
+  of F9 to F14 are checked in their own stage. The §7 table names the stage and the level for each source.
+- **FS7.** The two levels are named wherever a check is reported: "facts confirmed" (FS6) and "values
+  recomputed" (FS4). A source with facts only is never described as verified by recomputation.
 
 ### Hazard (FH)
 
@@ -166,7 +225,18 @@ say what this file claims, stop and report; do not substitute a number.
   storms that matter for the area. Target 150 solver runs **[P]**, set by the F0 timing test.
 - **FH6.** Six uniform NOAA Atlas 14 design storms (2, 5, 10, 25, 100, 500 years) run as a comparison only.
 - **FH7.** Per-cell depth frequency derived empirically from the catalogue, with a point mass for dry years;
-  loaded into CRC as hazard curves. Report how many catalogue events wet each cell.
+  loaded into CRC as curves that are not fitted. Report how many catalogue events wet each cell. Two
+  routes, both used:
+  - The grid: `Dataset.from_raster`, one GeoTIFF per probability on the project grid (EPSG:32618 is
+    accepted). Rules that follow from 1.0.0's reader: the nodata value is never 0, or dry cells vanish;
+    every cell is non-decreasing across the probabilities before the call, because one decreasing pixel
+    fails the whole read (CRC-025-OWN); a cell needs two valid values. The probability set is the same for
+    every cell, so a cell's dry-year mass falls between two knots and is approximated.
+  - Asset points: `Dataset.from_quantiles`, where knots may differ per point, so the dry-year mass is an
+    exact knot. Loss figures use this route. F0 measures the difference between the two routes on a toy
+    grid and F6 reports it at the assets.
+  Between knots CRC 1.0.0 interpolates linearly in probability (0.x used the logarithm of return period);
+  every recomputation uses the same rule and says so.
 - **FH8.** Water balance closes within 1% in every run; depth is non-decreasing with rainfall scaling in a
   monotonicity test.
 
@@ -186,7 +256,10 @@ say what this file claims, stop and report; do not substitute a number.
 ### Risk in CRC (FR)
 
 - **FR1.** Damage curves in one file, `curves.yaml`, each with source, tag, native hazard metric and
-  confidence. Exporters write the same curves for CRC, CLIMADA, Oasis and Delft-FIAT.
+  confidence. Exporters write the same curves for CRC, CLIMADA, Oasis and Delft-FIAT. For CRC a curve is
+  `Impact.tabulated(points, input=DepthAboveGround, output=Ratio)`: linear between points, and a depth
+  outside the table is an error, so every table runs from 0 m to a stated maximum depth **[P]** that no
+  modelled depth exceeds (tested against the catalogue).
 - **FR2.** Substations: an envelope of curves, never a single curve, with the choice of curve exposed as
   a scenario setting. The sources disagree by a factor of three to five at 3 m.
   - **Low: Hazus-type** (FEMA 2013), as compiled in the Nirandjan et al. 2024 database, curves F2.1–F2.3
@@ -211,14 +284,21 @@ say what this file claims, stop and report; do not substitute a number.
     Manual 4.2 SP3, Table 10-12). Use it as the outage threshold in FM5 after reading the table.
 - **FR3.** Buildings: Hazus depth-damage functions by occupancy, depth measured from first-floor elevation,
   with the basement variant where the subgrade flag is set.
-- **FR4.** Loss per event per asset through CRC's impact functions: an event-loss table with event id,
-  annual rate or synthetic year, asset id, depth, damage ratio for each curve, loss.
-- **FR5.** From the event-loss table: expected annual loss, occurrence and aggregate exceedance curves,
-  1-in-100 loss, VaR and CVaR at 99%. Also compute expected annual loss from CRC's per-cell curves and
-  `compute_risk`, and show both.
+- **FR4.** Loss per event per asset: the damage ratio comes from CRC (`Impact.evaluate` on the event's
+  depths); the event-loss table is `flood_lab`'s own, since CRC 1.0.0 has none: event id, annual rate or
+  synthetic year, asset id, depth, damage ratio for each curve, loss (ratio times value).
+- **FR5.** From the event-loss table, in `flood_lab` code: expected annual loss, occurrence and aggregate
+  exceedance curves, 1-in-100 loss, VaR and CVaR at 99%. Also from CRC's curves, per asset, and both
+  shown: expected annual damage as `curve.complete(TailCompletion(...))` then `Impact.expectation`, with
+  the tail completion a stated choice **[P]**; and loss at 10, 100 and 500 years from
+  `evaluate(assets).return_periods(...).impact(...)`. Rows that CRC returns as failures (a query outside
+  a curve's knots, an asset no cell covers) are counted and reported, never dropped silently.
 - **FR6.** Dependence brackets: portfolio 1-in-100 loss under "all assets at the same return period" and
-  under independence, with the event-table result between them.
-- **FR7.** Three assets recomputed by hand in a notebook must match to the cent.
+  under independence, with the event-table result between them. CRC 1.0.0's `compute_risk` sums
+  independent two-state outcomes and gives VaR and CVaR; it is not an annual loss. F0 tests whether it
+  can serve as the independence bracket; if not, the bracket is own code.
+- **FR7.** Three assets recomputed by hand in a notebook must match to the cent. The notebook is written
+  by an agent that is not shown the code it checks.
 - **FR8.** Sampling uncertainty: bootstrap interval on expected annual loss and on the 1-in-100 loss from
   resampling synthetic years.
 
@@ -227,6 +307,8 @@ say what this file claims, stop and report; do not substitute a number.
 - **FM1.** Raise equipment by h: damage at depth d becomes the baseline damage at d − h. Heights 0.3 m and
   0.9 m **[P]**.
 - **FM2.** Perimeter wall of height H: zero damage below H, baseline curve once overtopped. H = 1.2 m **[P]**.
+  In a table that is interpolated linearly the step is two points one millimetre apart; a test reads the
+  curve on both sides of H.
 - **FM3.** Measure cost as a low, mid, high range **[P]** until sourced.
 - **FM4.** Benefit-cost ratio = present value of avoided expected annual loss ÷ cost, at 7% (FEMA's required rate
   since 2025-04-08 **[S]**, FEMA "News and Notes About Benefit-Cost Analysis", posted 2025-06-17) with 3.1% as a sensitivity, over a stated project life **[P]**. Also a
@@ -249,7 +331,9 @@ say what this file claims, stop and report; do not substitute a number.
   each index.
 - **FT4.** The 2023-09-29 question answered on one panel: would each index have paid?
 - **FT5.** Labels for "a damaging flood happened here on this day" from Groundsource, 311, FloodNet, Storm
-  Events and flood-insurance claims. Claim dates corrected by the rule of the DELUGE preprint **[S]**
+  Events and flood-insurance claims. Storm Events are read by a small reader of NOAA's files for the New
+  York counties in `flood_lab`; the hail project's `crc_lab.storm_events` is frozen on the 0.11 interface
+  and may not be imported. Claim dates corrected by the rule of the DELUGE preprint **[S]**
   (Kawakami et al. 2026, arXiv 2607.16050, §3.1.1; not peer reviewed): compute the daily maximum hourly
   AORC rainfall at the claim location; keep day d if it exceeds 10 mm; otherwise take the day in d−3 to
   d+3 with the largest such value if that exceeds 10 mm; otherwise drop the claim. In that paper 81.1% of
@@ -298,8 +382,9 @@ say what this file claims, stop and report; do not substitute a number.
 ### Page (FP)
 
 - **FP1.** `site/flood/`: five sections (the neighbourhood, the storm, the loss, the fix, the payout), each
-  with one interactive figure and two sentences. Registered in `site/layers.json` and linked from the
-  landing page.
+  with one interactive figure and two sentences. Registered in `site/layers.json` with origin `crc-lab`
+  (the registry has two origins and a test holds that) under a new heading for flood, and linked from the
+  landing page in F11, not before (D14).
 - **FP2.** Storm player reusing the time slider in `site/shared/views/`: modelled depth through each storm,
   FloodNet sensors showing measured depth, and the four indices against their thresholds.
 - **FP3.** Asset cards: depth frequency, the damage-curve envelope, loss by return period, measure toggles,
@@ -308,17 +393,23 @@ say what this file claims, stop and report; do not substitute a number.
   who saw the flood; engine agreement; emulator against solver.
 - **FP5.** A printable one-page investment case per substation.
 - **FP6.** `site/flood/tests/`: the gallery, one card per stage, generated from records.
-- **FP7.** One depth colour scale with fixed class breaks everywhere (`risk_layer.class_breaks`).
+- **FP7.** One depth colour scale with fixed class breaks everywhere, defined once in `flood_lab` and
+  including the city's 0.1016 m and 0.3048 m. (The hail project's `risk_layer.class_breaks` makes
+  percentile breaks and is parked; it is not used.)
 - **FP8.** Every figure's caption states its limit. Dollar figures built on a placeholder are shown as
   ranges and marked.
-- **FP9.** `tools/smoke.mjs` extended to load the page, click one asset, play one storm and save
-  screenshots.
+- **FP9.** `tools/smoke-flood.mjs`, on the pattern of `tools/smoke-validation.mjs`, loads the page, clicks
+  one asset, plays one storm and saves screenshots.
 
 ### Fremont chapter (FC)
 
 - **FC1.** The FT1(b) code applied to the JRC river flood maps already verified for Fremont: the return
-  period at which a connected area first exceeds 0.58 square miles **[S]** (The Insurer, 2025-03-12), shown with the finding that
-  25.8% of wet pixels have no curve.
+  period at which a connected area first exceeds 0.58 square miles **[S]** (The Insurer, 2025-03-12). On
+  crc-sdk 1.0.0 the JRC provider returns the publisher's depths at 10, 20, 50, 75, 100, 200 and 500 years
+  and no curve, so the index is read at those seven return periods. It is shown with the finding that in
+  the Fremont box 1,234 of 10,603 flooded pixels (11.6%) get no row **[S]**
+  (`site/validation/data/records/jrc-flood.json`, table "Pixels by area"; CRC-023-JRC), and with what
+  that does to a connected area.
 - **FC2.** If a reach on Alameda Creek exists in Google's runoff reanalysis (1980–2023 **[V]**): its
   February 2017 series against USGS gauge 11179000 and the GloFAS series, each with its own ten-year level.
   If no reach exists, one paragraph and no index.
@@ -343,34 +434,40 @@ say what this file claims, stop and report; do not substitute a number.
 
 ## 7. Data sources
 
-| Source | Identifier | Used for | Licence note |
-| --- | --- | --- | --- |
-| NYC Stormwater Flood Maps | NYC Open Data `9i7c-xyvv`, file `NYCFloodStormwaterFloodMaps.zip` **[S]** | FS1, FH3 | NYC Open Data terms **[V]** |
-| FloodNet flood events; sensor deployments | NYC Open Data `aq7i-eu5q`; `kb2e-tjy3` | FS3, FV2, FT1 | NYC Open Data terms **[V]** |
-| USGS Ida high-water marks; depth rasters | ScienceBase item `618975c8d34ec04fc9c5a049`; USGS data release "Geospatial Datasets of Water Surface Elevation and Water Depth in New York City" | FV1 | US public domain |
-| Jamaica Bay Ida depth map (Kasaei et al. 2025) | Mendeley Data doi:10.17632/hs2zt6ngwd.1 | FV3 | Read before showing |
-| Building Elevation and Subgrade | NYC Open Data `bsin-59hv` | FD5 | NYC Open Data terms; read the guidance note on estimated grades |
-| National Structure Inventory | USACE | FD5 | Public |
-| OpenStreetMap | `power=substation` | FD3 | ODbL |
-| Lidar terrain | USGS 3DEP or NYC topobathymetric lidar | FD2 | Public domain / NYC terms |
-| Groundsource | Zenodo record 18647054, `groundsource_2026.parquet`, 667.1 MB, md5 `cd1b5de6508f7aad8e1d1d0dd4cecea6`, published 2026-02-15 **[S]** | FS2, FV5, FT5 | CC BY 4.0 **[S]**; row count and schema **[V]** |
-| NOAA Storm Events | existing `crc_lab.storm_events` reader | FV5, FT5 | Attribution |
-| 311 service requests | NYC Open Data (find the current dataset id in F0) | FV5, FT5 | NYC Open Data terms |
-| NFIP redacted claims | OpenFEMA | FT5 | Public |
-| Gridded rainfall | NOAA AORC v1.1 or Stage IV (catalogue); MRMS (replays) | FH4, FH5 | Public |
-| NOAA Atlas 14 | Point precipitation frequency, study-area centroid | FH6 | Public |
-| Substation curves | Nirandjan et al. 2024, Zenodo doi:10.5281/zenodo.13889558 v1.1.0; Williams et al. 2025, doi:10.1111/jfr3.70045; Bor et al. 2026, arXiv 2605.23053; Karagiannakis et al. 2025, doi:10.1002/wcc.930 | FR2 | Nirandjan CC BY 4.0 **[S]**; Williams reported CC BY-NC-ND **[V]** |
-| Building curves | FEMA Hazus flood functions | FR3 | Public domain |
-| ICE Calculator 2.x | Lawrence Berkeley National Laboratory | FM5 | Free tool; check reuse terms |
-| JRC GloFAS flood maps | already in crc-sdk; verified in V8 | FC1 | Copernicus |
-| Google runoff reanalysis | notebook linked from Google's flood forecasting resources page | FC2 | **Unverified**; read in F12 |
-| USGS gauge 11179000 | Alameda Creek near Niles | FC2 | Public |
+The last three columns follow FS4 and FS6: the stage in which the source's facts are read from the primary
+source, the level of check it gets, and the outcome, which the stage fills in. The **[S]** and **[V]** tags
+in the first columns are the state after the pass of 2026-11-24; F0 replaces every **[V]** on a Tier 1 row
+with an outcome.
+
+| Source | Identifier | Used for | Licence note | Facts checked in (FS6) | Level | Outcome |
+| --- | --- | --- | --- | --- | --- | --- |
+| NYC Stormwater Flood Maps | NYC Open Data `9i7c-xyvv`, file `NYCFloodStormwaterFloodMaps.zip` **[S]** | FS1, FH3 | NYC Open Data terms **[V]** | F0 | Facts and second reader (F2) | |
+| FloodNet flood events; sensor deployments | NYC Open Data `aq7i-eu5q`; `kb2e-tjy3` | FS3, FV2, FT1 | NYC Open Data terms **[V]** | F0 | Facts and second reader (F2) | |
+| USGS Ida high-water marks; depth rasters | ScienceBase item `618975c8d34ec04fc9c5a049`; USGS data release "Geospatial Datasets of Water Surface Elevation and Water Depth in New York City" | FV1 | US public domain | F0 | Facts and second reader (F5) | |
+| Jamaica Bay Ida depth map (Kasaei et al. 2025) | Mendeley Data doi:10.17632/hs2zt6ngwd.1 | FV3 | Read before showing | F0 | Facts | |
+| Building Elevation and Subgrade | NYC Open Data `bsin-59hv` | FD5 | NYC Open Data terms; read the guidance note on estimated grades | F0 | Facts | |
+| National Structure Inventory | USACE | FD5 | Public | F0 | Facts | |
+| OpenStreetMap | `power=substation` | FD3 | ODbL | F0 | Facts | |
+| Lidar terrain | USGS 3DEP or NYC topobathymetric lidar | FD2 | Public domain / NYC terms | F0 | Facts | |
+| Groundsource | Zenodo record 18647054, `groundsource_2026.parquet`, 667.1 MB, md5 `cd1b5de6508f7aad8e1d1d0dd4cecea6`, published 2026-02-15 **[S]** | FS2, FV5, FT5 | CC BY 4.0 **[S]**; row count and schema **[V]** | F0 | Facts and second reader (F2) | |
+| NOAA Storm Events | NOAA's bulk files, read by a small `flood_lab` reader for the New York counties (FT5) | FV5, FT5 | Attribution | F0 | Facts | |
+| 311 service requests | NYC Open Data (find the current dataset id in F0) | FV5, FT5 | NYC Open Data terms | F0 | Facts | |
+| NFIP redacted claims | OpenFEMA | FT5 | Public | F0 | Facts | |
+| Gridded rainfall | NOAA AORC v1.1 or Stage IV (catalogue); MRMS (replays) | FH4, FH5 | Public | F0 | Facts and second reader for the replay rainfall (F5); facts for the catalogue record | |
+| NOAA Atlas 14 | Point precipitation frequency, study-area centroid | FH6 | Public | F0 | Facts | |
+| Substation curves | Nirandjan et al. 2024, Zenodo doi:10.5281/zenodo.13889558 v1.1.0; Williams et al. 2025, doi:10.1111/jfr3.70045; Bor et al. 2026, arXiv 2605.23053; Karagiannakis et al. 2025, doi:10.1002/wcc.930 | FR2 | Nirandjan CC BY 4.0 **[S]**; Williams reported CC BY-NC-ND **[V]** | F0 (licences, files); F6 (every value) | Facts; every curve point read from the primary file in F6 | |
+| Building curves | FEMA Hazus flood functions | FR3 | Public domain | F0; F6 (values) | Facts | |
+| ICE Calculator 2.x | Lawrence Berkeley National Laboratory | FM5 | Free tool; check reuse terms | F0; F7 (terms of reuse) | Facts | |
+| JRC GloFAS flood maps | crc-sdk 1.0.0 `JRC(product=JRC.Product.GLOFAS)`; verified in V8 and again on 1.0.0 | FC1 | Copernicus | Done (validation record `jrc-flood`, crc-sdk 1.0.0) | Values recomputed: 48 of 48 checks confirmed | |
+| Google runoff reanalysis | notebook linked from Google's flood forecasting resources page | FC2 | **Unverified**; read in F12 | F12 | Facts | |
+| USGS gauge 11179000 | Alameda Creek near Niles | FC2 | Public | F12 | Facts | |
 
 ## 8. Software to pin
 
 | Tool | Version to start from | Note |
 | --- | --- | --- |
-| crc-sdk, crc-framework | 0.11.2, 0.6.0 | Unchanged. Note 1.0 differences in an appendix; do not migrate |
+| crc-sdk, crc-framework | 1.0.0, 1.0.0 | The pins of the main environment (`pyproject.toml`), exact, moved only by `just upstream-bump`, both together. Python 3.12. A newer release during the lab is a change proposal, not a silent bump |
+| rasterio | below 1.5.2 on macOS | As in `pyproject.toml`; repeated in every side environment that pulls it (FG4) |
 | SFINCS | v2.5.0 (2026-11-02) **[S]** unless FloodAdapt's pin requires otherwise; not 2.3.0 or 2.4.0 with curve-number infiltration | Docker on macOS; native Apple Silicon support **[V]** |
 | hydromt-sfincs | ≥1.2.2, <2.0 **[V]** | Own environment |
 | RainyDay | current GitHub release | Own environment |
@@ -407,12 +504,22 @@ primary source, and the outcome recorded. Item numbers are referred to from the 
 10. SR 26-2. **Confirmed**: issued 2026-04-17 jointly by the Federal Reserve, OCC and FDIC; replaces SR 11-7
     and SR 21-8. Its treatment of generative AI was not read from the attachment; do not state it.
 11. Whether an Alameda Creek reach exists in Google's reanalysis, and its licence. Open (F12).
+12. The crc-sdk 1.0.0 and crc-framework 1.0.0 calls in `docs/flood/crc-1.0-mapping.md`. Read in the code on
+    2026-11-25, none run. Open (F0): each is run once on toy data and the mapping's last column filled; a
+    call that does not behave as read stops the stage.
 
-Not checked at all in the verification pass, so still **[V]**: the USGS high-water-mark release details
-(83 sites), the FloodNet and Building Elevation dataset fields, RainyDay's repository, licence and inputs,
-AORC and Stage IV specifications, Delft-FIAT, CLIMADA, Oasis, SWMManywhere and Itzï versions, the emulator
-benchmark figures, and the Fremont back-test figure's exact wording (reported as "$710,000" and as "more
-than $710,000" by different sources).
+Not checked at all in the verification pass, so still **[V]**. Each now has a stage, under FS6:
+
+| Item | Stage |
+| --- | --- |
+| USGS high-water-mark release details (83 sites) | F0 |
+| FloodNet and Building Elevation dataset fields | F0 |
+| RainyDay's repository, licence and inputs | F0 |
+| AORC and Stage IV specifications | F0 |
+| Delft-FIAT, CLIMADA and Oasis versions | F10 (FloodAdapt's and Oasis's install trials in F0 record what they find) |
+| The emulator benchmark figures | F9 |
+| SWMManywhere and Itzï versions | F14 |
+| The Fremont back-test figure's exact wording (reported as "$710,000" and as "more than $710,000" by different sources) | F12 |
 
 ## 10. Limits to state on the page
 
@@ -426,6 +533,10 @@ than $710,000" by different sources).
 - Two real storms test whether an index discriminates. They cannot set a frequency.
 - The emulator is trained and tested in one neighbourhood only.
 - CRC Open data, where used, is CC BY-NC 4.0 and excluded from any commercial output.
+- CRC computes damage ratios and per-asset expectations; the event-loss table and the portfolio figures
+  are this project's own code on top of them.
+- A source marked "facts confirmed" has had its identity, licence, fields and coverage read from the
+  publisher; only a source marked "values recomputed" has been read a second time by independent code.
 
 ## 11. Wording rules
 
@@ -441,11 +552,31 @@ than $710,000" by different sources).
 1. Confirm D1, D2 and D12 (New York study, the two storms, Fremont as a chapter).
 2. Confirm D9 and D10 (storm catalogue replaces design storms; emulator added). Together they add about
    18 hours.
-3. Total budget: the core is about 68 hours, core plus emulator and cross-checks about 91, everything
-   about 109 (see the plan). Which tier is the target?
+3. Answered 2026-11-25 (D13): Tier 1, with Tiers 2 and 3 decided at the F8 stop. After this revision the
+   core is about 76 hours (see the plan).
 4. Substation values: is a placeholder range acceptable for the first public version?
 5. May the Jamaica Bay depth map and FloodNet data be shown on the public page, or only used for checking,
    if a licence is unclear?
 6. Is the optional news-extraction stage wanted before or after the first public version?
 7. The expert-derived substation curves are reported to carry a no-derivatives licence. Is citing their
    published 3 m values enough, or should the high curve come from the lognormal alternative instead?
+8. Disk: if F0's budget (FG7) does not fit in the free space, may `data/cache/validation/` (19 GiB of
+   publisher files that can be downloaded again, some only on a good day for the publisher's server) be
+   cleared, in whole or in part?
+
+## 13. Where an outside review is most useful
+
+The build checks that the code does what this file says. It cannot judge whether this file asks for the
+right thing. These are the choices an outside evaluation (D16) is most likely to improve; proposals go to
+`docs/flood/changes.md`.
+
+- Sources not considered at all, for any stage: other depth observations, other label sources, other
+  rainfall records, other asset or value data.
+- The rainfall record and the transposition method behind the catalogue (FH5), and whether about two
+  decades of radar rainfall support the frequencies claimed.
+- The drainage allowance as the stand-in for the sewer network (FH3), beyond the one published precedent.
+- The substation damage curves (FR2): whether better or more local sources exist than the three used.
+- The label sources of FT5 and the claim-date rule, which comes from a preprint.
+- The fusion and scoring method (FT6, FT7), which FT8 already says is assembled from adjacent literature.
+- The emulator design (FE1) against current practice.
+- The customers-served and outage-cost placeholders (FD7, FM5).
