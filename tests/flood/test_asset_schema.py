@@ -26,7 +26,7 @@ def test_a_plain_row_is_accepted() -> None:
 def test_each_rule_is_reported() -> None:
     cases = {
         "repeated": [_row(), _row()],
-        "asset type": [_row(lab_asset_type="pylon")],
+        "lab_asset_type is": [_row(lab_asset_type="pylon")],
         "letter": [_row(LocNumber="B-1")],
         "not in New York": [_row(Latitude=585500.0, Longitude=4504500.0)],
         "ground elevation": [_row(lab_ground_elev_m="")],
