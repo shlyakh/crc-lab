@@ -1,0 +1,27 @@
+# Replacement value of a substation, as a low, mid and high figure per class (requirement FD4).
+#
+# No public source gives the replacement value of any substation in the study area. The range of
+# each class is therefore a PLACEHOLDER [P], bracketed by two published figures that are stated
+# by their sources but describe other things: a grid operator's planning estimate of a new
+# outdoor substation of that voltage (low), and a utility's forecast for a new indoor substation
+# in New York City (high). The mid figure is the geometric mean of the two, an inference with no
+# source of its own. The figures are as stated by the sources, in the sources' own price years,
+# not adjusted for inflation. Every figure is in the facts file `substation-cost-sources`.
+#
+# A substation whose class cannot be told from its tags gets no value: unknown is left empty.
+
+[transmission]
+rule = "OpenStreetMap substation=transmission, or a highest tagged voltage of 230 kV or more"
+low_usd = 15_800_000
+low_source = "MISO Transmission Cost Estimation Guide for MTEP24, Table 4.2-2: new substation, 345 kV, four positions, ring bus"
+high_usd = 592_000_000
+high_source = "Con Edison, NY PSC Case 22-E-0064, Idlewild petition (2023-08-22): Eastern Queens 138 kV transmission substation, forecast"
+tag = "P"
+
+[area]
+rule = "OpenStreetMap substation=distribution or minor_distribution, or a highest tagged voltage below 230 kV"
+low_usd = 9_100_000
+low_source = "MISO Transmission Cost Estimation Guide for MTEP24, Table 4.2-2: new substation, 138 kV, four positions, ring bus"
+high_usd = 380_000_000
+high_source = "Con Edison, NY PSC Case 22-E-0064, Idlewild petition (2023-08-22): Idlewild 27 kV area substation, forecast"
+tag = "P"
