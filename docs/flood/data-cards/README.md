@@ -8,9 +8,9 @@ One card per source whose facts were read from the primary source (FS6). Require
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | [DELUGE: Towards Continental-Scale Daily Pluvial Flood Damage Prediction via Interpretable Conditioning on Foundation Model Embeddings (arXiv 2607.16050), section 3.1.1](deluge-claim-date-rule.md) | facts checked: 8 confirmed, 1 not checked | 8 | 0 | 1 | 3 | F0 |
 | [FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life](fema-bca.md) | facts checked: 5 confirmed, 3 not checked | 5 | 0 | 3 | 4 | F0 |
-| [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed; values to be recomputed by a second reader in F2 | 12 | 0 | 0 | 1 | F0 |
-| [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed; values to be recomputed by a second reader in F2 | 9 | 0 | 0 | 1 | F0 |
-| [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed; values to be recomputed by a second reader in F2 | 19 | 0 | 0 | 9 | F0 |
+| [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed; values recomputed by a second reader in F2 (passed) | 12 | 0 | 0 | 1 | F0 |
+| [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed; values recomputed by a second reader in F2 (passed) | 9 | 0 | 0 | 1 | F0 |
+| [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed; values recomputed by a second reader in F2 (passed) | 19 | 0 | 0 | 9 | F0 |
 | [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 confirmed, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
 | [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 7 confirmed, 2 differ | 7 | 2 | 0 | 2 | F0 |
 | [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed | 13 | 0 | 0 | 0 | F0 |
@@ -22,7 +22,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed | 16 | 0 | 0 | 1 | F0 |
 | [NYC Building Footprints (BUILDING, \`5zhs-2jue\`)](nyc-building-footprints.md) | facts checked: 7 confirmed, 1 differ | 7 | 1 | 0 | 1 | F1 |
 | [2020 Neighborhood Tabulation Areas (NTAs)](nyc-nta-2020.md) | facts confirmed | 7 | 0 | 0 | 1 | F0 |
-| [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 11 confirmed, 2 differ, 2 not checked; values to be recomputed by a second reader in F2 | 11 | 2 | 2 | 1 | F0 |
+| [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 12 confirmed, 2 differ, 1 not checked; values recomputed by a second reader in F2 (passed) | 12 | 2 | 1 | 1 | F0 |
 | [NYC 2017 topobathymetric lidar DEM (NYC Open Data 7sc8-jtbz), packaging for the F1 box](nyc-topobathy-2017.md) | facts checked: 10 confirmed, 1 not checked | 10 | 0 | 1 | 2 | F1 |
 | [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts checked: 12 confirmed, 1 differ | 12 | 1 | 0 | 1 | F0 |
 | [NOAA Analysis of Record for Calibration (AORC) v1.1](rainfall-aorc.md) | facts confirmed | 8 | 0 | 0 | 1 | F0 |

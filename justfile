@@ -213,3 +213,14 @@ flood-f1-check:
 # Flood lab F1: substations, buildings and the asset table, with the record and its figures
 flood-f1-assets:
     uv run --with matplotlib python -m flood_lab.checks.f1_assets
+
+# Flood lab F2: loaders against their second readers, the CRC layer and observations, the primer's figures; offline
+flood-f2:
+    uv run --with matplotlib python -m flood_lab.checks.f2_sources
+    uv run --with matplotlib python -m flood_lab.checks.f2_primer
+    uv run python -m flood_lab.data_cards
+    uv run python -m flood_lab.gallery
+
+# Flood lab F2: export the Limited Flood map through ESRI's library (tools/flood/limited_flood_map/README.md)
+flood-limited-map:
+    uv run python tools/flood/limited_flood_map/export.py

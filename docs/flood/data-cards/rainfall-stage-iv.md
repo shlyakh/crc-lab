@@ -2,15 +2,15 @@
 
 # Data card: NCEP Stage IV multi-sensor precipitation analysis (archive at NSF NCAR GDEX d507005)
 
-Level of check (FS7): **facts checked: 6 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 6 confirmed, 0 differs, 1 not checked, 2 not applicable.
+Level of check (FS7): **facts checked: 6 confirmed, 1 not checked**. Facts read from the primary source on 2026-11-25 in stage F0: 6 confirmed, 0 differs, 1 not checked, 2 not applicable. Of the confirmed, 4 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | NCEP/EMC and CPC (producer); archive held by NSF NCAR GDEX (secondary source used) |
 | Used for | FH4, FH5 |
 | Licence | Creative Commons Attribution 4.0 International, as stated by the archive (GDEX), not by NCEP. (confirmed) |
-| Coverage in space | Lon 136.698W to 59.318W, lat 20.18N to 58.417N; 4.7625 km x 4.7625 km (at 60N), oriented 105W, 1160 x 880 North Polar Stereographic (HRAP-type 4 km grid). (confirmed) |
-| Coverage in time | Dataset temporal range 1995-01 to 2025-12, updated quarterly; Stage IV part from 2002-01-01. GRIB files: ST4 grib/grib2 from 20020101.00Z to 20200728.11Z plus grib2 from 20200720.00Z on. (confirmed) |
+| Coverage in space | Lon 136.698W to 59.318W, lat 20.18N to 58.417N; 4.7625 km x 4.7625 km (at 60N), oriented 105W, 1160 x 880 North Polar Stereographic (HRAP-type 4 km grid). (read, no claim) |
+| Coverage in time | Dataset temporal range 1995-01 to 2025-12, updated quarterly; Stage IV part from 2002-01-01. GRIB files: ST4 grib/grib2 from 20020101.00Z to 20200728.11Z plus grib2 from 20200720.00Z on. (read, no claim) |
 | Release | No version concept stated; archive total volume 185.04 GB. (not applicable) |
 
 ## Files fetched
@@ -33,10 +33,10 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | --- | --- | --- | --- | --- | --- |
 | Identifier | NOAA Stage IV (FH5) | Archive record &\#x27;NCEP/CPC Four Kilometer Precipitation Set, Gauge and Radar&\#x27;, dataset d507005, DOI 10.5065/D69Z93M3, at NSF NCAR GDEX (formerly RDA ds507.5, which returned 503). This is a secondary source for Stage IV: the producer pages were not reachable. | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | – |
 | Address | – | Archive: https://gdex.ucar.edu/datasets/d507005/ (Data Access tab not read). Producer&\#x27;s real-time directory https://nomads.ncep.noaa.gov/pub/data/nccf/com/pcpanl/prod/ was not reachable (HTTP 503). No NOAA Open Data bucket for Stage IV was found in the AWS registry search page. | not checked | <https://gdex.ucar.edu/datasets/d507005/> | – |
-| Fields | – | Variable: Precipitation Amount, ground or water surface, temporal frequency &\#x27;Every hour (Accumulation)&\#x27;, data type Grid. | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | – |
-| Coverage in space | – | Lon 136.698W to 59.318W, lat 20.18N to 58.417N; 4.7625 km x 4.7625 km (at 60N), oriented 105W, 1160 x 880 North Polar Stereographic (HRAP-type 4 km grid). | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | – |
-| Coverage in time | – | Dataset temporal range 1995-01 to 2025-12, updated quarterly; Stage IV part from 2002-01-01. GRIB files: ST4 grib/grib2 from 20020101.00Z to 20200728.11Z plus grib2 from 20200720.00Z on. | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | – |
-| format | – | WMO GRIB1 stated for the dataset; GRIB2 also listed for data from 2020-07-20. | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | – |
+| Fields | – | Variable: Precipitation Amount, ground or water surface, temporal frequency &\#x27;Every hour (Accumulation)&\#x27;, data type Grid. | read, no claim | <https://gdex.ucar.edu/datasets/d507005/> | – |
+| Coverage in space | – | Lon 136.698W to 59.318W, lat 20.18N to 58.417N; 4.7625 km x 4.7625 km (at 60N), oriented 105W, 1160 x 880 North Polar Stereographic (HRAP-type 4 km grid). | read, no claim | <https://gdex.ucar.edu/datasets/d507005/> | – |
+| Coverage in time | – | Dataset temporal range 1995-01 to 2025-12, updated quarterly; Stage IV part from 2002-01-01. GRIB files: ST4 grib/grib2 from 20020101.00Z to 20200728.11Z plus grib2 from 20200720.00Z on. | read, no claim | <https://gdex.ucar.edu/datasets/d507005/> | – |
+| format | – | WMO GRIB1 stated for the dataset; GRIB2 also listed for data from 2020-07-20. | read, no claim | <https://gdex.ucar.edu/datasets/d507005/> | – |
 | Licence | Public (section 7) | Creative Commons Attribution 4.0 International, as stated by the archive (GDEX), not by NCEP. | confirmed | <https://gdex.ucar.edu/datasets/d507005/> | Licence is the archive&\#x27;s; NCEP&\#x27;s own terms not read. |
 | Release | – | No version concept stated; archive total volume 185.04 GB. | not applicable | <https://gdex.ucar.edu/datasets/d507005/> | – |
 | Checksum | – | Not stated. | not applicable | <https://gdex.ucar.edu/datasets/d507005/> | – |

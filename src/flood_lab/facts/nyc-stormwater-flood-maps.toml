@@ -98,15 +98,15 @@ verdict_note = ""
 [[fact]]
 name = "layers"
 claimed = ""
-observed = "One feature class per geodatabase, each a 3D MultiPolygon in EPSG:2263 (NAD83 / New York Long Island, US feet). Feature counts: Extreme 2080 = 3, Moderate 2050 = 3, Moderate current = 2 (one multipolygon per class code). Limited current: the geodatabase opens in GDAL 3.12.4 but the layer is stored with a Compressed Data Format (.gdbtable.cdf, 2.46 MB) that the OpenFileGDB driver cannot read, so layer name, count and CRS were not read; no ESRI FileGDB driver is installed here. Its dictionary and file name say one feature class with two categories."
-outcome = "not checked"
+observed = "One feature class per geodatabase, each a 3D MultiPolygon in EPSG:2263 (NAD83 / New York Long Island, US feet). Feature counts: Extreme 2080 = 3, Moderate 2050 = 3, Moderate current = 2 (one multipolygon per class code). Limited current: the geodatabase opens in GDAL 3.12.4 but the layer is stored with a Compressed Data Format (.gdbtable.cdf, 2.46 MB) that the OpenFileGDB driver cannot read, so layer name, count and CRS were not read; no ESRI FileGDB driver is installed here. Its dictionary and file name say one feature class with two categories. F2 (2026-11-25): read through ESRI's own File Geodatabase API 1.5.5 (tools/flood/limited_flood_map): one feature class, 2 rows, codes 1 and 2, EPSG:2263 in the table definition, Z present; area by code 39,019,066 and 20,705,859 sq ft. The same route on the Moderate current layer reproduces GDAL's reading (area per code to 1e-14, symmetric difference 0)."
+outcome = "confirmed"
 source_url = "zip, GDAL ogrinfo / pyogrio output"
 passage = """
 NYC_Stormwater_Flood_Map_Extreme_Flood_3_66_inches_per_hr_with_2080_Sea_Level_Rise MultiPolygon Z n=3 crs=EPSG:2263 fields=['Flooding_Category','Shape_Length','Shape_Area']
 NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_per_hr_with_2050_Sea_Level_Rise MultiPolygon Z n=3 crs=EPSG:2263 fields=same
 NYC_Stormwater_Flood_Map_Moderate_Flood_2_13_inches_per_hr_with_Current_Sea_Levels MultiPolygon Z n=2 crs=EPSG:2263 fields=same
 NYC_Stormwater_Flood_Map_Limited_Flood_1_77_inches_per_hr_with_Current_Sea_Levels: Warning 1: ... layer has a .../a00000009.gdbtable.cdf file using Compressed Data Format (CDF) that is unhandled by the OpenFileGDB driver, but could be handled by the FileGDB driver."""
-note = "A reader for the Limited layer needs the ESRI FileGDB SDK driver or a re-export by the city. The geodatabase inner layer name for Moderate 2050 is spelled \"..._2_13_per_hr_...\" (no \"inches\"), unlike the others. Aggregate area per class code (sq ft, Shape_Area): Extreme 396,453,915 / 303,648,177 / 345,584,598; Moderate 2050 85,815,427 / 45,326,429 / 138,941,956; Moderate current 78,077,948 / 40,126,225."
+note = "The Limited layer is read from an export made with ESRI's library, kept in the cache with its provenance (nyc-stormwater-flood-maps/converted/limited-current.json); a re-export by the city would still repair the source for everyone. ESRI flags the class-1 row of the Limited layer as holding curved segments; the export takes vertices only (see the F2 report). The geodatabase inner layer name for Moderate 2050 is spelled \"..._2_13_per_hr_...\" (no \"inches\"), unlike the others. Aggregate area per class code (sq ft, Shape_Area): Extreme 396,453,915 / 303,648,177 / 345,584,598; Moderate 2050 85,815,427 / 45,326,429 / 138,941,956; Moderate current 78,077,948 / 40,126,225."
 verdict_note = ""
 
 [[fact]]

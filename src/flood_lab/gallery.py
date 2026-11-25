@@ -323,9 +323,7 @@ def _fact_cell(source: Source, name: str) -> str:
     if fact is None:  # load() refuses this; kept for safety
         return '<td class="o o-missing">–</td>'
     slug = fact.outcome.replace(" ", "-")
-    return (
-        f'<td class="o o-{slug}" title="{e(fact.observed or fact.outcome)}">{e(fact.outcome)}</td>'
-    )
+    return f'<td class="o o-{slug}" title="{e(fact.observed or fact.outcome)}">{e(fact.shown)}</td>'
 
 
 def _fact_rows(source: Source) -> str:
@@ -340,7 +338,7 @@ def _fact_rows(source: Source) -> str:
         slug = fact.outcome.replace(" ", "-")
         rows.append(
             f'<tr><td class="l">{e(fact.name)}{"" if fact.required else " <small>further</small>"}'
-            f'</td><td class="o o-{slug}">{e(fact.outcome)}</td>'
+            f'</td><td class="o o-{slug}">{e(fact.shown)}</td>'
             f'<td class="l wrap">{e(fact.claimed or "–")}</td>'
             f'<td class="l wrap">{e(fact.observed or "–")}</td>'
             f'<td class="l wrap">{href(fact.source_url)}{passage}</td>'
@@ -401,7 +399,9 @@ def sources_section(sources: list[Source], layout: Layout) -> str:
             "the source was read from the primary source and agrees with the requirements (or does "
             "not apply); otherwise the level reads facts checked, with how many facts were "
             "confirmed, differ or were not checked. Either is a reading of the primary source, "
-            "not a recomputation of its values.",
+            'not a recomputation of its values. A cell reading "read, no claim" is a fact the '
+            "requirements said nothing about: it was read from the source, with nothing to "
+            "confirm it against.",
             "Source facts",
         )
         + '<div class="scroll"><table class="data grid"><thead><tr><th class="l">Source</th>'

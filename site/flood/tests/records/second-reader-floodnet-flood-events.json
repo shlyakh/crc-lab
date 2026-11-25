@@ -1,0 +1,215 @@
+{
+ "checks": [
+  {
+   "name": "events table",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero rows differ between loader and second reader",
+   "threshold": 0,
+   "value": {
+    "columns": {
+     "duration_min": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "end_utc": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "latitude": {
+      "differ": 0,
+      "first": [],
+      "rule": "abs <= 1e-09"
+     },
+     "local_day": {
+      "differ": 0,
+      "first": [],
+      "rule": "exact"
+     },
+     "longitude": {
+      "differ": 0,
+      "first": [],
+      "rule": "abs <= 1e-09"
+     },
+     "peak_depth_m": {
+      "differ": 0,
+      "first": [],
+      "rule": "abs <= 1e-09"
+     }
+    },
+    "differences": 0,
+    "first_only_in_a": [],
+    "first_only_in_b": [],
+    "only_in_a": 0,
+    "only_in_b": 0,
+    "repeated_keys_a": 0,
+    "repeated_keys_b": 0,
+    "rows_a": 3611,
+    "rows_b": 3611
+   }
+  },
+  {
+   "name": "fault, one row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "fault, one depth off by a millimetre",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "fault, one event given its GMT date as the local day",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": null
+  },
+  {
+   "name": "CRC observations read back equal",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every sensor, time, depth and position read from CRC equals what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "missing": 0,
+    "position_differs": 0,
+    "rows_back": 3611,
+    "rows_in": 3611,
+    "value_differs": 0
+   }
+  }
+ ],
+ "created_at": "2026-11-25T22:31:45Z",
+ "figures": [],
+ "id": "second-reader-floodnet-flood-events",
+ "inputs": [
+  {
+   "bytes": 6115669,
+   "path": "floodnet-flood-events/aq7i-eu5q.csv",
+   "sha256": "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054",
+   "url": ""
+  },
+  {
+   "bytes": 114096,
+   "path": "floodnet-sensors/kb2e-tjy3.csv",
+   "sha256": "7fa594a6960efac45ec50ddfb02ea0ed86cd2c962a8477e192ca5a9c723fb612",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Peak depth and duration are the publisher's columns, converted; neither reader recomputes them from the depth profile. The consistency table says how often the publisher's profile and its own summary columns disagree.",
+  "Duration and end time are not in CRC: an observation there is one value at one time."
+ ],
+ "numbers": {
+  "events": 3611,
+  "events_whose_local_day_is_not_the_gmt_date": 824,
+  "first_event_utc": "2020-11-16T01:41:17Z",
+  "last_event_utc": "2026-11-09T12:46:10Z",
+  "sensors_with_an_event": 322
+ },
+ "parameters": [
+  {
+   "name": "inch",
+   "source": "exact by definition, metres",
+   "tag": "S",
+   "value": 0.0254
+  },
+  {
+   "name": "local day",
+   "source": "",
+   "tag": "I",
+   "value": "America/New_York"
+  },
+  {
+   "name": "depth tolerance, m",
+   "source": "",
+   "tag": "P",
+   "value": 1e-09
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "duckdb": "1.5.6",
+  "pandas": "3.1.1",
+  "pyarrow": "26.0.1",
+  "pyogrio": "0.13.0",
+  "python": "3.12.11",
+  "rasterio": "1.5.1",
+  "shapely": "2.2.0"
+ },
+ "stage": "F2",
+ "tables": {
+  "publisher's own consistency (second reader's counts)": [
+   {
+    "count": "rows",
+    "events": 3611
+   },
+   {
+    "count": "profile_peak_differs",
+    "events": 52
+   },
+   {
+    "count": "duration_differs",
+    "events": 7
+   },
+   {
+    "count": "duplicate_keys",
+    "events": 0
+   },
+   {
+    "count": "duplicate_rows",
+    "events": 0
+   },
+   {
+    "count": "unknown_sensor",
+    "events": 0
+   },
+   {
+    "count": "examples",
+    "events": {
+     "duration_differs": [
+      "Q-brookville-blvd-149th-ave-3-23nfdo 2024-10-17T12:44:30Z",
+      "BX-ditmars-st-hunter-ave-1kwrk0 2024-08-18T12:19:04Z",
+      "SI-grimsby-st-mapleton-ave-1de5w0 2024-08-07T00:08:41Z",
+      "Q-beach-84-st-0me680 2023-10-29T11:56:53Z",
+      "Q-1st-st-104th-st-1a5t00 2023-09-26T22:10:24Z",
+      "Q-russell-st-1-07zqc0 2022-06-17T02:16:22Z",
+      "Q-russell-st-2-07zt40 2022-01-02T11:13:04Z"
+     ],
+     "profile_peak_differs": [
+      "Q-queens-boulevard-broadway-20q4s0 2026-08-23T10:39:29Z",
+      "Q-moncriff-dr-104th-st-2z1iuo 2026-08-20T21:57:44Z",
+      "Q-norton-dr-westbourne-ave-1-2wif1c 2026-08-20T21:12:06Z",
+      "SI-richmond-ter-lafayette-ave-2upl3o 2026-08-03T10:44:00Z",
+      "BK-winthrop-st-e-94th-st-1dnt40 2026-07-06T02:47:21Z",
+      "BK-brighton-6th-st-ocean-view-ave-2ub2dc 2026-05-20T22:31:48Z",
+      "BK-dewitt-ave-williams-ave-215zzc 2025-11-10T06:28:29Z",
+      "Q-beach-84-st-0me680 2025-11-08T13:29:44Z",
+      "Q-hendrickson-pl-166th-st-1x5fg0 2025-10-30T20:04:58Z",
+      "Q-231st-st-148th-ave-1edkw0 2025-10-30T19:59:39Z"
+     ]
+    }
+   }
+  ]
+ },
+ "title": "FloodNet events: loader against the second reader, and the CRC observations"
+}

@@ -2,7 +2,7 @@
 
 # Data card: Groundsource: A Dataset of Flood Events from News
 
-Level of check (FS7): **facts confirmed; values to be recomputed by a second reader in F2**. Facts read from the primary source on 2026-11-25 in stage F0: 19 confirmed, 0 differs, 0 not checked, 9 not applicable.
+Level of check (FS7): **facts confirmed; values recomputed by a second reader in F2 (passed)**. Facts read from the primary source on 2026-11-25 in stage F0: 19 confirmed, 0 differs, 0 not checked, 9 not applicable. Of the confirmed, 3 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -26,6 +26,27 @@ Paths are relative to `data/cache/flood/` (not committed).
 ## Known biases
 
 Events exist only where news was digitised, published online and still reachable, in the 80 languages read; the paper states a recency bias (about 64% of events in 2020-2025, 15% in 2025) and uneven coverage by region. A row is a place named in an article, not a measured flood: one flood gives many rows, and a day with no row means no report was found, not no flood.
+
+## Transformation statement
+
+What the loader `flood_lab.sources.groundsource` does to the publisher's file, in its own words (the module's docstring). The second reader recomputes the result by another route (FS4).
+
+1. The publisher's one file (Zenodo record 18647054, `groundsource_2026.parquet`) is read with
+   pyarrow, column by column; the stage's check compares its md5 with the publisher's first. Its
+   GeoParquet key-value metadata is ignored: only the five documented columns are read, and the
+   accidental index column is left.
+2. A row is kept for a box when its polygon intersects the box (touching counts). The row's
+   bounding box is used only to skip rows that cannot intersect.
+3. Kept as written: `uuid`, `start_date`, `end_date`, `area_km2` and the polygon (WKB,
+   longitude and latitude on WGS84). Added: the box, the polygon's centroid in degrees, and
+   whether that centroid is in the box.
+
+`area_km2` is the area of the named place, not of any flood. A row says that a news report
+placed a flood in that place on those days; the publisher's own review found 60% of 400 rows
+accurate in both place and dates.
+
+CRC 1.0.0 has no record that holds a date range with a polygon, so this stays a `flood_lab`
+table (D8).
 
 ## Facts
 
@@ -52,9 +73,9 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | rows nyc 2021-09-01 | Open: that rows exist for New York on 2021-09-01/02 and 2023-09-29 | New York City box (lon -74.26..-73.70, lat 40.49..40.92): 509 rows whose polygon intersects the box and whose date range covers 2021-09-01; 468 rows with centroid in the box; of these, 207 (intersects) and 197 (centroid) have start\_date = end\_date = 2021-09-01 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | Rows are places, not floods: many rows share one storm (the 509 rows for 2021-09-01 include 3 long-run polygons of 68, 92 and 159 km2 running 2021-08-28 to 2021-09-03). |
 | rows nyc 2021-09-02 | Open: that rows exist for New York on 2021-09-01/02 and 2023-09-29 | New York City box (lon -74.26..-73.70, lat 40.49..40.92): 312 rows whose polygon intersects the box and whose date range covers 2021-09-02; 282 rows with centroid in the box; of these, 11 (intersects) and 11 (centroid) have start\_date = end\_date = 2021-09-02 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | – |
 | rows nyc 2023-09-29 | Open: that rows exist for New York on 2021-09-01/02 and 2023-09-29 | New York City box (lon -74.26..-73.70, lat 40.49..40.92): 264 rows whose polygon intersects the box and whose date range covers 2023-09-29; 240 rows with centroid in the box; of these, 152 (intersects) and 146 (centroid) have start\_date = end\_date = 2023-09-29 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | – |
-| rows bq 2021-09-01 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 204 rows whose polygon intersects the box and whose date range covers 2021-09-01; 187 rows with centroid in the box; of these, 96 (intersects) and 94 (centroid) have start\_date = end\_date = 2021-09-01 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
-| rows bq 2021-09-02 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 109 rows whose polygon intersects the box and whose date range covers 2021-09-02; 94 rows with centroid in the box; of these, 1 (intersects) and 1 (centroid) have start\_date = end\_date = 2021-09-02 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
-| rows bq 2023-09-29 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 191 rows whose polygon intersects the box and whose date range covers 2023-09-29; 178 rows with centroid in the box; of these, 106 (intersects) and 104 (centroid) have start\_date = end\_date = 2023-09-29 exactly. | confirmed | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
+| rows bq 2021-09-01 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 204 rows whose polygon intersects the box and whose date range covers 2021-09-01; 187 rows with centroid in the box; of these, 96 (intersects) and 94 (centroid) have start\_date = end\_date = 2021-09-01 exactly. | read, no claim | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
+| rows bq 2021-09-02 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 109 rows whose polygon intersects the box and whose date range covers 2021-09-02; 94 rows with centroid in the box; of these, 1 (intersects) and 1 (centroid) have start\_date = end\_date = 2021-09-02 exactly. | read, no claim | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
+| rows bq 2023-09-29 | – | Brooklyn and Queens box (lon -74.05..-73.70, lat 40.55..40.80): 191 rows whose polygon intersects the box and whose date range covers 2023-09-29; 178 rows with centroid in the box; of these, 106 (intersects) and 104 (centroid) have start\_date = end\_date = 2023-09-29 exactly. | read, no claim | file via duckdb (script f0/scripts/gs\_analysis.py) | Requirements section 9, item 2 asked whether rows exist for New York on this date. |
 | rows alameda 2021-09-01 | – | Alameda County box (lon -122.35..-121.45, lat 37.45..37.91): 0 rows whose polygon intersects the box and whose date range covers 2021-09-01; 0 rows with centroid in the box; of these, 0 (intersects) and 0 (centroid) have start\_date = end\_date = 2021-09-01 exactly. | not applicable | file via duckdb (script f0/scripts/gs\_analysis.py) | Zero rows in the Alameda box on all three dates is expected: the dates are New York storms; this is a negative control, not a gap. |
 | rows alameda 2021-09-02 | – | Alameda County box (lon -122.35..-121.45, lat 37.45..37.91): 0 rows whose polygon intersects the box and whose date range covers 2021-09-02; 0 rows with centroid in the box; of these, 0 (intersects) and 0 (centroid) have start\_date = end\_date = 2021-09-02 exactly. | not applicable | file via duckdb (script f0/scripts/gs\_analysis.py) | – |
 | rows alameda 2023-09-29 | – | Alameda County box (lon -122.35..-121.45, lat 37.45..37.91): 0 rows whose polygon intersects the box and whose date range covers 2023-09-29; 0 rows with centroid in the box; of these, 0 (intersects) and 0 (centroid) have start\_date = end\_date = 2023-09-29 exactly. | not applicable | file via duckdb (script f0/scripts/gs\_analysis.py) | – |

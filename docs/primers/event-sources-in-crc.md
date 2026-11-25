@@ -2,6 +2,9 @@
 
 Written for the Storm Events work. Based on reading crc-sdk `main` (commit of 2026-11-04) and crc-docs.
 
+This primer describes the 0.11 interface. For crc-sdk 1.0.0, and for sensor readings and news reports as
+evidence of a flood, see [point-observations.md](point-observations.md) (2026-11-25).
+
 ## The short version
 
 CRC's contract holds **curves**: for a place, a hazard and a period, a distribution of an annual value ("the

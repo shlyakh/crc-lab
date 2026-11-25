@@ -1,0 +1,373 @@
+{
+ "checks": [
+  {
+   "name": "limited-current: depth class per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ between loader and second reader",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "limited-current: tidal mask per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "limited-current: area per class in the square",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "the two readers' clipped areas agree",
+   "threshold": 1e-06,
+   "value": 0.0
+  },
+  {
+   "name": "limited-current: fault, polygons shifted by one cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 3390
+  },
+  {
+   "name": "limited-current: fault, the class-2 row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 2424
+  },
+  {
+   "name": "limited-current: CRC layer reads back equal",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every polygon, class and label read from CRC equals what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "geometry_bytes_differ": 0,
+    "geometry_shape_differs": 0,
+    "label_differs": 0,
+    "missing": 0,
+    "rows_back": 314,
+    "rows_in": 314,
+    "value_differs": 0
+   }
+  },
+  {
+   "name": "moderate-current: depth class per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ between loader and second reader",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "moderate-current: tidal mask per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "moderate-current: area per class in the square",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "the two readers' clipped areas agree",
+   "threshold": 1e-06,
+   "value": 0.0
+  },
+  {
+   "name": "moderate-current: fault, polygons shifted by one cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 6326
+  },
+  {
+   "name": "moderate-current: fault, the class-2 row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 5081
+  },
+  {
+   "name": "moderate-current: CRC layer reads back equal",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every polygon, class and label read from CRC equals what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "geometry_bytes_differ": 0,
+    "geometry_shape_differs": 0,
+    "label_differs": 0,
+    "missing": 0,
+    "rows_back": 547,
+    "rows_in": 547,
+    "value_differs": 0
+   }
+  },
+  {
+   "name": "moderate-2050: depth class per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ between loader and second reader",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "moderate-2050: tidal mask per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "moderate-2050: area per class in the square",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "the two readers' clipped areas agree",
+   "threshold": 1e-06,
+   "value": 0.0
+  },
+  {
+   "name": "moderate-2050: fault, polygons shifted by one cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 6999
+  },
+  {
+   "name": "moderate-2050: fault, the class-2 row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 6355
+  },
+  {
+   "name": "moderate-2050: CRC layer reads back equal",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every polygon, class and label read from CRC equals what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "geometry_bytes_differ": 0,
+    "geometry_shape_differs": 0,
+    "label_differs": 0,
+    "missing": 0,
+    "rows_back": 680,
+    "rows_in": 680,
+    "value_differs": 0
+   }
+  },
+  {
+   "name": "extreme-2080: depth class per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ between loader and second reader",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "extreme-2080: tidal mask per cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "zero cells differ",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "extreme-2080: area per class in the square",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "the two readers' clipped areas agree",
+   "threshold": 1e-06,
+   "value": 0.0
+  },
+  {
+   "name": "extreme-2080: fault, polygons shifted by one cell",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 20996
+  },
+  {
+   "name": "extreme-2080: fault, the class-2 row dropped",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the comparison reports a difference",
+   "threshold": null,
+   "value": 26960
+  },
+  {
+   "name": "extreme-2080: CRC layer reads back equal",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every polygon, class and label read from CRC equals what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "geometry_bytes_differ": 0,
+    "geometry_shape_differs": 0,
+    "label_differs": 0,
+    "missing": 0,
+    "rows_back": 1690,
+    "rows_in": 1690,
+    "value_differs": 0
+   }
+  }
+ ],
+ "created_at": "2026-11-25T22:31:45Z",
+ "figures": [
+  "docs/flood/figures/f2/flood_map_limited-current.png",
+  "docs/flood/figures/f2/flood_map_moderate-current.png",
+  "docs/flood/figures/f2/flood_map_moderate-2050.png",
+  "docs/flood/figures/f2/flood_map_extreme-2080.png"
+ ],
+ "id": "second-reader-nyc-stormwater-flood-maps",
+ "inputs": [
+  {
+   "bytes": 33785094,
+   "path": "nyc-stormwater-flood-maps/NYCFloodStormwaterFloodMaps.zip",
+   "sha256": "5effe9bcca896660f44a5e50c348ab4ebf7550ff3c764ef77f06d775f0c010f5",
+   "url": ""
+  },
+  {
+   "bytes": 6430720,
+   "path": "nyc-stormwater-flood-maps/converted/limited-current.gpkg",
+   "sha256": "d9c4706b6c66e891242fd361765441879fce39e45793d814d34fe43e7ca72007",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Two readers that agree show the loader does what its statement says. Both open the publisher's geodatabase with the same GDAL driver, the only open reader of that format, so a fault in that driver would be shared.",
+  "The square holds water and Manhattan as well as the study area; cell counts are for the whole 4 km square."
+ ],
+ "numbers": {
+  "scenarios": 4,
+  "scenarios_read": 4
+ },
+ "parameters": [
+  {
+   "name": "cell rule",
+   "source": "",
+   "tag": "I",
+   "value": "a cell takes the class its centre lies in; class 2 over 1"
+  },
+  {
+   "name": "grid frame",
+   "source": "",
+   "tag": "I",
+   "value": "EPSG:2263 to EPSG:26918, used as project-grid coordinates (as the terrain)"
+  },
+  {
+   "name": "area tolerance, relative",
+   "source": "",
+   "tag": "P",
+   "value": 1e-06
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "duckdb": "1.5.6",
+  "pandas": "3.1.1",
+  "pyarrow": "26.0.1",
+  "pyogrio": "0.13.0",
+  "python": "3.12.11",
+  "rasterio": "1.5.1",
+  "shapely": "2.2.0"
+ },
+ "stage": "F2",
+ "tables": {
+  "scenarios": [
+   {
+    "cells class 1": 4417,
+    "cells class 2": 2424,
+    "cells tidal": 0,
+    "cells tidal and in a class": 0,
+    "ha class 1": 10.99,
+    "ha class 2": 6.08,
+    "ha tidal": 0.0,
+    "polygons in CRC": 314,
+    "read": "yes",
+    "scenario": "limited-current"
+   },
+   {
+    "cells class 1": 8393,
+    "cells class 2": 5081,
+    "cells tidal": 0,
+    "cells tidal and in a class": 0,
+    "ha class 1": 20.95,
+    "ha class 2": 12.74,
+    "ha tidal": 0.0,
+    "polygons in CRC": 547,
+    "read": "yes",
+    "scenario": "moderate-current"
+   },
+   {
+    "cells class 1": 8904,
+    "cells class 2": 6355,
+    "cells tidal": 4008,
+    "cells tidal and in a class": 0,
+    "ha class 1": 22.19,
+    "ha class 2": 15.95,
+    "ha tidal": 10.1,
+    "polygons in CRC": 680,
+    "read": "yes",
+    "scenario": "moderate-2050"
+   },
+   {
+    "cells class 1": 24620,
+    "cells class 2": 26960,
+    "cells tidal": 4925,
+    "cells tidal and in a class": 0,
+    "ha class 1": 61.54,
+    "ha class 2": 67.48,
+    "ha tidal": 12.38,
+    "polygons in CRC": 1690,
+    "read": "yes",
+    "scenario": "extreme-2080"
+   }
+  ]
+ },
+ "title": "City flood maps: loader against the second reader, and the CRC layer"
+}

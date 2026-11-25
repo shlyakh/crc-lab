@@ -29,6 +29,8 @@ REQUIRED = (
     "checksum",
 )
 LEVELS = ("facts", "facts and second reader")
+#: how an outcome "confirmed" is worded when the requirements made no claim to confirm
+READ = "read, no claim"
 #: a second reader's record, once written: ``site/flood/tests/records/second-reader-<id>.json``
 SECOND_READER_PREFIX = "second-reader-"
 
@@ -70,6 +72,18 @@ class Fact:
     @property
     def required(self) -> bool:
         return self.name in REQUIRED
+
+    @property
+    def shown(self) -> str:
+        """The outcome as cards and the gallery word it.
+
+        "confirmed" is kept for a claim of the requirements that the source bears out. A fact
+        the requirements make no claim about was read from the source, not confirmed against
+        anything, and is shown as ``READ``. The stored outcome stays one of the four.
+        """
+        if self.outcome == "confirmed" and not self.claimed.strip():
+            return READ
+        return self.outcome
 
 
 @dataclass(frozen=True)
@@ -227,6 +241,11 @@ def summary(source: Source) -> dict[str, int]:
     for fact in source.facts:
         counts[fact.outcome] += 1
     return counts
+
+
+def read_without_claim(source: Source) -> int:
+    """How many facts count as confirmed but had no claim in the requirements to confirm."""
+    return sum(1 for fact in source.facts if fact.shown == READ)
 
 
 def second_reader(source: Source, records: Path = paths.RECORDS) -> dict[str, Any] | None:

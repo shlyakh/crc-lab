@@ -2,16 +2,16 @@
 
 # Data card: Aerial imagery of the F1 area: USGS NAIP (TNM image services) and NYS orthoimagery
 
-Level of check (FS7): **facts checked: 10 confirmed, 2 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 2 not checked, 3 not applicable.
+Level of check (FS7): **facts checked: 10 confirmed, 2 not checked**. Facts read from the primary source on 2026-11-25 in stage F1: 10 confirmed, 0 differs, 2 not checked, 3 not applicable. Of the confirmed, 5 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
 | Publisher | USGS / USDA Farm Service Agency (NAIP); New York State ITS GIS Program Office (NYS orthoimagery) |
 | Used for | FD3 |
 | Licence | A publication or a rule, not a data file: it has no such fact. (not applicable) |
-| Coverage in space | NAIP service: conterminous US; NYS service extent as given in the record (Web Mercator, from about lon -77.6 to -73.4 east-west; New York State, including the box). (confirmed) |
-| Coverage in time | NAIP at the point: 2019-08-30. NYS service 2018\_4Band: 2018. (confirmed) |
-| Release | NAIP service copyright text dated January 09, 2025 (NAIPPlus March 12, 2025). NYS: not stated. (confirmed) |
+| Coverage in space | NAIP service: conterminous US; NYS service extent as given in the record (Web Mercator, from about lon -77.6 to -73.4 east-west; New York State, including the box). (read, no claim) |
+| Coverage in time | NAIP at the point: 2019-08-30. NYS service 2018\_4Band: 2018. (read, no claim) |
+| Release | NAIP service copyright text dated January 09, 2025 (NAIPPlus March 12, 2025). NYS: not stated. (read, no claim) |
 
 ## Files fetched
 
@@ -48,11 +48,11 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | nys licence | terms | The service record has licenseInfo and accessInformation empty; copyright text &\#x27;NYS ITS GIS Program Office&\#x27;. The terms of use were not read. | not checked | <https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json> | The program page links a Disclaimer at https://gis.ny.gov/ ; it was not opened. |
 | nyc ortho | NYC&\#x27;s own orthoimagery as public tile or image service | Not obtained. https://maps.nyc.gov/arcgis/rest/services returned HTTP 490 (an HTML page, not a service list). The tile address pattern https://maps.nyc.gov/xyz/1.0.0/photo/&lt;year&gt;/18/77207/98569.png8 for 2016, 2018, 2020, 2022 and 2024 returned HTTP 200 with the same 10,519-byte PNG each time (identical checksum, a placeholder), so no NYC imagery was seen. Whether NYC offers ortho tiles at another address, their year, resolution and terms: not checked. | not checked | <https://maps.nyc.gov/xyz/1.0.0/photo/2018/18/77207/98569.png8> | The tile pattern was recalled, not read from a NYC page; the failure is not evidence that no service exists. |
 | detail comparison | which source shows more detail | The NYS 2018 image (0.15 m native) shows more detail than NAIP 2019 (0.6 m native): cars, roof equipment and container stacks resolve in NYS, while NAIP shows them as blocks. The NAIP image is leaf-on summer (2019-08-30), the NYS image spring (leaf-off, year 2018). | confirmed | <https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer/exportImage> | Judgement from viewing the two test PNGs of the same square; no measurement. |
-| Address | – | https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer ; https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer ; https://orthos.its.ny.gov/arcgis/rest/services/2018\_4Band/ImageServer | confirmed | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json> | – |
-| Fields | – | RGB (NAIP four band R, G, B, NIR; the PNG is RGB), orthorectified image, UTM 18N NAD83 source tiles. | confirmed | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query> | – |
-| Coverage in space | – | NAIP service: conterminous US; NYS service extent as given in the record (Web Mercator, from about lon -77.6 to -73.4 east-west; New York State, including the box). | confirmed | <https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json> | – |
-| Coverage in time | – | NAIP at the point: 2019-08-30. NYS service 2018\_4Band: 2018. | confirmed | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query> | – |
-| Release | – | NAIP service copyright text dated January 09, 2025 (NAIPPlus March 12, 2025). NYS: not stated. | confirmed | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json> | – |
+| Address | – | https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer ; https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer ; https://orthos.its.ny.gov/arcgis/rest/services/2018\_4Band/ImageServer | read, no claim | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json> | – |
+| Fields | – | RGB (NAIP four band R, G, B, NIR; the PNG is RGB), orthorectified image, UTM 18N NAD83 source tiles. | read, no claim | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query> | – |
+| Coverage in space | – | NAIP service: conterminous US; NYS service extent as given in the record (Web Mercator, from about lon -77.6 to -73.4 east-west; New York State, including the box). | read, no claim | <https://orthos.its.ny.gov/arcgis/rest/services/2018_4Band/ImageServer?f=json> | – |
+| Coverage in time | – | NAIP at the point: 2019-08-30. NYS service 2018\_4Band: 2018. | read, no claim | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/query> | – |
+| Release | – | NAIP service copyright text dated January 09, 2025 (NAIPPlus March 12, 2025). NYS: not stated. | read, no claim | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer?f=json> | – |
 | Checksum | – | None published for service responses; sha256 of the saved files is in the \[\[file\]\] records. | not applicable | <https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer> | – |
 | Identifier | – | A publication or a rule, not a data file: it has no such fact. | not applicable | – | – |
 | Licence | – | A publication or a rule, not a data file: it has no such fact. | not applicable | – | – |

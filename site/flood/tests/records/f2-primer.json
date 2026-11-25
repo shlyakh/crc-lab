@@ -1,0 +1,257 @@
+{
+ "checks": [
+  {
+   "name": "FloodNet in CRC",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the events read back from CRC equal what was put in",
+   "threshold": null,
+   "value": {
+    "extra": 0,
+    "missing": 0,
+    "position_differs": 0,
+    "rows_back": 3611,
+    "rows_in": 3611,
+    "value_differs": 0
+   }
+  }
+ ],
+ "created_at": "2026-11-25T22:32:50Z",
+ "figures": [
+  "docs/flood/figures/f2-primer/floodnet_network.png",
+  "docs/flood/figures/f2-primer/groundsource_places.png",
+  "docs/flood/figures/f2-primer/groundsource_rows_per_year.png"
+ ],
+ "id": "f2-primer",
+ "inputs": [
+  {
+   "bytes": 6115669,
+   "path": "floodnet-flood-events/aq7i-eu5q.csv",
+   "sha256": "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054",
+   "url": ""
+  },
+  {
+   "bytes": 114096,
+   "path": "floodnet-sensors/kb2e-tjy3.csv",
+   "sha256": "7fa594a6960efac45ec50ddfb02ea0ed86cd2c962a8477e192ca5a9c723fb612",
+   "url": ""
+  },
+  {
+   "bytes": 605777,
+   "path": "f2/groundsource_places.parquet",
+   "sha256": "bd97820eacdc7c864804b03fd36a9a3abe335ed174d3bb4a0083dd76c944fadb",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Counts of what was observed and reported. None is a count of floods, and an empty cell of the table is not evidence that nothing happened."
+ ],
+ "numbers": {
+  "crc_observation_columns": [
+   "variable_id",
+   "scenario_id",
+   "period_id",
+   "support_id",
+   "cell_id",
+   "geometry",
+   "time",
+   "value",
+   "station_id",
+   "group_id",
+   "failure",
+   "coverage"
+  ],
+  "floodnet": {
+   "events": 3611,
+   "largest_peak_depth_m": 1.171956,
+   "median_duration_min": 111.98,
+   "median_peak_depth_m": 0.08788399999999999,
+   "sensors_in_service_at_ida": 9,
+   "sensors_in_service_latest_month": 452,
+   "sensors_in_service_on_2023_09_29": 68,
+   "sensors_in_table": 496
+  },
+  "groundsource": {
+   "largest_area_km2_nyc": 3438.8445530843983,
+   "median_area_km2_nyc": 2.2474567717226206,
+   "of_them_with_centroid_in_the_square": 10,
+   "rows_nyc_box": 5772,
+   "rows_reaching_the_square_on_2021_09_01": 20,
+   "share_of_nyc_rows_larger_than_the_study_area": 0.2713097713097713
+  }
+ },
+ "parameters": [
+  {
+   "name": "quiet day for comparison",
+   "source": "",
+   "tag": "P",
+   "value": "2022-06-15"
+  },
+  {
+   "name": "small place, km2",
+   "source": "",
+   "tag": "P",
+   "value": 16.0
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "python": "3.12.11"
+ },
+ "stage": "F2",
+ "tables": {
+  "Groundsource rows per year": [
+   {
+    "alameda": 1,
+    "nyc": 0,
+    "year": 2003
+   },
+   {
+    "alameda": 1,
+    "nyc": 5,
+    "year": 2004
+   },
+   {
+    "alameda": 1,
+    "nyc": 2,
+    "year": 2005
+   },
+   {
+    "alameda": 1,
+    "nyc": 1,
+    "year": 2006
+   },
+   {
+    "alameda": 0,
+    "nyc": 41,
+    "year": 2007
+   },
+   {
+    "alameda": 2,
+    "nyc": 20,
+    "year": 2008
+   },
+   {
+    "alameda": 8,
+    "nyc": 15,
+    "year": 2009
+   },
+   {
+    "alameda": 6,
+    "nyc": 86,
+    "year": 2010
+   },
+   {
+    "alameda": 5,
+    "nyc": 302,
+    "year": 2011
+   },
+   {
+    "alameda": 25,
+    "nyc": 553,
+    "year": 2012
+   },
+   {
+    "alameda": 2,
+    "nyc": 87,
+    "year": 2013
+   },
+   {
+    "alameda": 50,
+    "nyc": 146,
+    "year": 2014
+   },
+   {
+    "alameda": 17,
+    "nyc": 148,
+    "year": 2015
+   },
+   {
+    "alameda": 45,
+    "nyc": 148,
+    "year": 2016
+   },
+   {
+    "alameda": 97,
+    "nyc": 244,
+    "year": 2017
+   },
+   {
+    "alameda": 41,
+    "nyc": 481,
+    "year": 2018
+   },
+   {
+    "alameda": 51,
+    "nyc": 222,
+    "year": 2019
+   },
+   {
+    "alameda": 16,
+    "nyc": 168,
+    "year": 2020
+   },
+   {
+    "alameda": 54,
+    "nyc": 926,
+    "year": 2021
+   },
+   {
+    "alameda": 162,
+    "nyc": 358,
+    "year": 2022
+   },
+   {
+    "alameda": 220,
+    "nyc": 631,
+    "year": 2023
+   },
+   {
+    "alameda": 98,
+    "nyc": 605,
+    "year": 2024
+   },
+   {
+    "alameda": 89,
+    "nyc": 582,
+    "year": 2025
+   },
+   {
+    "alameda": 21,
+    "nyc": 1,
+    "year": 2026
+   }
+  ],
+  "did something happen in the study square on this day": [
+   {
+    "FloodNet sensors in service in the square": 1,
+    "Groundsource rows reaching the square": 20,
+    "largest peak depth there, m": null,
+    "local day": "2021-09-01",
+    "of them naming a place of 16 km\u00b2 or less": 16,
+    "of them with an event": 0
+   },
+   {
+    "FloodNet sensors in service in the square": 7,
+    "Groundsource rows reaching the square": 26,
+    "largest peak depth there, m": 0.637,
+    "local day": "2023-09-29",
+    "of them naming a place of 16 km\u00b2 or less": 22,
+    "of them with an event": 5
+   },
+   {
+    "FloodNet sensors in service in the square": 1,
+    "Groundsource rows reaching the square": 0,
+    "largest peak depth there, m": null,
+    "local day": "2022-06-15",
+    "of them naming a place of 16 km\u00b2 or less": 0,
+    "of them with an event": 0
+   }
+  ]
+ },
+ "title": "Primer on point observations: its figures and numbers"
+}
