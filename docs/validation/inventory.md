@@ -76,6 +76,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-035-GHC | ghcnh | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | open |
 | CRC-036-GHC | ghcnh | observation | One unusable report in one station's file stops the read of every selected station | reproduced | open |
 | CRC-037-GHC | ghcnh | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | open |
+| CRC-038-FWK | framework | observation | A connection the publisher drops ends the read: no download is tried a second time | reproduced | open |
 
 ### CRC-001-NEX: Temperature recipes (txx, tnn) fail on real NEX files
 
@@ -371,3 +372,11 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Consequence:** The attribution a user would reproduce names an office that is not the publisher, and the output no longer says which version of the dataset it came from.
 - **Evidence:** crc_sdk/_observed_sources.py:118-122; docs/data-licences.md:9-11; check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)
 - **Basis:** reproduced · **Status:** open · found 2026-11-24 at crc-sdk 1.0.0
+
+### CRC-038-FWK: A connection the publisher drops ends the read: no download is tried a second time
+
+- **Documented:** docs/execution.md and docs/sources.md describe caches and pinned replays; neither states what happens when a publisher closes a connection during a read.
+- **Observed:** A download is one `urllib.request.urlopen(request, timeout=60)` call (crc_sdk/_source_io.py:280); remote rasters are opened through GDAL with `GDAL_DISABLE_READDIR_ON_OPEN` and an optional header file only, without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY` (crc_sdk/_climate_io.py:407-420). The word `retry` occurs in none of the package's 50 Python files. On a local server that closes the first connection and serves the second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; the same call repeated returns its rows (tools/repro/crc_no_retry.py). Seen with three publishers on 2026-11-24 and 25: JRC (four reads of the Texas box of 28 remote files ended within 90 seconds on `Connection reset by peer`, `RemoteDisconnected`, or a file GDAL could not recognise after a failed request), NOAA (seven resets among 1,000 GHCNh station-years, each ending a read) and NASA (NEX reads completed only with a retry placed around the standard library call). The raster path was read in the code and seen failing on JRC; it was not exercised on a constructed server.
+- **Consequence:** A read that needs many requests fails as a whole on one transient failure, and what was read up to then is lost unless a cache was configured. A state-sized JRC box has not been read at all on 1.0.0. Every caller has to add its own retry around `read()`, which repeats the whole read.
+- **Evidence:** crc_sdk/_source_io.py:280; crc_sdk/_climate_io.py:407-420; tools/repro/crc_no_retry.py (run of 2026-11-25 on crc-sdk 1.0.0); docs/reports/u3-crc-1.0.0.md (the Texas reads)
+- **Basis:** reproduced · **Status:** open · found 2026-11-25 at crc-sdk 1.0.0

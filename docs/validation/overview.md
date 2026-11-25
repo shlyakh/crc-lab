@@ -1,9 +1,8 @@
 # Verifying the data sources of Climate Risk Commons: what has been built
 
-Written 2026-11-24. State described: crc-lab on crc-sdk 0.11.2 and crc-framework 0.6.0. The project moved to
-crc-sdk 1.0.0 later the same day: the method and the parts described here are unchanged, the numbers in
-section 5 and the register in section 6 are those of 0.11.2, and `docs/reports/u3-crc-1.0.0.md` gives the
-records and findings on 1.0.0.
+Written 2026-11-24, brought up to crc-sdk 1.0.0 on 2026-11-25. State described: crc-lab on crc-sdk 1.0.0
+and crc-framework 1.0.0. The numbers of the previous version (0.11.2) are in
+`docs/reports/u2-crc-sdk-0.11.2.md`, and its records are kept on the page as "previous version".
 
 This document describes one of the three projects in crc-lab, the **source validation project**: what it
 is for, the parts it is made of, what it has checked so far, what it found, and how it is kept current as
@@ -47,7 +46,8 @@ SR 26-2 guidance on model risk; the check categories follow the Copernicus C3S q
 
 ## 3. The parts
 
-Package `src/data_source_check/`, about 10,600 lines of Python, with 395 offline tests in the repository.
+Package `src/data_source_check/`, about 13,100 lines of Python. 269 offline tests pass in the repository,
+154 of them for this project; 8 test files of the other two projects wait for their port to crc-sdk 1.0.
 
 | Part | Where | What it does | Rule it keeps |
 | --- | --- | --- | --- |
@@ -62,6 +62,7 @@ Package `src/data_source_check/`, about 10,600 lines of Python, with 395 offline
 | Build and reports | `build.py`, `core/report.py` | Writes records as JSON; generates the inventory, one report per source, and the page data from them | Pages and reports are generated from records, never typed |
 | Monitor | `monitor.py`, `core/monitoring.py` | Asks the publishers whether files changed; compares installed versions with those assessed; stages re-runs and reports what moved | Never publishes: a person accepts a re-run |
 | Drafting | `draft.py`, skill `draft-source-assessment` | Lets an agent draft the assessment of a new source: brief, gate, preview | A draft never reaches the page by itself and decides no outcome |
+| Reproductions | `tools/repro/` | One self-contained script per finding of 1.0.0, run with `uv run`; prints expected, observed and `REPRODUCED` or `NOT REPRODUCED`. Captured outputs beside them | No import from crc-lab: a maintainer can run one alone |
 | Page | `site/validation/` | The assessments, statements with their outcomes, checks, findings by address, links to maps | Reads the committed records |
 | Map side | `src/crc_data_explorer/`, `site/validation/explore/` | The same sources on a map, with layers that show where a finding occurs | Each layer is tagged with its origin |
 
@@ -73,20 +74,24 @@ crc-lab projects.
 
 IBTrACS, the simplest case, in order:
 
-1. The inventory file states what crc-sdk says it does in twelve steps: which address it requests for
-   each subset, that it saves the bytes unchanged and records a checksum, how it reads the header, how the
-   two filters work, what the manifest holds.
-2. The reference reader downloads NOAA's eleven files itself and reads them with Python's `csv` module.
-3. The adapter asks crc-sdk for the same files and every row.
-4. The assessment compares: the address crc-sdk builds against what NOAA serves; the bytes on both sides
-   by checksum; every value in order; each filter against the same selection made independently.
+1. The inventory file states what crc-sdk says it does in fifteen steps: which address it requests, that
+   it keeps a checksummed copy of the bytes, how it reads the header and the units, which rows and columns
+   it returns for an agency, what it records about the source.
+2. The reference reader downloads NOAA's file of all storms itself and reads it with Python's `csv` module.
+3. The adapter asks crc-sdk for every row of each of the ten agencies.
+4. The assessment compares: the address crc-sdk records against the documented one; the bytes on both
+   sides by checksum; every value in order, for every agency.
 5. Each check becomes a record: what was compared, the inputs with their checksums, the tolerance, the
    versions, the result, the outcome, and the statement steps it bears on.
 6. The build turns the records into the page data and `docs/validation/sources/ibtracs.md`.
 
-For gridded and fitted sources the same shape holds with more in it: NEX recomputes the annual value of
-every grid cell from the whole NASA file; GHCNh recomputes 1,000 station-years from 13.9 million hourly
-reports; JRC flood compares crc-sdk's crops with the publisher's tiles bit for bit and refits every curve.
+For gridded sources the same shape holds with more in it: NEX recomputes the annual value of every grid
+cell from the whole NASA file; GHCNh recomputes 1,000 station-years from 13.9 million hourly reports; JRC
+flood decides from the publisher's tiles which pixels should be returned and compares every published
+depth of every returned pixel.
+
+From 1.0 crc-sdk fits nothing by default, and each statement describes that default. Fits a user asks for
+explicitly are not assessed yet.
 
 ## 5. What has been assessed
 
@@ -94,31 +99,38 @@ Twenty inventory entries: four assessed, two drafted by an agent and not publish
 
 | Source | Kind | Checks | Statement steps | Size of the comparison |
 | --- | --- | --- | --- | --- |
-| IBTrACS storm tracks | pass-through | 78 of 78 confirmed | 12: 11 confirmed, 1 not checked | 11 files, 323,443,902 values, 0 differ |
-| GHCNh station observations | fitted curves | 8 of 8 confirmed | 14: all confirmed | 1,000 station-years from 13,885,491 hourly reports, 0 values differ |
-| NEX-GDDP-CMIP6 projections | annual samples | 23 of 24 confirmed, 1 differs | 15: 14 confirmed, 1 differs | 23,738 cell values, 0 differ; the difference is NASA's version 2.0 files, which cannot be requested |
-| JRC flood maps (GloFAS, EFAS) | fitted curves | 40 of 44 confirmed, 4 differ | 15: 11 confirmed, 4 differ | 1,447,885,064 pixel values, 0 differ; 10,240,052 curves refitted, 2,959 differ |
+| IBTrACS storm tracks | pass-through | 32 of 32 confirmed | 15: 14 confirmed, 1 not checked | One file, ten agencies: 233,822,080 values, 0 differ |
+| GHCNh station observations | annual samples | 13 of 13 confirmed | 14: all confirmed | 1,000 station-years from 13,885,491 hourly reports, 0 values differ |
+| NEX-GDDP-CMIP6 projections | annual samples | 34 of 35 confirmed, 1 differs | 18: 17 confirmed, 1 differs | 17,264 cell values, 0 differ; the difference is the file version, which cannot be chosen |
+| JRC flood maps (GloFAS, EFAS) | pass-through | 48 of 48 confirmed | 16: all confirmed | Five areas with a Texas box: 206,099,226 pixels, 11,510,034 returned, 75,534,400 depths, 0 differ |
 
-All four ran on 2026-11-23 against crc-sdk 0.11.2. All four are unsigned drafts: an assessment is a draft
-until Yuri signs it. Drafted and unpublished: ERA5 and NOAA water levels. Thirty option values that
-crc-sdk offers for the assessed sources were not exercised and are listed as such on the page.
+All four ran on 2026-11-24 and 25 against crc-sdk 1.0.0. All four are unsigned drafts: an assessment is a
+draft until Yuri signs it. Drafted and unpublished, and still on the 0.11 interface: ERA5 and NOAA water
+levels. Thirty-nine option values that crc-sdk offers for the assessed sources were not exercised and are
+listed as such on the page.
 
-What the JRC flood assessment established beyond pass or fail: the pixels that get no curve fall into two
-groups, permanent water (equal or decreasing depths) and land with fewer than four depths; and against
-FEMA's flood zones the GloFAS map floods 35.5%, 20.7% and 11.6% of the A zone in the three areas compared.
+No value differs in any of the four sources. What the runs established beyond that is in the findings:
+which rows are returned, what is recorded about a source, defaults, messages and run time. The comparison
+of the JRC maps with FEMA's flood zones, USGS gauges and Harvey high-water marks was made on crc-sdk 0.11
+and has not been repeated on 1.0.0.
 
 ## 6. What was found
 
-Twenty-two findings so far: 4 defects, 5 differences between documentation and code, 13 observations.
-Fifteen were reproduced on data; seven rest on reading the code and say so.
+Thirty-eight findings so far: 5 defects, 9 differences between documentation and code, 24 observations.
+Thirty were reproduced on data; eight rest on reading the code and say so.
 
 | Status | Count | Which |
 | --- | --- | --- |
-| Fixed upstream | 2 | CRC-001-NEX (temperature recipes failed on real files) and CRC-010-IBT (the `active` subset was requested under a name NOAA does not serve). Both were sent as pull requests #42 and #43, merged, and released in crc-sdk 0.11.2; the re-run on 0.11.2 confirmed both |
-| Open | 20 | Not yet sent. Ten concern JRC flood, among them: a flooded pixel that gets no curve and no message (CRC-014); a fitted curve metres away from the published depth (CRC-015); a licence stated as CC BY 4.0 where the publisher's README names the Open Database License (CRC-018); 27 minutes and 5.8 GB of memory for the Texas box (CRC-022) |
+| Fixed upstream | 6 | Two through our pull requests #42 and #43, released in crc-sdk 0.11.2: CRC-001-NEX (temperature recipes failed on real files) and CRC-010-IBT (a subset was requested under a name NOAA does not serve). Four by the 1.0.0 rewrite, each shown by a run: provenance of JRC output (CRC-003), a licence field for IBTrACS (CRC-011), the JRC licence (CRC-018), identifiers that depended on the box (CRC-020) |
+| Superseded | 4 | The behaviour changed in 1.0.0 and a new finding describes what it does now (CRC-012 by 031, CRC-013 by 026, CRC-014 by 023, CRC-016 by 024) |
+| No longer applies | 1 | CRC-015-JRC: the fitted curve it described is no longer made by default |
+| Open | 27 | Sixteen were entered at 1.0.0 (CRC-023 to CRC-038). Among them: with the default coverage one incomplete day leaves a GHCNh station-year without a value (CRC-035); 20 of 34 NEX models are refused for their calendar (CRC-032); 4 to 12% of flooded JRC pixels are left out and counted with dry pixels (CRC-023); a connection the publisher drops ends a read (CRC-038). Eleven are older; ten of them have not been run on 1.0.0 |
 
-A finding moves `open` to `reported upstream` to `fixed`, or to `by design`, and each step has a
-condition: a draft reviewed by Yuri before anything is sent, an address once it is sent, the fixing version
+Each finding of 1.0.0 has a script under `tools/repro/` that shows it by command, and five have a fix
+prepared on a branch. None has been sent yet.
+
+A finding moves `open` to `reported upstream` to `fixed`, or to `by design`, `superseded` or `no longer
+applies`, and each step has a condition: a draft reviewed by Yuri before anything is sent, an address once it is sent, the fixing version
 once a re-run shows the fix. The full list with evidence is `docs/validation/inventory.md`.
 
 ## 7. Keeping it current
@@ -127,7 +139,7 @@ An assessment is a statement about particular files and a particular version. Tw
 stale, and each has a mechanism.
 
 **The publisher changes a file.** `just validation-monitor` asks each publisher, with HEAD requests only,
-about the 1,027 files the assessments read and compares ETag and Last-Modified with what was recorded. A
+about the 1,016 files the assessments read and compares ETag and Last-Modified with what was recorded. A
 weekly GitHub workflow runs it and never commits.
 
 **The framework changes.** The pins live in one place and move with a tool:
@@ -136,38 +148,45 @@ weekly GitHub workflow runs it and never commits.
 | --- | --- |
 | `just upstream-check` | Lists releases of crc-sdk and crc-framework newer than the pins, with their notes |
 | `just upstream-bump <package> <version>` | Moves a pin everywhere it is written, the reference clone, the lock file and the changelog. Refuses to skip a release, to move a pin that would not resolve, or to touch a changed file. `--with` moves two packages that require each other; `--pre` allows a pre-release |
-| `just upstream-surface` | Looks up the 75 upstream names our code uses in the installed version and prints the ones that are gone |
+| `just upstream-surface` | Looks up the 78 upstream names our code uses in the installed version and prints the ones that are gone |
 | `just release-check` | The first look in minutes: the name check, the offline tests, quick staged re-runs |
 | `just validation-monitor-rerun` | Re-runs stale sources into a staging folder and reports what moved: outcomes changed, checks added or no longer run. A failed source is reported and the others continue; a repeat skips what is already staged; output written by another framework version is discarded first |
 | `just validation-accept <id>` | A person publishes a staged re-run after reading the report |
 
-The quick profile (`--profile quick`) runs JRC flood on four small areas in under three minutes in place
-of 27; a quick re-run is labelled and cannot be accepted.
+The quick profile (`--profile quick`) runs JRC flood on four small areas in minutes; the full run includes
+a Texas box that crc-sdk 1.0.0 reads in two and a half hours. A quick re-run is labelled and cannot be
+accepted.
 
-This procedure was used once, on 2026-11-23, to move from crc-sdk 0.11.1 to 0.11.2: the IBTrACS address
-check went from differs to confirmed, the NEX temperature recipes were checked on the installed version
-for the first time, and GHCNh and JRC flood did not move. The account is
-`docs/reports/u2-crc-sdk-0.11.2.md`; the procedure is `docs/upstream-updates.md`.
+This procedure has been used twice. On 2026-11-23, from crc-sdk 0.11.1 to 0.11.2: the IBTrACS address check
+went from differs to confirmed and the NEX temperature recipes were checked for the first time
+(`docs/reports/u2-crc-sdk-0.11.2.md`). On 2026-11-24, from 0.11.2 to 1.0.0, below. The procedure is
+`docs/upstream-updates.md`.
 
-## 8. Looking at a version before moving to it
+## 8. The move to 1.0.0
 
 crc-sdk 1.0 and crc-framework 1.0 are rewrites of the public interface: 73 of the 75 upstream names our
-code uses do not exist in 1.0.0a1. Moving to them is a port of every adapter, and crc-lab stays on 0.11.2
-until that is done.
+code used did not exist any more, and the two pins had to move together. For this project the move was a
+port, done on the day of the release and the day after (`docs/reports/u3-crc-1.0.0.md`):
 
-To see what 1.0 does to the open findings without moving, `just v1-probes <sdk version> <framework
-version>` runs eleven small probes in an environment of their own, each ending in a verdict (`not
-reproduced on 1.0`, `still reproduces`, `changed`, `new behaviour`, `could not run`). The generated report
-is `docs/reports/v1-probes-<version>.md`; what the two migration guides say is summarised in
-`docs/crc-1.0-briefing.md`.
+- Before the release, `just v1-probes <sdk version> <framework version>` ran eleven probes of the open
+  findings against the pre-releases in an environment of their own (`docs/reports/v1-probes-<version>.md`).
+- The four adapters, assessments and statements were written again for the default behaviour of 1.0.
+  The reference readers, which do not depend on crc-sdk, were kept and extended.
+- The 0.11.2 records stay on the page as the previous version, so a reader can see what moved.
+- Each finding was closed, superseded or kept by a run on 1.0.0, never by reading the release notes.
+- The other two projects of crc-lab (the map explorer and the hail study) are not ported yet; their data
+  is a labelled build made with 0.11.2. The name check reports 49 names missing, all in files that are
+  not ported: those two projects and the two unpublished drafts.
 
 ## 9. Limits
 
 - Verification only. No source has a validation tier; that waits for criteria.
+- What crc-sdk 1.0 does by default only. Fits and reductions a user asks for explicitly are not assessed.
 - Four sources of twenty, and for each a stated sample: one model and member for NEX, forty stations for
   GHCNh, five areas for JRC flood. A `confirmed` outcome holds for those files, options and versions.
 - Every assessment is an unsigned draft, and the method document itself has not been reviewed.
-- Seven findings rest on code reading. Most findings have no probe that re-checks them by command.
+- Eight findings rest on code reading. The sixteen findings of 1.0.0 can be re-checked by command; most
+  older ones cannot, and ten of those have not been run on 1.0.0.
 - The statements cite upstream code by file and line; a release that moves code means moving references,
   and a rewrite means writing statements again.
 - The JRC flood record holds no publisher file addresses, so the monitor can flag it only through a
@@ -186,7 +205,7 @@ published site, replace `http://127.0.0.1:8000` with `https://shlyakh.github.io/
 | 2 | `http://127.0.0.1:8000/validation/#inventory-section` | Twenty sources by kind and tier; most are not assessed yet, and the page says so |
 | 3 | `http://127.0.0.1:8000/validation/#assessment-ibtracs` | IBTrACS: the summary, then the statement with an outcome on every step, then the checks with their numbers |
 | 4 | `http://127.0.0.1:8000/validation/#finding-CRC-010-IBT` | A finding that went the whole way: found, sent as a pull request, fixed in 0.11.2 |
-| 5 | `http://127.0.0.1:8000/validation/#finding-CRC-014-JRC` | An open finding in neutral wording: documented, observed, consequence, evidence |
-| 6 | `http://127.0.0.1:8000/validation/explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share` | The same finding on the map: where in Texas flooded pixels get no curve |
+| 5 | `http://127.0.0.1:8000/validation/#finding-CRC-023-JRC` | An open finding in neutral wording: documented, observed, consequence, evidence |
+| 6 | `http://127.0.0.1:8000/validation/explore/#tab=crc&layer=jrc_review_glofas_tx_no_curve_share` | The finding it replaced (CRC-014), on the map: where in Texas flooded pixels got no curve. The map side still shows the build made with crc-sdk 0.11.2 |
 | 7 | `http://127.0.0.1:8000/validation/explore/#tab=crc&layer=jrc_evidence_glofas_austin_fema` | Outside evidence: the GloFAS map beside FEMA's flood zones in Austin |
-| 8 | `docs/validation/monitoring.md`, then `docs/reports/v1-probes-<version>.md` | How it stays current, and what the probes say about 1.0 |
+| 8 | `docs/validation/monitoring.md`, then `docs/reports/v1-probes-<version>.md` | How it stays current, and what the probes said about 1.0 before the move |

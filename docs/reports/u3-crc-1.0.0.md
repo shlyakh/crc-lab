@@ -115,7 +115,8 @@ Entered at 1.0.0, all open, none sent upstream:
 ## Open
 
 - JRC network probes and CRC-021, now that the JRC server answers.
-- A dropped connection ends a crc-sdk read (seen with JRC and NOAA): not yet in the register.
+- A dropped connection ends a crc-sdk read (seen with JRC, NOAA and NASA): entered on 2026-11-25 as
+  CRC-038-FWK.
 - The older open findings on 1.0.0.
 - Port of the explorer and the hail project; explicit fits; ERA5 and NOAA water levels; CRC Open (readable
   on 1.0.0: `CRCOpen().inspect()` lists 875 series in one release).
