@@ -1,0 +1,612 @@
+{
+ "checks": [
+  {
+   "name": "no pixel without a value in the square",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "count of 1 m pixels of the square without a value is 0",
+   "threshold": 0,
+   "value": 0
+  },
+  {
+   "name": "terrain against the city's ground elevation: median",
+   "note": "a wrong unit (feet) or datum would show as a median off by metres",
+   "passed": true,
+   "proposed": true,
+   "rule": "|median(terrain ring median - city ground_elevation in m)| over Brooklyn footprints in the study area",
+   "threshold": 0.3,
+   "value": 0.036
+  },
+  {
+   "name": "terrain against the city's ground elevation: spread",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "share of compared footprints with |difference| <= 0.5 m",
+   "threshold": 0.8,
+   "value": 0.8316
+  },
+  {
+   "name": "5 m mean between 5 m minimum and maximum",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "min <= mean <= max in every 5 m cell",
+   "threshold": true,
+   "value": true
+  },
+  {
+   "name": "study area size",
+   "note": "F0 scoring found 78% of the square is Brooklyn or Queens land; this is Brooklyn only, from the outlines, so it excludes the river and Manhattan",
+   "passed": true,
+   "proposed": true,
+   "rule": "9.0 km\u00b2 <= area of the study area <= 14.0 km\u00b2",
+   "threshold": [
+    9.0,
+    14.0
+   ],
+   "value": 12.521
+  },
+  {
+   "name": "terrain predates Ida",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "last lidar flight day (facts file usgs-3dep-1m) before 2021-09-01",
+   "threshold": "2021-09-01",
+   "value": "2014-04-21"
+  }
+ ],
+ "created_at": "2026-11-25T21:01:27Z",
+ "figures": [
+  "docs/flood/figures/f1/hillshade.png",
+  "docs/flood/figures/f1/elevation.png",
+  "docs/flood/figures/f1/footprint_difference.png",
+  "docs/flood/figures/f1/deep_patches.png",
+  "docs/flood/figures/f1/subgrid_range.png"
+ ],
+ "id": "f1-terrain",
+ "inputs": [
+  {
+   "bytes": 269595298,
+   "path": "f1/terrain/usgs-1m/USGS_one_meter_x58y451_NY_CMPG_2013.tif",
+   "sha256": "212a8b14b1f2b4976c88f8bcd7f54f6b8d12e202856c89e6ffe49f91173d1aaa",
+   "url": ""
+  },
+  {
+   "bytes": 4586084,
+   "path": "nyc-nta-2020/nta2020.geojson",
+   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "url": ""
+  },
+  {
+   "bytes": 18380697,
+   "path": "nyc-building-footprints/footprints-box.geojson",
+   "sha256": "44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43",
+   "url": ""
+  },
+  {
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Bare-earth terrain from lidar flown 2013-08-06 to 2014-04-21 (USGS 3DEP 1 m, project NY_CMPG_2013): buildings, grading and shoreline changes since then are absent, and the river is a flat surface at -1.62 m, not a depth. Every threshold and colour scale is a placeholder [P]. Figures: hillshade.png, elevation.png, footprint_difference.png, deep_patches.png, subgrid_range.png; the limit of each is in the notes below.",
+  "hillshade.png: shading exaggerates nothing but hides absolute height; water is the F1 rule, not a mapped shoreline; the study area outline comes from census-based neighbourhood outlines simplified to 1 m.",
+  "elevation.png: the colour scale is fixed at -2 to 30 m, so the river (flat -1.62 m) and the deep patches (below -5 m) share the bottom colour; the black line is the outline of the land in the city's neighbourhood areas, not a surveyed shoreline.",
+  "footprint_difference.png: 17728 footprints; the city's ground elevation is a lowest-adjacent-grade value in feet whose accuracy varies by source and is not independent of lidar for every footprint; the terrain side is the median of 1 m pixels 1 to 3 m outside the footprint, leaving out water and other footprints; values beyond +-3 m are drawn in the end bins (28 of them). It tests units and vertical datum; a horizontal offset of about 1 m would barely show in it.",
+  "deep_patches.png: patches are 8-connected pixels below -5 m; what they are is read from shape and position, not from a map of the place (see the notes on the patches).",
+  "subgrid_range.png: maximum minus minimum of the 25 pixels of 1 m in each 5 m cell, on bare earth; walls and buildings are not in the terrain, so the relief a cell hides in the city is larger than shown. Scale fixed at 0 to 5 m.",
+  "Horizontal datum: PROJ 9.8.1 (network off) uses 'Inverse of UTM zone 18N + NAD83 to WGS 84 (1) + UTM zone 18N' between EPSG:26918 and EPSG:32618, a null operation (largest shift at the corners and centre 1.15e-04 m); the more accurate operations need grids that are not installed. The terrain is therefore cut on its own pixel grid and relabelled, not resampled. Its position carries the NAD83-to-WGS84 difference: 1.1 m here (-0.403 m east, 1.024 m north from NAD83 to WGS 84 (G1762) at epoch 2013.948, by 'Conversion from NAD83(2011) (geog2D) to NAD83(2011) (geocentric) + Inverse of IT...', accuracy 0.01 m), so a point labelled (x, y) on the terrain lies about that far from the WGS84 position of the same name. The tile's NAD83 is assumed to be NAD83(2011).",
+  "Deep patch 1: 15274 m\u00b2, minimum -13.49 m, median -12.84 m, at 40.70253 N 73.97067 W, near 'Brooklyn Navy Yard' (Brooklyn); 1% of its pixels inside the land outlines, 1% in the study area; fits a rectangle 330.0 m by 50.1 m filled to 92%; 83% of its pixels lie within 0.5 m of its 10th percentile (a flat floor); 0% of the pixels touching it are flattened water; their median is -0.42 m.",
+  "Deep patch 2: 15633 m\u00b2, minimum -13.31 m, median -12.84 m, at 40.70150 N 73.97101 W, near 'Brooklyn Navy Yard' (Brooklyn); 8% of its pixels inside the land outlines, 8% in the study area; fits a rectangle 339.3 m by 49.5 m filled to 93%; 86% of its pixels lie within 0.5 m of its 10th percentile (a flat floor); 0% of the pixels touching it are flattened water; their median is -0.29 m.",
+  "Deep patch 3: 1939 m\u00b2, minimum -8.14 m, median -7.33 m, at 40.70140 N 73.97601 W, near 'Brooklyn Navy Yard' (Brooklyn); 100% of its pixels inside the land outlines, 100% in the study area; fits a rectangle 107.4 m by 21.6 m filled to 84%; 44% of its pixels lie within 0.5 m of its 10th percentile (a flat floor); 0% of the pixels touching it are flattened water; their median is -4.27 m.",
+  "Deep patches, reading. Evidence: every patch lies in or beside the outline named Brooklyn Navy Yard, is a near-rectangle (fill of its rectangle above), mostly with a flat floor, and no flattened-water pixel touches it, so a rim of terrain closes it off from the flattened river. The two large ones lie in slips that the city's outlines leave out of the land. Guess, not checked against a map or record of the yard: they are the yard's dry docks, drained when the lidar was flown; the two of about 330 m by 50 m look like the two largest docks, the small one on land like an older, smaller dock. For the flood model they are pits 7 to 13 m deep: the parts inside the study area (see share_in_study_area) would hold water that in reality may be held out by a gate, or be already filled; F3 decides how to treat them.",
+  "Sub-grid tables (HydroMT-SFINCS 2.0.0): 640000 active cells of 640000, 215 MB, 45.4 s with 40.1 s for the tables, peak memory 0.98 GiB. Grid only: no forcing, no boundary, no run; roughness uniform [P]. The tables' cell minimum is not the minimum of the 25 pixels of 1 m: 54% of cells agree within 0.01 m and 98.2% within 0.1 m (percentiles 0, 1, 50, 99, 100 of the difference: -4.68, -0.14, -0.00, +0.04, +1.14 m); HydroMT samples the terrain at 0.5 m, and how it interpolates was not read from its code."
+ ],
+ "numbers": {
+  "cache_outputs_bytes": {
+   "terrain/dem_1m.tif": 48551365,
+   "terrain/dem_5m.tif": 4574789,
+   "terrain/water_1m.tif": 68068
+  },
+  "deep_patch_threshold_m": -5.0,
+  "deep_patches": 3,
+  "elevation_square_all": {
+   "max_m": 31.37,
+   "mean_m": 8.231,
+   "min_m": -13.49,
+   "pixels": 16000000
+  },
+  "elevation_square_not_water": {
+   "max_m": 31.37,
+   "mean_m": 9.498,
+   "min_m": -13.49,
+   "pixels": 14176690
+  },
+  "elevation_study_area": {
+   "max_m": 31.37,
+   "mean_m": 10.093,
+   "min_m": -13.07,
+   "pixels": 12521523
+  },
+  "flight_dates": [
+   "2013-08-06",
+   "2014-04-21"
+  ],
+  "footprint_comparison": {
+   "beyond_histogram_range": 28,
+   "brooklyn_bin": 21547,
+   "brooklyn_in_study_area": 17747,
+   "compared": 17728,
+   "footprints_in_file": 22960,
+   "mean_difference_m": 0.066,
+   "median_difference_m": 0.036,
+   "median_ring_pixels": 61,
+   "p05_m": -0.447,
+   "p95_m": 0.748,
+   "share_within_0.5_m": 0.8316,
+   "too_few_ring_pixels": 2,
+   "with_city_ground_above_0": 17730
+  },
+  "grid_cells_5m": 640000,
+  "grid_shape_5m": [
+   800,
+   800
+  ],
+  "horizontal_datum": {
+   "assumption": "the tile's NAD83 is taken as the NAD83(2011) realisation for the size of the frame difference; the tile metadata says only 'NAD83'",
+   "best_unavailable_accuracy_m": 1.5,
+   "choice": "the PROJ operation is a null operation, so the tile is cut on its own pixel grid and relabelled EPSG:32618, with no resampling; the terrain's horizontal position carries the NAD83-to-WGS84 frame difference stated above",
+   "flight_dates": [
+    "2013-08-06",
+    "2014-04-21"
+   ],
+   "frame_difference_nad83_2011_to_wgs84_g1762": {
+    "accuracy_m": 0.01,
+    "at_lonlat_nad83": [
+     -73.964207,
+     40.704766
+    ],
+    "available": true,
+    "epoch": 2013.948,
+    "operation": "Conversion from NAD83(2011) (geog2D) to NAD83(2011) (geocentric) + Inverse of ITRF2008 to NAD83(2011) (1) + Inverse of WGS 84 (G1762) to ITRF2008 (1) + Conversion from WGS 84 (G1762) (geocentric) to WGS 84 (G1762) (geog2D) (with axis order normalized for visualization)",
+    "shift_east_m": -0.403,
+    "shift_m": 1.1,
+    "shift_north_m": 1.024
+   },
+   "max_shift_at_corners_and_centre_m": 0.00011487272452424211,
+   "network_enabled": false,
+   "null_operation": true,
+   "operation_used": "Inverse of UTM zone 18N + NAD83 to WGS 84 (1) + UTM zone 18N",
+   "operation_used_accuracy_m": 4.0,
+   "operation_used_definition": "proj=pipeline step inv proj=utm zone=18 ellps=GRS80 step proj=utm zone=18 ellps=WGS84",
+   "operations_unavailable_here": 9,
+   "proj_version": "9.8.1",
+   "project_crs": "EPSG:32618",
+   "pyproj_version": "3.8.0",
+   "source_crs": "EPSG:26918"
+  },
+  "pixels_below_deep_threshold_margin_box": 32846,
+  "pixels_below_minus_10_m_margin_box": 28615,
+  "pixels_without_value_in_square": 0,
+  "source_window_col_row_width_height": [
+   5006,
+   1006,
+   5000,
+   5000
+  ],
+  "square_pixels_1m": 16000000,
+  "square_utm18n_m": [
+   585500.0,
+   4504500.0,
+   589500.0,
+   4508500.0
+  ],
+  "study_area_km2": 12.5215,
+  "study_area_pixels_1m": 12521523,
+  "study_area_pixels_below_0_m": 26881,
+  "study_area_pixels_water": 69,
+  "study_area_share_of_square": 0.7826,
+  "subgrid_build": {
+   "active_cells": 640000,
+   "builder": {
+    "hydromt": "1.4.1",
+    "hydromt-sfincs": "2.0.0",
+    "netCDF4": "1.7.5.1.post1",
+    "numpy": "2.5.4",
+    "python": "3.12.11",
+    "rasterio": "1.5.1",
+    "xarray": "2026.9.0",
+    "xugrid": "0.15.3"
+   },
+   "cells": 640000,
+   "compare_with_dem_5m": {
+    "compared": true,
+    "median_abs_difference_by_order_m": {
+     "C": 6.5757,
+     "F": 0.0088
+    },
+    "order_that_fits": "column-major, row 0 south",
+    "z_zmax_minus_dem5m_max": {
+     "percentiles_0_1_5_50_95_99_100_m": [
+      -0.6697,
+      -0.0344,
+      -0.0194,
+      0.0006,
+      0.0456,
+      0.1325,
+      4.4879
+     ],
+     "share_within_0.01_m": 0.576,
+     "share_within_0.1_m": 0.9848
+    },
+    "z_zmin_minus_dem5m_min": {
+     "percentiles_0_1_5_50_95_99_100_m": [
+      -4.6836,
+      -0.1431,
+      -0.0494,
+      -0.0,
+      0.0231,
+      0.0444,
+      1.1421
+     ],
+     "share_within_0.01_m": 0.5405,
+     "share_within_0.1_m": 0.9816
+    }
+   },
+   "files": {
+    "gis/dep.tif": 2008222,
+    "gis/mask.tif": 36384,
+    "gis/region.geojson": 388,
+    "sfincs.dep": 2560000,
+    "sfincs.ind": 2560004,
+    "sfincs.inp": 999,
+    "sfincs.msk": 640000,
+    "sfincs_subgrid.nc": 207156357
+   },
+   "grid": {
+    "dx": 5.0,
+    "epsg": 32618,
+    "mmax": 800,
+    "nmax": 800,
+    "x0": 585500.0,
+    "y0": 4504500.0
+   },
+   "ok": true,
+   "parameters": {
+    "manning_uniform": 0.03,
+    "mask_zmin_m": -50.0,
+    "nr_levels": 10,
+    "subgrid_pixel_m": 0.5,
+    "subgrid_pixels_per_cell": 10,
+    "tags": "all placeholders [P]"
+   },
+   "peak_memory_bytes": 1057292288,
+   "seconds": 45.4,
+   "steps_s": {
+    "grid_elevation_mask_s": 0.6,
+    "subgrid_s": 40.1,
+    "write_s": 2.1
+   },
+   "total_bytes": 214962354
+  },
+  "subgrid_range_5m": {
+   "cells_over_1_m": 28089,
+   "cells_over_2_m": 8580,
+   "max_m": 15.229,
+   "median_m": 0.2,
+   "p95_m": 0.93
+  },
+  "terrain_bounds_utm18n_m": [
+   585000.0,
+   4504000.0,
+   590000.0,
+   4509000.0
+  ],
+  "terrain_pixels_1m": 25000000,
+  "water_counts_margin_box": {
+   "flat_at_level": 2562404,
+   "flat_inside_outlines_not_water": 18151,
+   "outside_outlines": 2595436,
+   "outside_outlines_not_flat_not_water": 51183,
+   "pixels": 25000000,
+   "water_both_tests": 2544253,
+   "within_5_mm_of_level_not_equal": 8119
+  },
+  "water_counts_square": {
+   "flat_at_level": 1840071,
+   "flat_inside_outlines_not_water": 16761,
+   "outside_outlines": 1867932,
+   "outside_outlines_not_flat_not_water": 44622,
+   "pixels": 16000000,
+   "water_both_tests": 1823310,
+   "within_5_mm_of_level_not_equal": 6447
+  },
+  "water_share_of_square": 0.114
+ },
+ "parameters": [
+  {
+   "name": "hydro_flat_level_m",
+   "source": "most common tile value",
+   "tag": "I",
+   "value": -1.62
+  },
+  {
+   "name": "water_rule",
+   "source": "",
+   "tag": "P",
+   "value": "flat at the level AND outside all outlines"
+  },
+  {
+   "name": "nodata",
+   "source": "not a possible elevation",
+   "tag": "P",
+   "value": -9999.0
+  },
+  {
+   "name": "study_area_simplify_m",
+   "source": "",
+   "tag": "P",
+   "value": 1.0
+  },
+  {
+   "name": "outline_seam_hole_m2",
+   "source": "holes filled below this",
+   "tag": "P",
+   "value": 1000.0
+  },
+  {
+   "name": "deep_threshold_m",
+   "source": "",
+   "tag": "P",
+   "value": -5.0
+  },
+  {
+   "name": "ring_m",
+   "source": "pixels whose centres lie in the ring",
+   "tag": "P",
+   "value": [
+    1.0,
+    3.0
+   ]
+  },
+  {
+   "name": "ring_min_pixels",
+   "source": "",
+   "tag": "P",
+   "value": 5
+  },
+  {
+   "name": "ring_excludes",
+   "source": "",
+   "tag": "P",
+   "value": "water pixels and pixels under any footprint"
+  },
+  {
+   "name": "feet_to_m",
+   "source": "international foot, exact by definition",
+   "tag": "S",
+   "value": 0.3048
+  },
+  {
+   "name": "ground_elevation_sampling",
+   "source": "",
+   "tag": "P",
+   "value": "nearest 1 m pixel"
+  },
+  {
+   "name": "horizontal_transformation",
+   "source": "pyproj computation in flood_lab.terrain.horizontal_datum",
+   "tag": "I",
+   "value": "none: PROJ's operation is null; cut on the source pixel grid, relabelled"
+  },
+  {
+   "name": "aggregation_5m",
+   "source": "",
+   "tag": "P",
+   "value": "mean, min, max of 25 pixels"
+  },
+  {
+   "name": "ida_day",
+   "source": "requirements D2",
+   "tag": "S",
+   "value": "2021-09-01"
+  },
+  {
+   "name": "study_area_km2_range",
+   "source": "proposed",
+   "tag": "P",
+   "value": [
+    9.0,
+    14.0
+   ]
+  },
+  {
+   "name": "median_abs_m",
+   "source": "proposed",
+   "tag": "P",
+   "value": 0.3
+  },
+  {
+   "name": "within_m",
+   "source": "proposed",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "within_share",
+   "source": "proposed",
+   "tag": "P",
+   "value": 0.8
+  },
+  {
+   "name": "elevation_colour_range_m",
+   "source": "",
+   "tag": "P",
+   "value": [
+    -2.0,
+    30.0
+   ]
+  },
+  {
+   "name": "subgrid_range_colour_m",
+   "source": "",
+   "tag": "P",
+   "value": [
+    0.0,
+    5.0
+   ]
+  },
+  {
+   "name": "histogram_range_m",
+   "source": "",
+   "tag": "P",
+   "value": [
+    -3.0,
+    3.0
+   ]
+  },
+  {
+   "name": "subgrid.subgrid_pixels_per_cell",
+   "source": "",
+   "tag": "P",
+   "value": 10
+  },
+  {
+   "name": "subgrid.subgrid_pixel_m",
+   "source": "",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "subgrid.nr_levels",
+   "source": "",
+   "tag": "P",
+   "value": 10
+  },
+  {
+   "name": "subgrid.manning_uniform",
+   "source": "",
+   "tag": "P",
+   "value": 0.03
+  },
+  {
+   "name": "subgrid.mask_zmin_m",
+   "source": "",
+   "tag": "P",
+   "value": -50.0
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "pyproj": "3.8.0",
+  "python": "3.12.11",
+  "rasterio": "1.5.1",
+  "shapely": "2.2.0"
+ },
+ "stage": "F1",
+ "tables": {
+  "deep_patches": [
+   {
+    "area_m2": 15274,
+    "border_median_m": -0.42,
+    "border_pixels": 1052,
+    "border_share_water": 0.0,
+    "borough": "Brooklyn",
+    "centre_distance_to_nearest_outline_m": 23.2,
+    "centre_distance_to_shoreline_m": 23.2,
+    "fill_of_rectangle": 0.924,
+    "id": 1,
+    "inside_square": true,
+    "lat": 40.702526,
+    "lon": -73.970674,
+    "median_m": -12.84,
+    "min_m": -13.49,
+    "neighbourhood": "Brooklyn Navy Yard",
+    "rectangle_length_m": 330.0,
+    "rectangle_width_m": 50.1,
+    "share_in_study_area": 0.008,
+    "share_on_land": 0.008,
+    "share_within_0.5_m_of_10th_percentile": 0.831,
+    "x": 586956.7,
+    "y": 4506244.9
+   },
+   {
+    "area_m2": 15633,
+    "border_median_m": -0.29,
+    "border_pixels": 1089,
+    "border_share_water": 0.0,
+    "borough": "Brooklyn",
+    "centre_distance_to_nearest_outline_m": 21.1,
+    "centre_distance_to_shoreline_m": 21.1,
+    "fill_of_rectangle": 0.931,
+    "id": 2,
+    "inside_square": true,
+    "lat": 40.701504,
+    "lon": -73.971012,
+    "median_m": -12.84,
+    "min_m": -13.31,
+    "neighbourhood": "Brooklyn Navy Yard",
+    "rectangle_length_m": 339.3,
+    "rectangle_width_m": 49.5,
+    "share_in_study_area": 0.075,
+    "share_on_land": 0.075,
+    "share_within_0.5_m_of_10th_percentile": 0.86,
+    "x": 586929.4,
+    "y": 4506131.2
+   },
+   {
+    "area_m2": 1939,
+    "border_median_m": -4.27,
+    "border_pixels": 327,
+    "border_share_water": 0.0,
+    "borough": "Brooklyn",
+    "centre_distance_to_nearest_outline_m": 0.0,
+    "centre_distance_to_shoreline_m": 55.8,
+    "fill_of_rectangle": 0.837,
+    "id": 3,
+    "inside_square": true,
+    "lat": 40.701398,
+    "lon": -73.976012,
+    "median_m": -7.33,
+    "min_m": -8.14,
+    "neighbourhood": "Brooklyn Navy Yard",
+    "rectangle_length_m": 107.4,
+    "rectangle_width_m": 21.6,
+    "share_in_study_area": 1.0,
+    "share_on_land": 1.0,
+    "share_within_0.5_m_of_10th_percentile": 0.442,
+    "x": 586507.1,
+    "y": 4506114.4
+   }
+  ],
+  "footprints_by_geom_source": {
+   "Other (Manual)": {
+    "compared": 2870,
+    "median_m": 0.038,
+    "share_within_0.5_m": 0.745
+   },
+   "Photogrammetric": {
+    "compared": 14835,
+    "median_m": 0.035,
+    "share_within_0.5_m": 0.849
+   },
+   "none": {
+    "compared": 23,
+    "median_m": 0.092,
+    "share_within_0.5_m": 0.565
+   }
+  }
+ },
+ "title": "Terrain: 1 m lidar, 5 m grid, water, deep patches and a check on datum and units"
+}
