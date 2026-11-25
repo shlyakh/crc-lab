@@ -198,9 +198,9 @@ For each variable and year assessed, the file versions NASA lists (the reference
 | CRC-001-NEX | defect | Temperature recipes (txx, tnn) fail on real NEX files | reproduced | fixed in 0.11.2 |
 | CRC-012-NEX | observation | NASA serves files of version 2.0, which cannot be requested | reproduced | superseded by CRC-031-NEX from 1.0.0 |
 | CRC-031-NEX | observation | The file version cannot be chosen: the highest on NASA's listing is read, older revisions NASA still serves cannot be requested, and the version read appears only inside a file name | reproduced | open |
-| CRC-032-NEX | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | open |
-| CRC-033-NEX | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | open |
-| CRC-034-NEX | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | open |
+| CRC-032-NEX | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | reported upstream |
+| CRC-033-NEX | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | reported upstream |
+| CRC-034-NEX | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | reported upstream |
 
 Details are in [the inventory](../inventory.md#findings).
 

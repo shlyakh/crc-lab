@@ -428,7 +428,8 @@ evidence = [
   "check records jrc-flood/delivered[*] and the table 'Pixels by area' (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/59"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -445,7 +446,8 @@ evidence = [
   "check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/55"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -463,7 +465,8 @@ evidence = [
   "probe jrc-decreasing in docs/reports/v1-probes-1.0.0.md (tools/probes/v1/probes.py), 2026-11-24",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/59"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -586,7 +589,8 @@ evidence = [
   "check record nex-gddp-cmip6/calendar[BCC-CSM2-MR rx1day historical 2014] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/58"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -604,7 +608,8 @@ evidence = [
   "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/54"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -621,7 +626,8 @@ evidence = [
   "check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/56"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -640,7 +646,8 @@ evidence = [
   "check records ghcnh/annual[*] and the tables 'From stations to annual values' and 'Stations' (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/57"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 
@@ -676,7 +683,8 @@ evidence = [
   "check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "open"
+status = "reported upstream"
+upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/53"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
 

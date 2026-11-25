@@ -551,11 +551,11 @@
    "note": "",
    "observed": "Counted from the publisher's files by the reference reader, and equal to crc-sdk's own skipped count in every area. Houston: 1,045,703 skipped = 1,019,627 dry + 22,086 with one depth + 3,990 with a decreasing depth. Austin: 336,778 = 335,707 + 931 + 140. Fremont: 77,632 = 76,398 + 459 + 775. Rhine (EFAS): 2,440,888 = 2,433,343 + 6,815 + 730. So of the pixels the publisher shows flooded at some return period, the share left out is 26,076 of 278,654 in Houston (9.4%), 1,071 of 25,494 in Austin (4.2%), 1,234 of 10,603 in Fremont (11.6%) and 7,545 of 161,898 on the Rhine (4.7%). The warning carries no support_id and no split.",
    "source": "jrc-flood",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/59"
   },
   {
    "basis": "reproduced",
@@ -574,11 +574,11 @@
    "note": "",
    "observed": "`JRC(product=JRC.Product.EFAS).select(area=Bounds(west=-122.15, south=37.42, east=-121.85, north=37.62)).read()` (Fremont, California, read through the European product) returns 0 rows; report counts requested 0, produced 0, skipped 0; no diagnostics; `complete=True`, `valid=True`; no exception (crc_sdk/_climate_io.py:105-133: a window that misses the raster adds no range).",
    "source": "jrc-flood",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/55"
   },
   {
    "basis": "reproduced",
@@ -598,11 +598,11 @@
    "note": "",
    "observed": "The publisher's own GloFAS files for a 5 by 5 pixel block near Fremont and one near Houston, given to `Dataset.from_raster` with probabilities 1 - 1/T: `ValidationError: quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing`; counts requested 13, produced 0 (Fremont) and 4, 0 (Houston); the diagnostic's support_id is None. One pixel in each block has a depth lower at a longer return period (Fremont: 1.0, 1.0 at 10 and 20 years, then 0.256 at 50 years). Through `JRC(...)` the same blocks are read and that pixel is skipped.",
    "source": "own-data",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "`Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/59"
   },
   {
    "basis": "reproduced",
@@ -763,11 +763,11 @@
    "note": "",
    "observed": "The calendar is read from the first file's header and the read is refused unless it is `standard`, `gregorian` or `proleptic_gregorian` (crc_sdk/_climate_sampling.py:1811-1817). For BCC-CSM2-MR, whose files declare `365_day`: `ValidationError: NEX source does not use its published Gregorian calendar` (check calendar[BCC-CSM2-MR rx1day historical 2014]). A survey of the 2014 historical precipitation headers of 35 models on 2026-11-24, made by the porting agent and not kept as a record, found 14 Gregorian, 16 on `365_day`, 4 on `360_day` and one unread. crc-sdk 0.11 read 365-day models (its records label `365_day` as `noleap`).",
    "source": "nex-gddp-cmip6",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "Models whose calendar is not Gregorian are refused, although inspection lists them",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/58"
   },
   {
    "basis": "reproduced",
@@ -787,11 +787,11 @@
    "note": "",
    "observed": "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file states one: `CC-BY-SA 4.0` in the four temperature files (tasmax, tasmin) and `CC-BY 4.0` in the four precipitation files of the same model, ACCESS-CM2 (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: ...'). NASA's archive-level CC0 statement is not recorded either. No warning is raised.",
    "source": "nex-gddp-cmip6",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/54"
   },
   {
    "basis": "reproduced",
@@ -810,11 +810,11 @@
    "note": "",
    "observed": "Asked for the historical run in 2015, which ends in 2014, crc-sdk reads `pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc` and returns 2,332 rows, each with no value and the failure `incomplete_year` (0 of 365 days) (crc_sdk/_climate_sampling.py:1833-1835, 1911-1912; check year-without-file[rx1day historical 2015]). At 0.11 a file NASA did not have ended in an error.",
    "source": "nex-gddp-cmip6",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/56"
   },
   {
    "basis": "reproduced",
@@ -835,11 +835,11 @@
    "note": "",
    "observed": "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ). A second look on 2026-11-25 at five major airports (Austin, Dallas/Fort Worth, Houston, San Antonio, El Paso), 2019 to 2022: 2 of 20 station-years carry a default value, both with 365 of 365 complete days; the other 18 have 356 to 364 complete days and no value; all 20 have one at a 0.9 fraction (tools/repro/crc_035_ghcnh_default_coverage.py). So the default gives a value only for a year in which every day has all 24 reports.",
    "source": "ghcnh",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "With the default completeness rule no station-year of forty Texas airport stations carries a value",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/57"
   },
   {
    "basis": "reproduced",
@@ -883,11 +883,11 @@
    "note": "",
    "observed": "Every GHCNh resource carries the attribution 'NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.' and the licence 'NOAA open-use terms; originator terms may apply' (crc_sdk/_observed_sources.py:118-122; checks provenance[*], 1,000 files). CO-OPS is NOAA's tides and water-level service and does not publish GHCNh; the constant is shared by the NOAA providers. No GHCNh version or DOI is recorded; 0.11 recorded `ghcnh-v1` and `CC0-1.0`.",
    "source": "ghcnh",
-   "status": "open",
-   "status_text": "open",
+   "status": "reported upstream",
+   "status_text": "reported upstream",
    "superseded_by": "",
    "title": "GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version",
-   "upstream_ref": ""
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/53"
   },
   {
    "basis": "reproduced",
@@ -1133,7 +1133,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-25T14:39:57Z",
+ "generated": "2026-11-25T14:51:03Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {

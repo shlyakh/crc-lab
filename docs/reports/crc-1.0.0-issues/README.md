@@ -45,14 +45,14 @@ constructed.
 
 | # | Source | Observation | Kind | Proposed | Link |
 | --- | --- | --- | --- | --- | --- |
-| 1 | GHCNh | Resources are attributed to NOAA NCEI "and NOAA CO-OPS" | defect | pull request | not yet opened |
-| 2 | NEX | No licence is recorded; `cmip6_license` is not read | defect | pull request | not yet opened |
-| 3 | JRC | A box outside a product's coverage returns an empty, complete, valid result | defect | pull request | not yet opened |
-| 4 | NEX | A year the source does not publish gives rows without values and no message naming it | defect | pull request | not yet opened |
+| 1 | GHCNh | Resources are attributed to NOAA NCEI "and NOAA CO-OPS" | defect | pull request | [#53](https://github.com/RiskThinking/crc-sdk/pull/53) |
+| 2 | NEX | No licence is recorded; `cmip6_license` is not read | defect | pull request | [#54](https://github.com/RiskThinking/crc-sdk/pull/54) |
+| 3 | JRC | A box outside a product's coverage returns an empty, complete, valid result | defect | pull request | [#55](https://github.com/RiskThinking/crc-sdk/pull/55) |
+| 4 | NEX | A year the source does not publish gives rows without values and no message naming it | defect | pull request | [#56](https://github.com/RiskThinking/crc-sdk/pull/56) |
 | 5 | GHCNh | One unusable report stops the read of every selected station | design question, fix offered | issue | not yet opened |
-| 6 | GHCNh | With the default coverage, one incomplete day leaves a station-year without a value | default | issue | not yet opened |
-| 7 | NEX | 20 of 34 models use a 365- or 360-day calendar and are refused | regression from 0.11 | issue | not yet opened |
-| 8 | JRC | 4 to 12% of flooded pixels are left out and are counted together with dry pixels | reporting | issue | not yet opened |
+| 6 | GHCNh | With the default coverage, one incomplete day leaves a station-year without a value | default | issue | [#57](https://github.com/RiskThinking/crc-sdk/issues/57) |
+| 7 | NEX | 20 of 34 models use a 365- or 360-day calendar and are refused | regression from 0.11 | issue | [#58](https://github.com/RiskThinking/crc-sdk/issues/58) |
+| 8 | JRC | 4 to 12% of flooded pixels are left out and are counted together with dry pixels | reporting | issue | [#59](https://github.com/RiskThinking/crc-sdk/issues/59) |
 | 9 | IBTrACS | An agency's wind is placed at the combined position, not the agency's own | question | issue | not yet opened |
 | 10 | IBTrACS | Every point is returned for every agency; up to 99% of rows have no value | design | issue | not yet opened |
 | 11 | NEX | The file version read cannot be chosen and is not in the output's fields | question | issue | not yet opened |

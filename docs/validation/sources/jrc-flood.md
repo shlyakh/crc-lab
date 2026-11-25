@@ -227,8 +227,8 @@ crc-sdk read from the publisher's server; the values it returned are compared in
 | CRC-020-JRC | observation | With a cache, a pixel's source_id depends on the box asked for | reproduced | fixed in 1.0.0 |
 | CRC-021-JRC | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
 | CRC-022-JRC | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
-| CRC-023-JRC | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | open |
-| CRC-024-JRC | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | open |
+| CRC-023-JRC | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | reported upstream |
+| CRC-024-JRC | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | reported upstream |
 
 Details are in [the inventory](../inventory.md#findings).
 
