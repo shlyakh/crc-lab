@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flood lab: visual tests</title>
+<style>
+:root {
+  --ink: #0b0b0b; --ink-2: #52514e; --mute: #898781;
+  --rule: #e1e0d9; --rule-2: #c3c2b7;
+  --page: #f9f9f7; --surface: #fcfcfb; --hover: #f1f0ec;
+  --accent: #1c5cab; --warn: #b45309; --ok: #1f7a4d; --bad: #b42318;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px;
+  --f-xs: 11px; --f-s: 12px; --f-m: 13px; --f-l: 15px; --f-xl: 20px;
+  --o-confirmed: #d9efe2; --o-differs: #f9d9d2; --o-not-checked: #f6e7c8;
+  --o-not-applicable: #ebeae5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: var(--f-m)/1.5 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--ink); background: var(--page); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+code, pre { font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+code { background: var(--hover); padding: 0 3px; border-radius: 2px; overflow-wrap: anywhere; }
+pre { background: var(--surface); border: 1px solid var(--rule); padding: var(--s2);
+  overflow: auto; max-height: 420px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.mute { color: var(--mute); } .small { font-size: var(--f-s); }
+.top { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s5);
+  padding: var(--s2) var(--s4); border-bottom: 2px solid var(--ink); }
+.brand { display: flex; flex-direction: column; line-height: 1.2; }
+.brand b { font-size: var(--f-l); font-weight: 650; }
+.brand small { font-size: var(--f-xs); color: var(--mute); }
+.top nav { margin-left: auto; display: flex; gap: var(--s4); font-size: var(--f-s); }
+main { max-width: 1120px; margin: 0 auto; padding: var(--s4) var(--s4) 64px; }
+section { margin-top: var(--s5); }
+h1 { font-size: var(--f-xl); font-weight: 650; margin: 0 0 var(--s2); }
+h2 { font-size: var(--f-xs); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-2); font-weight: 600; margin: 0; }
+h3 { font-size: var(--f-l); margin: 0; font-weight: 650; }
+.intro p { max-width: 76ch; margin: 0 0 var(--s2); }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4);
+  padding-bottom: var(--s2); border-bottom: 1px solid var(--rule-2); margin-bottom: var(--s3); }
+.tiles { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.tile { border: 1px solid var(--rule-2); background: var(--surface); padding: var(--s2) var(--s3);
+  min-width: 96px; display: flex; flex-direction: column; }
+.tile b { font-size: var(--f-xl); font-variant-numeric: tabular-nums; }
+.tile span { font-size: var(--f-xs); color: var(--ink-2); text-transform: uppercase;
+  letter-spacing: .04em; }
+.card { border: 1px solid var(--rule-2); background: var(--surface); padding: var(--s3) var(--s4);
+  margin-bottom: var(--s4); }
+.card-head { display: flex; align-items: center; gap: var(--s3); }
+.stage { font-size: var(--f-xs); color: var(--ink-2); border: 1px solid var(--rule-2);
+  padding: 0 var(--s1); }
+.badge { font-size: var(--f-xs); font-weight: 650; text-transform: uppercase; letter-spacing: .04em;
+  padding: 1px 6px; border-radius: 2px; white-space: nowrap; }
+.badge.pass { background: var(--ok); color: #fff; }
+.badge.fail { background: var(--bad); color: #fff; }
+.badge.none { background: var(--hover); color: var(--ink-2); border: 1px solid var(--rule-2); }
+.proposed { font-size: var(--f-xs); color: var(--warn); font-style: italic; }
+.tag { font: 12px ui-monospace, Menlo, monospace; }
+.caption { font-size: var(--f-s); color: var(--ink-2); margin: var(--s3) 0 var(--s1); }
+.scroll { overflow-x: auto; }
+table.data { width: 100%; border-collapse: collapse; font-size: var(--f-s); }
+table.data th, table.data td { padding: 4px var(--s2); text-align: right; vertical-align: top;
+  border-bottom: 1px solid var(--rule); font-variant-numeric: tabular-nums; }
+table.data th { font-size: var(--f-xs); letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink-2); font-weight: 600; border-bottom-color: var(--rule-2); }
+table.data .l { text-align: left; }
+table.data td.wrap { max-width: 36ch; overflow-wrap: anywhere; }
+table.data td small { display: block; color: var(--mute); font-size: var(--f-xs); }
+table.grid td.o { text-align: center; cursor: help; }
+.o-confirmed { background: var(--o-confirmed); } .o-differs { background: var(--o-differs); }
+.o-not-checked { background: var(--o-not-checked); }
+.o-not-applicable { background: var(--o-not-applicable); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--s2); font-size: var(--f-xs); }
+.legend .key { padding: 1px 6px; border: 1px solid var(--rule-2); }
+details { margin: var(--s2) 0; } summary { cursor: pointer; }
+details.source { border-top: 1px solid var(--rule); padding-top: var(--s2); }
+.notice { color: var(--warn); font-weight: 600; }
+.empty { color: var(--mute); font-style: italic; }
+figure { margin: var(--s3) 0; }
+figure img { max-width: 100%; border: 1px solid var(--rule); }
+figure iframe { width: 100%; height: 480px; border: 1px solid var(--rule); background: #fff; }
+figcaption { font-size: var(--f-s); color: var(--ink-2); margin-top: var(--s1); }
+ul.notes { margin: var(--s1) 0; padding-left: var(--s5); font-size: var(--f-s); }
+</style>
+</head>
+<body>
+<!-- generated by python -m flood_lab.gallery from site/flood/tests/records/ and
+src/flood_lab/facts/; do not edit -->
+<header class="top">
+  <div class="brand"><b>Flood Loss &amp; Trigger Lab</b>
+  <small>visual tests, generated from records</small></div>
+  <nav><a href="../../">crc-lab</a></nav>
+</header>
+<main>
+<section class="intro">
+  <h1>Visual tests and source facts</h1>
+  <p>One card per check record: what ran, the rules and whether each passed. Thresholds marked
+  <i>proposed</i> are starting values. Parameters carry their tags [S] [I] [P] [V]
+  (docs/flood/requirements.md, section 4). Sources list the outcome of each fact read from the
+  primary source (FS6), with the level of check named as in FS7.</p>
+</section>
+<section class="tiles" aria-label="Counts"><div class="tile" data-count="records"><b>1</b><span>records</span></div><div class="tile" data-count="pass"><b>1</b><span>pass</span></div><div class="tile" data-count="fail"><b>0</b><span>fail</span></div><div class="tile" data-count="not judged"><b>0</b><span>not judged</span></div><div class="tile" data-count="sources"><b>0</b><span>sources</span></div><div class="tile" data-count="facts confirmed"><b>0</b><span>facts confirmed</span></div><div class="tile" data-count="facts differs"><b>0</b><span>facts differs</span></div><div class="tile" data-count="facts not checked"><b>0</b><span>facts not checked</span></div><div class="tile" data-count="facts not applicable"><b>0</b><span>facts not applicable</span></div></section>
+<section id="records"><div class="sec-head"><h2>Records</h2></div>
+<article class="card" id="record-f0-crc-calls">
+<header class="card-head">
+<h3>CRC 1.0.0 calls the flood lab relies on, run once on toy data</h3>
+<span class="stage">F0</span>
+<span class="badge pass">pass</span>
+</header>
+<p class="mute small">Record <code>f0-crc-calls</code>, written 2026-11-25T16:57:33Z.</p>
+<p class="caption"><b>Checks.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">from_raster</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Dataset.from_raster</td></tr><tr><td class="l">from_raster_decreasing</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Dataset.from_raster, one decreasing cell</td></tr><tr><td class="l">from_quantiles</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Dataset.from_quantiles, decode_curves</td></tr><tr><td class="l">two_routes</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>QuantileCurve.complete, Impact.expectation on both routes</td></tr><tr><td class="l">impact</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Impact.tabulated, evaluate, expectation</td></tr><tr><td class="l">evaluate</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Dataset.evaluate(Assets).return_periods(...).impact(...).read()</td></tr><tr><td class="l">compute_risk</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>compute_risk on three independent two-state outcomes</td></tr><tr><td class="l">distribution</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Distribution.empirical and its figures; Impact.pushforward</td></tr><tr><td class="l">observations</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Observations.from_table on ten irregular sensor events</td></tr><tr><td class="l">layer</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Layer.from_table on ten polygons with a class code</td></tr><tr><td class="l">timing</td><td class="l">behaves as read in docs/flood/crc-1.0-mapping.md</td><td>–</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>Dataset.from_raster, 775 x 775 cells, seven probabilities</td></tr></tbody></table></div>
+<p class="caption"><b>Parameters.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Parameter</th><th>Value</th><th>Tag</th><th class="l">Source</th></tr></thead><tbody><tr><td class="l">return_periods_years</td><td>[2, 5, 10, 25, 50, 100, 500]</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">toy_damage_points_m_ratio</td><td>[[0.0, 0.0], [0.5, 0.2], [1.0, 0.4], [3.0, 0.8], [10.0, 0.8]]</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">raster_crs</td><td>EPSG:32618</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">raster_nodata</td><td>-9999.0</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr></tbody></table></div>
+<details class="table"><summary>Table <code>compute_risk</code></summary><p class="caption"><b>Table compute_risk.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;branch_count&quot;: 8,
+ &quot;call&quot;: &quot;compute_risk on three independent two-state outcomes&quot;,
+ &quot;levels&quot;: {
+  &quot;0.9&quot;: {
+   &quot;attribution&quot;: [
+    [
+     &quot;a&quot;,
+     0.0,
+     24.0
+    ],
+    [
+     &quot;b&quot;,
+     250.0,
+     149.9999999999999
+    ],
+    [
+     &quot;c&quot;,
+     10.0,
+     205.00000000000023
+    ]
+   ],
+   &quot;by_hand&quot;: [
+    260.0,
+    379.0000000000001
+   ],
+   &quot;conditional_value_at_risk&quot;: 379.0000000000001,
+   &quot;value_at_risk&quot;: 260.0
+  },
+  &quot;0.99&quot;: {
+   &quot;attribution&quot;: [
+    [
+     &quot;a&quot;,
+     100.0,
+     10.000000000000018
+    ],
+    [
+     &quot;b&quot;,
+     0.0,
+     249.99999999999994
+    ],
+    [
+     &quot;c&quot;,
+     400.0,
+     400.0
+    ]
+   ],
+   &quot;by_hand&quot;: [
+    500.0,
+    659.9999999999999
+   ],
+   &quot;conditional_value_at_risk&quot;: 660.0,
+   &quot;value_at_risk&quot;: 500.0
+  }
+ },
+ &quot;limit&quot;: &quot;each asset has exactly two loss states; a loss distribution per asset must first be reduced to two states&quot;,
+ &quot;matches_reading&quot;: true,
+ &quot;serves_as_independence_bracket&quot;: true
+}</pre></details>
+<details class="table"><summary>Table <code>distribution</code></summary><p class="caption"><b>Table distribution.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Distribution.empirical and its figures; Impact.pushforward&quot;,
+ &quot;conditional_value_at_risk_99&quot;: 288032.49954438204,
+ &quot;exceedance_at_0_1e5_2e5&quot;: [
+  0.216,
+  0.095,
+  0.016
+ ],
+ &quot;json_round_trip_equal&quot;: true,
+ &quot;matches_reading&quot;: true,
+ &quot;mean&quot;: 22112.568547913615,
+ &quot;pushforward_mean&quot;: 0.05672666666666667,
+ &quot;value_at_risk_99&quot;: 212516.4782563846
+}</pre></details>
+<details class="table"><summary>Table <code>evaluate</code></summary><p class="caption"><b>Table evaluate.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Dataset.evaluate(Assets).return_periods(...).impact(...).read()&quot;,
+ &quot;columns&quot;: [
+  &quot;asset_id&quot;,
+  &quot;member_id&quot;,
+  &quot;resource_id&quot;,
+  &quot;variable_id&quot;,
+  &quot;scenario_id&quot;,
+  &quot;period_id&quot;,
+  &quot;support_id&quot;,
+  &quot;distance_metres&quot;,
+  &quot;response_id&quot;,
+  &quot;resolution_id&quot;,
+  &quot;query_value&quot;,
+  &quot;value&quot;,
+  &quot;failure&quot;,
+  &quot;asset&quot;
+ ],
+ &quot;failure_codes&quot;: [
+  &quot;outside_max_distance&quot;,
+  &quot;query_outside_support&quot;
+ ],
+ &quot;matches_reading&quot;: true,
+ &quot;note&quot;: &quot;one set of rows for the exposure (response_id empty) and one per named response; under SpatialMatch.nearest an unmatched asset fails with outside_max_distance&quot;,
+ &quot;on_a_depth_and_ratio_at_100_years&quot;: [
+  1.1000000000000014,
+  0.4200000000000003
+ ],
+ &quot;report_counts&quot;: &quot;ExecutionCounts(requested=24, produced=24, skipped=0, no_data=12, matched_assets=2, unmatched_assets=1, usable_years=0, incomplete_years=0)&quot;,
+ &quot;row_count&quot;: 24,
+ &quot;rows&quot;: [
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 0.0
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 1.1000000000000014
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 2.4
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: &quot;query_outside_support&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 0.0
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 0.4200000000000003
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: 0.6799999999999999
+  },
+  {
+   &quot;asset_id&quot;: &quot;on-a&quot;,
+   &quot;distance_metres&quot;: 0.0,
+   &quot;failure&quot;: &quot;query_outside_support&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-a&quot;,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 0.3
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 1.2000000000000015
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 2.5
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: &quot;query_outside_support&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 0.12
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 0.44000000000000034
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: null,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: 0.7000000000000001
+  },
+  {
+   &quot;asset_id&quot;: &quot;near-b&quot;,
+   &quot;distance_metres&quot;: 13.95727487491482,
+   &quot;failure&quot;: &quot;query_outside_support&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: &quot;asset-b&quot;,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: null,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 10.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 100.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 500.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  },
+  {
+   &quot;asset_id&quot;: &quot;far-away&quot;,
+   &quot;distance_metres&quot;: null,
+   &quot;failure&quot;: &quot;outside_max_distance&quot;,
+   &quot;query_value&quot;: 1000.0,
+   &quot;response_id&quot;: &quot;damage_ratio&quot;,
+   &quot;support_id&quot;: null,
+   &quot;value&quot;: null
+  }
+ ]
+}</pre></details>
+<details class="table"><summary>Table <code>from_quantiles</code></summary><p class="caption"><b>Table from_quantiles.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;asset_a_depth_at_0.955_linear_in_probability&quot;: 0.2999999999999993,
+ &quot;asset_a_depth_at_dry_probability&quot;: 0.0,
+ &quot;asset_a_depth_just_below&quot;: 0.0,
+ &quot;asset_a_knots&quot;: [
+  [
+   0.0,
+   0.93,
+   0.98,
+   0.99,
+   0.998
+  ],
+  [
+   0.0,
+   0.0,
+   0.6,
+   1.1,
+   2.4
+  ]
+ ],
+ &quot;call&quot;: &quot;Dataset.from_quantiles, decode_curves&quot;,
+ &quot;expected_at_0.955&quot;: 0.2999999999999993,
+ &quot;matches_reading&quot;: true,
+ &quot;rows_returned&quot;: 3
+}</pre></details>
+<details class="table"><summary>Table <code>from_raster</code></summary><p class="caption"><b>Table from_raster.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;all_dry_cell_delivered_with_zeros&quot;: true,
+ &quot;call&quot;: &quot;Dataset.from_raster&quot;,
+ &quot;cells_compared&quot;: 399,
+ &quot;cells_differing&quot;: 0,
+ &quot;cells_in_raster&quot;: 400,
+ &quot;columns&quot;: [
+  &quot;variable_id&quot;,
+  &quot;scenario_id&quot;,
+  &quot;period_id&quot;,
+  &quot;support_id&quot;,
+  &quot;cell_id&quot;,
+  &quot;geometry&quot;,
+  &quot;curve&quot;,
+  &quot;fit&quot;,
+  &quot;failure&quot;
+ ],
+ &quot;geometry_type&quot;: &quot;Polygon&quot;,
+ &quot;largest_difference&quot;: 0.0,
+ &quot;masked_cell_delivered&quot;: false,
+ &quot;matches_reading&quot;: true,
+ &quot;report_counts&quot;: &quot;ExecutionCounts(requested=400, produced=399, skipped=1, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0)&quot;,
+ &quot;rows_returned&quot;: 399
+}</pre></details>
+<details class="table"><summary>Table <code>from_raster_decreasing</code></summary><p class="caption"><b>Table from_raster_decreasing.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Dataset.from_raster, one decreasing cell&quot;,
+ &quot;error_type&quot;: &quot;ValidationError&quot;,
+ &quot;matches_reading&quot;: true,
+ &quot;message&quot;: &quot;quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing&quot;,
+ &quot;message_names_the_cell&quot;: false,
+ &quot;raised&quot;: true,
+ &quot;rows_after_running_maximum&quot;: 400
+}</pre></details>
+<details class="table"><summary>Table <code>impact</code></summary><p class="caption"><b>Table impact.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Impact.tabulated, evaluate, expectation&quot;,
+ &quot;depth_beyond_table&quot;: {
+  &quot;error_type&quot;: &quot;ImpactError&quot;,
+  &quot;message&quot;: &quot;out_of_domain at /0: exposure is outside the table domain&quot;,
+  &quot;raised&quot;: true
+ },
+ &quot;expectation&quot;: 0.05672666666666667,
+ &quot;expectation_by_fine_trapezoid&quot;: 0.056726666662499994,
+ &quot;expectation_of_incomplete_curve&quot;: {
+  &quot;error_type&quot;: &quot;TypeError&quot;,
+  &quot;message&quot;: &quot;distribution must be Distribution&quot;,
+  &quot;raised&quot;: true
+ },
+ &quot;expected_ratios&quot;: [
+  0.1,
+  0.3,
+  0.6
+ ],
+ &quot;matches_reading&quot;: true,
+ &quot;ratios_at_0.25_0.75_2.0_m&quot;: [
+  0.1,
+  0.30000000000000004,
+  0.6000000000000001
+ ]
+}</pre></details>
+<details class="table"><summary>Table <code>layer</code></summary><p class="caption"><b>Table layer.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;accepted&quot;: true,
+ &quot;call&quot;: &quot;Layer.from_table on ten polygons with a class code&quot;,
+ &quot;columns&quot;: [
+  &quot;variable_id&quot;,
+  &quot;scenario_id&quot;,
+  &quot;period_id&quot;,
+  &quot;support_id&quot;,
+  &quot;cell_id&quot;,
+  &quot;geometry&quot;,
+  &quot;value&quot;,
+  &quot;label&quot;,
+  &quot;failure&quot;
+ ],
+ &quot;geometry_equal&quot;: true,
+ &quot;matches_reading&quot;: true,
+ &quot;rows_returned&quot;: 10
+}</pre></details>
+<details class="table"><summary>Table <code>observations</code></summary><p class="caption"><b>Table observations.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Observations.from_table on ten irregular sensor events&quot;,
+ &quot;columns&quot;: [
+  &quot;variable_id&quot;,
+  &quot;scenario_id&quot;,
+  &quot;period_id&quot;,
+  &quot;support_id&quot;,
+  &quot;cell_id&quot;,
+  &quot;geometry&quot;,
+  &quot;time&quot;,
+  &quot;value&quot;,
+  &quot;station_id&quot;,
+  &quot;group_id&quot;,
+  &quot;failure&quot;,
+  &quot;coverage&quot;
+ ],
+ &quot;matches_reading&quot;: true,
+ &quot;rows_returned&quot;: 10,
+ &quot;values_equal&quot;: true,
+ &quot;without_sampling&quot;: &quot;accepted&quot;
+}</pre></details>
+<details class="table"><summary>Table <code>timing</code></summary><p class="caption"><b>Table timing.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;Dataset.from_raster, 775 x 775 cells, seven probabilities&quot;,
+ &quot;cells&quot;: 600625,
+ &quot;cells_per_second&quot;: 6076,
+ &quot;matches_reading&quot;: true,
+ &quot;peak_memory_before_gib&quot;: 0.32,
+ &quot;peak_memory_gib&quot;: 0.55,
+ &quot;rows_returned&quot;: 600625,
+ &quot;seconds&quot;: 98.8,
+ &quot;table_bytes_gib&quot;: 0.27
+}</pre></details>
+<details class="table"><summary>Table <code>two_routes</code></summary><p class="caption"><b>Table two_routes.</b> Toy data only. Nothing here is a flood depth, an asset or a loss.</p><pre>{
+ &quot;call&quot;: &quot;QuantileCurve.complete, Impact.expectation on both routes&quot;,
+ &quot;depths_at_fixed_probabilities&quot;: [
+  0.0,
+  0.0,
+  0.0,
+  0.35999999999999943,
+  0.6,
+  1.1,
+  2.4
+ ],
+ &quot;dry_probability&quot;: 0.93,
+ &quot;exceedance_of_zero_exact&quot;: 0.06999999999999995,
+ &quot;exceedance_of_zero_fixed&quot;: 0.09999999999999998,
+ &quot;expected_damage_exact_knots&quot;: 0.015140000000000013,
+ &quot;expected_damage_fixed_probabilities&quot;: 0.017299999999999992,
+ &quot;matches_reading&quot;: true,
+ &quot;relative_difference&quot;: 0.14266842800528254
+}</pre></details>
+<p class="mute small">Software: crc-framework 1.0.0, crc-sdk 1.0.0, python 3.12.11</p>
+</article>
+</section>
+<section id="sources"><div class="sec-head"><h2>Sources</h2><div class="legend"><span class="o o-confirmed key">confirmed</span><span class="o o-differs key">differs</span><span class="o o-not-checked key">not checked</span><span class="o o-not-applicable key">not applicable</span></div></div><p class="empty">No sources checked yet.</p></section>
+</main>
+</body>
+</html>

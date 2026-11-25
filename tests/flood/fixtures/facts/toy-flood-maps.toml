@@ -1,0 +1,106 @@
+id = "toy-flood-maps"
+title = "Toy flood maps"
+publisher = "Toy publisher"
+checked_on = "2026-11-25"
+stage = "F0"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FS1", "FH3"]
+known_biases = "Toy data | made up for tests."
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "identifier as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """identifier=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "address as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """address=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Open terms"
+observed = "Toy terms, attribution required"
+outcome = "differs"
+source_url = "https://example.org/source"
+passage = """<script>alert('x')</script> Terms | of use"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "fields as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """fields=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "coverage_space as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """coverage_space=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "coverage_time as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """coverage_time=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "release as the source states it"
+outcome = "confirmed"
+source_url = "https://example.org/source"
+passage = """release=value"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = ""
+outcome = "not checked"
+source_url = ""
+passage = """"""
+note = "no file fetched yet"
+verdict_note = ""
+
+[[fact]]
+name = "row_count"
+claimed = ""
+observed = ""
+outcome = "not applicable"
+source_url = ""
+passage = """"""
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "toy-flood-maps/maps.zip"
+url = "https://example.org/maps.zip"
+bytes = 1234567
+sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
+fetched_at = "2026-11-25T12:00:00Z"
