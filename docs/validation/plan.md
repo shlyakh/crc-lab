@@ -177,6 +177,17 @@ moving the tool to its own repository.
   fork, push and open the pull request.
 - Storm Events adapter: `docs/plan-upstream-storm-events.md`.
 - Phase 7 (loss from radar hail).
+- Monitor (V20) and living files, IBTrACS first (asked by Yuri, 2026-11-26). The monitor fails the
+  build whenever NOAA rewrites `ibtracs.ALL.list.v04r01.csv`, as it did on 22 and 24 November
+  2026 (Last-Modified headers); the runs of 25 and 26 November failed on that alone. crc-sdk 1.0.0 has no update
+  period to follow: `IBTrACS` reads that one live address, a `Cache.reuse` runtime keeps the first
+  copy it fetched until a `Cache.refresh`, and a caller may pin a copy by checksum
+  (`release=ReleaseReference(id, sha256)`), which then fails on any other copy. Proposal: for a
+  source whose file is rewritten in place, the monitor reports a new copy without failing, and the
+  assessment states the checksum it read (as crc-sdk's pin does); it still fails on a crc-sdk or
+  crc-framework change, an unreachable file or an inventory gap. Re-runs on a fixed cadence (to
+  decide, for example monthly or once a storm season ends) or on a pin change. Which sources count as
+  rewritten in place is a list in the source's TOML, set by a person.
 
 ## Verification
 
