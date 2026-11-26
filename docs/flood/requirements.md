@@ -79,6 +79,7 @@ the source of a published number (D3, D7).
 depth solver and its tools, green is CRC 1.0.0, teal is the extension of CRC built here (D17), purple is the emulator (Tier 2).
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart TD
   subgraph SRC["Sources: facts confirmed in F0 (FS6)"]
     S1["Lidar terrain, land cover"]
@@ -187,6 +188,7 @@ given the same four inputs as files and runs in its own environment (FG4). Only 
 published; the others are compared with it (FX1, FX5).
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
   subgraph IN["Same inputs, exchanged as files"]
     I1["assets_oed.csv (FD6)"]

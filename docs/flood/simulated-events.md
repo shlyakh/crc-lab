@@ -23,6 +23,7 @@ the depth expected once in 10, 100 or 500 years.
 ## 2. The whole chain
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart TD
     A["NOAA AORC v1.1<br/>hourly rain, 30 arc-seconds (about 1 km)<br/>2002-2025, window 38-44 N, 78.5-69.5 W<br/>5.3 GB Zarr (CH-17)"]
     B["Annual maxima per pixel<br/>1, 3 and 6 hours<br/>tools/flood/f4_aorc_ams.py"]
@@ -114,6 +115,7 @@ and 6 September 2008 (11).*
 ### 3.4 Which events are run
 
 ```mermaid
+%%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
     Y["1,000 synthetic years<br/>sorted by 3-hour rain<br/>rank 1 = largest"]
     T1["T1: ranks 1-30<br/>every year run<br/>weight 1"]
