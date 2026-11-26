@@ -251,3 +251,27 @@ flood-f3:
 # Flood lab F3: the solver's lowest level per cell, from any finished run of the base (the comparison leaves out cells below the start level)
 flood-f3-zb run="data/cache/flood/f3/runs/mod_q30":
     uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' --with scipy python src/flood_lab/hazard/sfincs_model.py export-zb {{run}} data/cache/flood/f3/model/zb_5m.tif
+
+# Flood lab F4: annual maximum 1-, 3- and 6-hour rainfall per AORC pixel (evidence for the domain)
+flood-f4-ams:
+    uv run --no-project --python 3.12 --with numpy --with numcodecs --with zarr python -I tools/flood/f4_aorc_ams.py --years 2002-2025
+    uv run python -m flood_lab.hazard.domain_choice
+
+# Flood lab F4: AORC v1.1 Zarr to RainyDay daily input over domain B
+flood-f4-aorc-input:
+    caffeinate -i uv run --no-project --python 3.12 --with numpy --with numcodecs --with zarr --with netcdf4 python -I src/flood_lab/hazard/aorc_rainyday.py convert --lat 39.3 41.6 --lon -75.6 -71.8 --years 2002-2025 --out data/cache/flood/f4/rainyday/input_B --workers 3
+
+# Flood lab F4: run RainyDay on a parameter file, then read its output into tables
+flood-f4-rainyday params log:
+    caffeinate -i uv run python -m flood_lab.hazard.rainyday_run run {{params}} --log {{log}}
+
+flood-f4-rainyday-read out:
+    uv run python -m flood_lab.hazard.rainyday_run read {{out}} --box 40.6865 40.7230 -73.9882 -73.9403
+
+# Flood lab F4: forcing and solver queue from a scenario selection
+flood-f4-queue selection queue:
+    python3 tools/flood/f4_queue.py {{selection}} {{queue}}
+
+# Flood lab F4: run a queue into data/cache/flood/f4/runs/ (resumable)
+flood-f4-batch queue:
+    FLOOD_RUNS=data/cache/flood/f4/runs caffeinate -i python3 tools/flood/f3_batch.py {{queue}}

@@ -439,22 +439,44 @@ def _date_add(seconds: float, tref: str = TREF) -> str:
     return t.strftime("%Y%m%d %H%M%S")
 
 
-def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
-    """SFINCS rain for a replay from the hourly radar file: HydroMT reprojects it to the model's
-    projection (nearest pixel, the source's own ~1 km cells) and turns each hour's accumulation,
-    stamped at the hour's end, into a rate over that hour (``time_label='right'``)."""
+def replay_forcing(
+    mrms_nc: Path,
+    out_nc: Path,
+    tref: str,
+    hours: int,
+    var: str = "precip",
+    lat: str = "lat",
+    lon: str = "lon",
+    time_label: str = "end",
+) -> dict:
+    """SFINCS rain from an hourly lat/lon rainfall file: HydroMT reprojects it to the model's
+    projection (nearest pixel, the source's own cells) and turns each hour's accumulation into a
+    rate over that hour.
+
+    The defaults are F3's MRMS replay files (``precip`` on ``lat``/``lon``, each hour stamped at its
+    end). Any other hourly file names its variable and coordinates; ``time_label`` is ``end`` when
+    a stamp is the end of its hour (MRMS, AORC, RainyDay) or ``start`` when it is the start. Values
+    below 0 or NaN are refused: missing rain is never turned into no rain here."""
+    import numpy as np
     import pandas as pd
     import xarray as xr
     from hydromt_sfincs import SfincsModel
 
+    if time_label not in ("end", "start"):
+        raise ValueError(f"time_label must be 'end' or 'start', not {time_label!r}")
     ds = xr.open_dataset(mrms_nc)
-    da = ds["precip"].rename({"lat": "y", "lon": "x"}).sortby("y")
-    # each file holds the hour ENDING at its stamp; label it at the hour's start and pass it as
-    # time_label="left", so the first hour of the window is kept (HydroMT clips the data to the
-    # model window before it shifts a right-labelled series, which drops the first hour)
+    da = ds[var].rename({lat: "y", lon: "x"}).sortby("y")
+    if (var, lat, lon) != ("precip", "lat", "lon"):
+        bad = int((~(da.values >= 0)).sum())
+        if bad:
+            raise ValueError(f"{mrms_nc}: {bad} values are missing or negative")
+    # an hour stamped at its END is labelled at its start and passed as time_label="left", so the
+    # first hour of the window is kept (HydroMT clips the data to the model window before it
+    # shifts a right-labelled series, which drops the first hour)
     stamps = pd.to_datetime(da["time"].values)
     stamps = stamps.tz_localize(None) if stamps.tz is not None else stamps
-    da = da.assign_coords(time=stamps - pd.Timedelta(hours=1))
+    shift = pd.Timedelta(hours=1) if time_label == "end" else pd.Timedelta(0)
+    da = da.assign_coords(time=stamps - shift)
     da = da.rio.write_crs("EPSG:4326") if hasattr(da, "rio") else da
     da.attrs["units"] = "mm"
     src = da.to_dataset(name="precip")
@@ -487,7 +509,7 @@ def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
     shutil.rmtree(work, ignore_errors=True)
     if not out_nc.exists():
         raise FileNotFoundError(f"HydroMT did not write {out_nc}")
-    return {
+    rec = {
         "source": str(mrms_nc),
         "source_sha256": _sha256(mrms_nc),
         "tref": tref,
@@ -500,6 +522,96 @@ def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
         "(SFINCS's default block rain); the end-of-hour stamp is not confirmed from a primary "
         "source (F3 report)",
     }
+    if (var, lat, lon, time_label) != ("precip", "lat", "lon", "end"):
+        rec["variable"] = {"rain": var, "lat": lat, "lon": lon}
+        rec["time_label"] = time_label
+        rec["rule"] = (
+            "hour ending at the file stamp -> rate over [stamp - 1 h, stamp)"
+            if time_label == "end"
+            else "hour starting at the file stamp -> rate over [stamp, stamp + 1 h)"
+        ) + ", held constant (SFINCS's default block rain)"
+        rec["nan_in_forcing"] = int(np.isnan(pr.values).sum())
+    return rec
+
+
+def _square_lonlat_bounds(n: int = 41) -> tuple[float, float, float, float]:
+    """(lat_min, lat_max, lon_min, lon_max) of SQUARE, from points along its edges."""
+    import numpy as np
+    from pyproj import Transformer
+
+    w, s, e, n_ = SQUARE
+    xs = np.r_[np.linspace(w, e, n), np.full(n, e), np.linspace(e, w, n), np.full(n, w)]
+    ys = np.r_[np.full(n, s), np.linspace(s, n_, n), np.full(n, n_), np.linspace(n_, s, n)]
+    lo, la = Transformer.from_crs(EPSG, 4326, always_xy=True).transform(xs, ys)
+    return float(la.min()), float(la.max()), float(lo.min()), float(lo.max())
+
+
+def scenario_forcing(
+    scenario_nc: Path, out_nc: Path, tref: str | None = None, hours: int | None = None
+) -> dict:
+    """SFINCS rain from a RainyDay scenario file (``rain`` on ``latitude``/``longitude``, mm/h,
+    each hour stamped at its end, the parent storm's own dates). ``tref`` defaults to the start of
+    the scenario's first hour and ``hours`` to its length. The record adds a check: the forcing's
+    mean total over the square against the scenario's total over (a) its cells whose centres lie
+    in the square's lat/lon bounds and (b) the cell nearest each model cell centre."""
+    import numpy as np
+    import pandas as pd
+    import xarray as xr
+    from pyproj import Transformer
+
+    with xr.open_dataset(scenario_nc) as ds:
+        t = pd.to_datetime(ds["time"].values)
+        rain = ds["rain"].values.astype(np.float64)
+        la = ds["latitude"].values.astype(float)
+        lo = ds["longitude"].values.astype(float)
+    first_start = t[0] - pd.Timedelta(hours=1)
+    if tref is None:
+        tref = first_start.strftime("%Y%m%d %H%M%S")
+    if hours is None:
+        hours = len(t)
+    rec = replay_forcing(
+        scenario_nc,
+        out_nc,
+        tref,
+        hours,
+        var="rain",
+        lat="latitude",
+        lon="longitude",
+        time_label="end",
+    )
+    t0 = pd.Timestamp(datetime_from(tref))
+    keep = (t - pd.Timedelta(hours=1) >= t0) & (
+        t - pd.Timedelta(hours=1) < t0 + pd.Timedelta(hours=hours)
+    )
+    r = rain[keep]
+    lat_min, lat_max, lon_min, lon_max = _square_lonlat_bounds()
+    iy = (la >= lat_min) & (la <= lat_max)
+    ix = (lo >= lon_min) & (lo <= lon_max)
+    box_total = float(r[:, iy][:, :, ix].mean(axis=(1, 2)).sum()) if iy.any() and ix.any() else None
+    west, south, east, north = SQUARE
+    xc = np.arange(west + CELL / 2, east, CELL)
+    yc = np.arange(south + CELL / 2, north, CELL)
+    gx, gy = np.meshgrid(xc, yc)
+    glo, gla = Transformer.from_crs(EPSG, 4326, always_xy=True).transform(gx, gy)
+    ny = np.abs(gla[..., None] - la[None, None, :]).argmin(axis=-1)
+    nx = np.abs(glo[..., None] - lo[None, None, :]).argmin(axis=-1)
+    nearest_total = float(r[:, ny, nx].mean(axis=(1, 2)).sum())
+    forcing_total = float(sum(rec["mean_rate_by_step_mm_h"]))
+    with xr.open_dataset(out_nc) as f:
+        pr = f[list(f.data_vars)[0]]
+        forcing_total_exact = float(pr.mean(("x", "y")).sum())
+    rec["scenario"] = {
+        "first_stamp_utc": str(t[0]),
+        "hours_in_file": int(len(t)),
+        "hours_used": int(keep.sum()),
+        "square_lonlat_bounds": [lat_min, lat_max, lon_min, lon_max],
+        "cells_in_square_bounds": int(iy.sum() * ix.sum()),
+        "total_mm_cells_in_square": None if box_total is None else round(box_total, 4),
+        "total_mm_nearest_to_model_cells": round(nearest_total, 4),
+    }
+    rec["forcing_total_mm"] = round(forcing_total_exact, 4)
+    rec["forcing_total_mm_from_rounded_steps"] = round(forcing_total, 4)
+    return rec
 
 
 def datetime_from(tref: str):
@@ -625,6 +737,11 @@ def main() -> None:
     f.add_argument("out", type=Path)
     f.add_argument("--tref", required=True, help="YYYYmmdd HHMMSS, UTC")
     f.add_argument("--hours", type=int, required=True)
+    sc = sub.add_parser("scenario-forcing")
+    sc.add_argument("scenario", type=Path, help="a RainyDay scenario_*.nc file")
+    sc.add_argument("out", type=Path)
+    sc.add_argument("--tref", help="YYYYmmdd HHMMSS, UTC; default: start of the first hour")
+    sc.add_argument("--hours", type=int, help="default: the scenario's length")
     z = sub.add_parser("export-zb")
     z.add_argument("run", type=Path, help="any finished run folder of the base")
     z.add_argument("out", type=Path)
@@ -643,6 +760,11 @@ def main() -> None:
     args = parser.parse_args()
     if args.command == "replay-forcing":
         rec = replay_forcing(args.mrms, args.out, args.tref, args.hours)
+        _write_json(args.out.with_suffix(".json"), rec)
+        print(json.dumps(rec, indent=1))
+        return
+    if args.command == "scenario-forcing":
+        rec = scenario_forcing(args.scenario, args.out, args.tref, args.hours)
         _write_json(args.out.with_suffix(".json"), rec)
         print(json.dumps(rec, indent=1))
         return
