@@ -175,6 +175,28 @@ re-run compares its records with the previous run: publisher file changed, value
 failing. The detector lists entry points and option values the framework offers that the inventory does
 not cover. A re-run reports; it does not publish a changed assessment without review.
 
+The monitor (`just validation-monitor`, HEAD requests only) gives each source one state and exits
+nonzero when any source is stale or the inventory has a gap:
+
+| State | When | Fails the run |
+| --- | --- | --- |
+| `current` | Nothing the assessment rests on has changed | no |
+| `current (new copy)` | Only a file declared rewritten in place has a new ETag or Last-Modified | no |
+| `stale` | Any other file changed, appeared or is gone; a declared file is gone or could not be reached; the crc-sdk or crc-framework version differs from the one assessed | yes |
+
+Entry points with no inventory entry and option values new upstream also fail the run. A file that is
+not declared and could not be reached is counted in the report but does not fail the run: a publisher
+that does not answer once is not a change.
+
+Some publishers rewrite a file in place at the same address (NOAA rewrites the IBTrACS ALL file every few
+days). Which files count as such is set by a person in the `[monitoring]` table of the source's TOML:
+`rewritten_in_place` (file names or patterns, matched against the last part of the address), `reason`,
+and optionally `rerun_after_days`. The assessment of such a source describes the copy it read, named by
+the SHA-256 in its records, as crc-sdk's own pin does (`ReleaseReference(id, sha256)`); a new copy is
+listed in `docs/validation/monitoring.md` with that checksum and the new Last-Modified and length.
+Once `rerun_after_days` have passed since the assessment, the report says a re-run is due; that does not
+fail the run either, and the re-run is started by a person (`just validation-monitor-rerun --only <id>`).
+
 ## 10. What this method does not claim
 
 - It is not a certification of any framework or dataset.

@@ -1133,7 +1133,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-25T14:51:03Z",
+ "generated": "2026-11-26T09:43:12Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -1149,6 +1149,7 @@
    "framework": "crc-sdk",
    "id": "crc-open",
    "kind": "pre-fitted release",
+   "monitoring": {},
    "notes": "The inputs behind the release are not public, so a comparison with an original (tier 2) is limited to the release's own catalogue and checksums. Assessed mainly by validation (tier 3).",
    "options": {
     "scenario": [
@@ -1203,6 +1204,7 @@
    "framework": "crc-sdk",
    "id": "era5",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Draft. Assessed on the 1.5 degree store (wb2-1p5), the Texas box (80 grid cells), the rainfall recipes for 2021, with and without the land mask. One variable-year of this store is about 0.9 GB whatever the box, because every chunk covers the globe. The temperature recipes, the 0.25 degree store and the fitted curves were not run.",
    "options": {
     "indicator": [
@@ -1405,6 +1407,13 @@
    "framework": "crc-sdk",
    "id": "ibtracs",
    "kind": "pass-through",
+   "monitoring": {
+    "reason": "NOAA rewrites the ALL file in place at the same address every few days (Last-Modified 22 and 24 November 2026); crc-sdk 1.0.0 reads that live address and has no release to follow, so each assessment states the SHA-256 of the copy it read.",
+    "rerun_after_days": 30,
+    "rewritten_in_place": [
+     "ibtracs.ALL.list.v04r01.csv"
+    ]
+   },
    "notes": "Assessed by default: no selection, each agency read in full. The output covers every point of the file for every agency, so most rows of most agencies carry no value. The position is the combined LAT and LON of IBTrACS, not the agency's own position columns. Times are ISO_TIME with a T and no zone designator; NOAA's times are UTC. Where a track crosses the date line NOAA's longitudes exceed 180 (up to 266.9); crc-sdk moves them into -180..180. It does so by arithmetic on every longitude, so for many points (350,339 of 730,694 in the file of 2026-11-24) the delivered longitude is not the number nearest to NOAA's decimal value but differs from it by at most 3e-14 degrees; the identifier, which hashes the position, then cannot be rebuilt from NOAA's text. In NOAA's file SEASON runs to 2027 because southern-hemisphere seasons are labelled by their second year; crc-sdk does not return it.",
    "options": {
     "agency": [
@@ -1563,6 +1572,7 @@
    "framework": "crc-sdk",
    "id": "noaa-water-levels",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "Assessed at crc-sdk 0.11.2: the statement, the code references and the records below describe that version. The port to 1.0 is pending. Draft. NOAA lists 126 stations with this product; ten are in Texas. A station without the product is answered with HTTP 200 and an empty body of the usual shape, which crc-sdk refuses. NOAA sends no ETag and no Last-Modified for these responses. The exceedance levels carry the datum label in capitals (MHHW) and the annual series in lower case (mhhw); crc-sdk passes both on as published. NOAA sometimes answers the same address with the values rounded to one decimal instead of two or three (seen 2026-11-12); crc-sdk delivers whichever answer it received.",
    "options": {},
    "original": "https://api.tidesandcurrents.noaa.gov/dpapi/prod/ (extremewaterlevels)",
@@ -1701,6 +1711,7 @@
    "framework": "crc-sdk",
    "id": "ghcnh",
    "kind": "annual samples",
+   "monitoring": {},
    "notes": "Assessed on the sample of crc-sdk 0.11.2, so that the two versions can be compared: the first forty USW stations of NOAA's station list in the Texas box, 2000 to 2024. These are small airports whose records begin around 2005 (592 of 1,000 station-years had a file at the 0.11.2 run). What crc-sdk 1.0 returns by default is checked: annual samples, not a fitted curve. Two default rules are stricter than in 0.11: a day needs all 24 hours (0.11: 18) and a year needs every day (0.11: 90 per cent), so few station-years of these airports carry a value by default; the assessment therefore also checks Coverage.minimum_fraction(0.9), which matches 0.11's year rule but not its day rule. Days are UTC days: in Texas a UTC day runs from the local evening to the next. The values are extremes of sampled hourly temperature, not of an instrument's daily maximum and minimum.",
    "options": {
     "indicator": [
@@ -1844,6 +1855,7 @@
    "framework": "crc-sdk",
    "id": "cmip6",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "",
    "options": {
     "indicator": [
@@ -1885,6 +1897,7 @@
    "framework": "crc-sdk",
    "id": "eccc-idf",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "Canada only. The version list is hard-coded upstream and is not read by the detector.",
    "options": {
     "province": [
@@ -1935,6 +1948,7 @@
    "framework": "crc-sdk",
    "id": "jrc-edo",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "No coverage of Texas.",
    "options": {
     "product": [
@@ -1978,6 +1992,7 @@
    "framework": "crc-sdk",
    "id": "jrc-flood",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "Assessed at crc-sdk 1.0.0 on the default path, where nothing is fitted. The explicit fit, `fit(QuantileFit(...))`, is not assessed yet. The review maps and the comparisons with FEMA zones, USGS gauges and Harvey marks were made from crc-sdk 0.11 output and are shown with the previous version. On 2026-11-24 the publisher's server did not answer, so crc-sdk read the copy of the publisher's files held from 2026-11-17 and 2026-11-23; its own downloads were not exercised.",
    "options": {
     "product": [
@@ -2142,6 +2157,7 @@
    "framework": "crc-sdk",
    "id": "nex-gddp-cmip6",
    "kind": "annual samples",
+   "monitoring": {},
    "notes": "Assessed on one model and member (ACCESS-CM2, r1i1p1f1), the Texas box, 2014 of the historical run and 2050 of ssp585: the sample of the run on crc-sdk 0.11.2 (2,332 grid cells, 2,158 on land), whose records are kept under records/0.11.2/. crc-sdk 1.0 reads NASA's version 2.0 files for this sample where 0.11 read version 1.0 by default, so the values differ between the two runs by what NASA changed between the versions (the exploration tables show by how much). crc-sdk 1.0 takes no file version, no grid label and, by default, requires every day of the year; `Coverage.minimum_fraction` and `observations()` were not assessed. Scenario, model and member are free text in 1.0 and are not read by the detector. Each result is one model and one member, not an ensemble. Ocean cells carry no value. The licence written in the files (`cmip6_license`) differs by file while NASA states the archive is CC0.",
    "options": {
     "indicator": [
@@ -2315,6 +2331,7 @@
    "framework": "crc-sdk",
    "id": "isd",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "",
    "options": {
     "indicator": [
@@ -2352,6 +2369,7 @@
    "framework": "crc-sdk",
    "id": "os-climate",
    "kind": "fitted curves",
+   "monitoring": {},
    "notes": "No source page in the crc-sdk docs and no upstream example.",
    "options": {},
    "original": "https://github.com/os-climate/hazard (inventory) and the os-climate-physical-risk bucket",
@@ -2386,6 +2404,7 @@
    "framework": "crc-sdk",
    "id": "chirps",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "Could not be run on the build Mac: rasterio fails to load (report S1).",
    "options": {},
    "original": "https://data.chc.ucsb.edu/products/CHIRPS/v3.0/monthly/global/cogs",
@@ -2420,6 +2439,7 @@
    "framework": "crc-sdk",
    "id": "eccc-daily",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "Canada only.",
    "options": {},
    "original": "https://api.weather.gc.ca/collections/climate-daily/items",
@@ -2454,6 +2474,7 @@
    "framework": "crc-sdk",
    "id": "hydat",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "Canada only.",
    "options": {},
    "original": "https://api.weather.gc.ca/collections/hydrometric-daily-mean/items",
@@ -2488,6 +2509,7 @@
    "framework": "crc-sdk",
    "id": "ftw-fields",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "",
    "options": {},
    "original": "s3://us-west-2.opendata.source.coop/tge-labs/ftw-global-data",
@@ -2522,6 +2544,7 @@
    "framework": "crc-sdk",
    "id": "noaa-sea-level",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "",
    "options": {},
    "original": "https://api.tidesandcurrents.noaa.gov/dpapi/prod/ (slr_projections)",
@@ -2556,6 +2579,7 @@
    "framework": "crc-sdk",
    "id": "usda-cdl",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "",
    "options": {},
    "original": "https://data.source.coop/chill/usda-cropland-data-layer",
@@ -2590,6 +2614,7 @@
    "framework": "crc-sdk",
    "id": "usgs-streamflow",
    "kind": "pass-through",
+   "monitoring": {},
    "notes": "",
    "options": {},
    "original": "https://api.waterdata.usgs.gov/ogcapi/v1/collections/daily/items",
@@ -2629,6 +2654,7 @@
    "framework": "crc-sdk",
    "id": "own-data",
    "kind": "user data",
+   "monitoring": {},
    "notes": "",
    "options": {},
    "original": "Supplied by the user",

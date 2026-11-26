@@ -42,6 +42,7 @@ def load_source(path: Path, framework: str) -> Source:
         drafted_by=raw.get("drafted_by", ""),
         reviewed_by=raw.get("reviewed_by", ""),
         reviewed_on=raw.get("reviewed_on", ""),
+        monitoring=dict(raw.get("monitoring", {})),
     )
     if source.id != path.stem:
         raise RecordError(f"{path.name}: id {source.id!r} does not match the file name")

@@ -140,7 +140,9 @@ stale, and each has a mechanism.
 
 **The publisher changes a file.** `just validation-monitor` asks each publisher, with HEAD requests only,
 about the 1,016 files the assessments read and compares ETag and Last-Modified with what was recorded. A
-weekly GitHub workflow runs it and never commits.
+weekly GitHub workflow runs it and never commits. A file the source's TOML declares rewritten in place
+(`[monitoring]`, IBTrACS only) is reported as a new copy, with the SHA-256 of the copy assessed, and does
+not fail the run; the rules are in `method.md` §9.
 
 **The framework changes.** The pins live in one place and move with a tool:
 

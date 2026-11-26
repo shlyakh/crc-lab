@@ -1,12 +1,14 @@
 """Monitoring: stale assessments are found, a re-run is compared, nothing is published."""
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from data_source_check import build, monitor
-from data_source_check.core import monitoring
+from data_source_check.core import inventory, monitoring
+from data_source_check.core.records import RecordError, Source
 
 RECORDS = {
     "source": "demo",
@@ -105,39 +107,161 @@ def test_a_rerun_is_compared_check_by_check() -> None:
     assert "confirmed to **differs**" in text and "is not published" in text
 
 
+LIVING = {
+    "rewritten_in_place": ["a"],
+    "reason": "rewritten every few days at the same address",
+    "rerun_after_days": 30,
+}
+SAME = {
+    "https://x/a": {"status": 200, "etag": '"1"'},
+    "https://x/b": {"status": 200, "etag": '"3"'},
+    "https://x/gone": {"status": 200, "etag": '"2"'},
+    "https://x/absent": {"status": 404},
+}
+
+
+def publisher(changed: tuple[str, ...] = (), down: tuple[str, ...] = ()):
+    """A publisher answering for the committed records: the files of ``changed`` (addresses)
+    carry another ETag and Last-Modified, those of ``down`` do not answer."""
+    known = {item["url"]: item for name in build.ASSESSMENTS
+             for item in monitoring.recorded_inputs(build.load_records(name))}  # fmt: skip
+
+    def ask(url: str) -> dict:
+        item = known.get(url)
+        if url in down:
+            return {"status": None, "error": "timed out"}
+        if item is None or item.get("missing"):
+            return {"status": 404}
+        if url in changed:
+            return {"status": 200, "etag": '"changed"', "last_modified": "Thu, 26 Nov 2026",
+                    "length": 1}  # fmt: skip
+        return {"status": 200, "etag": item.get("etag"), "last_modified": item.get("last_modified")}
+
+    return ask
+
+
+def test_a_new_copy_of_a_declared_file_is_reported_and_does_not_fail() -> None:
+    changed = SAME | {"https://x/a": {"status": 200, "etag": '"7"', "last_modified": "Thu",
+                                      "length": 12}}  # fmt: skip
+    state = monitoring.source_state(RECORDS, changed, {"crc-sdk": "0.11.1"}, LIVING,
+                                    today="2026-11-20T00:00:00Z")  # fmt: skip
+    assert not state["stale"] and state["state"] == monitoring.NEW_COPY
+    assert state["files_changed"] == [] and not monitoring.needs_attention(
+        [state], {"unclaimed_symbols": [], "new_options": []}
+    )
+    living = state["living"]
+    assert [item["url"] for item in living["new_copies"]] == ["https://x/a"]
+    assert living["new_copies"][0]["bytes_now"] == 12 and living["new_copies"][0]["now"] == "Thu"
+    assert living["rerun_due_on"] == "2026-12-12" and not living["rerun_due"]
+    assert [copy["url"] for copy in living["assessed_copies"]] == ["https://x/a"]
+    report = {"run_at": "2026-11-20T00:00:00Z", "installed": {"crc-sdk": "0.11.1"},
+              "sources": [state], "gaps": {"unclaimed_symbols": [], "new_options": []},
+              "needs_attention": False, "reruns": []}  # fmt: skip
+    text = monitoring.markdown(report)
+    assert "| current (new copy) |" in text and "## Files rewritten in place" in text
+    assert "yes, last modified Thu" in text and "due on 2026-12-12 (every 30 days)" in text
+
+
+def test_a_rerun_is_due_once_the_declared_cadence_has_passed_and_still_does_not_fail() -> None:
+    state = monitoring.source_state(RECORDS, SAME, {"crc-sdk": "0.11.1"}, LIVING,
+                                    today="2026-12-12T06:17:00Z")  # fmt: skip
+    assert not state["stale"] and state["state"] == monitoring.CURRENT
+    assert state["living"]["rerun_due"]
+    assert monitoring.state_text(state) == "current; re-run due"
+
+
+def test_an_undeclared_file_that_changed_still_fails() -> None:
+    changed = SAME | {"https://x/a": {"status": 200, "etag": '"7"'},
+                      "https://x/b": {"status": 200, "etag": '"9"'}}  # fmt: skip
+    state = monitoring.source_state(RECORDS, changed, {"crc-sdk": "0.11.1"}, LIVING)
+    assert state["stale"] and state["state"] == monitoring.STALE
+    assert [item["url"] for item in state["files_changed"]] == ["https://x/b"]
+    assert [item["url"] for item in state["living"]["new_copies"]] == ["https://x/a"]
+    gone = SAME | {"https://x/a": {"status": 404}}  # a declared file that is gone is a change
+    assert monitoring.source_state(RECORDS, gone, {"crc-sdk": "0.11.1"}, LIVING)["stale"]
+
+
+def test_a_framework_change_on_a_living_file_source_fails() -> None:
+    changed = SAME | {"https://x/a": {"status": 200, "etag": '"7"'}}
+    state = monitoring.source_state(RECORDS, changed, {"crc-sdk": "0.12.0"}, LIVING)
+    assert state["stale"] and state["reasons"] == [
+        "the framework version changed: crc-sdk 0.11.1 to 0.12.0"
+    ]
+    framework = monitoring.source_state(
+        RECORDS, SAME, {"crc-sdk": "0.11.1", "crc-framework": "1.0.0"}, LIVING
+    )
+    assert framework["stale"] and "crc-framework None to 1.0.0" in framework["reasons"][0]
+
+
+def test_an_unreachable_living_file_fails() -> None:
+    down = SAME | {"https://x/a": {"status": None, "error": "timeout"}}
+    state = monitoring.source_state(RECORDS, down, {"crc-sdk": "0.11.1"}, LIVING)
+    assert state["stale"] and state["files_unreachable"] == ["https://x/a"]
+    assert state["reasons"] == ["1 file rewritten in place could not be reached"]
+
+
+def test_the_monitoring_table_is_checked_where_the_inventory_is_loaded() -> None:
+    def source(**monitoring_table: object) -> Source:
+        ibtracs = next(s for s in inventory.load_sources("crc_sdk") if s.id == "ibtracs")
+        return replace(ibtracs, monitoring=dict(monitoring_table))
+
+    source(rewritten_in_place=["*.csv"], reason="why").validate()
+    for bad in (
+        {"rewritten_in_place": [], "reason": "why"},
+        {"rewritten_in_place": ["a/b.csv"], "reason": "why"},
+        {"rewritten_in_place": ["a.csv"], "reason": ""},
+        {"rewritten_in_place": ["a.csv"], "reason": "why", "rerun_after_days": 0},
+        {"rewritten_in_place": ["a.csv"], "reason": "why", "rerun_cadence": "monthly"},
+    ):
+        with pytest.raises(RecordError, match="monitoring"):
+            source(**bad).validate()
+
+
+def test_only_ibtracs_declares_a_file_rewritten_in_place_and_it_matches_its_record() -> None:
+    declared = {s.id: s.monitoring for s in inventory.load_sources("crc_sdk") if s.monitoring}
+    assert list(declared) == ["ibtracs"]
+    inputs = monitoring.recorded_inputs(build.load_records("ibtracs"))
+    living = [item for item in inputs
+              if monitoring.rewritten_in_place(item["url"], declared["ibtracs"])]  # fmt: skip
+    assert living and all(len(item["sha256"]) == 64 for item in living)
+
+
 def test_a_monitoring_run_reports_and_leaves_the_records_alone(
     tmp_path: Path, as_assessed: dict[str, str]
 ) -> None:
-    """Against the committed records, with a publisher that changed one IBTrACS file."""
+    """Against the committed records: NOAA rewrote the IBTrACS file, and one GHCNh file changed."""
     before = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
-    ibtracs = build.load_records("ibtracs")
-    target = monitoring.recorded_inputs(ibtracs)[0]["url"]
-
-    def ask(url: str) -> dict:
-        for records in (build.load_records(name) for name in build.ASSESSMENTS):
-            for item in monitoring.recorded_inputs(records):
-                if item["url"] == url:
-                    if item.get("missing"):
-                        return {"status": 404}
-                    etag = '"changed"' if url == target else item.get("etag")
-                    return {"status": 200, "etag": etag, "last_modified": item.get("last_modified")}
-        return {"status": 404}
-
-    page = tmp_path / "page"
-    (page / "records").mkdir(parents=True)
-    for name, data in before.items():
-        (page / "records" / name).write_bytes(data)
-    report = monitor.run(page_data=page, docs=tmp_path / "docs", ask=ask)
+    noaa = monitoring.recorded_inputs(build.load_records("ibtracs"))[0]["url"]
+    station = next(item["url"] for item in monitoring.recorded_inputs(build.load_records("ghcnh"))
+                   if not item.get("missing"))  # fmt: skip
+    page = copy_of_the_page(tmp_path)
+    report = monitor.run(page_data=page, docs=tmp_path / "docs", ask=publisher((noaa, station)))
     states = {state["source"]: state for state in report["sources"]}
-    assert states["ibtracs"]["stale"] and len(states["ibtracs"]["files_changed"]) == 1
-    assert not states["ghcnh"]["stale"] and not states["nex-gddp-cmip6"]["stale"]
+    assert states["ibtracs"]["state"] == "current (new copy)" and not states["ibtracs"]["stale"]
+    assert states["ibtracs"]["files_changed"] == []
+    assert states["ghcnh"]["stale"] and len(states["ghcnh"]["files_changed"]) == 1
+    assert not states["nex-gddp-cmip6"]["stale"]
     assert report["needs_attention"]
-    assert (
-        f"stale: the publisher changed 1 of {states['ibtracs']['files']} files"
-        in (tmp_path / "docs" / "monitoring.md").read_text()
-    )
+    text = (tmp_path / "docs" / "monitoring.md").read_text()
+    assert f"stale: the publisher changed 1 of {states['ghcnh']['files']} files" in text
+    assert "| ibtracs | ibtracs.ALL.list.v04r01.csv |" in text
+    assert states["ibtracs"]["living"]["assessed_copies"][0]["sha256"] in text
     after = {p.name: p.read_bytes() for p in (build.PAGE_DATA / "records").glob("*.json")}
     assert after == before  # the published records are untouched
+
+
+def test_a_new_ibtracs_copy_alone_does_not_need_attention(
+    tmp_path: Path, as_assessed: dict[str, str]
+) -> None:
+    noaa = monitoring.recorded_inputs(build.load_records("ibtracs"))[0]["url"]
+    page = copy_of_the_page(tmp_path)
+    report = monitor.run(page_data=page, docs=tmp_path / "docs", ask=publisher((noaa,)))
+    assert not report["needs_attention"]
+    assert (
+        "Nothing needs attention; new copies" in (tmp_path / "docs" / "monitoring.md").read_text()
+    )
+    down = monitor.run(page_data=page, docs=tmp_path / "docs", ask=publisher(down=(noaa,)))
+    assert down["needs_attention"]  # an unreachable living file is not a new copy
 
 
 def test_a_rerun_is_staged_and_not_published(
@@ -160,7 +284,8 @@ def test_a_rerun_is_staged_and_not_published(
     monkeypatch.setattr(monitor, "STAGING", tmp_path / "staging")
     ask = lambda url: {"status": 200, "etag": '"other"'}  # noqa: E731  every file changed
     report = monitor.run(rerun=True, page_data=page, docs=tmp_path / "docs", ask=ask)
-    assert [call[0] for call in calls] == ["ibtracs", "ghcnh", "nex-gddp-cmip6"]
+    # IBTrACS's file is declared rewritten in place: a new copy alone does not re-run it
+    assert [call[0] for call in calls] == ["ghcnh", "nex-gddp-cmip6"]
     assert all(live and str(tmp_path / "staging") in str(where) and "staging" in str(cache)
                for _, live, where, cache in calls)  # fmt: skip
     assert all(len(diff["newly_differing"]) == 1 for diff in report["reruns"])
@@ -183,9 +308,9 @@ def test_a_source_that_fails_is_reported_and_the_others_still_run(
     ask = lambda url: {"status": 200, "etag": '"other"'}  # noqa: E731  every file changed
     report = monitor.run(rerun=True, page_data=page, docs=tmp_path / "docs", ask=ask)
     by_source = {entry["source"]: entry for entry in report["reruns"]}
-    assert list(by_source) == ["ibtracs", "ghcnh", "nex-gddp-cmip6"]
+    assert list(by_source) == ["ghcnh", "nex-gddp-cmip6"]
     assert "TimeoutError" in by_source["ghcnh"]["failed"]
-    assert "failed" not in by_source["ibtracs"] and "failed" not in by_source["nex-gddp-cmip6"]
+    assert "failed" not in by_source["nex-gddp-cmip6"]
     text = (tmp_path / "docs" / "monitoring.md").read_text()
     assert "## ghcnh: the re-run failed" in text and "--only ghcnh" in text
 

@@ -8,54 +8,46 @@
   "crc-sdk": "1.0.0"
  },
  "needs_attention": false,
- "reruns": [
-  {
-   "before": {
-    "checks": 39,
-    "confirmed": 39
-   },
-   "checks_added": [
-    "area[glofas-tx]",
-    "cells[glofas-tx]",
-    "delivered[glofas-tx]",
-    "files[glofas-tx]",
-    "licence[glofas-tx]",
-    "provenance[glofas-tx]",
-    "release[glofas-tx]",
-    "shape[glofas-tx]",
-    "values[glofas-tx]"
-   ],
-   "checks_removed": [],
-   "newly_differing": [],
-   "now": {
-    "checks": 48,
-    "confirmed": 48
-   },
-   "outcomes_changed": [],
-   "profile": "full",
-   "source": "jrc-flood",
-   "staged": "/Users/yuri/work/crc/crc-lab/data/cache/validation/staging/page-data/records/jrc-flood.json",
-   "summaries_changed": [],
-   "versions_before": {
-    "crc-framework": "1.0.0",
-    "crc-sdk": "1.0.0"
-   },
-   "versions_now": {
-    "crc-framework": "1.0.0",
-    "crc-sdk": "1.0.0"
-   }
-  }
- ],
- "run_at": "2026-11-25T12:20:50Z",
+ "reruns": [],
+ "run_at": "2026-11-26T09:41:58Z",
  "sources": [
   {
    "assessed_at": "2026-11-24T23:38:04Z",
    "files": 1,
    "files_changed": [],
    "files_unreachable": [],
+   "living": {
+    "assessed_copies": [
+     {
+      "bytes": 333311392,
+      "last_modified": "Sun, 22 Nov 2026 14:58:29 GMT",
+      "sha256": "5dab0647113845f594bdf60f8d9b22af244da50010b272043341568c0125edff",
+      "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ALL.list.v04r01.csv"
+     }
+    ],
+    "new_copies": [
+     {
+      "bytes_now": 333315058,
+      "bytes_then": 333311392,
+      "change": "changed",
+      "now": "Tue, 24 Nov 2026 14:53:05 GMT",
+      "sha256_assessed": "5dab0647113845f594bdf60f8d9b22af244da50010b272043341568c0125edff",
+      "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ALL.list.v04r01.csv",
+      "was": "Sun, 22 Nov 2026 14:58:29 GMT"
+     }
+    ],
+    "reason": "NOAA rewrites the ALL file in place at the same address every few days (Last-Modified 22 and 24 November 2026); crc-sdk 1.0.0 reads that live address and has no release to follow, so each assessment states the SHA-256 of the copy it read.",
+    "rerun_after_days": 30,
+    "rerun_due": false,
+    "rerun_due_on": "2026-12-24",
+    "rewritten_in_place": [
+     "ibtracs.ALL.list.v04r01.csv"
+    ]
+   },
    "reasons": [],
    "source": "ibtracs",
    "stale": false,
+   "state": "current (new copy)",
    "versions_changed": {}
   },
   {
@@ -66,16 +58,18 @@
    "reasons": [],
    "source": "ghcnh",
    "stale": false,
+   "state": "current",
    "versions_changed": {}
   },
   {
-   "assessed_at": "2026-11-25T10:50:06Z",
+   "assessed_at": "2026-11-25T12:37:22Z",
    "files": 0,
    "files_changed": [],
    "files_unreachable": [],
    "reasons": [],
    "source": "jrc-flood",
    "stale": false,
+   "state": "current",
    "versions_changed": {}
   },
   {
@@ -86,6 +80,7 @@
    "reasons": [],
    "source": "nex-gddp-cmip6",
    "stale": false,
+   "state": "current",
    "versions_changed": {}
   }
  ]
