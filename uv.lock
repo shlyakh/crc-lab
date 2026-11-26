@@ -444,6 +444,11 @@ assets = [
     { name = "linkml" },
     { name = "osmnx" },
 ]
+flood = [
+    { name = "geopandas" },
+    { name = "pyogrio" },
+    { name = "pyproj" },
+]
 radar = [
     { name = "cfgrib" },
     { name = "eccodes" },
@@ -469,6 +474,7 @@ requires-dist = [
     { name = "eccodes", marker = "extra == 'radar'", specifier = ">=2.50.0" },
     { name = "eccodeslib", marker = "extra == 'radar'", specifier = "==2.48.0.26" },
     { name = "geopandas", marker = "extra == 'assets'", specifier = ">=1.0" },
+    { name = "geopandas", marker = "extra == 'flood'", specifier = ">=1.0" },
     { name = "h3", specifier = ">=4.1" },
     { name = "linkml", marker = "extra == 'assets'", specifier = ">=1.8" },
     { name = "lonboard", marker = "extra == 'viz'", specifier = ">=0.10" },
@@ -477,10 +483,12 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.2" },
     { name = "plotly", specifier = ">=5.22,<7" },
     { name = "pyarrow", specifier = ">=17" },
+    { name = "pyogrio", marker = "extra == 'flood'", specifier = ">=0.7" },
+    { name = "pyproj", marker = "extra == 'flood'", specifier = ">=3.6" },
     { name = "scipy", specifier = ">=1.13" },
     { name = "xarray", specifier = ">=2024.6" },
 ]
-provides-extras = ["assets", "viz", "radar"]
+provides-extras = ["assets", "viz", "flood", "radar"]
 
 [package.metadata.requires-dev]
 dev = [
