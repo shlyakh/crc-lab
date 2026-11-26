@@ -1,0 +1,2810 @@
+{
+ "checks": [
+  {
+   "name": "water balance lim_q20",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -8.038262532787312e-05
+  },
+  {
+   "name": "water balance lim_q25",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -3.64119801007231e-05
+  },
+  {
+   "name": "water balance lim_q30",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -6.161652799370528e-05
+  },
+  {
+   "name": "water balance lim_q35",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -5.011706142328989e-05
+  },
+  {
+   "name": "water balance lim_q40",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -8.87388323318501e-05
+  },
+  {
+   "name": "water balance lim_q50",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 8.250073519908007e-06
+  },
+  {
+   "name": "water balance mod_q20",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 3.01324596169378e-05
+  },
+  {
+   "name": "water balance mod_q25",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 9.803560285510524e-05
+  },
+  {
+   "name": "water balance mod_q30",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -1.6509319867645765e-05
+  },
+  {
+   "name": "water balance mod_q35",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -8.511580080512627e-06
+  },
+  {
+   "name": "water balance mod_q40",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 0.00015034445875247642
+  },
+  {
+   "name": "water balance mod_q50",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -5.4071445370937075e-05
+  },
+  {
+   "name": "water balance ext_q30",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 3.276438408322058e-05
+  },
+  {
+   "name": "water balance mod_q30_d05",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -0.00018657030503669517
+  },
+  {
+   "name": "water balance mod_q30_d2",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -3.6332820232645026e-05
+  },
+  {
+   "name": "water balance mod_q30_lvl1",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 6.906724272465383e-05
+  },
+  {
+   "name": "water balance ida_q30",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -6.326280480764879e-05
+  },
+  {
+   "name": "water balance sep_q30",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -7.540088103178132e-05
+  },
+  {
+   "name": "water balance lim_q30_noadv",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": -0.000166796412556613
+  },
+  {
+   "name": "water balance mod_q30_noadv",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|residual| of the water balance <= 1% of the rain (FH8)",
+   "threshold": 0.01,
+   "value": 6.422299359757249e-05
+  },
+  {
+   "name": "CSI wet limited",
+   "note": "filtered classes (model wet patches under a quarter acre removed); raw 0.1709, without the Navy Yard 0.356",
+   "passed": false,
+   "proposed": true,
+   "rule": "CSI wet >= 0.5 at the frozen allowance against limited-current (plan F3)",
+   "threshold": 0.5,
+   "value": 0.3071
+  },
+  {
+   "name": "CSI wet moderate",
+   "note": "filtered classes (model wet patches under a quarter acre removed); raw 0.2522, without the Navy Yard 0.5085",
+   "passed": false,
+   "proposed": true,
+   "rule": "CSI wet >= 0.5 at the frozen allowance against moderate-current (plan F3)",
+   "threshold": 0.5,
+   "value": 0.408
+  },
+  {
+   "name": "frozen runs use the frozen value",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "qinf of every frozen run (spec.json) equals allowance_mm_per_h of the freeze file",
+   "threshold": 30.0,
+   "value": {
+    "lim_q30": 30.0,
+    "mod_q30": 30.0
+   }
+  },
+  {
+   "name": "monotonicity lim_q20 <= mod_q20",
+   "note": "rain 44.958 < 54.102 mm/h",
+   "passed": false,
+   "proposed": false,
+   "rule": "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)",
+   "threshold": 0.001,
+   "value": {
+    "max_excess_m": 0.001308,
+    "over_1mm": 3,
+    "wet_deeper": 34,
+    "wet_over_1mm": 2
+   }
+  },
+  {
+   "name": "monotonicity lim_q25 <= mod_q25",
+   "note": "rain 44.958 < 54.102 mm/h",
+   "passed": false,
+   "proposed": false,
+   "rule": "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)",
+   "threshold": 0.001,
+   "value": {
+    "max_excess_m": 0.003786,
+    "over_1mm": 4,
+    "wet_deeper": 40,
+    "wet_over_1mm": 4
+   }
+  },
+  {
+   "name": "monotonicity lim_q30 <= mod_q30",
+   "note": "rain 44.958 < 54.102 mm/h",
+   "passed": true,
+   "proposed": false,
+   "rule": "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)",
+   "threshold": 0.001,
+   "value": {
+    "max_excess_m": 0.000819,
+    "over_1mm": 0,
+    "wet_deeper": 41,
+    "wet_over_1mm": 0
+   }
+  },
+  {
+   "name": "monotonicity lim_q35 <= mod_q35",
+   "note": "rain 44.958 < 54.102 mm/h",
+   "passed": false,
+   "proposed": false,
+   "rule": "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)",
+   "threshold": 0.001,
+   "value": {
+    "max_excess_m": 0.001858,
+    "over_1mm": 2,
+    "wet_deeper": 29,
+    "wet_over_1mm": 1
+   }
+  },
+  {
+   "name": "monotonicity lim_q30_noadv <= mod_q30_noadv",
+   "note": "rain 44.958 < 54.102 mm/h",
+   "passed": true,
+   "proposed": false,
+   "rule": "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)",
+   "threshold": 0.001,
+   "value": {
+    "max_excess_m": 0.000832,
+    "over_1mm": 0,
+    "wet_deeper": 32,
+    "wet_over_1mm": 0
+   }
+  },
+  {
+   "name": "lead-asset rule",
+   "note": "Informational: the plan's stop rule for the lead asset applies to the catalogue (F4), not to the two replays.",
+   "passed": true,
+   "proposed": true,
+   "rule": "some substation site has depth_on_25m2_m >= 0.3 m in a replay (lead-asset rule, informational)",
+   "threshold": 0.3,
+   "value": {
+    "deepest_depth_on_25m2_m": 0.447,
+    "sites_meeting": [
+     "Farragut Substation (ida_2021)",
+     "Hudson Avenue Substation (ida_2021)"
+    ]
+   }
+  }
+ ],
+ "created_at": "2026-11-26T06:17:50Z",
+ "figures": [
+  "docs/flood/figures/f3/calibration_curve.png",
+  "docs/flood/figures/f3/hit_miss.png",
+  "docs/flood/figures/f3/water_balance.png",
+  "docs/flood/figures/f3/replays.png",
+  "docs/flood/figures/f3/atlas14.png",
+  "docs/flood/figures/f3/sensitivity.png"
+ ],
+ "id": "f3-model",
+ "inputs": [
+  {
+   "bytes": 1815,
+   "path": "src/flood_lab/hazard/allowance.toml",
+   "sha256": "3bb87105d6d346e21f0245e2ede41f36d4707a10362e9d1a5b7a49ea6d9b9f37",
+   "url": ""
+  },
+  {
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  },
+  {
+   "bytes": 7961,
+   "path": "site/flood/data/city_flood_maps/limited-current.tif",
+   "sha256": "03a20c528d8ca54f716b9d69928a99c9b72ce4436c489bc32caf9a6217c2e6f3",
+   "url": ""
+  },
+  {
+   "bytes": 11402,
+   "path": "site/flood/data/city_flood_maps/moderate-current.tif",
+   "sha256": "a8b53d294e33545d48febf537e2bb5d7a7443d49d70d4d549611d0a5828e40b3",
+   "url": ""
+  },
+  {
+   "bytes": 26944,
+   "path": "site/flood/data/city_flood_maps/extreme-2080.tif",
+   "sha256": "db0f1856b87fa4301f27ace87fad37aacb3c2206a454b8966d89243eeb3fb7a1",
+   "url": ""
+  },
+  {
+   "bytes": 49142122,
+   "path": "f3/model/dem_model_1m.tif",
+   "sha256": "dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf",
+   "url": ""
+  },
+  {
+   "bytes": 535470,
+   "path": "f3/model/buildings_1m.tif",
+   "sha256": "3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe",
+   "url": ""
+  },
+  {
+   "bytes": 39160,
+   "path": "f3/model/pits_1m.tif",
+   "sha256": "47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa",
+   "url": ""
+  },
+  {
+   "bytes": 68068,
+   "path": "terrain/water_1m.tif",
+   "sha256": "c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872",
+   "url": ""
+  },
+  {
+   "bytes": 4586084,
+   "path": "nyc-nta-2020/nta2020.geojson",
+   "sha256": "6d8f5ee8654ad1ffd6ea3975d50287102b2e98375c641bcd9dc23705a82edfc8",
+   "url": ""
+  },
+  {
+   "bytes": 6298,
+   "path": "site/flood/data/substations.geojson",
+   "sha256": "fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff",
+   "url": ""
+  },
+  {
+   "bytes": 18380697,
+   "path": "nyc-building-footprints/footprints-box.geojson",
+   "sha256": "44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43",
+   "url": ""
+  },
+  {
+   "bytes": 11465,
+   "path": "f3/mrms/summary.json",
+   "sha256": "be60fd606c5c4a547fd1262dec6016f24569a816635b175da56127663937177b",
+   "url": ""
+  },
+  {
+   "bytes": 632,
+   "path": "f3/forcing/ida_2021.json",
+   "sha256": "092344359a9c8a3d1ffe9335935adeeae1258e8fea7447ce37ca32e36f8533b9",
+   "url": ""
+  },
+  {
+   "bytes": 741,
+   "path": "f3/forcing/sep29_2023.json",
+   "sha256": "e24273bd7a6642729222566920d395a93150a5d9e2350dbedfe66b263d8b444e",
+   "url": ""
+  },
+  {
+   "bytes": 10890,
+   "path": "f3/atlas14/table.json",
+   "sha256": "f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q20/spec.json",
+   "sha256": "3d95cde8f71da91b6be37f86c5d8b07bac84ba436fd90a52d94bb1b221a13008",
+   "url": ""
+  },
+  {
+   "bytes": 1228,
+   "path": "f3/runs/lim_q20/run_run.json",
+   "sha256": "f2b90183c6955ed91b5b02913abbddb76766aa2d4cd9cacdb7ebfd8a07f42fab",
+   "url": ""
+  },
+  {
+   "bytes": 898,
+   "path": "f3/runs/lim_q20/balance.json",
+   "sha256": "e3ef94a6dfafac3b280cc64fda263233f0142349728d4bd7f0907d3ae1ab7517",
+   "url": ""
+  },
+  {
+   "bytes": 2237492,
+   "path": "f3/runs/lim_q20/zsmax.tif",
+   "sha256": "feea2170fe2879a1085ecc8d863ab80b50c7557c8d8141ffad467f22cf72b163",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q25/spec.json",
+   "sha256": "aa11f820600480bf20ddd878d7990eeb2e53c7e5a48fc3b38515b807ec1771cd",
+   "url": ""
+  },
+  {
+   "bytes": 1225,
+   "path": "f3/runs/lim_q25/run_run.json",
+   "sha256": "02fcb2fc96e9ec16105acaebb7f9bbbdf70875fc13b8f8da2440b09e26cb3d71",
+   "url": ""
+  },
+  {
+   "bytes": 900,
+   "path": "f3/runs/lim_q25/balance.json",
+   "sha256": "09e4bbd366cb35cceaa53f08d927be642a90b660ec308388770ece87b618c2c2",
+   "url": ""
+  },
+  {
+   "bytes": 2240356,
+   "path": "f3/runs/lim_q25/zsmax.tif",
+   "sha256": "f1ace034041e8f7f01462eaca203622a97a90d45494d27adafe2e743545a636d",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q30/spec.json",
+   "sha256": "1d893124eadf3338e823d923c8b4223fd4f081e119d0b98923d6306a2c869459",
+   "url": ""
+  },
+  {
+   "bytes": 1228,
+   "path": "f3/runs/lim_q30/run_run.json",
+   "sha256": "0361b7aaa5c37437f46e238c4ee455c5f9b4d2cbbd609cde7d5d718cdb334cf7",
+   "url": ""
+  },
+  {
+   "bytes": 904,
+   "path": "f3/runs/lim_q30/balance.json",
+   "sha256": "09ee608a5c4626c0022598b29e63303dd9e66d5c460d7f6b0582efc499dcdb21",
+   "url": ""
+  },
+  {
+   "bytes": 2243781,
+   "path": "f3/runs/lim_q30/zsmax.tif",
+   "sha256": "9b779699d0f951727088c0ec7639bb55c07c07ff513969db812de6cf80d733ad",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q35/spec.json",
+   "sha256": "fdf70e730b6211f9d9d38f69877ab2abdfc0146dfd5670ad0944acbe14faea45",
+   "url": ""
+  },
+  {
+   "bytes": 1228,
+   "path": "f3/runs/lim_q35/run_run.json",
+   "sha256": "dfbe02cf43f1ae985f1d478934531245e94d9133355d810e3b1121c984a5c2a4",
+   "url": ""
+  },
+  {
+   "bytes": 896,
+   "path": "f3/runs/lim_q35/balance.json",
+   "sha256": "8b78a3fdb4387ca15c4b4f473d6061c27236c9e5ef83eb6bac44a2054b7781d7",
+   "url": ""
+  },
+  {
+   "bytes": 2247626,
+   "path": "f3/runs/lim_q35/zsmax.tif",
+   "sha256": "210f91a77f1f2702dbee6ce17888995bf5e2dcb0e5a9178f7251116e99716e78",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q40/spec.json",
+   "sha256": "b7065875d1a51bd3ef03cf2bc8fdfe94c540d9ab4327e82509132ded11fa51a1",
+   "url": ""
+  },
+  {
+   "bytes": 1227,
+   "path": "f3/runs/lim_q40/run_run.json",
+   "sha256": "80f14a08c26ba3313d587a691bc165238ab6f54326816a330d81bc0e290bf66b",
+   "url": ""
+  },
+  {
+   "bytes": 895,
+   "path": "f3/runs/lim_q40/balance.json",
+   "sha256": "02d4161b07f2ee9594e2b0f07d88b6d70d5d0aa23a7177a9f3c99b7dcc899951",
+   "url": ""
+  },
+  {
+   "bytes": 2257167,
+   "path": "f3/runs/lim_q40/zsmax.tif",
+   "sha256": "b8bc9d3d94dfe09a0954b7c10ebda236986cde40cc9f08cb1e386627f1cfed90",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q50/spec.json",
+   "sha256": "f22ab1b34aca2ca4b57e70ba6976a7d4b1af3631ba3977cd91622d2e72acebd3",
+   "url": ""
+  },
+  {
+   "bytes": 1226,
+   "path": "f3/runs/lim_q50/run_run.json",
+   "sha256": "ecf9099baff304df31eb3426072c7c751b99c734dcf586da3740f780d74a95e4",
+   "url": ""
+  },
+  {
+   "bytes": 859,
+   "path": "f3/runs/lim_q50/balance.json",
+   "sha256": "863fd9fb2e8f87421d74f0eee31e86569fca37f969930412e1749c23f512e3cf",
+   "url": ""
+  },
+  {
+   "bytes": 2259206,
+   "path": "f3/runs/lim_q50/zsmax.tif",
+   "sha256": "65f9dd151df6accda56f3e1dc17579ae0138a0ec3311eff3fd7874842f182a15",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q20/spec.json",
+   "sha256": "8c5086be75d4e29b3d39611cc54b32a1bb969fa571f0340af63df40aa0969bab",
+   "url": ""
+  },
+  {
+   "bytes": 1227,
+   "path": "f3/runs/mod_q20/run_run.json",
+   "sha256": "3671ef2dbbebe34d1cec775c85da4d75a3d65abfafb322ef837552c9ff2292ec",
+   "url": ""
+  },
+  {
+   "bytes": 896,
+   "path": "f3/runs/mod_q20/balance.json",
+   "sha256": "8238c7cc144b65e23be49d8f5c1a37f50602834bd5b01f3bdb941ce5c0f1883f",
+   "url": ""
+  },
+  {
+   "bytes": 2232706,
+   "path": "f3/runs/mod_q20/zsmax.tif",
+   "sha256": "297e5658e819e788a0d4330e4bea013a63550f81dcac18ac02dcbe34ff64059c",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q25/spec.json",
+   "sha256": "86575cd3d76549fbabfb5ba1250965ea37445f1ebe2fb1cd164405dc97f3b901",
+   "url": ""
+  },
+  {
+   "bytes": 1228,
+   "path": "f3/runs/mod_q25/run_run.json",
+   "sha256": "ba7e187ee0ab60bf8bc9f52fbfbf91e1713e50b867d66c54bbac3cb628d5869b",
+   "url": ""
+  },
+  {
+   "bytes": 897,
+   "path": "f3/runs/mod_q25/balance.json",
+   "sha256": "2f8ef9b20e2d987871ac7efd2a29a550637401bd8a5b4418baeb0c9cbc0f6e34",
+   "url": ""
+  },
+  {
+   "bytes": 2235866,
+   "path": "f3/runs/mod_q25/zsmax.tif",
+   "sha256": "8603bc9adea41e1a49ff489852c30d00a385c834637bee2818e37de30ff4f924",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q30/spec.json",
+   "sha256": "092952e64436dde949ae1857e922cf164e94abf687981b97ee8fb437ad97c07b",
+   "url": ""
+  },
+  {
+   "bytes": 1227,
+   "path": "f3/runs/mod_q30/run_run.json",
+   "sha256": "db696934025e1efe10aed1a144779bcdcb99e7d18fb943c56f9a56603421fa22",
+   "url": ""
+  },
+  {
+   "bytes": 897,
+   "path": "f3/runs/mod_q30/balance.json",
+   "sha256": "a59c1df2550b1944258b41b67680eedbc6d8bf42f584bd03bf0d101f3c25e539",
+   "url": ""
+  },
+  {
+   "bytes": 2239563,
+   "path": "f3/runs/mod_q30/zsmax.tif",
+   "sha256": "ff1505e7305892f3d0c11586973b0e4933acd2d8a5b55d7291ecc52aa8adbe47",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q35/spec.json",
+   "sha256": "92a0f665c88e7da1e1c13beada5470a56b79fe692a81f148cd5c317e2fdbb167",
+   "url": ""
+  },
+  {
+   "bytes": 1227,
+   "path": "f3/runs/mod_q35/run_run.json",
+   "sha256": "41516ba442c33e2bf50ccbb0d9f16e0681b620e90b78b7794bb174194b9647cc",
+   "url": ""
+  },
+  {
+   "bytes": 901,
+   "path": "f3/runs/mod_q35/balance.json",
+   "sha256": "4540828b806953b23ee886ba0a0155bb8b46e50f1bc6a0c2a02a111f46d9727e",
+   "url": ""
+  },
+  {
+   "bytes": 2243074,
+   "path": "f3/runs/mod_q35/zsmax.tif",
+   "sha256": "3c5adf3f88efc3c339d6ae3e7ed065963c6bd2cc568fad7847a1c0af3b1fc213",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q40/spec.json",
+   "sha256": "20958605d89df0c79a66364b96eef32d0a3f67a4c0e59ac12bc943774b87f2e8",
+   "url": ""
+  },
+  {
+   "bytes": 1228,
+   "path": "f3/runs/mod_q40/run_run.json",
+   "sha256": "a9f54779e8dccf1370af468b5e677c789b04783c6b79f5d71644e5228486872b",
+   "url": ""
+  },
+  {
+   "bytes": 899,
+   "path": "f3/runs/mod_q40/balance.json",
+   "sha256": "a3da39000ba7b72deb26305eb7472995fdd93ace247f180afca4d52855db04d0",
+   "url": ""
+  },
+  {
+   "bytes": 2246268,
+   "path": "f3/runs/mod_q40/zsmax.tif",
+   "sha256": "da5cd730a58e6c3f70420a2866fc9e9944957b2fecf6e1282814a488ce2e81ab",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q50/spec.json",
+   "sha256": "37d9ab18639121c67015c5309bd8c1368424752977a18e27d93a37d0cf4e9af0",
+   "url": ""
+  },
+  {
+   "bytes": 1226,
+   "path": "f3/runs/mod_q50/run_run.json",
+   "sha256": "e28ea72701d16d8a2ddf497b5e48ec95d7f68b950fe534b1dbe6eba94995ca07",
+   "url": ""
+  },
+  {
+   "bytes": 895,
+   "path": "f3/runs/mod_q50/balance.json",
+   "sha256": "6820167528687b90c92a36e1f11732128763502ff956bdb9e2ae65fb81de9485",
+   "url": ""
+  },
+  {
+   "bytes": 2259536,
+   "path": "f3/runs/mod_q50/zsmax.tif",
+   "sha256": "dbba4e54a33af303ff6f219309471c3a561df05f517659015ce65186fba64c91",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/ext_q30/spec.json",
+   "sha256": "0eb4a0904f49cf09a74a8e9dbbe008cd540bfaaeb98b0eb30fca969472da0719",
+   "url": ""
+  },
+  {
+   "bytes": 1227,
+   "path": "f3/runs/ext_q30/run_run.json",
+   "sha256": "5837daed91809d30f3473846933aeeb1e9dc2c52d1d09d1a473bba7e27d810e1",
+   "url": ""
+  },
+  {
+   "bytes": 901,
+   "path": "f3/runs/ext_q30/balance.json",
+   "sha256": "67991fc4111d8dba5b48af273630d0b185d2ab666ac5b5c10c3ee61f490d5f50",
+   "url": ""
+  },
+  {
+   "bytes": 2228300,
+   "path": "f3/runs/ext_q30/zsmax.tif",
+   "sha256": "b64703a2d79efa7b48e78d0a005a4d806772983ae14678ada7c463e3b30d94f6",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q30_d05/spec.json",
+   "sha256": "b73dd415741aebf40ec289c7003d90b96e9be14dbe2a5420ad311c3f8b0a496e",
+   "url": ""
+  },
+  {
+   "bytes": 1238,
+   "path": "f3/runs/mod_q30_d05/run_run.json",
+   "sha256": "b86d5d4881e678e86bf5e7d2e9d791cc2b80f26e32e09e376916a69012ff877a",
+   "url": ""
+  },
+  {
+   "bytes": 860,
+   "path": "f3/runs/mod_q30_d05/balance.json",
+   "sha256": "8f0d18892be0da3270fb0572ba3d2d95aaa56f85dea3fd76769e115584860fe3",
+   "url": ""
+  },
+  {
+   "bytes": 2251682,
+   "path": "f3/runs/mod_q30_d05/zsmax.tif",
+   "sha256": "580836560cd6618ed370beda447ff8e6fc9f2382fdd13ea5189c3fb56f4dec65",
+   "url": ""
+  },
+  {
+   "bytes": 285,
+   "path": "f3/runs/mod_q30_d2/spec.json",
+   "sha256": "06959b8fedb32647bb9a86c301a51147660a2204e0998a6a65a28c336a708a3b",
+   "url": ""
+  },
+  {
+   "bytes": 1237,
+   "path": "f3/runs/mod_q30_d2/run_run.json",
+   "sha256": "6ec60a2fa21c7258ed91f22c56196344415d77199058951a9963945d29db420e",
+   "url": ""
+  },
+  {
+   "bytes": 971,
+   "path": "f3/runs/mod_q30_d2/balance.json",
+   "sha256": "1c99ca4b7b5546d800c18facd6d13fc96bc39c11b31eb0fd335f45b57714810f",
+   "url": ""
+  },
+  {
+   "bytes": 2221668,
+   "path": "f3/runs/mod_q30_d2/zsmax.tif",
+   "sha256": "88497053962bd9c3c011b1542d14311252906a775f91013f68d0cff3812463ff",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q30_lvl1/spec.json",
+   "sha256": "b57fb50a3fdd7020d882495928f0a6098d993da510fc79aca3b54ae587d7c816",
+   "url": ""
+  },
+  {
+   "bytes": 1242,
+   "path": "f3/runs/mod_q30_lvl1/run_run.json",
+   "sha256": "30cd4cb860f8fcb47873df398f401c4c1a358954b16186f7dce489b5b85ce463",
+   "url": ""
+  },
+  {
+   "bytes": 897,
+   "path": "f3/runs/mod_q30_lvl1/balance.json",
+   "sha256": "933678038c210fa21aa67507d3da6fcad5864e43ff78455a604cd39172a9b78a",
+   "url": ""
+  },
+  {
+   "bytes": 2135376,
+   "path": "f3/runs/mod_q30_lvl1/zsmax.tif",
+   "sha256": "0e7f3b0f305d16e03059444b8d07078e30bdd7ccf18f2e8dd0c2c410800da7d6",
+   "url": ""
+  },
+  {
+   "bytes": 300,
+   "path": "f3/runs/ida_q30/spec.json",
+   "sha256": "644776430358fcabe4463f44007a0012a8122033f76b4d23b57dc2d329282f50",
+   "url": ""
+  },
+  {
+   "bytes": 1231,
+   "path": "f3/runs/ida_q30/run_run.json",
+   "sha256": "8eb5e42ae35287a3ff25d60072a138de6210dd94ce9958a98aa62ccb91092d0b",
+   "url": ""
+  },
+  {
+   "bytes": 2018,
+   "path": "f3/runs/ida_q30/balance.json",
+   "sha256": "c8a101364d01e771df18f22e04f448a47643d55cbf30497945c3cfe9c9d1e522",
+   "url": ""
+  },
+  {
+   "bytes": 2232557,
+   "path": "f3/runs/ida_q30/zsmax.tif",
+   "sha256": "19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b",
+   "url": ""
+  },
+  {
+   "bytes": 303,
+   "path": "f3/runs/sep_q30/spec.json",
+   "sha256": "31f9b7d3bb2ddb82d019a09f9ce49b6afb96e9ab2cae8b44d2ec21d7c849c8e5",
+   "url": ""
+  },
+  {
+   "bytes": 1231,
+   "path": "f3/runs/sep_q30/run_run.json",
+   "sha256": "31eb6362044f3fee22e54ec8d7eacaae0b14305f72154af5aa4b9f8f90d01143",
+   "url": ""
+  },
+  {
+   "bytes": 2856,
+   "path": "f3/runs/sep_q30/balance.json",
+   "sha256": "19c4d676c19d3ce1851ec666fab9f4e8ba7dbf9ae831e54b84d5e58297ac15d9",
+   "url": ""
+  },
+  {
+   "bytes": 2244124,
+   "path": "f3/runs/sep_q30/zsmax.tif",
+   "sha256": "e25e0bd495a27602cd953c68e230215bc5648fcc1a5d0d8c7c7c7e534af96e25",
+   "url": ""
+  },
+  {
+   "bytes": 305,
+   "path": "f3/runs/lim_q30_noadv/spec.json",
+   "sha256": "5cf3f8359ed777aeb77e50f074bdbf747ecdf961e0f43877e4fe14a1470695d0",
+   "url": ""
+  },
+  {
+   "bytes": 1245,
+   "path": "f3/runs/lim_q30_noadv/run_run.json",
+   "sha256": "10fb732fe271497fbbc727de0ac83dcd04ea3b726cc5ce9280314abcb70572c5",
+   "url": ""
+  },
+  {
+   "bytes": 899,
+   "path": "f3/runs/lim_q30_noadv/balance.json",
+   "sha256": "ac0c73a77bbe02ad3119fdf4c62fe74151463db709044ed540c1caa3b30b86e4",
+   "url": ""
+  },
+  {
+   "bytes": 2241413,
+   "path": "f3/runs/lim_q30_noadv/zsmax.tif",
+   "sha256": "2e438129d3a4d08d3b7f7bc7f6ae054b1c9d981d2a7cd3c7a8d7d142b59e38c4",
+   "url": ""
+  },
+  {
+   "bytes": 305,
+   "path": "f3/runs/mod_q30_noadv/spec.json",
+   "sha256": "9cc9217cb6162ed9c8c16a2af7ab1f522f93566f1988bc382fa167c598671475",
+   "url": ""
+  },
+  {
+   "bytes": 1244,
+   "path": "f3/runs/mod_q30_noadv/run_run.json",
+   "sha256": "298e90d5282daeabc7dd0ba1ce90162435d49a96a98843520db5b1e9a9826e8a",
+   "url": ""
+  },
+  {
+   "bytes": 897,
+   "path": "f3/runs/mod_q30_noadv/balance.json",
+   "sha256": "120ea6f49203cc27af7548d92f54055dc1c0110c073ff97cad4ba836b84ca377",
+   "url": ""
+  },
+  {
+   "bytes": 2236842,
+   "path": "f3/runs/mod_q30_noadv/zsmax.tif",
+   "sha256": "53360a6415f760f845c2ea0fe769a14829ad394387d7503eb20638845b85261c",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city's two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
+  "calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
+  "hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
+  "water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right.",
+  "replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter.",
+  "atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map.",
+  "sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
+  "Run folders present but not named in the freeze file: lim_q20.oldbase, mod_q20.oldbase."
+ ],
+ "numbers": {
+  "cells_compared": 330615,
+  "extreme_check": {
+   "allowance_of_run": 30.0,
+   "city_map": "extreme-2080",
+   "filtered": {
+    "area_error": 0.0615,
+    "cells_compared": 330615,
+    "city_deep_ha": 55.263,
+    "city_shallow_ha": 46.932,
+    "csi_deep": 0.5573,
+    "csi_wet": 0.4835,
+    "model_deep_ha": 50.977,
+    "model_shallow_ha": 37.117,
+    "same_class_share_of_city_wet": 0.4971,
+    "wet_false_alarms": 10431,
+    "wet_hits": 24807,
+    "wet_misses": 16071
+   },
+   "label": "ext_q30",
+   "note": "The extreme-2080 map includes the sea level of 2080; its tidal code is left out by city_class, so only the rain classes 1 and 2 are compared. A check, not a calibration target (FH3).",
+   "raw": {
+    "area_error": 0.2344,
+    "cells_compared": 330615,
+    "city_deep_ha": 55.263,
+    "city_shallow_ha": 46.932,
+    "csi_deep": 0.4447,
+    "csi_wet": 0.3955,
+    "model_deep_ha": 71.302,
+    "model_shallow_ha": 70.843,
+    "same_class_share_of_city_wet": 0.5555,
+    "wet_false_alarms": 29157,
+    "wet_hits": 27701,
+    "wet_misses": 13177
+   },
+   "scenario_of_run": "extreme",
+   "status": "run"
+  },
+  "footprints_in_study_area": 17750,
+  "frozen": {
+   "allowance_mm_per_h": 30.0,
+   "fit": {
+    "limited": {
+     "allowance_of_run": 30.0,
+     "filtered": {
+      "area_error": 0.0871,
+      "cells_compared": 330615,
+      "city_deep_ha": 5.76,
+      "city_shallow_ha": 10.258,
+      "csi_deep": 0.2068,
+      "csi_wet": 0.3071,
+      "model_deep_ha": 4.553,
+      "model_shallow_ha": 12.27,
+      "same_class_share_of_city_wet": 0.3123,
+      "wet_false_alarms": 3643,
+      "wet_hits": 3086,
+      "wet_misses": 3321
+     },
+     "filtered_without_navy_yard": {
+      "area_error": 0.1881,
+      "cells_compared": 303489,
+      "city_deep_ha": 5.548,
+      "city_shallow_ha": 9.955,
+      "csi_deep": 0.2251,
+      "csi_wet": 0.356,
+      "model_deep_ha": 3.623,
+      "model_shallow_ha": 9.138,
+      "same_class_share_of_city_wet": 0.3114,
+      "wet_false_alarms": 2136,
+      "wet_hits": 2968,
+      "wet_misses": 3233
+     },
+     "label": "lim_q30",
+     "raw": {
+      "area_error": 1.7274,
+      "cells_compared": 330615,
+      "city_deep_ha": 5.76,
+      "city_shallow_ha": 10.258,
+      "csi_deep": 0.1389,
+      "csi_wet": 0.1709,
+      "model_deep_ha": 10.123,
+      "model_shallow_ha": 33.66,
+      "same_class_share_of_city_wet": 0.3637,
+      "wet_false_alarms": 14021,
+      "wet_hits": 3492,
+      "wet_misses": 2915
+     },
+     "status": "run"
+    },
+    "moderate": {
+     "allowance_of_run": 30.0,
+     "filtered": {
+      "area_error": 0.0668,
+      "cells_compared": 330615,
+      "city_deep_ha": 11.675,
+      "city_shallow_ha": 18.33,
+      "csi_deep": 0.3894,
+      "csi_wet": 0.408,
+      "model_deep_ha": 13.755,
+      "model_shallow_ha": 22.39,
+      "same_class_share_of_city_wet": 0.4771,
+      "wet_false_alarms": 6790,
+      "wet_hits": 7668,
+      "wet_misses": 4334
+     },
+     "filtered_without_navy_yard": {
+      "area_error": 0.0215,
+      "cells_compared": 303489,
+      "city_deep_ha": 11.215,
+      "city_shallow_ha": 17.85,
+      "csi_deep": 0.4604,
+      "csi_wet": 0.5085,
+      "model_deep_ha": 10.863,
+      "model_shallow_ha": 15.468,
+      "same_class_share_of_city_wet": 0.4825,
+      "wet_false_alarms": 3063,
+      "wet_hits": 7469,
+      "wet_misses": 4157
+     },
+     "label": "mod_q30",
+     "raw": {
+      "area_error": 1.4277,
+      "cells_compared": 330615,
+      "city_deep_ha": 11.675,
+      "city_shallow_ha": 18.33,
+      "csi_deep": 0.2674,
+      "csi_wet": 0.2522,
+      "model_deep_ha": 22.845,
+      "model_shallow_ha": 49.285,
+      "same_class_share_of_city_wet": 0.5155,
+      "wet_false_alarms": 20623,
+      "wet_hits": 8229,
+      "wet_misses": 3773
+     },
+     "status": "run"
+    }
+   },
+   "frozen_on": "2026-11-26",
+   "note": "Limited alone fits best near 30 mm/h, Moderate alone between 30 and 35 mm/h. CSI (wet) at 30 mm/h is below the proposed 0.5 on both maps; accepted by Yuri as the best fit, to be stated on the page. No official sewer-district layer was found, so the per-district fallback of FH3 was not tried.",
+   "objective": "Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model's wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after.",
+   "tag": "P"
+  },
+  "lowest_area_error_by_scenario": {
+   "limited": {
+    "allowance": 30.0,
+    "area_error": 0.0871,
+    "label": "lim_q30"
+   },
+   "moderate": {
+    "allowance": 30.0,
+    "area_error": 0.0668,
+    "label": "mod_q30"
+   }
+  },
+  "navy_yard_cells_compared": 27126
+ },
+ "parameters": [
+  {
+   "name": "drainage_allowance_mm_per_h",
+   "source": "Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model's wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after.",
+   "tag": "P",
+   "value": 30.0
+  },
+  {
+   "name": "wet_m",
+   "source": "requirements section 5",
+   "tag": "P",
+   "value": 0.05
+  },
+  {
+   "name": "shallow_class_m",
+   "source": "nyc-stormwater-flood-maps",
+   "tag": "S",
+   "value": 0.1016
+  },
+  {
+   "name": "deep_class_m",
+   "source": "nyc-stormwater-flood-maps",
+   "tag": "S",
+   "value": 0.3048
+  },
+  {
+   "name": "min_patch_m2",
+   "source": "city's 0.25-acre rule applied to the model",
+   "tag": "P",
+   "value": 1011.7141056
+  },
+  {
+   "name": "patch_connectivity",
+   "source": "",
+   "tag": "P",
+   "value": 8
+  },
+  {
+   "name": "intensity_in_h",
+   "source": "nyc-stormwater-flood-maps",
+   "tag": "S",
+   "value": {
+    "extreme": 3.66,
+    "limited": 1.77,
+    "moderate": 2.13
+   }
+  },
+  {
+   "name": "balance_max_share",
+   "source": "requirements FH8",
+   "tag": "P",
+   "value": 0.01
+  },
+  {
+   "name": "csi_min",
+   "source": "plan F3, proposed",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "monotone_tolerance_m",
+   "source": "set at the F0 stop",
+   "tag": "P",
+   "value": 0.001
+  },
+  {
+   "name": "lead_depth_m",
+   "source": "demo-concerns \u00a72",
+   "tag": "P",
+   "value": 0.3
+  },
+  {
+   "name": "lead_area_m2",
+   "source": "",
+   "tag": "P",
+   "value": 25
+  },
+  {
+   "name": "max_roof_share",
+   "source": "",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "building_band_m",
+   "source": "",
+   "tag": "P",
+   "value": 2.0
+  },
+  {
+   "name": "navy_yard_nta2020",
+   "source": "sensitivity of the calibration",
+   "tag": "P",
+   "value": "BK0261"
+  },
+  {
+   "name": "depth_colours",
+   "source": "matplotlib 'Blues'; FP7 has none yet",
+   "tag": "P",
+   "value": [
+    "#c6dbef",
+    "#6baed6",
+    "#08519c"
+   ]
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "python": "3.12.11",
+  "rasterio": "1.5.1",
+  "scipy": "1.18.1",
+  "shapely": "2.2.0"
+ },
+ "stage": "F3",
+ "tables": {
+  "atlas14_placement": {
+   "series": {
+    "ams": {
+     "region": "Northeastern States",
+     "return_period_label": "AEP",
+     "rows": [
+      {
+       "depth_in": 0.885,
+       "duration": "30-min",
+       "intensity_in_h": 1.77,
+       "next_depth": "0.933",
+       "placement": "below '1/2",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "'1/2",
+        "'1/5"
+       ],
+       "depth_in": 1.065,
+       "depths": [
+        "0.933",
+        "1.25"
+       ],
+       "duration": "30-min",
+       "intensity_in_h": 2.13,
+       "placement": "between '1/2 and '1/5",
+       "scenario": "moderate"
+      },
+      {
+       "between": [
+        "'1/25",
+        "'1/50"
+       ],
+       "depth_in": 1.83,
+       "depths": [
+        "1.79",
+        "2.03"
+       ],
+       "duration": "30-min",
+       "intensity_in_h": 3.66,
+       "placement": "between '1/25 and '1/50",
+       "scenario": "extreme"
+      },
+      {
+       "between": [
+        "'1/5",
+        "'1/10"
+       ],
+       "depth_in": 1.77,
+       "depths": [
+        "1.58",
+        "1.89"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 1.77,
+       "placement": "between '1/5 and '1/10",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "'1/10",
+        "'1/25"
+       ],
+       "depth_in": 2.13,
+       "depths": [
+        "1.89",
+        "2.28"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 2.13,
+       "placement": "between '1/10 and '1/25",
+       "scenario": "moderate"
+      },
+      {
+       "between": [
+        "'1/200",
+        "'1/500"
+       ],
+       "depth_in": 3.66,
+       "depths": [
+        "3.22",
+        "3.70"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 3.66,
+       "placement": "between '1/200 and '1/500",
+       "scenario": "extreme"
+      },
+      {
+       "between": [
+        "'1/50",
+        "'1/100"
+       ],
+       "depth_in": 3.54,
+       "depths": [
+        "3.25",
+        "3.63"
+       ],
+       "duration": "2-hr",
+       "intensity_in_h": 1.77,
+       "placement": "between '1/50 and '1/100",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "'1/200",
+        "'1/500"
+       ],
+       "depth_in": 4.26,
+       "depths": [
+        "4.05",
+        "4.66"
+       ],
+       "duration": "2-hr",
+       "intensity_in_h": 2.13,
+       "placement": "between '1/200 and '1/500",
+       "scenario": "moderate"
+      },
+      {
+       "depth_in": 7.32,
+       "duration": "2-hr",
+       "intensity_in_h": 3.66,
+       "last_depth": "5.16",
+       "placement": "above '1/1000",
+       "scenario": "extreme"
+      }
+     ],
+     "service_point": {
+      "lat": "40.7048",
+      "lon": "-73.9642"
+     },
+     "version": "NOAA Atlas 14 Volume 10 Version 3",
+     "version_number": "3",
+     "volume": "10"
+    },
+    "pds": {
+     "region": "Northeastern States",
+     "return_period_label": "ARI years",
+     "rows": [
+      {
+       "between": [
+        "1",
+        "2"
+       ],
+       "depth_in": 0.885,
+       "depths": [
+        "0.853",
+        "1.02"
+       ],
+       "duration": "30-min",
+       "intensity_in_h": 1.77,
+       "placement": "between 1 and 2",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "2",
+        "5"
+       ],
+       "depth_in": 1.065,
+       "depths": [
+        "1.02",
+        "1.28"
+       ],
+       "duration": "30-min",
+       "intensity_in_h": 2.13,
+       "placement": "between 2 and 5",
+       "scenario": "moderate"
+      },
+      {
+       "between": [
+        "25",
+        "50"
+       ],
+       "depth_in": 1.83,
+       "depths": [
+        "1.80",
+        "2.03"
+       ],
+       "duration": "30-min",
+       "intensity_in_h": 3.66,
+       "placement": "between 25 and 50",
+       "scenario": "extreme"
+      },
+      {
+       "between": [
+        "5",
+        "10"
+       ],
+       "depth_in": 1.77,
+       "depths": [
+        "1.63",
+        "1.91"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 1.77,
+       "placement": "between 5 and 10",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "10",
+        "25"
+       ],
+       "depth_in": 2.13,
+       "depths": [
+        "1.91",
+        "2.29"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 2.13,
+       "placement": "between 10 and 25",
+       "scenario": "moderate"
+      },
+      {
+       "between": [
+        "200",
+        "500"
+       ],
+       "depth_in": 3.66,
+       "depths": [
+        "3.22",
+        "3.70"
+       ],
+       "duration": "60-min",
+       "intensity_in_h": 3.66,
+       "placement": "between 200 and 500",
+       "scenario": "extreme"
+      },
+      {
+       "between": [
+        "50",
+        "100"
+       ],
+       "depth_in": 3.54,
+       "depths": [
+        "3.26",
+        "3.63"
+       ],
+       "duration": "2-hr",
+       "intensity_in_h": 1.77,
+       "placement": "between 50 and 100",
+       "scenario": "limited"
+      },
+      {
+       "between": [
+        "200",
+        "500"
+       ],
+       "depth_in": 4.26,
+       "depths": [
+        "4.05",
+        "4.66"
+       ],
+       "duration": "2-hr",
+       "intensity_in_h": 2.13,
+       "placement": "between 200 and 500",
+       "scenario": "moderate"
+      },
+      {
+       "depth_in": 7.32,
+       "duration": "2-hr",
+       "intensity_in_h": 3.66,
+       "last_depth": "5.16",
+       "placement": "above 1000",
+       "scenario": "extreme"
+      }
+     ],
+     "service_point": {
+      "lat": "40.7048",
+      "lon": "-73.9642"
+     },
+     "version": "NOAA Atlas 14 Volume 10 Version 3",
+     "version_number": "3",
+     "volume": "10"
+    }
+   },
+   "units": "inches"
+  },
+  "calibration": [
+   {
+    "allowance": 20.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 1.6089,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.2947,
+     "csi_wet": 0.3166,
+     "model_deep_ha": 15.15,
+     "model_shallow_ha": 23.352,
+     "same_class_share_of_city_wet": 0.6196,
+     "wet_false_alarms": 10157,
+     "wet_hits": 5244,
+     "wet_misses": 1163
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.8174,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.3576,
+     "csi_wet": 0.4145,
+     "model_deep_ha": 11.982,
+     "model_shallow_ha": 16.02,
+     "same_class_share_of_city_wet": 0.6233,
+     "wet_false_alarms": 6102,
+     "wet_hits": 5099,
+     "wet_misses": 1102
+    },
+    "label": "lim_q20",
+    "raw": {
+     "area_error": 4.6547,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.1889,
+     "csi_wet": 0.174,
+     "model_deep_ha": 24.63,
+     "model_shallow_ha": 50.645,
+     "same_class_share_of_city_wet": 0.6413,
+     "wet_false_alarms": 24699,
+     "wet_hits": 5411,
+     "wet_misses": 996
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 25.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 0.6314,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.3197,
+     "csi_wet": 0.3411,
+     "model_deep_ha": 9.832,
+     "model_shallow_ha": 18.485,
+     "same_class_share_of_city_wet": 0.535,
+     "wet_false_alarms": 6816,
+     "wet_hits": 4511,
+     "wet_misses": 1896
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.1917,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.3747,
+     "csi_wet": 0.4314,
+     "model_deep_ha": 7.853,
+     "model_shallow_ha": 13.005,
+     "same_class_share_of_city_wet": 0.5385,
+     "wet_false_alarms": 3960,
+     "wet_hits": 4383,
+     "wet_misses": 1818
+    },
+    "label": "lim_q25",
+    "raw": {
+     "area_error": 3.2824,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.1993,
+     "csi_wet": 0.1822,
+     "model_deep_ha": 17.315,
+     "model_shallow_ha": 43.328,
+     "same_class_share_of_city_wet": 0.5642,
+     "wet_false_alarms": 19532,
+     "wet_hits": 4725,
+     "wet_misses": 1682
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 30.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 0.0871,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.2068,
+     "csi_wet": 0.3071,
+     "model_deep_ha": 4.553,
+     "model_shallow_ha": 12.27,
+     "same_class_share_of_city_wet": 0.3123,
+     "wet_false_alarms": 3643,
+     "wet_hits": 3086,
+     "wet_misses": 3321
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.1881,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.2251,
+     "csi_wet": 0.356,
+     "model_deep_ha": 3.623,
+     "model_shallow_ha": 9.138,
+     "same_class_share_of_city_wet": 0.3114,
+     "wet_false_alarms": 2136,
+     "wet_hits": 2968,
+     "wet_misses": 3233
+    },
+    "label": "lim_q30",
+    "raw": {
+     "area_error": 1.7274,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.1389,
+     "csi_wet": 0.1709,
+     "model_deep_ha": 10.123,
+     "model_shallow_ha": 33.66,
+     "same_class_share_of_city_wet": 0.3637,
+     "wet_false_alarms": 14021,
+     "wet_hits": 3492,
+     "wet_misses": 2915
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 35.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 3.1383,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.0631,
+     "csi_wet": 0.1398,
+     "model_deep_ha": 1.143,
+     "model_shallow_ha": 4.897,
+     "same_class_share_of_city_wet": 0.0851,
+     "wet_false_alarms": 1334,
+     "wet_hits": 1082,
+     "wet_misses": 5325
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 4.1924,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.0611,
+     "csi_wet": 0.141,
+     "model_deep_ha": 0.92,
+     "model_shallow_ha": 3.663,
+     "same_class_share_of_city_wet": 0.0819,
+     "wet_false_alarms": 840,
+     "wet_hits": 993,
+     "wet_misses": 5208
+    },
+    "label": "lim_q35",
+    "raw": {
+     "area_error": 0.5999,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.054,
+     "csi_wet": 0.1296,
+     "model_deep_ha": 4.288,
+     "model_shallow_ha": 21.008,
+     "same_class_share_of_city_wet": 0.1537,
+     "wet_false_alarms": 8222,
+     "wet_hits": 1896,
+     "wet_misses": 4511
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 40.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 88.5053,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 6407
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 87.6162,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 6201
+    },
+    "label": "lim_q40",
+    "raw": {
+     "area_error": 2.7811,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.0033,
+     "csi_wet": 0.0355,
+     "model_deep_ha": 1.175,
+     "model_shallow_ha": 6.065,
+     "same_class_share_of_city_wet": 0.0215,
+     "wet_false_alarms": 2577,
+     "wet_hits": 319,
+     "wet_misses": 6088
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 50.0,
+    "city_map": "limited-current",
+    "filtered": {
+     "area_error": 88.5053,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 6407
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 87.6162,
+     "cells_compared": 303489,
+     "city_deep_ha": 5.548,
+     "city_shallow_ha": 9.955,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 6201
+    },
+    "label": "lim_q50",
+    "raw": {
+     "area_error": 14.4279,
+     "cells_compared": 330615,
+     "city_deep_ha": 5.76,
+     "city_shallow_ha": 10.258,
+     "csi_deep": 0.0008,
+     "csi_wet": 0.0007,
+     "model_deep_ha": 0.652,
+     "model_shallow_ha": 0.443,
+     "same_class_share_of_city_wet": 0.0005,
+     "wet_false_alarms": 433,
+     "wet_hits": 5,
+     "wet_misses": 6402
+    },
+    "scenario": "limited",
+    "status": "run"
+   },
+   {
+    "allowance": 20.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 0.7623,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.3556,
+     "csi_wet": 0.4083,
+     "model_deep_ha": 24.777,
+     "model_shallow_ha": 28.57,
+     "same_class_share_of_city_wet": 0.5874,
+     "wet_false_alarms": 11673,
+     "wet_hits": 9666,
+     "wet_misses": 2336
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.3363,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.4315,
+     "csi_wet": 0.518,
+     "model_deep_ha": 19.753,
+     "model_shallow_ha": 20.28,
+     "same_class_share_of_city_wet": 0.5929,
+     "wet_false_alarms": 6581,
+     "wet_hits": 9432,
+     "wet_misses": 2194
+    },
+    "label": "mod_q20",
+    "raw": {
+     "area_error": 2.7417,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.2436,
+     "csi_wet": 0.2463,
+     "model_deep_ha": 37.53,
+     "model_shallow_ha": 59.352,
+     "same_class_share_of_city_wet": 0.6135,
+     "wet_false_alarms": 28721,
+     "wet_hits": 10032,
+     "wet_misses": 1970
+    },
+    "scenario": "moderate",
+    "status": "run"
+   },
+   {
+    "allowance": 25.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 0.3668,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.3987,
+     "csi_wet": 0.4242,
+     "model_deep_ha": 19.135,
+     "model_shallow_ha": 26.035,
+     "same_class_share_of_city_wet": 0.5757,
+     "wet_false_alarms": 9112,
+     "wet_hits": 8956,
+     "wet_misses": 3046
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.0891,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.4835,
+     "csi_wet": 0.5406,
+     "model_deep_ha": 15.117,
+     "model_shallow_ha": 18.06,
+     "same_class_share_of_city_wet": 0.5821,
+     "wet_false_alarms": 4535,
+     "wet_hits": 8736,
+     "wet_misses": 2890
+    },
+    "label": "mod_q25",
+    "raw": {
+     "area_error": 2.1173,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.2697,
+     "csi_wet": 0.2564,
+     "model_deep_ha": 30.175,
+     "model_shallow_ha": 55.252,
+     "same_class_share_of_city_wet": 0.6081,
+     "wet_false_alarms": 24749,
+     "wet_hits": 9422,
+     "wet_misses": 2580
+    },
+    "scenario": "moderate",
+    "status": "run"
+   },
+   {
+    "allowance": 30.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 0.0668,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.3894,
+     "csi_wet": 0.408,
+     "model_deep_ha": 13.755,
+     "model_shallow_ha": 22.39,
+     "same_class_share_of_city_wet": 0.4771,
+     "wet_false_alarms": 6790,
+     "wet_hits": 7668,
+     "wet_misses": 4334
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.0215,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.4604,
+     "csi_wet": 0.5085,
+     "model_deep_ha": 10.863,
+     "model_shallow_ha": 15.468,
+     "same_class_share_of_city_wet": 0.4825,
+     "wet_false_alarms": 3063,
+     "wet_hits": 7469,
+     "wet_misses": 4157
+    },
+    "label": "mod_q30",
+    "raw": {
+     "area_error": 1.4277,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.2674,
+     "csi_wet": 0.2522,
+     "model_deep_ha": 22.845,
+     "model_shallow_ha": 49.285,
+     "same_class_share_of_city_wet": 0.5155,
+     "wet_false_alarms": 20623,
+     "wet_hits": 8229,
+     "wet_misses": 3773
+    },
+    "scenario": "moderate",
+    "status": "run"
+   },
+   {
+    "allowance": 35.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 0.1043,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.3067,
+     "csi_wet": 0.3623,
+     "model_deep_ha": 8.5,
+     "model_shallow_ha": 17.238,
+     "same_class_share_of_city_wet": 0.3224,
+     "wet_false_alarms": 4365,
+     "wet_hits": 5930,
+     "wet_misses": 6072
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 0.4003,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.3446,
+     "csi_wet": 0.4274,
+     "model_deep_ha": 6.763,
+     "model_shallow_ha": 12.193,
+     "same_class_share_of_city_wet": 0.3242,
+     "wet_false_alarms": 1831,
+     "wet_hits": 5751,
+     "wet_misses": 5875
+    },
+    "label": "mod_q35",
+    "raw": {
+     "area_error": 0.7546,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.2197,
+     "csi_wet": 0.2366,
+     "model_deep_ha": 15.638,
+     "model_shallow_ha": 41.553,
+     "same_class_share_of_city_wet": 0.3684,
+     "wet_false_alarms": 16202,
+     "wet_hits": 6674,
+     "wet_misses": 5328
+    },
+    "scenario": "moderate",
+    "status": "run"
+   },
+   {
+    "allowance": 40.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 1.6431,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.1579,
+     "csi_wet": 0.2666,
+     "model_deep_ha": 3.615,
+     "model_shallow_ha": 10.865,
+     "same_class_share_of_city_wet": 0.1644,
+     "wet_false_alarms": 2047,
+     "wet_hits": 3745,
+     "wet_misses": 8257
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 2.4707,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.1666,
+     "csi_wet": 0.2881,
+     "model_deep_ha": 2.857,
+     "model_shallow_ha": 8.18,
+     "same_class_share_of_city_wet": 0.1636,
+     "wet_false_alarms": 827,
+     "wet_hits": 3588,
+     "wet_misses": 8038
+    },
+    "label": "mod_q40",
+    "raw": {
+     "area_error": 0.3727,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.1314,
+     "csi_wet": 0.2018,
+     "model_deep_ha": 8.777,
+     "model_shallow_ha": 31.457,
+     "same_class_share_of_city_wet": 0.216,
+     "wet_false_alarms": 11376,
+     "wet_hits": 4718,
+     "wet_misses": 7284
+    },
+    "scenario": "moderate",
+    "status": "run"
+   },
+   {
+    "allowance": 50.0,
+    "city_map": "moderate-current",
+    "filtered": {
+     "area_error": 106.3567,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 12002
+    },
+    "filtered_without_navy_yard": {
+     "area_error": 105.3931,
+     "cells_compared": 303489,
+     "city_deep_ha": 11.215,
+     "city_shallow_ha": 17.85,
+     "csi_deep": 0.0,
+     "csi_wet": 0.0,
+     "model_deep_ha": 0.0,
+     "model_shallow_ha": 0.0,
+     "same_class_share_of_city_wet": 0.0,
+     "wet_false_alarms": 0,
+     "wet_hits": 0,
+     "wet_misses": 11626
+    },
+    "label": "mod_q50",
+    "raw": {
+     "area_error": 8.7753,
+     "cells_compared": 330615,
+     "city_deep_ha": 11.675,
+     "city_shallow_ha": 18.33,
+     "csi_deep": 0.0018,
+     "csi_wet": 0.0198,
+     "model_deep_ha": 0.922,
+     "model_shallow_ha": 3.91,
+     "same_class_share_of_city_wet": 0.0082,
+     "wet_false_alarms": 1663,
+     "wet_hits": 270,
+     "wet_misses": 11732
+    },
+    "scenario": "moderate",
+    "status": "run"
+   }
+  ],
+  "captions": {
+   "atlas14.png": "NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map.",
+   "calibration_curve.png": "Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
+   "hit_miss.png": "Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
+   "replays.png": "Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter.",
+   "sensitivity.png": "Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
+   "water_balance.png": "Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right."
+  },
+  "monotonicity": [
+   {
+    "cells": 330615,
+    "cells_deeper_at_lower_rain_by_over_1mm": 3,
+    "high": "mod_q20",
+    "low": "lim_q20",
+    "max_excess_m": 0.001308,
+    "note": "rain 44.958 < 54.102 mm/h",
+    "passed": false,
+    "status": "run",
+    "wet_cells_deeper_at_lower_rain": 34,
+    "wet_cells_deeper_at_lower_rain_by_over_1mm": 2
+   },
+   {
+    "cells": 330615,
+    "cells_deeper_at_lower_rain_by_over_1mm": 4,
+    "high": "mod_q25",
+    "low": "lim_q25",
+    "max_excess_m": 0.003786,
+    "note": "rain 44.958 < 54.102 mm/h",
+    "passed": false,
+    "status": "run",
+    "wet_cells_deeper_at_lower_rain": 40,
+    "wet_cells_deeper_at_lower_rain_by_over_1mm": 4
+   },
+   {
+    "cells": 330615,
+    "cells_deeper_at_lower_rain_by_over_1mm": 0,
+    "high": "mod_q30",
+    "low": "lim_q30",
+    "max_excess_m": 0.000819,
+    "note": "rain 44.958 < 54.102 mm/h",
+    "passed": true,
+    "status": "run",
+    "wet_cells_deeper_at_lower_rain": 41,
+    "wet_cells_deeper_at_lower_rain_by_over_1mm": 0
+   },
+   {
+    "cells": 330615,
+    "cells_deeper_at_lower_rain_by_over_1mm": 2,
+    "high": "mod_q35",
+    "low": "lim_q35",
+    "max_excess_m": 0.001858,
+    "note": "rain 44.958 < 54.102 mm/h",
+    "passed": false,
+    "status": "run",
+    "wet_cells_deeper_at_lower_rain": 29,
+    "wet_cells_deeper_at_lower_rain_by_over_1mm": 1
+   },
+   {
+    "cells": 330615,
+    "cells_deeper_at_lower_rain_by_over_1mm": 0,
+    "high": "mod_q30_noadv",
+    "low": "lim_q30_noadv",
+    "max_excess_m": 0.000832,
+    "note": "rain 44.958 < 54.102 mm/h",
+    "passed": true,
+    "status": "run",
+    "wet_cells_deeper_at_lower_rain": 32,
+    "wet_cells_deeper_at_lower_rain_by_over_1mm": 0
+   }
+  ],
+  "replays": {
+   "ida_2021": {
+    "allowance_of_run": 30.0,
+    "buildings": {
+     "count": 17750,
+     "max_m": 4.342,
+     "wet_005": 11227,
+     "wet_030": 4375
+    },
+    "label": "ida_q30",
+    "rain": {
+     "forcing": {
+      "hours": 17,
+      "max_rate_mm_h": 68.5,
+      "rule": "hour ending at the file stamp -> rate over [stamp - 1 h, stamp), held constant (SFINCS's default block rain); the end-of-hour stamp is not confirmed from a primary source (F3 report)",
+      "square_mean_peak_rate_mm_h": 60.936,
+      "square_mean_total_mm": 146.088,
+      "step_h": 1.0,
+      "tref_utc": "20210901 170000",
+      "x_res_m": 953.542358711944
+     },
+     "radar_box": {
+      "box_max_hour_mm": 82.9,
+      "box_mean_total_mm": 138.892,
+      "first_end_utc": "2021-09-01T18:00:00Z",
+      "hours": 17,
+      "last_end_utc": "2021-09-02T10:00:00Z",
+      "storm_total_mm": {
+       "central_park_40.7789_-73.9692": 160.7,
+       "point_40.7048_-73.9642": 144.5
+      },
+      "unit": "mm (1-hour accumulation ending at the time)"
+     }
+    },
+    "scenario_of_run": "replay",
+    "status": "run",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "area_wet_005_m2": 23,
+      "area_wet_030_m2": 2,
+      "depth_on_25m2_m": 0.047,
+      "max_depth_m": 0.408,
+      "meets_lead_rule": false,
+      "name": "Water Street Substation",
+      "open_ground_pixels_read": 714,
+      "p95_depth_m": 0.037,
+      "pixels": 2202
+     },
+     {
+      "LocNumber": "S-339711332",
+      "area_wet_005_m2": 10351,
+      "area_wet_030_m2": 351,
+      "depth_on_25m2_m": 0.39,
+      "max_depth_m": 0.47,
+      "meets_lead_rule": true,
+      "name": "Farragut Substation",
+      "open_ground_pixels_read": 36774,
+      "p95_depth_m": 0.18,
+      "pixels": 39013
+     },
+     {
+      "LocNumber": "S-383102724",
+      "area_wet_005_m2": 78,
+      "area_wet_030_m2": 30,
+      "depth_on_25m2_m": 0.447,
+      "max_depth_m": 0.977,
+      "meets_lead_rule": true,
+      "name": "Hudson Avenue Substation",
+      "open_ground_pixels_read": 5648,
+      "p95_depth_m": 0.011,
+      "pixels": 6998
+     },
+     {
+      "LocNumber": "S-383110539",
+      "area_wet_005_m2": 100,
+      "area_wet_030_m2": 10,
+      "depth_on_25m2_m": 0.179,
+      "max_depth_m": 0.525,
+      "meets_lead_rule": false,
+      "name": "Plymouth Substation",
+      "open_ground_pixels_read": 5483,
+      "p95_depth_m": 0.008,
+      "pixels": 7470
+     },
+     {
+      "LocNumber": "S-861227475",
+      "area_wet_005_m2": 71,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.094,
+      "max_depth_m": 0.191,
+      "meets_lead_rule": false,
+      "name": "(no name)",
+      "open_ground_pixels_read": 647,
+      "p95_depth_m": 0.084,
+      "pixels": 657
+     }
+    ],
+    "wet_area_compared_cells": {
+     "ge_0.05_m_ha": 109.9775,
+     "ge_0.1016_m_ha": 73.28,
+     "ge_0.3048_m_ha": 24.64
+    },
+    "wet_area_study_area_land": {
+     "ge_0.05_m_ha": 113.5025,
+     "ge_0.1016_m_ha": 76.2025,
+     "ge_0.3048_m_ha": 26.8925
+    }
+   },
+   "sep29_2023": {
+    "allowance_of_run": 30.0,
+    "buildings": {
+     "count": 17750,
+     "max_m": 2.718,
+     "wet_005": 8805,
+     "wet_030": 2120
+    },
+    "label": "sep_q30",
+    "rain": {
+     "forcing": {
+      "hours": 29,
+      "max_rate_mm_h": 58.7,
+      "rule": "hour ending at the file stamp -> rate over [stamp - 1 h, stamp), held constant (SFINCS's default block rain); the end-of-hour stamp is not confirmed from a primary source (F3 report)",
+      "square_mean_peak_rate_mm_h": 38.823,
+      "square_mean_total_mm": 131.978,
+      "step_h": 1.0,
+      "tref_utc": "20230929 010000",
+      "x_res_m": 953.542358711944
+     },
+     "radar_box": {
+      "box_max_hour_mm": 62.9,
+      "box_mean_total_mm": 107.327,
+      "first_end_utc": "2023-09-29T02:00:00Z",
+      "hours": 29,
+      "last_end_utc": "2023-09-30T06:00:00Z",
+      "storm_total_mm": {
+       "central_park_40.7789_-73.9692": 137.0,
+       "point_40.7048_-73.9642": 147.7
+      },
+      "unit": "mm (1-hour accumulation ending at the time)"
+     }
+    },
+    "scenario_of_run": "replay",
+    "status": "run",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "area_wet_005_m2": 0,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.0,
+      "max_depth_m": 0.031,
+      "meets_lead_rule": false,
+      "name": "Water Street Substation",
+      "open_ground_pixels_read": 714,
+      "p95_depth_m": 0.0,
+      "pixels": 2202
+     },
+     {
+      "LocNumber": "S-339711332",
+      "area_wet_005_m2": 5,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.034,
+      "max_depth_m": 0.083,
+      "meets_lead_rule": false,
+      "name": "Farragut Substation",
+      "open_ground_pixels_read": 36774,
+      "p95_depth_m": 0.0,
+      "pixels": 39013
+     },
+     {
+      "LocNumber": "S-383102724",
+      "area_wet_005_m2": 8,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.022,
+      "max_depth_m": 0.088,
+      "meets_lead_rule": false,
+      "name": "Hudson Avenue Substation",
+      "open_ground_pixels_read": 5648,
+      "p95_depth_m": 0.0,
+      "pixels": 6998
+     },
+     {
+      "LocNumber": "S-383110539",
+      "area_wet_005_m2": 9,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.025,
+      "max_depth_m": 0.106,
+      "meets_lead_rule": false,
+      "name": "Plymouth Substation",
+      "open_ground_pixels_read": 5483,
+      "p95_depth_m": 0.0,
+      "pixels": 7470
+     },
+     {
+      "LocNumber": "S-861227475",
+      "area_wet_005_m2": 4,
+      "area_wet_030_m2": 0,
+      "depth_on_25m2_m": 0.016,
+      "max_depth_m": 0.119,
+      "meets_lead_rule": false,
+      "name": "(no name)",
+      "open_ground_pixels_read": 647,
+      "p95_depth_m": 0.012,
+      "pixels": 657
+     }
+    ],
+    "wet_area_compared_cells": {
+     "ge_0.05_m_ha": 52.52,
+     "ge_0.1016_m_ha": 31.4675,
+     "ge_0.3048_m_ha": 8.65
+    },
+    "wet_area_study_area_land": {
+     "ge_0.05_m_ha": 55.2,
+     "ge_0.1016_m_ha": 33.905,
+     "ge_0.3048_m_ha": 10.7575
+    }
+   }
+  },
+  "runs": [
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 20.0,
+    "average_time_step_s": 0.414,
+    "boundary_level_m": 0.0,
+    "drained_m3": 372133.3,
+    "label": "lim_q20",
+    "out_m3": 137107.2,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715801.8,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -57.5,
+    "residual_share_of_rain": -8.038262532787312e-05,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 206618.8,
+    "wall_time_s": 317.21
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 25.0,
+    "average_time_step_s": 0.44,
+    "boundary_level_m": 0.0,
+    "drained_m3": 449025.1,
+    "label": "lim_q25",
+    "out_m3": 117560.8,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715804.4,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -26.1,
+    "residual_share_of_rain": -3.64119801007231e-05,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 149244.5,
+    "wall_time_s": 334.88
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.472,
+    "boundary_level_m": 0.0,
+    "drained_m3": 520376.4,
+    "label": "lim_q30",
+    "out_m3": 101894.6,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715794.1,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -44.1,
+    "residual_share_of_rain": -6.161652799370528e-05,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 93567.2,
+    "wall_time_s": 260.07
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 35.0,
+    "average_time_step_s": 0.576,
+    "boundary_level_m": 0.0,
+    "drained_m3": 581852.4,
+    "label": "lim_q35",
+    "out_m3": 91533.4,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715787.6,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -35.9,
+    "residual_share_of_rain": -5.011706142328989e-05,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 42437.8,
+    "wall_time_s": 227.04
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 40.0,
+    "average_time_step_s": 0.627,
+    "boundary_level_m": 0.0,
+    "drained_m3": 624404.8,
+    "label": "lim_q40",
+    "out_m3": 85978.7,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715778.2,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -63.5,
+    "residual_share_of_rain": -8.87388323318501e-05,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 5458.2,
+    "wall_time_s": 165.82
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 50.0,
+    "average_time_step_s": 0.627,
+    "boundary_level_m": 0.0,
+    "drained_m3": 631989.9,
+    "label": "lim_q50",
+    "out_m3": 83667.0,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715763.0,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": 5.9,
+    "residual_share_of_rain": 8.250073519908007e-06,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 100.2,
+    "wall_time_s": 106.58
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 20.0,
+    "average_time_step_s": 0.376,
+    "boundary_level_m": 0.0,
+    "drained_m3": 378143.4,
+    "label": "mod_q20",
+    "out_m3": 193845.6,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861397.4,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": 26.0,
+    "residual_share_of_rain": 3.01324596169378e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 289382.5,
+    "wall_time_s": 355.57
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 25.0,
+    "average_time_step_s": 0.396,
+    "boundary_level_m": 0.0,
+    "drained_m3": 458770.6,
+    "label": "mod_q25",
+    "out_m3": 169471.6,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861394.1,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": 84.4,
+    "residual_share_of_rain": 9.803560285510524e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 233067.5,
+    "wall_time_s": 371.98
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.42,
+    "boundary_level_m": 0.0,
+    "drained_m3": 535504.2,
+    "label": "mod_q30",
+    "out_m3": 148103.4,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861385.4,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": -14.2,
+    "residual_share_of_rain": -1.6509319867645765e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 177792.0,
+    "wall_time_s": 329.52
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 35.0,
+    "average_time_step_s": 0.444,
+    "boundary_level_m": 0.0,
+    "drained_m3": 607360.6,
+    "label": "mod_q35",
+    "out_m3": 130247.8,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861390.1,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": -7.3,
+    "residual_share_of_rain": -8.511580080512627e-06,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 123789.0,
+    "wall_time_s": 283.0
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 40.0,
+    "average_time_step_s": 0.486,
+    "boundary_level_m": 0.0,
+    "drained_m3": 672560.8,
+    "label": "mod_q40",
+    "out_m3": 115939.3,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861384.4,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": 129.5,
+    "residual_share_of_rain": 0.00015034445875247642,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 72754.8,
+    "wall_time_s": 239.39
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 50.0,
+    "average_time_step_s": 0.627,
+    "boundary_level_m": 0.0,
+    "drained_m3": 757405.5,
+    "label": "mod_q50",
+    "out_m3": 102257.8,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861358.0,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": -46.6,
+    "residual_share_of_rain": -5.4071445370937075e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 1741.2,
+    "wall_time_s": 149.83
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.291,
+    "boundary_level_m": 0.0,
+    "drained_m3": 563269.7,
+    "label": "ext_q30",
+    "out_m3": 426183.2,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 1480072.9,
+    "rain_mm_per_h": 92.964,
+    "residual_m3": 48.5,
+    "residual_share_of_rain": 3.276438408322058e-05,
+    "scenario": "extreme",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 490571.5,
+    "wall_time_s": 503.14
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.491,
+    "boundary_level_m": 0.0,
+    "drained_m3": 305950.0,
+    "label": "mod_q30_d05",
+    "out_m3": 61110.6,
+    "rain_file": null,
+    "rain_h": 0.5,
+    "rain_m3": 430725.0,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": -80.4,
+    "residual_share_of_rain": -0.00018657030503669517,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 1.5,
+    "solver_finished": true,
+    "stored_m3": 63744.8,
+    "wall_time_s": 183.93
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.372,
+    "boundary_level_m": 0.0,
+    "drained_m3": 971772.4,
+    "label": "mod_q30_d2",
+    "out_m3": 372161.3,
+    "rain_file": null,
+    "rain_h": 2.0,
+    "rain_m3": 1722703.1,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": -62.6,
+    "residual_share_of_rain": -3.6332820232645026e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 3.0,
+    "solver_finished": true,
+    "stored_m3": 378832.0,
+    "wall_time_s": 630.26
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.417,
+    "boundary_level_m": 1.0,
+    "drained_m3": 535925.2,
+    "label": "mod_q30_lvl1",
+    "out_m3": 153408.2,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861389.9,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": 59.5,
+    "residual_share_of_rain": 6.906724272465383e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 171997.0,
+    "wall_time_s": 321.72
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.486,
+    "boundary_level_m": 0.0,
+    "drained_m3": 1951263.6,
+    "label": "ida_q30",
+    "out_m3": 341385.6,
+    "rain_file": "ida_2021.nc",
+    "rain_h": 17.0,
+    "rain_m3": 2330745.8,
+    "rain_mm_per_h": null,
+    "residual_m3": -147.4,
+    "residual_share_of_rain": -6.326280480764879e-05,
+    "scenario": "replay",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 18.0,
+    "solver_finished": true,
+    "stored_m3": 38244.0,
+    "wall_time_s": 1569.84
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.602,
+    "boundary_level_m": 0.0,
+    "drained_m3": 1888426.5,
+    "label": "sep_q30",
+    "out_m3": 209389.6,
+    "rain_file": "sep29_2023.nc",
+    "rain_h": 29.0,
+    "rain_m3": 2099807.8,
+    "rain_mm_per_h": null,
+    "residual_m3": -158.3,
+    "residual_share_of_rain": -7.540088103178132e-05,
+    "scenario": "replay",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 30.0,
+    "solver_finished": true,
+    "stored_m3": 2150.0,
+    "wall_time_s": 1819.43
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.451,
+    "boundary_level_m": 0.0,
+    "drained_m3": 520011.4,
+    "label": "lim_q30_noadv",
+    "out_m3": 102679.6,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 715795.2,
+    "rain_mm_per_h": 44.958,
+    "residual_m3": -119.4,
+    "residual_share_of_rain": -0.000166796412556613,
+    "scenario": "limited",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 93223.5,
+    "wall_time_s": 244.98
+   },
+   {
+    "after_h": 1.0,
+    "allowance_mm_per_h": 30.0,
+    "average_time_step_s": 0.4,
+    "boundary_level_m": 0.0,
+    "drained_m3": 534922.6,
+    "label": "mod_q30_noadv",
+    "out_m3": 149849.7,
+    "rain_file": null,
+    "rain_h": 1.0,
+    "rain_m3": 861393.2,
+    "rain_mm_per_h": 54.102,
+    "residual_m3": 55.3,
+    "residual_share_of_rain": 6.422299359757249e-05,
+    "scenario": "moderate",
+    "sfincs_revision": "v2.5.0 Hautacam Release 2026.02",
+    "simulated_h": 2.0,
+    "solver_finished": true,
+    "stored_m3": 176565.5,
+    "wall_time_s": 297.54
+   }
+  ],
+  "runs_not_run": [],
+  "sensitivity": [
+   {
+    "against": "mod_q30",
+    "boundary_level_m": 0.0,
+    "change_csi_wet": -0.1982,
+    "change_model_wet_ha": -25.345,
+    "city_map": "moderate-current",
+    "csi_wet": 0.2098,
+    "frozen_csi_wet": 0.408,
+    "frozen_model_wet_ha": 36.145,
+    "kind": "duration",
+    "label": "mod_q30_d05",
+    "model_wet_ha": 10.8,
+    "rain_h": 0.5,
+    "scenario": "moderate",
+    "setting": "0.5 h",
+    "status": "run"
+   },
+   {
+    "against": "mod_q30",
+    "boundary_level_m": 0.0,
+    "change_csi_wet": -0.043,
+    "change_model_wet_ha": 25.718,
+    "city_map": "moderate-current",
+    "csi_wet": 0.365,
+    "frozen_csi_wet": 0.408,
+    "frozen_model_wet_ha": 36.145,
+    "kind": "duration",
+    "label": "mod_q30_d2",
+    "model_wet_ha": 61.863,
+    "rain_h": 2.0,
+    "scenario": "moderate",
+    "setting": "2 h",
+    "status": "run"
+   },
+   {
+    "against": "mod_q30",
+    "boundary_level_m": 1.0,
+    "change_csi_wet": 0.0,
+    "change_model_wet_ha": 0.003,
+    "city_map": "moderate-current",
+    "csi_wet": 0.408,
+    "frozen_csi_wet": 0.408,
+    "frozen_model_wet_ha": 36.145,
+    "kind": "boundary level",
+    "label": "mod_q30_lvl1",
+    "model_wet_ha": 36.148,
+    "rain_h": 1.0,
+    "scenario": "moderate",
+    "setting": "+1.0 m",
+    "status": "run"
+   }
+  ]
+ },
+ "title": "Solver model: drainage calibration, water balance, monotonicity and two replays"
+}

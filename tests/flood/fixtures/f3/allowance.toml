@@ -1,0 +1,15 @@
+# test fixture in the format of src/flood_lab/hazard/allowance.toml; the values are not results
+allowance_mm_per_h = 30.0
+tag = "P"
+frozen_on = "2026-11-26"
+objective = "test fixture"
+note = "test fixture"
+
+[runs]
+calibration = ["lim_q20", "mod_q20", "lim_q30", "mod_q30"]
+frozen = { limited = "lim_q30", moderate = "mod_q30" }
+extreme_check = "ext_q30"
+duration = { "0.5 h" = "mod_q30_d05", "2 h" = "mod_q30_d2" }
+boundary_level = { "+1.0 m" = "mod_q30_lvl1" }
+replays = { ida_2021 = "ida_q30", sep29_2023 = "sep_q30" }
+monotonicity = [["lim_q30", "mod_q30"], ["mod_q30", "ext_q30"]]

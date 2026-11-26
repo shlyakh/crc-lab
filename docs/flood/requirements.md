@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 6, 2026-11-25, tag `flood-requirements-v6` (earlier versions are tags `flood-requirements-v1` to `-v5`; what changed is in `docs/flood/changes.md`);
+Version 7, 2026-11-26, tag `flood-requirements-v7` at the merge of F3 (earlier versions are tags `flood-requirements-v1` to `-v6`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -82,7 +82,9 @@ depth solver and its tools, green is CRC 1.0.0, teal is the extension of CRC bui
 flowchart TD
   subgraph SRC["Sources: facts confirmed in F0 (FS6)"]
     S1["Lidar terrain, land cover"]
-    S2["Radar and gridded rainfall<br/>MRMS, AORC or Stage IV, Atlas 14"]
+    S2["MRMS radar rainfall, 0.01° hourly<br/>replays of Ida and 2023-09-29 (FH4)"]
+    S2b["NOAA AORC v1.1, 30 arc-second hourly, 2002 to 2025<br/>record for the storm catalogue (FH5),<br/>claim dates (FT5); proposed, CH-17"]
+    S2c["NOAA Atlas 14<br/>return periods of the city's storms,<br/>design storms (FH6)"]
     S3["NYC stormwater flood maps"]
     S4["Observations of flooding<br/>USGS high-water marks, FloodNet,<br/>Groundsource, 311, Storm Events, NFIP claims"]
     S5["Assets<br/>OSM substations, building elevations,<br/>National Structure Inventory"]
@@ -127,8 +129,10 @@ flowchart TD
   OUT["Page, gallery of checks, investment one-pagers (FP)"]
 
   S1 --> H1
-  S2 --> H2
+  S2b --> H2
   S2 --> H3
+  S2c --> H3
+  S2b --> T2
   H1 --> H3
   H2 --> H3
   S3 --> H4
@@ -169,7 +173,7 @@ flowchart TD
   classDef solver fill:#ffedd5,stroke:#c2410c,color:#111
   classDef crc fill:#dcfce7,stroke:#15803d,color:#111
   classDef emu fill:#ede9fe,stroke:#6d28d9,color:#111
-  class S1,S2,S3,S4,S5,S6 src
+  class S1,S2,S2b,S2c,S3,S4,S5,S6 src
   classDef ext fill:#ccfbf1,stroke:#0f766e,color:#111
   class H4,H5,V1,A1,L3,L4,T1,T2,OUT own
   class L1,L2 ext
@@ -893,3 +897,17 @@ New requirements. IDs follow the rule that none is reused.
 The lead asset is chosen by the rule in the demo plan (§4): the substation site with the greatest modelled
 depth in the Ida replay among those near mapped flooding. If no site is wet in any catalogue storm the
 build stops and reports, and the study area's buildings become the lead asset.
+
+## 16. Decisions at the F3 stop (accepted in version 7)
+
+From `docs/flood/reports/F3-solver.md` (changes CH-14 to CH-16, accepted by Yuri on 2026-11-26). As in sections 14
+and 15, **where a row here and a paragraph above disagree, the row holds.**
+
+| Requirement | It says | From version 7 |
+| --- | --- | --- |
+| FH8 | At lower rainfall no cell deeper by more than 1 mm, and no cell wet to 0.05 m in either run deeper at all | No cell, wet or dry, deeper at the lower rainfall by more than 1 mm. The count of wet cells deeper by any amount is still reported |
+| FH3, FH8 | Comparisons on the study area | Cells whose lowest level lies below the model's start water level (0 m NAVD88) hold water from the start; they are left out of the calibration and of the monotonicity test |
+| FH3 | One value; if the fit fails, one per sewer district | One value, 30 mm/h **[P]**, frozen on 2026-11-26. No official sewer-district layer exists, so the per-district fallback is dropped. CSI 0.31 (Limited) and 0.41 (Moderate) against the proposed 0.5 is accepted as the best fit and stated on the page |
+| FH2 | Roughness from land cover | Two constants for Tier 1, Manning's n 0.025 on land and 0.02 below datum, with one sensitivity run at 0.035 on land; land cover (with its fact check, FS6) only if F5's marks show a timing problem (CH-14) |
+| FH5 (facts) | AORC coverage 25 to 53 N, -125 to -67 | The stored v1.1 grid runs 20.0 to 55.0 N and -130.0 to -60.0 (CH-15) |
+
