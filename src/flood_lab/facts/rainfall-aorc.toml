@@ -41,11 +41,11 @@ verdict_note = ""
 [[fact]]
 name = "coverage_space"
 claimed = ""
-observed = "Continental US (from 1979) and Alaska (from 1981) and hydrologically contributing areas; regular latitude/longitude grid, mesh 30 arc seconds (~800 m per the registry; 1 km in the bucket name); netCDF source grid 4201 latitudes 25.0 to 53.0 and 8401 longitudes -125.0 to -67; outermost rows and columns of the stored grid are filled with missing values. CRS attribute: EPSG:4326."
+observed = "Continental US (from 1979) and Alaska (from 1981) and hydrologically contributing areas; regular latitude/longitude grid, mesh 30 arc seconds (~800 m per the registry; 1 km in the bucket name); stored v1.1 grid 4201 latitudes 20.0 to 55.0 and 8401 longitudes -130.0 to -60.0 (read from the store's latitude and longitude arrays, CH-15; the registry's text gives the netCDF source grid as 25.0 to 53.0 and -125.0 to -67); outermost rows and columns of the stored grid are filled with missing values. CRS attribute: EPSG:4326."
 outcome = "confirmed"
 source_url = "https://registry.opendata.aws/noaa-nws-aorc/"
 passage = "It is defined on a latitude/longitude spatial grid with a mesh length of 30 arc seconds (~800 m), and a temporal resolution of one hour ... 4201 latitude values (ranging from 25.0 to 53.0), and 8401 longitude values (ranging from -125.0 to -67)"
-note = ""
+note = "Corrected on 2026-11-26 (CH-15, accepted by Yuri): the store's own coordinates hold; shape and chunks match the registry."
 verdict_note = ""
 
 [[fact]]

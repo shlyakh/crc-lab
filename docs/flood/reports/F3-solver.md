@@ -276,20 +276,13 @@ Yuri: "agree with all 4". Entered as CH-16, requirements version 7 (section 16).
 
 CH-14 (roughness) and CH-15 (AORC coverage fact) stay open: they were not among the four.
 
-## Questions for Yuri now
+## Yuri's answers (2026-11-26)
 
-1. **Merge F3 into main** (requirements version 7, tag `flood-requirements-v7` at the merge)?
-2. **Lead asset:** Hudson Avenue by the rule (0.45 m over 25 m², 30 m² at 0.3 m or more), or Farragut
-   (0.39 m, 351 m²)? Recommended: keep the rule and Hudson Avenue, and show Farragut beside it, since the
-   four substations are one complex; F6 can carry both through.
-3. **CH-14 and CH-15** (below): accept as assessed?
-
-## Open changes (D16)
-
-| ID | What | Assessment |
-| --- | --- | --- |
-| CH-14 (new, from F3) | FH2 asks for roughness from land cover; F3 used two constants (land, water). A land-cover source (the city's 2017 land cover, or NLCD) would need its own fact check | The fit is set by the allowance; roughness moves timing more than peak area. Proposed: keep two constants for Tier 1, with a sensitivity run at n = 0.035 on land; land cover later if F5's marks show a timing problem |
-| CH-15 (new, from F3) | Correct `rainfall-aorc` coverage to the store's coordinates (20.0–55.0 N, −130.0 to −60.0) | Facts only; no build depends on it |
+1. **Merge:** yes. F3 merged into `main`, tag `flood-requirements-v7` at the merge.
+2. **Lead asset:** keep both, Hudson Avenue (by the rule) and Farragut. He asked for maps of the two
+   sites with the substations, the asset details, depths and return periods (follow-up branch).
+3. **CH-14 and CH-15:** accepted ("Sure"); entered in version 7 (section 16 of the requirements) and,
+   for CH-15, in the facts file.
 
 ## What was not done
 
