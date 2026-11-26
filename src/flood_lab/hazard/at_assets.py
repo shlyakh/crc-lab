@@ -171,7 +171,8 @@ def run_assets(run: Path, cache: Path, site: Path, footprints=None) -> dict:
             "count": int(len(walls)),
             "wet_005": int((walls >= WET_M).sum()),
             "wet_030": int((walls >= LEAD_DEPTH_M).sum()),
-            "max_m": round(float(walls.max()), 3) if len(walls) else None,
+            "not_read": int(np.isnan(walls).sum()),
+            "max_m": round(float(np.nanmax(walls)), 3) if np.isfinite(walls).any() else None,
         }
         result["_wall_depths"] = walls
     return result

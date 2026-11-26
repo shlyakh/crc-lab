@@ -7,9 +7,13 @@
   (0 at every probability) is delivered. Every cell is made non-decreasing first (CRC-025-OWN):
   one decreasing pixel would fail the whole read.
 * **Point route**, ``Dataset.from_quantiles``: per asset its own knots, the exact empirical
-  distribution of the catalogue: ``(0, 0)``, the dry-year mass ``(p0, 0)``, then for each distinct
-  wet depth ``d`` of the runs the knot ``(P(D <= d), d)``. Between knots CRC interpolates linearly
-  in probability, so between two storms the depth is interpolated, not stepped (stated).
+  distribution of the catalogue as a step function (CH-23). CRC's ``QuantileCurve`` interpolates
+  linearly in probability between knots, so each step is given as two knots with the same depth,
+  at its two ends: depth ``d_k`` holds for non-exceedance ``u`` in ``[F(d_{k-1}), F(d_k))``, with
+  ``F(d_0) = 0`` and the dry-year mass as the step at depth 0. The jump sits between
+  ``F(d_k) - STEP_GAP`` and ``F(d_k)``, so at every probability more than ``STEP_GAP`` from a
+  jump CRC reads exactly the catalogue's ``depth_at`` (ties included: at ``u = F(d_k)`` both give
+  the next depth up).
 
 The read-back compares every delivered knot with what was written; FH7's pass rule asks that
 they are equal.
@@ -26,6 +30,7 @@ from flood_lab.hazard import catalogue
 
 NODATA = -9999.0
 VARIABLE_ID = "flood-lab:depth-above-ground"
+STEP_GAP = 1e-9  # width of a jump between two steps of the point route (CH-23)
 
 
 def variable() -> Any:
@@ -139,24 +144,42 @@ def load_grid(files: dict[float, Path], curves: np.ndarray, west: float, north: 
 
 
 def asset_knots(depth: np.ndarray, w: np.ndarray, m: float, wet: float = catalogue.WET_M):
-    """Exact empirical knots of one asset: ``([0, p0, F(d1), ...], [0, 0, d1, ...])``.
+    """Empirical step function of one asset as knots for CRC (CH-23).
 
-    ``depth`` (runs,) with ``w`` summing to ``m``. Depths below ``wet`` count as 0. ``F(d)`` is the
-    weighted share of runs with depth at most ``d``; the last knot is 1."""
+    ``depth`` (runs,) with ``w`` summing to ``m``. Depths below ``wet`` count as 0. The levels are
+    0 (if any run is dry) and each distinct wet depth; ``F`` is the weighted share of runs at or
+    below a level. Level ``k`` gives the knots ``(F_{k-1}, d_k)`` and ``(F_k - STEP_GAP, d_k)``
+    (the last ends at ``(1, d_last)``), so CRC's linear interpolation reproduces the step."""
     d = np.where(np.asarray(depth, float) >= wet, depth, 0.0)
     w = np.asarray(w, float)
-    p0 = float(w[d == 0].sum() / m)
-    probs, values = [0.0], [0.0]
-    if p0 > 0:
-        probs.append(p0)
-        values.append(0.0)
-    for v in np.unique(d[d > 0]):
-        probs.append(float(w[d <= v].sum() / m))
-        values.append(float(v))
-    if probs[-1] < 1.0 - 1e-9:
+    levels = np.unique(d)
+    cum = [float(w[d <= v].sum() / m) for v in levels]
+    if cum[-1] < 1.0 - 1e-9:
         raise ValueError("weights do not sum to m")
-    probs[-1] = 1.0
+    cum[-1] = 1.0
+    probs, values, lo = [], [], 0.0
+    for k, (v, hi) in enumerate(zip(levels, cum, strict=True)):
+        end = hi if k == len(levels) - 1 else hi - STEP_GAP
+        if end - lo <= STEP_GAP:
+            raise ValueError("a step is not wider than STEP_GAP")
+        probs += [lo, end]
+        values += [float(v), float(v)]
+        lo = hi
     return probs, values
+
+
+def point_route_at(depth: np.ndarray, w: np.ndarray, m: float, aeps=catalogue.AEPS) -> np.ndarray:
+    """What CRC reads from the point route at each AEP: ``QuantileCurve`` (the class
+    ``from_quantiles`` delivers) on each asset's knots, at non-exceedance ``1 - aep``.
+    ``depth`` (runs, assets) -> (len(aeps), assets), comparable with ``catalogue.depth_at``."""
+    from crc_framework import QuantileCurve
+
+    u = [1.0 - a for a in aeps]
+    out = np.zeros((len(aeps), depth.shape[1]))
+    for j in range(depth.shape[1]):
+        curve = QuantileCurve(*asset_knots(depth[:, j], w, m))
+        out[:, j] = [float(curve.quantile(x)) for x in u]
+    return out
 
 
 def points_table(assets: list[dict], depth: np.ndarray, w: np.ndarray, m: float) -> dict:

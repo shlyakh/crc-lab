@@ -8,7 +8,7 @@ storms ``N`` behind every figure and in the record. While a stratum of the selec
 incomplete its runs carry interim weights (``catalogue.weights``) and the figures say "interim".
 
 * **Per run** (cached in ``<cache>/f4/frequency/per_run/<label>.npz``, so a re-run reads only
-  new runs): the 5 m depth grid as F3 calibrated the drainage allowance and tested FH8 on it,
+  new runs): the 5 m depth grid as F3 calibrated the constant loss rate and tested FH8 on it,
   ``calibration.run_depth`` (peak level less the model terrain at each cell's centre 1 m pixel,
   floored at 0), NaN on the cells ``calibration.Frame`` leaves out: centre pixel in a footprint,
   any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water
@@ -603,8 +603,8 @@ def figure_strip(cat_maps, design_maps, n: int, interim: bool, out: Path) -> str
     ]
     figure.legend(handles=handles, loc="lower center", ncol=4, fontsize=8, frameon=False)
     figure.suptitle(
-        "Peak depth on the 4 km square (5 m cells): the catalogue's per-cell depth at 10, 100 and "
-        "500 years beside the uniform design storms",
+        "Maximum inundation depth on the 4 km square (5 m cells): the catalogue's per-cell "
+        "depth at 10, 100 and 500 years beside the uniform design storms",
         fontsize=10,
     )
     figure.tight_layout(rect=(0, 0.03, 1, 0.97))
@@ -612,7 +612,7 @@ def figure_strip(cat_maps, design_maps, n: int, interim: bool, out: Path) -> str
 
 
 def net_rain(folder: Path) -> dict:
-    """The design storm's rain rate and drainage allowance, from its spec.json."""
+    """The design storm's rain rate and constant loss rate, from its spec.json."""
     spec = json.loads((folder / "spec.json").read_text())
     return {
         "rain_mm_per_h": spec.get("rain", {}).get("mm_per_h"),
@@ -621,7 +621,7 @@ def net_rain(folder: Path) -> dict:
 
 
 def no_flood(row: dict) -> bool:
-    """A design storm that wets no 5 m cell, or whose rain does not exceed the allowance."""
+    """A design storm that wets no 5 m cell, or whose rain does not exceed the loss rate."""
     rain, allowance = row.get("rain_mm_per_h"), row.get("allowance_mm_per_h")
     no_net = rain is not None and allowance is not None and rain <= allowance
     return row["wet_cells_005"] == 0 or no_net
@@ -944,8 +944,8 @@ def main(argv: list[str] | None = None) -> int:
     }
     if floor and any(r["buildings_wet"]["0.05"] or r["wet_cells_005"] for r in floor):
         notes_extra.append(
-            "Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage "
-            f"allowance ({', '.join(r['run'] for r in floor)}) still show "
+            "Floor: design storms that wet no 5 m cell or whose rain does not exceed the constant "
+            f"loss rate ({', '.join(r['run'] for r in floor)}) still show "
             f"{min(r['buildings_wet']['0.05'] for r in floor):,} to "
             f"{max(r['buildings_wet']['0.05'] for r in floor):,} buildings 'wet at the wall' "
             f"(0.05 m) and {min(r['wet_cells_005'] for r in floor):,} to "
@@ -1066,6 +1066,29 @@ def main(argv: list[str] | None = None) -> int:
         tables["grid_route"] = grid_back
         numbers["points_read_back_equal"] = points_back["equal"]
         numbers["points_assets_loaded"] = points_back["assets_written"]
+        # CH-23: what CRC reads from the point route against the catalogue, every asset
+        both = np.hstack([lead, walls])
+        crc_at = crc_load.point_route_at(both, w, m)
+        cat_at = catalogue.depth_at(both, w, m)
+        gap = np.abs(crc_at - cat_at)
+        agree = {
+            "assets": int(both.shape[1]),
+            "probabilities": [round(1 - a, 4) for a in catalogue.AEPS],
+            "largest_difference_m": float(gap.max()),
+            "assets_differing": int((gap > 1e-9).any(axis=0).sum()),
+            "substations": {
+                s["id"]: {
+                    f"{round(1 / a)} y": [
+                        round(float(cat_at[k, j]), 3),
+                        round(float(crc_at[k, j]), 3),
+                    ]
+                    for k, a in enumerate(catalogue.AEPS)
+                }
+                for j, s in enumerate(site_rows)
+            },
+        }
+        tables["point_route_reads_catalogue"] = agree
+        numbers["point_route_reads_catalogue"] = agree["assets_differing"] == 0
         t0 = lap("crc_point_route_s", t0)
 
     # rainfall frequency (independent of the runs)
@@ -1207,6 +1230,15 @@ def main(argv: list[str] | None = None) -> int:
             note=points_note,
         )
     )
+    checks.append(
+        Check(
+            "point route reads the catalogue's depth (CH-23)",
+            "for every asset, CRC's QuantileCurve on the knots at the seven probabilities equals "
+            "the catalogue's depth_at (1e-9 m)",
+            None if points_back is None else numbers["point_route_reads_catalogue"],
+            value=None if points_back is None else tables["point_route_reads_catalogue"],
+        )
+    )
     today = _today()
     checks.append(
         Check(
@@ -1244,7 +1276,8 @@ def main(argv: list[str] | None = None) -> int:
         "depth_strip.png": f"Per-cell depth at 10, 100 and 500 years from the catalogue ({state})"
         " beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
         "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100"
-        f" years: the catalogue ({state}; each building's own curve at AEP 0.01) against each "
+        f" years: the catalogue ({state}; each building's own curve at annual exceedance "
+        "probability (AEP) 0.01) against each "
         "design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms "
         "that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; "
         "since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet "

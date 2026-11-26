@@ -31,7 +31,7 @@ The rule of requirements §1 holds for both: no company is named as an audience 
 | DP1 | Demo 1 is for the CRC maintainers first. The ask is that they take this to resilience advisors together with Yuri or introduce him; the supporting ask is review of the extensions for upstream |
 | DP2 | What Demo 1 is about is verification: how well a climate-risk system can be checked. The flood study is the worked example |
 | DP3 | By Monday night the build finishes one complete, checked chain to the investment case. Triggers and basis risk (F8) are deferred and come back only if time allows |
-| DP4 | The storm catalogue runs in full (150 storms) unattended over the weekend, starting when the drainage calibration is frozen. Monday's figures use the runs finished by then, at least 60; every run's full peak-depth grid and storm descriptors are kept as training data for Demo 2 |
+| DP4 | The storm catalogue runs in full (150 storms) unattended over the weekend, starting when the calibrated constant loss rate (the drainage allowance) is frozen. Monday's figures use the runs finished by then, at least 60; every run's full grid of maximum inundation depth and storm descriptors are kept as training data for Demo 2 |
 | DP5 | Validation (F5) is reduced for Monday to the surveyed marks and the sensors. "Who saw the flood" moves after Demo 1 |
 | DP6 | A thin prototype of composable assets: one substation as three components. Built after F7 passes, time-boxed to 5 hours. A proposal note is written whether or not the prototype is built |
 | DP7 | Replacement values stay placeholder ranges (FD4). The benefit-cost result is shown with a break-even view, so the conclusion can be read without trusting the placeholder. Valuation formulas are not worked on now |

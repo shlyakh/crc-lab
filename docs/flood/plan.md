@@ -67,7 +67,7 @@ by what the task needs, not the main model's by default.
 | F0 | The CRC 1.0.0 block; record format; `lab_common/io.py`; area scoring rule and the choice put to Yuri; the verdict on every source fact; budgets | Solver and HydroMT environment with the timed toy model; package skeleton and gallery; FloodAdapt and Oasis trials, time-boxed | Source probes and fact checks in parallel, a few sources per agent, each with its data card and the passages read |
 | F1 | Grid and datum decisions; review of the substation contact sheet before Yuri sees it | Terrain and sub-grid; then the buildings join and the asset table | Search for a public substation cost source |
 | F2 | The CRC loaders; comparison verdicts; the primer | Second readers, by an agent that does not see the loaders; fault tests | Dataset fields and licence terms |
-| F3 | Model design, drainage calibration, the freeze | Scripted build, water-balance and monotonicity tests, figures | Atlas 14 values for §9 item 4 |
+| F3 | Model design, loss-rate calibration, the freeze | Scripted build, water-balance and monotonicity tests, figures | Atlas 14 values for §9 item 4 |
 | F4 | Transposition domain and its justification; depth frequency and the load into CRC | RainyDay environment, batch runner, design storms | Rainfall record download and card |
 | F5 | Reading of the errors; the statement FV4 may require; each loader against its second reader | Comparisons and figures; second readers for the marks and the radar rainfall, by an agent that does not see the loaders | 311 and Storm Events loads |
 | F6 | The extension's interface and design note, after reading upstream's two pull requests; curve values against primary sources; CRC damage, expectation and loss statistics; `docs/algorithms.md` | The extension's modules and tests against the fixed interface; bootstrap resampling, cards; a second agent for the blind hand recomputation | Fetch of the curve spreadsheet and the Hazus tables |
@@ -141,7 +141,7 @@ built as an extension of CRC with a design note (D17), not as lab code.
 | F0 | De-risk, CRC 1.0.0 calls, source facts, time the solver, choose the area, gallery skeleton | 8 | none |
 | F1 | Terrain and assets | 6 | F0 |
 | F2 | Sources: what goes into CRC and what does not, with second readers | 6 | F0 |
-| F3 | Solver model, drainage calibration, two storm replays | 8 | F1, F2 |
+| F3 | Solver model, loss-rate calibration, two storm replays | 8 | F1, F2 |
 | F4 | Storm catalogue and batch runs | 8 | F3 |
 | F5 | Validation against observations; who saw the flood | 9 | F3, F2 |
 | F6 | Curves, the event-loss extension of CRC, and risk | 13 | F4, F1 |
@@ -178,7 +178,7 @@ src/flood_lab/
     base.py            HazardSource                                   FH1
     city_maps.py
     sfincs_model.py    build with HydroMT-SFINCS (own environment)    FH2
-    calibrate.py       drainage allowance                             FH3
+    calibrate.py       constant loss rate                             FH3
     replay.py          storm replays                                  FH4
     catalogue.py       RainyDay transposition, batch runs             FH5
     design_storms.py   Atlas 14 comparison                            FH6
@@ -325,22 +325,24 @@ loaded into CRC reads back equal to what was put in; the primer's script runs of
 
 **Steps.**
 
-1. Scripted model build (FH2): terrain and sub-grid, roughness, buildings, boundaries open at the
-   shoreline, rainfall forcing, allowance parameter.
-2. Three intensity runs matching the flood-map scenarios' rainfall. Calibrate the allowance on the two
+1. Scripted model build (FH2): terrain and sub-grid, roughness, buildings, a water-level boundary at the
+   shoreline, rainfall forcing, and a constant loss rate (the water the sewers and the ground take away,
+   earlier called the drainage allowance) as a parameter.
+2. Three intensity runs matching the flood-map scenarios' rainfall. Calibrate the loss rate on the two
    current-sea-level maps (FH3); report the 3.66 in/hr run as a check.
 3. Verify item 4 of §9: place the three intensities on the Atlas 14 curve for the area.
-4. Freeze the allowance; record it with its fit.
+4. Freeze the loss rate; record it with its fit.
 5. Replays of both storms from radar rainfall (FH4).
 6. Monotonicity and water-balance tests (FH8).
 7. `hazard/base.py` with the three implementations registered (FH1).
 
-**Visual test.** Calibration curve: flooded area per class against allowance, with the city-map area as a
+**Visual test.** Calibration curve: flooded area per class against loss rate, with the city-map area as a
 line, for each scenario. Hit, miss and false-alarm map against each current-sea-level map. Water-balance
-bar per run. Peak-depth maps for the two replays, with radar rainfall totals beside them.
+bar per run (rain against losses, boundary outflow and change in storage). Maps of maximum inundation
+depth for the two replays, with radar rainfall totals beside them.
 
 **Pass.** Water balance within 1%; critical success index of 0.5 or better against the two calibration
-maps (*proposed*). If one allowance cannot reach it, try per-district values once, then report the
+maps (*proposed*). If one loss rate cannot reach it, try per-district values once, then report the
 mismatch as a finding and continue with the best fit.
 
 ## F4. Storm catalogue and batch runs (8 h)
@@ -466,7 +468,7 @@ figure.
 
 **Steps.**
 
-1. Dataset from F4 runs: static channels, storm vector, peak depth; tiles; splits by storm and one spatial
+1. Dataset from F4 runs: static channels, storm vector, maximum inundation depth; tiles; splits by storm and one spatial
    block (FE1, FE2).
 2. Train; record hardware, time, seed (FE6).
 3. Evaluate on both splits; uncertainty and calibration (FE3).

@@ -185,7 +185,7 @@
    "note": "filtered classes (model wet patches under a quarter acre removed); raw 0.1754, without the Navy Yard 0.3562",
    "passed": false,
    "proposed": true,
-   "rule": "CSI wet >= 0.5 at the frozen allowance against limited-current (plan F3)",
+   "rule": "CSI wet >= 0.5 at the frozen loss rate against limited-current (plan F3)",
    "threshold": 0.5,
    "value": 0.3073
   },
@@ -194,7 +194,7 @@
    "note": "filtered classes (model wet patches under a quarter acre removed); raw 0.2563, without the Navy Yard 0.5085",
    "passed": false,
    "proposed": true,
-   "rule": "CSI wet >= 0.5 at the frozen allowance against moderate-current (plan F3)",
+   "rule": "CSI wet >= 0.5 at the frozen loss rate against moderate-current (plan F3)",
    "threshold": 0.5,
    "value": 0.4082
   },
@@ -288,7 +288,7 @@
    "rule": "some substation site has depth_on_25m2_m >= 0.3 m in a replay (lead-asset rule, informational)",
    "threshold": 0.3,
    "value": {
-    "deepest_depth_on_25m2_m": 0.447,
+    "deepest_depth_on_25m2_m": 0.415,
     "sites_meeting": [
      "Farragut Substation (ida_2021)",
      "Hudson Avenue Substation (ida_2021)"
@@ -296,7 +296,7 @@
    }
   }
  ],
- "created_at": "2026-11-26T14:24:03Z",
+ "created_at": "2026-11-26T20:32:03Z",
  "figures": [
   "docs/flood/figures/f3/calibration_curve.png",
   "docs/flood/figures/f3/hit_miss.png",
@@ -885,13 +885,13 @@
   }
  ],
  "notes": [
-  "F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city's two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
-  "calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
-  "hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
-  "water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right.",
-  "replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter.",
+  "F3 solver model: constant loss rate (the drainage allowance) frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city's two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the constant loss rate, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen loss rate, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, losses (the constant loss rate), change in storage (change in water volume) and boundary outflow (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency (continuity), not that the rain or the losses are right. replays.png: Maximum inundation depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the constant loss rate; an outflow boundary on land, so no run-on from the contributing area outside the square. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other water levels at the water-level boundary. Limit: one run per setting, at the frozen loss rate only.",
+  "calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the constant loss rate, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
+  "hit_miss.png: Hit, miss and false alarm per compared cell at the frozen loss rate, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
+  "water_balance.png: Rain, losses (the constant loss rate), change in storage (change in water volume) and boundary outflow (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency (continuity), not that the rain or the losses are right.",
+  "replays.png: Maximum inundation depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the constant loss rate; an outflow boundary on land, so no run-on from the contributing area outside the square.",
   "atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map.",
-  "sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
+  "sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other water levels at the water-level boundary. Limit: one run per setting, at the frozen loss rate only.",
   "Run folders present but not named in the freeze file: lim_q20.oldbase, mod_q20.oldbase."
  ],
  "numbers": {
@@ -2043,11 +2043,11 @@
   ],
   "captions": {
    "atlas14.png": "NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city's storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map.",
-   "calibration_curve.png": "Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
-   "hit_miss.png": "Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
-   "replays.png": "Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter.",
-   "sensitivity.png": "Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.",
-   "water_balance.png": "Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency, not that the rain or the drainage are right."
+   "calibration_curve.png": "Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the constant loss rate, one marker per calibration run, with the city map's area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city's maps come from another model, so a match is agreement with that model, not with observed flooding.",
+   "hit_miss.png": "Hit, miss and false alarm per compared cell at the frozen loss rate, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city's class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.",
+   "replays.png": "Maximum inundation depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m\u00b2 of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the constant loss rate; an outflow boundary on land, so no run-on from the contributing area outside the square.",
+   "sensitivity.png": "Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other water levels at the water-level boundary. Limit: one run per setting, at the frozen loss rate only.",
+   "water_balance.png": "Rain, losses (the constant loss rate), change in storage (change in water volume) and boundary outflow (net outflow through the four edge cross-sections) per run, thousand m\u00b3, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver's own outputs, so the balance tests their consistency (continuity), not that the rain or the losses are right."
   },
   "monotonicity": [
    {
@@ -2116,9 +2116,10 @@
     "allowance_of_run": 30.0,
     "buildings": {
      "count": 17750,
-     "max_m": 4.342,
-     "wet_005": 11227,
-     "wet_030": 4375
+     "max_m": 4.274,
+     "not_read": 54,
+     "wet_005": 10600,
+     "wet_030": 4023
     },
     "label": "ida_q30",
     "rain": {
@@ -2157,39 +2158,39 @@
       "meets_lead_rule": false,
       "name": "Water Street Substation",
       "open_ground_pixels_read": 714,
-      "p95_depth_m": 0.037,
+      "p95_depth_m": 0.033,
       "pixels": 2202
      },
      {
       "LocNumber": "S-339711332",
-      "area_wet_005_m2": 10351,
-      "area_wet_030_m2": 351,
+      "area_wet_005_m2": 10271,
+      "area_wet_030_m2": 343,
       "depth_on_25m2_m": 0.39,
-      "max_depth_m": 0.47,
+      "max_depth_m": 0.453,
       "meets_lead_rule": true,
       "name": "Farragut Substation",
       "open_ground_pixels_read": 36774,
-      "p95_depth_m": 0.18,
+      "p95_depth_m": 0.178,
       "pixels": 39013
      },
      {
       "LocNumber": "S-383102724",
-      "area_wet_005_m2": 78,
+      "area_wet_005_m2": 69,
       "area_wet_030_m2": 30,
-      "depth_on_25m2_m": 0.447,
-      "max_depth_m": 0.977,
+      "depth_on_25m2_m": 0.415,
+      "max_depth_m": 0.96,
       "meets_lead_rule": true,
       "name": "Hudson Avenue Substation",
       "open_ground_pixels_read": 5648,
-      "p95_depth_m": 0.011,
+      "p95_depth_m": 0.01,
       "pixels": 6998
      },
      {
       "LocNumber": "S-383110539",
-      "area_wet_005_m2": 100,
+      "area_wet_005_m2": 93,
       "area_wet_030_m2": 10,
-      "depth_on_25m2_m": 0.179,
-      "max_depth_m": 0.525,
+      "depth_on_25m2_m": 0.165,
+      "max_depth_m": 0.465,
       "meets_lead_rule": false,
       "name": "Plymouth Substation",
       "open_ground_pixels_read": 5483,
@@ -2198,14 +2199,14 @@
      },
      {
       "LocNumber": "S-861227475",
-      "area_wet_005_m2": 71,
+      "area_wet_005_m2": 69,
       "area_wet_030_m2": 0,
       "depth_on_25m2_m": 0.094,
-      "max_depth_m": 0.191,
+      "max_depth_m": 0.146,
       "meets_lead_rule": false,
       "name": "(no name)",
       "open_ground_pixels_read": 647,
-      "p95_depth_m": 0.084,
+      "p95_depth_m": 0.083,
       "pixels": 657
      }
     ],
@@ -2224,9 +2225,10 @@
     "allowance_of_run": 30.0,
     "buildings": {
      "count": 17750,
-     "max_m": 2.718,
-     "wet_005": 8805,
-     "wet_030": 2120
+     "max_m": 2.575,
+     "not_read": 54,
+     "wet_005": 7351,
+     "wet_030": 1800
     },
     "label": "sep_q30",
     "rain": {
@@ -2261,7 +2263,7 @@
       "area_wet_005_m2": 0,
       "area_wet_030_m2": 0,
       "depth_on_25m2_m": 0.0,
-      "max_depth_m": 0.031,
+      "max_depth_m": 0.0,
       "meets_lead_rule": false,
       "name": "Water Street Substation",
       "open_ground_pixels_read": 714,
@@ -2270,10 +2272,10 @@
      },
      {
       "LocNumber": "S-339711332",
-      "area_wet_005_m2": 5,
+      "area_wet_005_m2": 0,
       "area_wet_030_m2": 0,
-      "depth_on_25m2_m": 0.034,
-      "max_depth_m": 0.083,
+      "depth_on_25m2_m": 0.0,
+      "max_depth_m": 0.0,
       "meets_lead_rule": false,
       "name": "Farragut Substation",
       "open_ground_pixels_read": 36774,
@@ -2282,10 +2284,10 @@
      },
      {
       "LocNumber": "S-383102724",
-      "area_wet_005_m2": 8,
+      "area_wet_005_m2": 0,
       "area_wet_030_m2": 0,
-      "depth_on_25m2_m": 0.022,
-      "max_depth_m": 0.088,
+      "depth_on_25m2_m": 0.0,
+      "max_depth_m": 0.0,
       "meets_lead_rule": false,
       "name": "Hudson Avenue Substation",
       "open_ground_pixels_read": 5648,
@@ -2294,10 +2296,10 @@
      },
      {
       "LocNumber": "S-383110539",
-      "area_wet_005_m2": 9,
+      "area_wet_005_m2": 0,
       "area_wet_030_m2": 0,
-      "depth_on_25m2_m": 0.025,
-      "max_depth_m": 0.106,
+      "depth_on_25m2_m": 0.0,
+      "max_depth_m": 0.0,
       "meets_lead_rule": false,
       "name": "Plymouth Substation",
       "open_ground_pixels_read": 5483,
@@ -2306,14 +2308,14 @@
      },
      {
       "LocNumber": "S-861227475",
-      "area_wet_005_m2": 4,
+      "area_wet_005_m2": 2,
       "area_wet_030_m2": 0,
-      "depth_on_25m2_m": 0.016,
-      "max_depth_m": 0.119,
+      "depth_on_25m2_m": 0.01,
+      "max_depth_m": 0.07,
       "meets_lead_rule": false,
       "name": "(no name)",
       "open_ground_pixels_read": 647,
-      "p95_depth_m": 0.012,
+      "p95_depth_m": 0.008,
       "pixels": 657
      }
     ],
@@ -2806,5 +2808,5 @@
    }
   ]
  },
- "title": "Solver model: drainage calibration, water balance, monotonicity and two replays"
+ "title": "Solver model: loss-rate calibration, water balance, monotonicity and two replays"
 }

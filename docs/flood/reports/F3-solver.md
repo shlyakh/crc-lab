@@ -1,4 +1,4 @@
-# F3. Solver model, drainage calibration, replays
+# F3. Solver model, loss-rate calibration, replays
 
 Date: 2026-11-25 · branch `flood/f3` · crc-sdk 1.0.0, crc-framework 1.0.0 · SFINCS v2.5.0, HydroMT-SFINCS 2.0.0
 · stopped on FH8 on 2026-11-25; decisions taken by Yuri on 2026-11-26 (CH-16); then frozen and replayed
@@ -7,15 +7,17 @@ Stage F3 of `docs/flood/plan.md`. The model of the square is built on the real t
 the city's two current-sea-level flood maps. The stage stopped on 2026-11-25 because the monotonicity check
 of FH8 failed as written. The failure is millimetre noise, diagnosed in section 3 after the blind review
 corrected the first diagnosis. Yuri took the four decisions on 2026-11-26 (section "Decisions taken"); the
-allowance was then frozen and the replays and sensitivities ran (section 6). Numbers come from the record `f3-model`
-(`site/flood/tests/records/f3-model.json`); the gallery shows it with its figures.
+constant loss rate (the water the sewers and the ground take away; earlier called the drainage allowance)
+was then frozen and the replays and sensitivities ran (section 6). Numbers come from the record `f3-model`
+(`site/flood/tests/records/f3-model.json`); the gallery shows it with its figures. Terms follow
+`docs/flood/terminology.md` (reworded under CH-22; no number changed).
 
 ## Result against the pass rule
 
 | Rule (plan F3, FH8) | Result |
 | --- | --- |
 | Water balance within 1% in every run | **Passes.** 14 of 14 runs; the largest residual is 0.017% of the rain |
-| CSI of 0.5 or better against the two calibration maps (*proposed*) | **Fails.** 0.307 (Limited) and 0.408 (Moderate) at the proposed allowance. The plan's next step, one value per sewer district, could not be tried: no official district layer exists (section 4). The plan says to report the mismatch and continue with the best fit |
+| CSI of 0.5 or better against the two calibration maps (*proposed*) | **Fails.** 0.307 (Limited) and 0.408 (Moderate) at the proposed loss rate. The plan's next step, one value per sewer district, could not be tried: no official district layer exists (section 4). The plan says to report the mismatch and continue with the best fit |
 | Monotonicity (FH8): at lower rain no cell deeper by more than 1 mm, and no cell wet to 0.05 m deeper at all | **Fails as written.** At 30 mm/h the first clause passes (largest excess 0.82 mm), the second fails: 41 wet cells deeper by less than a millimetre. At 20, 25 and 35 mm/h, 2 to 4 cells exceed 1 mm, by at most 3.8 mm. **This is what stopped the stage** |
 | The calibration value is frozen before any validation | **Done** on 2026-11-26: 30 mm/h (`src/flood_lab/hazard/allowance.toml`) |
 | Monotonicity with the 1 mm tolerance on both clauses (CH-16) | **Passes at the frozen 30 mm/h** (largest excess 0.82 mm). The pairs at 20, 25 and 35 mm/h, which are not used, keep 2 to 4 cells over 1 mm and are shown as failed in the record |
@@ -39,25 +41,30 @@ Every choice is a placeholder **[P]** and is listed in that record.
   ground and raised about 0.19 km² of quay; it was caught and corrected before any run counted. Every cell
   with any pixel in a pit is left out of the comparisons.
 - **Buildings:** the city's 22,960 footprints in the fetched box are raised 5 m as obstacles. Rain on a
-  cell lands on the cell; in a cell that is all roof it stands on the roof until the allowance drains it,
+  cell lands on the cell; in a cell that is all roof it stands on the roof until the loss rate removes it,
   and in a cell that is mostly roof it gathers on the cell's open ground (section 6).
 - **Water:** F1's water pixels are ordinary terrain, below the boundary level, so the river is full at
   the start (`zsini` 0 m NAVD88). So is any cell whose lowest level is below 0 m: the slips and the
   river's edge. Such cells hold standing water from the first second and are not compared (section 2).
-- **Boundaries:** water level held at 0 m NAVD88 **[P]** where the square's edge crosses the river (256
-  cells). Outflow only on the land edges (2,936 cells): water may leave and none comes in. Water from
-  outside the square cannot enter, which is a stated limit.
+- **Boundaries:** a water-level boundary (SFINCS mask value 2) where the square's edge crosses the river
+  (256 cells), with the water level held at 0 m NAVD88 **[P]**. An outflow boundary (mask value 3) on the
+  land edges (2,936 cells): water may leave and none comes in. So there is no run-on (a convention: water
+  flowing onto an area from upslope) from the contributing area outside the square, which is a stated
+  limit.
 - **Roughness:** Manning's n 0.025 above datum and 0.02 below. **Not from land cover as FH2 asks;** see
   CH-14.
-- **Drainage allowance:** SFINCS's uniform constant infiltration `qinf`. It drains up to that rate from
-  the water standing in a cell, during and after the rain. Cells whose lowest level is below −1 m
-  (river, slips) are not drained.
-- **Water balance:** four cross-sections one cell inside the edges measure all that leaves; storage
-  comes from the solver's volume output.
+- **Constant loss rate** (the drainage allowance): SFINCS's uniform constant infiltration `qinf`, a
+  distributed sink term. It stands for the sewers and the ground together, so it is a lumped loss in the
+  sense of the infiltration index (φ-index), not an infiltration capacity. It removes up to that rate from
+  the water standing in a cell, during and after the rain. Cells whose lowest level is below −1 m (river,
+  slips) have no loss.
+- **Water balance** (continuity): rain = losses + boundary outflow + change in storage + residual. Four
+  cross-sections one cell inside the edges measure the outflow across the boundaries; storage comes from
+  the solver's volume output.
 
 **Time per run, re-measured on the real terrain** (F0's 425 s was from toy terrain). A two-hour
 simulation (one hour of rain, one dry hour) took 107 to 372 s. It is slower when wetter, because the
-average time step falls from 0.63 s to 0.38 s. At the proposed allowance it took 260 s (Limited) and
+average time step falls from 0.63 s to 0.38 s. At the proposed loss rate it took 260 s (Limited) and
 330 s (Moderate), **about 2.2 to 2.8 minutes per simulated hour**. A catalogue storm is many hours long,
 so this matters for F4 (section 7).
 
@@ -65,7 +72,7 @@ so this matters for F4 (section 7).
 
 ![Calibration curve](../figures/f3/calibration_curve.png)
 
-*Modelled area per class against the allowance, with the city's areas as dashed lines (top), and the
+*Modelled area per class against the loss rate, with the city's areas as dashed lines (top), and the
 critical success index (bottom). Limit: the city's maps are themselves a model's output, and the one-hour
 storm is an assumption.*
 
@@ -73,8 +80,8 @@ storm is an assumption.*
   pit, not water, and lowest level not below the start water level. The last condition came from the
   blind review: 1,879 cells hold water from the start, and before they were left out they counted as
   deep flooding the city does not show (1.7 ha, the flat line at 40 and 50 mm/h in the first draft).
-- **Depth at a cell** is the peak level less the terrain at the cell's centre pixel, which is where the
-  city's class is read. Reading it as the mean over the cell's open ground gave the same CSI in a test on
+- **Inundation depth at a cell** is the peak water level less the ground level (the terrain) at the
+  cell's centre pixel, which is where the city's class is read. Reading it as the mean over the cell's open ground gave the same CSI in a test on
   the first draft (0.386 against 0.391); the deepest pixel gave a worse one (0.286). The city's maps leave
   buildings out: 4.3 to 5.0% of their wet land cells have a centre in a footprint, against 33.6% of all
   land cells. These checks are not in the record; they were run once on the cache.
@@ -87,7 +94,7 @@ storm is an assumption.*
 - **Objective:** the smallest sum, over both maps and both classes, of the squared log ratio of modelled
   to city area. Tried 20, 25, 30, 35, 40 and 50 mm/h.
 
-| Allowance, mm/h | Limited: area error | Limited: CSI wet | Moderate: area error | Moderate: CSI wet | Sum of area errors |
+| Loss rate, mm/h | Limited: area error | Limited: CSI wet | Moderate: area error | Moderate: CSI wet | Sum of area errors |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | 20 | 1.609 | 0.317 | 0.762 | 0.408 | 2.37 |
 | 25 | 0.631 | 0.341 | 0.367 | 0.424 | 1.00 |
@@ -98,20 +105,20 @@ storm is an assumption.*
 - **Proposed: 30 mm/h.** At 30 the areas are 12.3 ha shallow and 4.6 ha deep against the city's 10.3 and
   5.8 (Limited), and 22.4 and 13.8 against 18.3 and 11.7 (Moderate).
 - **One value is a compromise.** Limited alone fits best near 30 and Moderate alone between 30 and 35.
-  An allowance that has to rise with the rain says the city's sewer does not behave as a constant rate.
-- **Where the water is: CSI peaks at 0.34 (Limited) and 0.42 (Moderate) over the allowances tried.**
+  A loss rate that has to rise with the rain says the city's sewer does not behave as a constant rate.
+- **Where the water is: CSI peaks at 0.34 (Limited) and 0.42 (Moderate) over the loss rates tried.**
   The model finds the city's main flooded street corridors (the blue clusters east of 588,000 E in the
   map below). It also wets places the city does not, most of all in the Brooklyn Navy Yard.
   - Leaving the Navy Yard out (NTA BK0261) raises CSI at 30 mm/h to 0.356 (Limited) and 0.509
     (Moderate). The city's maps do show some flooding there (206 cells on the Limited map, 376 on
     Moderate), so it is not wholly masked. The city masks large non-residential lots, but which ones is
     not published. The calibration keeps the Navy Yard in and reports this as a sensitivity.
-  - Location agreement is the weak part of a drainage-allowance model; Kasaei et al. 2025 report their
+  - Location agreement is the weak part of a constant-loss-rate model; Kasaei et al. 2025 report their
     0.20 m only after calibrating on marks.
 
 ![Hit, miss and false alarm](../figures/f3/hit_miss.png)
 
-*Hit, miss and false alarm per compared cell at the proposed allowance. Limit: a one-cell shift between
+*Hit, miss and false alarm per compared cell at the proposed loss rate. Limit: a one-cell shift between
 the two maps counts as both a miss and a false alarm.*
 
 ## 3. The check that stopped the stage: monotonicity (FH8)
@@ -170,7 +177,7 @@ duration-sensitivity runs matter.
 
 ![Replays](../figures/f3/replays.png)
 
-*Peak depth at cell centres in the two replays at 30 mm/h, substation sites outlined and numbered, and
+*Maximum inundation depth at cell centres in the two replays at 30 mm/h, substation sites outlined and numbered, and
 the square-mean radar rate per hour. Limit: hourly radar rain held constant over each hour smooths the
 peaks inside an hour; the end-of-hour time stamp is not confirmed from a primary source.*
 
@@ -180,7 +187,7 @@ peaks inside an hour; the end-of-hour time stamp is not confirmed from a primary
   of the forcing dropped the first radar hour; the review caught it and it was rebuilt with each hour
   labelled at its start.
 - **Not confirmed (FS6):** that each file's stamp is the end of its hour. NSSL's table gives the stamp
-  format only; the VLab guides that state it refused automated access. Peak depth hardly depends on it;
+  format only; the VLab guides that state it refused automated access. Maximum depth hardly depends on it;
   the sensor timing of F5 does.
 - **Run times:** Ida 1,570 s for 18 simulated hours, 2023-09-29 1,819 s for 30 hours.
 
@@ -195,6 +202,11 @@ holding water from the start are not read):
 | Unnamed Williamsburg yard | 0.094 m | 0 | 0.016 m |
 | Water Street | 0.047 m | 2 m² | 0.000 m |
 
+*Since F4 (CH-21, 2026-11-26):* the ground at each 1 m pixel is never below its cell's lowest sub-grid
+level, and the record `f3-model` now reads: Ida, Hudson Avenue 0.415 m, Farragut 0.390 m (343 m² at 0.3 m
+or more), Plymouth 0.165 m, the yard and Water Street unchanged; 2023-09-29, 0.000 m at the four named sites
+and 0.010 m at the yard. The rule below still holds. The table keeps the numbers of the F3 stop.
+
 - **The lead-asset rule (0.3 m, demo-concerns §2) is met in the Ida replay,** at Hudson Avenue and
   Farragut, on rain alone. By the demo plan's rule the lead asset is the site with the greatest modelled
   depth: **Hudson Avenue** (0.45 m). Farragut is close behind and has more than ten times the area under
@@ -203,8 +215,8 @@ holding water from the start are not read):
 - **This first ran wrong.** Farragut's outline reaches a slip; read with standing water, it gave 1.25 m.
   The depth code now leaves out cells that hold water from the start, as the comparisons do (CH-16).
 - **Buildings:** 4,375 of 17,750 have water of 0.3 m or more at their walls in the Ida replay, and 2,120
-  on 2023-09-29 (the deepest pixel in a 2 m band; cells mostly under roofs are not read). F6 sets each
-  against its own first-floor height.
+  on 2023-09-29 (the deepest pixel in a 2 m band; cells mostly under roofs are not read). Since CH-21:
+  4,023 and 1,800, with 54 buildings not read. F6 sets each against its own first-floor height.
 - **Wet area on compared cells, 4 in or more:** 73.3 ha in Ida and 31.5 ha on 2023-09-29.
 
 **Extreme map check (3.66 in/hr for one hour, against the city's 2080 map, rain classes only):**
@@ -219,7 +231,7 @@ modelled 37.1 ha shallow and 51.0 ha deep against the city's 46.9 and 55.3; CSI 
   or more, and held for 2 hours 25.7 ha more (against 36.1 ha). CSI falls in both cases (0.21 and 0.37
   against 0.41), so the one-hour storm fits the city's maps best of the three. With Atlas 14 (section 5)
   this says the city's maps are most likely one-hour storms, but that is an inference, not a fact.
-- **The river level does not matter here:** with the boundary 1 m higher, the wet area changes by
+- **The river level does not matter here:** with the water-level boundary 1 m higher, the wet area changes by
   0.003 ha.
 
 ## 7. Beside F3: F4's preparation (no F4 code on this branch)
@@ -250,17 +262,17 @@ modelled 37.1 ha shallow and 51.0 ha deep against the city's 46.9 and 55.3; CSI 
    30 mm/h pair then passes. The other pairs keep 2 to 4 cells over 1 mm (at most 3.8 mm), which the
    record shows. The alternative, a tolerance of 5 mm on both clauses, passes every pair. Also confirm
    that cells holding water from the start are left out of the comparisons (section 2).
-2. **The allowance: 30 mm/h, then freeze.** Nothing needs rerunning; the frozen runs exist.
+2. **The loss rate: 30 mm/h, then freeze.** Nothing needs rerunning; the frozen runs exist.
 3. **CSI below 0.5.** Options: (a) accept 0.31 and 0.41 (0.36 and 0.51 without the Navy Yard) as the best
    fit and say so on the page, as the plan allows (recommended); (b) try the unofficial sewer atlas,
    labelled as such; (c) ask DEP for its sewershed layer.
-4. **The model choices tagged [P]:** pits filled to the quay, buildings raised 5 m, boundary at 0 m
-   NAVD88, Manning's 0.025 and 0.02, the quarter-acre filter on the model, and 25 m² for the lead-asset
+4. **The model choices tagged [P]:** pits filled to the quay, buildings raised 5 m, water-level boundary at
+   0 m NAVD88, Manning's 0.025 and 0.02, the quarter-acre filter on the model, and 25 m² for the lead-asset
    measure. Each is in the record. Roughness from land cover is CH-14.
 5. **Then the replays and sensitivities, unattended, in one command** (about 3 hours), followed by the
    record: `just flood-f3-batch data/cache/flood/f3/queue_after_decision_1.json`, then `just flood-f3`.
    They are Ida and 2023-09-29 at 30 mm/h, the Extreme map check, 30-minute and 2-hour storms, and the
-   boundary at +1 m. The Ida replay answers Friday's lead-asset question.
+   water-level boundary at +1 m. The Ida replay answers Friday's lead-asset question.
 6. **AORC download** (5.5 hours, 5.5 GB) may start at the same time; it uses the network, not the
    processor. CH-15 corrects the differing fact.
 
@@ -269,7 +281,7 @@ modelled 37.1 ha shallow and 51.0 ha deep against the city's 46.9 and 55.3; CSI 
 Yuri: "agree with all 4". Entered as CH-16, requirements version 7 (section 16).
 
 1. FH8's second clause takes the same 1 mm tolerance as the first.
-2. The allowance is frozen at 30 mm/h (`src/flood_lab/hazard/allowance.toml`, `frozen_on = 2026-11-26`).
+2. The loss rate is frozen at 30 mm/h (`src/flood_lab/hazard/allowance.toml`, `frozen_on = 2026-11-26`).
 3. CSI below 0.5 is accepted as the best fit and will be stated on the page; the per-district fallback
    is dropped.
 4. The replays and sensitivities run (section 6).

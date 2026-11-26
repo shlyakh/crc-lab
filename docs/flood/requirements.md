@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 8, 2026-11-26, tag `flood-requirements-v8` (earlier versions are tags `flood-requirements-v1` to `-v7`; what changed is in `docs/flood/changes.md`);
+Version 9, 2026-11-26, tag `flood-requirements-v9` (earlier versions are tags `flood-requirements-v1` to `-v8`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -17,7 +17,8 @@ Read first, in this order: `AGENTS.md` (repository rules, which all apply; its s
 
 ## 1. Purpose
 
-A fourth project in crc-lab: a rain-driven (pluvial) flood study of one New York City neighbourhood that goes
+A fourth project in crc-lab: a rain-driven flood study (pluvial or surface-water flooding; "pluvial" is a
+convention, with no glossary entry) of one New York City neighbourhood that goes
 from storm to street depth to dollars to a parametric payout, with Climate Risk Commons (CRC) as the loss
 engine. It has two audiences and must serve both from the same numbers.
 
@@ -118,14 +119,16 @@ say what this file claims, stop and report; do not substitute a number.
 
 ## 5. Conventions
 
-- Lengths in metres; depth in metres above ground; rainfall in millimetres and mm per hour. Convert the
-  city's inches once, at the reader.
+- Lengths in metres; depth is **inundation depth**, water level (the elevation of the water surface) less
+  ground level (the model terrain), in metres; rainfall in millimetres and mm per hour. Convert the city's
+  inches once, at the reader.
 - Project grid: 5 m cells in UTM zone 18N (EPSG:32618), with 1 m terrain used as sub-grid information **[P]**
   (cell size may change after the F0 timing test).
 - A cell is **wet** at 0.05 m or more **[P]**. The city's map classes are 0.1016 m (4 in) and 0.3048 m (1 ft)
   **[S]**.
 - Dates are local days, America/New_York, for New York data; America/Los_Angeles for Fremont.
-- Return period T means annual exceedance probability 1/T, as in crc-docs.
+- Return period T (the long-term average interval between events of a given size or larger) means annual
+  exceedance probability (AEP, a convention) 1/T, as in crc-docs.
 - A **scenario** is either a named event (`ida_2021`, `sep29_2023`), a catalogue event id, or a design storm.
 - Money in 2026 US dollars; state the index used for any conversion.
 
@@ -250,13 +253,13 @@ say what this file claims, stop and report; do not substitute a number.
   record. Implementations: city map classes, solver run, emulator. A licensed model would be one more
   implementation.
 - **FH2.** SFINCS model built by script with HydroMT-SFINCS: terrain with sub-grid, roughness from land
-  cover, buildings as obstacles, rainfall forcing, a drainage allowance in mm per hour subtracted from
-  rainfall. Pin versions. The latest SFINCS release is v2.5.0 (2026-11-02) **[S]** (Zenodo
+  cover, buildings as obstacles, rainfall forcing, a constant loss rate in mm per hour subtracted from
+  rainfall (the water the sewers and the ground take away; earlier called the drainage allowance). Pin versions. The latest SFINCS release is v2.5.0 (2026-11-02) **[S]** (Zenodo
   doi:10.5281/zenodo.23883210). Releases v2.3.0 and v2.4.0 have a documented fault in curve-number
   infiltration when `storecumprcp = 0` **[S]** (same record); do not use them with that option. Which
   version FloodAdapt pins is **[V]**: read its `pyproject.toml` in F0 and, if it differs, record the
   difference as a known cause of disagreement in F10.
-- **FH3.** Drainage allowance calibrated so that the modelled area in each depth class matches the city
+- **FH3.** Constant loss rate (FH2) calibrated so that the modelled area in each depth class matches the city
   maps at the two **current-sea-level** scenarios only. One value for the area unless the fit fails, then
   one per sewer district. The 3.66 in/hr map is a check, not a calibration target, because it includes
   future sea level. The value is frozen before any validation. The published
@@ -264,7 +267,8 @@ say what this file claims, stop and report; do not substitute a number.
   rate **[S]** (Kasaei et al. 2025), so this simplification has a peer-reviewed precedent; cite it.
 - **FH4.** Storm replays for D2, forced by gridded radar rainfall (MRMS or Stage IV; record which and its
   resolution).
-- **FH5.** Storm catalogue by stochastic storm transposition with RainyDay over a gridded hourly rainfall
+- **FH5.** Storm catalogue by stochastic storm transposition (SST, a term from the literature with no
+  glossary entry) with RainyDay over a gridded hourly rainfall
   record (AORC or Stage IV): a transposition domain with a written justification, N synthetic years, and the
   storms that matter for the area. Target 150 solver runs **[P]**, set by the F0 timing test.
 - **FH6.** Six uniform NOAA Atlas 14 design storms (2, 5, 10, 25, 100, 500 years) run as a comparison only.
@@ -280,8 +284,10 @@ say what this file claims, stop and report; do not substitute a number.
     exact knot. Loss figures use this route. F0 measures the difference between the two routes on a toy
     grid and F6 reports it at the assets.
   Between knots CRC 1.0.0 interpolates linearly in probability (0.x used the logarithm of return period);
-  every recomputation uses the same rule and says so.
-- **FH8.** Water balance closes within 1% in every run; depth is non-decreasing with rainfall scaling in a
+  every recomputation uses the same rule and says so. On the point route each step of the empirical
+  distribution is loaded as two knots of equal depth, one at each end of the step, so CRC reads the
+  catalogue's depth at every probability (CH-23).
+- **FH8.** Water balance closes within 1% in every run; inundation depth is non-decreasing with rainfall scaling in a
   monotonicity test: at lower rainfall no cell is deeper by more than 1 mm, and no cell wet to 0.05 m or
   more in either run is deeper at all (tolerance set at the F0 stop, after 4 of 39,800 toy cells at the
   solver's dry threshold differed by under 0.1 mm).
@@ -441,7 +447,7 @@ say what this file claims, stop and report; do not substitute a number.
 
 - **FE1.** A U-Net with two heads, trained on the catalogue's solver runs: probability a cell is wet, and
   log depth given wet. Static inputs: elevation, slope, depression depth, flow accumulation, height above
-  nearest drainage, imperviousness, building mask, drainage allowance. Storm inputs: total depth, peak
+  nearest drainage, imperviousness, building mask, constant loss rate. Storm inputs: total depth, peak
   15-minute, 1-hour and 3-hour intensity, duration, storm-centre offset.
 - **FE2.** Held-out storms and one held-out spatial block. Report critical success index at 0.1 m and 0.3 m
   and root-mean-square error on wet cells, per split.
@@ -612,7 +618,8 @@ Not checked at all in the verification pass, so still **[V]**. Each now has a st
 
 ## 10. Limits to state on the page
 
-- Depths are screening-grade: a reduced-physics model with sewers represented by a calibrated allowance.
+- Depths are screening-grade: a reduced-physics model with sewers represented by a calibrated constant loss
+  rate.
   Production would use a licensed model or an observed record.
 - The catalogue rests on about two decades of radar rainfall; anything rarer than about 1 in 100 years is
   extrapolation.
@@ -665,7 +672,7 @@ right thing. These are the choices an outside evaluation (D16) is most likely to
   rainfall records, other asset or value data.
 - The rainfall record and the transposition method behind the catalogue (FH5), and whether about two
   decades of radar rainfall support the frequencies claimed.
-- The drainage allowance as the stand-in for the sewer network (FH3), beyond the one published precedent.
+- The constant loss rate as the stand-in for the sewer network (FH3), beyond the one published precedent.
 - The substation damage curves (FR2): whether better or more local sources exist than the three used.
 - The label sources of FT5 and the claim-date rule, which comes from a preprint.
 - The fusion and scoring method (FT6, FT7), which FT8 already says is assembled from adjacent literature.

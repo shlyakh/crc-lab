@@ -477,14 +477,15 @@ def main() -> int:
         )
     captions = {
         "sites_map.png": (
-            "Hudson Avenue (top) and Farragut (bottom) substations: modelled peak depth on 1 m "
+            "Hudson Avenue (top) and Farragut (bottom) substations: modelled maximum inundation "
+            "depth on 1 m "
             "pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. "
             "Thick line: the site's fence outline from OpenStreetMap; thin: the other "
             "substations of the complex. Red rings: the 25 m² the lead-asset rule reads. "
             "Buildings, cells mostly under roofs and water standing from the start are not "
-            "read. Limit: a 5 m solver with one drainage allowance; the depth of a pixel is the"
-            " level of its 5 m cell less the 1 m terrain, and the terrain was flown in "
-            "2013-2014."
+            "read. Limit: a 5 m solver with one constant loss rate; the depth of a pixel is the"
+            " water level of its 5 m cell less the 1 m terrain (ground level), and the terrain "
+            "was flown in 2013-2014."
         ),
         "sites_depth.png": (
             "Depth over 25 m² of open ground at the two sites in five storms, ordered by the "

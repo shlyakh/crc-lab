@@ -1,9 +1,9 @@
-"""F3 visual test: the solver model, the drainage allowance and the two replays (FH2 to FH4, FH8).
+"""F3 visual test: the solver model, the constant loss rate and the two replays (FH2 to FH4, FH8).
 
     uv run --with matplotlib python -m flood_lab.checks.f3_model
 
-Offline. Reads the frozen allowance and the names of the runs from
-``src/flood_lab/hazard/allowance.toml`` (written when the allowance is frozen) and every run folder
+Offline. Reads the frozen constant loss rate and the names of the runs from
+``src/flood_lab/hazard/allowance.toml`` (written when the loss rate is frozen) and every run folder
 it names under ``<cache>/f3/runs/`` (``spec.json``, ``run_run.json``, ``balance.json``,
 ``zsmax.tif``). A run's scenario is read from its ``spec.json`` (the rain rate, or gridded rain
 for a replay), never from its label. A run that is named but has no ``balance.json`` and
@@ -423,7 +423,7 @@ def figure_calibration(rows: list[dict], allowance: float) -> str:
         bottom.axhline(CSI_MIN, color="#dc2626", lw=0.8, ls=":", label=f"{CSI_MIN} (proposed)")
         bottom.set_ylim(0, 1)
         bottom.set_ylabel("critical success index", fontsize=8)
-        bottom.set_xlabel("drainage allowance, mm/h", fontsize=8)
+        bottom.set_xlabel("constant loss rate, mm/h", fontsize=8)
         bottom.legend(fontsize=7, loc="upper right")
         for axis in (top, bottom):
             axis.axvline(allowance, color="#16a34a", lw=1.5, alpha=0.7)
@@ -438,7 +438,7 @@ def figure_calibration(rows: list[dict], allowance: float) -> str:
             ha="left",
         )
     figure.suptitle(
-        "Calibration curve: modelled area per class against the drainage allowance", fontsize=10.5
+        "Calibration curve: modelled area per class against the constant loss rate", fontsize=10.5
     )
     figure.tight_layout()
     return _png(figure, "calibration_curve.png")
@@ -488,7 +488,7 @@ def figure_hit_miss(panels: list[dict], frame, study, bounds) -> str:
             framealpha=0.9,
         )
     figure.suptitle(
-        f"Hit, miss and false alarm at the {STATE} allowance (wet = 4 in or more; model patches "
+        f"Hit, miss and false alarm at the {STATE} loss rate (wet = 4 in or more; model patches "
         "under a quarter acre removed)",
         fontsize=10,
     )
@@ -501,9 +501,9 @@ def figure_balance(rows: list[dict]) -> str:
     figure, axis = plt.subplots(figsize=(max(7.0, 1.0 + 0.9 * len(rows)), 4.8))
     keys = (
         ("rain_m3", "rain", "#1f77b4"),
-        ("drained_m3", "drained", "#2ca02c"),
-        ("stored_m3", "stored", "#ff7f0e"),
-        ("out_m3", "out", "#9467bd"),
+        ("drained_m3", "losses", "#2ca02c"),
+        ("stored_m3", "change in storage", "#ff7f0e"),
+        ("out_m3", "boundary outflow", "#9467bd"),
     )
     x = np.arange(len(rows))
     width = 0.2
@@ -578,7 +578,9 @@ def figure_replays(panels: list[dict], frame, study, bounds, stations) -> str:
             )
             name = s["name"] if s["name"] != "(no name)" else loc
             listing.append(f"{number}  {name}: {s['depth_on_25m2_m']:.2f} m")
-        _map_axis(left, bounds, f"{p['storm']} ({p['label']}): peak depth at cell centres")
+        _map_axis(
+            left, bounds, f"{p['storm']} ({p['label']}): maximum inundation depth at cell centres"
+        )
         left.legend(
             handles=[
                 Patch(color=DEPTH_COLOURS[0], label="0.05 to 0.1016 m"),
@@ -832,7 +834,7 @@ def main() -> int:
     for scenario, city_map in calibration.CALIBRATION_MAPS.items():
         label = spec_runs["frozen"].get(scenario)
         title = f"{scenario.capitalize()} ({label}) against {city_map}"
-        rule = f"CSI wet >= {CSI_MIN} at the {STATE} allowance against {city_map} (plan F3)"
+        rule = f"CSI wet >= {CSI_MIN} at the {STATE} loss rate against {city_map} (plan F3)"
         run = done.get(label) if label else None
         if run is None:
             fit[scenario] = {"label": label, "status": "not run"}
@@ -1130,7 +1132,7 @@ def main() -> int:
     figures.append(figure_calibration(cal_points, allowance))
     captions["calibration_curve.png"] = (
         "Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against "
-        "the drainage allowance, one marker per calibration run, with the city map's area as a "
+        "the constant loss rate, one marker per calibration run, with the city map's area as a "
         "dashed line; below, the critical success index for wet (4 in or more) with model patches "
         "under a quarter acre removed (filtered) and without (raw), and for the deep class; green: "
         f"the frozen value. Limit: {len(cal_points)} runs, each 1 h of uniform rain on the whole "
@@ -1139,7 +1141,7 @@ def main() -> int:
     )
     figures.append(figure_hit_miss(hit_panels, frame, study, bounds))
     captions["hit_miss.png"] = (
-        f"Hit, miss and false alarm per compared cell at the {STATE} allowance, wet meaning 4 in "
+        f"Hit, miss and false alarm per compared cell at the {STATE} loss rate, wet meaning 4 in "
         "or more, model patches under a quarter acre removed; grey: compared and dry in both; "
         "white: not compared (outside the study area, under a building footprint, a filled pit "
         "or water). "
@@ -1150,11 +1152,11 @@ def main() -> int:
     if bal_rows:
         figures.append(figure_balance(bal_rows))
         captions["water_balance.png"] = (
-            "Rain, drained (the allowance), stored (change in water volume) and out (net outflow "
-            "through the four edge cross-sections) per run, thousand m³, over the cells inside the "
-            "boundary cells; the residual share of the rain is printed above. Limit: the fluxes "
-            "are the solver's own outputs, so the balance tests their consistency, not that the "
-            "rain or the drainage are right."
+            "Rain, losses (the constant loss rate), change in storage (change in water volume) and "
+            "boundary outflow (net outflow through the four edge cross-sections) per run, thousand "
+            "m³, over the cells inside the boundary cells; the residual share of the rain is "
+            "printed above. Limit: the fluxes are the solver's own outputs, so the balance tests "
+            "their consistency (continuity), not that the rain or the losses are right."
         )
     if any(p.get("depth") is not None for p in replay_panels):
         stations = [
@@ -1166,12 +1168,13 @@ def main() -> int:
         ]
         figures.append(figure_replays(replay_panels, frame, study, bounds, stations))
         captions["replays.png"] = (
-            "Peak depth at cell centres for each replay on the compared cells of the study area, "
+            "Maximum inundation depth at cell centres for each replay on the compared cells of the "
+            "study area, "
             "in three classes; red: substation sites with the depth exceeded on 25 m² of their "
             "open ground; right: the radar rain each run was forced with, mean over the 4 km "
             "square per step. Limit: radar rain at about 1 km cells, held uniform within each "
-            "cell and hour; no sewer network, only the allowance; water from outside the square "
-            "cannot enter."
+            "cell and hour; no sewer network, only the constant loss rate; an outflow boundary on "
+            "land, so no run-on from the contributing area outside the square."
         )
     if atlas is not None:
         figures.append(figure_atlas14(atlas))
@@ -1188,7 +1191,8 @@ def main() -> int:
         captions["sensitivity.png"] = (
             "Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen "
             "run of the same scenario, for other durations at the same intensity and other "
-            f"boundary levels. Limit: one run per setting, at the {STATE} allowance only."
+            "water levels at the water-level boundary. Limit: one run per setting, at the "
+            f"{STATE} loss rate only."
         )
     else:
         notes_after.append("No duration or boundary-level run has finished; no sensitivity figure.")
@@ -1259,7 +1263,8 @@ def main() -> int:
     ]
     finished = len(done)
     first = (
-        f"F3 solver model: drainage allowance {STATE} at {allowance:g} mm/h [{freeze['tag']}] "
+        f"F3 solver model: constant loss rate (the drainage allowance) {STATE} at "
+        f"{allowance:g} mm/h [{freeze['tag']}] "
         f"({freeze.get('frozen_on')}); {finished} of {len(labels)} named runs finished. Calibrated "
         "on the city's two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the "
         "3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, "
@@ -1269,7 +1274,7 @@ def main() -> int:
     record = Record(
         id=RECORD_ID,
         stage="F3",
-        title="Solver model: drainage calibration, water balance, monotonicity and two replays",
+        title="Solver model: loss-rate calibration, water balance, monotonicity and two replays",
         inputs=inputs,
         parameters=parameters,
         numbers=numbers,

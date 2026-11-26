@@ -63,5 +63,6 @@ both sites meet the 0.3 m rule in Ida (informational).
   mean over the 4 km square.
 - The Atlas 14 table fetched in F3 stops at 3 hours, so whole-storm totals (Ida 146 mm in 17 h;
   29 September 132 mm in 29 h) are not placed.
-- Depth is a 5 m solver's level less the 1 m terrain of 2013-2014, with one drainage allowance
-  **[P]**. Without equipment heights, depth cannot yet be read as damage.
+- Inundation depth is a 5 m solver's water level less the 1 m terrain (ground level) of 2013-2014,
+  with one constant loss rate **[P]** (the water the sewers and the ground take away; earlier called the
+  drainage allowance). Without equipment heights, depth cannot yet be read as damage.

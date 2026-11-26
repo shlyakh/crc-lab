@@ -392,7 +392,8 @@ def figure_difference(
         bar = figure.colorbar(image, ax=axes.ravel().tolist(), shrink=0.6, extend="both")
         bar.set_label("depth with the ring less depth on the square alone, m", fontsize=8)
     figure.suptitle(
-        "Change of the peak depth per 5 m cell when run-on from the ring is modelled\n"
+        "Change of the maximum inundation depth per 5 m cell when run-on from the ring is "
+        "modelled\n"
         "read study-area cells only (F3's rule); grey: not read",
         fontsize=9,
     )
@@ -413,7 +414,9 @@ def figure_run_on(rows: list[dict], out: Path) -> str:
         axes[0].bar(x + (k - 1.5) * width, outflow, width, color=colour, alpha=0.45)
     axes[0].axhline(0, color="black", lw=0.6)
     axes[0].set_xticks(x, labels, fontsize=7)
-    axes[0].set_ylabel("m3 (above 0: run-on into the square; below: runoff leaving it)", fontsize=8)
+    axes[0].set_ylabel(
+        "m3 (above 0: run-on into the square; below: outflow leaving it)", fontsize=8
+    )
     axes[0].legend(fontsize=7, title="edge", title_fontsize=7)
     axes[0].set_title("Flow across the square's edges, per edge", fontsize=9)
     share = [100 * (r["run_on"]["inflow_share_of_square_rain"] or 0.0) for r in rows]
@@ -635,7 +638,8 @@ def main(argv: list[str] | None = None) -> int:
         figures=figures,
         software=software("numpy", "rasterio", "geopandas", "matplotlib"),
         notes=[
-            "Run-on is the volume entering the square across its edges; inflow and outflow per "
+            "Run-on (a convention: water flowing onto an area from upslope) is the volume "
+            "entering the square across its edges; inflow and outflow per "
             f"edge are integrated per {sfincs_ring.SECTION_M:g} m piece and 10 s output step, so "
             "both are lower bounds of the gross fluxes and their difference is exact.",
             "Both runs have the same rain on the square: the ring's forcing keeps every pixel of "

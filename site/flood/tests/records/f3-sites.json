@@ -45,7 +45,7 @@
    "value": 0.39
   }
  ],
- "created_at": "2026-11-26T17:11:51Z",
+ "created_at": "2026-11-26T20:32:12Z",
  "figures": [
   "docs/flood/figures/f3/sites_map.png",
   "docs/flood/figures/f3/sites_depth.png"
@@ -175,7 +175,7 @@
  ],
  "notes": [
   "Asked for by Yuri on 2026-11-26: both Hudson Avenue (lead asset by the rule) and Farragut are kept as lead sites. Values are placeholders [P] from the asset table; customers served and equipment heights have no public source.",
-  "sites_map.png: Hudson Avenue (top) and Farragut (bottom) substations: modelled peak depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one drainage allowance; the depth of a pixel is the level of its 5 m cell less the 1 m terrain, and the terrain was flown in 2013-2014.",
+  "sites_map.png: Hudson Avenue (top) and Farragut (bottom) substations: modelled maximum inundation depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one constant loss rate; the depth of a pixel is the water level of its 5 m cell less the 1 m terrain (ground level), and the terrain was flown in 2013-2014.",
   "sites_depth.png: Depth over 25 m\u00b2 of open ground at the two sites in five storms, ordered by the rain of their peak hour, with the Atlas 14 return period of that hour (partial-duration series, between two tabulated columns, no interpolation). Limit: a storm's return period is not the return period of the depth it causes; the replays' 2- and 3-hour rain may sit in other classes (record table 'storms'); equipment heights are unknown."
  ],
  "numbers": {
@@ -240,7 +240,7 @@
  "tables": {
   "captions": {
    "sites_depth.png": "Depth over 25 m\u00b2 of open ground at the two sites in five storms, ordered by the rain of their peak hour, with the Atlas 14 return period of that hour (partial-duration series, between two tabulated columns, no interpolation). Limit: a storm's return period is not the return period of the depth it causes; the replays' 2- and 3-hour rain may sit in other classes (record table 'storms'); equipment heights are unknown.",
-   "sites_map.png": "Hudson Avenue (top) and Farragut (bottom) substations: modelled peak depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one drainage allowance; the depth of a pixel is the level of its 5 m cell less the 1 m terrain, and the terrain was flown in 2013-2014."
+   "sites_map.png": "Hudson Avenue (top) and Farragut (bottom) substations: modelled maximum inundation depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one constant loss rate; the depth of a pixel is the water level of its 5 m cell less the 1 m terrain (ground level), and the terrain was flown in 2013-2014."
   },
   "sites": [
    {

@@ -12,7 +12,7 @@ Terms follow `docs/flood/terminology.md`. Tags as in the requirements: **[S]** r
 
 The study square in Williamsburg (4 × 4 km, 12.5 km² of Brooklyn land) has 24 years of hourly gridded rain
 (NOAA AORC v1.1, 2002-2025). Twenty-four years show only a handful of rare storms. **Stochastic storm
-transposition** borrows storms that fell nearby: every large storm observed anywhere in a region with
+transposition** (SST, a term from the literature with no glossary entry) borrows storms that fell nearby: every large storm observed anywhere in a region with
 similar rainfall climate could have fallen on the square instead. RainyDay finds the 960 largest 3-hour
 storms in that region and builds 1,000 synthetic years. Each synthetic year draws a random number of those
 storms, moves each to a random place in the region, and keeps the one that rains most on the square.
@@ -120,7 +120,7 @@ Before a stratum is complete, its finished runs stand for the whole stratum (wei
 
 *Diagram source: [`figures/diagrams/events-one-run.mmd`](figures/diagrams/events-one-run.mmd) (Mermaid; `just flood-diagrams` redraws the image).*
 
-Each run keeps its whole peak-depth grid and its storm descriptors (parent storm, dates, box total,
+Each run keeps its whole grid of maximum inundation depth and its storm descriptors (parent storm, dates, box total,
 wettest hour, how far it was moved). These are F9's training data (requirements §15). Solver wall time:
 4 to 6 minutes per event so far.
 
@@ -197,7 +197,7 @@ years rests on the two or three largest synthetic years. Requirements §10 asks 
 
 ![Depth strip](figures/f4/depth_strip.png)
 
-*Peak depth at 10, 100 and 500 years: catalogue (top), 1-hour design storms, 3-hour design storms. The
+*Inundation depth at 10, 100 and 500 years: catalogue (top), 1-hour design storms, 3-hour design storms. The
 number of catalogue runs is printed on the figure.*
 
 ![Buildings wet](figures/f4/buildings_wet.png)
@@ -228,7 +228,8 @@ cell (a floor, from pits in the 1 m terrain beside walls; see section 6).*
   are pits beside walls in the 1 m terrain, from F3's definition (`hazard/at_assets.py`). Before F6 uses
   wall depths, this needs a decision (F4 report).
 - **The flood model's own limits** (F3): sewers and infiltration lumped into one constant loss rate; an
-  outflow boundary on land, so no run-on from the contributing area outside the square (about 1.6 km²
+  outflow boundary on land, so no run-on (a convention: water flowing onto an area from upslope) from the
+  contributing area outside the square (about 1.6 km²
   by a terrain estimate; sensitivity runs on a 5 km model measure its effect); screening-grade depths.
 
 ## 7. Files and commands

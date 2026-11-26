@@ -19,6 +19,7 @@ the run-on comparison on the 5 km model, come as an addendum to this report.
 | Depth non-decreasing with return period in 99% of cells before the clean-up | **Pass,** 100% |
 | … in every cell after it, with cells changed reported | **Pass,** 0 cells changed |
 | Curves read back from CRC equal those loaded | **Pass,** both routes. Grid route (`from_raster`): 379,976 cells written and read back, 0 differ. Point route (`from_quantiles`): 17,701 assets, 0 differ |
+| CRC reads the catalogue's depth from the point route (CH-23, added) | **Pass.** 17,701 assets at the seven probabilities, largest difference 0 m |
 | Overrun: not below 60 storms | **60 reached** at 13:14. The rest finish tonight |
 
 ## 1. Catalogue (FH5)
@@ -42,9 +43,9 @@ the run-on comparison on the 5 km model, come as an addendum to this report.
 | Catalogue: 5 m cells wet (≥ 0.05 m) | 0 | 0 | 0 | 3,796 | 12,197 | 19,650 | 31,517 | 44,101 |
 
 - **Nothing floods at 10 years.** Only 120 of the 1,000 synthetic years have an hour wetter than the 30 mm/h
-  constant loss rate. Flooding therefore starts at around 20–25 years. This is a result of the calibrated loss
-  rate and of the low catalogue rainfall (CH-19), not a fault. A "10-year map" from the catalogue is blank, and
-  the demo should say why.
+  constant loss rate (the water the sewers and the ground take away). Flooding therefore starts at around
+  20–25 years. This is a result of the calibrated loss rate and of the low catalogue rainfall (CH-19), not a
+  fault. A "10-year map" from the catalogue is blank, and the demo should say why.
 - **Design storms (FH6),** cells wet at 0.05 m:
   - 1 hour: 0 / 22,054 / 38,638 / 54,344 / 71,034 / 87,865 at 2 / 5 / 10 / 25 / 100 / 500 years.
   - 3 hours: 0 up to 25 years, then 30,981 at 100 years and 61,014 at 500 years.
@@ -83,22 +84,23 @@ the run-on comparison on the 5 km model, come as an addendum to this report.
     standing water).
   - Dry cells go in as 0 m, as FH7 requires. The read-back is equal.
   - It takes 97 s.
-- **Point route:** `Dataset.from_quantiles`, each asset's exact empirical knots with the dry share as its own
-  knot.
+- **Point route:** `Dataset.from_quantiles`, each asset's exact empirical distribution, with the dry share as
+  its own step. Each step is two knots of equal depth, one at each end (CH-23).
   - 17,701 assets: 5 substations and 17,696 buildings, since 54 buildings have no readable ground in their
     wall band and carry no curve.
-  - The read-back is equal, in 2.7 s.
-- **A difference between the routes, CH-23 (open):** CRC interpolates linearly between the point route's
-  knots, so between two storms it reads below the catalogue's value. The difference is small at 100 years
-  but large at the tail:
+  - The read-back is equal, in under 5 s.
+- **Steps, not slopes (CH-23, accepted).** CRC's quantile curve interpolates linearly in probability between
+  knots. With one knot per storm, CRC read below the catalogue between two storms, most at the tail:
 
-  | Substation | 100 y (catalogue / CRC) | 200 y | 500 y |
+  | Substation | 100 y (catalogue / CRC, one knot per storm) | 200 y | 500 y |
   | --- | --- | --- | --- |
   | Farragut | 0.287 / 0.279 m | 0.385 / 0.324 m | 0.433 / 0.395 m |
   | Hudson Avenue | 0.153 / 0.152 m | 0.381 / 0.165 m | 0.504 / 0.406 m |
 
-  The proposal is to load each step as two knots, so CRC reproduces the catalogue's step and both routes
-  agree. It touches the loss figures of F6 only.
+  With two knots per step, a new check reads every asset's curve back through CRC's `QuantileCurve` at the
+  seven probabilities: all 17,701 assets equal the catalogue, largest difference 0 m. CRC's step and linear
+  options belong to its damage functions (depth to damage), not to a hazard curve, so the steps are made
+  by the knots. Only F6's loss figures use this route.
 
 ## 4. Changes in this stage
 
@@ -107,8 +109,8 @@ the run-on comparison on the 5 km model, come as an addendum to this report.
 | CH-19 | Catalogue settings; rainfall below the Atlas 14 band at 2–10 years accepted | Accepted by Yuri |
 | CH-20 | A 5 m cell's ground is never below its lowest sub-grid level (865 cells read wet in every storm). F3 outcomes unchanged (CSI 0.3073 / 0.4082) | Accepted by Yuri |
 | CH-21 | The same rule at the 1 m pixels around buildings and at substation sites: the false floor of about 2,930 buildings wet in storms below the loss rate is gone. Ida lead sites still meet the 0.3 m rule (Farragut 0.39 m, Hudson Avenue 0.415 m, was 0.447) | Accepted by Yuri |
-| CH-22 | Requirements, plan and F3 report reworded with the hydrology terms of `docs/flood/terminology.md` | Open, after the demos |
-| CH-23 | Point-route knots as steps | **Open: needs Yuri's decision before F6** |
+| CH-22 | Requirements, plan, demo plan and reports F3 to F5 reworded with the hydrology terms of `docs/flood/terminology.md` | Accepted by Yuri, done before the demos |
+| CH-23 | Point-route knots as steps | Accepted by Yuri, done: both routes read the catalogue's depth |
 
 ## 5. Review before the stop
 
@@ -120,7 +122,7 @@ checked them on real files.
 | --- | --- |
 | A building with no readable pixel in its wall band was loaded as dry (0 m) at every probability (54 buildings) | Fixed: NaN, no curve, counted in the record (`buildings_not_read`) |
 | The per-run cache key missed the model rasters, the site outlines and the depth-rule code (the same cause as a stale building count caught earlier the same day) | Fixed: the key covers them |
-| The point route reads below the catalogue between knots | CH-23, open |
+| The point route reads below the catalogue between knots | Fixed by CH-23 |
 | Forcing and run folders are reused by label (`cat_r<rank>`), so a new catalogue would silently reuse old rain and old runs | Not fixed; stated here. Any new catalogue must use a new runs folder (`FLOOD_RUNS`) |
 | Bands of touching buildings share their street pixels with one owner, so a row house can read low | Not fixed; stated as a limit |
 | Wording: depth definition without CH-20; tie at the wet probability; smoothing window (25 km north–south, about 19 km east–west); the plotted box rainfall is a plain mean, not RainyDay's ranking value | Fixed |
@@ -129,7 +131,8 @@ checked them on real files.
 
 - The largest-rainfall storm of a synthetic year is taken as its worst flood.
 - One storm duration (3 hours).
-- **Run-on.** The square model has no water flowing in from outside it. The 5 km run-on comparison runs
+- **Run-on** (a convention: water flowing onto an area from upslope). The square model has an outflow
+  boundary on land, so no run-on from the contributing area outside it. The 5 km run-on comparison runs
   tonight and reports what that leaves out.
 - **Uncertainty.** Each frequency rests on the runs finished. At 60 runs the 100-year and rarer values rest
   on the 12 of the 30 top-ranked runs finished so far, each standing for 2.5 years.
@@ -151,4 +154,5 @@ checked them on real files.
 | 5 km run-on model | Opus | 204,166 |
 | Hydrology terms lookup | Sonnet | 56,022 |
 | Blind review of the stage | Opus | 137,038 |
+| Hydrology rewording, CH-22 | Opus | 136,221 |
 | Validation monitor fix (side task, branch `validation/living-files`) | Opus | 115,444 |

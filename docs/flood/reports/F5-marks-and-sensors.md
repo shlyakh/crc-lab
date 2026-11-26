@@ -46,7 +46,7 @@ sites), and McCarren Park (1 site). Errors are model less surveyed, in metres.
 | Water level (NAVD88), per mark | 11 | −0.09 | 0.23 | 0.17 |
 | Depth, per mark, 6 unflagged marks | 6 | −0.06 | 0.18 | 0.12 |
 
-- **Depth** is the modelled water level less the model's ground at the mark's 1 m pixel (ground never below the
+- **Depth** (inundation depth) is the modelled water level less the model's ground at the mark's 1 m pixel (ground never below the
   cell's lowest sub-grid level, CH-21), against the surveyed height above ground. **Water level** compares
   the 5 m cell's peak level with the surveyed mark elevation; it also carries any error of the terrain.
 - **Flags.** Five marks are flagged:
@@ -57,7 +57,8 @@ sites), and McCarren Park (1 site). Errors are model less surveyed, in metres.
   - No mark lies in a cell the model leaves dry.
 - **The published figure.** Kasaei et al. 2025 (HESS 29:2043) report 0.20 m for their Jamaica Bay model of
   Ida. That figure is the error after calibrating on 8 marks: a fitted figure, not an independent test. The
-  same model had 0.40 m before calibration. This model's loss rate was calibrated on the city's flood maps,
+  same model had 0.40 m before calibration. This model's constant loss rate (the water the sewers and the
+  ground take away) was calibrated on the city's flood maps,
   not on marks. **Its 0.21 m is therefore an independent test**, on a smaller and clustered sample.
 - **What it supports.** The marks sit 2.6–3.2 km east of the two lead substations (Farragut and Hudson
   Avenue), in other neighbourhoods. They show that the model reproduces Ida's depth where it was measured. They do not

@@ -111,6 +111,201 @@
    }
   },
   {
+   "name": "point route reads the catalogue's depth (CH-23)",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "for every asset, CRC's QuantileCurve on the knots at the seven probabilities equals the catalogue's depth_at (1e-9 m)",
+   "threshold": null,
+   "value": {
+    "assets": 17701,
+    "assets_differing": 0,
+    "largest_difference_m": 0.0,
+    "probabilities": [
+     0.5,
+     0.8,
+     0.9,
+     0.96,
+     0.98,
+     0.99,
+     0.995,
+     0.998
+    ],
+    "substations": {
+     "S-250386730": {
+      "10 y": [
+       0.0,
+       0.0
+      ],
+      "100 y": [
+       0.0,
+       0.0
+      ],
+      "2 y": [
+       0.0,
+       0.0
+      ],
+      "200 y": [
+       0.0,
+       0.0
+      ],
+      "25 y": [
+       0.0,
+       0.0
+      ],
+      "5 y": [
+       0.0,
+       0.0
+      ],
+      "50 y": [
+       0.0,
+       0.0
+      ],
+      "500 y": [
+       0.059,
+       0.059
+      ]
+     },
+     "S-339711332": {
+      "10 y": [
+       0.0,
+       0.0
+      ],
+      "100 y": [
+       0.287,
+       0.287
+      ],
+      "2 y": [
+       0.0,
+       0.0
+      ],
+      "200 y": [
+       0.385,
+       0.385
+      ],
+      "25 y": [
+       0.15,
+       0.15
+      ],
+      "5 y": [
+       0.0,
+       0.0
+      ],
+      "50 y": [
+       0.257,
+       0.257
+      ],
+      "500 y": [
+       0.433,
+       0.433
+      ]
+     },
+     "S-383102724": {
+      "10 y": [
+       0.0,
+       0.0
+      ],
+      "100 y": [
+       0.153,
+       0.153
+      ],
+      "2 y": [
+       0.0,
+       0.0
+      ],
+      "200 y": [
+       0.381,
+       0.381
+      ],
+      "25 y": [
+       0.0,
+       0.0
+      ],
+      "5 y": [
+       0.0,
+       0.0
+      ],
+      "50 y": [
+       0.098,
+       0.098
+      ],
+      "500 y": [
+       0.504,
+       0.504
+      ]
+     },
+     "S-383110539": {
+      "10 y": [
+       0.0,
+       0.0
+      ],
+      "100 y": [
+       0.132,
+       0.132
+      ],
+      "2 y": [
+       0.0,
+       0.0
+      ],
+      "200 y": [
+       0.164,
+       0.164
+      ],
+      "25 y": [
+       0.059,
+       0.059
+      ],
+      "5 y": [
+       0.0,
+       0.0
+      ],
+      "50 y": [
+       0.109,
+       0.109
+      ],
+      "500 y": [
+       0.171,
+       0.171
+      ]
+     },
+     "S-861227475": {
+      "10 y": [
+       0.0,
+       0.0
+      ],
+      "100 y": [
+       0.0,
+       0.0
+      ],
+      "2 y": [
+       0.0,
+       0.0
+      ],
+      "200 y": [
+       0.0,
+       0.0
+      ],
+      "25 y": [
+       0.0,
+       0.0
+      ],
+      "5 y": [
+       0.0,
+       0.0
+      ],
+      "50 y": [
+       0.0,
+       0.0
+      ],
+      "500 y": [
+       0.0,
+       0.0
+      ]
+     }
+    }
+   }
+  },
+  {
    "name": "at least 60 catalogue runs before 1 December",
    "note": "",
    "passed": true,
@@ -129,7 +324,7 @@
    "value": 60
   }
  ],
- "created_at": "2026-11-26T18:20:08Z",
+ "created_at": "2026-11-26T20:38:45Z",
  "figures": [
   "docs/flood/figures/f4/domain.png",
   "docs/flood/figures/f4/rainfall_frequency.png",
@@ -274,433 +469,433 @@
   },
   {
    "bytes": 1686079,
-   "path": "f4/runs/cat_r0101/zsmax.tif",
+   "path": "runs60/cat_r0101/zsmax.tif",
    "sha256": "b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd",
    "url": ""
   },
   {
    "bytes": 1682945,
-   "path": "f4/runs/cat_r0779/zsmax.tif",
+   "path": "runs60/cat_r0779/zsmax.tif",
    "sha256": "027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f",
    "url": ""
   },
   {
    "bytes": 1685784,
-   "path": "f4/runs/cat_r0006/zsmax.tif",
+   "path": "runs60/cat_r0006/zsmax.tif",
    "sha256": "59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba",
    "url": ""
   },
   {
    "bytes": 1686007,
-   "path": "f4/runs/cat_r0138/zsmax.tif",
+   "path": "runs60/cat_r0138/zsmax.tif",
    "sha256": "8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324",
    "url": ""
   },
   {
    "bytes": 1682404,
-   "path": "f4/runs/cat_r0958/zsmax.tif",
+   "path": "runs60/cat_r0958/zsmax.tif",
    "sha256": "5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713",
    "url": ""
   },
   {
    "bytes": 1686322,
-   "path": "f4/runs/cat_r0124/zsmax.tif",
+   "path": "runs60/cat_r0124/zsmax.tif",
    "sha256": "4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953",
    "url": ""
   },
   {
    "bytes": 1683371,
-   "path": "f4/runs/cat_r0714/zsmax.tif",
+   "path": "runs60/cat_r0714/zsmax.tif",
    "sha256": "8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e",
    "url": ""
   },
   {
    "bytes": 1688763,
-   "path": "f4/runs/cat_r0005/zsmax.tif",
+   "path": "runs60/cat_r0005/zsmax.tif",
    "sha256": "c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d",
    "url": ""
   },
   {
    "bytes": 1703258,
-   "path": "f4/runs/cat_r0122/zsmax.tif",
+   "path": "runs60/cat_r0122/zsmax.tif",
    "sha256": "f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345",
    "url": ""
   },
   {
    "bytes": 1685353,
-   "path": "f4/runs/cat_r0602/zsmax.tif",
+   "path": "runs60/cat_r0602/zsmax.tif",
    "sha256": "9e076dcf8d7da8e6fbe9b5dc37ab98766ff52acd519a18b12360ce00710ca08b",
    "url": ""
   },
   {
    "bytes": 1698960,
-   "path": "f4/runs/cat_r0091/zsmax.tif",
+   "path": "runs60/cat_r0091/zsmax.tif",
    "sha256": "c0e87e134d70cbdf56cfdbdc7bea28430be85cffee5a9ee0f624342460159ee6",
    "url": ""
   },
   {
    "bytes": 1685670,
-   "path": "f4/runs/cat_r0412/zsmax.tif",
+   "path": "runs60/cat_r0412/zsmax.tif",
    "sha256": "61dd9ed2a08f980927f4ba9838c1916ef347ed5f75c1b318752a292199430ccb",
    "url": ""
   },
   {
    "bytes": 1686562,
-   "path": "f4/runs/cat_r0015/zsmax.tif",
+   "path": "runs60/cat_r0015/zsmax.tif",
    "sha256": "822abb0e19a410bb1be99bde42e5d6b7b44f6a77b7e73ce879a69dde8214e774",
    "url": ""
   },
   {
    "bytes": 1691934,
-   "path": "f4/runs/cat_r0065/zsmax.tif",
+   "path": "runs60/cat_r0065/zsmax.tif",
    "sha256": "1d73a3b489919ddc000564a438433777c77b4d3d03736b707cd776178790c251",
    "url": ""
   },
   {
    "bytes": 1684762,
-   "path": "f4/runs/cat_r0309/zsmax.tif",
+   "path": "runs60/cat_r0309/zsmax.tif",
    "sha256": "1340fbb04d8cf756fe34fa65771cad1a1d7af04a9af6496fae04b03ec7e3ff06",
    "url": ""
   },
   {
    "bytes": 1697257,
-   "path": "f4/runs/cat_r0078/zsmax.tif",
+   "path": "runs60/cat_r0078/zsmax.tif",
    "sha256": "5990f3e23bef1c3c28f7ef7771e3e9bbc8b126fc951f2159a1aa0e473920c99a",
    "url": ""
   },
   {
    "bytes": 1684618,
-   "path": "f4/runs/cat_r0423/zsmax.tif",
+   "path": "runs60/cat_r0423/zsmax.tif",
    "sha256": "c4f71c5676b1431c7db88db2116aaa9c4114731b8f63a0ba84b5b883fd00b142",
    "url": ""
   },
   {
    "bytes": 1688093,
-   "path": "f4/runs/cat_r0024/zsmax.tif",
+   "path": "runs60/cat_r0024/zsmax.tif",
    "sha256": "07f76ddb07bc784d417e04f2e26e5835ca29c3cb930805b97124795776b771e6",
    "url": ""
   },
   {
    "bytes": 1687095,
-   "path": "f4/runs/cat_r0112/zsmax.tif",
+   "path": "runs60/cat_r0112/zsmax.tif",
    "sha256": "f58154dcac5a08e218718b585dbe1d9bb97f4d2548d0a25673afd99b9ea992eb",
    "url": ""
   },
   {
    "bytes": 1686643,
-   "path": "f4/runs/cat_r0503/zsmax.tif",
+   "path": "runs60/cat_r0503/zsmax.tif",
    "sha256": "be42958c5947a467f1147b56bd14bda3ca7cf56a520e0458c275d8432587e18b",
    "url": ""
   },
   {
    "bytes": 1696647,
-   "path": "f4/runs/cat_r0139/zsmax.tif",
+   "path": "runs60/cat_r0139/zsmax.tif",
    "sha256": "82a3a2c022c5df305484db892fd2c5b74adf7dd1baaff3844149b1b96bb9e7a9",
    "url": ""
   },
   {
    "bytes": 1697339,
-   "path": "f4/runs/cat_r0185/zsmax.tif",
+   "path": "runs60/cat_r0185/zsmax.tif",
    "sha256": "6f4ee880944aaa5af645858d45d120ea9bdd6e681d023313d26629341f2f557e",
    "url": ""
   },
   {
    "bytes": 1685635,
-   "path": "f4/runs/cat_r0008/zsmax.tif",
+   "path": "runs60/cat_r0008/zsmax.tif",
    "sha256": "e674cc0c7cdfce624ea5289486165e1bd66228abfc643de9f84a4318a577b771",
    "url": ""
   },
   {
    "bytes": 1692232,
-   "path": "f4/runs/cat_r0031/zsmax.tif",
+   "path": "runs60/cat_r0031/zsmax.tif",
    "sha256": "92cfb0e0ebe444147c42056200350a01d4eefc7ea8e6ea8eb11b95d9c9db1b68",
    "url": ""
   },
   {
    "bytes": 1700312,
-   "path": "f4/runs/cat_r0240/zsmax.tif",
+   "path": "runs60/cat_r0240/zsmax.tif",
    "sha256": "e1f21d13cdb97132551e6ee4ac4d009ba151e8122ce6aec5106ee9f58cfc9a61",
    "url": ""
   },
   {
    "bytes": 1697735,
-   "path": "f4/runs/cat_r0100/zsmax.tif",
+   "path": "runs60/cat_r0100/zsmax.tif",
    "sha256": "da5cbb2ef1009ca74e6a34dd9779074e519a87a655e5c688f56b44c571ccb644",
    "url": ""
   },
   {
    "bytes": 1682191,
-   "path": "f4/runs/cat_r0740/zsmax.tif",
+   "path": "runs60/cat_r0740/zsmax.tif",
    "sha256": "90de37e0a46bbed43ea0d58c6a747c7bf9754b81e2482960cd5330cac9273735",
    "url": ""
   },
   {
    "bytes": 1697037,
-   "path": "f4/runs/cat_r0018/zsmax.tif",
+   "path": "runs60/cat_r0018/zsmax.tif",
    "sha256": "fcc001f3ced96c234c35b35e71e161e704b8a999b029e76f5a3807b556b7d65c",
    "url": ""
   },
   {
    "bytes": 1700714,
-   "path": "f4/runs/cat_r0146/zsmax.tif",
+   "path": "runs60/cat_r0146/zsmax.tif",
    "sha256": "c3683a69814ca130fa6a31cd0ea382ecee682ed236d61bc9fa8f6fadf52832d7",
    "url": ""
   },
   {
    "bytes": 1682707,
-   "path": "f4/runs/cat_r0791/zsmax.tif",
+   "path": "runs60/cat_r0791/zsmax.tif",
    "sha256": "397a98de36db26843a2f3c343d348566acb87ba7f335f7e282c0e61a45b41d75",
    "url": ""
   },
   {
    "bytes": 1700885,
-   "path": "f4/runs/cat_r0033/zsmax.tif",
+   "path": "runs60/cat_r0033/zsmax.tif",
    "sha256": "4b0418be5f3b1f0e1b3132ee4e3f6bec6f50e8b240e33e93c2196df55e7ecf18",
    "url": ""
   },
   {
    "bytes": 1682347,
-   "path": "f4/runs/cat_r0870/zsmax.tif",
+   "path": "runs60/cat_r0870/zsmax.tif",
    "sha256": "8566647588365b7bfcd495da69227eb7751f94142ee1fb12875415af2157e1ba",
    "url": ""
   },
   {
    "bytes": 1690785,
-   "path": "f4/runs/cat_r0002/zsmax.tif",
+   "path": "runs60/cat_r0002/zsmax.tif",
    "sha256": "13f81ca55b691952bce048cd30ae9100105b5eeca6fcfd3291599d21dfee5735",
    "url": ""
   },
   {
    "bytes": 1688858,
-   "path": "f4/runs/cat_r0036/zsmax.tif",
+   "path": "runs60/cat_r0036/zsmax.tif",
    "sha256": "2315dd8fd0ac52ffbc823f6e0837ccbcfb2e5ce8ced6cf086a1c72520a998d5b",
    "url": ""
   },
   {
    "bytes": 1685813,
-   "path": "f4/runs/cat_r0826/zsmax.tif",
+   "path": "runs60/cat_r0826/zsmax.tif",
    "sha256": "0449e7bd13af4b7f6ed7e786cf903ec99be5ba1d3a6189fbb7a62334e30d4dbf",
    "url": ""
   },
   {
    "bytes": 1684468,
-   "path": "f4/runs/cat_r0128/zsmax.tif",
+   "path": "runs60/cat_r0128/zsmax.tif",
    "sha256": "5e741808eaa19527bf62c9028f6a3bce7b08ee1c0e24cb0fcc39a2f57a42445d",
    "url": ""
   },
   {
    "bytes": 1682044,
-   "path": "f4/runs/cat_r0850/zsmax.tif",
+   "path": "runs60/cat_r0850/zsmax.tif",
    "sha256": "9353041d117c69391449694409b5a92cb814dc68758a445db2e32bdc95344308",
    "url": ""
   },
   {
    "bytes": 1693042,
-   "path": "f4/runs/cat_r0022/zsmax.tif",
+   "path": "runs60/cat_r0022/zsmax.tif",
    "sha256": "a394865d56e28a7b279d3f41c05b718c80ba27799ddbaf05031126743d94e629",
    "url": ""
   },
   {
    "bytes": 1691456,
-   "path": "f4/runs/cat_r0130/zsmax.tif",
+   "path": "runs60/cat_r0130/zsmax.tif",
    "sha256": "79718ca94173f0c6f62a559f516b9c2046b8d168268f1ec4cfe5f9ad6e6c7328",
    "url": ""
   },
   {
    "bytes": 1684661,
-   "path": "f4/runs/cat_r0222/zsmax.tif",
+   "path": "runs60/cat_r0222/zsmax.tif",
    "sha256": "8bcbea538749873646170af3102d27df10505073dea561542feadd28bfc20351",
    "url": ""
   },
   {
    "bytes": 1689220,
-   "path": "f4/runs/cat_r0083/zsmax.tif",
+   "path": "runs60/cat_r0083/zsmax.tif",
    "sha256": "d9b4e7a02cd594842c9ddd2e49a9faee95d7af2307ffbaa017372a22503465b4",
    "url": ""
   },
   {
    "bytes": 1684989,
-   "path": "f4/runs/cat_r0516/zsmax.tif",
+   "path": "runs60/cat_r0516/zsmax.tif",
    "sha256": "1941e79268518c69c0ffe491e76a2e5bc6db3f765f1ac5481cf3c2e4a28c8065",
    "url": ""
   },
   {
    "bytes": 1689875,
-   "path": "f4/runs/cat_r0014/zsmax.tif",
+   "path": "runs60/cat_r0014/zsmax.tif",
    "sha256": "a9b7ff01e569bd78852e0ca53faa348ac53e4dd24df70a073ad0e3821eaf1145",
    "url": ""
   },
   {
    "bytes": 1684782,
-   "path": "f4/runs/cat_r0090/zsmax.tif",
+   "path": "runs60/cat_r0090/zsmax.tif",
    "sha256": "e77806a427ad55f1980931fd144c298d4a88f376faea50902ed1592b023c6482",
    "url": ""
   },
   {
    "bytes": 1684899,
-   "path": "f4/runs/cat_r0586/zsmax.tif",
+   "path": "runs60/cat_r0586/zsmax.tif",
    "sha256": "b608ed37b041239d2a9b8d7cc23769cb63214e6477c3dc3807dceb02633add29",
    "url": ""
   },
   {
    "bytes": 1697173,
-   "path": "f4/runs/cat_r0119/zsmax.tif",
+   "path": "runs60/cat_r0119/zsmax.tif",
    "sha256": "b82bb430532c717d0b2392f1ae48ec6a2b87e4043e0d12e420fe07fbe71013bd",
    "url": ""
   },
   {
    "bytes": 1686573,
-   "path": "f4/runs/cat_r0808/zsmax.tif",
+   "path": "runs60/cat_r0808/zsmax.tif",
    "sha256": "4d20bb2e09440a75476385ebb0e6586c4383f9b9f0c531c340a938c0765dac87",
    "url": ""
   },
   {
    "bytes": 1686525,
-   "path": "f4/runs/cat_r0023/zsmax.tif",
+   "path": "runs60/cat_r0023/zsmax.tif",
    "sha256": "abe0e5cb92e3ab51e3a27be8619dc69ea93b768a0209e0227e8455dda7c2236c",
    "url": ""
   },
   {
    "bytes": 1697344,
-   "path": "f4/runs/cat_r0067/zsmax.tif",
+   "path": "runs60/cat_r0067/zsmax.tif",
    "sha256": "5ce9bafdc25f89e92c0dff81ccbd60afe3c9c2ffdc0965f5aca0a5c353c8ca14",
    "url": ""
   },
   {
    "bytes": 1683577,
-   "path": "f4/runs/cat_r0207/zsmax.tif",
+   "path": "runs60/cat_r0207/zsmax.tif",
    "sha256": "f2f69ec7e8631668086447a7833103af533e56ddb0b6bc3d2dcb38012a5a60b1",
    "url": ""
   },
   {
    "bytes": 1702961,
-   "path": "f4/runs/cat_r0107/zsmax.tif",
+   "path": "runs60/cat_r0107/zsmax.tif",
    "sha256": "fb5f55c1e23f6a89fc39326d27a74e48594b47808c1d96ae4721be202444d3eb",
    "url": ""
   },
   {
    "bytes": 1684326,
-   "path": "f4/runs/cat_r0814/zsmax.tif",
+   "path": "runs60/cat_r0814/zsmax.tif",
    "sha256": "ae136f466b9684d5a28f2607f1f8bf6c29954500abe0de0ba3fe5ccec48eceeb",
    "url": ""
   },
   {
    "bytes": 1697327,
-   "path": "f4/runs/cat_r0019/zsmax.tif",
+   "path": "runs60/cat_r0019/zsmax.tif",
    "sha256": "fd612a6d68a4bffbf1697752e3fa57dc4f78312cef88690d0a7fca887267d157",
    "url": ""
   },
   {
    "bytes": 1695176,
-   "path": "f4/runs/cat_r0098/zsmax.tif",
+   "path": "runs60/cat_r0098/zsmax.tif",
    "sha256": "3dd16bdf1c89b5fd71e2e999fa6f1f4dcad9637eab4db37569247777df9f5e72",
    "url": ""
   },
   {
    "bytes": 1684810,
-   "path": "f4/runs/cat_r0396/zsmax.tif",
+   "path": "runs60/cat_r0396/zsmax.tif",
    "sha256": "faa63c926339d17456145635a9f374e4cc2571a3cd67f74586cbd099c1f17026",
    "url": ""
   },
   {
    "bytes": 1688822,
-   "path": "f4/runs/cat_r0142/zsmax.tif",
+   "path": "runs60/cat_r0142/zsmax.tif",
    "sha256": "5f9917da24d3f0f54145c86bf45b0513f893fc1bcb1b2f745b20c6d4ffc601c4",
    "url": ""
   },
   {
    "bytes": 1684926,
-   "path": "f4/runs/cat_r0863/zsmax.tif",
+   "path": "runs60/cat_r0863/zsmax.tif",
    "sha256": "3e1a98ff97bb95713938dd94d51cd2161726bc3dfa693985c142fa668918eed1",
    "url": ""
   },
   {
    "bytes": 1699320,
-   "path": "f4/runs/cat_r0030/zsmax.tif",
+   "path": "runs60/cat_r0030/zsmax.tif",
    "sha256": "8ba4c0d24b44d93bc73112294f4983840c5f1e6d5e918b68ab229dd8af06ba9d",
    "url": ""
   },
   {
    "bytes": 1688016,
-   "path": "f4/runs/cat_r0051/zsmax.tif",
+   "path": "runs60/cat_r0051/zsmax.tif",
    "sha256": "49aa5cdf308cbf222c1b8556e8670f4c6e39d9929d257aa37c48f4976db59188",
    "url": ""
   },
   {
    "bytes": 1684338,
-   "path": "f4/runs/cat_r0529/zsmax.tif",
+   "path": "runs60/cat_r0529/zsmax.tif",
    "sha256": "4d450c34bd800326df4afcb639876fcd90aa3431f671aede7e05b1f236860457",
    "url": ""
   },
   {
    "bytes": 2271121,
-   "path": "f4/runs/ds_1h_2y/zsmax.tif",
+   "path": "runs60/ds_1h_2y/zsmax.tif",
    "sha256": "2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49",
    "url": ""
   },
   {
    "bytes": 2249212,
-   "path": "f4/runs/ds_1h_5y/zsmax.tif",
+   "path": "runs60/ds_1h_5y/zsmax.tif",
    "sha256": "f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96",
    "url": ""
   },
   {
    "bytes": 2242402,
-   "path": "f4/runs/ds_1h_10y/zsmax.tif",
+   "path": "runs60/ds_1h_10y/zsmax.tif",
    "sha256": "cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1",
    "url": ""
   },
   {
    "bytes": 2238348,
-   "path": "f4/runs/ds_1h_25y/zsmax.tif",
+   "path": "runs60/ds_1h_25y/zsmax.tif",
    "sha256": "9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708",
    "url": ""
   },
   {
    "bytes": 2233274,
-   "path": "f4/runs/ds_1h_100y/zsmax.tif",
+   "path": "runs60/ds_1h_100y/zsmax.tif",
    "sha256": "f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a",
    "url": ""
   },
   {
    "bytes": 2228504,
-   "path": "f4/runs/ds_1h_500y/zsmax.tif",
+   "path": "runs60/ds_1h_500y/zsmax.tif",
    "sha256": "6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd",
    "url": ""
   },
   {
    "bytes": 2250332,
-   "path": "f4/runs/ds_3h_2y/zsmax.tif",
+   "path": "runs60/ds_3h_2y/zsmax.tif",
    "sha256": "b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a",
    "url": ""
   },
   {
    "bytes": 2254870,
-   "path": "f4/runs/ds_3h_5y/zsmax.tif",
+   "path": "runs60/ds_3h_5y/zsmax.tif",
    "sha256": "ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8",
    "url": ""
   },
   {
    "bytes": 2255619,
-   "path": "f4/runs/ds_3h_10y/zsmax.tif",
+   "path": "runs60/ds_3h_10y/zsmax.tif",
    "sha256": "815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd",
    "url": ""
   },
   {
    "bytes": 2256241,
-   "path": "f4/runs/ds_3h_25y/zsmax.tif",
+   "path": "runs60/ds_3h_25y/zsmax.tif",
    "sha256": "d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a",
    "url": ""
   },
   {
    "bytes": 2236597,
-   "path": "f4/runs/ds_3h_100y/zsmax.tif",
+   "path": "runs60/ds_3h_100y/zsmax.tif",
    "sha256": "705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d",
    "url": ""
   },
   {
    "bytes": 2219609,
-   "path": "f4/runs/ds_3h_500y/zsmax.tif",
+   "path": "runs60/ds_3h_500y/zsmax.tif",
    "sha256": "e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2",
    "url": ""
   }
@@ -710,10 +905,9 @@
   "domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
   "rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).",
   "depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
-  "buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.",
+  "buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.",
   "wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered).",
-  "progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
-  "Other folders in the runs folder, not read: cat_r0075."
+  "progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design)."
  ],
  "numbers": {
   "M_synthetic_years": 1000,
@@ -741,7 +935,7 @@
   "cells_read": 379976,
   "cells_read_in_study_area": 330615,
   "cells_wet_in_some_run": 44101,
-  "check_wall_time_s": 334.1,
+  "check_wall_time_s": 392.4,
   "covered_years": 1000,
   "design_runs_finished": 12,
   "grid_read_back_equal": true,
@@ -749,6 +943,7 @@
   "max_runs_wetting_a_cell": 20,
   "non_decreasing_after_clean_up": true,
   "observed_box_median_3h_mm": 38.14,
+  "point_route_reads_catalogue": true,
   "points_assets_loaded": 17701,
   "points_read_back_equal": true,
   "runs_extracted_this_time": 72,
@@ -863,7 +1058,7 @@
  "stage": "F4",
  "tables": {
   "captions": {
-   "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.",
+   "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.",
    "depth_strip.png": "Per-cell depth at 10, 100 and 500 years from the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
    "domain.png": "3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
    "progress.png": "Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
@@ -2081,10 +2276,10 @@
    "cells_written": 379976,
    "equal": true,
    "largest_difference_m": 0.0,
-   "report": "ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code='source_no_data', severity=<DiagnosticSeverity.WARNING: 'warning'>, stage=<Stage.DECODING: 'decoding'>, message='Skipped 260024 raster supports with fewer than two valid probability knots.', source='quantile_rasters', support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider='user', product='quantile_rasters', release=ReleaseReference(id='sha256:dbb55d716433d9c1097310eda75d86c8e2c8b535d9b31611614b698d61b254ef', sha256='sha256:dbb55d716433d9c1097310eda75d86c8e2c8b535d9b31611614b698d61b254ef', retrieved_at=None), resources=(ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 98810, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 100700, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 101346, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif', sha256='sha256:5abcaa237f2c2bddc336a7fd63fc101f02be822ef240ca145c1245454616492f', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 102176, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif', sha256='sha256:b41451ca571f3ddba449d4d0ab53afff5e7c946da7925f1189c0754dadfeab3f', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 104102, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif', sha256='sha256:a0ccc3af6824b599249172f8f0a2b3b29144428d357b452f9ea19c6d29e99e58', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 106076, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif', sha256='sha256:47a098aabe42f32ad4d6325d508df72824c15e781c4014431c0b9932e90f5f9c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 112616, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif', sha256='sha256:285544402df6c51f8d135287c0877f6d28c9d0fb5c702f4a45ed7f64bc6a173a', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 18, 18, 26, 116518, tzinfo=datetime.timezone.utc))), member=None, model=None),))"
+   "report": "ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code='source_no_data', severity=<DiagnosticSeverity.WARNING: 'warning'>, stage=<Stage.DECODING: 'decoding'>, message='Skipped 260024 raster supports with fewer than two valid probability knots.', source='quantile_rasters', support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider='user', product='quantile_rasters', release=ReleaseReference(id='sha256:27f0e9a5df28d47cef952335e68ea0e698817f3bbba49eca3c6a2d3f719b4214', sha256='sha256:27f0e9a5df28d47cef952335e68ea0e698817f3bbba49eca3c6a2d3f719b4214', retrieved_at=None), resources=(ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.5.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 296969, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.2.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 311560, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.1.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 313192, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.04.tif', sha256='sha256:5abcaa237f2c2bddc336a7fd63fc101f02be822ef240ca145c1245454616492f', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 315347, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.02.tif', sha256='sha256:b41451ca571f3ddba449d4d0ab53afff5e7c946da7925f1189c0754dadfeab3f', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 320833, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.01.tif', sha256='sha256:a0ccc3af6824b599249172f8f0a2b3b29144428d357b452f9ea19c6d29e99e58', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 324574, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.005.tif', sha256='sha256:47a098aabe42f32ad4d6325d508df72824c15e781c4014431c0b9932e90f5f9c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 333999, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.002.tif', sha256='sha256:285544402df6c51f8d135287c0877f6d28c9d0fb5c702f4a45ed7f64bc6a173a', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 340104, tzinfo=datetime.timezone.utc))), member=None, model=None),))"
   },
   "point_route": {
-   "estimated_full_s": 3.2,
+   "estimated_full_s": 6.8,
    "full": {
     "assets_delivered": 17701,
     "assets_differing": 0,
@@ -2093,7 +2288,7 @@
     "equal": true,
     "largest_difference": 0.0
    },
-   "full_s": 2.6,
+   "full_s": 4.6,
    "trial": {
     "assets_delivered": 505,
     "assets_differing": 0,
@@ -2104,7 +2299,194 @@
    },
    "trial_assets": 505,
    "trial_equal": true,
-   "trial_s": 0.1
+   "trial_s": 0.2
+  },
+  "point_route_reads_catalogue": {
+   "assets": 17701,
+   "assets_differing": 0,
+   "largest_difference_m": 0.0,
+   "probabilities": [
+    0.5,
+    0.8,
+    0.9,
+    0.96,
+    0.98,
+    0.99,
+    0.995,
+    0.998
+   ],
+   "substations": {
+    "S-250386730": {
+     "10 y": [
+      0.0,
+      0.0
+     ],
+     "100 y": [
+      0.0,
+      0.0
+     ],
+     "2 y": [
+      0.0,
+      0.0
+     ],
+     "200 y": [
+      0.0,
+      0.0
+     ],
+     "25 y": [
+      0.0,
+      0.0
+     ],
+     "5 y": [
+      0.0,
+      0.0
+     ],
+     "50 y": [
+      0.0,
+      0.0
+     ],
+     "500 y": [
+      0.059,
+      0.059
+     ]
+    },
+    "S-339711332": {
+     "10 y": [
+      0.0,
+      0.0
+     ],
+     "100 y": [
+      0.287,
+      0.287
+     ],
+     "2 y": [
+      0.0,
+      0.0
+     ],
+     "200 y": [
+      0.385,
+      0.385
+     ],
+     "25 y": [
+      0.15,
+      0.15
+     ],
+     "5 y": [
+      0.0,
+      0.0
+     ],
+     "50 y": [
+      0.257,
+      0.257
+     ],
+     "500 y": [
+      0.433,
+      0.433
+     ]
+    },
+    "S-383102724": {
+     "10 y": [
+      0.0,
+      0.0
+     ],
+     "100 y": [
+      0.153,
+      0.153
+     ],
+     "2 y": [
+      0.0,
+      0.0
+     ],
+     "200 y": [
+      0.381,
+      0.381
+     ],
+     "25 y": [
+      0.0,
+      0.0
+     ],
+     "5 y": [
+      0.0,
+      0.0
+     ],
+     "50 y": [
+      0.098,
+      0.098
+     ],
+     "500 y": [
+      0.504,
+      0.504
+     ]
+    },
+    "S-383110539": {
+     "10 y": [
+      0.0,
+      0.0
+     ],
+     "100 y": [
+      0.132,
+      0.132
+     ],
+     "2 y": [
+      0.0,
+      0.0
+     ],
+     "200 y": [
+      0.164,
+      0.164
+     ],
+     "25 y": [
+      0.059,
+      0.059
+     ],
+     "5 y": [
+      0.0,
+      0.0
+     ],
+     "50 y": [
+      0.109,
+      0.109
+     ],
+     "500 y": [
+      0.171,
+      0.171
+     ]
+    },
+    "S-861227475": {
+     "10 y": [
+      0.0,
+      0.0
+     ],
+     "100 y": [
+      0.0,
+      0.0
+     ],
+     "2 y": [
+      0.0,
+      0.0
+     ],
+     "200 y": [
+      0.0,
+      0.0
+     ],
+     "25 y": [
+      0.0,
+      0.0
+     ],
+     "5 y": [
+      0.0,
+      0.0
+     ],
+     "50 y": [
+      0.0,
+      0.0
+     ],
+     "500 y": [
+      0.0,
+      0.0
+     ]
+    }
+   }
   },
   "progress": [
    {
@@ -2239,14 +2621,14 @@
   },
   "timing_s": {
    "asset_curves_s": 0.0,
-   "crc_grid_route_s": 97.4,
-   "crc_point_route_s": 2.7,
-   "figures_s": 2.8,
-   "grid_curves_s": 1.5,
-   "inputs_s": 2.0,
-   "non_decreasing_share_s": 0.2,
-   "per_run_extraction_s": 227.1,
-   "write_rasters_s": 0.4
+   "crc_grid_route_s": 140.9,
+   "crc_point_route_s": 10.2,
+   "figures_s": 3.7,
+   "grid_curves_s": 1.8,
+   "inputs_s": 1.7,
+   "non_decreasing_share_s": 0.3,
+   "per_run_extraction_s": 233.2,
+   "write_rasters_s": 0.5
   }
  },
  "title": "Storm catalogue, batch runs and depth frequency into CRC by both routes"
