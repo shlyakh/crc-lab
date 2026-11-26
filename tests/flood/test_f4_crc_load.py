@@ -2,7 +2,8 @@
 
 import numpy as np
 
-from flood_lab.hazard import catalogue, crc_load
+from flood_lab.hazard import catalogue
+from flood_lab.risk import crc_load
 
 WEST, NORTH, CELL = 585_500.0, 4_508_500.0, 5.0
 
