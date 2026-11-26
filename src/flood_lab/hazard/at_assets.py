@@ -1,7 +1,9 @@
 """F3: modelled depth at the assets, from a run's peak water level (lead-asset rule, demo plan §4).
 
-Depth at a 1 m pixel is the peak water level of the 5 m cell that holds it less the model terrain
-at that pixel (``f3/model/dem_model_1m.tif``: buildings raised as obstacles), floored at 0. A pixel
+Depth at a 1 m pixel is the peak water level of the 5 m cell that holds it less the ground level
+at that pixel, floored at 0. Ground level is the model terrain (``f3/model/dem_model_1m.tif``:
+buildings raised as obstacles), but never below the cell's lowest sub-grid level (``zb_5m.tif``;
+CH-21, the rule CH-20 applies to cell centres). A pixel
 on a roof therefore reads 0 unless water stands above the roof; the depth reported for an outline
 is that of the ground inside it that is not under a footprint.
 
@@ -48,11 +50,25 @@ def _read(path: Path):
         return src.read(1), src.transform
 
 
-def pixel_depth(zsmax_5m: np.ndarray, dem_1m: np.ndarray) -> np.ndarray:
-    """Depth on the 1 m pixels of the square (rows from the north), floored at 0."""
+def pixel_ground(dem_1m: np.ndarray, zb_5m: np.ndarray | None = None) -> np.ndarray:
+    """Ground level on the 1 m pixels of the square (rows from the north). CH-21: with ``zb_5m``,
+    a pixel is never taken below its 5 m cell's lowest sub-grid level, as CH-20 does for cell
+    centres; a pixel below it made a cell holding no water read as wet at the wall."""
     off = int(round(TERRAIN_MARGIN_M))
     k = int(round(GRID.cell))
     z = dem_1m[off : off + GRID.height * k, off : off + GRID.width * k].astype("float64")
+    if zb_5m is not None:
+        floor = np.repeat(np.repeat(zb_5m.astype("float64"), k, axis=0), k, axis=1)
+        z = np.where(np.isfinite(floor) & (z < floor), floor, z)
+    return z
+
+
+def pixel_depth(
+    zsmax_5m: np.ndarray, dem_1m: np.ndarray, zb_5m: np.ndarray | None = None
+) -> np.ndarray:
+    """Depth on the 1 m pixels of the square (rows from the north), floored at 0."""
+    k = int(round(GRID.cell))
+    z = pixel_ground(dem_1m, zb_5m)
     level = np.repeat(np.repeat(zsmax_5m.astype("float64"), k, axis=0), k, axis=1)
     d = level - z
     return np.where(np.isfinite(d), np.maximum(d, 0.0), 0.0)
@@ -125,7 +141,7 @@ def building_wall_depths(depth_1m: np.ndarray, buildings_1m: np.ndarray, footpri
 
 def masked_depth(run: Path, cache: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Depth on the 1 m pixels of the square, NaN where it is not read (roofed or standing water),
-    with the footprint mask and the model terrain on the same pixels."""
+    with the footprint mask and the ground level (terrain clamped by CH-21) on the same pixels."""
     zsmax, _ = _read(run / "zsmax.tif")
     dem, _ = _read(cache / "f3" / "model" / "dem_model_1m.tif")
     bld, _ = _read(cache / "f3" / "model" / "buildings_1m.tif")
@@ -133,12 +149,12 @@ def masked_depth(run: Path, cache: Path) -> tuple[np.ndarray, np.ndarray, np.nda
     k = int(round(GRID.cell))
     rows, cols = slice(off, off + GRID.height * k), slice(off, off + GRID.width * k)
     bld = bld[rows, cols].astype(bool)
-    depth = pixel_depth(zsmax, dem)
-    roofed = bld.reshape(GRID.height, k, GRID.width, k).mean(axis=(1, 3)) >= MAX_ROOF_SHARE
     zb, _ = _read(cache / "f3" / "model" / "zb_5m.tif")
+    depth = pixel_depth(zsmax, dem, zb)
+    roofed = bld.reshape(GRID.height, k, GRID.width, k).mean(axis=(1, 3)) >= MAX_ROOF_SHARE
     standing = zb < START_LEVEL_M
     depth[np.repeat(np.repeat(roofed | standing, k, axis=0), k, axis=1)] = np.nan
-    return depth, bld, dem[rows, cols].astype("float64")
+    return depth, bld, pixel_ground(dem, zb)
 
 
 def run_assets(run: Path, cache: Path, site: Path, footprints=None) -> dict:

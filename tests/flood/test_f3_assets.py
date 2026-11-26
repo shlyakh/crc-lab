@@ -43,6 +43,23 @@ def test_pixel_depth_floors_at_zero_and_handles_nan(small_grid) -> None:
     assert np.isfinite(d).all() and (d >= 0).all()
 
 
+def test_pixel_depth_ground_not_below_lowest_level(small_grid) -> None:
+    """CH-21: a pixel below its cell's lowest sub-grid level reads dry when the cell holds no
+    water (peak level equal to that lowest level), and is measured from that level otherwise."""
+    small_grid(2)
+    dem = np.full((10, 10), 1.0)
+    dem[1, 1] = 0.2  # a low pixel in cell (0, 0)
+    dem[6, 6] = 0.4  # a low pixel in cell (1, 1)
+    zb = np.full((2, 2), 1.0)
+    zsmax = np.array([[1.0, 1.0], [1.0, 1.5]])  # cell (0, 0) holds no water; (1, 1) 0.5 m
+    assert at_assets.pixel_depth(zsmax, dem)[1, 1] == pytest.approx(0.8)  # the old reading
+    d = at_assets.pixel_depth(zsmax, dem, zb)
+    assert (d[0:5, 0:5] == 0.0).all()
+    assert d[6, 6] == pytest.approx(0.5)
+    g = at_assets.pixel_ground(dem, zb)
+    assert g.min() == pytest.approx(1.0)
+
+
 def _site_file(path: Path) -> Path:
     import geopandas as gpd
     from shapely.geometry import box
