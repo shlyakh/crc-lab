@@ -1,13 +1,19 @@
 # F3 drainage allowance (FH3). PROPOSED, NOT FROZEN.
-# F3 stopped before the freeze: the monotonicity check of FH8 fails (docs/flood/reports/F3-solver.md).
+# F3 stopped before the freeze: the monotonicity check of FH8 fails as written (docs/flood/reports/F3-solver.md).
 # The value below is the best single fit of the calibration runs; it becomes frozen only on Yuri's word.
+# The runs named under extreme_check, duration, boundary_level and replays are queued in
+# data/cache/flood/f3/queue_after_decision_1.json and show as "not run" until they have run.
 allowance_mm_per_h = 30.0
 tag = "P"
 frozen_on = "not frozen: proposed 2026-11-25, awaiting Yuri's decision on FH8 (F3 report)"
-objective = "Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on study-area land outside footprints, pits and water, after the model's wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after."
-note = "Limited alone fits best near 30 mm/h, Moderate alone near 35 mm/h. CSI (wet) at 30 mm/h is below the proposed 0.5 on both maps. No official sewer-district layer was found, so the per-district fallback of FH3 was not tried."
+objective = "Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model's wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after."
+note = "Limited alone fits best near 30 mm/h, Moderate alone between 30 and 35 mm/h. CSI (wet) at 30 mm/h is below the proposed 0.5 on both maps. No official sewer-district layer was found, so the per-district fallback of FH3 was not tried."
 
 [runs]
 calibration = ["lim_q20", "lim_q25", "lim_q30", "lim_q35", "lim_q40", "lim_q50", "mod_q20", "mod_q25", "mod_q30", "mod_q35", "mod_q40", "mod_q50"]
 frozen = { limited = "lim_q30", moderate = "mod_q30" }
+extreme_check = "ext_q30"
+duration = { "0.5 h" = "mod_q30_d05", "2 h" = "mod_q30_d2" }
+boundary_level = { "+1.0 m" = "mod_q30_lvl1" }
+replays = { ida_2021 = "ida_q30", sep29_2023 = "sep_q30" }
 monotonicity = [["lim_q20", "mod_q20"], ["lim_q25", "mod_q25"], ["lim_q30", "mod_q30"], ["lim_q35", "mod_q35"], ["lim_q30_noadv", "mod_q30_noadv"]]

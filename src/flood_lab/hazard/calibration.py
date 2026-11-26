@@ -10,8 +10,11 @@ building footprint stands on the raised roof, so such cells are left out of the 
 city's maps leave buildings out too (5% of their wet land cells have a centre in a footprint,
 against 34% of all land cells; measured in F3).
 
-**Compared cells**: study-area land (Brooklyn in the square), centre not in a footprint, not in a
-filled pit, and not water by F1's rule.
+**Compared cells**: study-area land (Brooklyn in the square), centre not in a footprint, no pixel
+in a filled pit, not water by F1's rule, and lowest level (the solver's ``zb``, exported once to
+``f3/model/zb_5m.tif`` by ``sfincs_model.py export-zb``) not below the start water level: water
+standing from the first second is not flooding. The blind review of F3 found that such cells caused
+every monotonicity excess over 1 mm and some false alarms.
 
 **Classes** as the city's maps: 1 for 4 in (0.1016 m) to 1 ft, 2 for 1 ft (0.3048 m) and over.
 """
@@ -53,8 +56,14 @@ def classify(depth: np.ndarray) -> np.ndarray:
     return out
 
 
-def min_patch_filter(model_class: np.ndarray, min_m2: float = MIN_PATCH_M2) -> np.ndarray:
-    """Set to 0 every wet patch (class 1 or 2, connected) smaller than ``min_m2``."""
+def min_patch_filter(
+    model_class: np.ndarray, min_m2: float = MIN_PATCH_M2, where: np.ndarray | None = None
+) -> np.ndarray:
+    """Set to 0 every wet patch (class 1 or 2, connected) smaller than ``min_m2``. Only cells in
+    ``where`` form patches; the others are set to 0 first, so the river, or water standing from the
+    start, can never hold a small patch up by touching it."""
+    if where is not None:
+        model_class = np.where(where, model_class, 0).astype(model_class.dtype)
     from scipy import ndimage
 
     wet = model_class >= 1
@@ -82,6 +91,20 @@ def centre_pixels(raster_1m: np.ndarray) -> np.ndarray:
     return raster_1m[np.ix_(rows, cols)]
 
 
+def any_pixel(raster_1m: np.ndarray) -> np.ndarray:
+    """True for a 5 m cell when any of its 1 m pixels is true (square plus margin as input)."""
+    off = int(round(TERRAIN_MARGIN_M))
+    k = int(round(GRID.cell))
+    inner = raster_1m[off : off + GRID.height * k, off : off + GRID.width * k]
+    return inner.reshape(GRID.height, k, GRID.width, k).any(axis=(1, 3))
+
+
+#: the model's start water level (``zsini``), m NAVD88 [P]; a cell whose lowest level lies below it
+#: holds water from the first second (slips, the river's edge) and is not compared: such water is
+#: not flooding, and its level differs between runs by the rain that fell on it
+START_LEVEL_M = 0.0
+
+
 @dataclass
 class Frame:
     """What every comparison needs, read once."""
@@ -90,7 +113,8 @@ class Frame:
     compared: np.ndarray  # bool, cells in the comparison
     land: np.ndarray  # bool, study-area land
     building: np.ndarray  # bool, centre pixel in a footprint
-    pit: np.ndarray  # bool
+    pit: np.ndarray  # bool, any pixel of the cell in a filled pit
+    standing: np.ndarray  # bool, the cell's lowest level is below the start water level
 
     @classmethod
     def load(cls, cache: Path, study_area: Path) -> Frame:
@@ -101,14 +125,15 @@ class Frame:
         model = cache / "f3" / "model"
         ground = centre_pixels(_read(model / "dem_model_1m.tif")).astype("float64")
         building = centre_pixels(_read(model / "buildings_1m.tif")).astype(bool)
-        pit = centre_pixels(_read(model / "pits_1m.tif")).astype(bool)
+        pit = any_pixel(_read(model / "pits_1m.tif").astype(bool))
+        standing = _read(model / "zb_5m.tif") < START_LEVEL_M
         water = centre_pixels(_read(cache / "terrain" / "water_1m.tif")).astype(bool)
         sa = gpd.read_file(study_area).to_crs(GRID_CRS)
         land = features.rasterize(
             sa.geometry, out_shape=(GRID.height, GRID.width), transform=Affine(*GRID.transform)
         ).astype(bool)
-        compared = land & ~building & ~pit & ~water
-        return cls(ground, compared, land, building, pit)
+        compared = land & ~building & ~pit & ~water & ~standing
+        return cls(ground, compared, land, building, pit, standing)
 
 
 GRID_CRS = "EPSG:32618"
@@ -174,7 +199,7 @@ def summarise_run(
     depth = run_depth(run, frame)
     city = city_class(CALIBRATION_MAPS.get(scenario, scenario))
     raw = classify(depth)
-    filtered = min_patch_filter(raw)
+    filtered = min_patch_filter(raw, where=frame.compared)
     result = {
         "filtered": compare(filtered, city, frame.compared),
         "raw": compare(raw, city, frame.compared),

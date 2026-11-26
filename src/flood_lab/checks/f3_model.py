@@ -993,6 +993,8 @@ def main() -> int:
             for k in ("allowance_mm_per_h", "rain_h", "after_h", "boundary_level_m")
             if r_lo[k] != r_hi[k]
         ]
+        if lo["spec"].get("extra_inp", {}) != hi["spec"].get("extra_inp", {}):
+            differs.append("solver options (extra_inp)")
         rain_order = (
             r_lo["rain_mm_per_h"] is not None
             and r_hi["rain_mm_per_h"] is not None
@@ -1256,8 +1258,8 @@ def main() -> int:
     ]
     finished = len(done)
     first = (
-        f"F3 solver model: drainage allowance frozen at {allowance:g} mm/h [{freeze['tag']}] on "
-        f"{freeze.get('frozen_on')}; {finished} of {len(labels)} named runs finished. Calibrated "
+        f"F3 solver model: drainage allowance {STATE} at {allowance:g} mm/h [{freeze['tag']}] "
+        f"({freeze.get('frozen_on')}); {finished} of {len(labels)} named runs finished. Calibrated "
         "on the city's two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the "
         "3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, "
         "the city maps and the cache files listed as inputs. Captions: "

@@ -376,11 +376,12 @@ def make_run(
         lines = (base_dir / "sfincs.bzs").read_text().splitlines()
         npts = len(lines[0].split()) - 1
         (out / "sfincs.bzs").unlink()
-        (out / "sfincs.bzs").write_text(
+        _write_text_atomic(
+            out / "sfincs.bzs",
             "".join(
                 f"{t:9.1f}" + "".join(f"{level:8.3f}" for _ in range(npts)) + "\n"
                 for t in (0.0, total)
-            )
+            ),
         )
     else:
         lines = (base_dir / "sfincs.bzs").read_text().splitlines()
@@ -388,11 +389,12 @@ def make_run(
         npts = len(lines[0].split()) - 1
         lvl = float(lines[0].split()[1])
         (out / "sfincs.bzs").unlink()
-        (out / "sfincs.bzs").write_text(
+        _write_text_atomic(
+            out / "sfincs.bzs",
             "".join(
                 f"{t:9.1f}" + "".join(f"{lvl:8.3f}" for _ in range(npts)) + "\n"
                 for t in (0.0, total)
-            )
+            ),
         )
     values.pop("prcfile", None)
     values.pop("netamprfile", None)
@@ -404,10 +406,10 @@ def make_run(
         r = float(rain_mm_h)
         stop = rain_h * 3600.0
         rows = [(0.0, r), (stop, r), (stop + 1.0, 0.0), (total, 0.0)]
-        (out / "sfincs.precip").write_text("".join(f"{t:9.1f} {v:9.3f}\n" for t, v in rows))
+        _write_text_atomic(out / "sfincs.precip", "".join(f"{t:9.1f} {v:9.3f}\n" for t, v in rows))
         values["prcfile"] = "sfincs.precip"
     values.update(extra or {})
-    (out / "sfincs.inp").write_text(_format_inp(values))
+    _write_text_atomic(out / "sfincs.inp", _format_inp(values))
     spec = {
         "base": str(base_dir),
         "qinf_mm_per_h": qinf,
@@ -422,6 +424,12 @@ def make_run(
     }
     _write_json(out / "spec.json", spec)
     return spec
+
+
+def _write_text_atomic(path: Path, text: str) -> None:
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text)
+    os.replace(tmp, path)
 
 
 def _date_add(seconds: float, tref: str = TREF) -> str:
@@ -441,7 +449,12 @@ def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
 
     ds = xr.open_dataset(mrms_nc)
     da = ds["precip"].rename({"lat": "y", "lon": "x"}).sortby("y")
-    da = da.assign_coords(time=pd.to_datetime(da["time"].values).tz_localize(None))
+    # each file holds the hour ENDING at its stamp; label it at the hour's start and pass it as
+    # time_label="left", so the first hour of the window is kept (HydroMT clips the data to the
+    # model window before it shifts a right-labelled series, which drops the first hour)
+    stamps = pd.to_datetime(da["time"].values)
+    stamps = stamps.tz_localize(None) if stamps.tz is not None else stamps
+    da = da.assign_coords(time=stamps - pd.Timedelta(hours=1))
     da = da.rio.write_crs("EPSG:4326") if hasattr(da, "rio") else da
     da.attrs["units"] = "mm"
     src = da.to_dataset(name="precip")
@@ -466,10 +479,14 @@ def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
         rotation=0,
         epsg=EPSG,
     )
-    sf.precipitation.create(precip=src, cumulative_input=True, time_label="right")
+    sf.precipitation.create(precip=src, cumulative_input=True, time_label="left")
     pr = sf.precipitation.data["precip_2d"]
+    # an absolute path: HydroMT resolves a relative one against the model root, which is removed
+    out_nc = out_nc.resolve()
     sf.precipitation.write(filename=str(out_nc))
     shutil.rmtree(work, ignore_errors=True)
+    if not out_nc.exists():
+        raise FileNotFoundError(f"HydroMT did not write {out_nc}")
     return {
         "source": str(mrms_nc),
         "source_sha256": _sha256(mrms_nc),
@@ -479,8 +496,9 @@ def replay_forcing(mrms_nc: Path, out_nc: Path, tref: str, hours: int) -> dict:
         "x_res_m": float(abs(pr["x"].values[1] - pr["x"].values[0])),
         "mean_rate_by_step_mm_h": [round(float(v), 3) for v in pr.mean(("x", "y")).values],
         "max_rate_mm_h": round(float(pr.max()), 3),
-        "rule": "hour ending at the file stamp -> rate over [stamp - 1 h, stamp); not confirmed "
-        "from a primary source (F3 report)",
+        "rule": "hour ending at the file stamp -> rate over [stamp - 1 h, stamp), held constant "
+        "(SFINCS's default block rain); the end-of-hour stamp is not confirmed from a primary "
+        "source (F3 report)",
     }
 
 
@@ -571,6 +589,32 @@ def analyse(folder: Path) -> dict:
     return balance
 
 
+def export_zb(run: Path, out: Path) -> None:
+    """The solver's lowest level per cell (``zb`` of the map file), row 0 north, as a GeoTIFF."""
+    import rasterio
+    import xarray as xr
+    from rasterio.transform import from_origin
+
+    with xr.open_dataset(run / "sfincs_map.nc") as ds:
+        zb = ds["zb"].values[::-1].astype("float32")
+    west, _, _, north = SQUARE
+    tmp = out.with_name(out.name + ".tmp")
+    with rasterio.open(
+        tmp,
+        "w",
+        driver="GTiff",
+        height=zb.shape[0],
+        width=zb.shape[1],
+        count=1,
+        dtype="float32",
+        crs=f"EPSG:{EPSG}",
+        transform=from_origin(west, north, CELL, CELL),
+        compress="deflate",
+    ) as dst:
+        dst.write(zb, 1)
+    os.replace(tmp, out)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
@@ -581,6 +625,9 @@ def main() -> None:
     f.add_argument("out", type=Path)
     f.add_argument("--tref", required=True, help="YYYYmmdd HHMMSS, UTC")
     f.add_argument("--hours", type=int, required=True)
+    z = sub.add_parser("export-zb")
+    z.add_argument("run", type=Path, help="any finished run folder of the base")
+    z.add_argument("out", type=Path)
     a = sub.add_parser("analyse")
     a.add_argument("folder", type=Path)
     r = sub.add_parser("run")
@@ -598,6 +645,9 @@ def main() -> None:
         rec = replay_forcing(args.mrms, args.out, args.tref, args.hours)
         _write_json(args.out.with_suffix(".json"), rec)
         print(json.dumps(rec, indent=1))
+        return
+    if args.command == "export-zb":
+        export_zb(args.run, args.out)
         return
     if args.command == "analyse":
         print(json.dumps(analyse(args.folder), indent=1))

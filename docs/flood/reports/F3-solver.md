@@ -6,8 +6,8 @@ Date: 2026-11-25 · branch `flood/f3` · crc-sdk 1.0.0, crc-framework 1.0.0 · S
 Stage F3 of `docs/flood/plan.md`. The model of the square is built on the real terrain and calibrated against
 the city's two current-sea-level flood maps. The stage stopped before the freeze and before the two storm
 replays, because the monotonicity check of FH8 fails ("A stage", step 5: a pass rule fails, stop and report).
-The failure is diagnosed below. It is a property of the solver's momentum term at the rims of ponds, not a
-defect of the build, and it has a one-line remedy that Yuri decides. Numbers come from the record `f3-model`
+The failure is millimetre noise in a few dozen cells, diagnosed below after the blind review
+corrected the first diagnosis; whether the rule should allow it is Yuri's decision. Numbers come from the record `f3-model`
 (`site/flood/tests/records/f3-model.json`); the gallery shows it with its figures.
 
 ## Result against the pass rule
@@ -15,29 +15,34 @@ defect of the build, and it has a one-line remedy that Yuri decides. Numbers com
 | Rule (plan F3, FH8) | Result |
 | --- | --- |
 | Water balance within 1% in every run | **Passes.** 14 of 14 runs; the largest residual is 0.017% of the rain |
-| CSI of 0.5 or better against the two calibration maps (*proposed*) | **Fails.** 0.285 (Limited) and 0.391 (Moderate) at the proposed allowance. The plan's next step, one value per sewer district, could not be tried: no official district layer exists (section 4). The plan says to report the mismatch and continue with the best fit |
-| Monotonicity (FH8): at lower rain no cell deeper by more than 1 mm, and no cell wet to 0.05 m deeper at all | **Fails.** Limited against Moderate at 30 mm/h: 71 compared cells deeper by more than 1 mm, 148 wet cells deeper at all, at most 11.8 mm. The same at every allowance tried. **This is what stopped the stage** |
+| CSI of 0.5 or better against the two calibration maps (*proposed*) | **Fails.** 0.307 (Limited) and 0.408 (Moderate) at the proposed allowance. The plan's next step, one value per sewer district, could not be tried: no official district layer exists (section 4). The plan says to report the mismatch and continue with the best fit |
+| Monotonicity (FH8): at lower rain no cell deeper by more than 1 mm, and no cell wet to 0.05 m deeper at all | **Fails as written.** At 30 mm/h the first clause passes (largest excess 0.82 mm), the second fails: 41 wet cells deeper by less than a millimetre. At 20, 25 and 35 mm/h, 2 to 4 cells exceed 1 mm, by at most 3.8 mm. **This is what stopped the stage** |
 | The calibration value is frozen before any validation | **Not done.** 30 mm/h is proposed, not frozen (`src/flood_lab/hazard/allowance.toml` says so) |
 | The two replays | **Not run.** The radar rainfall for both storms is downloaded and turned into solver forcing; the runs wait for Yuri's word |
+
+A fact also differs from the facts file: AORC's grid extent (section 7, CH-15). It touches F4's source,
+not F3, and changes nothing in the window used.
 
 ## 1. The model (FH2)
 
 `src/flood_lab/hazard/sfincs_model.py`; record of the build `data/cache/flood/f3/model/base/base.json`.
-Every choice is a placeholder **[P]** and is listed in the record.
+Every choice is a placeholder **[P]** and is listed in that record.
 
 - **Grid and terrain:** the whole 4 km square, 640,000 cells of 5 m, all active; sub-grid tables from the
-  1 m USGS terrain of F1 (10 levels, 0.5 m pixels). Built in 53 s, 1.26 GB peak memory.
+  1 m USGS terrain of F1 (10 levels, 0.5 m pixels). The last build took 87 s with a 1.10 GB peak (`base.json`).
 - **Navy Yard pits (F1's open item): filled.** The two dry docks (lowest −13.5 m and −13.3 m) are filled
   to the median level of a ring around them, 1.80 m: 16,368 and 16,463 pixels. The third patch (lowest
   −8.1 m) is filled to its ring's median, −1.02 m. That is below the start water level, so the patch
   holds water like the slips beside it. Walls are filled only where they lie below datum and within
   15 m of the pit, so the quays keep their height. A first version grew each fill over all connected low
-  ground and raised about 0.19 km² of quay; it was caught and corrected before any run counted. The
-  pits' cells are left out of every comparison.
-- **Buildings:** the city's 22,960 footprints in the fetched box are raised 5 m as obstacles.
-  Rain on a roof stays there until the allowance drains it, as a roof drain feeds the sewer.
+  ground and raised about 0.19 km² of quay; it was caught and corrected before any run counted. Every cell
+  with any pixel in a pit is left out of the comparisons.
+- **Buildings:** the city's 22,960 footprints in the fetched box are raised 5 m as obstacles. Rain on a
+  cell lands on the cell; in a cell that is all roof it stands on the roof until the allowance drains it,
+  and in a cell that is mostly roof it gathers on the cell's open ground (section 6).
 - **Water:** F1's water pixels are ordinary terrain, below the boundary level, so the river is full at
-  the start (`zsini` 0 m NAVD88).
+  the start (`zsini` 0 m NAVD88). So is any cell whose lowest level is below 0 m: the slips and the
+  river's edge. Such cells hold standing water from the first second and are not compared (section 2).
 - **Boundaries:** water level held at 0 m NAVD88 **[P]** where the square's edge crosses the river (256
   cells). Outflow only on the land edges (2,936 cells): water may leave and none comes in. Water from
   outside the square cannot enter, which is a stated limit.
@@ -63,15 +68,19 @@ so this matters for F4 (section 7).
 critical success index (bottom). Limit: the city's maps are themselves a model's output, and the one-hour
 storm is an assumption.*
 
-- **How the comparison is made.** Compared cells: Brooklyn land in the square, centre not under a
-  footprint, not a pit, not water (332,670 cells). A cell's modelled depth is the peak level less the
-  terrain at the cell's centre pixel, which is where the city's class is read. **The model's wet patches
-  under a quarter acre are removed before comparing.** That is the city's own stated rule for its maps
-  ("areas of at least 0.25 contiguous acres"). Applying it to the model compares like with like; the
-  unfiltered scores are in the record beside the filtered ones. Two checks support the choice of cells:
-  the city's maps leave buildings out (5% of their wet land cells have a centre in a footprint, against
-  34% of all land cells), and reading depth as the mean over the cell's open ground gives the same CSI
-  (0.386 against 0.391), while the deepest pixel gives a worse one (0.286).
+- **Compared cells (330,615):** Brooklyn land in the square, centre not under a footprint, no pixel in a
+  pit, not water, and lowest level not below the start water level. The last condition came from the
+  blind review: 1,879 cells hold water from the start, and before they were left out they counted as
+  deep flooding the city does not show (1.7 ha, the flat line at 40 and 50 mm/h in the first draft).
+- **Depth at a cell** is the peak level less the terrain at the cell's centre pixel, which is where the
+  city's class is read. Reading it as the mean over the cell's open ground gave the same CSI in a test on
+  the first draft (0.386 against 0.391); the deepest pixel gave a worse one (0.286). The city's maps leave
+  buildings out: 4.3 to 5.0% of their wet land cells have a centre in a footprint, against 33.6% of all
+  land cells. These checks are not in the record; they were run once on the cache.
+- **The model's wet patches under a quarter acre are removed before comparing,** counting only compared
+  cells, so the river cannot hold a small patch up by touching it. That is the city's own stated rule for
+  its maps ("areas of at least 0.25 contiguous acres"). The unfiltered scores are in the record beside
+  the filtered ones.
 - **Storm:** 1.77 and 2.13 in/hr held for one hour **[P]** (the city publishes no duration; §14), then
   one dry hour.
 - **Objective:** the smallest sum, over both maps and both classes, of the squared log ratio of modelled
@@ -79,26 +88,25 @@ storm is an assumption.*
 
 | Allowance, mm/h | Limited: area error | Limited: CSI wet | Moderate: area error | Moderate: CSI wet | Sum of area errors |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 20 | 1.856 | 0.302 | 0.883 | 0.394 | 2.74 |
-| 25 | 0.853 | 0.322 | 0.471 | 0.408 | 1.32 |
-| **30** | **0.045** | **0.285** | **0.127** | **0.391** | **0.17** |
-| 35 | 0.970 | 0.127 | 0.018 | 0.345 | 0.99 |
-| 40 | 17.6 | 0.000 | 0.862 | 0.253 | 18.5 |
+| 20 | 1.609 | 0.317 | 0.762 | 0.408 | 2.37 |
+| 25 | 0.631 | 0.341 | 0.367 | 0.424 | 1.00 |
+| **30** | **0.087** | **0.307** | **0.067** | **0.408** | **0.15** |
+| 35 | 3.138 | 0.140 | 0.104 | 0.362 | 3.24 |
+| 40 | 88.5 | 0.000 | 1.643 | 0.267 | 90.1 |
 
-- **Proposed: 30 mm/h.** At 30 the areas are 12.4 ha shallow and 6.3 ha deep against the city's 10.3 and
-  5.8 (Limited), and 22.6 and 15.6 against 18.3 and 11.7 (Moderate).
-- **One value is a compromise.** Limited alone fits best near 30 and Moderate alone near 35. An
-  allowance that has to rise with the rain says the city's sewer does not behave as a constant rate.
-- **Where the water is: CSI stays near 0.3 to 0.4 at every allowance.** The model finds the city's main
-  flooded corridors, around Flushing Avenue and the streets north of it and along Kent Avenue. It also
-  wets places the city does not, most of all in the Brooklyn Navy Yard and at the Vinegar Hill waterfront.
-  - Leaving the Navy Yard out (NTA BK0261) raises CSI to 0.344 (Limited) and 0.497 (Moderate). The
-    city's maps do show some flooding there (206 cells on the Limited map, 376 on Moderate), so it is not
-    wholly masked. The city masks large non-residential lots, but which ones is not published. The
-    calibration keeps the Navy Yard in and reports this as a sensitivity.
-  - The calibration curve and the hit-and-miss map are the evidence. Location agreement is the weak part
-    of a drainage-allowance model; Kasaei et al. 2025 report their 0.20 m only after calibrating on
-    marks.
+- **Proposed: 30 mm/h.** At 30 the areas are 12.3 ha shallow and 4.6 ha deep against the city's 10.3 and
+  5.8 (Limited), and 22.4 and 13.8 against 18.3 and 11.7 (Moderate).
+- **One value is a compromise.** Limited alone fits best near 30 and Moderate alone between 30 and 35.
+  An allowance that has to rise with the rain says the city's sewer does not behave as a constant rate.
+- **Where the water is: CSI peaks at 0.34 (Limited) and 0.42 (Moderate) over the allowances tried.**
+  The model finds the city's main flooded street corridors (the blue clusters east of 588,000 E in the
+  map below). It also wets places the city does not, most of all in the Brooklyn Navy Yard.
+  - Leaving the Navy Yard out (NTA BK0261) raises CSI at 30 mm/h to 0.356 (Limited) and 0.509
+    (Moderate). The city's maps do show some flooding there (206 cells on the Limited map, 376 on
+    Moderate), so it is not wholly masked. The city masks large non-residential lots, but which ones is
+    not published. The calibration keeps the Navy Yard in and reports this as a sensitivity.
+  - Location agreement is the weak part of a drainage-allowance model; Kasaei et al. 2025 report their
+    0.20 m only after calibrating on marks.
 
 ![Hit, miss and false alarm](../figures/f3/hit_miss.png)
 
@@ -107,28 +115,27 @@ the two maps counts as both a miss and a false alarm.*
 
 ## 3. The check that stopped the stage: monotonicity (FH8)
 
-Each pair below differs only in rain (Limited 44.96 mm/h, Moderate 54.10 mm/h).
+Each pair differs only in rain (Limited 44.96 mm/h, Moderate 54.10 mm/h), on the compared cells.
 
-| Pair | Compared cells deeper at the lower rain by over 1 mm | Wet cells deeper at all | Largest excess |
+| Pair | Cells deeper at the lower rain by over 1 mm | Wet cells deeper at all | Largest excess |
 | --- | ---: | ---: | ---: |
-| 20 mm/h | 15 | 111 | 11.7 mm |
-| 25 mm/h | 19 | 95 | 12.3 mm |
-| 30 mm/h | 71 | 148 | 11.8 mm |
-| 35 mm/h | 3 | 45 | 1.9 mm |
-| 30 mm/h, momentum advection off | 1 | 49 | 1.005 mm |
+| 20 mm/h | 3 | 34 | 1.3 mm |
+| 25 mm/h | 4 | 40 | 3.8 mm |
+| 30 mm/h | 0 | 41 | 0.82 mm |
+| 35 mm/h | 2 | 29 | 1.9 mm |
+| 30 mm/h, momentum advection off | 0 | 32 | 0.83 mm |
 
-- **Where:** the excess cells are in ponds 0.8 to 1.6 m deep that fill to their rim, most of them near
-  the Williamsburg waterfront (587,000 to 587,200 E, 4,507,000 to 4,507,700 N). Their peak level differs by millimetres between the two storms.
-- **Why:** with the solver's momentum advection switched off, the excess falls to one cell at 1.005 mm.
-  The rest are below a millimetre: as at F0, where 4 toy cells were deeper by under 0.1 mm. So the
-  failure is inertial overshoot at pond rims. Water arriving faster runs past the rim and drains back,
-  so a pond can end a hair lower after more rain.
-- **What advection off costs:** nothing that shows in the fit. The area error at 30 mm/h is 0.040 and
-  0.111, against 0.045 and 0.127 with advection; CSI is 0.287 and 0.390, against 0.285 and 0.391; time
-  per run is 245 s and 298 s, against 260 s and 330 s.
-- **The rule as written still fails without advection,** by 49 wet cells under a millimetre, because its
-  second clause allows no excess at all in a wet cell. F0 met the same and the threshold was left
-  unchanged.
+- **The first draft of this report had the cause wrong.** It counted 71 cells over 1 mm at 30 mm/h and
+  put them down to momentum overshoot at pond rims, with switching advection off as the remedy. The
+  blind review showed, and a recount confirmed, that all 71 were cells holding water from the start
+  (lowest level below 0 m, mostly in the Navy Yard slips). Their level differs between runs by the rain
+  that fell on them; that is not flooding. Left out (section 2), no cell at 30 mm/h exceeds 1 mm, and
+  switching advection off changes nothing material (CSI 0.309 and 0.407, area errors 0.083 and 0.056;
+  computed once on the cache, not in the record). Advection stays on as built.
+- **What remains is millimetre noise:** a handful of cells at 20 to 35 mm/h by 1.3 to 3.8 mm, and a few
+  dozen wet cells by under a millimetre. F0 met the same on toy terrain (4 cells, under 0.1 mm), and the
+  rule was left unchanged then.
+- **Not yet looked at:** where the 2 to 4 cells over 1 mm lie at 20, 25 and 35 mm/h.
 
 ## 4. Per-district calibration: no source
 
@@ -168,10 +175,12 @@ duration-sensitivity runs matter.
 - **Not confirmed (FS6):** that each file's stamp is the END of its hour. NSSL's table gives the stamp
   format only; the VLab guides that state it refused automated access. The forcing assumes end of hour,
   and the record says so.
-- **Solver forcing:** built for both storms (`data/cache/flood/f3/forcing/*.nc`, with summaries). The two
-  runs take about 40 and 70 minutes and are one command (below).
-- **What one run without the freeze already shows (Moderate map storm, 20 mm/h, an early run, not a
-  result).** On the 25 m² measure, Farragut's open ground reached 1.25 m and Hudson Avenue 0.54 m, so the
+- **Solver forcing:** built for both storms (`data/cache/flood/f3/forcing/*.nc`, with summaries), one
+  rate per radar hour held over that hour. The first build dropped the first radar hour (HydroMT clips
+  to the model window before shifting an end-labelled series); the review caught it and the forcing was
+  rebuilt with each hour labelled at its start. The two runs take about 40 and 70 minutes.
+- **What one early run already shows (Moderate map storm, 20 mm/h, before the dock-wall fix; computed
+  once with `at_assets.run_assets`, not in the record; not a result).** On the 25 m² measure, Farragut's open ground reached 1.25 m and Hudson Avenue 0.54 m, so the
   substation complex is not dry in a design storm. Water Street read 0.06 m, Plymouth 0.18 m and the
   unnamed yard 0.10 m. That run predates the dock-wall fix and the proposed allowance; it is not
   evidence for Friday's rule. The replays are.
@@ -205,24 +214,24 @@ duration-sensitivity runs matter.
 
 ## Decisions for Yuri
 
-1. **FH8, the stop.** Recommended: **switch momentum advection off** (`advection = 0`; the fit is
-   unchanged, as shown above), and **read FH8's second clause with the same 1 mm tolerance** as the first,
-   so that a wet cell may be deeper by up to 1 mm. The 30 mm/h pair then passes. The alternative is to
-   keep advection and set the tolerance to 2 cm, but that would hide real errors of that size.
-2. **The allowance: 30 mm/h, then freeze.** With decision 1 the frozen runs are rerun with advection off
-   (2 runs, about 10 minutes); the value does not move.
-3. **CSI below 0.5.** Accept 0.29 and 0.39 (0.34 and 0.50 without the Navy Yard) as the best fit, and
-   report the mismatch as the plan says? There is no per-district fallback without an official source.
-   Options: (a) accept and say so on the page (recommended); (b) try the unofficial sewer atlas, labelled
-   as such; (c) ask DEP for its sewershed layer.
+1. **FH8, the stop.** Recommended: **give the rule's second clause the same 1 mm tolerance as the
+   first** (a wet cell may be deeper at the lower rain by up to 1 mm, as for any cell). The proposed
+   30 mm/h pair then passes. The other pairs keep 2 to 4 cells over 1 mm (at most 3.8 mm), which the
+   record shows. The alternative, a tolerance of 5 mm on both clauses, passes every pair. Also confirm
+   that cells holding water from the start are left out of the comparisons (section 2).
+2. **The allowance: 30 mm/h, then freeze.** Nothing needs rerunning; the frozen runs exist.
+3. **CSI below 0.5.** Options: (a) accept 0.31 and 0.41 (0.36 and 0.51 without the Navy Yard) as the best
+   fit and say so on the page, as the plan allows (recommended); (b) try the unofficial sewer atlas,
+   labelled as such; (c) ask DEP for its sewershed layer.
 4. **The model choices tagged [P]:** pits filled to the quay, buildings raised 5 m, boundary at 0 m
    NAVD88, Manning's 0.025 and 0.02, the quarter-acre filter on the model, and 25 m² for the lead-asset
    measure. Each is in the record. Roughness from land cover is CH-14.
-5. **Then the replays and sensitivities, unattended, in one command** (about 3 hours): Ida and
-   2023-09-29 at the frozen value; the Extreme map check; 30-minute and 2-hour storms;
-   boundary at +1 m.
+5. **Then the replays and sensitivities, unattended, in one command** (about 3 hours), followed by the
+   record: `just flood-f3-batch data/cache/flood/f3/queue_after_decision_1.json`, then `just flood-f3`.
+   They are Ida and 2023-09-29 at 30 mm/h, the Extreme map check, 30-minute and 2-hour storms, and the
+   boundary at +1 m. The Ida replay answers Friday's lead-asset question.
 6. **AORC download** (5.5 hours, 5.5 GB) may start at the same time; it uses the network, not the
-   processor.
+   processor. CH-15 corrects the differing fact.
 
 ## Open changes (D16)
 
@@ -241,11 +250,23 @@ duration-sensitivity runs matter.
 
 ## Review before the stop
 
-See the section added after the blind review below.
+A fresh Opus agent reviewed the diff without being told what to expect. Its findings, and what was done:
+
+| Finding | Done |
+| --- | --- |
+| Every monotonicity excess over 1 mm was in cells holding water from the start, not at pond rims; the first diagnosis and its remedy (advection off) were wrong | Confirmed by recount (71 of 71). Such cells are left out of every comparison; section 3 rewritten; decision 1 changed |
+| The same cells counted as deep flooding, and the quarter-acre filter ran over the river, so 766 cells touching it were never filtered | Both fixed; every number in sections 2 and 3 recomputed from the regenerated record. 30 mm/h is still the best fit |
+| The recommended remedy would not have passed the pair (1.005 mm > 1 mm) | Moot after the fix; the new recommendation was checked against the record |
+| The replay forcing dropped the first radar hour | Fixed and rebuilt (section 6) |
+| The forcing-path fix and CH-14/CH-15 were not in the commit | Committed with this report |
+| Build time and memory in the report were from an earlier build | Corrected from `base.json` (87 s, 1.10 GB) |
+| The record's first note called the value both frozen and not frozen; the pair check ignored solver options | Fixed in `f3_model.py` |
+| Run files not written atomically; the pit mask used the centre pixel only | Both fixed |
+| Numbers in the report that are not in the record | Each is now marked with where it comes from |
 
 ## Checks
 
-`just test` 452 passed, 3 skipped (parked count unchanged: 8 files, 3 tests); `just lint` clean;
+`just test` and `just lint` pass (182 flood tests; parked count unchanged at 8 files and 3 tests);
 `just flood-f3` rebuilds the record and figures from the cache, offline.
 
 ## Models and tokens
@@ -259,7 +280,8 @@ See the section added after the blind review below.
 | AORC download script (F4 preparation) | Sonnet | 59,169 |
 | RainyDay environment (F4 preparation) | Opus | 112,076 |
 | F3 check script, figures, unit tests | Opus | 194,893 |
+| Blind review of the stage's diff | Opus | 198,380 |
 
-The main model this session is Opus 5.5, not Fable 5.2 (concern 11 of `docs/flood/demo-concerns.md`):
-the freeze is one of the two decisions that concern suggests a Fable session for, and it has not been
+The main model this session is Opus 5.5, not Fable 5.2 (concern 11 of `docs/flood/demo-concerns.md`).
+The freeze is one of the two decisions that concern suggests a Fable session for, and it has not been
 taken here.

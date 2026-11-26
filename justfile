@@ -241,3 +241,7 @@ flood-f3-batch queue:
 flood-f3:
     uv run --with matplotlib python -m flood_lab.checks.f3_model
     uv run python -m flood_lab.gallery
+
+# Flood lab F3: the solver's lowest level per cell, from any finished run of the base (the comparison leaves out cells below the start level)
+flood-f3-zb run="data/cache/flood/f3/runs/mod_q30":
+    uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' --with scipy python src/flood_lab/hazard/sfincs_model.py export-zb {{run}} data/cache/flood/f3/model/zb_5m.tif
