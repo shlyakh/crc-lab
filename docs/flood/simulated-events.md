@@ -6,7 +6,7 @@ into CRC. Requirements FH5 to FH7; stage F4 (`docs/flood/plan.md`); decision CH-
 (`docs/flood/changes.md`). Written 2026-11-26 while the batch runs. Figures marked *interim* are rebuilt
 as runs finish and once more when all 150 are in. Each figure states how many runs it rests on.
 
-Tags as in the requirements: **[S]** read in a source, **[P]** a placeholder chosen here, to be confirmed.
+Terms follow `docs/flood/terminology.md`. Tags as in the requirements: **[S]** read in a source, **[P]** a placeholder chosen here, to be confirmed.
 
 ## 1. In one paragraph
 
@@ -17,7 +17,7 @@ similar rainfall climate could have fallen on the square instead. RainyDay finds
 storms in that region and builds 1,000 synthetic years. Each synthetic year draws a random number of those
 storms, moves each to a random place in the region, and keeps the one that rains most on the square.
 That year's storm is one **simulated event**. 150 of the 1,000 events are run through the SFINCS flood
-model. Each run gives a peak-depth map, and the weighted runs give, for every 5 m cell and every asset,
+model. Each run gives a map of maximum inundation depth (water level less ground level), and the weighted runs give, for every 5 m cell and every asset,
 the depth expected once in 10, 100 or 500 years.
 
 ## 2. The whole chain
@@ -72,7 +72,7 @@ Python 3.8 environment. Settings, all recorded in `catalogue_n960/params.json`:
 
 | Setting | Value | Why |
 | --- | --- | --- |
-| DURATION | 3 h | Urban response is short, and the 30 mm/h allowance makes the wettest hours decisive. Solver cost is about 1 to 1.5 minutes per simulated hour **[P]** |
+| DURATION | 3 h | The time of concentration of a 4 km window of streets is short, and the 30 mm/h constant loss rate makes the wettest hours decisive. Solver cost is about 1 to 1.5 minutes per simulated hour **[P]** |
 | PADSCENARIOS | 1 h | Water routes after the rain stops |
 | NSTORMS | 960 (40 a year) | The 2- to 10-year rainfall barely moves from 20 to 40 a year (section 5) |
 | TIMESEPARATION | 24 h | Stops one storm system from taking two places (Ida and Henri did, at the 3-hour default) **[P]** |
@@ -103,7 +103,7 @@ unbiased whatever the link between rain and depth. Its error is smallest where d
 seed is fixed (`20261126`), so the selection can be reproduced.
 
 **Why every rank band is sampled, not only the top 150.** The ranking is by 3-hour rain, but flooding
-depends on the wettest hour against the 30 mm/h allowance. Some modest 3-hour years have a sharp hour,
+depends on the rainfall excess: the wettest hour less the 30 mm/h constant loss rate (the water the sewers and the ground take away, frozen in F3). Some modest 3-hour years have a sharp hour,
 and the right panel below shows them below rank 150.
 
 ![Synthetic years](figures/f4/synthetic_years.png)
@@ -157,7 +157,7 @@ by 1 dry hour.
 | 100 | 73.2 | 106.2 | 35.4 |
 | 500 | 94.0 | 136.7 | 45.6 |
 
-Spread evenly over 3 hours, every storm up to 25 years rains more slowly than the 30 mm/h allowance. These
+Spread evenly over 3 hours, every storm up to 25 years rains more slowly than the 30 mm/h loss rate, so it has no rainfall excess. These
 storms wet no cell, and neither does the 1-hour 2-year storm. A uniform design storm cannot show the
 sharp hour inside a real storm; this is why the catalogue, not the design storms, sets the frequency (D9).
 
@@ -180,7 +180,7 @@ band from 2 to 100 years.
 The catalogue is too dry at 2 to 10 years. The record is not the cause: AORC observed on the box itself
 (24 years, no transposition) has a median annual maximum of 38.1 mm, inside the 2-year band. Adding storms
 barely closes the gap. Yuri accepted the catalogue with this shortfall on 2026-11-26 (CH-19). The 2- to
-10-year storms produce little flooding under the 30 mm/h allowance, so the shortfall touches mainly
+10-year storms produce little ponding under the 30 mm/h loss rate, so the shortfall touches mainly
 shallow, frequent depths.
 
 The tail is a sample: between catalogues, the 500-year value moves from 117 to 159 mm. A depth at 500
@@ -227,8 +227,9 @@ cell (a floor, from pits in the 1 m terrain beside walls; see section 6).*
 - **Buildings' wall depth** reads about 2,900 buildings as wet even in storms that wet no 5 m cell. These
   are pits beside walls in the 1 m terrain, from F3's definition (`hazard/at_assets.py`). Before F6 uses
   wall depths, this needs a decision (F4 report).
-- **The flood model's own limits** (F3): drainage as one allowance, no inflow from outside the square,
-  screening-grade depths.
+- **The flood model's own limits** (F3): sewers and infiltration lumped into one constant loss rate; an
+  outflow boundary on land, so no run-on from the contributing area outside the square (about 1.6 km²
+  by a terrain estimate; sensitivity runs on a 5 km model measure its effect); screening-grade depths.
 
 ## 7. Files and commands
 
@@ -264,7 +265,7 @@ that was.
 7. NOAA Atlas 14, Volume 10, Version 3 (Northeastern States), point precipitation frequency at 40.7048 N,
    73.9642 W, annual-maximum series. Saved with checksums in `data/cache/flood/f3/atlas14/` (F3).
 8. SFINCS v2.5.0, Deltares (2026-11-02). doi:10.5281/zenodo.23883210 (requirements FH2; F0).
-9. Kasaei et al. (2025), the Jamaica Bay Ida model, for a single drainage rate as precedent (requirements
+9. Kasaei et al. (2025), the Jamaica Bay Ida model, for a single constant drainage (loss) rate as precedent (requirements
    FH3; F0 data card `jamaica-bay-ida-depth-map`).
-10. The lab's own decisions: `docs/flood/changes.md` CH-16 (allowance 30 mm/h), CH-17 (AORC 2002-2025),
+10. The lab's own decisions: `docs/flood/changes.md` CH-16 (loss rate 30 mm/h), CH-17 (AORC 2002-2025),
     CH-19 (catalogue accepted); `docs/flood/reports/F3-solver.md` (model, run time, Atlas 14 brackets).

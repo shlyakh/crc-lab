@@ -6,7 +6,7 @@ sequenceDiagram
     participant C as f4_catalogue check
     Sel->>F: scenario file of rank r (4 h of rain on about 35 AORC cells)
     F->>S: rain on the 5 m grid, nearest AORC cell, mm/h per hour
-    Note over S: F3 model as frozen, drainage 30 mm/h,<br/>boundary 0 m NAVD88, 4 simulated hours
+    Note over S: F3 model as frozen, loss rate 30 mm/h, water-level boundary 0 m,<br/>outflow boundary on land, 4 simulated hours
     S->>A: sfincs_map.nc, sfincs_his.nc
     A->>A: zsmax.tif (peak level), balance.json (water balance)
     A->>C: one run with its record (spec, run_run, balance)

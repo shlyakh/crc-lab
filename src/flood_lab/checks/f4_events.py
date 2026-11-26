@@ -3,7 +3,7 @@
     uv run --with matplotlib python -m flood_lab.checks.f4_events
 
 * ``synthetic_years.png``: every synthetic year of the chosen catalogue by return period, its
-  3-hour box rainfall and its wettest hour, the 30 mm/h drainage allowance, and the 150 years
+  3-hour box rainfall and its wettest hour, the 30 mm/h constant loss rate, and the 150 years
   selected for the solver by stratum.
 * ``parent_storms.png``: the observed storms the synthetic years come from, by month and by year
   (how often each parent storm is reused among the 1,000 years).
@@ -57,7 +57,7 @@ def synthetic_years(scen: list[dict], sel: list[dict]) -> dict:
         )
         ax[1].scatter(x, [x_["box_peak_hour_mm"] for x_ in mine], s=22, c=COLOURS[s])
     ax[1].axhline(ALLOWANCE_MM_H, color="k", lw=1, ls="--")
-    ax[1].text(1.05, ALLOWANCE_MM_H + 1, "drainage allowance 30 mm/h (F3)", fontsize=8)
+    ax[1].text(1.05, ALLOWANCE_MM_H + 1, "constant loss rate 30 mm/h (F3)", fontsize=8)
     above = sum(p > ALLOWANCE_MM_H for p in peak)
     for a, t in zip(
         ax,

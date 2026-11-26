@@ -7,7 +7,7 @@ flowchart TD
     F["1,000 synthetic years<br/>one storm per year, moved at random<br/>3 h of rain + 1 dry hour"]
     G["Selection: 150 years by rank<br/>30 + 60 + 60, each with a weight<br/>hazard/catalogue.py"]
     H["Rain on the model grid<br/>sfincs_model.py scenario-forcing"]
-    I["SFINCS v2.5.0 on the F3 model<br/>5 m cells, drainage 30 mm/h frozen<br/>one run per event, resumable"]
+    I["SFINCS v2.5.0 on the F3 model<br/>5 m cells, constant loss rate 30 mm/h frozen<br/>one run per event, resumable"]
     J["Peak depth per run<br/>5 m cells and assets"]
     K["Depth frequency per cell and asset<br/>weighted, empirical, dry-year mass"]
     L["CRC 1.0.0<br/>grid: Dataset.from_raster<br/>assets: Dataset.from_quantiles<br/>risk/crc_load.py"]
