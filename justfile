@@ -275,3 +275,7 @@ flood-f4-queue selection queue:
 # Flood lab F4: run a queue into data/cache/flood/f4/runs/ (resumable)
 flood-f4-batch queue:
     FLOOD_RUNS=data/cache/flood/f4/runs caffeinate -i python3 tools/flood/f3_batch.py {{queue}}
+
+# Flood lab: redraw the diagrams (Mermaid sources in docs/flood/figures/diagrams/*.mmd) as PNG
+flood-diagrams:
+    cd docs/flood/figures/diagrams && for f in *.mmd; do mmdc -i "$f" -o "${f%.mmd}.png" -s 2 -b white; done

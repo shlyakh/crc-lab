@@ -1,0 +1,11 @@
+flowchart LR
+    Y["1,000 synthetic years<br/>sorted by 3-hour rain<br/>rank 1 = largest"]
+    T1["T1: ranks 1-30<br/>every year run<br/>weight 1"]
+    T2["T2: ranks 31-150<br/>60 blocks of 2, one drawn per block<br/>weight 2"]
+    T3["T3: ranks 151-1000<br/>60 blocks of about 14, one drawn per block<br/>weight about 14"]
+    Y --> T1
+    Y --> T2
+    Y --> T3
+    T1 --> R["150 solver runs<br/>order: strata advance together<br/>1 : 2 : 2, random within each"]
+    T2 --> R
+    T3 --> R

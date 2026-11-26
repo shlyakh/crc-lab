@@ -1,0 +1,101 @@
+flowchart TD
+  subgraph SRC["Sources: facts confirmed in F0 (FS6)"]
+    S1["Lidar terrain, land cover"]
+    S2["MRMS radar rainfall, 0.01° hourly<br/>replays of Ida and 2023-09-29 (FH4)"]
+    S2b["NOAA AORC v1.1, 30 arc-second hourly, 2002 to 2025<br/>record for the storm catalogue (FH5),<br/>claim dates (FT5); CH-17"]
+    S2c["NOAA Atlas 14<br/>return periods of the city's storms,<br/>design storms (FH6)"]
+    S3["NYC stormwater flood maps"]
+    S4["Observations of flooding<br/>USGS high-water marks, FloodNet,<br/>Groundsource, 311, Storm Events, NFIP claims"]
+    S5["Assets<br/>OSM substations, building elevations,<br/>National Structure Inventory"]
+    S6["Damage curves, costs<br/>Hazus, Nirandjan, Williams, Bor,<br/>ICE Calculator, FEMA rates"]
+  end
+
+  subgraph HAZ["Hazard: depth on the project grid"]
+    H1["HydroMT-SFINCS<br/>model build (FH2)"]
+    H2["RainyDay<br/>storm catalogue (FH5)"]
+    H3["SFINCS solver<br/>replays, catalogue runs,<br/>design storms (FH4 to FH6)"]
+    H4["flood_lab<br/>drainage calibration (FH3)"]
+    H5["flood_lab<br/>depth frequency per cell (FH7)"]
+    H6["Emulator, PyTorch<br/>more synthetic years (FE, Tier 2)"]
+  end
+
+  subgraph CHK["Checks on depth (FV)"]
+    V1["flood_lab<br/>model against marks and sensors,<br/>who saw the flood"]
+  end
+
+  subgraph CRC["CRC 1.0.0 (crc-sdk, crc-framework)"]
+    C1["Dataset.from_raster, from_quantiles<br/>depth-frequency curves"]
+    C2["Impact.tabulated<br/>damage curves and measures"]
+    C3["Impact.evaluate<br/>damage ratio per event and asset"]
+    C4["complete + Impact.expectation,<br/>evaluate(...).impact(...)<br/>expected annual damage, loss at a return period"]
+    C5["Layer, Observations<br/>city maps, FloodNet (FS1, FS3)"]
+    C6["Distribution.empirical<br/>exceedance curve, VaR, CVaR,<br/>expected annual loss (FR5)"]
+  end
+
+  subgraph EXT["crc_event_loss: extension of CRC, offered upstream later (D17)"]
+    L1["Event set, event-loss table (FR4, FR10)"]
+    L2["Sums per event and per year,<br/>attribution, dependence brackets<br/>(FR5, FR6, FR10)"]
+  end
+
+  subgraph OWN["flood_lab"]
+    A1["assets_oed.csv, curves.yaml (FD6, FR1)"]
+    L3["Measures: benefit-cost,<br/>outage cost (FM)"]
+    L4["Bootstrap over synthetic years (FR8)"]
+    T1["Trigger indices, payout (FT1 to FT4)"]
+    T2["Fused labels, basis risk (FT5 to FT7)"]
+  end
+
+  OUT["Page, gallery of checks, investment one-pagers (FP)"]
+
+  S1 --> H1
+  S2b --> H2
+  S2 --> H3
+  S2c --> H3
+  S2b --> T2
+  H1 --> H3
+  H2 --> H3
+  S3 --> H4
+  H4 --> H3
+  H3 --> H5
+  H3 -.-> H6
+  H6 -.-> L1
+  H3 --> V1
+  S4 --> V1
+  H5 --> C1
+  S3 --> C5
+  S4 --> C5
+  S5 --> A1
+  S6 --> A1
+  A1 --> C2
+  H3 --> C3
+  C2 --> C3
+  C1 --> C4
+  C2 --> C4
+  C3 --> L1
+  L1 --> L2
+  L2 --> C6
+  C4 --> C6
+  C6 --> L3
+  L2 --> L4
+  L4 --> OUT
+  H3 --> T1
+  S4 --> T2
+  T1 --> T2
+  L1 --> T2
+  V1 --> OUT
+  C6 --> OUT
+  L3 --> OUT
+  T2 --> OUT
+
+  classDef src fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef own fill:#e5e7eb,stroke:#4b5563,color:#111
+  classDef solver fill:#ffedd5,stroke:#c2410c,color:#111
+  classDef crc fill:#dcfce7,stroke:#15803d,color:#111
+  classDef emu fill:#ede9fe,stroke:#6d28d9,color:#111
+  class S1,S2,S2b,S2c,S3,S4,S5,S6 src
+  classDef ext fill:#ccfbf1,stroke:#0f766e,color:#111
+  class H4,H5,V1,A1,L3,L4,T1,T2,OUT own
+  class L1,L2 ext
+  class H1,H2,H3 solver
+  class C1,C2,C3,C4,C5,C6 crc
+  class H6 emu

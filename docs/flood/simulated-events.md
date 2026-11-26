@@ -22,30 +22,9 @@ the depth expected once in 10, 100 or 500 years.
 
 ## 2. The whole chain
 
-```mermaid
-%%{init: {"flowchart": {"htmlLabels": false}}}%%
-flowchart TD
-    A["NOAA AORC v1.1<br/>hourly rain, 30 arc-seconds (about 1 km)<br/>2002-2025, window 38-44 N, 78.5-69.5 W<br/>5.3 GB Zarr (CH-17)"]
-    B["Annual maxima per pixel<br/>1, 3 and 6 hours<br/>tools/flood/f4_aorc_ams.py"]
-    C["Transposition domain B, land only<br/>39.3-41.6 N, 75.6-71.8 W<br/>81,585 pixels<br/>hazard/domain_choice.py"]
-    D["RainyDay input<br/>one NetCDF per day, mm/h<br/>hazard/aorc_rainyday.py"]
-    E["RainyDay catalogue<br/>960 largest 3-hour storms, at least 24 h apart"]
-    F["1,000 synthetic years<br/>one storm per year, moved at random<br/>3 h of rain + 1 dry hour"]
-    G["Selection: 150 years by rank<br/>30 + 60 + 60, each with a weight<br/>hazard/catalogue.py"]
-    H["Rain on the model grid<br/>sfincs_model.py scenario-forcing"]
-    I["SFINCS v2.5.0 on the F3 model<br/>5 m cells, drainage 30 mm/h frozen<br/>one run per event, resumable"]
-    J["Peak depth per run<br/>5 m cells and assets"]
-    K["Depth frequency per cell and asset<br/>weighted, empirical, dry-year mass"]
-    L["CRC 1.0.0<br/>grid: Dataset.from_raster<br/>assets: Dataset.from_quantiles<br/>risk/crc_load.py"]
-    M["NOAA Atlas 14<br/>3-hour annual maxima, 90% band"]
-    N["Six Atlas 14 design storms<br/>1 h and 3 h, uniform<br/>comparison only (FH6)"]
-    A --> B --> C
-    A --> D --> E
-    C --> E --> F --> G --> H --> I --> J --> K --> L
-    M -. "check of the rain (pass rule)" .-> F
-    M --> N --> I
-    J -. "compare" .- N
-```
+![The whole chain](figures/diagrams/events-chain.png)
+
+*Diagram source: [`figures/diagrams/events-chain.mmd`](figures/diagrams/events-chain.mmd) (Mermaid; `just flood-diagrams` redraws the image).*
 
 ## 3. Step by step
 
@@ -114,20 +93,9 @@ and 6 September 2008 (11).*
 
 ### 3.4 Which events are run
 
-```mermaid
-%%{init: {"flowchart": {"htmlLabels": false}}}%%
-flowchart LR
-    Y["1,000 synthetic years<br/>sorted by 3-hour rain<br/>rank 1 = largest"]
-    T1["T1: ranks 1-30<br/>every year run<br/>weight 1"]
-    T2["T2: ranks 31-150<br/>60 blocks of 2, one drawn per block<br/>weight 2"]
-    T3["T3: ranks 151-1000<br/>60 blocks of about 14, one drawn per block<br/>weight about 14"]
-    Y --> T1
-    Y --> T2
-    Y --> T3
-    T1 --> R["150 solver runs<br/>order: strata advance together<br/>1 : 2 : 2, random within each"]
-    T2 --> R
-    T3 --> R
-```
+![Which events are run](figures/diagrams/events-selection.png)
+
+*Diagram source: [`figures/diagrams/events-selection.mmd`](figures/diagrams/events-selection.mmd) (Mermaid; `just flood-diagrams` redraws the image).*
 
 Running all 1,000 would take about 80 hours. The years are split by rank and sampled, so that each run
 stands for its block of years. This is stratified sampling: the estimate of any per-cell statistic is
@@ -148,21 +116,9 @@ Before a stratum is complete, its finished runs stand for the whole stratum (wei
 
 ### 3.5 One simulated event
 
-```mermaid
-sequenceDiagram
-    participant Sel as selection.json
-    participant F as scenario-forcing
-    participant S as SFINCS (Docker, amd64 emulated)
-    participant A as analyse
-    participant C as f4_catalogue check
-    Sel->>F: scenario file of rank r (4 h of rain on about 35 AORC cells)
-    F->>S: rain on the 5 m grid, nearest AORC cell, mm/h per hour
-    Note over S: F3 model as frozen, drainage 30 mm/h,<br/>boundary 0 m NAVD88, 4 simulated hours
-    S->>A: sfincs_map.nc, sfincs_his.nc
-    A->>A: zsmax.tif (peak level), balance.json (water balance)
-    A->>C: one run with its record (spec, run_run, balance)
-    C->>C: depth at cell centres (as F3 calibrated), asset depths, weight
-```
+![One simulated event](figures/diagrams/events-one-run.png)
+
+*Diagram source: [`figures/diagrams/events-one-run.mmd`](figures/diagrams/events-one-run.mmd) (Mermaid; `just flood-diagrams` redraws the image).*
 
 Each run keeps its whole peak-depth grid and its storm descriptors (parent storm, dates, box total,
 wettest hour, how far it was moved). These are F9's training data (requirements §15). Solver wall time:

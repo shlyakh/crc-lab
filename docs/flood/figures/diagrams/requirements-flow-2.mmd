@@ -1,0 +1,46 @@
+flowchart LR
+  subgraph IN["Same inputs, exchanged as files"]
+    I1["assets_oed.csv (FD6)"]
+    I2["curves.yaml (FR1)"]
+    I3["Event depths from the solver,<br/>with catalogue frequencies"]
+    I4["One measure (FM1)"]
+  end
+
+  subgraph ENG["Loss engines"]
+    E0["CRC 1.0.0 + flood_lab<br/>the published result"]
+    E1["CLIMADA<br/>hazard from event depths, impact,<br/>exceedance curve, cost-benefit of the measure (FX3)"]
+    E2["Oasis LMF<br/>footprint, vulnerability, damage bins, occurrence,<br/>average annual loss and exceedance tables (FX4)"]
+    E3["FloodAdapt: SFINCS + Delft-FIAT<br/>one event and one measure reproduced (FX2)"]
+  end
+
+  CMP["flood_lab crosscheck/compare.py (FX5)<br/>per-asset damage within 0.1%: CRC, CLIMADA, FIAT<br/>within half a damage bin: Oasis<br/>expected annual loss within 1%"]
+  RES["Engine-agreement panel,<br/>each difference explained<br/>or recorded as a finding"]
+  FLT["A curve altered on purpose<br/>in one engine must be caught"]
+
+  I1 --> E0
+  I2 --> E0
+  I3 --> E0
+  I4 --> E0
+  I1 --> E1
+  I2 --> E1
+  I3 --> E1
+  I4 --> E1
+  I1 --> E2
+  I2 --> E2
+  I3 --> E2
+  I1 --> E3
+  I2 --> E3
+  I4 --> E3
+  E0 --> CMP
+  E1 --> CMP
+  E2 --> CMP
+  E3 --> CMP
+  FLT -.-> CMP
+  CMP --> RES
+
+  classDef own fill:#e5e7eb,stroke:#4b5563,color:#111
+  classDef crc fill:#dcfce7,stroke:#15803d,color:#111
+  classDef other fill:#fef9c3,stroke:#a16207,color:#111
+  class I1,I2,I3,I4,CMP,RES,FLT own
+  class E0 crc
+  class E1,E2,E3 other
