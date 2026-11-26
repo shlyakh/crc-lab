@@ -7,12 +7,14 @@ The queue is a JSON list of runs: ``{"label", "qinf", "rain"?, "rain_h"?, "after
 with a ``balance.json`` is done and skipped; a folder without one (a run that was stopped) is
 moved aside to ``<label>.stopped-<n>`` and started again. After the solver, the run's output is
 analysed in the builder's environment (``sfincs_model.py analyse``) and the large map file is
-kept. One line per run goes to ``data/cache/flood/f3/runs/batch.log``.
+kept. One line per run goes to ``batch.log`` in the runs folder: ``data/cache/flood/f3/runs/``, or
+``$FLOOD_RUNS`` when set (F4 uses ``data/cache/flood/f4/runs/``).
 """
 
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import time
@@ -24,7 +26,11 @@ import run_sfincs  # noqa: E402
 import sfincs_model  # noqa: E402
 
 CACHE = ROOT / "data" / "cache" / "flood"
-RUNS = CACHE / "f3" / "runs"
+RUNS = (
+    Path(os.environ["FLOOD_RUNS"]).resolve()
+    if os.environ.get("FLOOD_RUNS")
+    else CACHE / "f3" / "runs"
+)
 BASE = CACHE / "f3" / "model" / "base"
 BUILDER = [
     "uv",
