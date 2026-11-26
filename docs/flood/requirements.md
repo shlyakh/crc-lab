@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 6, 2026-11-25, tag `flood-requirements-v6` (earlier versions are tags `flood-requirements-v1` to `-v5`; what changed is in `docs/flood/changes.md`);
+Version 7, 2026-11-26, tag `flood-requirements-v7` at the merge of F3 (earlier versions are tags `flood-requirements-v1` to `-v6`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -893,3 +893,15 @@ New requirements. IDs follow the rule that none is reused.
 The lead asset is chosen by the rule in the demo plan (§4): the substation site with the greatest modelled
 depth in the Ida replay among those near mapped flooding. If no site is wet in any catalogue storm the
 build stops and reports, and the study area's buildings become the lead asset.
+
+## 16. Decisions at the F3 stop (accepted in version 7)
+
+From `docs/flood/reports/F3-solver.md` (change CH-16, accepted by Yuri on 2026-11-26). As in sections 14
+and 15, **where a row here and a paragraph above disagree, the row holds.**
+
+| Requirement | It says | From version 7 |
+| --- | --- | --- |
+| FH8 | At lower rainfall no cell deeper by more than 1 mm, and no cell wet to 0.05 m in either run deeper at all | No cell, wet or dry, deeper at the lower rainfall by more than 1 mm. The count of wet cells deeper by any amount is still reported |
+| FH3, FH8 | Comparisons on the study area | Cells whose lowest level lies below the model's start water level (0 m NAVD88) hold water from the start; they are left out of the calibration and of the monotonicity test |
+| FH3 | One value; if the fit fails, one per sewer district | One value, 30 mm/h **[P]**, frozen on 2026-11-26. No official sewer-district layer exists, so the per-district fallback is dropped. CSI 0.31 (Limited) and 0.41 (Moderate) against the proposed 0.5 is accepted as the best fit and stated on the page |
+

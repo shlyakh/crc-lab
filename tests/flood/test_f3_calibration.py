@@ -100,14 +100,19 @@ def test_monotonicity_allows_under_1_mm_in_a_dry_cell() -> None:
     assert r["max_excess_m"] == pytest.approx(0.0005)
 
 
-def test_monotonicity_fails_on_any_excess_in_a_wet_cell() -> None:
+def test_monotonicity_allows_under_1_mm_in_a_wet_cell_and_fails_over() -> None:
+    # CH-16: the wet-cell clause takes the same 1 mm tolerance as the dry one
     where = np.ones(2, dtype=bool)
-    high = np.array([0.1, 0.0])
-    low = np.array([0.1001, 0.0])  # wet, 0.1 mm deeper at the lower rain
+    high = np.array([0.1, 0.2])
+    low = np.array([0.1001, 0.2])  # wet, 0.1 mm deeper at the lower rain
+    r = cal.monotonicity(low, high, where)
+    assert r["passed"] is True
+    assert r["wet_cells_deeper_at_lower_rain"] == 1
+    assert r["wet_cells_deeper_at_lower_rain_by_over_1mm"] == 0
+    low = np.array([0.1001, 0.2015])  # second wet cell 1.5 mm deeper
     r = cal.monotonicity(low, high, where)
     assert r["passed"] is False
-    assert r["wet_cells_deeper_at_lower_rain"] == 1
-    assert r["cells_deeper_at_lower_rain_by_over_1mm"] == 0
+    assert r["wet_cells_deeper_at_lower_rain_by_over_1mm"] == 1
 
 
 def test_monotonicity_fails_over_1_mm_in_a_dry_cell_and_ignores_cells_left_out() -> None:

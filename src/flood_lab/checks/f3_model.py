@@ -971,8 +971,8 @@ def main() -> int:
         low, high = pair
         name = f"monotonicity {low} <= {high}"
         rule = (
-            "at the lower rainfall no compared cell deeper by over 1 mm, and no cell wet to "
-            "0.05 m in either run deeper at all (FH8; cell-centre depths)"
+            "at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the "
+            "1 mm tolerance on both clauses, CH-16; cell-centre depths)"
         )
         if low not in done or high not in done:
             missing = [x for x in pair if x not in done]
@@ -1017,6 +1017,7 @@ def main() -> int:
                 value={
                     "over_1mm": result["cells_deeper_at_lower_rain_by_over_1mm"],
                     "wet_deeper": result["wet_cells_deeper_at_lower_rain"],
+                    "wet_over_1mm": result["wet_cells_deeper_at_lower_rain_by_over_1mm"],
                     "max_excess_m": result["max_excess_m"],
                 },
                 threshold=calibration.MONOTONE_TOL_M,

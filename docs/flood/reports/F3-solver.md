@@ -1,13 +1,13 @@
-# F3. Solver model, drainage calibration: stopped before the freeze
+# F3. Solver model, drainage calibration, replays
 
 Date: 2026-11-25 · branch `flood/f3` · crc-sdk 1.0.0, crc-framework 1.0.0 · SFINCS v2.5.0, HydroMT-SFINCS 2.0.0
-· **stopped: a pass rule fails (FH8, monotonicity); decisions below**
+· stopped on FH8 on 2026-11-25; decisions taken by Yuri on 2026-11-26 (CH-16); then frozen and replayed
 
 Stage F3 of `docs/flood/plan.md`. The model of the square is built on the real terrain and calibrated against
-the city's two current-sea-level flood maps. The stage stopped before the freeze and before the two storm
-replays, because the monotonicity check of FH8 fails ("A stage", step 5: a pass rule fails, stop and report).
-The failure is millimetre noise in a few dozen cells, diagnosed below after the blind review
-corrected the first diagnosis; whether the rule should allow it is Yuri's decision. Numbers come from the record `f3-model`
+the city's two current-sea-level flood maps. The stage stopped on 2026-11-25 because the monotonicity check
+of FH8 failed as written. The failure is millimetre noise, diagnosed in section 3 after the blind review
+corrected the first diagnosis. Yuri took the four decisions on 2026-11-26 (section "Decisions taken"); the
+allowance was then frozen and the replays and sensitivities ran (section 6). Numbers come from the record `f3-model`
 (`site/flood/tests/records/f3-model.json`); the gallery shows it with its figures.
 
 ## Result against the pass rule
@@ -17,8 +17,9 @@ corrected the first diagnosis; whether the rule should allow it is Yuri's decisi
 | Water balance within 1% in every run | **Passes.** 14 of 14 runs; the largest residual is 0.017% of the rain |
 | CSI of 0.5 or better against the two calibration maps (*proposed*) | **Fails.** 0.307 (Limited) and 0.408 (Moderate) at the proposed allowance. The plan's next step, one value per sewer district, could not be tried: no official district layer exists (section 4). The plan says to report the mismatch and continue with the best fit |
 | Monotonicity (FH8): at lower rain no cell deeper by more than 1 mm, and no cell wet to 0.05 m deeper at all | **Fails as written.** At 30 mm/h the first clause passes (largest excess 0.82 mm), the second fails: 41 wet cells deeper by less than a millimetre. At 20, 25 and 35 mm/h, 2 to 4 cells exceed 1 mm, by at most 3.8 mm. **This is what stopped the stage** |
-| The calibration value is frozen before any validation | **Not done.** 30 mm/h is proposed, not frozen (`src/flood_lab/hazard/allowance.toml` says so) |
-| The two replays | **Not run.** The radar rainfall for both storms is downloaded and turned into solver forcing; the runs wait for Yuri's word |
+| The calibration value is frozen before any validation | **Done** on 2026-11-26: 30 mm/h (`src/flood_lab/hazard/allowance.toml`) |
+| Monotonicity with the 1 mm tolerance on both clauses (CH-16) | **Passes at the frozen 30 mm/h** (largest excess 0.82 mm). The pairs at 20, 25 and 35 mm/h, which are not used, keep 2 to 4 cells over 1 mm and are shown as failed in the record |
+| The two replays | **Run** (section 6). Ida meets the lead-asset rule at two substation sites; 2023-09-29 leaves every site under 0.04 m |
 
 A fact also differs from the facts file: AORC's grid extent (section 7, CH-15). It touches F4's source,
 not F3, and changes nothing in the window used.
@@ -165,31 +166,61 @@ between 100 and 500 years; here it is between 200 and 500. The duration assumpti
 period: held for two hours, the Limited storm is a 50- to 100-year event. That is why the
 duration-sensitivity runs matter.
 
-## 6. Replays and the lead-asset question: prepared, not run
+## 6. Replays (FH4), the lead-asset rule, and the sensitivities
 
-- **Radar rainfall:** MRMS multi-sensor hourly accumulation (Pass 2, 0.01°) for Ida (17 hours,
-  2021-09-01 18Z to 2021-09-02 10Z) and 2023-09-29 (29 hours), none missing. Checksums are in
-  `data/cache/flood/f3/mrms/manifest.json`. At the study area's centre pixel the window totals are 144.5 mm
-  (Ida; peak hour 57.2 mm, ending 02Z on 2 September) and 147.7 mm (2023-09-29; peak hour 48.8 mm, ending
-  13Z).
-- **Not confirmed (FS6):** that each file's stamp is the END of its hour. NSSL's table gives the stamp
-  format only; the VLab guides that state it refused automated access. The forcing assumes end of hour,
-  and the record says so.
-- **Solver forcing:** built for both storms (`data/cache/flood/f3/forcing/*.nc`, with summaries), one
-  rate per radar hour held over that hour. The first build dropped the first radar hour (HydroMT clips
-  to the model window before shifting an end-labelled series); the review caught it and the forcing was
-  rebuilt with each hour labelled at its start. The two runs take about 40 and 70 minutes.
-- **What one early run already shows (Moderate map storm, 20 mm/h, before the dock-wall fix; computed
-  once with `at_assets.run_assets`, not in the record; not a result).** On the 25 m² measure, Farragut's open ground reached 1.25 m and Hudson Avenue 0.54 m, so the
-  substation complex is not dry in a design storm. Water Street read 0.06 m, Plymouth 0.18 m and the
-  unnamed yard 0.10 m. That run predates the dock-wall fix and the proposed allowance; it is not
-  evidence for Friday's rule. The replays are.
-- **Depth at assets** (`src/flood_lab/hazard/at_assets.py`) reads the depth exceeded on 25 m² of a site's
-  open ground (**[P]**; one deepest pixel is too easily a pit or a lidar artefact). It also leaves out
-  pixels in cells at least half under footprints. In such a cell the whole cell's rain lands on its
-  sliver of ground, giving up to 4 m at the 99th percentile in cells three-quarters roofed. Closed
-  depressions with no outlet but the allowance, such as a sunken road section, also fill to several
-  metres. That is how the model behaves, and F5's marks will test it.
+![Replays](../figures/f3/replays.png)
+
+*Peak depth at cell centres in the two replays at 30 mm/h, substation sites outlined and numbered, and
+the square-mean radar rate per hour. Limit: hourly radar rain held constant over each hour smooths the
+peaks inside an hour; the end-of-hour time stamp is not confirmed from a primary source.*
+
+- **Radar rainfall:** MRMS multi-sensor hourly accumulation (Pass 2, 0.01°), 17 hours for Ida and 29 for
+  2023-09-29, none missing (`data/cache/flood/f3/mrms/manifest.json`). Square-mean totals in the forcing
+  are 146.1 mm (Ida, peak hour 60.9 mm/h) and 132.0 mm (2023-09-29, peak hour 38.8 mm/h). The first build
+  of the forcing dropped the first radar hour; the review caught it and it was rebuilt with each hour
+  labelled at its start.
+- **Not confirmed (FS6):** that each file's stamp is the end of its hour. NSSL's table gives the stamp
+  format only; the VLab guides that state it refused automated access. Peak depth hardly depends on it;
+  the sensor timing of F5 does.
+- **Run times:** Ida 1,570 s for 18 simulated hours, 2023-09-29 1,819 s for 30 hours.
+
+**Depth at the substation sites** (the depth exceeded on 25 m² of open ground; cells under roofs or
+holding water from the start are not read):
+
+| Site | Ida: depth on 25 m² | Ida: area at 0.3 m or more | 2023-09-29: depth on 25 m² |
+| --- | ---: | ---: | ---: |
+| Hudson Avenue | 0.447 m | 30 m² | 0.022 m |
+| Farragut | 0.390 m | 351 m² | 0.034 m |
+| Plymouth | 0.179 m | 10 m² | 0.025 m |
+| Unnamed Williamsburg yard | 0.094 m | 0 | 0.016 m |
+| Water Street | 0.047 m | 2 m² | 0.000 m |
+
+- **The lead-asset rule (0.3 m, demo-concerns §2) is met in the Ida replay,** at Hudson Avenue and
+  Farragut, on rain alone. By the demo plan's rule the lead asset is the site with the greatest modelled
+  depth: **Hudson Avenue** (0.45 m). Farragut is close behind and has more than ten times the area under
+  0.3 m or more. The four named substations are one complex at Vinegar Hill (F1). Which of the two
+  leads the card is worth a look before F6; the measure (25 m²) is a placeholder.
+- **This first ran wrong.** Farragut's outline reaches a slip; read with standing water, it gave 1.25 m.
+  The depth code now leaves out cells that hold water from the start, as the comparisons do (CH-16).
+- **Buildings:** 4,375 of 17,750 have water of 0.3 m or more at their walls in the Ida replay, and 2,120
+  on 2023-09-29 (the deepest pixel in a 2 m band; cells mostly under roofs are not read). F6 sets each
+  against its own first-floor height.
+- **Wet area on compared cells, 4 in or more:** 73.3 ha in Ida and 31.5 ha on 2023-09-29.
+
+**Extreme map check (3.66 in/hr for one hour, against the city's 2080 map, rain classes only):**
+modelled 37.1 ha shallow and 51.0 ha deep against the city's 46.9 and 55.3; CSI wet 0.484, area error
+0.062. It agrees better than either calibration map, though that map carries 2080 sea level.
+
+![Sensitivity](../figures/f3/sensitivity.png)
+
+*Change against the frozen Moderate run. Limit: one run per setting.*
+
+- **Duration decides the answer.** The Moderate intensity held for 30 minutes wets 25.3 ha less at 4 in
+  or more, and held for 2 hours 25.7 ha more (against 36.1 ha). CSI falls in both cases (0.21 and 0.37
+  against 0.41), so the one-hour storm fits the city's maps best of the three. With Atlas 14 (section 5)
+  this says the city's maps are most likely one-hour storms, but that is an inference, not a fact.
+- **The river level does not matter here:** with the boundary 1 m higher, the wet area changes by
+  0.003 ha.
 
 ## 7. Beside F3: F4's preparation (no F4 code on this branch)
 
@@ -212,7 +243,7 @@ duration-sensitivity runs matter.
     to choose them with this in view.
   - A coarser cell is the other lever, but F0 chose 5 m for the sub-grid.
 
-## Decisions for Yuri
+## Decisions put to Yuri at the stop (2026-11-25)
 
 1. **FH8, the stop.** Recommended: **give the rule's second clause the same 1 mm tolerance as the
    first** (a wet cell may be deeper at the lower rain by up to 1 mm, as for any cell). The proposed
@@ -233,6 +264,26 @@ duration-sensitivity runs matter.
 6. **AORC download** (5.5 hours, 5.5 GB) may start at the same time; it uses the network, not the
    processor. CH-15 corrects the differing fact.
 
+## Decisions taken at the stop (2026-11-26)
+
+Yuri: "agree with all 4". Entered as CH-16, requirements version 7 (section 16).
+
+1. FH8's second clause takes the same 1 mm tolerance as the first.
+2. The allowance is frozen at 30 mm/h (`src/flood_lab/hazard/allowance.toml`, `frozen_on = 2026-11-26`).
+3. CSI below 0.5 is accepted as the best fit and will be stated on the page; the per-district fallback
+   is dropped.
+4. The replays and sensitivities run (section 6).
+
+CH-14 (roughness) and CH-15 (AORC coverage fact) stay open: they were not among the four.
+
+## Questions for Yuri now
+
+1. **Merge F3 into main** (requirements version 7, tag `flood-requirements-v7` at the merge)?
+2. **Lead asset:** Hudson Avenue by the rule (0.45 m over 25 m², 30 m² at 0.3 m or more), or Farragut
+   (0.39 m, 351 m²)? Recommended: keep the rule and Hudson Avenue, and show Farragut beside it, since the
+   four substations are one complex; F6 can carry both through.
+3. **CH-14 and CH-15** (below): accept as assessed?
+
 ## Open changes (D16)
 
 | ID | What | Assessment |
@@ -242,11 +293,10 @@ duration-sensitivity runs matter.
 
 ## What was not done
 
-- The freeze, the two replays, the Extreme map check, and the duration and boundary-level sensitivities:
-  all wait for decision 1.
-- Per-district calibration: no source (section 4).
-- The roughness sensitivity (CH-14).
+- Per-district calibration: no official source (section 4); dropped (CH-16).
+- The roughness sensitivity (CH-14, open).
 - The F3 layers are not yet registered in `site/layers.json`.
+- Where the 2 to 4 cells over 1 mm lie in the unused pairs (20, 25, 35 mm/h).
 
 ## Review before the stop
 

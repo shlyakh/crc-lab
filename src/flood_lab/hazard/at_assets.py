@@ -9,6 +9,9 @@ is that of the ground inside it that is not under a footprint.
   the whole cell lands on its sliver of ground and the cell's level can rise far above what stands
   in the street (F3 found up to 4 m at the 99th percentile in cells over three quarters roofed).
   Pixels in cells at least ``MAX_ROOF_SHARE`` under footprints are left out of every figure here.
+* **Water standing from the start is not read.** Cells whose lowest level lies below the model's
+  start water level hold water from the first second (a slip at the edge of Farragut's outline, for
+  one); their depth is not flooding (``calibration.START_LEVEL_M``, CH-16).
 * **Substation site**: every outline of one asset (``LocNumber``) of ``substations.geojson`` that
   was kept at the F1 review; an outline drawn as an open line is read as a 1 m band around it.
   Reported: the depth exceeded on ``LEAD_AREA_M2`` of the site's open ground (the measure of the
@@ -26,6 +29,7 @@ from pathlib import Path
 import numpy as np
 
 from flood_lab.domain import GRID, TERRAIN_MARGIN_M
+from flood_lab.hazard.calibration import START_LEVEL_M
 
 #: threshold of the lead-asset rule, metres [P] (demo-concerns §2, not yet confirmed by Yuri)
 LEAD_DEPTH_M = 0.3
@@ -128,7 +132,9 @@ def run_assets(run: Path, cache: Path, site: Path, footprints=None) -> dict:
     bld = bld[off : off + GRID.height * k, off : off + GRID.width * k].astype(bool)
     depth = pixel_depth(zsmax, dem)
     roofed = bld.reshape(GRID.height, k, GRID.width, k).mean(axis=(1, 3)) >= MAX_ROOF_SHARE
-    depth[np.repeat(np.repeat(roofed, k, axis=0), k, axis=1)] = np.nan
+    zb, _ = _read(cache / "f3" / "model" / "zb_5m.tif")
+    standing = zb < START_LEVEL_M
+    depth[np.repeat(np.repeat(roofed | standing, k, axis=0), k, axis=1)] = np.nan
     result = {"substations": substation_depths(depth, bld, site / "data" / "substations.geojson")}
     if footprints is not None:
         walls = building_wall_depths(depth, bld, footprints)

@@ -219,18 +219,22 @@ MONOTONE_TOL_M = 0.001
 
 
 def monotonicity(depth_low: np.ndarray, depth_high: np.ndarray, where: np.ndarray) -> dict:
-    """FH8 on two runs that differ only in rainfall (``low`` has less): no cell deeper at the lower
-    rainfall by more than 1 mm, and no cell wet to 0.05 m in either run deeper at all. Depth is the
-    cell-centre depth of this module, on the cells in ``where``."""
+    """FH8 on two runs that differ only in rainfall (``low`` has less): no cell, wet or dry, deeper
+    at the lower rainfall by more than ``MONOTONE_TOL_M`` (1 mm). Depth is the cell-centre depth of
+    this module, on the cells in ``where``.
+
+    As decided by Yuri at the F3 stop (2026-11-26, CH-16): the rule's second clause ("no cell wet to
+    0.05 m in either run deeper at all") takes the same 1 mm tolerance as the first, so the two
+    clauses are one. The count of wet cells deeper by any amount is still reported."""
     diff = depth_low - depth_high
     d, lo, hi = diff[where], depth_low[where], depth_high[where]
     wet = (lo >= WET_M) | (hi >= WET_M)
     over_tol = int((d > MONOTONE_TOL_M).sum())
-    wet_deeper = int((d[wet] > 0).sum())
     return {
         "cells": int(where.sum()),
         "cells_deeper_at_lower_rain_by_over_1mm": over_tol,
-        "wet_cells_deeper_at_lower_rain": wet_deeper,
+        "wet_cells_deeper_at_lower_rain_by_over_1mm": int((d[wet] > MONOTONE_TOL_M).sum()),
+        "wet_cells_deeper_at_lower_rain": int((d[wet] > 0).sum()),
         "max_excess_m": round(float(d.max()), 6) if d.size else None,
-        "passed": over_tol == 0 and wet_deeper == 0,
+        "passed": over_tol == 0,
     }
