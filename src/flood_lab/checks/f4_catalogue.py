@@ -58,7 +58,7 @@ from flood_lab.risk import crc_load
 RECORD_ID = "f4"
 REL = "docs/flood/figures/f4"
 #: bump when the content of a per-run cache file changes
-CACHE_VERSION = 2
+CACHE_VERSION = 3  # 3: CH-21 (wall and site depths from the clamped ground)
 RUN_FILES = ("balance.json", "zsmax.tif")
 CHOSEN = "f4/rainyday/catalogue_n960/f4_B_d3_n960"
 CHOSEN_FREQ = f"{CHOSEN}/f4_B_d3_n960_FreqAnalysis.csv"
@@ -632,15 +632,15 @@ def _bar_pair(axis, labels: list[str], values: list[dict | None]) -> None:
 
 def figure_buildings(groups, design_rows: list[dict], total: int, out: Path) -> str:
     """Left: 100 years by method. Right: every design storm, with the 5 m cells it wets; a
-    storm marked 'floor' (no wet cell, or rain not above the allowance) shows what the terrain
-    alone gives."""
+    storm shaded as without net rain (no wet cell, or rain not above the constant loss rate)
+    should wet nothing (CH-20, CH-21)."""
     plt = f3_model._plt()
     figure, (left, right) = plt.subplots(
         1, 2, figsize=(14.5, 5.6), gridspec_kw={"width_ratios": [1, 2.4]}
     )
     _bar_pair(left, [g[0] for g in groups], [g[1] for g in groups])
     left.set_ylabel(f"Buildings of the study area (of {total:,})", fontsize=9)
-    left.legend(fontsize=8, frameon=False, loc="upper left")
+    left.legend(fontsize=8, frameon=False, loc="upper right")
     left.set_title(
         "Buildings wet at 100 years: the catalogue (each building's\nown curve at AEP 0.01) "
         "against the 1-hour and 3-hour design storms",
@@ -648,7 +648,7 @@ def figure_buildings(groups, design_rows: list[dict], total: int, out: Path) -> 
     )
     labels = [
         f"{r['run'][3:].replace('_', ' ')}\n{r['wet_cells_005']:,} cells"
-        + ("\nfloor" if no_flood(r) else "")
+        + ("\nno net rain" if no_flood(r) else "")
         for r in design_rows
     ]
     _bar_pair(right, labels, [r["buildings_wet"] for r in design_rows])
@@ -657,9 +657,9 @@ def figure_buildings(groups, design_rows: list[dict], total: int, out: Path) -> 
             right.axvspan(i - 0.5, i + 0.5, color=GRID_GREY, alpha=0.6, zorder=0)
     right.set_title(
         "Every design storm: buildings 'wet at the wall' and the 5 m cells it wets (0.05 m). "
-        "Shaded ('floor'): storms that wet no 5 m cell or whose rain\ndoes not exceed the "
-        "30 mm/h drainage allowance; what they show comes from the terrain (wall band, low "
-        "pixels), not from flooding",
+        "Shaded: storms that wet no 5 m cell or whose rain\ndoes not exceed the "
+        "30 mm/h constant loss rate; they should wet no building (a floor here would come "
+        "from the terrain, CH-20 and CH-21)",
         fontsize=9,
     )
     figure.tight_layout()
@@ -920,7 +920,7 @@ def main(argv: list[str] | None = None) -> int:
         }
         for r in floor
     }
-    if floor:
+    if floor and any(r["buildings_wet"]["0.05"] or r["wet_cells_005"] for r in floor):
         notes_extra.append(
             "Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage "
             f"allowance ({', '.join(r['run'] for r in floor)}) still show "
@@ -1218,10 +1218,10 @@ def main(argv: list[str] | None = None) -> int:
         " beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
         "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100"
         f" years: the catalogue ({state}; each building's own curve at AEP 0.01) against each "
-        "design storm; beside it every design storm with the 5 m cells it wets. A storm that "
-        "wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows "
-        "about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain "
-        "(at_assets' 1 m wall band, low pixels), not flooding by the storm.",
+        "design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms "
+        "that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; "
+        "since CH-20 and CH-21 (ground never below a cell's lowest sub-grid level) they wet "
+        "no cell and no building, where before they showed about 2,900 buildings.",
         "wet_runs.png": f"Number of catalogue runs wetting each read 5 m cell ({state}).",
         "progress.png": "Catalogue runs finished per stratum; solver wall time and water-balance"
         " residual per finished run (catalogue and design).",
