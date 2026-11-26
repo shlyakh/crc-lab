@@ -1,0 +1,7 @@
+# test fixture: only the two required tables
+allowance_mm_per_h = 30.0
+tag = "P"
+
+[runs]
+calibration = ["lim_q30"]
+frozen = { limited = "lim_q30" }

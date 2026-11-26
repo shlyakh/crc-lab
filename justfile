@@ -224,3 +224,20 @@ flood-f2:
 # Flood lab F2: export the Limited Flood map through ESRI's library (tools/flood/limited_flood_map/README.md)
 flood-limited-map:
     uv run python tools/flood/limited_flood_map/export.py
+
+# Flood lab F3: the SFINCS model of the square (pits filled, buildings raised, boundaries, sub-grid), in the builder's environment
+flood-f3-base:
+    uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' --with scipy python src/flood_lab/hazard/sfincs_model.py base --cache data/cache/flood
+
+# Flood lab F3: rain for a replay from the hourly radar file (storm = ida_2021 | sep29_2023; tref UTC "YYYYmmdd HHMMSS")
+flood-f3-forcing storm tref hours:
+    uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' --with scipy python src/flood_lab/hazard/sfincs_model.py replay-forcing data/cache/flood/f3/mrms/{{storm}}.nc data/cache/flood/f3/forcing/{{storm}}.nc --tref "{{tref}}" --hours {{hours}}
+
+# Flood lab F3: a queue of solver runs, one after another, resumable (hours; run it under caffeinate)
+flood-f3-batch queue:
+    caffeinate -i python3 tools/flood/f3_batch.py {{queue}}
+
+# Flood lab F3: the record and figures of the solver stage, from the runs in the cache; offline
+flood-f3:
+    uv run --with matplotlib python -m flood_lab.checks.f3_model
+    uv run python -m flood_lab.gallery
