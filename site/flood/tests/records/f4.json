@@ -49,11 +49,11 @@
    "rule": "spec.json, run_run.json and balance.json present, |residual| <= 1% of the rain (FH8), for every finished catalogue and design run",
    "threshold": 0.01,
    "value": {
-    "catalogue": 5,
+    "catalogue": 9,
     "design": 12,
     "largest_abs_residual_share": 0.00016773714051645578,
     "outside_balance": [],
-    "runs": 17,
+    "runs": 21,
     "without_record": []
    }
   },
@@ -117,7 +117,7 @@
    "proposed": false,
    "rule": "finished catalogue runs >= 60 by 2026-12-01 (requirements \u00a715)",
    "threshold": 60,
-   "value": 5
+   "value": 9
   },
   {
    "name": "all 150 catalogue runs finished",
@@ -126,10 +126,10 @@
    "proposed": false,
    "rule": "finished catalogue runs = 150 (FH5 target)",
    "threshold": 150,
-   "value": 5
+   "value": 9
   }
  ],
- "created_at": "2026-11-26T14:01:02Z",
+ "created_at": "2026-11-26T14:28:46Z",
  "figures": [
   "docs/flood/figures/f4/domain.png",
   "docs/flood/figures/f4/rainfall_frequency.png",
@@ -303,6 +303,30 @@
    "url": ""
   },
   {
+   "bytes": 1686322,
+   "path": "f4/runs/cat_r0124/zsmax.tif",
+   "sha256": "4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953",
+   "url": ""
+  },
+  {
+   "bytes": 1683371,
+   "path": "f4/runs/cat_r0714/zsmax.tif",
+   "sha256": "8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e",
+   "url": ""
+  },
+  {
+   "bytes": 1688763,
+   "path": "f4/runs/cat_r0005/zsmax.tif",
+   "sha256": "c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d",
+   "url": ""
+  },
+  {
+   "bytes": 1703258,
+   "path": "f4/runs/cat_r0122/zsmax.tif",
+   "sha256": "f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345",
+   "url": ""
+  },
+  {
    "bytes": 2271121,
    "path": "f4/runs/ds_1h_2y/zsmax.tif",
    "sha256": "2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49",
@@ -376,23 +400,23 @@
   }
  ],
  "notes": [
-  "F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay's rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell's centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements \u00a715).",
+  "F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay's rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell's centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements \u00a715).",
   "domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
   "rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).",
-  "depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
-  "buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
-  "wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered).",
+  "depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
+  "buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
+  "wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered).",
   "progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
-  "Other folders in the runs folder, not read: cat_r0124.",
-  "Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage allowance (ds_3h_2y, ds_3h_5y, ds_3h_10y, ds_3h_25y) still show 2,933 to 2,942 buildings 'wet at the wall' (0.05 m) and 865 to 865 wet 5 m cells: a floor from the terrain, not flooding by the storm."
+  "Other folders in the runs folder, not read: cat_r0602.",
+  "Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage allowance (ds_1h_2y, ds_3h_2y, ds_3h_5y, ds_3h_10y, ds_3h_25y) still show 2,933 to 2,967 buildings 'wet at the wall' (0.05 m) and 0 to 0 wet 5 m cells: a floor from the terrain, not flooding by the storm."
  ],
  "numbers": {
   "M_synthetic_years": 1000,
-  "N_catalogue_runs_finished": 5,
+  "N_catalogue_runs_finished": 9,
   "buildings_in_study_area": 17750,
   "buildings_wet_100y_catalogue": {
-   "0.05": 6758,
-   "0.3": 1506
+   "0.05": 7793,
+   "0.3": 2914
   },
   "buildings_wet_100y_design": {
    "1 h": {
@@ -410,18 +434,18 @@
   "cells_non_decreasing_before_clean_up": 379976,
   "cells_read": 379976,
   "cells_read_in_study_area": 330615,
-  "cells_wet_in_some_run": 17765,
-  "check_wall_time_s": 165.3,
+  "cells_wet_in_some_run": 30661,
+  "check_wall_time_s": 281.1,
   "covered_years": 1000,
   "design_runs_finished": 12,
   "grid_read_back_equal": true,
   "interim_weights": true,
-  "max_runs_wetting_a_cell": 5,
+  "max_runs_wetting_a_cell": 3,
   "non_decreasing_after_clean_up": true,
   "observed_box_median_3h_mm": 38.14,
   "points_assets_loaded": 17755,
   "points_read_back_equal": true,
-  "runs_extracted_this_time": 0,
+  "runs_extracted_this_time": 21,
   "share_non_decreasing_before_clean_up": 1.0,
   "substation_sites": 5
  },
@@ -533,12 +557,12 @@
  "stage": "F4",
  "tables": {
   "captions": {
-   "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
-   "depth_strip.png": "Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
+   "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
+   "depth_strip.png": "Per-cell depth at 10, 100 and 500 years from the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
    "domain.png": "3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
    "progress.png": "Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
    "rainfall_frequency.png": "3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).",
-   "wet_runs.png": "Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered)."
+   "wet_runs.png": "Number of catalogue runs wetting each read 5 m cell (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered)."
   },
   "catalogue_runs": [
    {
@@ -553,7 +577,7 @@
     "solver_finished": true,
     "stratum": "T2",
     "wall_time_s": 208.01,
-    "weight_used": 60.0
+    "weight_used": 30.0
    },
    {
     "box_total_mm": 23.429,
@@ -567,7 +591,7 @@
     "solver_finished": true,
     "stratum": "T3",
     "wall_time_s": 256.51,
-    "weight_used": 425.0
+    "weight_used": 283.3333333333333
    },
    {
     "box_total_mm": 104.729,
@@ -581,7 +605,7 @@
     "solver_finished": true,
     "stratum": "T1",
     "wall_time_s": 353.42,
-    "weight_used": 30.0
+    "weight_used": 15.0
    },
    {
     "box_total_mm": 48.183,
@@ -595,7 +619,7 @@
     "solver_finished": true,
     "stratum": "T2",
     "wall_time_s": 254.36,
-    "weight_used": 60.0
+    "weight_used": 30.0
    },
    {
     "box_total_mm": 16.958,
@@ -609,18 +633,74 @@
     "solver_finished": true,
     "stratum": "T3",
     "wall_time_s": 329.94,
-    "weight_used": 425.0
+    "weight_used": 283.3333333333333
+   },
+   {
+    "box_total_mm": 50.038,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0124",
+    "order": 6,
+    "rank": 124,
+    "residual_share_of_rain": -3.9868234479510466e-05,
+    "return_period_y": 8.064516067504883,
+    "solver_finished": true,
+    "stratum": "T2",
+    "wall_time_s": 356.23,
+    "weight_used": 30.0
+   },
+   {
+    "box_total_mm": 25.863,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0714",
+    "order": 7,
+    "rank": 714,
+    "residual_share_of_rain": -3.0365812490404527e-05,
+    "return_period_y": 1.4005602598190308,
+    "solver_finished": true,
+    "stratum": "T3",
+    "wall_time_s": 311.49,
+    "weight_used": 283.3333333333333
+   },
+   {
+    "box_total_mm": 104.483,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0005",
+    "order": 8,
+    "rank": 5,
+    "residual_share_of_rain": 4.433997320760568e-05,
+    "return_period_y": 200.0,
+    "solver_finished": true,
+    "stratum": "T1",
+    "wall_time_s": 560.08,
+    "weight_used": 15.0
+   },
+   {
+    "box_total_mm": 50.333,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0122",
+    "order": 9,
+    "rank": 122,
+    "residual_share_of_rain": -8.048243665000812e-05,
+    "return_period_y": 8.196721076965332,
+    "solver_finished": true,
+    "stratum": "T2",
+    "wall_time_s": 304.31,
+    "weight_used": 30.0
    }
   ],
   "catalogue_wet_cells_005": {
-   "10 y": 578,
-   "100 y": 17765,
-   "2 y": 576,
-   "200 y": 17765,
-   "25 y": 578,
-   "5 y": 576,
-   "50 y": 17765,
-   "500 y": 17765
+   "10 y": 0,
+   "100 y": 30661,
+   "2 y": 0,
+   "200 y": 30661,
+   "25 y": 348,
+   "5 y": 0,
+   "50 y": 17002,
+   "500 y": 30661
   },
   "design_runs": [
    {
@@ -736,7 +816,7 @@
      "S-383110539": 0.027000000700354576,
      "S-861227475": 0.0020000000949949026
     },
-    "wet_cells_005": 882
+    "wet_cells_005": 0
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -753,7 +833,7 @@
      "S-383110539": 0.1340000033378601,
      "S-861227475": 0.07699999958276749
     },
-    "wet_cells_005": 23114
+    "wet_cells_005": 22054
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -770,7 +850,7 @@
      "S-383110539": 0.164000004529953,
      "S-861227475": 0.08699999749660492
     },
-    "wet_cells_005": 39644
+    "wet_cells_005": 38638
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -787,7 +867,7 @@
      "S-383110539": 0.18199999630451202,
      "S-861227475": 0.0989999994635582
     },
-    "wet_cells_005": 55274
+    "wet_cells_005": 54344
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -804,7 +884,7 @@
      "S-383110539": 0.18400000035762787,
      "S-861227475": 0.10899999737739563
     },
-    "wet_cells_005": 71900
+    "wet_cells_005": 71034
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -821,7 +901,7 @@
      "S-383110539": 0.1860000044107437,
      "S-861227475": 0.11800000071525574
     },
-    "wet_cells_005": 88697
+    "wet_cells_005": 87865
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -838,7 +918,7 @@
      "S-383110539": 0.02500000037252903,
      "S-861227475": 0.0010000000474974513
     },
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -855,7 +935,7 @@
      "S-383110539": 0.02500000037252903,
      "S-861227475": 0.0010000000474974513
     },
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -872,7 +952,7 @@
      "S-383110539": 0.02500000037252903,
      "S-861227475": 0.0010000000474974513
     },
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -889,7 +969,7 @@
      "S-383110539": 0.02500000037252903,
      "S-861227475": 0.0010000000474974513
     },
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -906,7 +986,7 @@
      "S-383110539": 0.15299999713897705,
      "S-861227475": 0.07000000029802322
     },
-    "wet_cells_005": 31965
+    "wet_cells_005": 30981
    },
    {
     "allowance_mm_per_h": 30.0,
@@ -923,10 +1003,19 @@
      "S-383110539": 0.18000000715255737,
      "S-861227475": 0.08900000154972076
     },
-    "wet_cells_005": 61926
+    "wet_cells_005": 61014
    }
   ],
   "floor_storms_wetting_no_cell_or_without_net_rain": {
+   "ds_1h_2y": {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet_at_wall": {
+     "0.05": 2967,
+     "0.3": 162
+    },
+    "rain_mm_per_h": 30.226,
+    "wet_cells_005": 0
+   },
    "ds_3h_10y": {
     "allowance_mm_per_h": 30.0,
     "buildings_wet_at_wall": {
@@ -934,7 +1023,7 @@
      "0.3": 161
     },
     "rain_mm_per_h": 23.4527,
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    "ds_3h_25y": {
     "allowance_mm_per_h": 30.0,
@@ -943,7 +1032,7 @@
      "0.3": 161
     },
     "rain_mm_per_h": 28.194,
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    "ds_3h_2y": {
     "allowance_mm_per_h": 30.0,
@@ -952,7 +1041,7 @@
      "0.3": 161
     },
     "rain_mm_per_h": 15.1553,
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    },
    "ds_3h_5y": {
     "allowance_mm_per_h": 30.0,
@@ -961,7 +1050,7 @@
      "0.3": 161
     },
     "rain_mm_per_h": 19.8967,
-    "wet_cells_005": 865
+    "wet_cells_005": 0
    }
   },
   "grid_route": {
@@ -972,10 +1061,10 @@
    "cells_written": 379976,
    "equal": true,
    "largest_difference_m": 0.0,
-   "report": "ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code='source_no_data', severity=<DiagnosticSeverity.WARNING: 'warning'>, stage=<Stage.DECODING: 'decoding'>, message='Skipped 260024 raster supports with fewer than two valid probability knots.', source='quantile_rasters', support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider='user', product='quantile_rasters', release=ReleaseReference(id='sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217', sha256='sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217', retrieved_at=None), resources=(ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif', sha256='sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 48412, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif', sha256='sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 50562, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif', sha256='sha256:0191a0c7c03052c05f59c89c56a78e01e0b882047e51529fffa7e6b905bb9d0b', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 51500, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif', sha256='sha256:aedc015191494d924fb22e1380141902838ef2582b5a60b5f2e39a5262697676', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 53026, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 54605, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 58320, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 60238, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 63048, tzinfo=datetime.timezone.utc))), member=None, model=None),))"
+   "report": "ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code='source_no_data', severity=<DiagnosticSeverity.WARNING: 'warning'>, stage=<Stage.DECODING: 'decoding'>, message='Skipped 260024 raster supports with fewer than two valid probability knots.', source='quantile_rasters', support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider='user', product='quantile_rasters', release=ReleaseReference(id='sha256:457838e70aa4b712402a23ebdc7c3ba07323878b1c808ad710a0a991a10d01b5', sha256='sha256:457838e70aa4b712402a23ebdc7c3ba07323878b1c808ad710a0a991a10d01b5', retrieved_at=None), resources=(ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 552551, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 554848, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif', sha256='sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 555751, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif', sha256='sha256:22a30f8d996e9a9dbad52c9f7f7ebb6091d165430c258f1fe3519d0a866646d8', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 556704, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif', sha256='sha256:3cb43a94261fae82df05c85adae7acac89a67f6103bdacda28aff8bf63c7fbea', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 560033, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif', sha256='sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 562638, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif', sha256='sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 567298, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif', sha256='sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 569774, tzinfo=datetime.timezone.utc))), member=None, model=None),))"
   },
   "point_route": {
-   "estimated_full_s": 4.0,
+   "estimated_full_s": 4.5,
    "full": {
     "assets_delivered": 17755,
     "assets_differing": 0,
@@ -984,7 +1073,7 @@
     "equal": true,
     "largest_difference": 0.0
    },
-   "full_s": 3.1,
+   "full_s": 3.4,
    "trial": {
     "assets_delivered": 505,
     "assets_differing": 0,
@@ -1000,7 +1089,7 @@
   "progress": [
    {
     "complete": false,
-    "finished": 1,
+    "finished": 2,
     "ranks": "1-30",
     "runs": 30,
     "stratum": "T1",
@@ -1008,7 +1097,7 @@
    },
    {
     "complete": false,
-    "finished": 2,
+    "finished": 4,
     "ranks": "31-150",
     "runs": 60,
     "stratum": "T2",
@@ -1016,7 +1105,7 @@
    },
    {
     "complete": false,
-    "finished": 2,
+    "finished": 3,
     "ranks": "151-1000",
     "runs": 60,
     "stratum": "T3",
@@ -1101,24 +1190,24 @@
    },
    "S-339711332": {
     "10 y": 0.0,
-    "100 y": 0.289,
-    "500 y": 0.289,
+    "100 y": 0.385,
+    "500 y": 0.385,
     "name": "Farragut Substation",
-    "wet_probability": 0.03
+    "wet_probability": 0.06
    },
    "S-383102724": {
     "10 y": 0.0,
-    "100 y": 0.172,
-    "500 y": 0.172,
+    "100 y": 0.416,
+    "500 y": 0.416,
     "name": "Hudson Avenue Substation",
-    "wet_probability": 0.03
+    "wet_probability": 0.06
    },
    "S-383110539": {
     "10 y": 0.0,
-    "100 y": 0.148,
-    "500 y": 0.148,
+    "100 y": 0.17,
+    "500 y": 0.17,
     "name": "Plymouth Substation",
-    "wet_probability": 0.03
+    "wet_probability": 0.06
    },
    "S-861227475": {
     "10 y": 0.0,
@@ -1130,13 +1219,13 @@
   },
   "timing_s": {
    "asset_curves_s": 0.0,
-   "crc_grid_route_s": 153.5,
-   "crc_point_route_s": 3.2,
-   "figures_s": 4.2,
-   "grid_curves_s": 0.3,
-   "inputs_s": 3.3,
+   "crc_grid_route_s": 166.3,
+   "crc_point_route_s": 3.5,
+   "figures_s": 4.1,
+   "grid_curves_s": 0.4,
+   "inputs_s": 2.7,
    "non_decreasing_share_s": 0.1,
-   "per_run_extraction_s": 0.1,
+   "per_run_extraction_s": 103.6,
    "write_rasters_s": 0.5
   }
  },

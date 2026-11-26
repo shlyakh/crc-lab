@@ -109,7 +109,7 @@ START_LEVEL_M = 0.0
 class Frame:
     """What every comparison needs, read once."""
 
-    ground: np.ndarray  # model terrain at the cell centre pixel, m
+    ground: np.ndarray  # model terrain at the cell centre pixel, not below the cell's zb (CH-20), m
     compared: np.ndarray  # bool, cells in the comparison
     land: np.ndarray  # bool, study-area land
     building: np.ndarray  # bool, centre pixel in a footprint
@@ -123,10 +123,13 @@ class Frame:
         from rasterio.transform import Affine
 
         model = cache / "f3" / "model"
-        ground = centre_pixels(_read(model / "dem_model_1m.tif")).astype("float64")
+        zb = _read(model / "zb_5m.tif").astype("float64")
+        # CH-20: the ground of a cell is its centre pixel, but never below the cell's lowest
+        # sub-grid level; a centre pixel below it made a cell holding no water read as wet
+        ground = np.maximum(centre_pixels(_read(model / "dem_model_1m.tif")).astype("float64"), zb)
         building = centre_pixels(_read(model / "buildings_1m.tif")).astype(bool)
         pit = any_pixel(_read(model / "pits_1m.tif").astype(bool))
-        standing = _read(model / "zb_5m.tif") < START_LEVEL_M
+        standing = zb < START_LEVEL_M
         water = centre_pixels(_read(cache / "terrain" / "water_1m.tif")).astype(bool)
         sa = gpd.read_file(study_area).to_crs(GRID_CRS)
         land = features.rasterize(

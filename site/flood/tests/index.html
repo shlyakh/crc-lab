@@ -1881,7 +1881,7 @@ src/flood_lab/facts/; do not edit -->
 <span class="stage">F3</span>
 <span class="badge fail">fail</span>
 </header>
-<p class="mute small">Record <code>f3-model</code>, written 2026-11-26T06:17:50Z.</p>
+<p class="mute small">Record <code>f3-model</code>, written 2026-11-26T14:24:03Z.</p>
 <ul class="notes"><li>calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding.</li><li>hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm.</li><li>water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right.</li><li>replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter.</li><li>atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map.</li><li>sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.</li><li>Run folders present but not named in the freeze file: lim_q20.oldbase, mod_q20.oldbase.</li></ul>
 <figure><img src="figures/f3/calibration_curve.png" alt="calibration_curve.png" loading="lazy"><figcaption><b>calibration_curve.png.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only. <a href="figures/f3/calibration_curve.png">Open</a></figcaption></figure>
 <figure><img src="figures/f3/hit_miss.png" alt="hit_miss.png" loading="lazy"><figcaption><b>hit_miss.png.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only. <a href="figures/f3/hit_miss.png">Open</a></figcaption></figure>
@@ -1890,9 +1890,9 @@ src/flood_lab/facts/; do not edit -->
 <figure><img src="figures/f3/atlas14.png" alt="atlas14.png" loading="lazy"><figcaption><b>atlas14.png.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only. <a href="figures/f3/atlas14.png">Open</a></figcaption></figure>
 <figure><img src="figures/f3/sensitivity.png" alt="sensitivity.png" loading="lazy"><figcaption><b>sensitivity.png.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only. <a href="figures/f3/sensitivity.png">Open</a></figcaption></figure>
 <p class="caption"><b>Checks.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.</p>
-<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">water balance lim_q20</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.038262532787312e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q25</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-3.64119801007231e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-6.161652799370528e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q35</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-5.011706142328989e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q40</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.87388323318501e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q50</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>8.250073519908007e-06</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q20</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>3.01324596169378e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q25</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>9.803560285510524e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-1.6509319867645765e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q35</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.511580080512627e-06</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q40</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>0.00015034445875247642</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q50</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-5.4071445370937075e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance ext_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>3.276438408322058e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_d05</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-0.00018657030503669517</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_d2</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-3.6332820232645026e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_lvl1</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>6.906724272465383e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance ida_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-6.326280480764879e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance sep_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-7.540088103178132e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q30_noadv</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-0.000166796412556613</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_noadv</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>6.422299359757249e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">CSI wet limited</td><td class="l">CSI wet &gt;= 0.5 at the frozen allowance against limited-current (plan F3)</td><td>0.3071</td><td>0.5 <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>filtered classes (model wet patches under a quarter acre removed); raw 0.1709, without the Navy Yard 0.356</td></tr><tr><td class="l">CSI wet moderate</td><td class="l">CSI wet &gt;= 0.5 at the frozen allowance against moderate-current (plan F3)</td><td>0.408</td><td>0.5 <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>filtered classes (model wet patches under a quarter acre removed); raw 0.2522, without the Navy Yard 0.5085</td></tr><tr><td class="l">frozen runs use the frozen value</td><td class="l">qinf of every frozen run (spec.json) equals allowance_mm_per_h of the freeze file</td><td>{&quot;lim_q30&quot;: 30.0, &quot;mod_q30&quot;: 30.0}</td><td>30.0</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">monotonicity lim_q20 &lt;= mod_q20</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.001308, &quot;over_1mm&quot;: 3, &quot;wet_deeper&quot;: 34, &quot;wet_over_1mm&quot;: 2}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q25 &lt;= mod_q25</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.003786, &quot;over_1mm&quot;: 4, &quot;wet_deeper&quot;: 40, &quot;wet_over_1mm&quot;: 4}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q30 &lt;= mod_q30</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.000819, &quot;over_1mm&quot;: 0, &quot;wet_deeper&quot;: 41, &quot;wet_over_1mm&quot;: 0}</td><td>0.001</td><td><span class="badge pass">pass</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q35 &lt;= mod_q35</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.001858, &quot;over_1mm&quot;: 2, &quot;wet_deeper&quot;: 29, &quot;wet_over_1mm&quot;: 1}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q30_noadv &lt;= mod_q30_noadv</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.000832, &quot;over_1mm&quot;: 0, &quot;wet_deeper&quot;: 32, &quot;wet_over_1mm&quot;: 0}</td><td>0.001</td><td><span class="badge pass">pass</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">lead-asset rule</td><td class="l">some substation site has depth_on_25m2_m &gt;= 0.3 m in a replay (lead-asset rule, informational)</td><td>{&quot;deepest_depth_on_25m2_m&quot;: 0.447, &quot;sites_meeting&quot;: [&quot;Farragut Substation (ida_2021)&quot;, &quot;Hudson Avenue Substation (ida_2021)&quot;]}</td><td>0.3 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>Informational: the plan&#x27;s stop rule for the lead asset applies to the catalogue (F4), not to the two replays.</td></tr></tbody></table></div>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">water balance lim_q20</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.038262532787312e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q25</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-3.64119801007231e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-6.161652799370528e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q35</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-5.011706142328989e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q40</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.87388323318501e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q50</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>8.250073519908007e-06</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q20</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>3.01324596169378e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q25</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>9.803560285510524e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-1.6509319867645765e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q35</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-8.511580080512627e-06</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q40</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>0.00015034445875247642</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q50</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-5.4071445370937075e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance ext_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>3.276438408322058e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_d05</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-0.00018657030503669517</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_d2</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-3.6332820232645026e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_lvl1</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>6.906724272465383e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance ida_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-6.326280480764879e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance sep_q30</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-7.540088103178132e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance lim_q30_noadv</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>-0.000166796412556613</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance mod_q30_noadv</td><td class="l">|residual| of the water balance &lt;= 1% of the rain (FH8)</td><td>6.422299359757249e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">CSI wet limited</td><td class="l">CSI wet &gt;= 0.5 at the frozen allowance against limited-current (plan F3)</td><td>0.3073</td><td>0.5 <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>filtered classes (model wet patches under a quarter acre removed); raw 0.1754, without the Navy Yard 0.3562</td></tr><tr><td class="l">CSI wet moderate</td><td class="l">CSI wet &gt;= 0.5 at the frozen allowance against moderate-current (plan F3)</td><td>0.4082</td><td>0.5 <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>filtered classes (model wet patches under a quarter acre removed); raw 0.2563, without the Navy Yard 0.5085</td></tr><tr><td class="l">frozen runs use the frozen value</td><td class="l">qinf of every frozen run (spec.json) equals allowance_mm_per_h of the freeze file</td><td>{&quot;lim_q30&quot;: 30.0, &quot;mod_q30&quot;: 30.0}</td><td>30.0</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">monotonicity lim_q20 &lt;= mod_q20</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.001308, &quot;over_1mm&quot;: 3, &quot;wet_deeper&quot;: 21, &quot;wet_over_1mm&quot;: 2}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q25 &lt;= mod_q25</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.003786, &quot;over_1mm&quot;: 4, &quot;wet_deeper&quot;: 30, &quot;wet_over_1mm&quot;: 4}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q30 &lt;= mod_q30</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.000819, &quot;over_1mm&quot;: 0, &quot;wet_deeper&quot;: 23, &quot;wet_over_1mm&quot;: 0}</td><td>0.001</td><td><span class="badge pass">pass</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q35 &lt;= mod_q35</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.001858, &quot;over_1mm&quot;: 2, &quot;wet_deeper&quot;: 15, &quot;wet_over_1mm&quot;: 0}</td><td>0.001</td><td><span class="badge fail">fail</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">monotonicity lim_q30_noadv &lt;= mod_q30_noadv</td><td class="l">at the lower rainfall no compared cell, wet or dry, deeper by over 1 mm (FH8 with the 1 mm tolerance on both clauses, CH-16; cell-centre depths)</td><td>{&quot;max_excess_m&quot;: 0.000832, &quot;over_1mm&quot;: 0, &quot;wet_deeper&quot;: 18, &quot;wet_over_1mm&quot;: 0}</td><td>0.001</td><td><span class="badge pass">pass</span></td><td class='l mute'>rain 44.958 &lt; 54.102 mm/h</td></tr><tr><td class="l">lead-asset rule</td><td class="l">some substation site has depth_on_25m2_m &gt;= 0.3 m in a replay (lead-asset rule, informational)</td><td>{&quot;deepest_depth_on_25m2_m&quot;: 0.447, &quot;sites_meeting&quot;: [&quot;Farragut Substation (ida_2021)&quot;, &quot;Hudson Avenue Substation (ida_2021)&quot;]}</td><td>0.3 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>Informational: the plan&#x27;s stop rule for the lead asset applies to the catalogue (F4), not to the two replays.</td></tr></tbody></table></div>
 <p class="caption"><b>Numbers.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.</p>
-<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">cells_compared</td><td>330615</td></tr><tr><td class="l">extreme_check</td><td>{&quot;allowance_of_run&quot;: 30.0, &quot;city_map&quot;: &quot;extreme-2080&quot;, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0615, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 55.263, &quot;city_shallow_ha&quot;: 46.932, &quot;csi_deep&quot;: 0.5573, &quot;csi_wet&quot;: 0.4835, &quot;model_deep_ha&quot;: 50.977, &quot;model_shallow_ha&quot;: 37.117, &quot;same_class_share_of_city_wet&quot;: 0.4971, &quot;wet_false_alarms&quot;: 10431, &quot;wet_hits&quot;: 24807, &quot;wet_misses&quot;: 16071}, &quot;label&quot;: &quot;ext_q30&quot;, &quot;note&quot;: &quot;The extreme-2080 map includes the sea level of 2080; its tidal code is left out by city_class, so only the rain classes 1 and 2 are compared. A check, not a calibration target (FH3).&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 0.2344, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 55.263, &quot;city_shallow_ha&quot;: 46.932, &quot;csi_deep&quot;: 0.4447, &quot;csi_wet&quot;: 0.3955, &quot;model_deep_ha&quot;: 71.302, &quot;model_shallow_ha&quot;: 70.843, &quot;same_class_share_of_city_wet&quot;: 0.5555, &quot;wet_false_alarms&quot;: 29157, &quot;wet_hits&quot;: 27701, &quot;wet_misses&quot;: 13177}, &quot;scenario_of_run&quot;: &quot;extreme&quot;, &quot;status&quot;: &quot;run&quot;}</td></tr><tr><td class="l">footprints_in_study_area</td><td>17750</td></tr><tr><td class="l">frozen</td><td>{&quot;allowance_mm_per_h&quot;: 30.0, &quot;fit&quot;: {&quot;limited&quot;: {&quot;allowance_of_run&quot;: 30.0, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0871, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 5.76, &quot;city_shallow_ha&quot;: 10.258, &quot;csi_deep&quot;: 0.2068, &quot;csi_wet&quot;: 0.3071, &quot;model_deep_ha&quot;: 4.553, &quot;model_shallow_ha&quot;: 12.27, &quot;same_class_share_of_city_wet&quot;: 0.3123, &quot;wet_false_alarms&quot;: 3643, &quot;wet_hits&quot;: 3086, &quot;wet_misses&quot;: 3321}, &quot;filtered_without_navy_yard&quot;: {&quot;area_error&quot;: 0.1881, &quot;cells_compared&quot;: 303489, &quot;city_deep_ha&quot;: 5.548, &quot;city_shallow_ha&quot;: 9.955, &quot;csi_deep&quot;: 0.2251, &quot;csi_wet&quot;: 0.356, &quot;model_deep_ha&quot;: 3.623, &quot;model_shallow_ha&quot;: 9.138, &quot;same_class_share_of_city_wet&quot;: 0.3114, &quot;wet_false_alarms&quot;: 2136, &quot;wet_hits&quot;: 2968, &quot;wet_misses&quot;: 3233}, &quot;label&quot;: &quot;lim_q30&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 1.7274, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 5.76, &quot;city_shallow_ha&quot;: 10.258, &quot;csi_deep&quot;: 0.1389, &quot;csi_wet&quot;: 0.1709, &quot;model_deep_ha&quot;: 10.123, &quot;model_shallow_ha&quot;: 33.66, &quot;same_class_share_of_city_wet&quot;: 0.3637, &quot;wet_false_alarms&quot;: 14021, &quot;wet_hits&quot;: 3492, &quot;wet_misses&quot;: 2915}, &quot;status&quot;: &quot;run&quot;}, &quot;moderate&quot;: {&quot;allowance_of_run&quot;: 30.0, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0668, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 11.675, &quot;city_shallow_ha&quot;: 18.33, &quot;csi_deep&quot;: 0.3894, &quot;csi_wet&quot;: 0.408, &quot;model_deep_ha&quot;: 13.755, &quot;model_shallow_ha&quot;: 22.39, &quot;same_class_share_of_city_wet&quot;: 0.4771, &quot;wet_false_alarms&quot;: 6790, &quot;wet_hits&quot;: 7668, &quot;wet_misses&quot;: 4334}, &quot;filtered_without_navy_yard&quot;: {&quot;area_error&quot;: 0.0215, &quot;cells_compared&quot;: 303489, &quot;city_deep_ha&quot;: 11.215, &quot;city_shallow_ha&quot;: 17.85, &quot;csi_deep&quot;: 0.4604, &quot;csi_wet&quot;: 0.5085, &quot;model_deep_ha&quot;: 10.863, &quot;model_shallow_ha&quot;: 15.468, &quot;same_class_share_of_city_wet&quot;: 0.4825, &quot;wet_false_alarms&quot;: 3063, &quot;wet_hits&quot;: 7469, &quot;wet_misses&quot;: 4157}, &quot;label&quot;: &quot;mod_q30&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 1.4277, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 11.675, &quot;city_shallow_ha&quot;: 18.33, &quot;csi_deep&quot;: 0.2674, &quot;csi_wet&quot;: 0.2522, &quot;model_deep_ha&quot;: 22.845, &quot;model_shallow_ha&quot;: 49.285, &quot;same_class_share_of_city_wet&quot;: 0.5155, &quot;wet_false_alarms&quot;: 20623, &quot;wet_hits&quot;: 8229, &quot;wet_misses&quot;: 3773}, &quot;status&quot;: &quot;run&quot;}}, &quot;frozen_on&quot;: &quot;2026-11-26&quot;, &quot;note&quot;: &quot;Limited alone fits best near 30 mm/h, Moderate alone between 30 and 35 mm/h. CSI (wet) at 30 mm/h is below the proposed 0.5 on both maps; accepted by Yuri as the best fit, to be stated on the page. No official sewer-district layer was found, so the per-district fallback of FH3 was not tried.&quot;, &quot;objective&quot;: &quot;Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model&#x27;s wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after.&quot;, &quot;tag&quot;: &quot;P&quot;}</td></tr><tr><td class="l">lowest_area_error_by_scenario</td><td>{&quot;limited&quot;: {&quot;allowance&quot;: 30.0, &quot;area_error&quot;: 0.0871, &quot;label&quot;: &quot;lim_q30&quot;}, &quot;moderate&quot;: {&quot;allowance&quot;: 30.0, &quot;area_error&quot;: 0.0668, &quot;label&quot;: &quot;mod_q30&quot;}}</td></tr><tr><td class="l">navy_yard_cells_compared</td><td>27126</td></tr></tbody></table></div>
+<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">cells_compared</td><td>330615</td></tr><tr><td class="l">extreme_check</td><td>{&quot;allowance_of_run&quot;: 30.0, &quot;city_map&quot;: &quot;extreme-2080&quot;, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0633, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 55.263, &quot;city_shallow_ha&quot;: 46.932, &quot;csi_deep&quot;: 0.5574, &quot;csi_wet&quot;: 0.4839, &quot;model_deep_ha&quot;: 50.898, &quot;model_shallow_ha&quot;: 37.0, &quot;same_class_share_of_city_wet&quot;: 0.497, &quot;wet_false_alarms&quot;: 10365, &quot;wet_hits&quot;: 24794, &quot;wet_misses&quot;: 16084}, &quot;label&quot;: &quot;ext_q30&quot;, &quot;note&quot;: &quot;The extreme-2080 map includes the sea level of 2080; its tidal code is left out by city_class, so only the rain classes 1 and 2 are compared. A check, not a calibration target (FH3).&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 0.2219, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 55.263, &quot;city_shallow_ha&quot;: 46.932, &quot;csi_deep&quot;: 0.4471, &quot;csi_wet&quot;: 0.398, &quot;model_deep_ha&quot;: 70.713, &quot;model_shallow_ha&quot;: 70.118, &quot;same_class_share_of_city_wet&quot;: 0.555, &quot;wet_false_alarms&quot;: 28659, &quot;wet_hits&quot;: 27673, &quot;wet_misses&quot;: 13205}, &quot;scenario_of_run&quot;: &quot;extreme&quot;, &quot;status&quot;: &quot;run&quot;}</td></tr><tr><td class="l">footprints_in_study_area</td><td>17750</td></tr><tr><td class="l">frozen</td><td>{&quot;allowance_mm_per_h&quot;: 30.0, &quot;fit&quot;: {&quot;limited&quot;: {&quot;allowance_of_run&quot;: 30.0, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0915, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 5.76, &quot;city_shallow_ha&quot;: 10.258, &quot;csi_deep&quot;: 0.2068, &quot;csi_wet&quot;: 0.3073, &quot;model_deep_ha&quot;: 4.513, &quot;model_shallow_ha&quot;: 12.277, &quot;same_class_share_of_city_wet&quot;: 0.312, &quot;wet_false_alarms&quot;: 3631, &quot;wet_hits&quot;: 3085, &quot;wet_misses&quot;: 3322}, &quot;filtered_without_navy_yard&quot;: {&quot;area_error&quot;: 0.1957, &quot;cells_compared&quot;: 303489, &quot;city_deep_ha&quot;: 5.548, &quot;city_shallow_ha&quot;: 9.955, &quot;csi_deep&quot;: 0.2249, &quot;csi_wet&quot;: 0.3562, &quot;model_deep_ha&quot;: 3.59, &quot;model_shallow_ha&quot;: 9.15, &quot;same_class_share_of_city_wet&quot;: 0.3111, &quot;wet_false_alarms&quot;: 2129, &quot;wet_hits&quot;: 2967, &quot;wet_misses&quot;: 3234}, &quot;label&quot;: &quot;lim_q30&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 1.5985, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 5.76, &quot;city_shallow_ha&quot;: 10.258, &quot;csi_deep&quot;: 0.1456, &quot;csi_wet&quot;: 0.1754, &quot;model_deep_ha&quot;: 9.402, &quot;model_shallow_ha&quot;: 32.935, &quot;same_class_share_of_city_wet&quot;: 0.3629, &quot;wet_false_alarms&quot;: 13451, &quot;wet_hits&quot;: 3484, &quot;wet_misses&quot;: 2923}, &quot;status&quot;: &quot;run&quot;}, &quot;moderate&quot;: {&quot;allowance_of_run&quot;: 30.0, &quot;filtered&quot;: {&quot;area_error&quot;: 0.0657, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 11.675, &quot;city_shallow_ha&quot;: 18.33, &quot;csi_deep&quot;: 0.3899, &quot;csi_wet&quot;: 0.4082, &quot;model_deep_ha&quot;: 13.697, &quot;model_shallow_ha&quot;: 22.405, &quot;same_class_share_of_city_wet&quot;: 0.4772, &quot;wet_false_alarms&quot;: 6776, &quot;wet_hits&quot;: 7665, &quot;wet_misses&quot;: 4337}, &quot;filtered_without_navy_yard&quot;: {&quot;area_error&quot;: 0.0215, &quot;cells_compared&quot;: 303489, &quot;city_deep_ha&quot;: 11.215, &quot;city_shallow_ha&quot;: 17.85, &quot;csi_deep&quot;: 0.4606, &quot;csi_wet&quot;: 0.5085, &quot;model_deep_ha&quot;: 10.822, &quot;model_shallow_ha&quot;: 15.482, &quot;same_class_share_of_city_wet&quot;: 0.4825, &quot;wet_false_alarms&quot;: 3056, &quot;wet_hits&quot;: 7466, &quot;wet_misses&quot;: 4160}, &quot;label&quot;: &quot;mod_q30&quot;, &quot;raw&quot;: {&quot;area_error&quot;: 1.3607, &quot;cells_compared&quot;: 330615, &quot;city_deep_ha&quot;: 11.675, &quot;city_shallow_ha&quot;: 18.33, &quot;csi_deep&quot;: 0.2735, &quot;csi_wet&quot;: 0.2563, &quot;model_deep_ha&quot;: 22.163, &quot;model_shallow_ha&quot;: 48.605, &quot;same_class_share_of_city_wet&quot;: 0.5152, &quot;wet_false_alarms&quot;: 20084, &quot;wet_hits&quot;: 8223, &quot;wet_misses&quot;: 3779}, &quot;status&quot;: &quot;run&quot;}}, &quot;frozen_on&quot;: &quot;2026-11-26&quot;, &quot;note&quot;: &quot;Limited alone fits best near 30 mm/h, Moderate alone between 30 and 35 mm/h. CSI (wet) at 30 mm/h is below the proposed 0.5 on both maps; accepted by Yuri as the best fit, to be stated on the page. No official sewer-district layer was found, so the per-district fallback of FH3 was not tried.&quot;, &quot;objective&quot;: &quot;Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model&#x27;s wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after.&quot;, &quot;tag&quot;: &quot;P&quot;}</td></tr><tr><td class="l">lowest_area_error_by_scenario</td><td>{&quot;limited&quot;: {&quot;allowance&quot;: 30.0, &quot;area_error&quot;: 0.0915, &quot;label&quot;: &quot;lim_q30&quot;}, &quot;moderate&quot;: {&quot;allowance&quot;: 30.0, &quot;area_error&quot;: 0.0657, &quot;label&quot;: &quot;mod_q30&quot;}}</td></tr><tr><td class="l">navy_yard_cells_compared</td><td>27126</td></tr></tbody></table></div>
 <p class="caption"><b>Parameters.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.</p>
 <div class="scroll"><table class="data"><thead><tr><th class="l">Parameter</th><th>Value</th><th>Tag</th><th class="l">Source</th></tr></thead><tbody><tr><td class="l">drainage_allowance_mm_per_h</td><td>30.0</td><td><span class="tag">[P]</span></td><td class="l mute">Smallest sum, over the Limited (1.77 in/hr) and Moderate (2.13 in/hr) current-sea-level maps, of the squared log ratio of modelled to city area in each class (4 in to 1 ft; 1 ft and over), on compared cells (study-area land outside footprints, pits, water and cells below the start water level), after the model&#x27;s wet patches under a quarter acre are removed. Allowances tried: 20, 25, 30, 35, 40, 50 mm/h. One-hour storm at the stated intensity [P], one dry hour after.</td></tr><tr><td class="l">wet_m</td><td>0.05</td><td><span class="tag">[P]</span></td><td class="l mute">requirements section 5</td></tr><tr><td class="l">shallow_class_m</td><td>0.1016</td><td><span class="tag">[S]</span></td><td class="l mute">nyc-stormwater-flood-maps</td></tr><tr><td class="l">deep_class_m</td><td>0.3048</td><td><span class="tag">[S]</span></td><td class="l mute">nyc-stormwater-flood-maps</td></tr><tr><td class="l">min_patch_m2</td><td>1011.7141056</td><td><span class="tag">[P]</span></td><td class="l mute">city&#x27;s 0.25-acre rule applied to the model</td></tr><tr><td class="l">patch_connectivity</td><td>8</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">intensity_in_h</td><td>{&quot;extreme&quot;: 3.66, &quot;limited&quot;: 1.77, &quot;moderate&quot;: 2.13}</td><td><span class="tag">[S]</span></td><td class="l mute">nyc-stormwater-flood-maps</td></tr><tr><td class="l">balance_max_share</td><td>0.01</td><td><span class="tag">[P]</span></td><td class="l mute">requirements FH8</td></tr><tr><td class="l">csi_min</td><td>0.5</td><td><span class="tag">[P]</span></td><td class="l mute">plan F3, proposed</td></tr><tr><td class="l">monotone_tolerance_m</td><td>0.001</td><td><span class="tag">[P]</span></td><td class="l mute">set at the F0 stop</td></tr><tr><td class="l">lead_depth_m</td><td>0.3</td><td><span class="tag">[P]</span></td><td class="l mute">demo-concerns §2</td></tr><tr><td class="l">lead_area_m2</td><td>25</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">max_roof_share</td><td>0.5</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">building_band_m</td><td>2.0</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">navy_yard_nta2020</td><td>BK0261</td><td><span class="tag">[P]</span></td><td class="l mute">sensitivity of the calibration</td></tr><tr><td class="l">depth_colours</td><td>[&quot;#c6dbef&quot;, &quot;#6baed6&quot;, &quot;#08519c&quot;]</td><td><span class="tag">[P]</span></td><td class="l mute">matplotlib &#x27;Blues&#x27;; FP7 has none yet</td></tr></tbody></table></div>
 <details class="table"><summary>Table <code>atlas14_placement</code></summary><p class="caption"><b>Table atlas14_placement.</b> F3 solver model: drainage allowance frozen at 30 mm/h [P] (2026-11-26); 20 of 20 named runs finished. Calibrated on the city&#x27;s two current-sea-level maps (limited 1.77 in/h, moderate 2.13 in/h); the 3.66 in/h run is a check against a 2080 map. Every number comes from the run folders, the city maps and the cache files listed as inputs. Captions: calibration_curve.png: Modelled area per city class (4 in to 1 ft, 1 ft and over) on the compared cells against the drainage allowance, one marker per calibration run, with the city map&#x27;s area as a dashed line; below, the critical success index for wet (4 in or more) with model patches under a quarter acre removed (filtered) and without (raw), and for the deep class; green: the frozen value. Limit: 12 runs, each 1 h of uniform rain on the whole square; the city&#x27;s maps come from another model, so a match is agreement with that model, not with observed flooding. hit_miss.png: Hit, miss and false alarm per compared cell at the frozen allowance, wet meaning 4 in or more, model patches under a quarter acre removed; grey: compared and dry in both; white: not compared (outside the study area, under a building footprint, a filled pit or water). Limit: a cell takes the city&#x27;s class at its centre; a shift of one cell between the two maps counts as both a miss and a false alarm. water_balance.png: Rain, drained (the allowance), stored (change in water volume) and out (net outflow through the four edge cross-sections) per run, thousand m³, over the cells inside the boundary cells; the residual share of the rain is printed above. Limit: the fluxes are the solver&#x27;s own outputs, so the balance tests their consistency, not that the rain or the drainage are right. replays.png: Peak depth at cell centres for each replay on the compared cells of the study area, in three classes; red: substation sites with the depth exceeded on 25 m² of their open ground; right: the radar rain each run was forced with, mean over the 4 km square per step. Limit: radar rain at about 1 km cells, held uniform within each cell and hour; no sewer network, only the allowance; water from outside the square cannot enter. atlas14.png: NOAA Atlas 14 60-minute depth at the study-area centre against return period, partial duration and annual maximum series, with their 90% bounds, and the three map intensities held for one hour. Limit: a point estimate for a 4 km area; the city&#x27;s storm shape and duration are not a 60-minute block, so a placement is a reading, not the return period of the map. sensitivity.png: Change in modelled area at 4 in or more (filtered) and in CSI wet against the frozen run of the same scenario, for other durations at the same intensity and other boundary levels. Limit: one run per setting, at the frozen allowance only.</p><pre>{
@@ -2180,47 +2180,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 20.0,
   &quot;city_map&quot;: &quot;limited-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 1.6089,
+   &quot;area_error&quot;: 1.6012,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.2947,
-   &quot;csi_wet&quot;: 0.3166,
-   &quot;model_deep_ha&quot;: 15.15,
-   &quot;model_shallow_ha&quot;: 23.352,
-   &quot;same_class_share_of_city_wet&quot;: 0.6196,
-   &quot;wet_false_alarms&quot;: 10157,
-   &quot;wet_hits&quot;: 5244,
-   &quot;wet_misses&quot;: 1163
+   &quot;csi_deep&quot;: 0.2955,
+   &quot;csi_wet&quot;: 0.3169,
+   &quot;model_deep_ha&quot;: 15.1,
+   &quot;model_shallow_ha&quot;: 23.332,
+   &quot;same_class_share_of_city_wet&quot;: 0.6199,
+   &quot;wet_false_alarms&quot;: 10132,
+   &quot;wet_hits&quot;: 5241,
+   &quot;wet_misses&quot;: 1166
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.8174,
+   &quot;area_error&quot;: 0.8128,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 5.548,
    &quot;city_shallow_ha&quot;: 9.955,
-   &quot;csi_deep&quot;: 0.3576,
-   &quot;csi_wet&quot;: 0.4145,
-   &quot;model_deep_ha&quot;: 11.982,
-   &quot;model_shallow_ha&quot;: 16.02,
-   &quot;same_class_share_of_city_wet&quot;: 0.6233,
-   &quot;wet_false_alarms&quot;: 6102,
-   &quot;wet_hits&quot;: 5099,
-   &quot;wet_misses&quot;: 1102
+   &quot;csi_deep&quot;: 0.3582,
+   &quot;csi_wet&quot;: 0.4146,
+   &quot;model_deep_ha&quot;: 11.95,
+   &quot;model_shallow_ha&quot;: 16.012,
+   &quot;same_class_share_of_city_wet&quot;: 0.6236,
+   &quot;wet_false_alarms&quot;: 6089,
+   &quot;wet_hits&quot;: 5096,
+   &quot;wet_misses&quot;: 1105
   },
   &quot;label&quot;: &quot;lim_q20&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 4.6547,
+   &quot;area_error&quot;: 4.5319,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.1889,
-   &quot;csi_wet&quot;: 0.174,
-   &quot;model_deep_ha&quot;: 24.63,
-   &quot;model_shallow_ha&quot;: 50.645,
-   &quot;same_class_share_of_city_wet&quot;: 0.6413,
-   &quot;wet_false_alarms&quot;: 24699,
-   &quot;wet_hits&quot;: 5411,
-   &quot;wet_misses&quot;: 996
+   &quot;csi_deep&quot;: 0.1938,
+   &quot;csi_wet&quot;: 0.1769,
+   &quot;model_deep_ha&quot;: 23.957,
+   &quot;model_shallow_ha&quot;: 49.962,
+   &quot;same_class_share_of_city_wet&quot;: 0.6418,
+   &quot;wet_false_alarms&quot;: 24160,
+   &quot;wet_hits&quot;: 5408,
+   &quot;wet_misses&quot;: 999
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2229,47 +2229,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 25.0,
   &quot;city_map&quot;: &quot;limited-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.6314,
+   &quot;area_error&quot;: 0.6264,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.3197,
-   &quot;csi_wet&quot;: 0.3411,
-   &quot;model_deep_ha&quot;: 9.832,
-   &quot;model_shallow_ha&quot;: 18.485,
-   &quot;same_class_share_of_city_wet&quot;: 0.535,
-   &quot;wet_false_alarms&quot;: 6816,
-   &quot;wet_hits&quot;: 4511,
-   &quot;wet_misses&quot;: 1896
+   &quot;csi_deep&quot;: 0.3206,
+   &quot;csi_wet&quot;: 0.3412,
+   &quot;model_deep_ha&quot;: 9.77,
+   &quot;model_shallow_ha&quot;: 18.512,
+   &quot;same_class_share_of_city_wet&quot;: 0.5347,
+   &quot;wet_false_alarms&quot;: 6805,
+   &quot;wet_hits&quot;: 4508,
+   &quot;wet_misses&quot;: 1899
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.1917,
+   &quot;area_error&quot;: 0.1885,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 5.548,
    &quot;city_shallow_ha&quot;: 9.955,
-   &quot;csi_deep&quot;: 0.3747,
+   &quot;csi_deep&quot;: 0.3754,
    &quot;csi_wet&quot;: 0.4314,
-   &quot;model_deep_ha&quot;: 7.853,
-   &quot;model_shallow_ha&quot;: 13.005,
-   &quot;same_class_share_of_city_wet&quot;: 0.5385,
-   &quot;wet_false_alarms&quot;: 3960,
-   &quot;wet_hits&quot;: 4383,
-   &quot;wet_misses&quot;: 1818
+   &quot;model_deep_ha&quot;: 7.808,
+   &quot;model_shallow_ha&quot;: 13.025,
+   &quot;same_class_share_of_city_wet&quot;: 0.538,
+   &quot;wet_false_alarms&quot;: 3953,
+   &quot;wet_hits&quot;: 4380,
+   &quot;wet_misses&quot;: 1821
   },
   &quot;label&quot;: &quot;lim_q25&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 3.2824,
+   &quot;area_error&quot;: 3.149,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.1993,
-   &quot;csi_wet&quot;: 0.1822,
-   &quot;model_deep_ha&quot;: 17.315,
-   &quot;model_shallow_ha&quot;: 43.328,
-   &quot;same_class_share_of_city_wet&quot;: 0.5642,
-   &quot;wet_false_alarms&quot;: 19532,
-   &quot;wet_hits&quot;: 4725,
-   &quot;wet_misses&quot;: 1682
+   &quot;csi_deep&quot;: 0.2063,
+   &quot;csi_wet&quot;: 0.1859,
+   &quot;model_deep_ha&quot;: 16.625,
+   &quot;model_shallow_ha&quot;: 42.642,
+   &quot;same_class_share_of_city_wet&quot;: 0.5641,
+   &quot;wet_false_alarms&quot;: 18986,
+   &quot;wet_hits&quot;: 4721,
+   &quot;wet_misses&quot;: 1686
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2278,47 +2278,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 30.0,
   &quot;city_map&quot;: &quot;limited-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.0871,
+   &quot;area_error&quot;: 0.0915,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
    &quot;csi_deep&quot;: 0.2068,
-   &quot;csi_wet&quot;: 0.3071,
-   &quot;model_deep_ha&quot;: 4.553,
-   &quot;model_shallow_ha&quot;: 12.27,
-   &quot;same_class_share_of_city_wet&quot;: 0.3123,
-   &quot;wet_false_alarms&quot;: 3643,
-   &quot;wet_hits&quot;: 3086,
-   &quot;wet_misses&quot;: 3321
+   &quot;csi_wet&quot;: 0.3073,
+   &quot;model_deep_ha&quot;: 4.513,
+   &quot;model_shallow_ha&quot;: 12.277,
+   &quot;same_class_share_of_city_wet&quot;: 0.312,
+   &quot;wet_false_alarms&quot;: 3631,
+   &quot;wet_hits&quot;: 3085,
+   &quot;wet_misses&quot;: 3322
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.1881,
+   &quot;area_error&quot;: 0.1957,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 5.548,
    &quot;city_shallow_ha&quot;: 9.955,
-   &quot;csi_deep&quot;: 0.2251,
-   &quot;csi_wet&quot;: 0.356,
-   &quot;model_deep_ha&quot;: 3.623,
-   &quot;model_shallow_ha&quot;: 9.138,
-   &quot;same_class_share_of_city_wet&quot;: 0.3114,
-   &quot;wet_false_alarms&quot;: 2136,
-   &quot;wet_hits&quot;: 2968,
-   &quot;wet_misses&quot;: 3233
+   &quot;csi_deep&quot;: 0.2249,
+   &quot;csi_wet&quot;: 0.3562,
+   &quot;model_deep_ha&quot;: 3.59,
+   &quot;model_shallow_ha&quot;: 9.15,
+   &quot;same_class_share_of_city_wet&quot;: 0.3111,
+   &quot;wet_false_alarms&quot;: 2129,
+   &quot;wet_hits&quot;: 2967,
+   &quot;wet_misses&quot;: 3234
   },
   &quot;label&quot;: &quot;lim_q30&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 1.7274,
+   &quot;area_error&quot;: 1.5985,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.1389,
-   &quot;csi_wet&quot;: 0.1709,
-   &quot;model_deep_ha&quot;: 10.123,
-   &quot;model_shallow_ha&quot;: 33.66,
-   &quot;same_class_share_of_city_wet&quot;: 0.3637,
-   &quot;wet_false_alarms&quot;: 14021,
-   &quot;wet_hits&quot;: 3492,
-   &quot;wet_misses&quot;: 2915
+   &quot;csi_deep&quot;: 0.1456,
+   &quot;csi_wet&quot;: 0.1754,
+   &quot;model_deep_ha&quot;: 9.402,
+   &quot;model_shallow_ha&quot;: 32.935,
+   &quot;same_class_share_of_city_wet&quot;: 0.3629,
+   &quot;wet_false_alarms&quot;: 13451,
+   &quot;wet_hits&quot;: 3484,
+   &quot;wet_misses&quot;: 2923
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2327,47 +2327,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 35.0,
   &quot;city_map&quot;: &quot;limited-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 3.1383,
+   &quot;area_error&quot;: 3.1725,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.0631,
+   &quot;csi_deep&quot;: 0.0625,
    &quot;csi_wet&quot;: 0.1398,
-   &quot;model_deep_ha&quot;: 1.143,
-   &quot;model_shallow_ha&quot;: 4.897,
-   &quot;same_class_share_of_city_wet&quot;: 0.0851,
-   &quot;wet_false_alarms&quot;: 1334,
+   &quot;model_deep_ha&quot;: 1.13,
+   &quot;model_shallow_ha&quot;: 4.905,
+   &quot;same_class_share_of_city_wet&quot;: 0.0848,
+   &quot;wet_false_alarms&quot;: 1332,
    &quot;wet_hits&quot;: 1082,
    &quot;wet_misses&quot;: 5325
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 4.1924,
+   &quot;area_error&quot;: 4.2196,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 5.548,
    &quot;city_shallow_ha&quot;: 9.955,
-   &quot;csi_deep&quot;: 0.0611,
+   &quot;csi_deep&quot;: 0.0608,
    &quot;csi_wet&quot;: 0.141,
-   &quot;model_deep_ha&quot;: 0.92,
-   &quot;model_shallow_ha&quot;: 3.663,
-   &quot;same_class_share_of_city_wet&quot;: 0.0819,
+   &quot;model_deep_ha&quot;: 0.912,
+   &quot;model_shallow_ha&quot;: 3.67,
+   &quot;same_class_share_of_city_wet&quot;: 0.0818,
    &quot;wet_false_alarms&quot;: 840,
    &quot;wet_hits&quot;: 993,
    &quot;wet_misses&quot;: 5208
   },
   &quot;label&quot;: &quot;lim_q35&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 0.5999,
+   &quot;area_error&quot;: 0.7119,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.054,
-   &quot;csi_wet&quot;: 0.1296,
-   &quot;model_deep_ha&quot;: 4.288,
-   &quot;model_shallow_ha&quot;: 21.008,
-   &quot;same_class_share_of_city_wet&quot;: 0.1537,
-   &quot;wet_false_alarms&quot;: 8222,
-   &quot;wet_hits&quot;: 1896,
-   &quot;wet_misses&quot;: 4511
+   &quot;csi_deep&quot;: 0.0577,
+   &quot;csi_wet&quot;: 0.1342,
+   &quot;model_deep_ha&quot;: 3.502,
+   &quot;model_shallow_ha&quot;: 20.303,
+   &quot;same_class_share_of_city_wet&quot;: 0.1522,
+   &quot;wet_false_alarms&quot;: 7637,
+   &quot;wet_hits&quot;: 1885,
+   &quot;wet_misses&quot;: 4522
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2405,18 +2405,18 @@ src/flood_lab/facts/; do not edit -->
   },
   &quot;label&quot;: &quot;lim_q40&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 2.7811,
+   &quot;area_error&quot;: 7.6515,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.0033,
-   &quot;csi_wet&quot;: 0.0355,
-   &quot;model_deep_ha&quot;: 1.175,
-   &quot;model_shallow_ha&quot;: 6.065,
-   &quot;same_class_share_of_city_wet&quot;: 0.0215,
-   &quot;wet_false_alarms&quot;: 2577,
-   &quot;wet_hits&quot;: 319,
-   &quot;wet_misses&quot;: 6088
+   &quot;csi_deep&quot;: 0.0029,
+   &quot;csi_wet&quot;: 0.0373,
+   &quot;model_deep_ha&quot;: 0.383,
+   &quot;model_shallow_ha&quot;: 5.305,
+   &quot;same_class_share_of_city_wet&quot;: 0.0208,
+   &quot;wet_false_alarms&quot;: 1963,
+   &quot;wet_hits&quot;: 312,
+   &quot;wet_misses&quot;: 6095
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2454,18 +2454,18 @@ src/flood_lab/facts/; do not edit -->
   },
   &quot;label&quot;: &quot;lim_q50&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 14.4279,
+   &quot;area_error&quot;: 88.5053,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 5.76,
    &quot;city_shallow_ha&quot;: 10.258,
-   &quot;csi_deep&quot;: 0.0008,
-   &quot;csi_wet&quot;: 0.0007,
-   &quot;model_deep_ha&quot;: 0.652,
-   &quot;model_shallow_ha&quot;: 0.443,
-   &quot;same_class_share_of_city_wet&quot;: 0.0005,
-   &quot;wet_false_alarms&quot;: 433,
-   &quot;wet_hits&quot;: 5,
-   &quot;wet_misses&quot;: 6402
+   &quot;csi_deep&quot;: 0.0,
+   &quot;csi_wet&quot;: 0.0,
+   &quot;model_deep_ha&quot;: 0.0,
+   &quot;model_shallow_ha&quot;: 0.0,
+   &quot;same_class_share_of_city_wet&quot;: 0.0,
+   &quot;wet_false_alarms&quot;: 0,
+   &quot;wet_hits&quot;: 0,
+   &quot;wet_misses&quot;: 6407
   },
   &quot;scenario&quot;: &quot;limited&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2474,47 +2474,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 20.0,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.7623,
+   &quot;area_error&quot;: 0.7561,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.3556,
-   &quot;csi_wet&quot;: 0.4083,
-   &quot;model_deep_ha&quot;: 24.777,
-   &quot;model_shallow_ha&quot;: 28.57,
-   &quot;same_class_share_of_city_wet&quot;: 0.5874,
-   &quot;wet_false_alarms&quot;: 11673,
-   &quot;wet_hits&quot;: 9666,
-   &quot;wet_misses&quot;: 2336
+   &quot;csi_deep&quot;: 0.3566,
+   &quot;csi_wet&quot;: 0.4088,
+   &quot;model_deep_ha&quot;: 24.683,
+   &quot;model_shallow_ha&quot;: 28.553,
+   &quot;same_class_share_of_city_wet&quot;: 0.5877,
+   &quot;wet_false_alarms&quot;: 11632,
+   &quot;wet_hits&quot;: 9662,
+   &quot;wet_misses&quot;: 2340
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.3363,
+   &quot;area_error&quot;: 0.3325,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 11.215,
    &quot;city_shallow_ha&quot;: 17.85,
-   &quot;csi_deep&quot;: 0.4315,
-   &quot;csi_wet&quot;: 0.518,
-   &quot;model_deep_ha&quot;: 19.753,
-   &quot;model_shallow_ha&quot;: 20.28,
-   &quot;same_class_share_of_city_wet&quot;: 0.5929,
-   &quot;wet_false_alarms&quot;: 6581,
-   &quot;wet_hits&quot;: 9432,
-   &quot;wet_misses&quot;: 2194
+   &quot;csi_deep&quot;: 0.4326,
+   &quot;csi_wet&quot;: 0.5188,
+   &quot;model_deep_ha&quot;: 19.692,
+   &quot;model_shallow_ha&quot;: 20.255,
+   &quot;same_class_share_of_city_wet&quot;: 0.5933,
+   &quot;wet_false_alarms&quot;: 6550,
+   &quot;wet_hits&quot;: 9429,
+   &quot;wet_misses&quot;: 2197
   },
   &quot;label&quot;: &quot;mod_q20&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 2.7417,
+   &quot;area_error&quot;: 2.6737,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.2436,
-   &quot;csi_wet&quot;: 0.2463,
-   &quot;model_deep_ha&quot;: 37.53,
-   &quot;model_shallow_ha&quot;: 59.352,
-   &quot;same_class_share_of_city_wet&quot;: 0.6135,
-   &quot;wet_false_alarms&quot;: 28721,
-   &quot;wet_hits&quot;: 10032,
-   &quot;wet_misses&quot;: 1970
+   &quot;csi_deep&quot;: 0.2474,
+   &quot;csi_wet&quot;: 0.2494,
+   &quot;model_deep_ha&quot;: 36.875,
+   &quot;model_shallow_ha&quot;: 58.663,
+   &quot;same_class_share_of_city_wet&quot;: 0.6136,
+   &quot;wet_false_alarms&quot;: 28190,
+   &quot;wet_hits&quot;: 10025,
+   &quot;wet_misses&quot;: 1977
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2523,47 +2523,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 25.0,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.3668,
+   &quot;area_error&quot;: 0.3641,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.3987,
+   &quot;csi_deep&quot;: 0.3995,
    &quot;csi_wet&quot;: 0.4242,
-   &quot;model_deep_ha&quot;: 19.135,
-   &quot;model_shallow_ha&quot;: 26.035,
-   &quot;same_class_share_of_city_wet&quot;: 0.5757,
-   &quot;wet_false_alarms&quot;: 9112,
-   &quot;wet_hits&quot;: 8956,
-   &quot;wet_misses&quot;: 3046
+   &quot;model_deep_ha&quot;: 19.073,
+   &quot;model_shallow_ha&quot;: 26.055,
+   &quot;same_class_share_of_city_wet&quot;: 0.5759,
+   &quot;wet_false_alarms&quot;: 9099,
+   &quot;wet_hits&quot;: 8952,
+   &quot;wet_misses&quot;: 3050
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.0891,
+   &quot;area_error&quot;: 0.0877,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 11.215,
    &quot;city_shallow_ha&quot;: 17.85,
-   &quot;csi_deep&quot;: 0.4835,
+   &quot;csi_deep&quot;: 0.4843,
    &quot;csi_wet&quot;: 0.5406,
-   &quot;model_deep_ha&quot;: 15.117,
-   &quot;model_shallow_ha&quot;: 18.06,
-   &quot;same_class_share_of_city_wet&quot;: 0.5821,
-   &quot;wet_false_alarms&quot;: 4535,
-   &quot;wet_hits&quot;: 8736,
-   &quot;wet_misses&quot;: 2890
+   &quot;model_deep_ha&quot;: 15.08,
+   &quot;model_shallow_ha&quot;: 18.067,
+   &quot;same_class_share_of_city_wet&quot;: 0.5823,
+   &quot;wet_false_alarms&quot;: 4527,
+   &quot;wet_hits&quot;: 8732,
+   &quot;wet_misses&quot;: 2894
   },
   &quot;label&quot;: &quot;mod_q25&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 2.1173,
+   &quot;area_error&quot;: 2.05,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.2697,
-   &quot;csi_wet&quot;: 0.2564,
-   &quot;model_deep_ha&quot;: 30.175,
-   &quot;model_shallow_ha&quot;: 55.252,
-   &quot;same_class_share_of_city_wet&quot;: 0.6081,
-   &quot;wet_false_alarms&quot;: 24749,
-   &quot;wet_hits&quot;: 9422,
-   &quot;wet_misses&quot;: 2580
+   &quot;csi_deep&quot;: 0.2746,
+   &quot;csi_wet&quot;: 0.2598,
+   &quot;model_deep_ha&quot;: 29.555,
+   &quot;model_shallow_ha&quot;: 54.543,
+   &quot;same_class_share_of_city_wet&quot;: 0.6078,
+   &quot;wet_false_alarms&quot;: 24227,
+   &quot;wet_hits&quot;: 9412,
+   &quot;wet_misses&quot;: 2590
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2572,47 +2572,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 30.0,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.0668,
+   &quot;area_error&quot;: 0.0657,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.3894,
-   &quot;csi_wet&quot;: 0.408,
-   &quot;model_deep_ha&quot;: 13.755,
-   &quot;model_shallow_ha&quot;: 22.39,
-   &quot;same_class_share_of_city_wet&quot;: 0.4771,
-   &quot;wet_false_alarms&quot;: 6790,
-   &quot;wet_hits&quot;: 7668,
-   &quot;wet_misses&quot;: 4334
+   &quot;csi_deep&quot;: 0.3899,
+   &quot;csi_wet&quot;: 0.4082,
+   &quot;model_deep_ha&quot;: 13.697,
+   &quot;model_shallow_ha&quot;: 22.405,
+   &quot;same_class_share_of_city_wet&quot;: 0.4772,
+   &quot;wet_false_alarms&quot;: 6776,
+   &quot;wet_hits&quot;: 7665,
+   &quot;wet_misses&quot;: 4337
   },
   &quot;filtered_without_navy_yard&quot;: {
    &quot;area_error&quot;: 0.0215,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 11.215,
    &quot;city_shallow_ha&quot;: 17.85,
-   &quot;csi_deep&quot;: 0.4604,
+   &quot;csi_deep&quot;: 0.4606,
    &quot;csi_wet&quot;: 0.5085,
-   &quot;model_deep_ha&quot;: 10.863,
-   &quot;model_shallow_ha&quot;: 15.468,
+   &quot;model_deep_ha&quot;: 10.822,
+   &quot;model_shallow_ha&quot;: 15.482,
    &quot;same_class_share_of_city_wet&quot;: 0.4825,
-   &quot;wet_false_alarms&quot;: 3063,
-   &quot;wet_hits&quot;: 7469,
-   &quot;wet_misses&quot;: 4157
+   &quot;wet_false_alarms&quot;: 3056,
+   &quot;wet_hits&quot;: 7466,
+   &quot;wet_misses&quot;: 4160
   },
   &quot;label&quot;: &quot;mod_q30&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 1.4277,
+   &quot;area_error&quot;: 1.3607,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.2674,
-   &quot;csi_wet&quot;: 0.2522,
-   &quot;model_deep_ha&quot;: 22.845,
-   &quot;model_shallow_ha&quot;: 49.285,
-   &quot;same_class_share_of_city_wet&quot;: 0.5155,
-   &quot;wet_false_alarms&quot;: 20623,
-   &quot;wet_hits&quot;: 8229,
-   &quot;wet_misses&quot;: 3773
+   &quot;csi_deep&quot;: 0.2735,
+   &quot;csi_wet&quot;: 0.2563,
+   &quot;model_deep_ha&quot;: 22.163,
+   &quot;model_shallow_ha&quot;: 48.605,
+   &quot;same_class_share_of_city_wet&quot;: 0.5152,
+   &quot;wet_false_alarms&quot;: 20084,
+   &quot;wet_hits&quot;: 8223,
+   &quot;wet_misses&quot;: 3779
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2621,47 +2621,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 35.0,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 0.1043,
+   &quot;area_error&quot;: 0.1077,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.3067,
-   &quot;csi_wet&quot;: 0.3623,
-   &quot;model_deep_ha&quot;: 8.5,
-   &quot;model_shallow_ha&quot;: 17.238,
+   &quot;csi_deep&quot;: 0.3068,
+   &quot;csi_wet&quot;: 0.3624,
+   &quot;model_deep_ha&quot;: 8.453,
+   &quot;model_shallow_ha&quot;: 17.258,
    &quot;same_class_share_of_city_wet&quot;: 0.3224,
-   &quot;wet_false_alarms&quot;: 4365,
-   &quot;wet_hits&quot;: 5930,
-   &quot;wet_misses&quot;: 6072
+   &quot;wet_false_alarms&quot;: 4356,
+   &quot;wet_hits&quot;: 5928,
+   &quot;wet_misses&quot;: 6074
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 0.4003,
+   &quot;area_error&quot;: 0.4046,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 11.215,
    &quot;city_shallow_ha&quot;: 17.85,
-   &quot;csi_deep&quot;: 0.3446,
-   &quot;csi_wet&quot;: 0.4274,
-   &quot;model_deep_ha&quot;: 6.763,
-   &quot;model_shallow_ha&quot;: 12.193,
+   &quot;csi_deep&quot;: 0.3448,
+   &quot;csi_wet&quot;: 0.4273,
+   &quot;model_deep_ha&quot;: 6.725,
+   &quot;model_shallow_ha&quot;: 12.215,
    &quot;same_class_share_of_city_wet&quot;: 0.3242,
-   &quot;wet_false_alarms&quot;: 1831,
-   &quot;wet_hits&quot;: 5751,
-   &quot;wet_misses&quot;: 5875
+   &quot;wet_false_alarms&quot;: 1827,
+   &quot;wet_hits&quot;: 5749,
+   &quot;wet_misses&quot;: 5877
   },
   &quot;label&quot;: &quot;mod_q35&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 0.7546,
+   &quot;area_error&quot;: 0.7033,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.2197,
-   &quot;csi_wet&quot;: 0.2366,
-   &quot;model_deep_ha&quot;: 15.638,
-   &quot;model_shallow_ha&quot;: 41.553,
-   &quot;same_class_share_of_city_wet&quot;: 0.3684,
-   &quot;wet_false_alarms&quot;: 16202,
-   &quot;wet_hits&quot;: 6674,
-   &quot;wet_misses&quot;: 5328
+   &quot;csi_deep&quot;: 0.2256,
+   &quot;csi_wet&quot;: 0.2408,
+   &quot;model_deep_ha&quot;: 14.957,
+   &quot;model_shallow_ha&quot;: 40.858,
+   &quot;same_class_share_of_city_wet&quot;: 0.3675,
+   &quot;wet_false_alarms&quot;: 15664,
+   &quot;wet_hits&quot;: 6662,
+   &quot;wet_misses&quot;: 5340
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2670,47 +2670,47 @@ src/flood_lab/facts/; do not edit -->
   &quot;allowance&quot;: 40.0,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
   &quot;filtered&quot;: {
-   &quot;area_error&quot;: 1.6431,
+   &quot;area_error&quot;: 1.6581,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.1579,
-   &quot;csi_wet&quot;: 0.2666,
-   &quot;model_deep_ha&quot;: 3.615,
-   &quot;model_shallow_ha&quot;: 10.865,
+   &quot;csi_deep&quot;: 0.1582,
+   &quot;csi_wet&quot;: 0.2663,
+   &quot;model_deep_ha&quot;: 3.593,
+   &quot;model_shallow_ha&quot;: 10.857,
    &quot;same_class_share_of_city_wet&quot;: 0.1644,
-   &quot;wet_false_alarms&quot;: 2047,
-   &quot;wet_hits&quot;: 3745,
-   &quot;wet_misses&quot;: 8257
+   &quot;wet_false_alarms&quot;: 2040,
+   &quot;wet_hits&quot;: 3740,
+   &quot;wet_misses&quot;: 8262
   },
   &quot;filtered_without_navy_yard&quot;: {
-   &quot;area_error&quot;: 2.4707,
+   &quot;area_error&quot;: 2.4903,
    &quot;cells_compared&quot;: 303489,
    &quot;city_deep_ha&quot;: 11.215,
    &quot;city_shallow_ha&quot;: 17.85,
-   &quot;csi_deep&quot;: 0.1666,
-   &quot;csi_wet&quot;: 0.2881,
-   &quot;model_deep_ha&quot;: 2.857,
-   &quot;model_shallow_ha&quot;: 8.18,
+   &quot;csi_deep&quot;: 0.1669,
+   &quot;csi_wet&quot;: 0.2879,
+   &quot;model_deep_ha&quot;: 2.837,
+   &quot;model_shallow_ha&quot;: 8.178,
    &quot;same_class_share_of_city_wet&quot;: 0.1636,
-   &quot;wet_false_alarms&quot;: 827,
-   &quot;wet_hits&quot;: 3588,
-   &quot;wet_misses&quot;: 8038
+   &quot;wet_false_alarms&quot;: 822,
+   &quot;wet_hits&quot;: 3584,
+   &quot;wet_misses&quot;: 8042
   },
   &quot;label&quot;: &quot;mod_q40&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 0.3727,
+   &quot;area_error&quot;: 0.4017,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.1314,
-   &quot;csi_wet&quot;: 0.2018,
-   &quot;model_deep_ha&quot;: 8.777,
-   &quot;model_shallow_ha&quot;: 31.457,
-   &quot;same_class_share_of_city_wet&quot;: 0.216,
-   &quot;wet_false_alarms&quot;: 11376,
-   &quot;wet_hits&quot;: 4718,
-   &quot;wet_misses&quot;: 7284
+   &quot;csi_deep&quot;: 0.1362,
+   &quot;csi_wet&quot;: 0.2062,
+   &quot;model_deep_ha&quot;: 8.075,
+   &quot;model_shallow_ha&quot;: 30.71,
+   &quot;same_class_share_of_city_wet&quot;: 0.2157,
+   &quot;wet_false_alarms&quot;: 10810,
+   &quot;wet_hits&quot;: 4704,
+   &quot;wet_misses&quot;: 7298
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2748,18 +2748,18 @@ src/flood_lab/facts/; do not edit -->
   },
   &quot;label&quot;: &quot;mod_q50&quot;,
   &quot;raw&quot;: {
-   &quot;area_error&quot;: 8.7753,
+   &quot;area_error&quot;: 20.5049,
    &quot;cells_compared&quot;: 330615,
    &quot;city_deep_ha&quot;: 11.675,
    &quot;city_shallow_ha&quot;: 18.33,
-   &quot;csi_deep&quot;: 0.0018,
-   &quot;csi_wet&quot;: 0.0198,
-   &quot;model_deep_ha&quot;: 0.922,
-   &quot;model_shallow_ha&quot;: 3.91,
-   &quot;same_class_share_of_city_wet&quot;: 0.0082,
-   &quot;wet_false_alarms&quot;: 1663,
-   &quot;wet_hits&quot;: 270,
-   &quot;wet_misses&quot;: 11732
+   &quot;csi_deep&quot;: 0.0006,
+   &quot;csi_wet&quot;: 0.019,
+   &quot;model_deep_ha&quot;: 0.17,
+   &quot;model_shallow_ha&quot;: 3.152,
+   &quot;same_class_share_of_city_wet&quot;: 0.0071,
+   &quot;wet_false_alarms&quot;: 1081,
+   &quot;wet_hits&quot;: 248,
+   &quot;wet_misses&quot;: 11754
   },
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;status&quot;: &quot;run&quot;
@@ -2783,7 +2783,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;note&quot;: &quot;rain 44.958 &lt; 54.102 mm/h&quot;,
   &quot;passed&quot;: false,
   &quot;status&quot;: &quot;run&quot;,
-  &quot;wet_cells_deeper_at_lower_rain&quot;: 34,
+  &quot;wet_cells_deeper_at_lower_rain&quot;: 21,
   &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 2
  },
  {
@@ -2795,7 +2795,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;note&quot;: &quot;rain 44.958 &lt; 54.102 mm/h&quot;,
   &quot;passed&quot;: false,
   &quot;status&quot;: &quot;run&quot;,
-  &quot;wet_cells_deeper_at_lower_rain&quot;: 40,
+  &quot;wet_cells_deeper_at_lower_rain&quot;: 30,
   &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 4
  },
  {
@@ -2807,7 +2807,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;note&quot;: &quot;rain 44.958 &lt; 54.102 mm/h&quot;,
   &quot;passed&quot;: true,
   &quot;status&quot;: &quot;run&quot;,
-  &quot;wet_cells_deeper_at_lower_rain&quot;: 41,
+  &quot;wet_cells_deeper_at_lower_rain&quot;: 23,
   &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 0
  },
  {
@@ -2819,8 +2819,8 @@ src/flood_lab/facts/; do not edit -->
   &quot;note&quot;: &quot;rain 44.958 &lt; 54.102 mm/h&quot;,
   &quot;passed&quot;: false,
   &quot;status&quot;: &quot;run&quot;,
-  &quot;wet_cells_deeper_at_lower_rain&quot;: 29,
-  &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 1
+  &quot;wet_cells_deeper_at_lower_rain&quot;: 15,
+  &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 0
  },
  {
   &quot;cells&quot;: 330615,
@@ -2831,7 +2831,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;note&quot;: &quot;rain 44.958 &lt; 54.102 mm/h&quot;,
   &quot;passed&quot;: true,
   &quot;status&quot;: &quot;run&quot;,
-  &quot;wet_cells_deeper_at_lower_rain&quot;: 32,
+  &quot;wet_cells_deeper_at_lower_rain&quot;: 18,
   &quot;wet_cells_deeper_at_lower_rain_by_over_1mm&quot;: 0
  }
 ]</pre></details>
@@ -2934,14 +2934,14 @@ src/flood_lab/facts/; do not edit -->
    }
   ],
   &quot;wet_area_compared_cells&quot;: {
-   &quot;ge_0.05_m_ha&quot;: 109.9775,
-   &quot;ge_0.1016_m_ha&quot;: 73.28,
-   &quot;ge_0.3048_m_ha&quot;: 24.64
+   &quot;ge_0.05_m_ha&quot;: 107.8375,
+   &quot;ge_0.1016_m_ha&quot;: 71.93,
+   &quot;ge_0.3048_m_ha&quot;: 23.955
   },
   &quot;wet_area_study_area_land&quot;: {
-   &quot;ge_0.05_m_ha&quot;: 113.5025,
-   &quot;ge_0.1016_m_ha&quot;: 76.2025,
-   &quot;ge_0.3048_m_ha&quot;: 26.8925
+   &quot;ge_0.05_m_ha&quot;: 111.3075,
+   &quot;ge_0.1016_m_ha&quot;: 74.83,
+   &quot;ge_0.3048_m_ha&quot;: 26.2025
   }
  },
  &quot;sep29_2023&quot;: {
@@ -3042,14 +3042,14 @@ src/flood_lab/facts/; do not edit -->
    }
   ],
   &quot;wet_area_compared_cells&quot;: {
-   &quot;ge_0.05_m_ha&quot;: 52.52,
-   &quot;ge_0.1016_m_ha&quot;: 31.4675,
-   &quot;ge_0.3048_m_ha&quot;: 8.65
+   &quot;ge_0.05_m_ha&quot;: 50.315,
+   &quot;ge_0.1016_m_ha&quot;: 30.1425,
+   &quot;ge_0.3048_m_ha&quot;: 7.9925
   },
   &quot;wet_area_study_area_land&quot;: {
-   &quot;ge_0.05_m_ha&quot;: 55.2,
-   &quot;ge_0.1016_m_ha&quot;: 33.905,
-   &quot;ge_0.3048_m_ha&quot;: 10.7575
+   &quot;ge_0.05_m_ha&quot;: 52.925,
+   &quot;ge_0.1016_m_ha&quot;: 32.55,
+   &quot;ge_0.3048_m_ha&quot;: 10.075
   }
  }
 }</pre></details>
@@ -3480,15 +3480,15 @@ src/flood_lab/facts/; do not edit -->
  {
   &quot;against&quot;: &quot;mod_q30&quot;,
   &quot;boundary_level_m&quot;: 0.0,
-  &quot;change_csi_wet&quot;: -0.1982,
-  &quot;change_model_wet_ha&quot;: -25.345,
+  &quot;change_csi_wet&quot;: -0.1985,
+  &quot;change_model_wet_ha&quot;: -25.314,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
-  &quot;csi_wet&quot;: 0.2098,
-  &quot;frozen_csi_wet&quot;: 0.408,
-  &quot;frozen_model_wet_ha&quot;: 36.145,
+  &quot;csi_wet&quot;: 0.2097,
+  &quot;frozen_csi_wet&quot;: 0.4082,
+  &quot;frozen_model_wet_ha&quot;: 36.102,
   &quot;kind&quot;: &quot;duration&quot;,
   &quot;label&quot;: &quot;mod_q30_d05&quot;,
-  &quot;model_wet_ha&quot;: 10.8,
+  &quot;model_wet_ha&quot;: 10.788,
   &quot;rain_h&quot;: 0.5,
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;setting&quot;: &quot;0.5 h&quot;,
@@ -3498,14 +3498,14 @@ src/flood_lab/facts/; do not edit -->
   &quot;against&quot;: &quot;mod_q30&quot;,
   &quot;boundary_level_m&quot;: 0.0,
   &quot;change_csi_wet&quot;: -0.043,
-  &quot;change_model_wet_ha&quot;: 25.718,
+  &quot;change_model_wet_ha&quot;: 25.696,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
-  &quot;csi_wet&quot;: 0.365,
-  &quot;frozen_csi_wet&quot;: 0.408,
-  &quot;frozen_model_wet_ha&quot;: 36.145,
+  &quot;csi_wet&quot;: 0.3652,
+  &quot;frozen_csi_wet&quot;: 0.4082,
+  &quot;frozen_model_wet_ha&quot;: 36.102,
   &quot;kind&quot;: &quot;duration&quot;,
   &quot;label&quot;: &quot;mod_q30_d2&quot;,
-  &quot;model_wet_ha&quot;: 61.863,
+  &quot;model_wet_ha&quot;: 61.798,
   &quot;rain_h&quot;: 2.0,
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;setting&quot;: &quot;2 h&quot;,
@@ -3517,12 +3517,12 @@ src/flood_lab/facts/; do not edit -->
   &quot;change_csi_wet&quot;: 0.0,
   &quot;change_model_wet_ha&quot;: 0.003,
   &quot;city_map&quot;: &quot;moderate-current&quot;,
-  &quot;csi_wet&quot;: 0.408,
-  &quot;frozen_csi_wet&quot;: 0.408,
-  &quot;frozen_model_wet_ha&quot;: 36.145,
+  &quot;csi_wet&quot;: 0.4082,
+  &quot;frozen_csi_wet&quot;: 0.4082,
+  &quot;frozen_model_wet_ha&quot;: 36.102,
   &quot;kind&quot;: &quot;boundary level&quot;,
   &quot;label&quot;: &quot;mod_q30_lvl1&quot;,
-  &quot;model_wet_ha&quot;: 36.148,
+  &quot;model_wet_ha&quot;: 36.105,
   &quot;rain_h&quot;: 1.0,
   &quot;scenario&quot;: &quot;moderate&quot;,
   &quot;setting&quot;: &quot;+1.0 m&quot;,
@@ -3899,29 +3899,29 @@ src/flood_lab/facts/; do not edit -->
 <span class="stage">F4</span>
 <span class="badge fail">fail</span>
 </header>
-<p class="mute small">Record <code>f4</code>, written 2026-11-26T14:01:02Z.</p>
-<ul class="notes"><li>domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).</li><li>rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).</li><li>depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.</li><li>buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings &#x27;wet at the wall&#x27; and some wet cells: a floor from the terrain (at_assets&#x27; 1 m wall band, low pixels), not flooding by the storm.</li><li>wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered).</li><li>progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).</li><li>Other folders in the runs folder, not read: cat_r0124.</li><li>Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage allowance (ds_3h_2y, ds_3h_5y, ds_3h_10y, ds_3h_25y) still show 2,933 to 2,942 buildings &#x27;wet at the wall&#x27; (0.05 m) and 865 to 865 wet 5 m cells: a floor from the terrain, not flooding by the storm.</li></ul>
-<figure><img src="figures/f4/domain.png" alt="domain.png" loading="lazy"><figcaption><b>domain.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/domain.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/rainfall_frequency.png" alt="rainfall_frequency.png" loading="lazy"><figcaption><b>rainfall_frequency.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/rainfall_frequency.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/depth_strip.png" alt="depth_strip.png" loading="lazy"><figcaption><b>depth_strip.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/depth_strip.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/buildings_wet.png" alt="buildings_wet.png" loading="lazy"><figcaption><b>buildings_wet.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/buildings_wet.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/wet_runs.png" alt="wet_runs.png" loading="lazy"><figcaption><b>wet_runs.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/wet_runs.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/progress.png" alt="progress.png" loading="lazy"><figcaption><b>progress.png.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/progress.png">Open</a></figcaption></figure>
-<p class="caption"><b>Checks.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
-<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">catalogue rainfall inside the Atlas 14 band, 2-100 y</td><td class="l">3-hour annual maximum at the study box (rank M / T of M) within Atlas 14 AMS 3-hr 90% band at 2, 5, 10, 25, 50 and 100 years (plan F4)</td><td>{&quot;10&quot;: 53.1, &quot;100&quot;: 89.0, &quot;2&quot;: 31.3, &quot;25&quot;: 68.6, &quot;5&quot;: 43.2, &quot;50&quot;: 79.2}</td><td>{&quot;10&quot;: [54.9, 90.7], &quot;100&quot;: [75.9, 150.6], &quot;2&quot;: [35.8, 58.2], &quot;25&quot;: [63.5, 113.3], &quot;5&quot;: [46.7, 76.5], &quot;50&quot;: [70.1, 130.0]} <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>fail, accepted: below the band at 2, 5, 10 y; accepted by Yuri as CH-19 (&#x27;Accept, start batch&#x27;, 2026-11-26); recorded as a finding</td></tr><tr><td class="l">every finished batch run has a record and a water balance within 1%</td><td class="l">spec.json, run_run.json and balance.json present, |residual| &lt;= 1% of the rain (FH8), for every finished catalogue and design run</td><td>{&quot;catalogue&quot;: 5, &quot;design&quot;: 12, &quot;largest_abs_residual_share&quot;: 0.00016773714051645578, &quot;outside_balance&quot;: [], &quot;runs&quot;: 17, &quot;without_record&quot;: []}</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">depth non-decreasing with return period before the clean-up</td><td class="l">share of read cells whose depth_at curve never falls as AEP falls &gt;= 0.99</td><td>1.0</td><td>0.99 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>0 cells changed by the clean-up</td></tr><tr><td class="l">depth non-decreasing in every cell after the clean-up</td><td class="l">every read cell non-decreasing after make_non_decreasing; cells changed reported</td><td>{&quot;cells_changed&quot;: 0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">grid route read back equal (Dataset.from_raster)</td><td class="l">every delivered cell&#x27;s knots equal what was written (1e-6 m), same probabilities, same cell count (FH7)</td><td>{&quot;call&quot;: &quot;Dataset.from_raster&quot;, &quot;cells_delivered&quot;: 379976, &quot;cells_differing&quot;: 0, &quot;cells_with_other_probabilities&quot;: 0, &quot;cells_written&quot;: 379976, &quot;equal&quot;: true, &quot;largest_difference_m&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">point route read back equal (Dataset.from_quantiles)</td><td class="l">every asset&#x27;s knots delivered equal to those written (1e-9) (FH7)</td><td>{&quot;assets_delivered&quot;: 17755, &quot;assets_differing&quot;: 0, &quot;assets_written&quot;: 17755, &quot;call&quot;: &quot;Dataset.from_quantiles&quot;, &quot;equal&quot;: true, &quot;largest_difference&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>full asset set</td></tr><tr><td class="l">at least 60 catalogue runs before 1 December</td><td class="l">finished catalogue runs &gt;= 60 by 2026-12-01 (requirements §15)</td><td>5</td><td>60</td><td><span class="badge none">not judged</span></td><td class='l mute'>batch running; checked on 2026-11-26</td></tr><tr><td class="l">all 150 catalogue runs finished</td><td class="l">finished catalogue runs = 150 (FH5 target)</td><td>5</td><td>150</td><td><span class="badge none">not judged</span></td><td class='l mute'>batch running; figures are rebuilt when it ends</td></tr></tbody></table></div>
-<p class="caption"><b>Numbers.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
-<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">M_synthetic_years</td><td>1000</td></tr><tr><td class="l">N_catalogue_runs_finished</td><td>5</td></tr><tr><td class="l">buildings_in_study_area</td><td>17750</td></tr><tr><td class="l">buildings_wet_100y_catalogue</td><td>{&quot;0.05&quot;: 6758, &quot;0.3&quot;: 1506}</td></tr><tr><td class="l">buildings_wet_100y_design</td><td>{&quot;1 h&quot;: {&quot;0.05&quot;: 12180, &quot;0.3&quot;: 6128}, &quot;3 h&quot;: {&quot;0.05&quot;: 10306, &quot;0.3&quot;: 3142}}</td></tr><tr><td class="l">catalogue_runs_selected</td><td>150</td></tr><tr><td class="l">catalogue_storms_plotted</td><td>960</td></tr><tr><td class="l">cells_changed_by_clean_up</td><td>0</td></tr><tr><td class="l">cells_non_decreasing_before_clean_up</td><td>379976</td></tr><tr><td class="l">cells_read</td><td>379976</td></tr><tr><td class="l">cells_read_in_study_area</td><td>330615</td></tr><tr><td class="l">cells_wet_in_some_run</td><td>17765</td></tr><tr><td class="l">check_wall_time_s</td><td>165.3</td></tr><tr><td class="l">covered_years</td><td>1000</td></tr><tr><td class="l">design_runs_finished</td><td>12</td></tr><tr><td class="l">grid_read_back_equal</td><td>true</td></tr><tr><td class="l">interim_weights</td><td>true</td></tr><tr><td class="l">max_runs_wetting_a_cell</td><td>5</td></tr><tr><td class="l">non_decreasing_after_clean_up</td><td>true</td></tr><tr><td class="l">observed_box_median_3h_mm</td><td>38.14</td></tr><tr><td class="l">points_assets_loaded</td><td>17755</td></tr><tr><td class="l">points_read_back_equal</td><td>true</td></tr><tr><td class="l">runs_extracted_this_time</td><td>0</td></tr><tr><td class="l">share_non_decreasing_before_clean_up</td><td>1.0</td></tr><tr><td class="l">substation_sites</td><td>5</td></tr></tbody></table></div>
-<p class="caption"><b>Parameters.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<p class="mute small">Record <code>f4</code>, written 2026-11-26T14:28:46Z.</p>
+<ul class="notes"><li>domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).</li><li>rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).</li><li>depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.</li><li>buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings &#x27;wet at the wall&#x27; and some wet cells: a floor from the terrain (at_assets&#x27; 1 m wall band, low pixels), not flooding by the storm.</li><li>wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered).</li><li>progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).</li><li>Other folders in the runs folder, not read: cat_r0602.</li><li>Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage allowance (ds_1h_2y, ds_3h_2y, ds_3h_5y, ds_3h_10y, ds_3h_25y) still show 2,933 to 2,967 buildings &#x27;wet at the wall&#x27; (0.05 m) and 0 to 0 wet 5 m cells: a floor from the terrain, not flooding by the storm.</li></ul>
+<figure><img src="figures/f4/domain.png" alt="domain.png" loading="lazy"><figcaption><b>domain.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/domain.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/rainfall_frequency.png" alt="rainfall_frequency.png" loading="lazy"><figcaption><b>rainfall_frequency.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/rainfall_frequency.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/depth_strip.png" alt="depth_strip.png" loading="lazy"><figcaption><b>depth_strip.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/depth_strip.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/buildings_wet.png" alt="buildings_wet.png" loading="lazy"><figcaption><b>buildings_wet.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/buildings_wet.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/wet_runs.png" alt="wet_runs.png" loading="lazy"><figcaption><b>wet_runs.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/wet_runs.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/progress.png" alt="progress.png" loading="lazy"><figcaption><b>progress.png.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/progress.png">Open</a></figcaption></figure>
+<p class="caption"><b>Checks.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">catalogue rainfall inside the Atlas 14 band, 2-100 y</td><td class="l">3-hour annual maximum at the study box (rank M / T of M) within Atlas 14 AMS 3-hr 90% band at 2, 5, 10, 25, 50 and 100 years (plan F4)</td><td>{&quot;10&quot;: 53.1, &quot;100&quot;: 89.0, &quot;2&quot;: 31.3, &quot;25&quot;: 68.6, &quot;5&quot;: 43.2, &quot;50&quot;: 79.2}</td><td>{&quot;10&quot;: [54.9, 90.7], &quot;100&quot;: [75.9, 150.6], &quot;2&quot;: [35.8, 58.2], &quot;25&quot;: [63.5, 113.3], &quot;5&quot;: [46.7, 76.5], &quot;50&quot;: [70.1, 130.0]} <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>fail, accepted: below the band at 2, 5, 10 y; accepted by Yuri as CH-19 (&#x27;Accept, start batch&#x27;, 2026-11-26); recorded as a finding</td></tr><tr><td class="l">every finished batch run has a record and a water balance within 1%</td><td class="l">spec.json, run_run.json and balance.json present, |residual| &lt;= 1% of the rain (FH8), for every finished catalogue and design run</td><td>{&quot;catalogue&quot;: 9, &quot;design&quot;: 12, &quot;largest_abs_residual_share&quot;: 0.00016773714051645578, &quot;outside_balance&quot;: [], &quot;runs&quot;: 21, &quot;without_record&quot;: []}</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">depth non-decreasing with return period before the clean-up</td><td class="l">share of read cells whose depth_at curve never falls as AEP falls &gt;= 0.99</td><td>1.0</td><td>0.99 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>0 cells changed by the clean-up</td></tr><tr><td class="l">depth non-decreasing in every cell after the clean-up</td><td class="l">every read cell non-decreasing after make_non_decreasing; cells changed reported</td><td>{&quot;cells_changed&quot;: 0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">grid route read back equal (Dataset.from_raster)</td><td class="l">every delivered cell&#x27;s knots equal what was written (1e-6 m), same probabilities, same cell count (FH7)</td><td>{&quot;call&quot;: &quot;Dataset.from_raster&quot;, &quot;cells_delivered&quot;: 379976, &quot;cells_differing&quot;: 0, &quot;cells_with_other_probabilities&quot;: 0, &quot;cells_written&quot;: 379976, &quot;equal&quot;: true, &quot;largest_difference_m&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">point route read back equal (Dataset.from_quantiles)</td><td class="l">every asset&#x27;s knots delivered equal to those written (1e-9) (FH7)</td><td>{&quot;assets_delivered&quot;: 17755, &quot;assets_differing&quot;: 0, &quot;assets_written&quot;: 17755, &quot;call&quot;: &quot;Dataset.from_quantiles&quot;, &quot;equal&quot;: true, &quot;largest_difference&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>full asset set</td></tr><tr><td class="l">at least 60 catalogue runs before 1 December</td><td class="l">finished catalogue runs &gt;= 60 by 2026-12-01 (requirements §15)</td><td>9</td><td>60</td><td><span class="badge none">not judged</span></td><td class='l mute'>batch running; checked on 2026-11-26</td></tr><tr><td class="l">all 150 catalogue runs finished</td><td class="l">finished catalogue runs = 150 (FH5 target)</td><td>9</td><td>150</td><td><span class="badge none">not judged</span></td><td class='l mute'>batch running; figures are rebuilt when it ends</td></tr></tbody></table></div>
+<p class="caption"><b>Numbers.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">M_synthetic_years</td><td>1000</td></tr><tr><td class="l">N_catalogue_runs_finished</td><td>9</td></tr><tr><td class="l">buildings_in_study_area</td><td>17750</td></tr><tr><td class="l">buildings_wet_100y_catalogue</td><td>{&quot;0.05&quot;: 7793, &quot;0.3&quot;: 2914}</td></tr><tr><td class="l">buildings_wet_100y_design</td><td>{&quot;1 h&quot;: {&quot;0.05&quot;: 12180, &quot;0.3&quot;: 6128}, &quot;3 h&quot;: {&quot;0.05&quot;: 10306, &quot;0.3&quot;: 3142}}</td></tr><tr><td class="l">catalogue_runs_selected</td><td>150</td></tr><tr><td class="l">catalogue_storms_plotted</td><td>960</td></tr><tr><td class="l">cells_changed_by_clean_up</td><td>0</td></tr><tr><td class="l">cells_non_decreasing_before_clean_up</td><td>379976</td></tr><tr><td class="l">cells_read</td><td>379976</td></tr><tr><td class="l">cells_read_in_study_area</td><td>330615</td></tr><tr><td class="l">cells_wet_in_some_run</td><td>30661</td></tr><tr><td class="l">check_wall_time_s</td><td>281.1</td></tr><tr><td class="l">covered_years</td><td>1000</td></tr><tr><td class="l">design_runs_finished</td><td>12</td></tr><tr><td class="l">grid_read_back_equal</td><td>true</td></tr><tr><td class="l">interim_weights</td><td>true</td></tr><tr><td class="l">max_runs_wetting_a_cell</td><td>3</td></tr><tr><td class="l">non_decreasing_after_clean_up</td><td>true</td></tr><tr><td class="l">observed_box_median_3h_mm</td><td>38.14</td></tr><tr><td class="l">points_assets_loaded</td><td>17755</td></tr><tr><td class="l">points_read_back_equal</td><td>true</td></tr><tr><td class="l">runs_extracted_this_time</td><td>21</td></tr><tr><td class="l">share_non_decreasing_before_clean_up</td><td>1.0</td></tr><tr><td class="l">substation_sites</td><td>5</td></tr></tbody></table></div>
+<p class="caption"><b>Parameters.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
 <div class="scroll"><table class="data"><thead><tr><th class="l">Parameter</th><th>Value</th><th>Tag</th><th class="l">Source</th></tr></thead><tbody><tr><td class="l">synthetic_years_M</td><td>1000</td><td><span class="tag">[P]</span></td><td class="l mute">RainyDay NYEARS, CH-19</td></tr><tr><td class="l">grid_depth_definition</td><td>calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area.</td><td><span class="tag">[I]</span></td><td class="l mute">calibration.py</td></tr><tr><td class="l">wet_m</td><td>0.05</td><td><span class="tag">[P]</span></td><td class="l mute">catalogue.WET_M</td></tr><tr><td class="l">aeps</td><td>[0.5, 0.2, 0.1, 0.04, 0.02, 0.01, 0.005, 0.002]</td><td><span class="tag">[P]</span></td><td class="l mute">catalogue.AEPS</td></tr><tr><td class="l">band_years</td><td>[2, 5, 10, 25, 50, 100]</td><td><span class="tag">[P]</span></td><td class="l mute">plan F4 pass rule</td></tr><tr><td class="l">non_decreasing_min_share</td><td>0.99</td><td><span class="tag">[P]</span></td><td class="l mute">plan F4 pass rule</td></tr><tr><td class="l">balance_max_share</td><td>0.01</td><td><span class="tag">[P]</span></td><td class="l mute">FH8</td></tr><tr><td class="l">lead_depth_m</td><td>0.3</td><td><span class="tag">[P]</span></td><td class="l mute">demo-concerns §2</td></tr><tr><td class="l">max_roof_share</td><td>0.5</td><td><span class="tag">[P]</span></td><td class="l mute">at_assets</td></tr><tr><td class="l">points_trial</td><td>500</td><td><span class="tag">[P]</span></td><td class="l mute">brief: time 500 first</td></tr><tr><td class="l">points_full_max_s</td><td>900.0</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">depth_colours</td><td>[&quot;#c6dbef&quot;, &quot;#6baed6&quot;, &quot;#08519c&quot;]</td><td><span class="tag">[P]</span></td><td class="l mute">as F3; FP7 has none</td></tr></tbody></table></div>
-<details class="table"><summary>Table <code>captions</code></summary><p class="caption"><b>Table captions.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;buildings_wet.png&quot;: &quot;Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings &#x27;wet at the wall&#x27; and some wet cells: a floor from the terrain (at_assets&#x27; 1 m wall band, low pixels), not flooding by the storm.&quot;,
- &quot;depth_strip.png&quot;: &quot;Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.&quot;,
+<details class="table"><summary>Table <code>captions</code></summary><p class="caption"><b>Table captions.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;buildings_wet.png&quot;: &quot;Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings &#x27;wet at the wall&#x27; and some wet cells: a floor from the terrain (at_assets&#x27; 1 m wall band, low pixels), not flooding by the storm.&quot;,
+ &quot;depth_strip.png&quot;: &quot;Per-cell depth at 10, 100 and 500 years from the catalogue (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.&quot;,
  &quot;domain.png&quot;: &quot;3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).&quot;,
  &quot;progress.png&quot;: &quot;Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).&quot;,
  &quot;rainfall_frequency.png&quot;: &quot;3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).&quot;,
- &quot;wet_runs.png&quot;: &quot;Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered).&quot;
+ &quot;wet_runs.png&quot;: &quot;Number of catalogue runs wetting each read 5 m cell (N = 9 catalogue storms (interim weights), 1000 of 1000 years covered).&quot;
 }</pre></details>
-<details class="table"><summary>Table <code>catalogue_runs</code></summary><p class="caption"><b>Table catalogue_runs.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>catalogue_runs</code></summary><p class="caption"><b>Table catalogue_runs.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;box_total_mm&quot;: 52.138,
   &quot;has_run_run&quot;: true,
@@ -3934,7 +3934,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 208.01,
-  &quot;weight_used&quot;: 60.0
+  &quot;weight_used&quot;: 30.0
  },
  {
   &quot;box_total_mm&quot;: 23.429,
@@ -3948,7 +3948,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 256.51,
-  &quot;weight_used&quot;: 425.0
+  &quot;weight_used&quot;: 283.3333333333333
  },
  {
   &quot;box_total_mm&quot;: 104.729,
@@ -3962,7 +3962,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 353.42,
-  &quot;weight_used&quot;: 30.0
+  &quot;weight_used&quot;: 15.0
  },
  {
   &quot;box_total_mm&quot;: 48.183,
@@ -3976,7 +3976,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 254.36,
-  &quot;weight_used&quot;: 60.0
+  &quot;weight_used&quot;: 30.0
  },
  {
   &quot;box_total_mm&quot;: 16.958,
@@ -3990,20 +3990,76 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 329.94,
-  &quot;weight_used&quot;: 425.0
+  &quot;weight_used&quot;: 283.3333333333333
+ },
+ {
+  &quot;box_total_mm&quot;: 50.038,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0124&quot;,
+  &quot;order&quot;: 6,
+  &quot;rank&quot;: 124,
+  &quot;residual_share_of_rain&quot;: -3.9868234479510466e-05,
+  &quot;return_period_y&quot;: 8.064516067504883,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 356.23,
+  &quot;weight_used&quot;: 30.0
+ },
+ {
+  &quot;box_total_mm&quot;: 25.863,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0714&quot;,
+  &quot;order&quot;: 7,
+  &quot;rank&quot;: 714,
+  &quot;residual_share_of_rain&quot;: -3.0365812490404527e-05,
+  &quot;return_period_y&quot;: 1.4005602598190308,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 311.49,
+  &quot;weight_used&quot;: 283.3333333333333
+ },
+ {
+  &quot;box_total_mm&quot;: 104.483,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0005&quot;,
+  &quot;order&quot;: 8,
+  &quot;rank&quot;: 5,
+  &quot;residual_share_of_rain&quot;: 4.433997320760568e-05,
+  &quot;return_period_y&quot;: 200.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 560.08,
+  &quot;weight_used&quot;: 15.0
+ },
+ {
+  &quot;box_total_mm&quot;: 50.333,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0122&quot;,
+  &quot;order&quot;: 9,
+  &quot;rank&quot;: 122,
+  &quot;residual_share_of_rain&quot;: -8.048243665000812e-05,
+  &quot;return_period_y&quot;: 8.196721076965332,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 304.31,
+  &quot;weight_used&quot;: 30.0
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>catalogue_wet_cells_005</code></summary><p class="caption"><b>Table catalogue_wet_cells_005.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;10 y&quot;: 578,
- &quot;100 y&quot;: 17765,
- &quot;2 y&quot;: 576,
- &quot;200 y&quot;: 17765,
- &quot;25 y&quot;: 578,
- &quot;5 y&quot;: 576,
- &quot;50 y&quot;: 17765,
- &quot;500 y&quot;: 17765
+<details class="table"><summary>Table <code>catalogue_wet_cells_005</code></summary><p class="caption"><b>Table catalogue_wet_cells_005.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;10 y&quot;: 0,
+ &quot;100 y&quot;: 30661,
+ &quot;2 y&quot;: 0,
+ &quot;200 y&quot;: 30661,
+ &quot;25 y&quot;: 348,
+ &quot;5 y&quot;: 0,
+ &quot;50 y&quot;: 17002,
+ &quot;500 y&quot;: 30661
 }</pre></details>
-<details class="table"><summary>Table <code>design_runs</code></summary><p class="caption"><b>Table design_runs.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>design_runs</code></summary><p class="caption"><b>Table design_runs.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;has_run_run&quot;: true,
   &quot;has_spec&quot;: true,
@@ -4101,7 +4157,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;wall_time_s&quot;: 709.42
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>design_storms</code></summary><p class="caption"><b>Table design_storms.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>design_storms</code></summary><p class="caption"><b>Table design_storms.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
   &quot;buildings_wet&quot;: {
@@ -4117,7 +4173,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.027000000700354576,
    &quot;S-861227475&quot;: 0.0020000000949949026
   },
-  &quot;wet_cells_005&quot;: 882
+  &quot;wet_cells_005&quot;: 0
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4134,7 +4190,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.1340000033378601,
    &quot;S-861227475&quot;: 0.07699999958276749
   },
-  &quot;wet_cells_005&quot;: 23114
+  &quot;wet_cells_005&quot;: 22054
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4151,7 +4207,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.164000004529953,
    &quot;S-861227475&quot;: 0.08699999749660492
   },
-  &quot;wet_cells_005&quot;: 39644
+  &quot;wet_cells_005&quot;: 38638
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4168,7 +4224,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.18199999630451202,
    &quot;S-861227475&quot;: 0.0989999994635582
   },
-  &quot;wet_cells_005&quot;: 55274
+  &quot;wet_cells_005&quot;: 54344
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4185,7 +4241,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.18400000035762787,
    &quot;S-861227475&quot;: 0.10899999737739563
   },
-  &quot;wet_cells_005&quot;: 71900
+  &quot;wet_cells_005&quot;: 71034
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4202,7 +4258,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.1860000044107437,
    &quot;S-861227475&quot;: 0.11800000071525574
   },
-  &quot;wet_cells_005&quot;: 88697
+  &quot;wet_cells_005&quot;: 87865
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4219,7 +4275,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.02500000037252903,
    &quot;S-861227475&quot;: 0.0010000000474974513
   },
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4236,7 +4292,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.02500000037252903,
    &quot;S-861227475&quot;: 0.0010000000474974513
   },
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4253,7 +4309,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.02500000037252903,
    &quot;S-861227475&quot;: 0.0010000000474974513
   },
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4270,7 +4326,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.02500000037252903,
    &quot;S-861227475&quot;: 0.0010000000474974513
   },
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4287,7 +4343,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.15299999713897705,
    &quot;S-861227475&quot;: 0.07000000029802322
   },
-  &quot;wet_cells_005&quot;: 31965
+  &quot;wet_cells_005&quot;: 30981
  },
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4304,10 +4360,19 @@ src/flood_lab/facts/; do not edit -->
    &quot;S-383110539&quot;: 0.18000000715255737,
    &quot;S-861227475&quot;: 0.08900000154972076
   },
-  &quot;wet_cells_005&quot;: 61926
+  &quot;wet_cells_005&quot;: 61014
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>floor_storms_wetting_no_cell_or_without_net_rain</code></summary><p class="caption"><b>Table floor_storms_wetting_no_cell_or_without_net_rain.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>floor_storms_wetting_no_cell_or_without_net_rain</code></summary><p class="caption"><b>Table floor_storms_wetting_no_cell_or_without_net_rain.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;ds_1h_2y&quot;: {
+  &quot;allowance_mm_per_h&quot;: 30.0,
+  &quot;buildings_wet_at_wall&quot;: {
+   &quot;0.05&quot;: 2967,
+   &quot;0.3&quot;: 162
+  },
+  &quot;rain_mm_per_h&quot;: 30.226,
+  &quot;wet_cells_005&quot;: 0
+ },
  &quot;ds_3h_10y&quot;: {
   &quot;allowance_mm_per_h&quot;: 30.0,
   &quot;buildings_wet_at_wall&quot;: {
@@ -4315,7 +4380,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;0.3&quot;: 161
   },
   &quot;rain_mm_per_h&quot;: 23.4527,
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  &quot;ds_3h_25y&quot;: {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4324,7 +4389,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;0.3&quot;: 161
   },
   &quot;rain_mm_per_h&quot;: 28.194,
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  &quot;ds_3h_2y&quot;: {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4333,7 +4398,7 @@ src/flood_lab/facts/; do not edit -->
    &quot;0.3&quot;: 161
   },
   &quot;rain_mm_per_h&quot;: 15.1553,
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  },
  &quot;ds_3h_5y&quot;: {
   &quot;allowance_mm_per_h&quot;: 30.0,
@@ -4342,10 +4407,10 @@ src/flood_lab/facts/; do not edit -->
    &quot;0.3&quot;: 161
   },
   &quot;rain_mm_per_h&quot;: 19.8967,
-  &quot;wet_cells_005&quot;: 865
+  &quot;wet_cells_005&quot;: 0
  }
 }</pre></details>
-<details class="table"><summary>Table <code>grid_route</code></summary><p class="caption"><b>Table grid_route.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>grid_route</code></summary><p class="caption"><b>Table grid_route.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;call&quot;: &quot;Dataset.from_raster&quot;,
  &quot;cells_delivered&quot;: 379976,
  &quot;cells_differing&quot;: 0,
@@ -4353,10 +4418,10 @@ src/flood_lab/facts/; do not edit -->
  &quot;cells_written&quot;: 379976,
  &quot;equal&quot;: true,
  &quot;largest_difference_m&quot;: 0.0,
- &quot;report&quot;: &quot;ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code=&#x27;source_no_data&#x27;, severity=&lt;DiagnosticSeverity.WARNING: &#x27;warning&#x27;&gt;, stage=&lt;Stage.DECODING: &#x27;decoding&#x27;&gt;, message=&#x27;Skipped 260024 raster supports with fewer than two valid probability knots.&#x27;, source=&#x27;quantile_rasters&#x27;, support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider=&#x27;user&#x27;, product=&#x27;quantile_rasters&#x27;, release=ReleaseReference(id=&#x27;sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217&#x27;, sha256=&#x27;sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217&#x27;, retrieved_at=None), resources=(ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif&#x27;, sha256=&#x27;sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 48412, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif&#x27;, sha256=&#x27;sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 50562, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif&#x27;, sha256=&#x27;sha256:0191a0c7c03052c05f59c89c56a78e01e0b882047e51529fffa7e6b905bb9d0b&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 51500, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif&#x27;, sha256=&#x27;sha256:aedc015191494d924fb22e1380141902838ef2582b5a60b5f2e39a5262697676&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 53026, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif&#x27;, sha256=&#x27;sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 54605, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif&#x27;, sha256=&#x27;sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 58320, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif&#x27;, sha256=&#x27;sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 60238, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif&#x27;, sha256=&#x27;sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 63048, tzinfo=datetime.timezone.utc))), member=None, model=None),))&quot;
+ &quot;report&quot;: &quot;ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code=&#x27;source_no_data&#x27;, severity=&lt;DiagnosticSeverity.WARNING: &#x27;warning&#x27;&gt;, stage=&lt;Stage.DECODING: &#x27;decoding&#x27;&gt;, message=&#x27;Skipped 260024 raster supports with fewer than two valid probability knots.&#x27;, source=&#x27;quantile_rasters&#x27;, support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider=&#x27;user&#x27;, product=&#x27;quantile_rasters&#x27;, release=ReleaseReference(id=&#x27;sha256:457838e70aa4b712402a23ebdc7c3ba07323878b1c808ad710a0a991a10d01b5&#x27;, sha256=&#x27;sha256:457838e70aa4b712402a23ebdc7c3ba07323878b1c808ad710a0a991a10d01b5&#x27;, retrieved_at=None), resources=(ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 552551, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 554848, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 555751, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif&#x27;, sha256=&#x27;sha256:22a30f8d996e9a9dbad52c9f7f7ebb6091d165430c258f1fe3519d0a866646d8&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 556704, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif&#x27;, sha256=&#x27;sha256:3cb43a94261fae82df05c85adae7acac89a67f6103bdacda28aff8bf63c7fbea&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 560033, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif&#x27;, sha256=&#x27;sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 562638, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif&#x27;, sha256=&#x27;sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 567298, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif&#x27;, sha256=&#x27;sha256:b4bfcbe5a37625d64fc8133897dade9d9e3cbdd3f0b183ab1b16fe2477ee5d68&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 14, 25, 52, 569774, tzinfo=datetime.timezone.utc))), member=None, model=None),))&quot;
 }</pre></details>
-<details class="table"><summary>Table <code>point_route</code></summary><p class="caption"><b>Table point_route.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;estimated_full_s&quot;: 4.0,
+<details class="table"><summary>Table <code>point_route</code></summary><p class="caption"><b>Table point_route.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;estimated_full_s&quot;: 4.5,
  &quot;full&quot;: {
   &quot;assets_delivered&quot;: 17755,
   &quot;assets_differing&quot;: 0,
@@ -4365,7 +4430,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;equal&quot;: true,
   &quot;largest_difference&quot;: 0.0
  },
- &quot;full_s&quot;: 3.1,
+ &quot;full_s&quot;: 3.4,
  &quot;trial&quot;: {
   &quot;assets_delivered&quot;: 505,
   &quot;assets_differing&quot;: 0,
@@ -4378,10 +4443,10 @@ src/flood_lab/facts/; do not edit -->
  &quot;trial_equal&quot;: true,
  &quot;trial_s&quot;: 0.1
 }</pre></details>
-<details class="table"><summary>Table <code>progress</code></summary><p class="caption"><b>Table progress.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>progress</code></summary><p class="caption"><b>Table progress.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;complete&quot;: false,
-  &quot;finished&quot;: 1,
+  &quot;finished&quot;: 2,
   &quot;ranks&quot;: &quot;1-30&quot;,
   &quot;runs&quot;: 30,
   &quot;stratum&quot;: &quot;T1&quot;,
@@ -4389,7 +4454,7 @@ src/flood_lab/facts/; do not edit -->
  },
  {
   &quot;complete&quot;: false,
-  &quot;finished&quot;: 2,
+  &quot;finished&quot;: 4,
   &quot;ranks&quot;: &quot;31-150&quot;,
   &quot;runs&quot;: 60,
   &quot;stratum&quot;: &quot;T2&quot;,
@@ -4397,14 +4462,14 @@ src/flood_lab/facts/; do not edit -->
  },
  {
   &quot;complete&quot;: false,
-  &quot;finished&quot;: 2,
+  &quot;finished&quot;: 3,
   &quot;ranks&quot;: &quot;151-1000&quot;,
   &quot;runs&quot;: 60,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;years&quot;: 850
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>rainfall_band</code></summary><p class="caption"><b>Table rainfall_band.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>rainfall_band</code></summary><p class="caption"><b>Table rainfall_band.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;atlas14_mm&quot;: 45.5,
   &quot;catalogue_mm&quot;: 31.3,
@@ -4454,7 +4519,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;years&quot;: 100
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>rainfall_sensitivities</code></summary><p class="caption"><b>Table rainfall_sensitivities.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>rainfall_sensitivities</code></summary><p class="caption"><b>Table rainfall_sensitivities.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;240 storms (10 a year)&quot;: {
   &quot;10 y&quot;: 54.3,
   &quot;100 y&quot;: 96.0,
@@ -4472,7 +4537,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;50 y&quot;: 89.8
  }
 }</pre></details>
-<details class="table"><summary>Table <code>substation_depth_on_25m2_m</code></summary><p class="caption"><b>Table substation_depth_on_25m2_m.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>substation_depth_on_25m2_m</code></summary><p class="caption"><b>Table substation_depth_on_25m2_m.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;S-250386730&quot;: {
   &quot;10 y&quot;: 0.0,
   &quot;100 y&quot;: 0.0,
@@ -4482,24 +4547,24 @@ src/flood_lab/facts/; do not edit -->
  },
  &quot;S-339711332&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.289,
-  &quot;500 y&quot;: 0.289,
+  &quot;100 y&quot;: 0.385,
+  &quot;500 y&quot;: 0.385,
   &quot;name&quot;: &quot;Farragut Substation&quot;,
-  &quot;wet_probability&quot;: 0.03
+  &quot;wet_probability&quot;: 0.06
  },
  &quot;S-383102724&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.172,
-  &quot;500 y&quot;: 0.172,
+  &quot;100 y&quot;: 0.416,
+  &quot;500 y&quot;: 0.416,
   &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
-  &quot;wet_probability&quot;: 0.03
+  &quot;wet_probability&quot;: 0.06
  },
  &quot;S-383110539&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.148,
-  &quot;500 y&quot;: 0.148,
+  &quot;100 y&quot;: 0.17,
+  &quot;500 y&quot;: 0.17,
   &quot;name&quot;: &quot;Plymouth Substation&quot;,
-  &quot;wet_probability&quot;: 0.03
+  &quot;wet_probability&quot;: 0.06
  },
  &quot;S-861227475&quot;: {
   &quot;10 y&quot;: 0.0,
@@ -4509,18 +4574,18 @@ src/flood_lab/facts/; do not edit -->
   &quot;wet_probability&quot;: 0.0
  }
 }</pre></details>
-<details class="table"><summary>Table <code>timing_s</code></summary><p class="caption"><b>Table timing_s.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>timing_s</code></summary><p class="caption"><b>Table timing_s.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;asset_curves_s&quot;: 0.0,
- &quot;crc_grid_route_s&quot;: 153.5,
- &quot;crc_point_route_s&quot;: 3.2,
- &quot;figures_s&quot;: 4.2,
- &quot;grid_curves_s&quot;: 0.3,
- &quot;inputs_s&quot;: 3.3,
+ &quot;crc_grid_route_s&quot;: 166.3,
+ &quot;crc_point_route_s&quot;: 3.5,
+ &quot;figures_s&quot;: 4.1,
+ &quot;grid_curves_s&quot;: 0.4,
+ &quot;inputs_s&quot;: 2.7,
  &quot;non_decreasing_share_s&quot;: 0.1,
- &quot;per_run_extraction_s&quot;: 0.1,
+ &quot;per_run_extraction_s&quot;: 103.6,
  &quot;write_rasters_s&quot;: 0.5
 }</pre></details>
-<details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/selection.json</td><td>85422</td><td class="l"><code>a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/params.json</td><td>1079</td><td class="l"><code>ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json</td><td>2312</td><td class="l"><code>c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv</td><td>209126</td><td class="l"><code>ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292</code></td></tr><tr><td class="l">f4/domain/domain_B_land.shp</td><td>588</td><td class="l"><code>c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6</code></td></tr><tr><td class="l">f4/domain/domain.json</td><td>4971</td><td class="l"><code>f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d</code></td></tr><tr><td class="l">f4/domain/domain_maps.npz</td><td>5390791</td><td class="l"><code>ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e</code></td></tr><tr><td class="l">f4/domain/box_ams_observed.json</td><td>749</td><td class="l"><code>ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031</code></td></tr><tr><td class="l">f3/atlas14/table.json</td><td>10890</td><td class="l"><code>f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800</code></td></tr><tr><td class="l">f4/queue_design.json</td><td>2706</td><td class="l"><code>7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b</code></td></tr><tr><td class="l">f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000</code></td></tr><tr><td class="l">f4/queue_catalogue.json</td><td>107022</td><td class="l"><code>6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416</code></td></tr><tr><td class="l">terrain/water_1m.tif</td><td>68068</td><td class="l"><code>c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872</code></td></tr><tr><td class="l">site/flood/data/substations.geojson</td><td>6298</td><td class="l"><code>fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff</code></td></tr><tr><td class="l">site/flood/data/study_area.geojson</td><td>6664</td><td class="l"><code>0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5</code></td></tr><tr><td class="l">nyc-building-footprints/footprints-box.geojson</td><td>18380697</td><td class="l"><code>44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43</code></td></tr><tr><td class="l">f3/model/dem_model_1m.tif</td><td>49142122</td><td class="l"><code>dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf</code></td></tr><tr><td class="l">f3/model/buildings_1m.tif</td><td>535470</td><td class="l"><code>3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f3/model/pits_1m.tif</td><td>39160</td><td class="l"><code>47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa</code></td></tr><tr><td class="l">f4/runs/cat_r0101/zsmax.tif</td><td>1686079</td><td class="l"><code>b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd</code></td></tr><tr><td class="l">f4/runs/cat_r0779/zsmax.tif</td><td>1682945</td><td class="l"><code>027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f</code></td></tr><tr><td class="l">f4/runs/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0138/zsmax.tif</td><td>1686007</td><td class="l"><code>8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324</code></td></tr><tr><td class="l">f4/runs/cat_r0958/zsmax.tif</td><td>1682404</td><td class="l"><code>5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713</code></td></tr><tr><td class="l">f4/runs/ds_1h_2y/zsmax.tif</td><td>2271121</td><td class="l"><code>2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49</code></td></tr><tr><td class="l">f4/runs/ds_1h_5y/zsmax.tif</td><td>2249212</td><td class="l"><code>f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96</code></td></tr><tr><td class="l">f4/runs/ds_1h_10y/zsmax.tif</td><td>2242402</td><td class="l"><code>cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1</code></td></tr><tr><td class="l">f4/runs/ds_1h_25y/zsmax.tif</td><td>2238348</td><td class="l"><code>9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708</code></td></tr><tr><td class="l">f4/runs/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">f4/runs/ds_1h_500y/zsmax.tif</td><td>2228504</td><td class="l"><code>6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd</code></td></tr><tr><td class="l">f4/runs/ds_3h_2y/zsmax.tif</td><td>2250332</td><td class="l"><code>b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a</code></td></tr><tr><td class="l">f4/runs/ds_3h_5y/zsmax.tif</td><td>2254870</td><td class="l"><code>ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8</code></td></tr><tr><td class="l">f4/runs/ds_3h_10y/zsmax.tif</td><td>2255619</td><td class="l"><code>815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd</code></td></tr><tr><td class="l">f4/runs/ds_3h_25y/zsmax.tif</td><td>2256241</td><td class="l"><code>d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a</code></td></tr><tr><td class="l">f4/runs/ds_3h_100y/zsmax.tif</td><td>2236597</td><td class="l"><code>705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d</code></td></tr><tr><td class="l">f4/runs/ds_3h_500y/zsmax.tif</td><td>2219609</td><td class="l"><code>e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2</code></td></tr></tbody></table></div></details>
+<details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> F4 storm catalogue and batch: N = 9 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell&#x27;s centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/selection.json</td><td>85422</td><td class="l"><code>a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/params.json</td><td>1079</td><td class="l"><code>ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json</td><td>2312</td><td class="l"><code>c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv</td><td>209126</td><td class="l"><code>ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292</code></td></tr><tr><td class="l">f4/domain/domain_B_land.shp</td><td>588</td><td class="l"><code>c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6</code></td></tr><tr><td class="l">f4/domain/domain.json</td><td>4971</td><td class="l"><code>f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d</code></td></tr><tr><td class="l">f4/domain/domain_maps.npz</td><td>5390791</td><td class="l"><code>ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e</code></td></tr><tr><td class="l">f4/domain/box_ams_observed.json</td><td>749</td><td class="l"><code>ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031</code></td></tr><tr><td class="l">f3/atlas14/table.json</td><td>10890</td><td class="l"><code>f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800</code></td></tr><tr><td class="l">f4/queue_design.json</td><td>2706</td><td class="l"><code>7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b</code></td></tr><tr><td class="l">f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000</code></td></tr><tr><td class="l">f4/queue_catalogue.json</td><td>107022</td><td class="l"><code>6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416</code></td></tr><tr><td class="l">terrain/water_1m.tif</td><td>68068</td><td class="l"><code>c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872</code></td></tr><tr><td class="l">site/flood/data/substations.geojson</td><td>6298</td><td class="l"><code>fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff</code></td></tr><tr><td class="l">site/flood/data/study_area.geojson</td><td>6664</td><td class="l"><code>0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5</code></td></tr><tr><td class="l">nyc-building-footprints/footprints-box.geojson</td><td>18380697</td><td class="l"><code>44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43</code></td></tr><tr><td class="l">f3/model/dem_model_1m.tif</td><td>49142122</td><td class="l"><code>dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf</code></td></tr><tr><td class="l">f3/model/buildings_1m.tif</td><td>535470</td><td class="l"><code>3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f3/model/pits_1m.tif</td><td>39160</td><td class="l"><code>47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa</code></td></tr><tr><td class="l">f4/runs/cat_r0101/zsmax.tif</td><td>1686079</td><td class="l"><code>b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd</code></td></tr><tr><td class="l">f4/runs/cat_r0779/zsmax.tif</td><td>1682945</td><td class="l"><code>027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f</code></td></tr><tr><td class="l">f4/runs/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0138/zsmax.tif</td><td>1686007</td><td class="l"><code>8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324</code></td></tr><tr><td class="l">f4/runs/cat_r0958/zsmax.tif</td><td>1682404</td><td class="l"><code>5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713</code></td></tr><tr><td class="l">f4/runs/cat_r0124/zsmax.tif</td><td>1686322</td><td class="l"><code>4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953</code></td></tr><tr><td class="l">f4/runs/cat_r0714/zsmax.tif</td><td>1683371</td><td class="l"><code>8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e</code></td></tr><tr><td class="l">f4/runs/cat_r0005/zsmax.tif</td><td>1688763</td><td class="l"><code>c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d</code></td></tr><tr><td class="l">f4/runs/cat_r0122/zsmax.tif</td><td>1703258</td><td class="l"><code>f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345</code></td></tr><tr><td class="l">f4/runs/ds_1h_2y/zsmax.tif</td><td>2271121</td><td class="l"><code>2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49</code></td></tr><tr><td class="l">f4/runs/ds_1h_5y/zsmax.tif</td><td>2249212</td><td class="l"><code>f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96</code></td></tr><tr><td class="l">f4/runs/ds_1h_10y/zsmax.tif</td><td>2242402</td><td class="l"><code>cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1</code></td></tr><tr><td class="l">f4/runs/ds_1h_25y/zsmax.tif</td><td>2238348</td><td class="l"><code>9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708</code></td></tr><tr><td class="l">f4/runs/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">f4/runs/ds_1h_500y/zsmax.tif</td><td>2228504</td><td class="l"><code>6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd</code></td></tr><tr><td class="l">f4/runs/ds_3h_2y/zsmax.tif</td><td>2250332</td><td class="l"><code>b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a</code></td></tr><tr><td class="l">f4/runs/ds_3h_5y/zsmax.tif</td><td>2254870</td><td class="l"><code>ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8</code></td></tr><tr><td class="l">f4/runs/ds_3h_10y/zsmax.tif</td><td>2255619</td><td class="l"><code>815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd</code></td></tr><tr><td class="l">f4/runs/ds_3h_25y/zsmax.tif</td><td>2256241</td><td class="l"><code>d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a</code></td></tr><tr><td class="l">f4/runs/ds_3h_100y/zsmax.tif</td><td>2236597</td><td class="l"><code>705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d</code></td></tr><tr><td class="l">f4/runs/ds_3h_500y/zsmax.tif</td><td>2219609</td><td class="l"><code>e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2</code></td></tr></tbody></table></div></details>
 <p class="mute small">Software: crc-framework 1.0.0, crc-sdk 1.0.0, geopandas 1.2.0, matplotlib 3.11.2, numpy 2.5.4, python 3.12.11, rasterio 1.5.1</p>
 </article>
 </section>
