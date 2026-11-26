@@ -22,6 +22,8 @@ dependencies = [
 assets = ["osmnx>=2.0", "geopandas>=1.0", "linkml>=1.8"]
 # Notebook maps while exploring; the explorer itself uses MapLibre + deck.gl in the browser.
 viz = ["lonboard>=0.10"]
+# Flood lab (src/flood_lab): vector reading and reprojection; its tests run in CI with this extra.
+flood = ["geopandas>=1.0", "pyogrio>=0.7", "pyproj>=3.6"]
 radar = [
     "cfgrib>=0.9.15.1",
     "eccodes>=2.50.0",
