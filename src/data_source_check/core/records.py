@@ -75,6 +75,30 @@ def _iso_date(value: str, name: str) -> None:
         raise RecordError(f"{name} must be an ISO date, got {value!r}") from error
 
 
+#: keys of a source's ``[monitoring]`` table
+MONITORING_KEYS = ("rewritten_in_place", "reason", "rerun_after_days")
+
+
+def _validate_monitoring(table: dict[str, Any], name: str) -> None:
+    """``rewritten_in_place`` (file names or glob patterns, matched against the last part of
+    each address), ``reason`` (why, in a sentence) and optionally ``rerun_after_days``."""
+    extra = sorted(set(table) - set(MONITORING_KEYS))
+    _require(not extra, f"{name}: unknown keys {extra}; allowed {MONITORING_KEYS}")
+    files = table.get("rewritten_in_place")
+    _require(
+        isinstance(files, list | tuple) and bool(files)
+        and all(isinstance(item, str) and item and "/" not in item for item in files),
+        f"{name}.rewritten_in_place must be a non-empty list of file names or patterns",
+    )  # fmt: skip
+    reason = table.get("reason")
+    _require(isinstance(reason, str) and bool(reason.strip()), f"{name}.reason is empty")
+    days = table.get("rerun_after_days")
+    _require(
+        days is None or (type(days) is int and days > 0),
+        f"{name}.rerun_after_days must be a positive whole number of days, got {days!r}",
+    )
+
+
 @dataclass(frozen=True)
 class Step:
     """One thing the framework does between the publisher's bytes and its output."""
@@ -122,6 +146,9 @@ class Source:
     drafted_by: str = ""
     reviewed_by: str = ""
     reviewed_on: str = ""
+    #: set by a person: files the publisher rewrites in place at the same address (the
+    #: ``[monitoring]`` table). A new copy of such a file is reported, not failed on.
+    monitoring: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> None:
         for name in ("id", "framework", "title", "publisher", "original", "purpose"):
@@ -153,6 +180,8 @@ class Source:
         )
         if self.reviewed_on:
             _iso_date(self.reviewed_on, f"source {self.id!r}: reviewed_on")
+        if self.monitoring:
+            _validate_monitoring(self.monitoring, f"source {self.id!r}: monitoring")
 
     @property
     def is_draft(self) -> bool:

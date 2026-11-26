@@ -14,6 +14,11 @@ and the others still run. A source already staged at the installed versions is n
 Writes ``docs/validation/monitoring.md`` and ``site/validation/data/monitor.json``. Exits 1
 when something needs attention, so that a scheduled run is noticed. It never replaces the
 published records: a re-run is staged, and a person accepts it.
+
+A new copy of a file the source's TOML declares rewritten in place (``[monitoring]``) is
+reported as ``current (new copy)`` and does not count as needing attention, nor does a re-run
+that is due by the declared cadence. ``--rerun`` does not re-run a source for either alone;
+``--only ID`` does.
 """
 
 from __future__ import annotations
@@ -87,8 +92,10 @@ def head(url: str) -> dict[str, Any]:
     request = Request(url, method="HEAD", headers={"User-Agent": USER_AGENT})
     try:
         with urlopen(request, timeout=60) as response:
+            length = response.headers.get("Content-Length")
             return {"status": int(response.status), "etag": response.headers.get("ETag"),
-                    "last_modified": response.headers.get("Last-Modified")}  # fmt: skip
+                    "last_modified": response.headers.get("Last-Modified"),
+                    "length": int(length) if length and length.isdigit() else None}  # fmt: skip
     except HTTPError as error:
         return {"status": int(error.code)}
     except (URLError, TimeoutError, ConnectionError) as error:
@@ -108,10 +115,13 @@ def run(*, rerun: bool = False, page_data: Path = build.PAGE_DATA, docs: Path = 
     print(f"asking the publishers about {len(urls)} files")
     with ThreadPoolExecutor(max_workers=16) as pool:
         heads = dict(zip(urls, pool.map(ask, urls), strict=True))
-    states = [monitoring.source_state(value, heads, offered["versions"])
-              for value in records.values()]  # fmt: skip
+    run_at = compare.now()
+    declared = {source.id: source.monitoring for source in sources}
+    states = [monitoring.source_state(value, heads, offered["versions"],
+                                      declared.get(name), today=run_at)
+              for name, value in records.items()]  # fmt: skip
     report: dict[str, Any] = {
-        "run_at": compare.now(),
+        "run_at": run_at,
         "installed": offered["versions"],
         "sources": states,
         "gaps": {key: gaps[key] for key in ("unclaimed_symbols", "new_options")},
@@ -200,8 +210,7 @@ def main() -> None:
         if "failed" in entry:
             print(f"{entry['source']}: re-run FAILED: {entry['failed']}")
     for state in report["sources"]:
-        print(f"{state['source']}: " + ("stale: " + "; ".join(state["reasons"])
-                                        if state["stale"] else "current"))  # fmt: skip
+        print(f"{state['source']}: {monitoring.state_text(state)}")
     raise SystemExit(1 if report["needs_attention"] else 0)
 
 

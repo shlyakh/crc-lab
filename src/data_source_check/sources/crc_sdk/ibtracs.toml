@@ -22,6 +22,14 @@ agency = ["BOM", "CMA", "HKO", "NADI", "NEWDELHI", "REUNION", "TOKYO", "USA", "W
 exploration = "assessed"
 verification = "assessed"
 
+# Set by a person (Yuri, 2026-11-26; docs/validation/plan.md). The monitor reports a new copy of
+# these files without failing; it still fails on a framework change, an unreachable file or an
+# inventory gap. 30 days is a placeholder until the cadence is decided (monthly or after a season).
+[monitoring]
+rewritten_in_place = ["ibtracs.ALL.list.v04r01.csv"]
+reason = "NOAA rewrites the ALL file in place at the same address every few days (Last-Modified 22 and 24 November 2026); crc-sdk 1.0.0 reads that live address and has no release to follow, so each assessment states the SHA-256 of the copy it read."
+rerun_after_days = 30
+
 [[statement]]
 id = "address"
 text = "Requests one file for every agency: `<root>/ibtracs.ALL.list.v04r01.csv`, NOAA's file of all storms. No basin or period file can be chosen."

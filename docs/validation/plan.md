@@ -145,6 +145,12 @@ Each ends with a report in `docs/validation/reports/` and a stop for review.
   previous run (publisher file changed, values drifted, check newly failing) and lists unassessed
   sources. It reports; it does not publish a new assessment without review.
 - Decide on pandera or pointblank for schema checks and the HTML report, from experience with V1 to V3.
+- Done 2026-11-26 (was parked as "Monitor (V20) and living files"): a source's TOML may declare files
+  its publisher rewrites in place (`[monitoring]`: `rewritten_in_place`, `reason`, `rerun_after_days`);
+  set for IBTrACS only, with 30 days as a placeholder until the cadence is decided. A new copy of such a
+  file is reported as `current (new copy)` with the SHA-256 of the copy assessed and does not fail the
+  run; a framework change, an unreachable or vanished declared file, a change to any other file and an
+  inventory gap still fail. A re-run past the cadence is reported as due, not failed on.
 
 ### V5. Split crc-lab into projects
 
@@ -177,17 +183,6 @@ moving the tool to its own repository.
   fork, push and open the pull request.
 - Storm Events adapter: `docs/plan-upstream-storm-events.md`.
 - Phase 7 (loss from radar hail).
-- Monitor (V20) and living files, IBTrACS first (asked by Yuri, 2026-11-26). The monitor fails the
-  build whenever NOAA rewrites `ibtracs.ALL.list.v04r01.csv`, as it did on 22 and 24 November
-  2026 (Last-Modified headers); the runs of 25 and 26 November failed on that alone. crc-sdk 1.0.0 has no update
-  period to follow: `IBTrACS` reads that one live address, a `Cache.reuse` runtime keeps the first
-  copy it fetched until a `Cache.refresh`, and a caller may pin a copy by checksum
-  (`release=ReleaseReference(id, sha256)`), which then fails on any other copy. Proposal: for a
-  source whose file is rewritten in place, the monitor reports a new copy without failing, and the
-  assessment states the checksum it read (as crc-sdk's pin does); it still fails on a crc-sdk or
-  crc-framework change, an unreachable file or an inventory gap. Re-runs on a fixed cadence (to
-  decide, for example monthly or once a storm season ends) or on a pin change. Which sources count as
-  rewritten in place is a list in the source's TOML, set by a person.
 
 ## Verification
 

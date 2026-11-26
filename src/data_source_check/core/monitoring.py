@@ -4,12 +4,30 @@ Pure functions over records. Three things can make an assessment stale: the publ
 a file it read, the framework version changed, or the framework now offers something the
 inventory does not cover. A second run can then be compared with the first, check by check.
 Nothing here publishes anything: a re-run is staged for a person to review.
+
+A file that a person has declared rewritten in place (the ``[monitoring]`` table of the source's
+TOML) is the exception: a new copy of it at the same address is reported as a new copy and does
+not make the assessment stale. The assessment then still describes the copy it read, named by its
+SHA-256. A re-run of such a source is due once ``rerun_after_days`` have passed; that is reported,
+not failed on.
 """
 
 from __future__ import annotations
 
 from collections.abc import Iterable
+from datetime import date, timedelta
+from fnmatch import fnmatchcase
 from typing import Any
+
+#: the states a source can be in
+CURRENT, NEW_COPY, STALE = "current", "current (new copy)", "stale"
+
+
+def rewritten_in_place(url: str, monitoring: dict[str, Any] | None) -> bool:
+    """Whether a person declared the file at ``url`` rewritten in place by its publisher."""
+    name = url.rstrip("/").rsplit("/", 1)[-1]
+    patterns = (monitoring or {}).get("rewritten_in_place", ())
+    return any(fnmatchcase(name, pattern) for pattern in patterns)
 
 
 def recorded_inputs(records: dict[str, Any]) -> list[dict[str, Any]]:
@@ -47,26 +65,47 @@ def source_state(
     records: dict[str, Any],
     heads: dict[str, dict[str, Any]],
     installed: dict[str, str],
+    monitoring: dict[str, Any] | None = None,
+    today: str = "",
 ) -> dict[str, Any]:
-    """Whether one source's assessment still stands, and why not."""
+    """Whether one source's assessment still stands, and why not.
+
+    ``monitoring`` is the source's ``[monitoring]`` table and ``today`` the date of the run
+    (ISO); together they decide what is a new copy and whether a re-run is due.
+    """
     inputs = recorded_inputs(records)
     moved = []
+    new_copies = []
     unreachable = []
+    living_unreachable = []
     for item in inputs:
+        living = rewritten_in_place(item["url"], monitoring)
         now = heads.get(item["url"])
         if now is None or now.get("status") not in (200, 404):
             unreachable.append(item["url"])
+            if living:
+                living_unreachable.append(item["url"])
             continue
         kind = classify(item, now)
-        if kind != "unchanged":
-            moved.append(
-                {
-                    "url": item["url"],
-                    "change": kind,
-                    "was": item.get("last_modified"),
-                    "now": now.get("last_modified"),
+        if kind == "unchanged":
+            continue
+        change = {
+            "url": item["url"],
+            "change": kind,
+            "was": item.get("last_modified"),
+            "now": now.get("last_modified"),
+        }
+        if living and kind == "changed":
+            new_copies.append(
+                change
+                | {
+                    "bytes_then": item.get("bytes"),
+                    "bytes_now": now.get("length"),
+                    "sha256_assessed": item.get("sha256"),
                 }
             )
+        else:
+            moved.append(change)
     was = {name: str(version).split(" ")[0] for name, version in records["versions"].items()}
     versions_changed = {
         name: {"assessed": was.get(name), "installed": version}
@@ -76,21 +115,51 @@ def source_state(
     reasons = []
     if moved:
         reasons.append(f"the publisher changed {len(moved)} of {len(inputs)} files")
+    if living_unreachable:
+        count = len(living_unreachable)
+        reasons.append(
+            f"{count} file{'s' if count > 1 else ''} rewritten in place could not be reached"
+        )
     if versions_changed:
         listed = (
             f"{name} {v['assessed']} to {v['installed']}" for name, v in versions_changed.items()
         )
         reasons.append("the framework version changed: " + ", ".join(listed))
-    return {
+    stale = bool(reasons)
+    state: dict[str, Any] = {
         "source": records["source"],
         "assessed_at": records["run_at"],
         "files": len(inputs),
         "files_changed": moved,
         "files_unreachable": unreachable,
         "versions_changed": versions_changed,
-        "stale": bool(reasons),
+        "stale": stale,
+        "state": STALE if stale else NEW_COPY if new_copies else CURRENT,
         "reasons": reasons,
     }
+    if monitoring:
+        days = monitoring.get("rerun_after_days")
+        assessed_on = date.fromisoformat(records["run_at"][:10])
+        due_on = (assessed_on + timedelta(days=days)).isoformat() if days else ""
+        state["living"] = {
+            "rewritten_in_place": list(monitoring["rewritten_in_place"]),
+            "reason": monitoring["reason"],
+            "rerun_after_days": days,
+            "rerun_due_on": due_on,
+            "rerun_due": bool(due_on and today and today[:10] >= due_on),
+            "assessed_copies": [
+                {
+                    "url": item["url"],
+                    "sha256": item.get("sha256"),
+                    "last_modified": item.get("last_modified"),
+                    "bytes": item.get("bytes"),
+                }
+                for item in inputs
+                if rewritten_in_place(item["url"], monitoring)
+            ],
+            "new_copies": new_copies,
+        }
+    return state
 
 
 def diff_records(old: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
@@ -141,6 +210,24 @@ def needs_attention(states: Iterable[dict[str, Any]], gaps: dict[str, Any]) -> b
     )
 
 
+def state_text(state: dict[str, Any]) -> str:
+    if state["stale"]:
+        return "stale: " + "; ".join(state["reasons"])
+    text = state.get("state", CURRENT)
+    if state.get("living", {}).get("rerun_due"):
+        text += "; re-run due"
+    return text
+
+
+def _rerun_text(info: dict[str, Any]) -> str:
+    if not info["rerun_after_days"]:
+        return "no cadence declared"
+    every = f"every {info['rerun_after_days']} days"
+    if info["rerun_due"]:
+        return f"**due** since {info['rerun_due_on']} ({every})"
+    return f"due on {info['rerun_due_on']} ({every})"
+
+
 def markdown(report: dict[str, Any]) -> str:
     lines = [
         "# Monitoring report",
@@ -149,7 +236,11 @@ def markdown(report: dict[str, Any]) -> str:
         + ", ".join(f"{k} {v}" for k, v in sorted(report["installed"].items()))
         + ". Generated by `python -m data_source_check.monitor`; do not edit.",
         "",
-        "Needs attention." if report["needs_attention"] else "Nothing has changed.",
+        "Needs attention."
+        if report["needs_attention"]
+        else "Nothing needs attention; new copies of files rewritten in place are listed below."
+        if any(state.get("state") == NEW_COPY for state in report["sources"])
+        else "Nothing has changed.",
         "",
         "| Source | Assessed | Files checked | Changed at the publisher | Framework changed "
         "| State |",
@@ -159,7 +250,7 @@ def markdown(report: dict[str, Any]) -> str:
         lines.append(
             f"| {state['source']} | {state['assessed_at'][:10]} | {state['files']} | "
             f"{len(state['files_changed'])} | {'yes' if state['versions_changed'] else 'no'} | "
-            f"{'stale: ' + '; '.join(state['reasons']) if state['stale'] else 'current'} |"
+            f"{state_text(state)} |"
         )
     gaps = report["gaps"]
     lines += [
@@ -170,6 +261,44 @@ def markdown(report: dict[str, Any]) -> str:
         f"- Files that could not be reached: "
         f"{sum(len(s['files_unreachable']) for s in report['sources'])}",
     ]
+    living = [state for state in report["sources"] if state.get("living")]
+    if living:
+        lines += [
+            "",
+            "## Files rewritten in place",
+            "",
+            "A person declared these files rewritten in place by their publisher (the "
+            "`[monitoring]` table of the source). A new copy at the same address is reported "
+            "here and does not fail the run: the assessment still describes the copy it read, "
+            "named by its SHA-256. A re-run that is due is reported and does not fail the run "
+            "either.",
+            "",
+            "| Source | File | Assessed | Copy assessed (SHA-256) | Last modified then "
+            "| New copy | Re-run |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+        for state in living:
+            info = state["living"]
+            newer = {item["url"]: item for item in info["new_copies"]}
+            for copy in info["assessed_copies"]:
+                fresh = newer.get(copy["url"])
+                lines.append(
+                    f"| {state['source']} | {copy['url'].rsplit('/', 1)[-1]} | "
+                    f"{state['assessed_at'][:10]} | {copy['sha256'] or 'not recorded'} | "
+                    f"{copy['last_modified'] or ''} | "
+                    + (
+                        f"yes, last modified {fresh['now'] or 'not stated'}, "
+                        + (
+                            f"{fresh['bytes_now']:,} bytes"
+                            if fresh["bytes_now"]
+                            else "length not stated"
+                        )
+                        + (f" (was {fresh['bytes_then']:,})" if fresh["bytes_then"] else "")
+                        if fresh
+                        else "no"
+                    )
+                    + f" | {_rerun_text(info)} |"
+                )
     if report.get("reruns"):
 
         def counts(tally: dict[str, int]) -> str:
