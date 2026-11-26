@@ -10,6 +10,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life](fema-bca.md) | facts checked: 2 confirmed, 3 read with no claim, 3 not checked | 5 | 0 | 3 | 4 | F0 |
 | [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed (8 read with no claim); values recomputed by a second reader in F2 (passed) | 12 | 0 | 0 | 1 | F0 |
 | [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed (6 read with no claim); values recomputed by a second reader in F2 (passed) | 9 | 0 | 0 | 1 | F0 |
+| [Global Historical Climatology Network - Daily (GHCN-Daily), daily precipitation at three New York City stations](ghcn-daily.md) | facts confirmed (8 read with no claim) | 8 | 0 | 0 | 1 | F5 |
 | [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed (3 read with no claim); values recomputed by a second reader in F2 (passed) | 19 | 0 | 0 | 9 | F0 |
 | [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 read with no claim, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
 | [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 3 confirmed, 4 read with no claim, 2 differ | 7 | 2 | 0 | 2 | F0 |
