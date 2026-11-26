@@ -11,6 +11,8 @@ by side. The modules share no code with the loaders and never import crc-sdk, cr
   ``datetime`` and ``zoneinfo`` (no pandas);
 * ``groundsource``: the Groundsource Parquet file through DuckDB with its GeoParquet
   interpretation switched off, then exact intersection with shapely;
+* ``mrms``: one event window of the MRMS radar rainfall, decoded from the GRIB2 files with
+  ecCodes (no GDAL) and compared cell by cell with the loaded NetCDF;
 * ``compare``: pure comparisons of grids and tables, and the outcome of FS4.
 
 Every reader module has a ``main`` that runs it on the cached publisher's files and writes its

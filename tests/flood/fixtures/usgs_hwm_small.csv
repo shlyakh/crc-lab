@@ -1,0 +1,7 @@
+"Test citation, not real data, https://example.org/x.",
+latitude_dd,longitude_dd,hwmTypeName,hwmQualityName,verticalDatumName,verticalMethodName,markerName,horizontalMethodName,horizontalDatumName,site_no,siteDescription,countyName,hwm_id,waterbody,site_id,event_id,hwm_locationdescription,survey_date,elev_ft,height_above_gnd,hwm_notes,hwm_environment,flag_date,stillwater,uncertainty,hwm_label
+40.7048,-73.9642,Seed line,Good: +/- 0.10 ft,NAVD88,RT-GNSS,Marker,Phone/Car GPS,WGS84 (from Digital Map),NYKIN1,"Main St., Brooklyn",Kings County,30,Flash flooding,1,312,x,9/10/2021,10,2.5,n,Riverine,9/7/2021,0,0.1,HWM-1
+40.7048,-73.9642,Debris,Fair: +/- 0.20 ft,NAVD88,RT-GNSS,Marker,Phone/Car GPS,WGS84 (from Digital Map),NYKIN1,"Main St., Brooklyn",Kings County,20,Flash flooding,1,312,x,9/11/2021,5,,n,Riverine,9/7/2021,0,0.2,HWM-2
+40.7048,-73.9642,Mud,Poor: +/- 0.40 ft,NGVD29,RT-GNSS,Marker,Phone/Car GPS,WGS84 (from Digital Map),NYKIN2,"Main St., Brooklyn",Kings County,10,Flash flooding,2,312,x,9/12/2021,20,1,n,Riverine,9/7/2021,0,0.4,HWM-1
+40.7004727,-73.9879473,Debris,Fair: +/- 0.20 ft,NAVD88,RT-GNSS,Marker,Phone/Car GPS,WGS84 (from Digital Map),NYKIN4,"Main St., Brooklyn",Kings County,50,Flash flooding,1,312,x,9/11/2021,5,,n,Riverine,9/7/2021,0,0.2,HWM-2
+40.7004727,-73.9879592,Debris,Fair: +/- 0.20 ft,NAVD88,RT-GNSS,Marker,Phone/Car GPS,WGS84 (from Digital Map),NYKIN5,"Main St., Brooklyn",Kings County,40,Flash flooding,1,312,x,9/11/2021,5,,n,Riverine,9/7/2021,0,0.2,HWM-2
