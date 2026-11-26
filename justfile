@@ -294,3 +294,9 @@ flood-f4-ring-batch:
 
 flood-f4-ring:
     uv run --with matplotlib python -m flood_lab.checks.f4_ring
+
+# Flood lab F5 (first part): the Ida replay against the USGS high-water marks (FV1) and FloodNet
+# sensors (FV2), with the second readers of the marks and the MRMS window (FS4); offline
+flood-f5:
+    uv run --with matplotlib python -m flood_lab.checks.f5_validation
+    uv run python -m flood_lab.gallery

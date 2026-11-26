@@ -1,0 +1,855 @@
+{
+ "checks": [
+  {
+   "name": "second reader: USGS high-water marks",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "reference.usgs_hwm recomputes every loaded mark: identifiers, datum, quality, date and in_square equal; metres within 1e-4, eastings and northings within 0.01 m",
+   "threshold": null,
+   "value": {
+    "differences": 0,
+    "outcome": "confirmed",
+    "rows_a": 159,
+    "rows_b": 159
+   }
+  },
+  {
+   "name": "second reader: MRMS rain of the Ida replay window",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "reference.mrms decodes the raw hours again; no cell differs by more than its TOLERANCE_MM and NaN matches NaN",
+   "threshold": null,
+   "value": {
+    "cells": 29750,
+    "differences": 0,
+    "outcome": "confirmed",
+    "tolerance_mm": 5.722045891332073e-06,
+    "window": [
+     "2021-09-01T18:00:00+00:00",
+     "2021-09-02T10:00:00+00:00"
+    ]
+   }
+  },
+  {
+   "name": "deliberate faults are caught",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "each broken copy of the loaded values differs from the second reader (FS4); also in tests/flood/test_f5_validation.py",
+   "threshold": null,
+   "value": {
+    "MRMS: hours shifted by one": "differs",
+    "MRMS: one cell plus 1 mm": "differs",
+    "marks: one height above ground left in feet": "differs"
+   }
+  },
+  {
+   "name": "FV1: model against the high-water marks (reported, not judged)",
+   "note": "",
+   "passed": null,
+   "proposed": false,
+   "rule": "level and depth error per mark and per site, with and without flagged marks",
+   "threshold": null,
+   "value": {
+    "depth_rmse_m": 0.211,
+    "level_rmse_m": 0.23
+   }
+  },
+  {
+   "name": "FV4: depth RMSE at the marks against 0.5 m",
+   "note": "The depth error at the marks (0.21 m RMSE) is within 0.5 m [P]; FV4's statement is not required. No parameter is changed (FV4).",
+   "passed": null,
+   "proposed": true,
+   "rule": "if depth RMSE > 0.5 m the record states that substation-level depth claims are not supported; no parameter is changed",
+   "threshold": 0.5,
+   "value": 0.211
+  },
+  {
+   "name": "FV2: model against the FloodNet sensors (reported, not judged)",
+   "note": "",
+   "passed": null,
+   "proposed": false,
+   "rule": "every sensor in the square in service on the day; modelled depth at the pixel and the deepest within 10 m against the measured peak",
+   "threshold": null,
+   "value": {
+    "ida_2021": {
+     "at_pixel": {
+      "bias_m": null,
+      "mae_m": null,
+      "n": 0,
+      "rmse_m": null
+     },
+     "deepest_within_10m": {
+      "bias_m": null,
+      "mae_m": null,
+      "n": 0,
+      "rmse_m": null
+     },
+     "in_service": 1,
+     "recorded": 0
+    },
+    "sep29_2023": {
+     "at_pixel": {
+      "bias_m": -0.078,
+      "mae_m": 0.17,
+      "n": 5,
+      "rmse_m": 0.186
+     },
+     "deepest_within_10m": {
+      "bias_m": 0.196,
+      "mae_m": 0.196,
+      "n": 5,
+      "rmse_m": 0.225
+     },
+     "in_service": 7,
+     "recorded": 5
+    }
+   }
+  }
+ ],
+ "created_at": "2026-11-26T17:43:53Z",
+ "figures": [
+  "docs/flood/figures/f5/marks_scatter.png",
+  "docs/flood/figures/f5/sensors.png",
+  "docs/flood/figures/f5/error_map.png"
+ ],
+ "id": "f5",
+ "inputs": [
+  {
+   "bytes": 1815,
+   "path": "src/flood_lab/hazard/allowance.toml",
+   "sha256": "3bb87105d6d346e21f0245e2ede41f36d4707a10362e9d1a5b7a49ea6d9b9f37",
+   "url": ""
+  },
+  {
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  },
+  {
+   "bytes": 62220,
+   "path": "usgs-ida-high-water-marks/FilteredHWMs_NewYork.csv",
+   "sha256": "c2ed5ed975a6b4914e1152f00732ab35853daa695f8118b0c516290131bc9af7",
+   "url": ""
+  },
+  {
+   "bytes": 2687,
+   "path": "usgs-ida-high-water-marks/STN_FilteredHWMs_data_dictionary.csv",
+   "sha256": "37f184be36a03bb4e3d6b3bf9528ce4e6b7d7145d6d5fc23bcbca54c14e473bf",
+   "url": ""
+  },
+  {
+   "bytes": 6115669,
+   "path": "floodnet-flood-events/aq7i-eu5q.csv",
+   "sha256": "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054",
+   "url": ""
+  },
+  {
+   "bytes": 114096,
+   "path": "floodnet-sensors/kb2e-tjy3.csv",
+   "sha256": "7fa594a6960efac45ec50ddfb02ea0ed86cd2c962a8477e192ca5a9c723fb612",
+   "url": ""
+  },
+  {
+   "bytes": 43608,
+   "path": "f3/mrms/ida_2021.nc",
+   "sha256": "05a9fefd5d8d2b27ee63edce88be6588a862eb207b922d7d2b7f0c14d402f6ac",
+   "url": ""
+  },
+  {
+   "bytes": 49142122,
+   "path": "f3/model/dem_model_1m.tif",
+   "sha256": "dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf",
+   "url": ""
+  },
+  {
+   "bytes": 535470,
+   "path": "f3/model/buildings_1m.tif",
+   "sha256": "3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe",
+   "url": ""
+  },
+  {
+   "bytes": 1969760,
+   "path": "f3/model/zb_5m.tif",
+   "sha256": "640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e",
+   "url": ""
+  },
+  {
+   "bytes": 39160,
+   "path": "f3/model/pits_1m.tif",
+   "sha256": "47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa",
+   "url": ""
+  },
+  {
+   "bytes": 68068,
+   "path": "terrain/water_1m.tif",
+   "sha256": "c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872",
+   "url": ""
+  },
+  {
+   "bytes": 300,
+   "path": "f3/runs/ida_q30/spec.json",
+   "sha256": "644776430358fcabe4463f44007a0012a8122033f76b4d23b57dc2d329282f50",
+   "url": ""
+  },
+  {
+   "bytes": 2232557,
+   "path": "f3/runs/ida_q30/zsmax.tif",
+   "sha256": "19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b",
+   "url": ""
+  },
+  {
+   "bytes": 303,
+   "path": "f3/runs/sep_q30/spec.json",
+   "sha256": "31f9b7d3bb2ddb82d019a09f9ce49b6afb96e9ab2cae8b44d2ec21d7c849c8e5",
+   "url": ""
+  },
+  {
+   "bytes": 2244124,
+   "path": "f3/runs/sep_q30/zsmax.tif",
+   "sha256": "e25e0bd495a27602cd953c68e230215bc5648fcc1a5d0d8c7c7c7e534af96e25",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "F5 first part (FV1, FV2, FV4; FV3 and FV5 later). Model against observations is reported, not judged. The depth error at the marks (0.21 m RMSE) is within 0.5 m [P]; FV4's statement is not required. No parameter is changed (FV4).",
+  "Published comparison: The 0.20 m is the error of a model calibrated on those 8 marks: a fitted figure, not an independent test. 0.40 m is the same model before calibration. (Kasaei et al. 2025, Hydrology and Earth System Sciences 29:2043).",
+  "Vertical datum: zsmax is the solver's water level in metres NAVD88, the datum of the model terrain (USGS 3DEP 1 m, NAVD88) and of the water-level boundary (0 m NAVD88); the marks are surveyed in NAVD88 (feet, converted with 0.3048).",
+  "Marks: horizontal positions are phone or map fixes (WGS84 from digital map), so a mark's 1 m pixel may be a few metres off; the deepest modelled depth within 10 m is given beside the pixel's for that reason, not used in the statistics.",
+  "The cached FloodNet events table carries each event's depth profile (flood_profile_depth_inches, flood_profile_time_secs); the panels draw it as published. Its peak is the loader's max_depth_inches.",
+  "marks_scatter.png: Ida replay (frozen F3 model, constant loss rate 30 mm/h) against the 11 USGS high-water marks in the square (6 sites). Left: inundation depth at the mark's 1 m pixel (modelled water level less ground level, ground never below the cell's lowest sub-grid level) against the surveyed height above ground. Right: modelled peak water level of the 5 m cell against the surveyed mark elevation, NAVD88. Grey band: \u00b10.20 m, the error Kasaei et al. 2025 report after calibrating on 8 marks (a fitted figure, not an independent test; 0.40 m before calibration). Limit: marks are phone fixes (positions to a few metres) and were surveyed weeks later.",
+  "sensors.png: FloodNet sensors in the square in service on each storm day: measured depth through each event as published (times UTC), the modelled peak at the sensor's pixel (solid) and the deepest modelled depth on open ground within 10 m (dashed; sensor positions are approximate). Limit: the model gives a peak, not a time series, here.",
+  "error_map.png: Modelled maximum inundation depth on read open ground with the depth error, model less observed, at each mark (circles, Ida) and sensor (squares; thick edge: in service, none recorded)."
+ ],
+ "numbers": {
+  "depth_rmse_m": 0.211,
+  "fv4_exceeded": false,
+  "marks_flagged": 5,
+  "marks_in_file": 159,
+  "marks_in_square": 11,
+  "sites_in_file": 83,
+  "sites_in_square": 6
+ },
+ "parameters": [
+  {
+   "name": "constant_loss_rate_mm_per_h",
+   "source": "frozen F3 value; not changed (FV4)",
+   "tag": "P",
+   "value": 30.0
+  },
+  {
+   "name": "near_m",
+   "source": "sensor positions are approximate",
+   "tag": "P",
+   "value": 10.0
+  },
+  {
+   "name": "fv4_rmse_m",
+   "source": "requirements FV4",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "max_uncertainty_m",
+   "source": "flag above",
+   "tag": "P",
+   "value": 0.1
+  },
+  {
+   "name": "max_roof_share",
+   "source": "at_assets",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "kasaei_rmse_calibrated_m",
+   "source": "Kasaei et al. 2025, Hydrology and Earth System Sciences 29:2043",
+   "tag": "S",
+   "value": 0.2
+  },
+  {
+   "name": "kasaei_rmse_before_calibration_m",
+   "source": "Kasaei et al. 2025, Hydrology and Earth System Sciences 29:2043",
+   "tag": "S",
+   "value": 0.4
+  },
+  {
+   "name": "foot_m",
+   "source": "international foot; the dictionary says feet",
+   "tag": "S",
+   "value": 0.3048
+  }
+ ],
+ "passed": null,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "pyproj": "3.8.0",
+  "python": "3.12.11",
+  "rasterio": "1.5.1"
+ },
+ "stage": "F5",
+ "tables": {
+  "captions": {
+   "error_map.png": "Modelled maximum inundation depth on read open ground with the depth error, model less observed, at each mark (circles, Ida) and sensor (squares; thick edge: in service, none recorded).",
+   "marks_scatter.png": "Ida replay (frozen F3 model, constant loss rate 30 mm/h) against the 11 USGS high-water marks in the square (6 sites). Left: inundation depth at the mark's 1 m pixel (modelled water level less ground level, ground never below the cell's lowest sub-grid level) against the surveyed height above ground. Right: modelled peak water level of the 5 m cell against the surveyed mark elevation, NAVD88. Grey band: \u00b10.20 m, the error Kasaei et al. 2025 report after calibrating on 8 marks (a fitted figure, not an independent test; 0.40 m before calibration). Limit: marks are phone fixes (positions to a few metres) and were surveyed weeks later.",
+   "sensors.png": "FloodNet sensors in the square in service on each storm day: measured depth through each event as published (times UTC), the modelled peak at the sensor's pixel (solid) and the deepest modelled depth on open ground within 10 m (dashed; sensor positions are approximate). Limit: the model gives a peak, not a time series, here."
+  },
+  "fv1_marks": [
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.002,
+    "easting_m": 589003.73,
+    "flags": [],
+    "ground_error_m": -0.11,
+    "hwm_id": 41017,
+    "level_error_m": -0.112,
+    "model_depth_m": 0.282,
+    "model_depth_max_within_10m_m": 0.402,
+    "model_ground_navd88_m": 3.66,
+    "model_level_navd88_m": 3.942,
+    "northing_m": 4506258.16,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31308",
+    "surveyed_ground_navd88_m": 3.7703,
+    "surveyed_height_m": 0.2835,
+    "surveyed_level_navd88_m": 4.0538,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.396,
+    "easting_m": 588838.76,
+    "flags": [
+     "cell not read: building at the cell centre",
+     "pixel inside a building footprint",
+     "cell mostly under roofs (at_assets)"
+    ],
+    "ground_error_m": 5.578,
+    "hwm_id": 41023,
+    "level_error_m": 0.186,
+    "model_depth_m": 0.0,
+    "model_depth_max_within_10m_m": 0.695,
+    "model_ground_navd88_m": 8.9,
+    "model_level_navd88_m": 3.905,
+    "northing_m": 4506113.63,
+    "quality": "Good: +/- 0.10 ft",
+    "site_no": "NYKIN31314",
+    "surveyed_ground_navd88_m": 3.3224,
+    "surveyed_height_m": 0.3962,
+    "surveyed_level_navd88_m": 3.7186,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": 0.129,
+    "easting_m": 588607.89,
+    "flags": [],
+    "ground_error_m": -0.083,
+    "hwm_id": 41028,
+    "level_error_m": 0.046,
+    "model_depth_m": 0.714,
+    "model_depth_max_within_10m_m": 0.83,
+    "model_ground_navd88_m": 3.02,
+    "model_level_navd88_m": 3.734,
+    "northing_m": 4506088.0,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31319",
+    "surveyed_ground_navd88_m": 3.1029,
+    "surveyed_height_m": 0.5852,
+    "surveyed_level_navd88_m": 3.6881,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.001,
+    "easting_m": 588636.96,
+    "flags": [
+     "cell not read: building at the cell centre",
+     "cell mostly under roofs (at_assets)",
+     "quality Poor: +/- 0.40 ft"
+    ],
+    "ground_error_m": -0.319,
+    "hwm_id": 41030,
+    "level_error_m": -0.32,
+    "model_depth_m": 0.197,
+    "model_depth_max_within_10m_m": 0.518,
+    "model_ground_navd88_m": 3.72,
+    "model_level_navd88_m": 3.917,
+    "northing_m": 4505960.12,
+    "quality": "Poor: +/- 0.40 ft",
+    "site_no": "NYKIN31321",
+    "surveyed_ground_navd88_m": 4.0386,
+    "surveyed_height_m": 0.1981,
+    "surveyed_level_navd88_m": 4.2367,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.013,
+    "easting_m": 588376.29,
+    "flags": [
+     "survey uncertainty 0.1524 m"
+    ],
+    "ground_error_m": -0.118,
+    "hwm_id": 41433,
+    "level_error_m": -0.131,
+    "model_depth_m": 0.347,
+    "model_depth_max_within_10m_m": 0.417,
+    "model_ground_navd88_m": 3.21,
+    "model_level_navd88_m": 3.557,
+    "northing_m": 4508400.17,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31762",
+    "surveyed_ground_navd88_m": 3.3284,
+    "surveyed_height_m": 0.3597,
+    "surveyed_level_navd88_m": 3.6881,
+    "uncertainty_m": 0.1524
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": 0.029,
+    "easting_m": 588669.09,
+    "flags": [],
+    "ground_error_m": -0.026,
+    "hwm_id": 41447,
+    "level_error_m": 0.003,
+    "model_depth_m": 0.154,
+    "model_depth_max_within_10m_m": 0.559,
+    "model_ground_navd88_m": 3.75,
+    "model_level_navd88_m": 3.904,
+    "northing_m": 4506057.31,
+    "quality": "Excellent: +/- 0.05 ft",
+    "site_no": "NYKIN31764",
+    "surveyed_ground_navd88_m": 3.7764,
+    "surveyed_height_m": 0.125,
+    "surveyed_level_navd88_m": 3.9014,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.086,
+    "easting_m": 589011.27,
+    "flags": [],
+    "ground_error_m": -0.026,
+    "hwm_id": 41615,
+    "level_error_m": -0.112,
+    "model_depth_m": 0.252,
+    "model_depth_max_within_10m_m": 0.359,
+    "model_ground_navd88_m": 3.69,
+    "model_level_navd88_m": 3.942,
+    "northing_m": 4506249.82,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31308",
+    "surveyed_ground_navd88_m": 3.7155,
+    "surveyed_height_m": 0.3383,
+    "surveyed_level_navd88_m": 4.0538,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.341,
+    "easting_m": 588830.35,
+    "flags": [
+     "pixel inside a building footprint"
+    ],
+    "ground_error_m": 5.123,
+    "hwm_id": 41617,
+    "level_error_m": 0.186,
+    "model_depth_m": 0.0,
+    "model_depth_max_within_10m_m": 0.815,
+    "model_ground_navd88_m": 8.5,
+    "model_level_navd88_m": 3.905,
+    "northing_m": 4506123.97,
+    "quality": "Good: +/- 0.10 ft",
+    "site_no": "NYKIN31314",
+    "surveyed_ground_navd88_m": 3.3772,
+    "surveyed_height_m": 0.3414,
+    "surveyed_level_navd88_m": 3.7186,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.033,
+    "easting_m": 588618.61,
+    "flags": [],
+    "ground_error_m": -0.013,
+    "hwm_id": 41619,
+    "level_error_m": -0.046,
+    "model_depth_m": 0.394,
+    "model_depth_max_within_10m_m": 0.664,
+    "model_ground_navd88_m": 3.34,
+    "model_level_navd88_m": 3.734,
+    "northing_m": 4506074.92,
+    "quality": "Good: +/- 0.10 ft",
+    "site_no": "NYKIN31319",
+    "surveyed_ground_navd88_m": 3.3528,
+    "surveyed_height_m": 0.4267,
+    "surveyed_level_navd88_m": 3.7795,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.419,
+    "easting_m": 588642.1,
+    "flags": [],
+    "ground_error_m": -0.174,
+    "hwm_id": 41620,
+    "level_error_m": -0.593,
+    "model_depth_m": 0.038,
+    "model_depth_max_within_10m_m": 0.518,
+    "model_ground_navd88_m": 3.88,
+    "model_level_navd88_m": 3.918,
+    "northing_m": 4505961.07,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31321",
+    "surveyed_ground_navd88_m": 4.0538,
+    "surveyed_height_m": 0.4572,
+    "surveyed_level_navd88_m": 4.511,
+    "uncertainty_m": 0.0305
+   },
+   {
+    "cell_dry": false,
+    "depth_error_m": -0.126,
+    "easting_m": 588372.04,
+    "flags": [
+     "survey uncertainty 0.1524 m"
+    ],
+    "ground_error_m": 0.025,
+    "hwm_id": 41678,
+    "level_error_m": -0.101,
+    "model_depth_m": 0.307,
+    "model_depth_max_within_10m_m": 0.456,
+    "model_ground_navd88_m": 3.25,
+    "model_level_navd88_m": 3.557,
+    "northing_m": 4508395.24,
+    "quality": "Fair: +/- 0.20 ft",
+    "site_no": "NYKIN31762",
+    "surveyed_ground_navd88_m": 3.2248,
+    "surveyed_height_m": 0.4328,
+    "surveyed_level_navd88_m": 3.6576,
+    "uncertainty_m": 0.1524
+   }
+  ],
+  "fv1_summary": {
+   "all": {
+    "depth_per_mark": {
+     "bias_m": -0.114,
+     "mae_m": 0.143,
+     "n": 11,
+     "rmse_m": 0.211
+    },
+    "depth_per_site": {
+     "bias_m": -0.102,
+     "mae_m": 0.128,
+     "n": 6,
+     "rmse_m": 0.178
+    },
+    "level_per_mark": {
+     "bias_m": -0.09,
+     "mae_m": 0.167,
+     "n": 11,
+     "rmse_m": 0.23
+    },
+    "level_per_site": {
+     "bias_m": -0.083,
+     "mae_m": 0.146,
+     "n": 6,
+     "rmse_m": 0.212
+    },
+    "marks": 11,
+    "sites": 6
+   },
+   "unflagged": {
+    "depth_per_mark": {
+     "bias_m": -0.064,
+     "mae_m": 0.116,
+     "n": 6,
+     "rmse_m": 0.183
+    },
+    "depth_per_site": {
+     "bias_m": -0.096,
+     "mae_m": 0.135,
+     "n": 4,
+     "rmse_m": 0.213
+    },
+    "level_per_mark": {
+     "bias_m": -0.136,
+     "mae_m": 0.152,
+     "n": 6,
+     "rmse_m": 0.252
+    },
+    "level_per_site": {
+     "bias_m": -0.175,
+     "mae_m": 0.177,
+     "n": 4,
+     "rmse_m": 0.302
+    },
+    "marks": 6,
+    "sites": 4
+   }
+  },
+  "fv2_sensors": [
+   {
+    "easting_m": 588723.0,
+    "error_m": null,
+    "error_near_m": null,
+    "flags": [],
+    "measured_peak_m": null,
+    "model_depth_m": 0.0,
+    "model_depth_max_within_10m_m": 0.183,
+    "northing_m": 4505760.42,
+    "recorded": false,
+    "sensor_id": "BK-marcy-av-ellery-st-007vc0",
+    "storm": "ida_2021"
+   },
+   {
+    "easting_m": 587813.24,
+    "error_m": -0.134,
+    "error_near_m": 0.161,
+    "flags": [],
+    "measured_peak_m": 0.298,
+    "model_depth_m": 0.164,
+    "model_depth_max_within_10m_m": 0.459,
+    "northing_m": 4505900.81,
+    "recorded": true,
+    "sensor_id": "BK-kent-ave-wallabout-st-19r2g0",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 588314.44,
+    "error_m": 0.094,
+    "error_near_m": 0.314,
+    "flags": [],
+    "measured_peak_m": 0.598,
+    "model_depth_m": 0.692,
+    "model_depth_max_within_10m_m": 0.912,
+    "northing_m": 4506066.52,
+    "recorded": true,
+    "sensor_id": "BK-lee-ave-middleton-st-19qok0",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 588700.48,
+    "error_m": 0.136,
+    "error_near_m": 0.293,
+    "flags": [],
+    "measured_peak_m": 0.309,
+    "model_depth_m": 0.445,
+    "model_depth_max_within_10m_m": 0.602,
+    "northing_m": 4505905.48,
+    "recorded": true,
+    "sensor_id": "BK-marcy-ave-flushing-ave-19qzo0",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 588822.6,
+    "error_m": null,
+    "error_near_m": null,
+    "flags": [],
+    "measured_peak_m": null,
+    "model_depth_m": 0.676,
+    "model_depth_max_within_10m_m": 0.922,
+    "northing_m": 4506164.51,
+    "recorded": false,
+    "sensor_id": "BK-wallabout-st-harrison-ave-19qrc0",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 588966.76,
+    "error_m": -0.175,
+    "error_near_m": 0.206,
+    "flags": [],
+    "measured_peak_m": 0.637,
+    "model_depth_m": 0.462,
+    "model_depth_max_within_10m_m": 0.843,
+    "northing_m": 4506283.7,
+    "recorded": true,
+    "sensor_id": "BK-wallabout-st-throop-ave-19qu40",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 588592.67,
+    "error_m": -0.313,
+    "error_near_m": 0.007,
+    "flags": [],
+    "measured_peak_m": 0.549,
+    "model_depth_m": 0.236,
+    "model_depth_max_within_10m_m": 0.556,
+    "northing_m": 4506074.94,
+    "recorded": true,
+    "sensor_id": "BK-walton-st-marcy-ave-19qww0",
+    "storm": "sep29_2023"
+   },
+   {
+    "easting_m": 587948.22,
+    "error_m": null,
+    "error_near_m": null,
+    "flags": [],
+    "measured_peak_m": null,
+    "model_depth_m": 0.153,
+    "model_depth_max_within_10m_m": 0.352,
+    "northing_m": 4505925.28,
+    "recorded": false,
+    "sensor_id": "BK-wythe-ave-wallabout-st-19qzo0",
+    "storm": "sep29_2023"
+   }
+  ],
+  "fv2_summary": {
+   "ida_2021": {
+    "at_pixel": {
+     "bias_m": null,
+     "mae_m": null,
+     "n": 0,
+     "rmse_m": null
+    },
+    "deepest_within_10m": {
+     "bias_m": null,
+     "mae_m": null,
+     "n": 0,
+     "rmse_m": null
+    },
+    "in_service": 1,
+    "recorded": 0
+   },
+   "sep29_2023": {
+    "at_pixel": {
+     "bias_m": -0.078,
+     "mae_m": 0.17,
+     "n": 5,
+     "rmse_m": 0.186
+    },
+    "deepest_within_10m": {
+     "bias_m": 0.196,
+     "mae_m": 0.196,
+     "n": 5,
+     "rmse_m": 0.225
+    },
+    "in_service": 7,
+    "recorded": 5
+   }
+  },
+  "published_comparison": {
+   "citation": "Kasaei et al. 2025, Hydrology and Earth System Sciences 29:2043",
+   "marks": 8,
+   "reading": "The 0.20 m is the error of a model calibrated on those 8 marks: a fitted figure, not an independent test. 0.40 m is the same model before calibration.",
+   "rmse_before_calibration_m": 0.4,
+   "rmse_calibrated_m": 0.2
+  },
+  "second_reader_marks": {
+   "columns": {
+    "easting_m": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.01"
+    },
+    "elev_navd88_m": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.0001"
+    },
+    "height_above_ground_m": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.0001"
+    },
+    "hwm_id": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    },
+    "in_square": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    },
+    "latitude": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.0001"
+    },
+    "longitude": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.0001"
+    },
+    "northing_m": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.01"
+    },
+    "quality": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    },
+    "site_no": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    },
+    "survey_date": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    },
+    "uncertainty_m": {
+     "differ": 0,
+     "first": [],
+     "rule": "abs <= 0.0001"
+    },
+    "vertical_datum": {
+     "differ": 0,
+     "first": [],
+     "rule": "exact"
+    }
+   },
+   "deliberate_fault": {
+    "differences": 1,
+    "outcome": "differs",
+    "rule broken": "one height above ground left in feet"
+   },
+   "differences": 0,
+   "first_only_in_a": [],
+   "first_only_in_b": [],
+   "only_in_a": 0,
+   "only_in_b": 0,
+   "outcome": "confirmed",
+   "repeated_keys_a": 0,
+   "repeated_keys_b": 0,
+   "rows_a": 159,
+   "rows_b": 159
+  },
+  "second_reader_mrms": {
+   "cells": 29750,
+   "cells_over_tolerance": 0,
+   "deliberate_faults": {
+    "hours shifted by one": "differs",
+    "one cell plus 1 mm": "differs"
+   },
+   "differences": 0,
+   "max_abs_difference_mm": 5e-06,
+   "nan_both": 0,
+   "nan_mismatch": 0,
+   "outcome": "confirmed",
+   "shape": [
+    17,
+    35,
+    50
+   ],
+   "tolerance_mm": 5.722045891332073e-06,
+   "window": [
+    "2021-09-01T18:00:00+00:00",
+    "2021-09-02T10:00:00+00:00"
+   ]
+  }
+ },
+ "title": "Validation against observations: Ida high-water marks and FloodNet sensors"
+}
