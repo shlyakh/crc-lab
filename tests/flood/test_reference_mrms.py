@@ -10,12 +10,13 @@ import gzip
 from datetime import UTC, datetime
 from pathlib import Path
 
-import eccodes
 import numpy as np
 import pytest
 
-from flood_lab import cache
-from flood_lab.reference import mrms
+eccodes = pytest.importorskip("eccodes")  # the radar extra; CI installs it
+
+from flood_lab import cache  # noqa: E402
+from flood_lab.reference import mrms  # noqa: E402
 
 END = datetime(2021, 9, 1, 18, tzinfo=UTC)
 
