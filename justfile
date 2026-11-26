@@ -279,3 +279,7 @@ flood-f4-batch queue:
 # Flood lab: redraw the diagrams (Mermaid sources in docs/flood/figures/diagrams/*.mmd) as PNG
 flood-diagrams:
     cd docs/flood/figures/diagrams && for f in *.mmd; do mmdc -i "$f" -o "${f%.mmd}.png" -s 2 -b white; done
+
+# Flood lab F4: status of the catalogue batch (add --watch 60 to refresh)
+flood-f4-status *flags:
+    python3 tools/flood/f4_status.py {{flags}}
