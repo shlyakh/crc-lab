@@ -28,8 +28,8 @@ largest-rainfall storm of a year as the year's worst flood, a limit stated in th
 is dry in a year when ``D_i < WET_M``; the dry-year mass is ``sum of w_i over dry runs / M``.
 The depth at probability ``p`` is the largest ``d`` with ``P(D >= d) >= p``, so that rank ``r`` of
 ``M`` equally weighted years has return period ``M / r`` as in RainyDay's own frequency output
-(empirical, no fit, no interpolation between storms); it is 0 while ``p`` is at least the
-cell's wet probability.
+(empirical, no fit, no interpolation between storms); it is 0 while ``p`` is above the
+cell's wet probability (at ``p`` equal to it, the smallest wet depth).
 Such quantiles cannot decrease as ``p`` falls, so the non-decreasing clean-up of FH7 has nothing
 to change; it is still applied and the count of changed cells reported.
 """

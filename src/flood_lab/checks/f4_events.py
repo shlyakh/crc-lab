@@ -61,7 +61,10 @@ def synthetic_years(scen: list[dict], sel: list[dict]) -> dict:
     above = sum(p > ALLOWANCE_MM_H for p in peak)
     for a, t in zip(
         ax,
-        ("3-hour rainfall over the study box (mm)", "wettest hour over the study box (mm)"),
+        (
+            "3-hour rainfall, plain mean of the box's AORC cells (mm)",
+            "wettest hour, same mean (mm)",
+        ),
         strict=True,
     ):
         a.set_xscale("log")

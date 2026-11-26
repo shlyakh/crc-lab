@@ -58,7 +58,7 @@ from flood_lab.risk import crc_load
 RECORD_ID = "f4"
 REL = "docs/flood/figures/f4"
 #: bump when the content of a per-run cache file changes
-CACHE_VERSION = 3  # 3: CH-21 (wall and site depths from the clamped ground)
+CACHE_VERSION = 4  # 3: CH-21; 4: unreadable wall bands are NaN
 RUN_FILES = ("balance.json", "zsmax.tif")
 CHOSEN = "f4/rainyday/catalogue_n960/f4_B_d3_n960"
 CHOSEN_FREQ = f"{CHOSEN}/f4_B_d3_n960_FreqAnalysis.csv"
@@ -252,11 +252,31 @@ def building_points(footprints) -> list[dict]:
 # --- per-run extraction, cached ------------------------------------------------------------------
 
 
-def _key(folder: Path, footprint_key: str, site_ids: list[str]) -> str:
+def inputs_key(root: Path, substations: Path) -> str:
+    """What a run's extracted depths depend on besides the run: the model's static rasters and
+    the site outlines (size and modification time), and the code of the depth rules."""
+    from flood_lab.hazard import at_assets as _a
+    from flood_lab.hazard import calibration as _c
+
+    model = root / "f3" / "model"
+    files = [
+        model / n for n in ("dem_model_1m.tif", "buildings_1m.tif", "zb_5m.tif", "pits_1m.tif")
+    ] + [root / "terrain" / "water_1m.tif", Path(substations)]
+    parts = []
+    for f in files:
+        st = f.stat()
+        parts.append(f"{f.name}:{st.st_size}:{st.st_mtime_ns}")
+    for mod in (_a, _c):
+        parts.append(_sha_text(Path(mod.__file__).read_text()))
+    return _sha_text("\n".join(parts))
+
+
+def _key(folder: Path, footprint_key: str, site_ids: list[str], inputs: str = "") -> str:
     st = (folder / "zsmax.tif").stat()
     return json.dumps(
         {
             "version": CACHE_VERSION,
+            "inputs": inputs,
             "zsmax_size": st.st_size,
             "zsmax_mtime_ns": st.st_mtime_ns,
             "footprints": footprint_key,
@@ -269,8 +289,9 @@ def _key(folder: Path, footprint_key: str, site_ids: list[str]) -> str:
 #: the grid's depth definition, stated in the record
 DEPTH_DEFINITION = (
     "calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the "
-    "model terrain at each 5 m cell's centre 1 m pixel, floored at 0, the definition the drainage "
-    "allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a "
+    "ground at each 5 m cell's centre 1 m pixel, the ground never below the cell's lowest sub-grid "
+    "level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 "
+    "tested on; not read (NaN) where calibration.Frame leaves a "
     "cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on "
     "mapped water, lowest level below the start water level (CH-16). Whole square, not only the "
     "study area."
@@ -318,7 +339,7 @@ def per_run(
 ) -> tuple[dict, bool]:
     """The run's extracted arrays, read from the cache when its key matches; (arrays, fresh)."""
     folder = runs_dir / label
-    key = _key(folder, ctx["footprint_key"], ctx["site_ids"])
+    key = _key(folder, ctx["footprint_key"], ctx["site_ids"], ctx.get("inputs_key", ""))
     path = store / f"{label}.npz"
     if path.exists():
         with np.load(path, allow_pickle=False) as z:
@@ -843,6 +864,7 @@ def main(argv: list[str] | None = None) -> int:
         "site_ids": site_ids,
         "substations": f3_model.SUBSTATIONS,
         "frame": load_frame(root),
+        "inputs_key": inputs_key(root, f3_model.SUBSTATIONS),
     }
     store = args.work / "per_run"
     t0 = lap("inputs_s", t0)
@@ -994,6 +1016,11 @@ def main(argv: list[str] | None = None) -> int:
         # assets
         lead = np.stack([arrays[x]["site_lead"] for x in done_list]).astype("float64")
         walls = np.stack([arrays[x]["walls"] for x in done_list]).astype("float64")
+        # buildings whose wall band has no readable pixel carry no curve (not a dry 0)
+        readable = np.isfinite(walls).all(axis=0)
+        walls = walls[:, readable]
+        bpoints = [b for b, k in zip(bpoints, readable, strict=True) if k]
+        numbers["buildings_not_read"] = int((~readable).sum())
         at = catalogue.depth_at(lead, w, m, aeps=tuple(1 / t for t in STRIP_YEARS))
         for j, s in enumerate(site_rows):
             site_curves[s["id"]] = {

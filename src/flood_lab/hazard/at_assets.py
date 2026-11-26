@@ -120,7 +120,8 @@ def substation_depths(
 
 
 def building_wall_depths(depth_1m: np.ndarray, buildings_1m: np.ndarray, footprints) -> np.ndarray:
-    """Deepest pixel in a band around each footprint, outside every footprint (one per row)."""
+    """Deepest pixel in a band around each footprint, outside every footprint (one per row);
+    NaN for a building whose band has no readable pixel."""
     from rasterio import features
 
     shape = depth_1m.shape
@@ -136,6 +137,10 @@ def building_wall_depths(depth_1m: np.ndarray, buildings_1m: np.ndarray, footpri
     labels = np.where(buildings_1m | ~np.isfinite(depth_1m), 0, labels)
     best = np.zeros(len(bands) + 1)
     np.maximum.at(best, labels.ravel(), np.nan_to_num(depth_1m, nan=0.0).ravel())
+    # a building with no readable pixel in its band (all under footprints, roofed cells or
+    # standing water) is not read: NaN, never a dry 0 (blind review of F4)
+    readable = np.bincount(labels.ravel(), minlength=len(bands) + 1)
+    best[readable == 0] = np.nan
     return best[1:]
 
 

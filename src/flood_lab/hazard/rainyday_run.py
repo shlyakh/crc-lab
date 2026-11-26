@@ -359,6 +359,8 @@ def scenario_summary(path: Path, box=None, grid: dict | None = None) -> dict:
         "hours": int(len(t)),
         "box_cells": int(sub.shape[1] * sub.shape[2]),
         "box_cells_with_nan": nan_cells,
+        # plain mean over the box's bounding AORC cells; RainyDay ranks by its own mask-weighted
+        # basinrainfall, so total_mm is not monotone in rank (adjacent ranks invert often)
         "total_mm": round(float(np.nansum(mean_t)), 3),
         "peak_hour_mm": round(float(np.nanmax(mean_t)), 3) if mean_t.size else float("nan"),
         "path": str(path),

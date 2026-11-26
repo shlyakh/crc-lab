@@ -3,8 +3,9 @@
 Storm transposition is defensible only within a region whose storm-producing factors are alike
 (Chow 1964, as quoted in RainyDay's tutorial). RainyDay's guidance gives no number for "alike", so
 this module measures one: the mean annual maximum 1-hour and 3-hour rainfall from AORC v1.1
-(2002 to the last complete year), smoothed over a square of ``SMOOTH_KM``, relative to its value
-at the study area. A candidate rectangle is scored by the share of its valid pixels within
+(2002 to the last complete year), smoothed over a window of the same number of pixels each
+way, ``SMOOTH_KM`` north to south (about 19 km east to west at 40.7 N), relative to its value at
+the study area. A candidate rectangle is scored by the share of its valid pixels within
 ``BAND`` of the study area's value, and by its share of pixels without data (open sea, where AORC
 has no values and no storm can be found).
 
