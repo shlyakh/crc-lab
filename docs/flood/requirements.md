@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 7, 2026-11-26, tag `flood-requirements-v7` at the merge of F3 (earlier versions are tags `flood-requirements-v1` to `-v6`; what changed is in `docs/flood/changes.md`);
+Version 8, 2026-11-26, tag `flood-requirements-v8` (earlier versions are tags `flood-requirements-v1` to `-v7`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -83,7 +83,7 @@ flowchart TD
   subgraph SRC["Sources: facts confirmed in F0 (FS6)"]
     S1["Lidar terrain, land cover"]
     S2["MRMS radar rainfall, 0.01° hourly<br/>replays of Ida and 2023-09-29 (FH4)"]
-    S2b["NOAA AORC v1.1, 30 arc-second hourly, 2002 to 2025<br/>record for the storm catalogue (FH5),<br/>claim dates (FT5); proposed, CH-17"]
+    S2b["NOAA AORC v1.1, 30 arc-second hourly, 2002 to 2025<br/>record for the storm catalogue (FH5),<br/>claim dates (FT5); CH-17"]
     S2c["NOAA Atlas 14<br/>return periods of the city's storms,<br/>design storms (FH6)"]
     S3["NYC stormwater flood maps"]
     S4["Observations of flooding<br/>USGS high-water marks, FloodNet,<br/>Groundsource, 311, Storm Events, NFIP claims"]
@@ -898,7 +898,7 @@ The lead asset is chosen by the rule in the demo plan (§4): the substation site
 depth in the Ida replay among those near mapped flooding. If no site is wet in any catalogue storm the
 build stops and reports, and the study area's buildings become the lead asset.
 
-## 16. Decisions at the F3 stop (accepted in version 7)
+## 16. Decisions at the F3 stop (accepted in versions 7 and 8)
 
 From `docs/flood/reports/F3-solver.md` (changes CH-14 to CH-16, accepted by Yuri on 2026-11-26). As in sections 14
 and 15, **where a row here and a paragraph above disagree, the row holds.**
@@ -910,4 +910,5 @@ and 15, **where a row here and a paragraph above disagree, the row holds.**
 | FH3 | One value; if the fit fails, one per sewer district | One value, 30 mm/h **[P]**, frozen on 2026-11-26. No official sewer-district layer exists, so the per-district fallback is dropped. CSI 0.31 (Limited) and 0.41 (Moderate) against the proposed 0.5 is accepted as the best fit and stated on the page |
 | FH2 | Roughness from land cover | Two constants for Tier 1, Manning's n 0.025 on land and 0.02 below datum, with one sensitivity run at 0.035 on land; land cover (with its fact check, FS6) only if F5's marks show a timing problem (CH-14) |
 | FH5 (facts) | AORC coverage 25 to 53 N, -125 to -67 | The stored v1.1 grid runs 20.0 to 55.0 N and -130.0 to -60.0 (CH-15) |
+| FH5 | Rainfall record "AORC or Stage IV" | NOAA AORC v1.1, hourly at 30 arc seconds, window 38-44 N, 78.5-69.5 W, 2002 to 2025 (CH-17, version 8); 1979 on is a later option |
 

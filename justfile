@@ -237,9 +237,15 @@ flood-f3-forcing storm tref hours:
 flood-f3-batch queue:
     caffeinate -i python3 tools/flood/f3_batch.py {{queue}}
 
+# Flood lab F3 follow-up: maps and depths at the two lead substation sites
+flood-f3-sites:
+    uv run --with matplotlib python -m flood_lab.checks.f3_sites
+    uv run python -m flood_lab.gallery
+
 # Flood lab F3: the record and figures of the solver stage, from the runs in the cache; offline
 flood-f3:
     uv run --with matplotlib python -m flood_lab.checks.f3_model
+    uv run --with matplotlib python -m flood_lab.checks.f3_sites
     uv run python -m flood_lab.gallery
 
 # Flood lab F3: the solver's lowest level per cell, from any finished run of the base (the comparison leaves out cells below the start level)
