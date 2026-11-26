@@ -144,6 +144,16 @@ passage = "n/a"
 note = ""
 verdict_note = ""
 
+[[fact]]
+name = "scheme_twins"
+claimed = ""
+observed = "Read on 2026-11-26 (F5, second part) in the rows of the model square on 29 Sep 2023: of 106 flooding-related rows of the current scheme, 104 have a row of the legacy scheme of the same kind created 317 s or less later (95 at the same address, the rest within 25 m), with a different unique_key: one request held twice, once under each scheme. On 1-2 Sep 2021 only the legacy scheme occurs in the square. Counting the rows of both schemes therefore counts most 2023 requests twice; record f5-who-saw counts rows and requests (rows less twin pairs) apart."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+passage = "nyc-311/sep29_2023/page_1.json, e.g. unique_key 59445530 2023-09-29T09:19:34 'Sewer Maintenance' 'Backup' 100 BAYARD STREET PHONE ; unique_key 58960528 2023-09-29T09:21:00 'Sewer' 'Sewer Backup (Use Comments) (SA)' 100 BAYARD STREET PHONE"
+note = "The pairing rule (same kind; same address or within 25 m; within 600 s) is the lab's [P], in flood_lab.sources.nyc_311.twins."
+verdict_note = ""
+
 [[file]]
 path = "nyc-311/dictionary.xlsx"
 url = "https://data.cityofnewyork.us/api/views/erm2-nwe9/files/c5cc6926-45bb-4af3-8aab-0ee6a29bcf4d?download=true&filename=311_ServiceRequest_2020-present_DataDictionary_Updated_2025.xlsx"
@@ -157,3 +167,45 @@ url = "https://data.cityofnewyork.us/api/views/erm2-nwe9.json"
 bytes = 25591
 sha256 = "4d7acf75c64c59095f44c1572a7305d622d3ab8a7b49c2925d08761854ba2168"
 fetched_at = "2026-11-25T16:59:33Z"
+
+[[file]]
+path = "nyc-311/ida_2021/page_1.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=created_date+between+%272021-09-01T00%3A00%3A00%27+and+%272021-09-02T23%3A59%3A59%27+AND+within_box%28location%2C+40.724%2C+-73.9892%2C+40.6855%2C+-73.9392%29&%24order=unique_key&%24limit=50000&%24offset=0"
+bytes = 1125969
+sha256 = "b1a6f84ebc153b2cddee04b1d5a63ffc64d23cac61bf992b2ab9a22418acd346"
+fetched_at = "2026-11-26T21:04:10Z"
+
+[[file]]
+path = "nyc-311/ida_2021/unplaced_ida_2021.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24select=borough%2C+complaint_type%2C+descriptor%2C+count%28%2A%29+AS+n&%24where=created_date+between+%272021-09-01T00%3A00%3A00%27+and+%272021-09-02T23%3A59%3A59%27+AND+location+IS+NULL+AND+borough+IN+%28%27BROOKLYN%27%2C+%27MANHATTAN%27%29+AND+%28%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Catch+Basin+Clogged%2FFlooding+%28Use+Comments%29+%28SC%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Highway+Flooding+%28SH%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Manhole+Overflow+%28Use+Comments%29+%28SA1%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Sewer+Backup+%28Use+Comments%29+%28SA%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Street+Flooding+%28SJ%29%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Backup%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Catch+Basin+Clogged%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Flooding+on+Highway%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Flooding+on+Street%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Manhole+Overflow%27%29+OR+%28complaint_type%3D%27Water+Maintenance%27+AND+descriptor%3D%27Water+in+Basement%27%29+OR+%28complaint_type%3D%27Water+System%27+AND+descriptor%3D%27Excessive+Water+In+Basement+%28WEFB%29%27%29%29&%24group=borough%2C+complaint_type%2C+descriptor&%24order=borough%2C+complaint_type%2C+descriptor"
+bytes = 283
+sha256 = "60897c93544ed64b2fdd0452af99dd0180a8edf9fe4e004fbee75741532febc3"
+fetched_at = "2026-11-26T21:05:04Z"
+
+[[file]]
+path = "nyc-311/ida_2021/query.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+bytes = 3991
+sha256 = "af1eba77b3262cfa7d52c8563f4cfef9f986da5f14dc09de533402b11fde4b72"
+fetched_at = "2026-11-26T21:05:04Z"
+
+[[file]]
+path = "nyc-311/sep29_2023/page_1.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24where=created_date+between+%272023-09-29T00%3A00%3A00%27+and+%272023-09-29T23%3A59%3A59%27+AND+within_box%28location%2C+40.724%2C+-73.9892%2C+40.6855%2C+-73.9392%29&%24order=unique_key&%24limit=50000&%24offset=0"
+bytes = 1083672
+sha256 = "a330e3ad08949e7d0dff68c2928f7b6d66eba8fbf6897607515ef78fb3e3d215"
+fetched_at = "2026-11-26T21:05:07Z"
+
+[[file]]
+path = "nyc-311/sep29_2023/unplaced_sep29_2023.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24select=borough%2C+complaint_type%2C+descriptor%2C+count%28%2A%29+AS+n&%24where=created_date+between+%272023-09-29T00%3A00%3A00%27+and+%272023-09-29T23%3A59%3A59%27+AND+location+IS+NULL+AND+borough+IN+%28%27BROOKLYN%27%2C+%27MANHATTAN%27%29+AND+%28%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Catch+Basin+Clogged%2FFlooding+%28Use+Comments%29+%28SC%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Highway+Flooding+%28SH%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Manhole+Overflow+%28Use+Comments%29+%28SA1%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Sewer+Backup+%28Use+Comments%29+%28SA%29%27%29+OR+%28complaint_type%3D%27Sewer%27+AND+descriptor%3D%27Street+Flooding+%28SJ%29%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Backup%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Catch+Basin+Clogged%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Flooding+on+Highway%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Flooding+on+Street%27%29+OR+%28complaint_type%3D%27Sewer+Maintenance%27+AND+descriptor%3D%27Manhole+Overflow%27%29+OR+%28complaint_type%3D%27Water+Maintenance%27+AND+descriptor%3D%27Water+in+Basement%27%29+OR+%28complaint_type%3D%27Water+System%27+AND+descriptor%3D%27Excessive+Water+In+Basement+%28WEFB%29%27%29%29&%24group=borough%2C+complaint_type%2C+descriptor&%24order=borough%2C+complaint_type%2C+descriptor"
+bytes = 930
+sha256 = "87ad44bea680bc6db37b4452207d5200ea164a5efb226e608b9fea227adb4fc2"
+fetched_at = "2026-11-26T21:05:08Z"
+
+[[file]]
+path = "nyc-311/sep29_2023/query.json"
+url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json"
+bytes = 3995
+sha256 = "c1700c08b36a4bb94747bab62ce3ca3039b9e66f5a584e9bb846a45116f2c7cd"
+fetched_at = "2026-11-26T21:05:08Z"

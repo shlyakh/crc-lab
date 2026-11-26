@@ -2,7 +2,7 @@
 
 # Data card: Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed
 
-Level of check (FS7): **facts confirmed (8 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 13 confirmed, 0 differs, 0 not checked, 0 not applicable. Of the confirmed, 8 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
+Level of check (FS7): **facts confirmed (9 read with no claim)**. Facts read from the primary source on 2026-11-25 in stage F0: 15 confirmed, 0 differs, 0 not checked, 0 not applicable. Of the confirmed, 9 had no claim in the requirements to confirm: they were read from the source and are shown as "read, no claim".
 
 | | |
 | --- | --- |
@@ -25,6 +25,12 @@ Paths are relative to `data/cache/flood/` (not committed).
 | jamaica-bay-ida-depth-map/mendeley\_record.json | 11,456 | b8815a56d1a1379d1db627eb277e7fc5309ba17bc3f34e484b07e67f3a700c62 | 2026-11-25T16:54:12Z | <https://data.mendeley.com/public-api/datasets/hs2zt6ngwd> |
 | jamaica-bay-ida-depth-map/paper/crossref.json | 30,122 | 3d2baeff52c268ccb3fc504d2f1d0d6675ad936a10a889b5bd46efe7d53d5f33 | 2026-11-25T16:54:38Z | <https://api.crossref.org/works/10.5194/hess-29-2043-2025> |
 | jamaica-bay-ida-depth-map/paper/hess\_29\_2043.html | 278,277 | 58ae9798ecd015507f69362e500c9066de5504356cd4d40895430740e77a42be | 2026-11-25T16:54:43Z | <https://hess.copernicus.org/articles/29/2043/2025/> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.cpg | 5 | 3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824 | 2026-11-26T20:59:33Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/b788a2a6-798d-49d9-8873-cce3eb8bf1cb/file_downloaded> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.dbf | 9,779,101 | b8570bf9cf52f9e10b877b1b799ef1a80688d89fcf32bd2b40130aa022e22dc4 | 2026-11-26T20:59:37Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/502d5a27-bb30-4cf3-a7d1-1f2d7c11d933/file_downloaded> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.sbn | 1,065,196 | d660d98b8cf2f6a7983b13b9ed612787b5f5914c651fe85446738c05bb9ec2f2 | 2026-11-26T20:59:38Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/59950bf5-d602-4551-8f1d-6d964a961dc7/file_downloaded> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.sbx | 56,172 | 9dfa1332f9268153ead0d14449f43ca26129373f5762c74cbfdbcbf23b5d03a2 | 2026-11-26T20:59:39Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/d5838bf6-fb33-4421-ac5b-8233faea0f12/file_downloaded> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.shp | 3,076,600 | 5ee30e61bdd5ede0d5de85f4f6fd5f0c78f7f7001f5c2b8898289fdcbab4fa75 | 2026-11-26T20:59:41Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/a4f96cd2-10d5-431d-9de5-248827ea1ff2/file_downloaded> |
+| jamaica-bay-ida-depth-map/Ida\_flood\_map.shx | 879,100 | f5345f072d28ecb48c9667bbbc7f3c025535d2363d07e944fa7c4014541b62a1 | 2026-11-26T20:59:43Z | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/78cf52ac-9436-4bf2-a30e-a6cb323f3981/file_downloaded> |
 
 ## Known biases
 
@@ -48,7 +54,9 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 | Coverage in space | – | Jamaica Bay watershed in Brooklyn and Queens only; the metadata summary says &quot;Jamaica Bay watershed area in Brooklyn and Queens&quot;. Extent of the shapefile not computed. Overlap with the Brooklyn-Queens box is partial by construction. | read, no claim | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/fc3f9b35-6d86-4d80-aecf-101ffdfbf5bf/file_downloaded> | – |
 | Coverage in time | – | Event: post-tropical cyclone Ida, 2021 (the record says Ida (2021); peak water elevation only, no time series). | read, no claim | <https://data.mendeley.com/public-api/datasets/hs2zt6ngwd> | – |
 | Release | – | Version 1, published 2024-11-15; created 2024-11-12; modified 2024-11-14. No later version. | read, no claim | <https://data.mendeley.com/public-api/datasets/hs2zt6ngwd> | – |
-| Checksum | – | Mendeley gives SHA-256 for each file; mine match for Ida\_flood\_map.prj (496a9166...), Ida\_flood\_map.shp.xml (d34f9b8f...) and Ida\_flood\_map.tif (1e852650...). | read, no claim | <https://data.mendeley.com/public-api/datasets/hs2zt6ngwd> | – |
+| Checksum | – | Mendeley gives SHA-256 for each file; mine match for Ida\_flood\_map.prj (496a9166...), Ida\_flood\_map.shp.xml (d34f9b8f...) and Ida\_flood\_map.tif (1e852650...). On 2026-11-26 (F5, second part) the other six files were fetched (.cpg, .dbf, .sbn, .sbx, .shp, .shx) and each matches the SHA-256 and size of the record; all nine files are now in the cache. | read, no claim | <https://data.mendeley.com/public-api/datasets/hs2zt6ngwd> | – |
+| flood dept unit | – | Unit of flood\_dept inferred from the shapefile itself (the metadata does not state it): metres. In 106,281 of 109,875 rows flood\_dept equals water\_elev minus dem\_m within 0.001 (dem\_m is stated in metres NAVD88). The 3,594 rows that do not are all class 3, where flood\_dept is 0.91 exactly: the value is capped at the class-3 bound. Every row lies inside the bounds of its class as the metadata states them in metres (class 0 below 0.1, 1 from 0.1 to 0.3, 2 from 0.3 to 0.91, 3 at 0.91 and above). Maximum 0.91, minimum 0.000001. | read, no claim | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/502d5a27-bb30-4cf3-a7d1-1f2d7c11d933/file_downloaded> | An inference from the numbers, not a statement of the publisher. Depths above 0.91 m are not in the file: the map cannot show depth beyond that. |
+| extent vs square | FV3: compare only if the chosen area overlaps Jamaica Bay (requirements section 14) | The shapefile holds 109,875 points (one per map cell, spacing about 33.5 m, CRS EPSG:2263). None lies in the model square (EPSG:32618, 585500-589500 E, 4504500-4508500 N); the cells cover 0 m2 of it; the nearest point is 2,046 m south of the square&\#x27;s south edge (40.6681 N, 73.9408 W). FV3 is not applicable to this square. | confirmed | <https://data.mendeley.com/public-files/datasets/hs2zt6ngwd/files/a4f96cd2-10d5-431d-9de5-248827ea1ff2/file_downloaded> | – |
 
 ### Passages
 
@@ -126,6 +134,18 @@ Claimed is what docs/flood/requirements.md says; observed is what the primary so
 
 <details><summary>Passage: Checksum</summary>
 
-<pre>files[].content_details.sha256_hash: .tif 1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e ; .prj 496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9 ; .shp.xml d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628</pre>
+<pre>files[].content_details.sha256_hash: .shp 5ee30e61bdd5ede0d5de85f4f6fd5f0c78f7f7001f5c2b8898289fdcbab4fa75 ; .dbf b8570bf9cf52f9e10b877b1b799ef1a80688d89fcf32bd2b40130aa022e22dc4 ; .shx f5345f072d28ecb48c9667bbbc7f3c025535d2363d07e944fa7c4014541b62a1 ; .tif 1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e ; .prj 496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9 ; .shp.xml d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628</pre>
+
+</details>
+
+<details><summary>Passage: flood dept unit</summary>
+
+<pre>Computed from Ida_flood_map.dbf (sha256 b8570bf9...) with flood_lab.sources.jamaica_bay.depth_unit; record f5-who-saw, table fv3.unit. Metadata: &quot;dem_m ... DEM values are measured in meters (m) relative to NAVD88&quot; ; &quot;class ... 0: &lt;0.1 m 1: &gt;=0.1 and &lt;0.3 m 2: &gt;=0.3 and &lt;0.91m 3: &gt;=0.91 m&quot;</pre>
+
+</details>
+
+<details><summary>Passage: extent vs square</summary>
+
+<pre>Computed from Ida_flood_map.shp (sha256 5ee30e61...) with flood_lab.sources.jamaica_bay.overlap; record f5-who-saw, table fv3.overlap.</pre>
 
 </details>

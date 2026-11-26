@@ -300,3 +300,9 @@ flood-f4-ring:
 flood-f5:
     uv run --with matplotlib python -m flood_lab.checks.f5_validation
     uv run python -m flood_lab.gallery
+
+# Flood lab F5 (second part): the Jamaica Bay map overlap (FV3) and who saw the flood (FV5);
+# offline from the cache (add --fetch-311 to fetch the 311 rows again first)
+flood-f5-who-saw *args:
+    uv run --with matplotlib python -m flood_lab.checks.f5_who_saw {{args}}
+    uv run python -m flood_lab.gallery

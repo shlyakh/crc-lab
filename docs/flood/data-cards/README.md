@@ -13,12 +13,12 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed (3 read with no claim); values recomputed by a second reader in F2 (passed) | 19 | 0 | 0 | 9 | F0 |
 | [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 read with no claim, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
 | [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 3 confirmed, 4 read with no claim, 2 differ | 7 | 2 | 0 | 2 | F0 |
-| [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed (8 read with no claim) | 13 | 0 | 0 | 0 | F0 |
+| [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed (9 read with no claim) | 15 | 0 | 0 | 0 | F0 |
 | [Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM](lidar-terrain.md) | facts checked: 4 confirmed, 6 read with no claim, 2 differ, 3 not checked | 10 | 2 | 3 | 1 | F0 |
 | [OpenFEMA NFIP Redacted Claims (v3, entity NfipClaims)](nfip-redacted-claims.md) | facts checked: 4 confirmed, 3 read with no claim, 1 not checked | 7 | 0 | 1 | 5 | F0 |
 | [NOAA Atlas 14 Volume 10 Version 3, point precipitation frequency, Jamaica Bay point (40.65, -73.85)](noaa-atlas-14.md) | facts checked: 3 confirmed, 7 read with no claim, 1 not checked | 10 | 0 | 1 | 2 | F0 |
 | [NOAA Storm Events Database, bulk CSV files](noaa-storm-events.md) | facts checked: 6 confirmed, 4 read with no claim, 1 differ, 1 not checked | 10 | 1 | 1 | 5 | F0 |
-| [311 Service Requests from 2020 to Present](nyc-311.md) | facts confirmed (9 read with no claim) | 11 | 0 | 0 | 1 | F0 |
+| [311 Service Requests from 2020 to Present](nyc-311.md) | facts confirmed (10 read with no claim) | 12 | 0 | 0 | 1 | F0 |
 | [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed (7 read with no claim) | 16 | 0 | 0 | 1 | F0 |
 | [NYC Building Footprints (BUILDING, \`5zhs-2jue\`)](nyc-building-footprints.md) | facts checked: 4 confirmed, 3 read with no claim, 1 differ | 7 | 1 | 0 | 1 | F1 |
 | [2020 Neighborhood Tabulation Areas (NTAs)](nyc-nta-2020.md) | facts confirmed (7 read with no claim) | 7 | 0 | 0 | 1 | F0 |

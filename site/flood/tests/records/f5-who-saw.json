@@ -1,0 +1,2731 @@
+{
+ "checks": [
+  {
+   "name": "FV3: the Jamaica Bay shapefile matches the publisher's checksums",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "SHA-256 of .shp, .shx, .dbf, .prj and .cpg equal to the Mendeley record's",
+   "threshold": null,
+   "value": {
+    "Ida_flood_map.cpg": true,
+    "Ida_flood_map.dbf": true,
+    "Ida_flood_map.prj": true,
+    "Ida_flood_map.sbn": true,
+    "Ida_flood_map.sbx": true,
+    "Ida_flood_map.shp": true,
+    "Ida_flood_map.shp.xml": true,
+    "Ida_flood_map.shx": true,
+    "Ida_flood_map.tif": true
+   }
+  },
+  {
+   "name": "FV3: comparison where the map overlaps the square",
+   "note": "Not applicable. No point of the Jamaica Bay map lies in the square (0 of 109,875); the map's cells cover 0 m\u00b2 of it; the nearest point is 2,046 m from the square.",
+   "passed": null,
+   "proposed": true,
+   "rule": "compare depths only where the map overlaps; below 1% of the square [P] the result is 'not applicable'",
+   "threshold": 0.01,
+   "value": {
+    "applicable": false,
+    "overlap_share": 0.0
+   }
+  },
+  {
+   "name": "FV5: who saw the flood (reported, not judged)",
+   "note": "",
+   "passed": null,
+   "proposed": false,
+   "rule": "for each storm, counts inside the square from Groundsource, Storm Events, 311, FloodNet and the surveyed marks, each by its stated rule",
+   "threshold": null,
+   "value": {
+    "ida_2021": {
+     "floodnet": {
+      "context": 1,
+      "context_label": "sensors in service",
+      "main": 0,
+      "main_label": "sensors that recorded an event"
+     },
+     "groundsource": {
+      "context": 20,
+      "context_label": "places touching the square",
+      "main": 10,
+      "main_label": "places centred in the square"
+     },
+     "nyc_311": {
+      "context": 69,
+      "context_label": "rows, both naming schemes",
+      "main": 69,
+      "main_label": "requests (twin rows paired)"
+     },
+     "storm_events": {
+      "context": 12,
+      "context_label": "events in the square's counties and zones",
+      "main": 0,
+      "main_label": "events with a point in the square"
+     },
+     "usgs_marks": {
+      "context": 6,
+      "context_label": "sites",
+      "main": 11,
+      "main_label": "marks"
+     }
+    },
+    "sep29_2023": {
+     "floodnet": {
+      "context": 7,
+      "context_label": "sensors in service",
+      "main": 5,
+      "main_label": "sensors that recorded an event"
+     },
+     "groundsource": {
+      "context": 26,
+      "context_label": "places touching the square",
+      "main": 11,
+      "main_label": "places centred in the square"
+     },
+     "nyc_311": {
+      "context": 225,
+      "context_label": "rows, both naming schemes",
+      "main": 121,
+      "main_label": "requests (twin rows paired)"
+     },
+     "storm_events": {
+      "context": 7,
+      "context_label": "events in the square's counties and zones",
+      "main": 1,
+      "main_label": "events with a point in the square"
+     },
+     "usgs_marks": {
+      "context": null,
+      "context_label": "sites",
+      "main": null,
+      "main_label": "marks"
+     }
+    }
+   }
+  },
+  {
+   "name": "FV5: 311 counts both naming schemes",
+   "note": "Reported. The facts row says 'count both'; on 29 Sep 2023 most rows of the current scheme have a twin of the legacy scheme, so counting rows would count most requests twice.",
+   "passed": null,
+   "proposed": false,
+   "rule": "rows of the legacy and the current scheme are both read; rows of one request under both schemes are paired (nyc_311.twins) and counted once",
+   "threshold": null,
+   "value": {
+    "context": 225,
+    "current_rows": 106,
+    "legacy_rows": 119,
+    "main": 121,
+    "twin_pairs": 104
+   }
+  }
+ ],
+ "created_at": "2026-11-26T21:13:05Z",
+ "figures": [
+  "docs/flood/figures/f5/who_saw_counts.png",
+  "docs/flood/figures/f5/who_saw_map.png",
+  "docs/flood/figures/f5/jamaica_bay_overlap.png"
+ ],
+ "id": "f5-who-saw",
+ "inputs": [
+  {
+   "bytes": 1815,
+   "path": "src/flood_lab/hazard/allowance.toml",
+   "sha256": "3bb87105d6d346e21f0245e2ede41f36d4707a10362e9d1a5b7a49ea6d9b9f37",
+   "url": ""
+  },
+  {
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  },
+  {
+   "bytes": 5,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.cpg",
+   "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+   "url": ""
+  },
+  {
+   "bytes": 9779101,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.dbf",
+   "sha256": "b8570bf9cf52f9e10b877b1b799ef1a80688d89fcf32bd2b40130aa022e22dc4",
+   "url": ""
+  },
+  {
+   "bytes": 562,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.prj",
+   "sha256": "496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9",
+   "url": ""
+  },
+  {
+   "bytes": 1065196,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.sbn",
+   "sha256": "d660d98b8cf2f6a7983b13b9ed612787b5f5914c651fe85446738c05bb9ec2f2",
+   "url": ""
+  },
+  {
+   "bytes": 56172,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.sbx",
+   "sha256": "9dfa1332f9268153ead0d14449f43ca26129373f5762c74cbfdbcbf23b5d03a2",
+   "url": ""
+  },
+  {
+   "bytes": 3076600,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.shp",
+   "sha256": "5ee30e61bdd5ede0d5de85f4f6fd5f0c78f7f7001f5c2b8898289fdcbab4fa75",
+   "url": ""
+  },
+  {
+   "bytes": 10656,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.shp.xml",
+   "sha256": "d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628",
+   "url": ""
+  },
+  {
+   "bytes": 879100,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.shx",
+   "sha256": "f5345f072d28ecb48c9667bbbc7f3c025535d2363d07e944fa7c4014541b62a1",
+   "url": ""
+  },
+  {
+   "bytes": 7010361,
+   "path": "jamaica-bay-ida-depth-map/Ida_flood_map.tif",
+   "sha256": "1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e",
+   "url": ""
+  },
+  {
+   "bytes": 11456,
+   "path": "jamaica-bay-ida-depth-map/mendeley_record.json",
+   "sha256": "b8815a56d1a1379d1db627eb277e7fc5309ba17bc3f34e484b07e67f3a700c62",
+   "url": ""
+  },
+  {
+   "bytes": 667122400,
+   "path": "groundsource/groundsource_2026.parquet",
+   "sha256": "77c266ba5a5176d983edca989a81ff73f21c556fd98c82e2131c2f8d172546ce",
+   "url": ""
+  },
+  {
+   "bytes": 13590067,
+   "path": "noaa-storm-events/StormEvents_details-ftp_v1.0_d2021_c20261119.csv.gz",
+   "sha256": "152e89ea4fae613ebe7a572451fc147da4f996d4956118f6d5b9f5044d6b06c8",
+   "url": ""
+  },
+  {
+   "bytes": 1246648,
+   "path": "noaa-storm-events/StormEvents_locations-ftp_v1.0_d2021_c20261119.csv.gz",
+   "sha256": "f6c6f34aff2df96228d4ebcbc8fafc02429fb11deb5d960dcd4d463c17235896",
+   "url": ""
+  },
+  {
+   "bytes": 16415689,
+   "path": "noaa-storm-events/StormEvents_details-ftp_v1.0_d2023_c20261119.csv.gz",
+   "sha256": "731b7c9e73900a815f0352f65c469903976f1c971614963eb5cd37196d0b47a4",
+   "url": ""
+  },
+  {
+   "bytes": 1022219,
+   "path": "noaa-storm-events/StormEvents_locations-ftp_v1.0_d2023_c20261119.csv.gz",
+   "sha256": "7c42d9eff029753cf6a2e6fe5ae74ec42c03119502e3a66bf34ad50ac986e8ce",
+   "url": ""
+  },
+  {
+   "bytes": 3991,
+   "path": "nyc-311/ida_2021/query.json",
+   "sha256": "af1eba77b3262cfa7d52c8563f4cfef9f986da5f14dc09de533402b11fde4b72",
+   "url": ""
+  },
+  {
+   "bytes": 283,
+   "path": "nyc-311/ida_2021/unplaced_ida_2021.json",
+   "sha256": "60897c93544ed64b2fdd0452af99dd0180a8edf9fe4e004fbee75741532febc3",
+   "url": ""
+  },
+  {
+   "bytes": 1125969,
+   "path": "nyc-311/ida_2021/page_1.json",
+   "sha256": "b1a6f84ebc153b2cddee04b1d5a63ffc64d23cac61bf992b2ab9a22418acd346",
+   "url": ""
+  },
+  {
+   "bytes": 3995,
+   "path": "nyc-311/sep29_2023/query.json",
+   "sha256": "c1700c08b36a4bb94747bab62ce3ca3039b9e66f5a584e9bb846a45116f2c7cd",
+   "url": ""
+  },
+  {
+   "bytes": 930,
+   "path": "nyc-311/sep29_2023/unplaced_sep29_2023.json",
+   "sha256": "87ad44bea680bc6db37b4452207d5200ea164a5efb226e608b9fea227adb4fc2",
+   "url": ""
+  },
+  {
+   "bytes": 1083672,
+   "path": "nyc-311/sep29_2023/page_1.json",
+   "sha256": "a330e3ad08949e7d0dff68c2928f7b6d66eba8fbf6897607515ef78fb3e3d215",
+   "url": ""
+  },
+  {
+   "bytes": 6115669,
+   "path": "floodnet-flood-events/aq7i-eu5q.csv",
+   "sha256": "be2de7e9aa9fb95b13d38d2a875d00e32a2aa3300e8e270d21c6bd07a836d054",
+   "url": ""
+  },
+  {
+   "bytes": 114096,
+   "path": "floodnet-sensors/kb2e-tjy3.csv",
+   "sha256": "7fa594a6960efac45ec50ddfb02ea0ed86cd2c962a8477e192ca5a9c723fb612",
+   "url": ""
+  },
+  {
+   "bytes": 62220,
+   "path": "usgs-ida-high-water-marks/FilteredHWMs_NewYork.csv",
+   "sha256": "c2ed5ed975a6b4914e1152f00732ab35853daa695f8118b0c516290131bc9af7",
+   "url": ""
+  },
+  {
+   "bytes": 2232557,
+   "path": "f3/runs/ida_q30/zsmax.tif",
+   "sha256": "19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b",
+   "url": ""
+  },
+  {
+   "bytes": 2244124,
+   "path": "f3/runs/sep_q30/zsmax.tif",
+   "sha256": "e25e0bd495a27602cd953c68e230215bc5648fcc1a5d0d8c7c7c7e534af96e25",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "F5 second part (FV3, FV5). Counts are reported, not judged. Not applicable. No point of the Jamaica Bay map lies in the square (0 of 109,875); the map's cells cover 0 m\u00b2 of it; the nearest point is 2,046 m from the square.",
+  "Storm Events clock: every New York City row says EST-5; times are turned into UTC and then into the New York wall clock before a day is matched (facts noaa-storm-events, time_zone).",
+  "311: created_date has no zone; read as the New York wall clock as written.",
+  "who_saw_counts.png: Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
+  "who_saw_map.png: Where each source placed the flood inside the square. Pale blue: the frozen F3 replay's maximum inundation depth of at least 0.1 m, for orientation only. Groundsource places are drawn only when centred in the square (larger places touching it are counted in the chart). Storm Events points are begin, end and locations-file points inside the square.",
+  "jamaica_bay_overlap.png: The Jamaica Bay Ida depth map (Kasaei et al. 2025, Mendeley doi:10.17632/hs2zt6ngwd.1, CC BY 4.0; points of the published shapefile, coloured by flood_dept, metres) within 3.5 km of the model square, with the shortest distance between them. Shown with credit; not changed except for the projection to EPSG:32618."
+ ],
+ "numbers": {
+  "fv3_applicable": false,
+  "fv3_nearest_distance_m": 2046.2,
+  "fv3_overlap_area_m2": 0.0,
+  "fv3_points_inside": 0,
+  "ida_2021_floodnet": 0,
+  "ida_2021_groundsource": 10,
+  "ida_2021_nyc_311": 69,
+  "ida_2021_storm_events": 0,
+  "ida_2021_usgs_marks": 11,
+  "sep29_2023_floodnet": 5,
+  "sep29_2023_groundsource": 11,
+  "sep29_2023_nyc_311": 121,
+  "sep29_2023_storm_events": 1,
+  "sep29_2023_usgs_marks": null
+ },
+ "parameters": [
+  {
+   "name": "fv3_negligible_share",
+   "source": "an overlap below this share of the square is negligible",
+   "tag": "P",
+   "value": 0.01
+  },
+  {
+   "name": "unit_agree_tolerance",
+   "source": "flood_dept against water_elev - dem_m",
+   "tag": "P",
+   "value": 0.001
+  },
+  {
+   "name": "twin_seconds",
+   "source": "311 twin rule: created this close",
+   "tag": "P",
+   "value": 600.0
+  },
+  {
+   "name": "twin_metres",
+   "source": "311 twin rule: placed this close",
+   "tag": "P",
+   "value": 25.0
+  },
+  {
+   "name": "box_311",
+   "source": "coarse first cut round the square",
+   "tag": "I",
+   "value": [
+    -73.9892,
+    40.6855,
+    -73.9392,
+    40.724
+   ]
+  },
+  {
+   "name": "box_groundsource",
+   "source": "coarse first cut round the square",
+   "tag": "I",
+   "value": [
+    -73.989,
+    40.686,
+    -73.94,
+    40.7235
+   ]
+  }
+ ],
+ "passed": null,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "pandas": "3.1.1",
+  "pyproj": "3.8.0",
+  "python": "3.12.11",
+  "shapely": "2.2.0"
+ },
+ "stage": "F5",
+ "tables": {
+  "captions": {
+   "jamaica_bay_overlap.png": "The Jamaica Bay Ida depth map (Kasaei et al. 2025, Mendeley doi:10.17632/hs2zt6ngwd.1, CC BY 4.0; points of the published shapefile, coloured by flood_dept, metres) within 3.5 km of the model square, with the shortest distance between them. Shown with credit; not changed except for the projection to EPSG:32618.",
+   "who_saw_counts.png": "Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
+   "who_saw_map.png": "Where each source placed the flood inside the square. Pale blue: the frozen F3 replay's maximum inundation depth of at least 0.1 m, for orientation only. Groundsource places are drawn only when centred in the square (larger places touching it are counted in the chart). Storm Events points are begin, end and locations-file points inside the square."
+  },
+  "fv3": {
+   "applicable": false,
+   "checksums": {
+    "Ida_flood_map.cpg": {
+     "bytes": 5,
+     "local_sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+     "match": true,
+     "publisher_sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    "Ida_flood_map.dbf": {
+     "bytes": 9779101,
+     "local_sha256": "b8570bf9cf52f9e10b877b1b799ef1a80688d89fcf32bd2b40130aa022e22dc4",
+     "match": true,
+     "publisher_sha256": "b8570bf9cf52f9e10b877b1b799ef1a80688d89fcf32bd2b40130aa022e22dc4"
+    },
+    "Ida_flood_map.prj": {
+     "bytes": 562,
+     "local_sha256": "496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9",
+     "match": true,
+     "publisher_sha256": "496a9166511a534dc8eff570dac27cdc91c817fe605e463b7ca70b25e94fbfd9"
+    },
+    "Ida_flood_map.sbn": {
+     "bytes": 1065196,
+     "local_sha256": "d660d98b8cf2f6a7983b13b9ed612787b5f5914c651fe85446738c05bb9ec2f2",
+     "match": true,
+     "publisher_sha256": "d660d98b8cf2f6a7983b13b9ed612787b5f5914c651fe85446738c05bb9ec2f2"
+    },
+    "Ida_flood_map.sbx": {
+     "bytes": 56172,
+     "local_sha256": "9dfa1332f9268153ead0d14449f43ca26129373f5762c74cbfdbcbf23b5d03a2",
+     "match": true,
+     "publisher_sha256": "9dfa1332f9268153ead0d14449f43ca26129373f5762c74cbfdbcbf23b5d03a2"
+    },
+    "Ida_flood_map.shp": {
+     "bytes": 3076600,
+     "local_sha256": "5ee30e61bdd5ede0d5de85f4f6fd5f0c78f7f7001f5c2b8898289fdcbab4fa75",
+     "match": true,
+     "publisher_sha256": "5ee30e61bdd5ede0d5de85f4f6fd5f0c78f7f7001f5c2b8898289fdcbab4fa75"
+    },
+    "Ida_flood_map.shp.xml": {
+     "bytes": 10656,
+     "local_sha256": "d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628",
+     "match": true,
+     "publisher_sha256": "d34f9b8f74899619095fdaef29456fcabef24b50339fdfbabc30d422b79ba628"
+    },
+    "Ida_flood_map.shx": {
+     "bytes": 879100,
+     "local_sha256": "f5345f072d28ecb48c9667bbbc7f3c025535d2363d07e944fa7c4014541b62a1",
+     "match": true,
+     "publisher_sha256": "f5345f072d28ecb48c9667bbbc7f3c025535d2363d07e944fa7c4014541b62a1"
+    },
+    "Ida_flood_map.tif": {
+     "bytes": 7010361,
+     "local_sha256": "1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e",
+     "match": true,
+     "publisher_sha256": "1e8526504aa9a98d9ca14d947c8a231ac0fb349923b6f121b6f8075fa973070e"
+    }
+   },
+   "crs_of_file": "EPSG:2263",
+   "overlap": {
+    "cell_m": 33.55,
+    "nearest_distance_m": 2046.2,
+    "nearest_point_easting_m": 589528.2,
+    "nearest_point_northing_m": 4502454.0,
+    "overlap_area_m2": 0.0,
+    "points": 109875,
+    "points_inside": 0,
+    "square_area_m2": 16000000.0
+   },
+   "overlap_share": 0.0,
+   "statement": "Not applicable. No point of the Jamaica Bay map lies in the square (0 of 109,875); the map's cells cover 0 m\u00b2 of it; the nearest point is 2,046 m from the square.",
+   "unit": {
+    "class_ranges": {
+     "0": {
+      "max": 0.099998,
+      "min": 1e-06,
+      "rows": 51300
+     },
+     "1": {
+      "max": 0.299959,
+      "min": 0.100007,
+      "rows": 38414
+     },
+     "2": {
+      "max": 0.909987,
+      "min": 0.300009,
+      "rows": 16560
+     },
+     "3": {
+      "max": 0.91,
+      "min": 0.91,
+      "rows": 3601
+     }
+    },
+    "flood_dept_max": 0.91,
+    "flood_dept_min": 1e-06,
+    "rows": 109875,
+    "rows_equal_to_water_elev_minus_dem_m": 106281,
+    "rows_inside_their_class_bounds_in_m": 109875,
+    "rows_off_equal_and_class_3": 3594,
+    "tolerance": 0.001
+   }
+  },
+  "fv5_counts": {
+   "ida_2021": {
+    "floodnet": {
+     "context": 1,
+     "context_label": "sensors in service",
+     "main": 0,
+     "main_label": "sensors that recorded an event",
+     "rows": [
+      {
+       "easting_m": 588723.0,
+       "northing_m": 4505760.4,
+       "peak_depth_m": null,
+       "recorded_on": [],
+       "sensor_id": "BK-marcy-av-ellery-st-007vc0"
+      }
+     ]
+    },
+    "groundsource": {
+     "context": 20,
+     "context_label": "places touching the square",
+     "larger_than_square": 4,
+     "main": 10,
+     "main_label": "places centred in the square",
+     "rows": [
+      {
+       "area_km2": 0.0214,
+       "centroid_inside": true,
+       "centroid_lat": 40.693175,
+       "centroid_lon": -73.985795,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "23dfd12350e747d39c98edc844ec80c3"
+      },
+      {
+       "area_km2": 0.0379,
+       "centroid_inside": true,
+       "centroid_lat": 40.702194,
+       "centroid_lon": -73.949627,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "0909a155fc784228a7515a0093b82376"
+      },
+      {
+       "area_km2": 0.0487,
+       "centroid_inside": true,
+       "centroid_lat": 40.722082,
+       "centroid_lon": -73.984208,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "63e43e6950f44b4a9d6193817f1be634"
+      },
+      {
+       "area_km2": 0.0498,
+       "centroid_inside": true,
+       "centroid_lat": 40.721083,
+       "centroid_lon": -73.956627,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "c79d73abf0fd465a99c839d2bef84af7"
+      },
+      {
+       "area_km2": 0.1039,
+       "centroid_inside": true,
+       "centroid_lat": 40.7138,
+       "centroid_lon": -73.957132,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "c219db60994a410ca05fbb247dcd6ec1"
+      },
+      {
+       "area_km2": 0.2912,
+       "centroid_inside": true,
+       "centroid_lat": 40.710305,
+       "centroid_lon": -73.964274,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "b0b2aef8f3f84253b0a1e92543fc2c0a"
+      },
+      {
+       "area_km2": 1.0649,
+       "centroid_inside": true,
+       "centroid_lat": 40.688798,
+       "centroid_lon": -73.974088,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "c052cd3f084d414fb7da3c43a09719b7"
+      },
+      {
+       "area_km2": 1.3065,
+       "centroid_inside": false,
+       "centroid_lat": 40.698887,
+       "centroid_lon": -73.932328,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "658489f8170f4a21966bb3a57e105654"
+      },
+      {
+       "area_km2": 1.3622,
+       "centroid_inside": true,
+       "centroid_lat": 40.717247,
+       "centroid_lon": -73.983484,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "f2cccb81508442449f01a457729e3449"
+      },
+      {
+       "area_km2": 1.5232,
+       "centroid_inside": true,
+       "centroid_lat": 40.689647,
+       "centroid_lon": -73.964852,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "79e8df399d8544c4a381ccc901562e37"
+      },
+      {
+       "area_km2": 2.3536,
+       "centroid_inside": false,
+       "centroid_lat": 40.72908,
+       "centroid_lon": -73.949586,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "076b7b57c61647b49781c0a1a096592a"
+      },
+      {
+       "area_km2": 2.4329,
+       "centroid_inside": false,
+       "centroid_lat": 40.716032,
+       "centroid_lon": -73.932514,
+       "contains_square": false,
+       "end_date": "2021-09-01",
+       "start_date": "2021-09-01",
+       "uuid": "173af6096135471e8c616bdc1107098a"
+      },
+      {
+       "area_km2": 4.3165,
+       "centroid_inside": true,
+       "centroid_lat": 40.710367,
+       "centroid_lon": -73.950491,
+       "contains_square": false,
+       "end_date": "2021-09-02",
+       "start_date": "2021-09-01",
+       "uuid": "a6f134c7965c45a28be2c1af62449549"
+      },
+      {
+       "area_km2": 4.8664,
+       "centroid_inside": false,
+       "centroid_lat": 40.695797,
+       "centroid_lon": -73.919108,
+       "contains_square": false,
+       "end_date": "2021-09-03",
+       "start_date": "2021-08-31",
+       "uuid": "f1b140c2aa7f482fb7e4a8758859b383"
+      },
+      {
+       "area_km2": 5.0528,
+       "centroid_inside": false,
+       "centroid_lat": 40.685086,
+       "centroid_lon": -73.941013,
+       "contains_square": false,
+       "end_date": "2021-09-02",
+       "start_date": "2021-09-01",
+       "uuid": "311626cab5b746de91d2130f5d0f2852"
+      },
+      {
+       "area_km2": 10.3484,
+       "centroid_inside": false,
+       "centroid_lat": 40.720984,
+       "centroid_lon": -73.99627,
+       "contains_square": false,
+       "end_date": "2021-09-03",
+       "start_date": "2021-09-01",
+       "uuid": "f251f075e65a4c6681a773485bbb0dd7"
+      },
+      {
+       "area_km2": 92.2769,
+       "centroid_inside": false,
+       "centroid_lat": 40.773458,
+       "centroid_lon": -73.970807,
+       "contains_square": false,
+       "end_date": "2021-09-03",
+       "start_date": "2021-08-28",
+       "uuid": "12179c97bc094ba79f3bdcda28f268b2"
+      },
+      {
+       "area_km2": 94.1269,
+       "centroid_inside": false,
+       "centroid_lat": 40.772715,
+       "centroid_lon": -73.971227,
+       "contains_square": false,
+       "end_date": "2021-09-03",
+       "start_date": "2021-09-01",
+       "uuid": "d793693ef2a540308bb420860da648d9"
+      },
+      {
+       "area_km2": 245.3674,
+       "centroid_inside": false,
+       "centroid_lat": 40.631562,
+       "centroid_lon": -73.951862,
+       "contains_square": false,
+       "end_date": "2021-09-03",
+       "start_date": "2021-08-31",
+       "uuid": "7254db0b71514f0b88b64b83c7b4d11a"
+      },
+      {
+       "area_km2": 3438.8446,
+       "centroid_inside": false,
+       "centroid_lat": 40.828302,
+       "centroid_lon": -73.136873,
+       "contains_square": false,
+       "end_date": "2021-09-02",
+       "start_date": "2021-09-01",
+       "uuid": "d527d7a7ca114637a0d548b80bac304c"
+      }
+     ]
+    },
+    "nyc_311": {
+     "by_kind": {
+      "catch basin clogged": {
+       "current_rows": 0,
+       "legacy_rows": 17,
+       "requests": 17
+      },
+      "sewer backup": {
+       "current_rows": 0,
+       "legacy_rows": 40,
+       "requests": 40
+      },
+      "street flooding": {
+       "current_rows": 0,
+       "legacy_rows": 10,
+       "requests": 10
+      },
+      "water in basement": {
+       "current_rows": 0,
+       "legacy_rows": 2,
+       "requests": 2
+      }
+     },
+     "context": 69,
+     "context_label": "rows, both naming schemes",
+     "current_rows": 0,
+     "legacy_rows": 69,
+     "main": 69,
+     "main_label": "requests (twin rows paired)",
+     "points": [
+      [
+       587482.1,
+       4507967.1
+      ],
+      [
+       588519.4,
+       4508075.8
+      ],
+      [
+       589215.7,
+       4508133.1
+      ],
+      [
+       588973.1,
+       4506288.6
+      ],
+      [
+       588420.4,
+       4507773.6
+      ],
+      [
+       585740.7,
+       4506435.5
+      ],
+      [
+       588319.7,
+       4506080.0
+      ],
+      [
+       589308.3,
+       4505237.4
+      ],
+      [
+       589450.6,
+       4506553.0
+      ],
+      [
+       588481.2,
+       4508001.6
+      ],
+      [
+       588942.7,
+       4505980.4
+      ],
+      [
+       586450.0,
+       4505716.8
+      ],
+      [
+       586251.1,
+       4504617.2
+      ],
+      [
+       587512.8,
+       4507064.5
+      ],
+      [
+       588409.2,
+       4506140.1
+      ],
+      [
+       588380.6,
+       4508169.6
+      ],
+      [
+       589347.3,
+       4507545.9
+      ],
+      [
+       589110.4,
+       4507984.1
+      ],
+      [
+       589284.7,
+       4505388.0
+      ],
+      [
+       589219.8,
+       4506883.2
+      ],
+      [
+       588387.5,
+       4507673.0
+      ],
+      [
+       588790.2,
+       4505726.4
+      ],
+      [
+       588040.3,
+       4506256.9
+      ],
+      [
+       586452.3,
+       4505702.5
+      ],
+      [
+       589152.0,
+       4508130.6
+      ],
+      [
+       588007.3,
+       4505549.0
+      ],
+      [
+       587905.7,
+       4506790.8
+      ],
+      [
+       586302.8,
+       4508264.8
+      ],
+      [
+       589284.7,
+       4505388.0
+      ],
+      [
+       589337.8,
+       4505062.8
+      ],
+      [
+       589419.5,
+       4506502.7
+      ],
+      [
+       587917.5,
+       4507142.0
+      ],
+      [
+       587794.2,
+       4504559.8
+      ],
+      [
+       588215.1,
+       4507051.5
+      ],
+      [
+       587250.9,
+       4506892.1
+      ],
+      [
+       588444.1,
+       4506951.4
+      ],
+      [
+       588120.7,
+       4507683.4
+      ],
+      [
+       588729.2,
+       4505787.9
+      ],
+      [
+       588742.3,
+       4506432.5
+      ],
+      [
+       588951.5,
+       4506313.3
+      ],
+      [
+       586390.3,
+       4505663.7
+      ],
+      [
+       587693.5,
+       4507603.5
+      ],
+      [
+       587635.0,
+       4507548.3
+      ],
+      [
+       587683.2,
+       4507060.4
+      ],
+      [
+       586027.4,
+       4507773.2
+      ],
+      [
+       586451.7,
+       4505707.4
+      ],
+      [
+       585630.2,
+       4508456.4
+      ],
+      [
+       588449.6,
+       4507813.0
+      ],
+      [
+       588425.2,
+       4507780.1
+      ],
+      [
+       589448.1,
+       4506582.5
+      ],
+      [
+       585877.5,
+       4504691.0
+      ],
+      [
+       588323.9,
+       4506721.5
+      ],
+      [
+       587767.6,
+       4506901.7
+      ],
+      [
+       586323.8,
+       4508132.8
+      ],
+      [
+       588674.1,
+       4508028.2
+      ],
+      [
+       589049.8,
+       4508464.0
+      ],
+      [
+       589409.9,
+       4508258.1
+      ],
+      [
+       587775.1,
+       4505916.9
+      ],
+      [
+       588966.2,
+       4507964.5
+      ],
+      [
+       589450.6,
+       4506553.0
+      ],
+      [
+       589210.5,
+       4504624.7
+      ],
+      [
+       588669.1,
+       4507857.5
+      ],
+      [
+       588855.9,
+       4508331.7
+      ],
+      [
+       588062.3,
+       4506492.7
+      ],
+      [
+       589465.0,
+       4507886.7
+      ],
+      [
+       586251.1,
+       4504617.2
+      ],
+      [
+       588570.8,
+       4504519.9
+      ],
+      [
+       588327.6,
+       4506614.6
+      ],
+      [
+       585834.0,
+       4505250.0
+      ]
+     ],
+     "twin_pairs": 0,
+     "twin_pairs_same_address": 0,
+     "twin_seconds_max": null,
+     "unplaced_in_boroughs": 8,
+     "unplaced_rows": [
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Highway Flooding (SH)",
+       "n": "2"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Street Flooding (SJ)",
+       "n": "1"
+      },
+      {
+       "borough": "MANHATTAN",
+       "complaint_type": "Sewer",
+       "descriptor": "Highway Flooding (SH)",
+       "n": "5"
+      }
+     ]
+    },
+    "storm_events": {
+     "begin_day_as_written_matches": 12,
+     "by_type": {
+      "Flash Flood": 12
+     },
+     "context": 12,
+     "context_label": "events in the square's counties and zones",
+     "main": 0,
+     "main_label": "events with a point in the square",
+     "rows": [
+      {
+       "begin_as_written": "01-SEP-21 18:40:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-01T23:40:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 987429,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9714,
+         40.6503
+        ],
+        [
+         -73.9721,
+         40.652
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:09:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:09:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 987518,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -74.0217,
+         40.6441
+        ],
+        [
+         -74.0222,
+         40.6443
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:17:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:17:00Z",
+       "cz_name": "NEW YORK",
+       "cz_type": "C",
+       "event_id": 987533,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9337,
+         40.839
+        ],
+        [
+         -73.933,
+         40.8387
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:57:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:57:00Z",
+       "cz_name": "NEW YORK",
+       "cz_type": "C",
+       "event_id": 987540,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9315,
+         40.8711
+        ],
+        [
+         -74.003,
+         40.7585
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 22:39:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T03:39:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 987543,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.978,
+         40.6838
+        ],
+        [
+         -73.992,
+         40.6656
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:45:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:45:00Z",
+       "cz_name": "NEW YORK",
+       "cz_type": "C",
+       "event_id": 987551,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9942,
+         40.7469
+        ],
+        [
+         -73.9934,
+         40.7477
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 22:00:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T03:00:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 987566,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.8714,
+         40.686
+        ],
+        [
+         -73.8713,
+         40.6856
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "02-SEP-21 01:35:00",
+       "begin_local_day": "2021-09-02",
+       "begin_utc": "2021-09-02T06:35:00Z",
+       "cz_name": "NEW YORK",
+       "cz_type": "C",
+       "event_id": 987571,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -74.0,
+         40.7585
+        ],
+        [
+         -73.9995,
+         40.7591
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:30:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:30:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 987580,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.964,
+         40.6807
+        ],
+        [
+         -73.9603,
+         40.6641
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 22:00:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T03:00:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 994610,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -74.0043,
+         40.6637
+        ],
+        [
+         -74.0018,
+         40.6659
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 21:17:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T02:17:00Z",
+       "cz_name": "NEW YORK",
+       "cz_type": "C",
+       "event_id": 994927,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9269,
+         40.875
+        ],
+        [
+         -74.0016,
+         40.7576
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "01-SEP-21 22:00:00",
+       "begin_local_day": "2021-09-01",
+       "begin_utc": "2021-09-02T03:00:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 994929,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.9589,
+         40.7348
+        ],
+        [
+         -74.009,
+         40.6853
+        ]
+       ]
+      }
+     ],
+     "zone_events": 0
+    },
+    "usgs_marks": {
+     "context": 6,
+     "context_label": "sites",
+     "main": 11,
+     "main_label": "marks",
+     "rows": [
+      {
+       "easting_m": 589003.73,
+       "hwm_id": 41017,
+       "northing_m": 4506258.16,
+       "site_no": "NYKIN31308"
+      },
+      {
+       "easting_m": 588838.76,
+       "hwm_id": 41023,
+       "northing_m": 4506113.63,
+       "site_no": "NYKIN31314"
+      },
+      {
+       "easting_m": 588607.89,
+       "hwm_id": 41028,
+       "northing_m": 4506088.0,
+       "site_no": "NYKIN31319"
+      },
+      {
+       "easting_m": 588636.96,
+       "hwm_id": 41030,
+       "northing_m": 4505960.12,
+       "site_no": "NYKIN31321"
+      },
+      {
+       "easting_m": 588376.29,
+       "hwm_id": 41433,
+       "northing_m": 4508400.17,
+       "site_no": "NYKIN31762"
+      },
+      {
+       "easting_m": 588669.09,
+       "hwm_id": 41447,
+       "northing_m": 4506057.31,
+       "site_no": "NYKIN31764"
+      },
+      {
+       "easting_m": 589011.27,
+       "hwm_id": 41615,
+       "northing_m": 4506249.82,
+       "site_no": "NYKIN31308"
+      },
+      {
+       "easting_m": 588830.35,
+       "hwm_id": 41617,
+       "northing_m": 4506123.97,
+       "site_no": "NYKIN31314"
+      },
+      {
+       "easting_m": 588618.61,
+       "hwm_id": 41619,
+       "northing_m": 4506074.92,
+       "site_no": "NYKIN31319"
+      },
+      {
+       "easting_m": 588642.1,
+       "hwm_id": 41620,
+       "northing_m": 4505961.07,
+       "site_no": "NYKIN31321"
+      },
+      {
+       "easting_m": 588372.04,
+       "hwm_id": 41678,
+       "northing_m": 4508395.24,
+       "site_no": "NYKIN31762"
+      }
+     ]
+    }
+   },
+   "sep29_2023": {
+    "floodnet": {
+     "context": 7,
+     "context_label": "sensors in service",
+     "main": 5,
+     "main_label": "sensors that recorded an event",
+     "rows": [
+      {
+       "easting_m": 587813.2,
+       "northing_m": 4505900.8,
+       "peak_depth_m": 0.298,
+       "recorded_on": [
+        "2023-09-29"
+       ],
+       "sensor_id": "BK-kent-ave-wallabout-st-19r2g0"
+      },
+      {
+       "easting_m": 588314.4,
+       "northing_m": 4506066.5,
+       "peak_depth_m": 0.598,
+       "recorded_on": [
+        "2023-09-29"
+       ],
+       "sensor_id": "BK-lee-ave-middleton-st-19qok0"
+      },
+      {
+       "easting_m": 588700.5,
+       "northing_m": 4505905.5,
+       "peak_depth_m": 0.309,
+       "recorded_on": [
+        "2023-09-29"
+       ],
+       "sensor_id": "BK-marcy-ave-flushing-ave-19qzo0"
+      },
+      {
+       "easting_m": 588822.6,
+       "northing_m": 4506164.5,
+       "peak_depth_m": null,
+       "recorded_on": [],
+       "sensor_id": "BK-wallabout-st-harrison-ave-19qrc0"
+      },
+      {
+       "easting_m": 588966.8,
+       "northing_m": 4506283.7,
+       "peak_depth_m": 0.637,
+       "recorded_on": [
+        "2023-09-29"
+       ],
+       "sensor_id": "BK-wallabout-st-throop-ave-19qu40"
+      },
+      {
+       "easting_m": 588592.7,
+       "northing_m": 4506074.9,
+       "peak_depth_m": 0.549,
+       "recorded_on": [
+        "2023-09-29"
+       ],
+       "sensor_id": "BK-walton-st-marcy-ave-19qww0"
+      },
+      {
+       "easting_m": 587948.2,
+       "northing_m": 4505925.3,
+       "peak_depth_m": null,
+       "recorded_on": [],
+       "sensor_id": "BK-wythe-ave-wallabout-st-19qzo0"
+      }
+     ]
+    },
+    "groundsource": {
+     "context": 26,
+     "context_label": "places touching the square",
+     "larger_than_square": 4,
+     "main": 11,
+     "main_label": "places centred in the square",
+     "rows": [
+      {
+       "area_km2": 0.0188,
+       "centroid_inside": true,
+       "centroid_lat": 40.710867,
+       "centroid_lon": -73.964736,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-28",
+       "uuid": "fc4a20d40b61461487719c28636a6a96"
+      },
+      {
+       "area_km2": 0.0379,
+       "centroid_inside": true,
+       "centroid_lat": 40.702194,
+       "centroid_lon": -73.949627,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-28",
+       "uuid": "4738b179874845fb9c65a35a80047055"
+      },
+      {
+       "area_km2": 0.0474,
+       "centroid_inside": true,
+       "centroid_lat": 40.721349,
+       "centroid_lon": -73.956364,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "e1881793b6084389958838d8ef19bb5b"
+      },
+      {
+       "area_km2": 0.0535,
+       "centroid_inside": true,
+       "centroid_lat": 40.704374,
+       "centroid_lon": -73.951598,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "040a7ff8cf11410585fa15315db50acd"
+      },
+      {
+       "area_km2": 0.0898,
+       "centroid_inside": false,
+       "centroid_lat": 40.726226,
+       "centroid_lon": -73.983504,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "98f121de23004e3f9c68a818c2a270b4"
+      },
+      {
+       "area_km2": 0.1118,
+       "centroid_inside": true,
+       "centroid_lat": 40.719147,
+       "centroid_lon": -73.943527,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "6b78ebfe849340dd9220d0a5a401c444"
+      },
+      {
+       "area_km2": 0.1568,
+       "centroid_inside": true,
+       "centroid_lat": 40.70928,
+       "centroid_lon": -73.950902,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "0b91107b632c4780b0bbf296049e6175"
+      },
+      {
+       "area_km2": 0.2367,
+       "centroid_inside": false,
+       "centroid_lat": 40.703554,
+       "centroid_lon": -73.988378,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-29",
+       "uuid": "040fc03214134ce1af22e9786207f862"
+      },
+      {
+       "area_km2": 0.7194,
+       "centroid_inside": false,
+       "centroid_lat": 40.685718,
+       "centroid_lon": -73.986052,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "231600115d6346d6bd3ff6bb19f89074"
+      },
+      {
+       "area_km2": 0.808,
+       "centroid_inside": false,
+       "centroid_lat": 40.679631,
+       "centroid_lon": -73.951336,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "01d966881dd74def87671038b5413e76"
+      },
+      {
+       "area_km2": 1.018,
+       "centroid_inside": false,
+       "centroid_lat": 40.679893,
+       "centroid_lon": -73.958189,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-28",
+       "uuid": "223a803abc2746888830638bf0ebd0ba"
+      },
+      {
+       "area_km2": 1.0236,
+       "centroid_inside": true,
+       "centroid_lat": 40.702486,
+       "centroid_lon": -73.972361,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "7c8aed44495e4b82938e4a306a656901"
+      },
+      {
+       "area_km2": 1.3622,
+       "centroid_inside": true,
+       "centroid_lat": 40.717247,
+       "centroid_lon": -73.983484,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-29",
+       "uuid": "3a6e0e6382aa4034be52733a8a97bc9d"
+      },
+      {
+       "area_km2": 1.3678,
+       "centroid_inside": true,
+       "centroid_lat": 40.697803,
+       "centroid_lon": -73.985973,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-28",
+       "uuid": "46c4cb888e0a4f2e9abc5254c1a6fd4f"
+      },
+      {
+       "area_km2": 1.5564,
+       "centroid_inside": false,
+       "centroid_lat": 40.726616,
+       "centroid_lon": -73.983311,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-28",
+       "uuid": "e670ebf6a8bd49c0956a839730b5b28f"
+      },
+      {
+       "area_km2": 2.024,
+       "centroid_inside": true,
+       "centroid_lat": 40.705225,
+       "centroid_lon": -73.955909,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "eabe3cdeb49a451fbd886c1604b48179"
+      },
+      {
+       "area_km2": 2.3536,
+       "centroid_inside": false,
+       "centroid_lat": 40.72908,
+       "centroid_lon": -73.949586,
+       "contains_square": false,
+       "end_date": "2023-09-29",
+       "start_date": "2023-09-29",
+       "uuid": "f8eb582ff22a4a499aa9bc17f9f487a1"
+      },
+      {
+       "area_km2": 4.3165,
+       "centroid_inside": true,
+       "centroid_lat": 40.710367,
+       "centroid_lon": -73.950491,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "f1be6b59b1964906a8d791c70805537f"
+      },
+      {
+       "area_km2": 4.3474,
+       "centroid_inside": false,
+       "centroid_lat": 40.708026,
+       "centroid_lon": -73.938107,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "f2b2cbf5a0b24ed190940bf85b04986a"
+      },
+      {
+       "area_km2": 4.8664,
+       "centroid_inside": false,
+       "centroid_lat": 40.695797,
+       "centroid_lon": -73.919108,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "8fbe9dc7b8a74af09b47ce8195f5f2dc"
+      },
+      {
+       "area_km2": 5.0528,
+       "centroid_inside": false,
+       "centroid_lat": 40.685086,
+       "centroid_lon": -73.941013,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "420ada0f2d4944f8ace5f9c10a51800a"
+      },
+      {
+       "area_km2": 10.3484,
+       "centroid_inside": false,
+       "centroid_lat": 40.720984,
+       "centroid_lon": -73.99627,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-28",
+       "uuid": "5c33ffd765644abcac2e3410f46d2e61"
+      },
+      {
+       "area_km2": 92.2769,
+       "centroid_inside": false,
+       "centroid_lat": 40.773458,
+       "centroid_lon": -73.970807,
+       "contains_square": false,
+       "end_date": "2023-10-01",
+       "start_date": "2023-09-27",
+       "uuid": "e680f45d53bb43c880591b71585b1c9a"
+      },
+      {
+       "area_km2": 245.3088,
+       "centroid_inside": false,
+       "centroid_lat": 40.632392,
+       "centroid_lon": -73.951544,
+       "contains_square": false,
+       "end_date": "2023-10-02",
+       "start_date": "2023-09-28",
+       "uuid": "04b06bdfe92a41e7a31a75923dfd0f0b"
+      },
+      {
+       "area_km2": 245.3674,
+       "centroid_inside": false,
+       "centroid_lat": 40.631562,
+       "centroid_lon": -73.951862,
+       "contains_square": false,
+       "end_date": "2023-09-30",
+       "start_date": "2023-09-29",
+       "uuid": "8517e0343b5c4549a57ef212e4208c60"
+      },
+      {
+       "area_km2": 3438.8446,
+       "centroid_inside": false,
+       "centroid_lat": 40.828302,
+       "centroid_lon": -73.136873,
+       "contains_square": false,
+       "end_date": "2023-10-01",
+       "start_date": "2023-09-27",
+       "uuid": "2d9347b5c7cb4c96bda8f620ad7cca92"
+      }
+     ]
+    },
+    "nyc_311": {
+     "by_kind": {
+      "catch basin clogged": {
+       "current_rows": 13,
+       "legacy_rows": 19,
+       "requests": 19
+      },
+      "sewer backup": {
+       "current_rows": 53,
+       "legacy_rows": 54,
+       "requests": 56
+      },
+      "street flooding": {
+       "current_rows": 35,
+       "legacy_rows": 36,
+       "requests": 36
+      },
+      "water in basement": {
+       "current_rows": 5,
+       "legacy_rows": 10,
+       "requests": 10
+      }
+     },
+     "context": 225,
+     "context_label": "rows, both naming schemes",
+     "current_rows": 106,
+     "legacy_rows": 119,
+     "main": 121,
+     "main_label": "requests (twin rows paired)",
+     "points": [
+      [
+       588387.2,
+       4508179.4
+      ],
+      [
+       586144.9,
+       4508455.9
+      ],
+      [
+       588395.7,
+       4507969.9
+      ],
+      [
+       589182.8,
+       4505288.7
+      ],
+      [
+       589105.9,
+       4508002.3
+      ],
+      [
+       588958.1,
+       4507493.9
+      ],
+      [
+       589105.9,
+       4508002.3
+      ],
+      [
+       586712.0,
+       4504626.7
+      ],
+      [
+       586391.1,
+       4505650.6
+      ],
+      [
+       587450.6,
+       4507442.0
+      ],
+      [
+       588457.7,
+       4507822.2
+      ],
+      [
+       588478.0,
+       4508069.6
+      ],
+      [
+       587455.8,
+       4507439.9
+      ],
+      [
+       588530.4,
+       4507697.5
+      ],
+      [
+       587797.7,
+       4507551.1
+      ],
+      [
+       587559.4,
+       4507497.8
+      ],
+      [
+       587966.3,
+       4507650.2
+      ],
+      [
+       587650.0,
+       4504620.4
+      ],
+      [
+       588956.9,
+       4508326.4
+      ],
+      [
+       587591.8,
+       4508106.7
+      ],
+      [
+       588355.7,
+       4508000.8
+      ],
+      [
+       588513.9,
+       4508073.3
+      ],
+      [
+       587797.7,
+       4507551.1
+      ],
+      [
+       589031.7,
+       4507485.3
+      ],
+      [
+       588887.0,
+       4507155.8
+      ],
+      [
+       588117.7,
+       4507840.0
+      ],
+      [
+       589100.2,
+       4505824.7
+      ],
+      [
+       589234.7,
+       4507531.8
+      ],
+      [
+       587572.4,
+       4504985.5
+      ],
+      [
+       588457.7,
+       4507822.2
+      ],
+      [
+       589311.0,
+       4506507.5
+      ],
+      [
+       588994.2,
+       4508209.5
+      ],
+      [
+       588971.6,
+       4506287.3
+      ],
+      [
+       588481.3,
+       4508053.4
+      ],
+      [
+       588973.1,
+       4506288.6
+      ],
+      [
+       587253.1,
+       4505441.3
+      ],
+      [
+       586781.1,
+       4504713.5
+      ],
+      [
+       585529.6,
+       4507739.5
+      ],
+      [
+       588305.6,
+       4504693.3
+      ],
+      [
+       588001.1,
+       4506923.5
+      ],
+      [
+       588472.5,
+       4504756.2
+      ],
+      [
+       588942.7,
+       4505980.4
+      ],
+      [
+       586777.5,
+       4504734.1
+      ],
+      [
+       588446.1,
+       4507927.5
+      ],
+      [
+       589105.9,
+       4508002.3
+      ],
+      [
+       587579.9,
+       4504940.7
+      ],
+      [
+       588653.2,
+       4508419.9
+      ],
+      [
+       588416.2,
+       4507853.1
+      ],
+      [
+       588724.7,
+       4505803.4
+      ],
+      [
+       589248.6,
+       4506977.3
+      ],
+      [
+       589041.5,
+       4508464.5
+      ],
+      [
+       587205.3,
+       4505034.6
+      ],
+      [
+       588066.3,
+       4507161.0
+      ],
+      [
+       588855.6,
+       4508120.5
+      ],
+      [
+       587797.7,
+       4507551.1
+      ],
+      [
+       589055.3,
+       4508464.7
+      ],
+      [
+       588527.8,
+       4507709.9
+      ],
+      [
+       588912.2,
+       4507649.4
+      ],
+      [
+       588639.3,
+       4508090.6
+      ],
+      [
+       589032.0,
+       4507485.3
+      ],
+      [
+       588596.6,
+       4506086.2
+      ],
+      [
+       588623.0,
+       4508393.9
+      ],
+      [
+       588328.6,
+       4506071.3
+      ],
+      [
+       588513.9,
+       4508073.3
+      ],
+      [
+       587830.1,
+       4508318.8
+      ],
+      [
+       588470.8,
+       4507231.5
+      ],
+      [
+       588401.9,
+       4508065.0
+      ],
+      [
+       588109.9,
+       4504912.9
+      ],
+      [
+       587844.3,
+       4505138.5
+      ],
+      [
+       587899.1,
+       4505064.7
+      ],
+      [
+       588495.0,
+       4507945.1
+      ],
+      [
+       589103.9,
+       4508018.5
+      ],
+      [
+       589335.7,
+       4506343.6
+      ],
+      [
+       585889.1,
+       4508089.1
+      ],
+      [
+       588964.1,
+       4506297.3
+      ],
+      [
+       586156.2,
+       4507573.5
+      ],
+      [
+       588628.8,
+       4506440.7
+      ],
+      [
+       586429.7,
+       4505520.3
+      ],
+      [
+       588433.1,
+       4507842.3
+      ],
+      [
+       588406.5,
+       4505950.3
+      ],
+      [
+       587917.7,
+       4505947.8
+      ],
+      [
+       588249.0,
+       4506989.4
+      ],
+      [
+       587455.8,
+       4507439.9
+      ],
+      [
+       585825.9,
+       4507917.2
+      ],
+      [
+       588226.5,
+       4507598.6
+      ],
+      [
+       589210.4,
+       4508142.5
+      ],
+      [
+       588001.1,
+       4506923.5
+      ],
+      [
+       588941.7,
+       4505987.7
+      ],
+      [
+       586965.3,
+       4505662.7
+      ],
+      [
+       588819.9,
+       4508498.8
+      ],
+      [
+       587697.2,
+       4507246.4
+      ],
+      [
+       588929.8,
+       4506338.4
+      ],
+      [
+       588337.8,
+       4506062.8
+      ],
+      [
+       588513.9,
+       4508073.3
+      ],
+      [
+       588806.2,
+       4505309.7
+      ],
+      [
+       586335.3,
+       4504549.0
+      ],
+      [
+       589264.8,
+       4504966.6
+      ],
+      [
+       587594.5,
+       4507621.0
+      ],
+      [
+       587814.8,
+       4507569.6
+      ],
+      [
+       589049.8,
+       4508464.0
+      ],
+      [
+       588613.8,
+       4504757.5
+      ],
+      [
+       587564.3,
+       4507495.4
+      ],
+      [
+       587449.6,
+       4507315.8
+      ],
+      [
+       588398.8,
+       4508070.2
+      ],
+      [
+       588712.0,
+       4505877.0
+      ],
+      [
+       588597.3,
+       4507546.5
+      ],
+      [
+       588090.6,
+       4505024.0
+      ],
+      [
+       588484.5,
+       4505547.7
+      ],
+      [
+       588394.1,
+       4506127.2
+      ],
+      [
+       587267.8,
+       4507095.6
+      ],
+      [
+       589314.4,
+       4508131.2
+      ],
+      [
+       588435.7,
+       4507420.3
+      ],
+      [
+       588926.2,
+       4507809.8
+      ],
+      [
+       588290.5,
+       4506957.9
+      ],
+      [
+       588425.2,
+       4508048.8
+      ],
+      [
+       588353.1,
+       4506091.4
+      ],
+      [
+       586494.5,
+       4508071.7
+      ],
+      [
+       588420.4,
+       4507773.6
+      ],
+      [
+       588428.7,
+       4508147.0
+      ],
+      [
+       588416.2,
+       4507853.1
+      ],
+      [
+       589086.4,
+       4504606.2
+      ]
+     ],
+     "twin_pairs": 104,
+     "twin_pairs_same_address": 95,
+     "twin_seconds_max": 317.0,
+     "unplaced_in_boroughs": 23,
+     "unplaced_rows": [
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Catch Basin Clogged/Flooding (Use Comments) (SC)",
+       "n": "1"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Highway Flooding (SH)",
+       "n": "3"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Manhole Overflow (Use Comments) (SA1)",
+       "n": "2"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer",
+       "descriptor": "Street Flooding (SJ)",
+       "n": "5"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer Maintenance",
+       "descriptor": "Catch Basin Clogged",
+       "n": "1"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer Maintenance",
+       "descriptor": "Flooding on Highway",
+       "n": "3"
+      },
+      {
+       "borough": "BROOKLYN",
+       "complaint_type": "Sewer Maintenance",
+       "descriptor": "Flooding on Street",
+       "n": "5"
+      },
+      {
+       "borough": "MANHATTAN",
+       "complaint_type": "Sewer",
+       "descriptor": "Highway Flooding (SH)",
+       "n": "1"
+      },
+      {
+       "borough": "MANHATTAN",
+       "complaint_type": "Sewer Maintenance",
+       "descriptor": "Flooding on Highway",
+       "n": "2"
+      }
+     ]
+    },
+    "storm_events": {
+     "begin_day_as_written_matches": 7,
+     "by_type": {
+      "Flash Flood": 7
+     },
+     "context": 7,
+     "context_label": "events in the square's counties and zones",
+     "main": 1,
+     "main_label": "events with a point in the square",
+     "rows": [
+      {
+       "begin_as_written": "29-SEP-23 07:30:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T12:30:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135742,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.99,
+         40.59
+        ],
+        [
+         -73.9838,
+         40.5846
+        ],
+        [
+         -73.99,
+         40.59
+        ],
+        [
+         -73.9915,
+         40.5855
+        ],
+        [
+         -73.9859,
+         40.5831
+        ],
+        [
+         -73.9838,
+         40.5846
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 07:35:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T12:35:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135743,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.98,
+         40.6
+        ],
+        [
+         -73.9786,
+         40.6018
+        ],
+        [
+         -73.98,
+         40.6
+        ],
+        [
+         -73.9743,
+         40.6005
+        ],
+        [
+         -73.9749,
+         40.602
+        ],
+        [
+         -73.9786,
+         40.6018
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 07:38:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T12:38:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135745,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.974,
+         40.6488
+        ],
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9825,
+         40.6465
+        ],
+        [
+         -73.9739,
+         40.6471
+        ],
+        [
+         -73.974,
+         40.6488
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 07:43:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T12:43:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135746,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9746,
+         40.6489
+        ],
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9829,
+         40.6467
+        ],
+        [
+         -73.9742,
+         40.6472
+        ],
+        [
+         -73.9746,
+         40.6489
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 08:15:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T13:15:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135750,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9743,
+         40.6509
+        ],
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9824,
+         40.6465
+        ],
+        [
+         -73.9728,
+         40.6466
+        ],
+        [
+         -73.9743,
+         40.6509
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 08:30:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T13:30:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135751,
+       "event_type": "Flash Flood",
+       "point_inside": false,
+       "points": [
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.982,
+         40.6595
+        ],
+        [
+         -73.98,
+         40.65
+        ],
+        [
+         -73.9742,
+         40.6509
+        ],
+        [
+         -73.9757,
+         40.6565
+        ],
+        [
+         -73.982,
+         40.6595
+        ]
+       ]
+      },
+      {
+       "begin_as_written": "29-SEP-23 09:15:00",
+       "begin_local_day": "2023-09-29",
+       "begin_utc": "2023-09-29T14:15:00Z",
+       "cz_name": "KINGS",
+       "cz_type": "C",
+       "event_id": 1135768,
+       "event_type": "Flash Flood",
+       "point_inside": true,
+       "points": [
+        [
+         -73.96,
+         40.71
+        ],
+        [
+         -73.9514,
+         40.717
+        ],
+        [
+         -73.96,
+         40.71
+        ],
+        [
+         -73.9617,
+         40.7045
+        ],
+        [
+         -73.9586,
+         40.7034
+        ],
+        [
+         -73.9489,
+         40.7161
+        ],
+        [
+         -73.9514,
+         40.717
+        ]
+       ]
+      }
+     ],
+     "zone_events": 0
+    },
+    "usgs_marks": {
+     "context": null,
+     "context_label": "sites",
+     "main": null,
+     "main_label": "marks",
+     "note": "no survey of this storm in the cache",
+     "rows": []
+    }
+   }
+  },
+  "fv5_summary": {
+   "ida_2021": {
+    "floodnet": {
+     "context": 1,
+     "context_label": "sensors in service",
+     "main": 0,
+     "main_label": "sensors that recorded an event"
+    },
+    "groundsource": {
+     "context": 20,
+     "context_label": "places touching the square",
+     "main": 10,
+     "main_label": "places centred in the square"
+    },
+    "nyc_311": {
+     "context": 69,
+     "context_label": "rows, both naming schemes",
+     "main": 69,
+     "main_label": "requests (twin rows paired)"
+    },
+    "storm_events": {
+     "context": 12,
+     "context_label": "events in the square's counties and zones",
+     "main": 0,
+     "main_label": "events with a point in the square"
+    },
+    "usgs_marks": {
+     "context": 6,
+     "context_label": "sites",
+     "main": 11,
+     "main_label": "marks"
+    }
+   },
+   "sep29_2023": {
+    "floodnet": {
+     "context": 7,
+     "context_label": "sensors in service",
+     "main": 5,
+     "main_label": "sensors that recorded an event"
+    },
+    "groundsource": {
+     "context": 26,
+     "context_label": "places touching the square",
+     "main": 11,
+     "main_label": "places centred in the square"
+    },
+    "nyc_311": {
+     "context": 225,
+     "context_label": "rows, both naming schemes",
+     "main": 121,
+     "main_label": "requests (twin rows paired)"
+    },
+    "storm_events": {
+     "context": 7,
+     "context_label": "events in the square's counties and zones",
+     "main": 1,
+     "main_label": "events with a point in the square"
+    },
+    "usgs_marks": {
+     "context": null,
+     "context_label": "sites",
+     "main": null,
+     "main_label": "marks"
+    }
+   }
+  },
+  "nyc_311_queries": {
+   "ida_2021": {
+    "box_west_south_east_north": [
+     -73.9892,
+     40.6855,
+     -73.9392,
+     40.724
+    ],
+    "fetched_at": [
+     "2026-11-26T21:04:10Z"
+    ],
+    "queries": {
+     "placed": {
+      "$limit": "50000",
+      "$order": "unique_key",
+      "$where": "created_date between '2021-09-01T00:00:00' and '2021-09-02T23:59:59' AND within_box(location, 40.724, -73.9892, 40.6855, -73.9392)"
+     },
+     "unplaced": {
+      "$group": "borough, complaint_type, descriptor",
+      "$order": "borough, complaint_type, descriptor",
+      "$select": "borough, complaint_type, descriptor, count(*) AS n",
+      "$where": "created_date between '2021-09-01T00:00:00' and '2021-09-02T23:59:59' AND location IS NULL AND borough IN ('BROOKLYN', 'MANHATTAN') AND ((complaint_type='Sewer' AND descriptor='Catch Basin Clogged/Flooding (Use Comments) (SC)') OR (complaint_type='Sewer' AND descriptor='Highway Flooding (SH)') OR (complaint_type='Sewer' AND descriptor='Manhole Overflow (Use Comments) (SA1)') OR (complaint_type='Sewer' AND descriptor='Sewer Backup (Use Comments) (SA)') OR (complaint_type='Sewer' AND descriptor='Street Flooding (SJ)') OR (complaint_type='Sewer Maintenance' AND descriptor='Backup') OR (complaint_type='Sewer Maintenance' AND descriptor='Catch Basin Clogged') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Highway') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Street') OR (complaint_type='Sewer Maintenance' AND descriptor='Manhole Overflow') OR (complaint_type='Water Maintenance' AND descriptor='Water in Basement') OR (complaint_type='Water System' AND descriptor='Excessive Water In Basement (WEFB)'))"
+     }
+    },
+    "window_local_days": [
+     "2021-09-01",
+     "2021-09-02"
+    ]
+   },
+   "sep29_2023": {
+    "box_west_south_east_north": [
+     -73.9892,
+     40.6855,
+     -73.9392,
+     40.724
+    ],
+    "fetched_at": [
+     "2026-11-26T21:05:07Z"
+    ],
+    "queries": {
+     "placed": {
+      "$limit": "50000",
+      "$order": "unique_key",
+      "$where": "created_date between '2023-09-29T00:00:00' and '2023-09-29T23:59:59' AND within_box(location, 40.724, -73.9892, 40.6855, -73.9392)"
+     },
+     "unplaced": {
+      "$group": "borough, complaint_type, descriptor",
+      "$order": "borough, complaint_type, descriptor",
+      "$select": "borough, complaint_type, descriptor, count(*) AS n",
+      "$where": "created_date between '2023-09-29T00:00:00' and '2023-09-29T23:59:59' AND location IS NULL AND borough IN ('BROOKLYN', 'MANHATTAN') AND ((complaint_type='Sewer' AND descriptor='Catch Basin Clogged/Flooding (Use Comments) (SC)') OR (complaint_type='Sewer' AND descriptor='Highway Flooding (SH)') OR (complaint_type='Sewer' AND descriptor='Manhole Overflow (Use Comments) (SA1)') OR (complaint_type='Sewer' AND descriptor='Sewer Backup (Use Comments) (SA)') OR (complaint_type='Sewer' AND descriptor='Street Flooding (SJ)') OR (complaint_type='Sewer Maintenance' AND descriptor='Backup') OR (complaint_type='Sewer Maintenance' AND descriptor='Catch Basin Clogged') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Highway') OR (complaint_type='Sewer Maintenance' AND descriptor='Flooding on Street') OR (complaint_type='Sewer Maintenance' AND descriptor='Manhole Overflow') OR (complaint_type='Water Maintenance' AND descriptor='Water in Basement') OR (complaint_type='Water System' AND descriptor='Excessive Water In Basement (WEFB)'))"
+     }
+    },
+    "window_local_days": [
+     "2023-09-29",
+     "2023-09-29"
+    ]
+   }
+  },
+  "rules": {
+   "floodnet": {
+    "inside": "the sensor table's position, projected to EPSG:32618, lies in the square",
+    "window": "context: sensors in service on a storm day (installed on or before it, not removed before it); main count: sensors with an event whose start (GMT) falls on a storm day on the New York clock"
+   },
+   "groundsource": {
+    "inside": "main count: the place polygon's centroid lies in the square; context: the polygon intersects the square (the polygon is the named place, not the flood)",
+    "window": "a row whose start_date to end_date range (as published: days, no time of day, no zone) holds one of the storm's days"
+   },
+   "nyc_311": {
+    "inside": "latitude and longitude, projected to EPSG:32618, fall in the square; requests with no location cannot be placed and are counted apart for the two boroughs",
+    "window": "created_date (a floating time stamp, read as the New York wall clock as written) falls on one of the storm's days"
+   },
+   "storm_events": {
+    "inside": "main count: the begin point, end point or a point of the locations file lies in the square; context: every flood event of the square's counties (Kings, New York) and NWS zones (75 Kings (Brooklyn), 72 New York (Manhattan)), county and zone events both read",
+    "window": "the event's begin to end, turned from its CZ_TIMEZONE clock (EST-5 for every New York City row, also in September) to UTC and then to the New York wall clock, holds one of the storm's days"
+   },
+   "usgs_marks": {
+    "inside": "the mark's position, projected to EPSG:32618, lies in the square",
+    "window": "the survey of Ida (ScienceBase item 618975c8d34ec04fc9c5a049); no date matching. The cache holds no survey for 29 Sep 2023; whether USGS surveyed marks for that storm was not checked"
+   }
+  },
+  "storm_days": {
+   "ida_2021": [
+    "2021-09-01",
+    "2021-09-02"
+   ],
+   "sep29_2023": [
+    "2023-09-29"
+   ]
+  }
+ },
+ "title": "Jamaica Bay map overlap (FV3) and who saw the flood (FV5)"
+}
