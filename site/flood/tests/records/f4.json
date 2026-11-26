@@ -1,0 +1,1144 @@
+{
+ "checks": [
+  {
+   "name": "catalogue rainfall inside the Atlas 14 band, 2-100 y",
+   "note": "fail, accepted: below the band at 2, 5, 10 y; accepted by Yuri as CH-19 ('Accept, start batch', 2026-11-26); recorded as a finding",
+   "passed": false,
+   "proposed": true,
+   "rule": "3-hour annual maximum at the study box (rank M / T of M) within Atlas 14 AMS 3-hr 90% band at 2, 5, 10, 25, 50 and 100 years (plan F4)",
+   "threshold": {
+    "2": [
+     35.8,
+     58.2
+    ],
+    "5": [
+     46.7,
+     76.5
+    ],
+    "10": [
+     54.9,
+     90.7
+    ],
+    "25": [
+     63.5,
+     113.3
+    ],
+    "50": [
+     70.1,
+     130.0
+    ],
+    "100": [
+     75.9,
+     150.6
+    ]
+   },
+   "value": {
+    "2": 31.3,
+    "5": 43.2,
+    "10": 53.1,
+    "25": 68.6,
+    "50": 79.2,
+    "100": 89.0
+   }
+  },
+  {
+   "name": "every finished batch run has a record and a water balance within 1%",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "spec.json, run_run.json and balance.json present, |residual| <= 1% of the rain (FH8), for every finished catalogue and design run",
+   "threshold": 0.01,
+   "value": {
+    "catalogue": 5,
+    "design": 12,
+    "largest_abs_residual_share": 0.00016773714051645578,
+    "outside_balance": [],
+    "runs": 17,
+    "without_record": []
+   }
+  },
+  {
+   "name": "depth non-decreasing with return period before the clean-up",
+   "note": "0 cells changed by the clean-up",
+   "passed": true,
+   "proposed": true,
+   "rule": "share of read cells whose depth_at curve never falls as AEP falls >= 0.99",
+   "threshold": 0.99,
+   "value": 1.0
+  },
+  {
+   "name": "depth non-decreasing in every cell after the clean-up",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every read cell non-decreasing after make_non_decreasing; cells changed reported",
+   "threshold": null,
+   "value": {
+    "cells_changed": 0
+   }
+  },
+  {
+   "name": "grid route read back equal (Dataset.from_raster)",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "every delivered cell's knots equal what was written (1e-6 m), same probabilities, same cell count (FH7)",
+   "threshold": null,
+   "value": {
+    "call": "Dataset.from_raster",
+    "cells_delivered": 379976,
+    "cells_differing": 0,
+    "cells_with_other_probabilities": 0,
+    "cells_written": 379976,
+    "equal": true,
+    "largest_difference_m": 0.0
+   }
+  },
+  {
+   "name": "point route read back equal (Dataset.from_quantiles)",
+   "note": "full asset set",
+   "passed": true,
+   "proposed": false,
+   "rule": "every asset's knots delivered equal to those written (1e-9) (FH7)",
+   "threshold": null,
+   "value": {
+    "assets_delivered": 17755,
+    "assets_differing": 0,
+    "assets_written": 17755,
+    "call": "Dataset.from_quantiles",
+    "equal": true,
+    "largest_difference": 0.0
+   }
+  },
+  {
+   "name": "at least 60 catalogue runs before 1 December",
+   "note": "batch running; checked on 2026-11-26",
+   "passed": null,
+   "proposed": false,
+   "rule": "finished catalogue runs >= 60 by 2026-12-01 (requirements \u00a715)",
+   "threshold": 60,
+   "value": 5
+  },
+  {
+   "name": "all 150 catalogue runs finished",
+   "note": "batch running; figures are rebuilt when it ends",
+   "passed": null,
+   "proposed": false,
+   "rule": "finished catalogue runs = 150 (FH5 target)",
+   "threshold": 150,
+   "value": 5
+  }
+ ],
+ "created_at": "2026-11-26T14:01:02Z",
+ "figures": [
+  "docs/flood/figures/f4/domain.png",
+  "docs/flood/figures/f4/rainfall_frequency.png",
+  "docs/flood/figures/f4/depth_strip.png",
+  "docs/flood/figures/f4/buildings_wet.png",
+  "docs/flood/figures/f4/wet_runs.png",
+  "docs/flood/figures/f4/progress.png"
+ ],
+ "id": "f4",
+ "inputs": [
+  {
+   "bytes": 85422,
+   "path": "f4/selection.json",
+   "sha256": "a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6",
+   "url": ""
+  },
+  {
+   "bytes": 35051,
+   "path": "f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv",
+   "sha256": "a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442",
+   "url": ""
+  },
+  {
+   "bytes": 1079,
+   "path": "f4/rainyday/catalogue_n960/params.json",
+   "sha256": "ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a",
+   "url": ""
+  },
+  {
+   "bytes": 2312,
+   "path": "f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json",
+   "sha256": "c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667",
+   "url": ""
+  },
+  {
+   "bytes": 209126,
+   "path": "f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv",
+   "sha256": "ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292",
+   "url": ""
+  },
+  {
+   "bytes": 588,
+   "path": "f4/domain/domain_B_land.shp",
+   "sha256": "c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6",
+   "url": ""
+  },
+  {
+   "bytes": 4971,
+   "path": "f4/domain/domain.json",
+   "sha256": "f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d",
+   "url": ""
+  },
+  {
+   "bytes": 5390791,
+   "path": "f4/domain/domain_maps.npz",
+   "sha256": "ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e",
+   "url": ""
+  },
+  {
+   "bytes": 749,
+   "path": "f4/domain/box_ams_observed.json",
+   "sha256": "ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031",
+   "url": ""
+  },
+  {
+   "bytes": 10890,
+   "path": "f3/atlas14/table.json",
+   "sha256": "f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800",
+   "url": ""
+  },
+  {
+   "bytes": 2706,
+   "path": "f4/queue_design.json",
+   "sha256": "7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b",
+   "url": ""
+  },
+  {
+   "bytes": 35051,
+   "path": "f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv",
+   "sha256": "9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93",
+   "url": ""
+  },
+  {
+   "bytes": 35051,
+   "path": "f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv",
+   "sha256": "011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000",
+   "url": ""
+  },
+  {
+   "bytes": 107022,
+   "path": "f4/queue_catalogue.json",
+   "sha256": "6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416",
+   "url": ""
+  },
+  {
+   "bytes": 68068,
+   "path": "terrain/water_1m.tif",
+   "sha256": "c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872",
+   "url": ""
+  },
+  {
+   "bytes": 6298,
+   "path": "site/flood/data/substations.geojson",
+   "sha256": "fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff",
+   "url": ""
+  },
+  {
+   "bytes": 6664,
+   "path": "site/flood/data/study_area.geojson",
+   "sha256": "0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5",
+   "url": ""
+  },
+  {
+   "bytes": 18380697,
+   "path": "nyc-building-footprints/footprints-box.geojson",
+   "sha256": "44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43",
+   "url": ""
+  },
+  {
+   "bytes": 49142122,
+   "path": "f3/model/dem_model_1m.tif",
+   "sha256": "dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf",
+   "url": ""
+  },
+  {
+   "bytes": 535470,
+   "path": "f3/model/buildings_1m.tif",
+   "sha256": "3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe",
+   "url": ""
+  },
+  {
+   "bytes": 1969760,
+   "path": "f3/model/zb_5m.tif",
+   "sha256": "640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e",
+   "url": ""
+  },
+  {
+   "bytes": 39160,
+   "path": "f3/model/pits_1m.tif",
+   "sha256": "47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa",
+   "url": ""
+  },
+  {
+   "bytes": 1686079,
+   "path": "f4/runs/cat_r0101/zsmax.tif",
+   "sha256": "b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd",
+   "url": ""
+  },
+  {
+   "bytes": 1682945,
+   "path": "f4/runs/cat_r0779/zsmax.tif",
+   "sha256": "027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f",
+   "url": ""
+  },
+  {
+   "bytes": 1685784,
+   "path": "f4/runs/cat_r0006/zsmax.tif",
+   "sha256": "59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba",
+   "url": ""
+  },
+  {
+   "bytes": 1686007,
+   "path": "f4/runs/cat_r0138/zsmax.tif",
+   "sha256": "8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324",
+   "url": ""
+  },
+  {
+   "bytes": 1682404,
+   "path": "f4/runs/cat_r0958/zsmax.tif",
+   "sha256": "5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713",
+   "url": ""
+  },
+  {
+   "bytes": 2271121,
+   "path": "f4/runs/ds_1h_2y/zsmax.tif",
+   "sha256": "2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49",
+   "url": ""
+  },
+  {
+   "bytes": 2249212,
+   "path": "f4/runs/ds_1h_5y/zsmax.tif",
+   "sha256": "f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96",
+   "url": ""
+  },
+  {
+   "bytes": 2242402,
+   "path": "f4/runs/ds_1h_10y/zsmax.tif",
+   "sha256": "cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1",
+   "url": ""
+  },
+  {
+   "bytes": 2238348,
+   "path": "f4/runs/ds_1h_25y/zsmax.tif",
+   "sha256": "9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708",
+   "url": ""
+  },
+  {
+   "bytes": 2233274,
+   "path": "f4/runs/ds_1h_100y/zsmax.tif",
+   "sha256": "f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a",
+   "url": ""
+  },
+  {
+   "bytes": 2228504,
+   "path": "f4/runs/ds_1h_500y/zsmax.tif",
+   "sha256": "6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd",
+   "url": ""
+  },
+  {
+   "bytes": 2250332,
+   "path": "f4/runs/ds_3h_2y/zsmax.tif",
+   "sha256": "b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a",
+   "url": ""
+  },
+  {
+   "bytes": 2254870,
+   "path": "f4/runs/ds_3h_5y/zsmax.tif",
+   "sha256": "ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8",
+   "url": ""
+  },
+  {
+   "bytes": 2255619,
+   "path": "f4/runs/ds_3h_10y/zsmax.tif",
+   "sha256": "815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd",
+   "url": ""
+  },
+  {
+   "bytes": 2256241,
+   "path": "f4/runs/ds_3h_25y/zsmax.tif",
+   "sha256": "d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a",
+   "url": ""
+  },
+  {
+   "bytes": 2236597,
+   "path": "f4/runs/ds_3h_100y/zsmax.tif",
+   "sha256": "705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d",
+   "url": ""
+  },
+  {
+   "bytes": 2219609,
+   "path": "f4/runs/ds_3h_500y/zsmax.tif",
+   "sha256": "e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "F4 storm catalogue and batch: N = 5 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay's rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell's centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements \u00a715).",
+  "domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
+  "rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).",
+  "depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
+  "buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
+  "wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered).",
+  "progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
+  "Other folders in the runs folder, not read: cat_r0124.",
+  "Floor: design storms that wet no 5 m cell or whose rain does not exceed the drainage allowance (ds_3h_2y, ds_3h_5y, ds_3h_10y, ds_3h_25y) still show 2,933 to 2,942 buildings 'wet at the wall' (0.05 m) and 865 to 865 wet 5 m cells: a floor from the terrain, not flooding by the storm."
+ ],
+ "numbers": {
+  "M_synthetic_years": 1000,
+  "N_catalogue_runs_finished": 5,
+  "buildings_in_study_area": 17750,
+  "buildings_wet_100y_catalogue": {
+   "0.05": 6758,
+   "0.3": 1506
+  },
+  "buildings_wet_100y_design": {
+   "1 h": {
+    "0.05": 12180,
+    "0.3": 6128
+   },
+   "3 h": {
+    "0.05": 10306,
+    "0.3": 3142
+   }
+  },
+  "catalogue_runs_selected": 150,
+  "catalogue_storms_plotted": 960,
+  "cells_changed_by_clean_up": 0,
+  "cells_non_decreasing_before_clean_up": 379976,
+  "cells_read": 379976,
+  "cells_read_in_study_area": 330615,
+  "cells_wet_in_some_run": 17765,
+  "check_wall_time_s": 165.3,
+  "covered_years": 1000,
+  "design_runs_finished": 12,
+  "grid_read_back_equal": true,
+  "interim_weights": true,
+  "max_runs_wetting_a_cell": 5,
+  "non_decreasing_after_clean_up": true,
+  "observed_box_median_3h_mm": 38.14,
+  "points_assets_loaded": 17755,
+  "points_read_back_equal": true,
+  "runs_extracted_this_time": 0,
+  "share_non_decreasing_before_clean_up": 1.0,
+  "substation_sites": 5
+ },
+ "parameters": [
+  {
+   "name": "synthetic_years_M",
+   "source": "RainyDay NYEARS, CH-19",
+   "tag": "P",
+   "value": 1000
+  },
+  {
+   "name": "grid_depth_definition",
+   "source": "calibration.py",
+   "tag": "I",
+   "value": "calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the model terrain at each 5 m cell's centre 1 m pixel, floored at 0, the definition the drainage allowance was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area."
+  },
+  {
+   "name": "wet_m",
+   "source": "catalogue.WET_M",
+   "tag": "P",
+   "value": 0.05
+  },
+  {
+   "name": "aeps",
+   "source": "catalogue.AEPS",
+   "tag": "P",
+   "value": [
+    0.5,
+    0.2,
+    0.1,
+    0.04,
+    0.02,
+    0.01,
+    0.005,
+    0.002
+   ]
+  },
+  {
+   "name": "band_years",
+   "source": "plan F4 pass rule",
+   "tag": "P",
+   "value": [
+    2,
+    5,
+    10,
+    25,
+    50,
+    100
+   ]
+  },
+  {
+   "name": "non_decreasing_min_share",
+   "source": "plan F4 pass rule",
+   "tag": "P",
+   "value": 0.99
+  },
+  {
+   "name": "balance_max_share",
+   "source": "FH8",
+   "tag": "P",
+   "value": 0.01
+  },
+  {
+   "name": "lead_depth_m",
+   "source": "demo-concerns \u00a72",
+   "tag": "P",
+   "value": 0.3
+  },
+  {
+   "name": "max_roof_share",
+   "source": "at_assets",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "points_trial",
+   "source": "brief: time 500 first",
+   "tag": "P",
+   "value": 500
+  },
+  {
+   "name": "points_full_max_s",
+   "source": "",
+   "tag": "P",
+   "value": 900.0
+  },
+  {
+   "name": "depth_colours",
+   "source": "as F3; FP7 has none",
+   "tag": "P",
+   "value": [
+    "#c6dbef",
+    "#6baed6",
+    "#08519c"
+   ]
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "python": "3.12.11",
+  "rasterio": "1.5.1"
+ },
+ "stage": "F4",
+ "tables": {
+  "captions": {
+   "buildings_wet.png": "Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered; each building's own curve at AEP 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. A storm that wets no 5 m cell, or whose rain does not exceed the 30 mm/h allowance, still shows about 2,900 buildings 'wet at the wall' and some wet cells: a floor from the terrain (at_assets' 1 m wall band, low pixels), not flooding by the storm.",
+   "depth_strip.png": "Per-cell depth at 10, 100 and 500 years from the catalogue (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.",
+   "domain.png": "3-hour ratio map (smoothed mean annual maximum over the study area's, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay's storm location).",
+   "progress.png": "Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).",
+   "rainfall_frequency.png": "3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).",
+   "wet_runs.png": "Number of catalogue runs wetting each read 5 m cell (N = 5 catalogue storms (interim weights), 1000 of 1000 years covered)."
+  },
+  "catalogue_runs": [
+   {
+    "box_total_mm": 52.138,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0101",
+    "order": 1,
+    "rank": 101,
+    "residual_share_of_rain": -4.7692535267591315e-05,
+    "return_period_y": 9.90099048614502,
+    "solver_finished": true,
+    "stratum": "T2",
+    "wall_time_s": 208.01,
+    "weight_used": 60.0
+   },
+   {
+    "box_total_mm": 23.429,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0779",
+    "order": 2,
+    "rank": 779,
+    "residual_share_of_rain": -2.3956315239280174e-05,
+    "return_period_y": 1.2836970090866089,
+    "solver_finished": true,
+    "stratum": "T3",
+    "wall_time_s": 256.51,
+    "weight_used": 425.0
+   },
+   {
+    "box_total_mm": 104.729,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0006",
+    "order": 3,
+    "rank": 6,
+    "residual_share_of_rain": 8.45617718360913e-06,
+    "return_period_y": 166.6666717529297,
+    "solver_finished": true,
+    "stratum": "T1",
+    "wall_time_s": 353.42,
+    "weight_used": 30.0
+   },
+   {
+    "box_total_mm": 48.183,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0138",
+    "order": 4,
+    "rank": 138,
+    "residual_share_of_rain": -3.65358865459764e-05,
+    "return_period_y": 7.246376991271973,
+    "solver_finished": true,
+    "stratum": "T2",
+    "wall_time_s": 254.36,
+    "weight_used": 60.0
+   },
+   {
+    "box_total_mm": 16.958,
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "cat_r0958",
+    "order": 5,
+    "rank": 958,
+    "residual_share_of_rain": 7.80667709936098e-06,
+    "return_period_y": 1.0438413619995117,
+    "solver_finished": true,
+    "stratum": "T3",
+    "wall_time_s": 329.94,
+    "weight_used": 425.0
+   }
+  ],
+  "catalogue_wet_cells_005": {
+   "10 y": 578,
+   "100 y": 17765,
+   "2 y": 576,
+   "200 y": 17765,
+   "25 y": 578,
+   "5 y": 576,
+   "50 y": 17765,
+   "500 y": 17765
+  },
+  "design_runs": [
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_2y",
+    "residual_share_of_rain": -2.907827409493376e-05,
+    "solver_finished": true,
+    "wall_time_s": 326.74
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_5y",
+    "residual_share_of_rain": 7.628192010196792e-05,
+    "solver_finished": true,
+    "wall_time_s": 673.4
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_10y",
+    "residual_share_of_rain": -0.00015771621032882596,
+    "solver_finished": true,
+    "wall_time_s": 409.83
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_25y",
+    "residual_share_of_rain": 3.172491897936532e-05,
+    "solver_finished": true,
+    "wall_time_s": 374.11
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_100y",
+    "residual_share_of_rain": 5.067286922953753e-05,
+    "solver_finished": true,
+    "wall_time_s": 519.59
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_1h_500y",
+    "residual_share_of_rain": -1.9430272237024365e-05,
+    "solver_finished": true,
+    "wall_time_s": 590.38
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_2y",
+    "residual_share_of_rain": 5.1923387693569086e-05,
+    "solver_finished": true,
+    "wall_time_s": 375.28
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_5y",
+    "residual_share_of_rain": -0.00016773714051645578,
+    "solver_finished": true,
+    "wall_time_s": 358.28
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_10y",
+    "residual_share_of_rain": 4.495165514705103e-06,
+    "solver_finished": true,
+    "wall_time_s": 358.92
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_25y",
+    "residual_share_of_rain": 1.6860104082742274e-05,
+    "solver_finished": true,
+    "wall_time_s": 247.03
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_100y",
+    "residual_share_of_rain": -5.303937413686145e-05,
+    "solver_finished": true,
+    "wall_time_s": 480.87
+   },
+   {
+    "has_run_run": true,
+    "has_spec": true,
+    "label": "ds_3h_500y",
+    "residual_share_of_rain": 3.774917154543974e-07,
+    "solver_finished": true,
+    "wall_time_s": 709.42
+   }
+  ],
+  "design_storms": [
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 2967,
+     "0.3": 162
+    },
+    "rain_mm_per_h": 30.226,
+    "run": "ds_1h_2y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.0,
+     "S-339711332": 0.03500000014901161,
+     "S-383102724": 0.023000000044703484,
+     "S-383110539": 0.027000000700354576,
+     "S-861227475": 0.0020000000949949026
+    },
+    "wet_cells_005": 882
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 9290,
+     "0.3": 1905
+    },
+    "rain_mm_per_h": 40.132,
+    "run": "ds_1h_5y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.03500000014901161,
+     "S-339711332": 0.26100000739097595,
+     "S-383102724": 0.12700000405311584,
+     "S-383110539": 0.1340000033378601,
+     "S-861227475": 0.07699999958276749
+    },
+    "wet_cells_005": 23114
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 10668,
+     "0.3": 3476
+    },
+    "rain_mm_per_h": 48.006,
+    "run": "ds_1h_10y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.04399999976158142,
+     "S-339711332": 0.3370000123977661,
+     "S-383102724": 0.28999999165534973,
+     "S-383110539": 0.164000004529953,
+     "S-861227475": 0.08699999749660492
+    },
+    "wet_cells_005": 39644
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 11504,
+     "0.3": 4814
+    },
+    "rain_mm_per_h": 57.912,
+    "run": "ds_1h_25y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.052000001072883606,
+     "S-339711332": 0.40799999237060547,
+     "S-383102724": 0.5389999747276306,
+     "S-383110539": 0.18199999630451202,
+     "S-861227475": 0.0989999994635582
+    },
+    "wet_cells_005": 55274
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 12180,
+     "0.3": 6128
+    },
+    "rain_mm_per_h": 73.152,
+    "run": "ds_1h_100y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.05900000035762787,
+     "S-339711332": 0.4480000138282776,
+     "S-383102724": 0.5370000004768372,
+     "S-383110539": 0.18400000035762787,
+     "S-861227475": 0.10899999737739563
+    },
+    "wet_cells_005": 71900
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 12756,
+     "0.3": 7146
+    },
+    "rain_mm_per_h": 93.98,
+    "run": "ds_1h_500y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.061000000685453415,
+     "S-339711332": 0.46799999475479126,
+     "S-383102724": 0.5400000214576721,
+     "S-383110539": 0.1860000044107437,
+     "S-861227475": 0.11800000071525574
+    },
+    "wet_cells_005": 88697
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 2933,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 15.1553,
+    "run": "ds_3h_2y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.0,
+     "S-339711332": 0.03400000184774399,
+     "S-383102724": 0.02199999988079071,
+     "S-383110539": 0.02500000037252903,
+     "S-861227475": 0.0010000000474974513
+    },
+    "wet_cells_005": 865
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 2937,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 19.8967,
+    "run": "ds_3h_5y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.0,
+     "S-339711332": 0.03400000184774399,
+     "S-383102724": 0.02199999988079071,
+     "S-383110539": 0.02500000037252903,
+     "S-861227475": 0.0010000000474974513
+    },
+    "wet_cells_005": 865
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 2939,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 23.4527,
+    "run": "ds_3h_10y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.0,
+     "S-339711332": 0.03400000184774399,
+     "S-383102724": 0.02199999988079071,
+     "S-383110539": 0.02500000037252903,
+     "S-861227475": 0.0010000000474974513
+    },
+    "wet_cells_005": 865
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 2942,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 28.194,
+    "run": "ds_3h_25y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.0,
+     "S-339711332": 0.03400000184774399,
+     "S-383102724": 0.02199999988079071,
+     "S-383110539": 0.02500000037252903,
+     "S-861227475": 0.0010000000474974513
+    },
+    "wet_cells_005": 865
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 10306,
+     "0.3": 3142
+    },
+    "rain_mm_per_h": 35.3907,
+    "run": "ds_3h_100y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.03700000047683716,
+     "S-339711332": 0.32600000500679016,
+     "S-383102724": 0.21899999678134918,
+     "S-383110539": 0.15299999713897705,
+     "S-861227475": 0.07000000029802322
+    },
+    "wet_cells_005": 31965
+   },
+   {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet": {
+     "0.05": 11921,
+     "0.3": 6158
+    },
+    "rain_mm_per_h": 45.5507,
+    "run": "ds_3h_500y",
+    "substation_depth_on_25m2_m": {
+     "S-250386730": 0.05299999937415123,
+     "S-339711332": 0.4180000126361847,
+     "S-383102724": 0.5360000133514404,
+     "S-383110539": 0.18000000715255737,
+     "S-861227475": 0.08900000154972076
+    },
+    "wet_cells_005": 61926
+   }
+  ],
+  "floor_storms_wetting_no_cell_or_without_net_rain": {
+   "ds_3h_10y": {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet_at_wall": {
+     "0.05": 2939,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 23.4527,
+    "wet_cells_005": 865
+   },
+   "ds_3h_25y": {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet_at_wall": {
+     "0.05": 2942,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 28.194,
+    "wet_cells_005": 865
+   },
+   "ds_3h_2y": {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet_at_wall": {
+     "0.05": 2933,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 15.1553,
+    "wet_cells_005": 865
+   },
+   "ds_3h_5y": {
+    "allowance_mm_per_h": 30.0,
+    "buildings_wet_at_wall": {
+     "0.05": 2937,
+     "0.3": 161
+    },
+    "rain_mm_per_h": 19.8967,
+    "wet_cells_005": 865
+   }
+  },
+  "grid_route": {
+   "call": "Dataset.from_raster",
+   "cells_delivered": 379976,
+   "cells_differing": 0,
+   "cells_with_other_probabilities": 0,
+   "cells_written": 379976,
+   "equal": true,
+   "largest_difference_m": 0.0,
+   "report": "ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code='source_no_data', severity=<DiagnosticSeverity.WARNING: 'warning'>, stage=<Stage.DECODING: 'decoding'>, message='Skipped 260024 raster supports with fewer than two valid probability knots.', source='quantile_rasters', support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider='user', product='quantile_rasters', release=ReleaseReference(id='sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217', sha256='sha256:f87d41f146a91a08ced3d661d5a9516075b8d852e4a72d8cfccd2e957dd9d217', retrieved_at=None), resources=(ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif', sha256='sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 48412, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif', sha256='sha256:60e61d547a7edbc66f7cde9afc26e3484e71d4d69c126c97201ad811c3ec5d43', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 50562, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif', sha256='sha256:0191a0c7c03052c05f59c89c56a78e01e0b882047e51529fffa7e6b905bb9d0b', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 51500, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif', sha256='sha256:aedc015191494d924fb22e1380141902838ef2582b5a60b5f2e39a5262697676', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 53026, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 54605, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 58320, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 60238, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri='file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif', sha256='sha256:89eca35b262321dca61d6b2cff01a921abe36a111a83194ec2927d907dccd7d3', license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 13, 58, 22, 63048, tzinfo=datetime.timezone.utc))), member=None, model=None),))"
+  },
+  "point_route": {
+   "estimated_full_s": 4.0,
+   "full": {
+    "assets_delivered": 17755,
+    "assets_differing": 0,
+    "assets_written": 17755,
+    "call": "Dataset.from_quantiles",
+    "equal": true,
+    "largest_difference": 0.0
+   },
+   "full_s": 3.1,
+   "trial": {
+    "assets_delivered": 505,
+    "assets_differing": 0,
+    "assets_written": 505,
+    "call": "Dataset.from_quantiles",
+    "equal": true,
+    "largest_difference": 0.0
+   },
+   "trial_assets": 505,
+   "trial_equal": true,
+   "trial_s": 0.1
+  },
+  "progress": [
+   {
+    "complete": false,
+    "finished": 1,
+    "ranks": "1-30",
+    "runs": 30,
+    "stratum": "T1",
+    "years": 30
+   },
+   {
+    "complete": false,
+    "finished": 2,
+    "ranks": "31-150",
+    "runs": 60,
+    "stratum": "T2",
+    "years": 120
+   },
+   {
+    "complete": false,
+    "finished": 2,
+    "ranks": "151-1000",
+    "runs": 60,
+    "stratum": "T3",
+    "years": 850
+   }
+  ],
+  "rainfall_band": [
+   {
+    "atlas14_mm": 45.5,
+    "catalogue_mm": 31.3,
+    "inside": false,
+    "lower90_mm": 35.8,
+    "upper90_mm": 58.2,
+    "years": 2
+   },
+   {
+    "atlas14_mm": 59.7,
+    "catalogue_mm": 43.2,
+    "inside": false,
+    "lower90_mm": 46.7,
+    "upper90_mm": 76.5,
+    "years": 5
+   },
+   {
+    "atlas14_mm": 70.4,
+    "catalogue_mm": 53.1,
+    "inside": false,
+    "lower90_mm": 54.9,
+    "upper90_mm": 90.7,
+    "years": 10
+   },
+   {
+    "atlas14_mm": 84.6,
+    "catalogue_mm": 68.6,
+    "inside": true,
+    "lower90_mm": 63.5,
+    "upper90_mm": 113.3,
+    "years": 25
+   },
+   {
+    "atlas14_mm": 95.0,
+    "catalogue_mm": 79.2,
+    "inside": true,
+    "lower90_mm": 70.1,
+    "upper90_mm": 130.0,
+    "years": 50
+   },
+   {
+    "atlas14_mm": 106.2,
+    "catalogue_mm": 89.0,
+    "inside": true,
+    "lower90_mm": 75.9,
+    "upper90_mm": 150.6,
+    "years": 100
+   }
+  ],
+  "rainfall_sensitivities": {
+   "240 storms (10 a year)": {
+    "10 y": 54.3,
+    "100 y": 96.0,
+    "2 y": 24.2,
+    "25 y": 67.1,
+    "5 y": 42.5,
+    "50 y": 82.1
+   },
+   "480 storms (20 a year)": {
+    "10 y": 53.9,
+    "100 y": 104.7,
+    "2 y": 29.2,
+    "25 y": 72.8,
+    "5 y": 43.2,
+    "50 y": 89.8
+   }
+  },
+  "substation_depth_on_25m2_m": {
+   "S-250386730": {
+    "10 y": 0.0,
+    "100 y": 0.0,
+    "500 y": 0.0,
+    "name": "Water Street Substation",
+    "wet_probability": 0.0
+   },
+   "S-339711332": {
+    "10 y": 0.0,
+    "100 y": 0.289,
+    "500 y": 0.289,
+    "name": "Farragut Substation",
+    "wet_probability": 0.03
+   },
+   "S-383102724": {
+    "10 y": 0.0,
+    "100 y": 0.172,
+    "500 y": 0.172,
+    "name": "Hudson Avenue Substation",
+    "wet_probability": 0.03
+   },
+   "S-383110539": {
+    "10 y": 0.0,
+    "100 y": 0.148,
+    "500 y": 0.148,
+    "name": "Plymouth Substation",
+    "wet_probability": 0.03
+   },
+   "S-861227475": {
+    "10 y": 0.0,
+    "100 y": 0.0,
+    "500 y": 0.0,
+    "name": "(no name)",
+    "wet_probability": 0.0
+   }
+  },
+  "timing_s": {
+   "asset_curves_s": 0.0,
+   "crc_grid_route_s": 153.5,
+   "crc_point_route_s": 3.2,
+   "figures_s": 4.2,
+   "grid_curves_s": 0.3,
+   "inputs_s": 3.3,
+   "non_decreasing_share_s": 0.1,
+   "per_run_extraction_s": 0.1,
+   "write_rasters_s": 0.5
+  }
+ },
+ "title": "Storm catalogue, batch runs and depth frequency into CRC by both routes"
+}
