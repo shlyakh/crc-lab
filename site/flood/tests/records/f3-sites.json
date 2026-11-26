@@ -1,0 +1,585 @@
+{
+ "checks": [
+  {
+   "name": "depth rises with the design storm at Hudson Avenue Substation",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "depth over 25 m\u00b2 at Limited <= Moderate <= Extreme, within 1 mm (FH8's tolerance)",
+   "threshold": null,
+   "value": [
+    0.216,
+    0.458,
+    0.54
+   ]
+  },
+  {
+   "name": "lead-asset rule at Ida, Hudson Avenue Substation",
+   "note": "Informational: the rule as set for the demo.",
+   "passed": true,
+   "proposed": true,
+   "rule": "depth over 25 m\u00b2 of open ground >= 0.3 m in the Ida replay (demo-concerns \u00a72)",
+   "threshold": 0.3,
+   "value": 0.447
+  },
+  {
+   "name": "depth rises with the design storm at Farragut Substation",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "depth over 25 m\u00b2 at Limited <= Moderate <= Extreme, within 1 mm (FH8's tolerance)",
+   "threshold": null,
+   "value": [
+    0.309,
+    0.386,
+    0.467
+   ]
+  },
+  {
+   "name": "lead-asset rule at Ida, Farragut Substation",
+   "note": "Informational: the rule as set for the demo.",
+   "passed": true,
+   "proposed": true,
+   "rule": "depth over 25 m\u00b2 of open ground >= 0.3 m in the Ida replay (demo-concerns \u00a72)",
+   "threshold": 0.3,
+   "value": 0.39
+  }
+ ],
+ "created_at": "2026-11-26T08:53:47Z",
+ "figures": [
+  "docs/flood/figures/f3/sites_map.png",
+  "docs/flood/figures/f3/sites_depth.png"
+ ],
+ "id": "f3-sites",
+ "inputs": [
+  {
+   "bytes": 1815,
+   "path": "src/flood_lab/hazard/allowance.toml",
+   "sha256": "3bb87105d6d346e21f0245e2ede41f36d4707a10362e9d1a5b7a49ea6d9b9f37",
+   "url": ""
+  },
+  {
+   "bytes": 6298,
+   "path": "site/flood/data/substations.geojson",
+   "sha256": "fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff",
+   "url": ""
+  },
+  {
+   "bytes": 5811602,
+   "path": "site/flood/data/assets_oed.csv",
+   "sha256": "1ea90d67871a479ccbc0d6bad05da7c2dd831ebf8d9ea03ed7d254cef10260f1",
+   "url": ""
+  },
+  {
+   "bytes": 2926,
+   "path": "src/flood_lab/assets/substation_review.toml",
+   "sha256": "9dda5caef5b93df67bb7f40d8ce2963d58e3e2b941924423ed757b7772ed5d82",
+   "url": ""
+  },
+  {
+   "bytes": 10890,
+   "path": "f3/atlas14/table.json",
+   "sha256": "f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800",
+   "url": ""
+  },
+  {
+   "bytes": 49142122,
+   "path": "f3/model/dem_model_1m.tif",
+   "sha256": "dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf",
+   "url": ""
+  },
+  {
+   "bytes": 535470,
+   "path": "f3/model/buildings_1m.tif",
+   "sha256": "3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe",
+   "url": ""
+  },
+  {
+   "bytes": 1969760,
+   "path": "f3/model/zb_5m.tif",
+   "sha256": "640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e",
+   "url": ""
+  },
+  {
+   "bytes": 303,
+   "path": "f3/runs/sep_q30/spec.json",
+   "sha256": "31f9b7d3bb2ddb82d019a09f9ce49b6afb96e9ab2cae8b44d2ec21d7c849c8e5",
+   "url": ""
+  },
+  {
+   "bytes": 2244124,
+   "path": "f3/runs/sep_q30/zsmax.tif",
+   "sha256": "e25e0bd495a27602cd953c68e230215bc5648fcc1a5d0d8c7c7c7e534af96e25",
+   "url": ""
+  },
+  {
+   "bytes": 741,
+   "path": "f3/forcing/sep29_2023.json",
+   "sha256": "e24273bd7a6642729222566920d395a93150a5d9e2350dbedfe66b263d8b444e",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/lim_q30/spec.json",
+   "sha256": "1d893124eadf3338e823d923c8b4223fd4f081e119d0b98923d6306a2c869459",
+   "url": ""
+  },
+  {
+   "bytes": 2243781,
+   "path": "f3/runs/lim_q30/zsmax.tif",
+   "sha256": "9b779699d0f951727088c0ec7639bb55c07c07ff513969db812de6cf80d733ad",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/mod_q30/spec.json",
+   "sha256": "092952e64436dde949ae1857e922cf164e94abf687981b97ee8fb437ad97c07b",
+   "url": ""
+  },
+  {
+   "bytes": 2239563,
+   "path": "f3/runs/mod_q30/zsmax.tif",
+   "sha256": "ff1505e7305892f3d0c11586973b0e4933acd2d8a5b55d7291ecc52aa8adbe47",
+   "url": ""
+  },
+  {
+   "bytes": 300,
+   "path": "f3/runs/ida_q30/spec.json",
+   "sha256": "644776430358fcabe4463f44007a0012a8122033f76b4d23b57dc2d329282f50",
+   "url": ""
+  },
+  {
+   "bytes": 2232557,
+   "path": "f3/runs/ida_q30/zsmax.tif",
+   "sha256": "19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b",
+   "url": ""
+  },
+  {
+   "bytes": 632,
+   "path": "f3/forcing/ida_2021.json",
+   "sha256": "092344359a9c8a3d1ffe9335935adeeae1258e8fea7447ce37ca32e36f8533b9",
+   "url": ""
+  },
+  {
+   "bytes": 284,
+   "path": "f3/runs/ext_q30/spec.json",
+   "sha256": "0eb4a0904f49cf09a74a8e9dbbe008cd540bfaaeb98b0eb30fca969472da0719",
+   "url": ""
+  },
+  {
+   "bytes": 2228300,
+   "path": "f3/runs/ext_q30/zsmax.tif",
+   "sha256": "b64703a2d79efa7b48e78d0a005a4d806772983ae14678ada7c463e3b30d94f6",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Asked for by Yuri on 2026-11-26: both Hudson Avenue (lead asset by the rule) and Farragut are kept as lead sites. Values are placeholders [P] from the asset table; customers served and equipment heights have no public source.",
+  "sites_map.png: Hudson Avenue (top) and Farragut (bottom) substations: modelled peak depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one drainage allowance; the depth of a pixel is the level of its 5 m cell less the 1 m terrain, and the terrain was flown in 2013-2014.",
+  "sites_depth.png: Depth over 25 m\u00b2 of open ground at the two sites in five storms, ordered by the rain of their peak hour, with the Atlas 14 return period of that hour (partial-duration series, between two tabulated columns, no interpolation). Limit: a storm's return period is not the return period of the depth it causes; the replays' 2- and 3-hour rain may sit in other classes (record table 'storms'); equipment heights are unknown."
+ ],
+ "numbers": {
+  "sites": 2,
+  "storms": 5
+ },
+ "parameters": [
+  {
+   "name": "lead_depth_m",
+   "source": "demo-concerns \u00a72",
+   "tag": "P",
+   "value": 0.3
+  },
+  {
+   "name": "lead_area_m2",
+   "source": "",
+   "tag": "P",
+   "value": 25
+  },
+  {
+   "name": "max_roof_share",
+   "source": "",
+   "tag": "P",
+   "value": 0.5
+  },
+  {
+   "name": "map_margin_m",
+   "source": "",
+   "tag": "P",
+   "value": 45.0
+  },
+  {
+   "name": "map_breaks_m",
+   "source": "wet, the city's 4 in and 1 ft, 2 ft",
+   "tag": "P",
+   "value": [
+    0.05,
+    0.1016,
+    0.3048,
+    0.6096
+   ]
+  },
+  {
+   "name": "drainage_allowance_mm_per_h",
+   "source": "frozen F3 value",
+   "tag": "P",
+   "value": 30.0
+  }
+ ],
+ "passed": true,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "python": "3.12.11",
+  "rasterio": "1.5.1"
+ },
+ "stage": "F3",
+ "tables": {
+  "captions": {
+   "sites_depth.png": "Depth over 25 m\u00b2 of open ground at the two sites in five storms, ordered by the rain of their peak hour, with the Atlas 14 return period of that hour (partial-duration series, between two tabulated columns, no interpolation). Limit: a storm's return period is not the return period of the depth it causes; the replays' 2- and 3-hour rain may sit in other classes (record table 'storms'); equipment heights are unknown.",
+   "sites_map.png": "Hudson Avenue (top) and Farragut (bottom) substations: modelled peak depth on 1 m pixels in the Moderate map storm (2.13 in/hr for one hour) and the Ida replay. Thick line: the site's fence outline from OpenStreetMap; thin: the other substations of the complex. Red rings: the 25 m\u00b2 the lead-asset rule reads. Buildings, cells mostly under roofs and water standing from the start are not read. Limit: a 5 m solver with one drainage allowance; the depth of a pixel is the level of its 5 m cell less the 1 m terrain, and the terrain was flown in 2013-2014."
+  },
+  "sites": [
+   {
+    "LocNumber": "S-383102724",
+    "customers_served": "not public (FD7)",
+    "equipment_heights": "not known: no public source gives the height of the equipment above grade; none is assumed",
+    "fenced_area_m2": 6994,
+    "ground_elev_navd88_ft": 21.4,
+    "ground_elev_navd88_m": 6.53,
+    "ground_elev_source": "terrain",
+    "indoor": "no",
+    "kind": "distribution",
+    "name": "Hudson Avenue Substation",
+    "osm_ids": "way/383102724",
+    "outlines": 1,
+    "reviewed_by": "the coordinating model (Claude), 2026-11-25",
+    "seen_on_imagery": "Open-air equipment on three sides of one white-roofed building. Treated as outdoor; part of it is enclosed.",
+    "value_usd": {
+     "high": 380000000,
+     "low": 9100000,
+     "mid": 58804762,
+     "tag": "P"
+    },
+    "voltage_kv": 138.0
+   },
+   {
+    "LocNumber": "S-339711332",
+    "customers_served": "not public (FD7)",
+    "equipment_heights": "not known: no public source gives the height of the equipment above grade; none is assumed",
+    "fenced_area_m2": 38862,
+    "ground_elev_navd88_ft": 10.5,
+    "ground_elev_navd88_m": 3.19,
+    "ground_elev_source": "terrain",
+    "indoor": "no",
+    "kind": "transmission",
+    "name": "Farragut Substation",
+    "osm_ids": "way/339711332;way/383110529;way/383110530",
+    "outlines": 3,
+    "reviewed_by": "the coordinating model (Claude), 2026-11-25",
+    "seen_on_imagery": "A large open-air switchyard on the East River bulkhead: bus work, breakers and transformers in rows, no roof. Two of the three mapped outlines are fence lines, not closed shapes.",
+    "value_usd": {
+     "high": 592000000,
+     "low": 15800000,
+     "mid": 96714011,
+     "tag": "P"
+    },
+    "voltage_kv": 345.0
+   }
+  ],
+  "storms": [
+   {
+    "kind": "replay",
+    "label": "29 Sep 2023",
+    "rain": {
+     "hours": 29,
+     "how": "largest 1-, 2- and 3-hour rain of the square-mean radar forcing (MRMS), Atlas 14 PDS 60-minute, 2-hour and 3-hour rows",
+     "peak_1h_in": 1.528,
+     "peak_1h_mm": 38.8,
+     "return_period": "2-5 yr",
+     "storm_total_mm": 132.0,
+     "windows": {
+      "2-hr": {
+       "between": [
+        "5",
+        "10"
+       ],
+       "depths": [
+        "2.09",
+        "2.43"
+       ],
+       "in": 2.266,
+       "mm": 57.6,
+       "placement": "between 5 and 10"
+      },
+      "3-hr": {
+       "between": [
+        "10",
+        "25"
+       ],
+       "depths": [
+        "2.80",
+        "3.34"
+       ],
+       "in": 2.843,
+       "mm": 72.2,
+       "placement": "between 10 and 25"
+      },
+      "60-min": {
+       "between": [
+        "2",
+        "5"
+       ],
+       "depths": [
+        "1.29",
+        "1.63"
+       ],
+       "in": 1.528,
+       "mm": 38.8,
+       "placement": "between 2 and 5"
+      }
+     }
+    },
+    "run": "sep_q30",
+    "sites": {
+     "S-339711332": {
+      "area_ge_005_m2": 5,
+      "area_ge_030_m2": 0,
+      "depth_on_25m2_ft": 0.11,
+      "depth_on_25m2_m": 0.034,
+      "max_depth_m": 0.083,
+      "meets_lead_rule": false,
+      "peak_level_navd88_m": 3.02
+     },
+     "S-383102724": {
+      "area_ge_005_m2": 8,
+      "area_ge_030_m2": 0,
+      "depth_on_25m2_ft": 0.07,
+      "depth_on_25m2_m": 0.022,
+      "max_depth_m": 0.088,
+      "meets_lead_rule": false,
+      "peak_level_navd88_m": 6.74
+     }
+    },
+    "storm": "sep29_2023"
+   },
+   {
+    "kind": "design",
+    "label": "Limited map storm",
+    "rain": {
+     "how": "the city's intensity held for one hour (block), Atlas 14 PDS 60-minute row",
+     "peak_1h_in": 1.77,
+     "peak_1h_mm": 45.0,
+     "return_period": "5-10 yr",
+     "windows": {
+      "60-min": {
+       "between": [
+        "5",
+        "10"
+       ],
+       "depths": [
+        "1.63",
+        "1.91"
+       ],
+       "in": 1.77,
+       "placement": "between 5 and 10"
+      }
+     }
+    },
+    "run": "lim_q30",
+    "sites": {
+     "S-339711332": {
+      "area_ge_005_m2": 7325,
+      "area_ge_030_m2": 31,
+      "depth_on_25m2_ft": 1.01,
+      "depth_on_25m2_m": 0.309,
+      "max_depth_m": 0.413,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 3.01
+     },
+     "S-383102724": {
+      "area_ge_005_m2": 66,
+      "area_ge_030_m2": 20,
+      "depth_on_25m2_ft": 0.71,
+      "depth_on_25m2_m": 0.216,
+      "max_depth_m": 0.713,
+      "meets_lead_rule": false,
+      "peak_level_navd88_m": 6.51
+     }
+    },
+    "storm": "limited"
+   },
+   {
+    "kind": "design",
+    "label": "Moderate map storm",
+    "rain": {
+     "how": "the city's intensity held for one hour (block), Atlas 14 PDS 60-minute row",
+     "peak_1h_in": 2.13,
+     "peak_1h_mm": 54.1,
+     "return_period": "10-25 yr",
+     "windows": {
+      "60-min": {
+       "between": [
+        "10",
+        "25"
+       ],
+       "depths": [
+        "1.91",
+        "2.29"
+       ],
+       "in": 2.13,
+       "placement": "between 10 and 25"
+      }
+     }
+    },
+    "run": "mod_q30",
+    "sites": {
+     "S-339711332": {
+      "area_ge_005_m2": 10662,
+      "area_ge_030_m2": 297,
+      "depth_on_25m2_ft": 1.27,
+      "depth_on_25m2_m": 0.386,
+      "max_depth_m": 0.466,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 3.11
+     },
+     "S-383102724": {
+      "area_ge_005_m2": 78,
+      "area_ge_030_m2": 30,
+      "depth_on_25m2_ft": 1.5,
+      "depth_on_25m2_m": 0.458,
+      "max_depth_m": 0.988,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 6.78
+     }
+    },
+    "storm": "moderate"
+   },
+   {
+    "kind": "replay",
+    "label": "Ida, 1 Sep 2021",
+    "rain": {
+     "hours": 17,
+     "how": "largest 1-, 2- and 3-hour rain of the square-mean radar forcing (MRMS), Atlas 14 PDS 60-minute, 2-hour and 3-hour rows",
+     "peak_1h_in": 2.399,
+     "peak_1h_mm": 60.9,
+     "return_period": "25-50 yr",
+     "storm_total_mm": 146.1,
+     "windows": {
+      "2-hr": {
+       "between": [
+        "100",
+        "200"
+       ],
+       "depths": [
+        "3.63",
+        "4.05"
+       ],
+       "in": 3.649,
+       "mm": 92.7,
+       "placement": "between 100 and 200"
+      },
+      "3-hr": {
+       "between": [
+        "100",
+        "200"
+       ],
+       "depths": [
+        "4.18",
+        "4.67"
+       ],
+       "in": 4.287,
+       "mm": 108.9,
+       "placement": "between 100 and 200"
+      },
+      "60-min": {
+       "between": [
+        "25",
+        "50"
+       ],
+       "depths": [
+        "2.29",
+        "2.58"
+       ],
+       "in": 2.399,
+       "mm": 60.9,
+       "placement": "between 25 and 50"
+      }
+     }
+    },
+    "run": "ida_q30",
+    "sites": {
+     "S-339711332": {
+      "area_ge_005_m2": 10351,
+      "area_ge_030_m2": 351,
+      "depth_on_25m2_ft": 1.28,
+      "depth_on_25m2_m": 0.39,
+      "max_depth_m": 0.47,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 3.11
+     },
+     "S-383102724": {
+      "area_ge_005_m2": 78,
+      "area_ge_030_m2": 30,
+      "depth_on_25m2_ft": 1.47,
+      "depth_on_25m2_m": 0.447,
+      "max_depth_m": 0.977,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 6.78
+     }
+    },
+    "storm": "ida_2021"
+   },
+   {
+    "kind": "design",
+    "label": "Extreme map storm",
+    "rain": {
+     "how": "the city's intensity held for one hour (block), Atlas 14 PDS 60-minute row",
+     "peak_1h_in": 3.66,
+     "peak_1h_mm": 93.0,
+     "return_period": "200-500 yr",
+     "windows": {
+      "60-min": {
+       "between": [
+        "200",
+        "500"
+       ],
+       "depths": [
+        "3.22",
+        "3.70"
+       ],
+       "in": 3.66,
+       "placement": "between 200 and 500"
+      }
+     }
+    },
+    "run": "ext_q30",
+    "sites": {
+     "S-339711332": {
+      "area_ge_005_m2": 16062,
+      "area_ge_030_m2": 917,
+      "depth_on_25m2_ft": 1.53,
+      "depth_on_25m2_m": 0.467,
+      "max_depth_m": 0.547,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 3.19
+     },
+     "S-383102724": {
+      "area_ge_005_m2": 117,
+      "area_ge_030_m2": 31,
+      "depth_on_25m2_ft": 1.77,
+      "depth_on_25m2_m": 0.54,
+      "max_depth_m": 1.07,
+      "meets_lead_rule": true,
+      "peak_level_navd88_m": 6.87
+     }
+    },
+    "storm": "extreme"
+   }
+  ]
+ },
+ "title": "The two lead substation sites: maps, asset details, depth by storm, return period"
+}

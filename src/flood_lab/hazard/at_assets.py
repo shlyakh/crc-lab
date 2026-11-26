@@ -123,18 +123,26 @@ def building_wall_depths(depth_1m: np.ndarray, buildings_1m: np.ndarray, footpri
     return best[1:]
 
 
-def run_assets(run: Path, cache: Path, site: Path, footprints=None) -> dict:
+def masked_depth(run: Path, cache: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Depth on the 1 m pixels of the square, NaN where it is not read (roofed or standing water),
+    with the footprint mask and the model terrain on the same pixels."""
     zsmax, _ = _read(run / "zsmax.tif")
     dem, _ = _read(cache / "f3" / "model" / "dem_model_1m.tif")
     bld, _ = _read(cache / "f3" / "model" / "buildings_1m.tif")
     off = int(round(TERRAIN_MARGIN_M))
     k = int(round(GRID.cell))
-    bld = bld[off : off + GRID.height * k, off : off + GRID.width * k].astype(bool)
+    rows, cols = slice(off, off + GRID.height * k), slice(off, off + GRID.width * k)
+    bld = bld[rows, cols].astype(bool)
     depth = pixel_depth(zsmax, dem)
     roofed = bld.reshape(GRID.height, k, GRID.width, k).mean(axis=(1, 3)) >= MAX_ROOF_SHARE
     zb, _ = _read(cache / "f3" / "model" / "zb_5m.tif")
     standing = zb < START_LEVEL_M
     depth[np.repeat(np.repeat(roofed | standing, k, axis=0), k, axis=1)] = np.nan
+    return depth, bld, dem[rows, cols].astype("float64")
+
+
+def run_assets(run: Path, cache: Path, site: Path, footprints=None) -> dict:
+    depth, bld, _ = masked_depth(run, cache)
     result = {"substations": substation_depths(depth, bld, site / "data" / "substations.geojson")}
     if footprints is not None:
         walls = building_wall_depths(depth, bld, footprints)
