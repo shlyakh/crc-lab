@@ -1,12 +1,12 @@
 id = "substation-curves-other"
 title = "Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025"
 publisher = "Journal of Flood Risk Management (Wiley); arXiv; WIREs Climate Change (Wiley)"
-checked_on = "2026-11-25"
+checked_on = "2026-11-27"
 stage = "F0"
 level = "facts"
 second_reader_stage = ""
 used_for = ["FR2"]
-known_biases = "Williams: the full text was not readable (Wiley returns HTTP 403 to automated clients and no open copy was found), so its numbers are unchecked; it is a New Zealand expert-elicitation study. Bor et al. is a preprint (manuscript submitted to Earth's Future), not peer reviewed, and Table 1 gives HV (>345 kV, anchored) substations only; the flood parameters are taken from a literature synthesis (Kabre and Weimar 2022). Karagiannakis was read on an arXiv copy of the article, not the publisher page."
+known_biases = "Williams: read on 2026-11-27 (F6) from the article PDF and Data S4 that Yuri downloaded (before that the publisher refused automated access); a New Zealand expert-elicitation study (46 experts, weighted mean of responses, not validated against observed damage), whose substation components are named by voltage tier without kV, equipment or datum; licence CC BY-NC-ND, so values are cited, not copied wholesale. Bor et al. is a preprint (manuscript submitted to Earth's Future), not peer reviewed, and Table 1 gives HV (>345 kV, anchored) substations only; the flood parameters are taken from a literature synthesis (Kabre and Weimar 2022). Karagiannakis was read on an arXiv copy of the article, not the publisher page."
 
 [[fact]]
 name = "williams_identifier"
@@ -21,21 +21,101 @@ verdict_note = ""
 [[fact]]
 name = "williams_licence"
 claimed = "claimed CC BY-NC-ND [V]"
-observed = "CC BY-NC-ND 4.0 per Crossref licence record (version of record, start 2025-04-22) and OpenAlex location licence 'cc-by-nc-nd' (secondary). The Wiley page itself was not readable (403)."
+observed = "Confirmed from the article PDF (p. 1, foot of the first column): Creative Commons Attribution-NonCommercial-NoDerivs. The PDF names no licence version; '4.0' comes from the Crossref licence record (version of record, start 2025-04-22). Data S4 (2 pages, a Word export) carries no licence or copyright statement of its own; the Wiley download stamp on every article page says OA articles are governed by the applicable Creative Commons License."
 outcome = "confirmed"
-source_url = "https://api.crossref.org/works/10.1111/jfr3.70045"
-passage = "license=[{'URL': 'http://creativecommons.org/licenses/by-nc-nd/4.0/', 'content-version': 'vor'}]; OpenAlex: 'cc-by-nc-nd', version publishedVersion"
-note = "Licence read from metadata services, not from the article page."
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, p. 1"
+passage = "This is an open access article under the terms of the Creative Commons Attribution-NonCommercial-NoDerivs License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non-commercial and no modifications or adaptations are made. © 2025 The Author(s). Journal of Flood Risk Management published by Chartered Institution of Water and Environmental Management and John Wiley & Sons Ltd."
+note = "Earlier observation (F0, 2026-11-25): 'CC BY-NC-ND 4.0 per Crossref licence record (version of record, start 2025-04-22) and OpenAlex location licence cc-by-nc-nd (secondary). The Wiley page itself was not readable (403).' Use in the lab: the substation values are cited with page and table, not the figures or the supplement; non-commercial and no adaptations means a curve built from them (0 m point, hold above 3 m, interpolation) is our construction and must be labelled as such, not as Williams's curve."
 verdict_note = ""
 
 [[fact]]
 name = "williams_3m_values"
 claimed = "At 3 m: substation 0.52-0.76, distribution substation 0.51-0.77, grid exit point 0.49-0.70 [S]"
-observed = "Not checked: https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jfr3.70045 and /doi/pdf/ return HTTP 403 to the data-source-check client; no repository full text found (OpenAlex any_repository_has_fulltext=False)."
-outcome = "not checked"
-source_url = "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jfr3.70045"
-passage = "HTTP 403 text/html 5626 bytes"
-note = ""
+observed = "Confirmed. Text p. 7 (section 3.2.2) gives 51%-77% (distribution substation), 52%-76% (substation) and 49%-70% (grid exit point) at 3 m. Data S4 gives the aggregated values at 3 m: substation 52.4 (min) and 75.5 (max), distribution substation 51.3 and 76.5, grid exit point 48.8 and 69.7, which round to the claim. 'Min' and 'max' are minimum and maximum hazard conditions (low or no velocity and/or short duration; high velocity and/or long duration, p. 3 section 2.2), not the bounds of an uncertainty interval; each value is a weighted mean of expert responses (Eq. 1, p. 4)."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, p. 7; file substation-curves-other/jfr370045-sup-0004-supinfo.pdf (Data S4), p. 1"
+passage = "p. 7: 'Distribution substations, substations, and grid exit points all have high estimated damage (e.g., 51%-77%, 52%-76% and 49%-70%, respectively, at 3 m), particularly at > 2 m depth, compared to most other network components included in this study (substations and distribution substations representing the largest max damage estimates for the study).' Data S4, 3 m damage percentage: Substation Max 75.5, Min 52.4; Distribution substation Max 76.5, Min 51.3; Grid exit point (GXP) Max 69.7, Min 48.8."
+note = "Earlier observation (F0, 2026-11-25): not checked; the Wiley PDF returned HTTP 403 to automated clients and no repository full text was found. Read on 2026-11-27 from the PDF and Data S4 that Yuri downloaded."
+verdict_note = ""
+
+[[fact]]
+name = "williams_components"
+claimed = ""
+observed = "Three electricity components carry substation curves: 'grid exit point [high-voltage substation]', 'substation [medium-voltage substation]' and 'distribution substation [low-voltage substation]' (p. 6, section 3.2.2; Figure 7, p. 7). No voltage in kV is given, and the paper does not say whether the equipment is indoor or outdoor, which equipment the component holds, or its height above ground. Components were named with stakeholders 'to invoke a typical NZ infrastructure network component'; representative examples are in Data S3 (p. 3), which was not supplied and is not read. Participants were asked to treat facility-based components 'as the sum of all subcomponents within the facility' (p. 3), with Airfield and Port as the examples; the paper does not say whether substations were treated as facilities. The conclusion groups substations and grid exit points among 'above-grade electrical components' (p. 12). Number of responses (Data S4): substation 16, distribution substation 19, grid exit point 14."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, pp. 3, 6-7, 12; file substation-curves-other/jfr370045-sup-0004-supinfo.pdf, p. 1"
+passage = "p. 6: 'electricity (buried cables, distribution pole, transmission tower, grid exit point [high-voltage substation], substation [medium-voltage substation], distribution substation [low-voltage substation]; Figure 7)'. p. 3: 'In the case of facility-based network components (e.g., Airfield and Port), participants were asked to consider these as the sum of all subcomponents within the facility when making a damage estimate.' p. 12: 'above-grade electrical components (e.g., substations and Grid Exit Points)'. Data S4 Responses (n): Substation 16; Distribution substation 19; Grid exit point (GXP) 14."
+note = "Mapping to the lab's assets is ours: the Con Edison area and transmission substations of the study area are high- or medium-voltage in US terms; the NZ classes are not defined in kV, so a mapping by voltage is an assumption [P]."
+verdict_note = ""
+
+[[fact]]
+name = "williams_depth_definition"
+claimed = ""
+observed = "The hazard metric is 'water depth' (m) at 0.5, 1, 2 and 3 m. The paper gives a datum only for bridges ('depth relative to height above bottom of deck', p. 5) and stopbanks ('height above top of stopbank', p. 8); for substations no datum is stated: neither 'above ground' nor 'above the equipment base' appears. Experts also weighed flow velocity and duration through the min and max hazard conditions (p. 3)."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, pp. 3, 5, 8"
+passage = "p. 3: 'Respondents were asked to estimate a minimum (min) and maximum (max) damage percentage for flood water depths of 0.5, 1, 2 and 3 m for each network component (Data S4).' p. 5: 'bridge (depth relative to height above bottom of deck; urban bridge, rural bridge; Figure 5)'. p. 8: 'flood protection (height above top of stopbank; Figure 9)'."
+note = "F6 reads it as inundation depth above ground at the substation [P], the lab's DepthAboveGround; this is our reading, not the paper's statement."
+verdict_note = ""
+
+[[fact]]
+name = "williams_damage_measure"
+claimed = ""
+observed = "Damage is a 'percentage (%) of damage (i.e., 0% = no damage; 100% = complete damage)' (p. 3, section 2.2). It is not defined as a share of replacement cost, nor as loss of function. The discussion (pp. 10-11) says the curves may be used for loss as 'total component value or replacement cost multiplied by the damage estimate', with a high, unquantified uncertainty in that step. Data S4's heading calls the same numbers 'Damage probability (%)' while its columns say 'Damage percentage (%)'; the paper's definition is the damage percentage."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, pp. 3, 10-11; file substation-curves-other/jfr370045-sup-0004-supinfo.pdf, p. 1"
+passage = "p. 3: 'Damage estimates were collected as a percentage (%) of damage (i.e., 0% = no damage; 100% = complete damage)'. pp. 10-11: 'are also applicable to assess loss, from direct impact (i.e., total component value or replacement cost multiplied by the damage estimate) to estimate a loss range ... This application must, however, consider the high degree of uncertainty (not considered in the scope of the present study) in assuming the same hazard-consequence relation between direct damage (%) and direct economic loss ($).' Data S4: 'Damage probability (%) represents the mathematically aggregated result of responses for the given network component and hazard conditions'."
+note = "As a damage ratio for FR1 (output=Ratio) the values are divided by 100 [I]; using them as a share of replacement value is the use the paper allows with its caveat."
+verdict_note = ""
+
+[[fact]]
+name = "williams_curve_form"
+claimed = ""
+observed = "Discrete points only: one minimum and one maximum curve per component at 0.5, 1, 2 and 3 m (abstract, p. 1; section 3.2, p. 4). No value is given at 0 m or above 3 m, and no interpolation rule is stated. For each point Data S4 gives the aggregated value (expertise-weighted mean, Eq. 1, p. 4; weights early career 1, intermediate 2, senior 3, Table 1, p. 3) and the 50th, 5th and 95th percentiles of the responses. In Figure 7 (p. 7) triangles are the mean, boxes the 25th and 75th percentiles, whiskers the 5th and 95th."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, pp. 1, 3-4, 7"
+passage = "p. 1 (abstract): 'The 12 semi-structured workshops record responses for estimated minimum and maximum damage ratios at 0.5, 1, 2 and 3 m water depths. The 46 responses, weighted by participant expertise level, are aggregated into a discrete minimum and maximum damage curve for each component.' p. 4: 'The mathematically aggregated damage percentages (%) at 0.5, 1, 2 and 3 m water depths are presented for each infrastructure network component at the maximum (max) and minimum (min) hazard conditions, including reporting the 5th, 50th and 95th percentiles of each.'"
+note = "For FR1 a table must run from 0 m to a stated maximum: the 0 m point (0) and the value held above 3 m are ours and tagged [P]; linear interpolation between 0.5, 1, 2 and 3 m is the FR1 rule, not the paper's."
+verdict_note = ""
+
+[[fact]]
+name = "williams_substation_points"
+claimed = "Values at 0.5, 1 and 2 m are in the paper's Fig. 7 and Data S4, not yet read"
+observed = """
+Read from Data S4, p. 1 (Energy rows). Damage percentage (%) as value / 50th / 5th / 95th percentile, at 0.5, 1, 2, 3 m:
+Grid exit point (GXP, high voltage), n = 14
+  max: 0.5 m 34.1/25.0/4.9/80.3; 1 m 45.5/41.3/15.0/85.3; 2 m 61.0/66.4/22.5/100; 3 m 69.7/75.0/34.9/100
+  min: 0.5 m 14.0/7.5/0.0/41.9; 1 m 22.0/17.5/1.2/55.1; 2 m 36.7/33.8/11.3/65.9; 3 m 48.8/45.0/17.8/80.3
+Substation (medium voltage), n = 16
+  max: 0.5 m 33.4/30.0/7.5/72.0; 1 m 48.4/52.0/18.0/90.5; 2 m 64.8/67.5/28.5/100; 3 m 75.5/75.0/39.0/100
+  min: 0.5 m 14.3/7.5/0.0/43.0; 1 m 25.0/20.0/6.9/62.5; 2 m 42.0/37.5/7.2/95.5; 3 m 52.4/52.5/7.4/95.5
+Distribution substation (low voltage), n = 19
+  max: 0.5 m 34.7/27.5/9.6/74.5; 1 m 51.0/48.8/18.2/100; 2 m 66.2/60.0/29.3/100; 3 m 76.5/75.0/37.5/100
+  min: 0.5 m 14.6/7.5/0.0/43.9; 1 m 27.4/17.5/6.9/81.5; 2 m 43.3/37.5/7.5/95.5; 3 m 51.3/48.8/8.9/99.0
+Already at 0.5 m the aggregated values are 14 to 35%.
+"""
+outcome = "confirmed"
+source_url = "file substation-curves-other/jfr370045-sup-0004-supinfo.pdf (Data S4), p. 1; figure: Figure 7, p. 7 of the article"
+passage = "Data S4 header: 'Supplementary Material 4: Flood damage probability of each critical infrastructure network component (as also presented in Figures 5-10). ... The median value (50th percentile) and confidence intervals at the 5th and 95th percentile are presented alongside each damage probability value.' Columns per depth: Damage percentage (%), 50th percentile (%), 5th percentile (%), 95th percentile (%); last column Responses (n). Rows as in 'observed' (pdftotext -layout and -raw agree)."
+note = "Only the three substation components are copied, the numbers F6 needs (CC BY-NC-ND: cite, do not copy the supplement). Figure 7 was not digitised; the table is the source."
+verdict_note = ""
+
+[[fact]]
+name = "williams_elicitation"
+claimed = "These curves are specific to New Zealand"
+observed = "Expert elicitation in Aotearoa New Zealand: 12 semi-structured workshops (about 20 min to 2.5 h each), 46 experts (31 practitioners, 15 researchers), each estimating minimum and maximum damage percentages at 0.5, 1, 2 and 3 m for the components of their expertise; responses weighted by self-assigned expertise (Table 1) and aggregated by a weighted mean (Eq. 1); no calibration questions, no behavioural consensus. Ethics approval University of Canterbury HREC 2022/136. Responses concentrate in two regions of NZ (p. 11). The authors say the curves are bespoke to NZ, do not transfer well, and were not validated against observed damage; benchmarking (section 3.3, Figure 11, p. 8) found literature substation curves 'consistently lower than the max model' and lower than the min model 'by some margin'."
+outcome = "confirmed"
+source_url = "file substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf, pp. 2-4, 8, 11"
+passage = "p. 3: 'A total of 12 individual workshops were conducted, with the participation of 46 experts.' p. 4: 'Of the participants who recorded responses (n = 46), 68% (n = 31) were practitioners (asset owners/operators and engineering consultants) and 32% (n = 15) were researchers.' p. 8: 'Substations and water pump stations are the only literature-based flood damage curves that are consistently lower than the max model in the present study, with substations also being consistently lower than the min model by some margin.' p. 11: 'there is a higher concentration of responses from two regions of the country'."
+note = """
+Comparison at the depths of Williams's points (damage ratio; inundation depth above ground assumed for all three, [P] for Williams):
+| depth | Nirandjan F2 | Bor 2026 EDR | Williams GXP min-max | Williams substation min-max | Williams distribution min-max |
+| 0.5 m | 0.033 | 0.032 | 0.140-0.341 | 0.143-0.334 | 0.146-0.347 |
+| 1 m   | 0.063 | 0.171 | 0.220-0.455 | 0.250-0.484 | 0.274-0.510 |
+| 2 m   | 0.096 | 0.501 | 0.367-0.610 | 0.420-0.648 | 0.433-0.662 |
+| 3 m   | 0.157 | 0.737 | 0.488-0.697 | 0.524-0.755 | 0.513-0.765 |
+Nirandjan: spreadsheet values at those depths (substation-curves-nirandjan, rows 16, 26, 46, 66). Bor: our calculation [I] of Eq. 2 (p. 20 of arXiv 2605.23053v1) from Table 1 (HV, >345 kV): EDR = sum of dr_i (P_i - P_i+1), P_i = Phi(ln(d/theta_i)/0.40). Williams: Data S4 aggregated values / 100. Williams lies 4 to 11 times above Nirandjan at 0.5 m and 3 to 5 times at 3 m; Bor matches Nirandjan at 0.5 m and lies near Williams's max at 3 m, falling between Williams's min and max at 2 m and below Williams's min at 1 m and 0.5 m.
+"""
 verdict_note = ""
 
 [[fact]]
@@ -121,7 +201,7 @@ verdict_note = ""
 [[fact]]
 name = "licence"
 claimed = ""
-observed = "Williams CC BY-NC-ND 4.0; Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0."
+observed = "Williams CC BY-NC-ND (printed on p. 1 of the article; version 4.0 from Crossref); Bor CC BY 4.0 (arXiv page); Karagiannakis CC BY 4.0."
 outcome = "confirmed"
 source_url = "https://api.crossref.org/works/10.1111/jfr3.70045"
 passage = "see specific facts"
@@ -141,7 +221,7 @@ verdict_note = ""
 [[fact]]
 name = "checksum"
 claimed = ""
-observed = "PDF checksums in [[file]]; not published by the sources."
+observed = "PDF checksums in [[file]] (the Williams article and Data S4 added 2026-11-27); not published by the sources."
 outcome = "not applicable"
 source_url = "https://arxiv.org/pdf/2605.23053v1"
 passage = "-"
@@ -191,3 +271,17 @@ url = "https://arxiv.org/pdf/2504.20056"
 bytes = 3992254
 sha256 = "0dc747684a6abf8c6fdc7b7f07625fe6e10e1380482fd7997ddd33324dd1f117"
 fetched_at = "2026-11-25T17:01:28Z"
+
+[[file]]
+path = "substation-curves-other/J Flood Risk Management - 2025 - Williams - Expert‐Derived Flood Damage Curves for Critical Infrastructure Network.pdf"
+url = "downloaded by Yuri from Wiley Online Library (https://doi.org/10.1111/jfr3.70045); address not recorded"
+bytes = 2624638
+sha256 = "e5a790f0a2b3f160e414f3657c62dcfcad2c4effadc31aa6bd01713d85072eaf"
+fetched_at = "2026-11-27T08:25:06Z"
+
+[[file]]
+path = "substation-curves-other/jfr370045-sup-0004-supinfo.pdf"
+url = "downloaded by Yuri from Wiley Online Library (Data S4 of doi:10.1111/jfr3.70045); address not recorded"
+bytes = 475427
+sha256 = "26d717d82f928f260ebfc7e7964526d38eae85e5eb9eda684f8b327b1bffb67d"
+fetched_at = "2026-11-27T08:26:49Z"
