@@ -446,6 +446,7 @@ assets = [
 ]
 flood = [
     { name = "geopandas" },
+    { name = "openpyxl" },
     { name = "pyogrio" },
     { name = "pyproj" },
 ]
@@ -479,6 +480,7 @@ requires-dist = [
     { name = "linkml", marker = "extra == 'assets'", specifier = ">=1.8" },
     { name = "lonboard", marker = "extra == 'viz'", specifier = ">=0.10" },
     { name = "numpy", specifier = ">=1.26" },
+    { name = "openpyxl", marker = "extra == 'flood'", specifier = ">=3.1" },
     { name = "osmnx", marker = "extra == 'assets'", specifier = ">=2.0" },
     { name = "pandas", specifier = ">=2.2" },
     { name = "plotly", specifier = ">=5.22,<7" },

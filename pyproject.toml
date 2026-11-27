@@ -23,7 +23,7 @@ assets = ["osmnx>=2.0", "geopandas>=1.0", "linkml>=1.8"]
 # Notebook maps while exploring; the explorer itself uses MapLibre + deck.gl in the browser.
 viz = ["lonboard>=0.10"]
 # Flood lab (src/flood_lab): vector reading and reprojection; its tests run in CI with this extra.
-flood = ["geopandas>=1.0", "pyogrio>=0.7", "pyproj>=3.6"]
+flood = ["geopandas>=1.0", "pyogrio>=0.7", "pyproj>=3.6", "openpyxl>=3.1"]
 # MRMS GRIB2 (crc_lab radar, flood_lab.reference.mrms); its tests run in CI with this extra.
 radar = [
     "cfgrib>=0.9.15.1",
@@ -51,6 +51,7 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = [
+    "src/crc_event_loss",
     "src/crc_lab",
     "src/crc_data_explorer",
     "src/data_source_check",

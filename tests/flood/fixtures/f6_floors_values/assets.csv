@@ -1,0 +1,10 @@
+LocNumber,lab_asset_type,lab_first_floor_height_m,lab_subgrade,lab_nsi_id,lab_reviewed,lab_value_low_usd,lab_value_mid_usd,lab_value_high_usd,lab_value_tag,lab_value_source
+B-1,building,1.25,Y,101,,,500000,,S,USACE NSI 2026 Base val_struct summed over the building's inventory records (lab_inventory_points): depreciated replacement value; Aug 2025 prices
+B-2,building,,,102,,,300000,,S,USACE NSI 2026 Base val_struct summed over the building's inventory records (lab_inventory_points): depreciated replacement value; Aug 2025 prices
+B-3,building,,,103,,,200000,,S,USACE NSI 2026 Base val_struct summed over the building's inventory records (lab_inventory_points): depreciated replacement value; Aug 2025 prices
+B-4,building,,,,,,,,,
+B-5,building,-0.25,N,101,,,,,,
+B-6,building,0.0,N,,,,,,,
+S-1,substation,,,,kept,9100000,58804762,380000000,P,placeholder: low = MISO ...; high = Con Edison ...
+S-2,substation,,,,removed: not a working substation,,,,,
+S-3,substation,,,,kept,,,,,

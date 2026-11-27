@@ -1,0 +1,5 @@
+{"type": "FeatureCollection", "features": [
+ {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-73.95, 40.70]}, "properties": {"fd_id": 101, "found_ht": 2.0, "found_type": "B"}},
+ {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-73.95, 40.70]}, "properties": {"fd_id": 102, "found_ht": 2.0, "found_type": "B"}},
+ {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-73.95, 40.70]}, "properties": {"fd_id": 103, "found_ht": 0.25, "found_type": "S"}}
+]}

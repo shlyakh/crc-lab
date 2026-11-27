@@ -13,10 +13,11 @@ SITE = SRC.parent / "site"
 #: package -> the other packages of this repository it may import
 ALLOWED = {
     "lab_common": set(),
+    "crc_event_loss": set(),
     "crc_lab": {"lab_common"},
     "crc_data_explorer": {"lab_common"},
     "data_source_check": set(),
-    "flood_lab": {"lab_common"},
+    "flood_lab": {"lab_common", "crc_event_loss"},
 }
 
 
