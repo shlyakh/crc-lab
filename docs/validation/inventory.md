@@ -1,6 +1,6 @@
 # Inventory: crc-sdk sources
 
-Generated 2026-11-27 by `python -m data_source_check.build` against crc-framework 1.0.1, crc-sdk 1.0.1.
+Generated 2026-11-27 by `python -m data_source_check.build` against crc-framework 1.1.0, crc-sdk 1.0.1.
 Do not edit: change the files under `src/data_source_check/sources/` and rebuild.
 
 ## Sources
