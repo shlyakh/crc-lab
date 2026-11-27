@@ -249,8 +249,9 @@ REPRODUCED
   Remote rasters are opened through GDAL without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY`
   (`crc_sdk/_climate_io.py:407-420`). On a local server that closes the first connection and serves the
   second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; repeated, it returns its
-  rows. In two days this was met with three publishers: JRC (three reads of the Texas box ended within 90
-  seconds), NOAA (seven resets among 1,000 GHCNh station-years) and NASA (the NEX scripts on this page
+  rows. In two days this was met with three publishers: JRC (the Texas box was read on the fifth try; of the
+  four earlier tries, one ended on a connection reset 38 seconds into the download and one on a reset when
+  the machine woke from sleep; how the other two ended is not recorded), NOAA (seven resets among 1,000 GHCNh station-years) and NASA (the NEX scripts on this page
   complete only with a retry around the standard library call).
 - **Reproduce.** `uv run tools/repro/crc_no_retry.py` (offline, a few seconds; points IBTrACS at the local
   server by setting one private name). The raster path was read in the code and seen failing on JRC; it

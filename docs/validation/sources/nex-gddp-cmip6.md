@@ -199,8 +199,11 @@ For each variable and year assessed, the file versions NASA lists (the reference
 | CRC-012-NEX | observation | NASA serves files of version 2.0, which cannot be requested | reproduced | superseded by CRC-031-NEX from 1.0.0 |
 | CRC-031-NEX | observation | The file version cannot be chosen: the highest on NASA's listing is read, older revisions NASA still serves cannot be requested, and the version read appears only inside a file name | reproduced | open |
 | CRC-032-NEX | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | fixed in 1.1.0 |
-| CRC-033-NEX | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | fixed in 1.0.1 |
-| CRC-034-NEX | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | fixed in 1.0.1 |
+| CRC-033-NEX | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | superseded by CRC-039-NEX from 1.0.1 |
+| CRC-034-NEX | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | superseded by CRC-041-NEX from 1.0.1 |
+| CRC-039-NEX | doc-code difference | NASA's archive-level CC0 statement is not recorded for NEX files | code reading | open |
+| CRC-040-NEX | observation | A share-alike model licence raises no warning | code reading | by design |
+| CRC-041-NEX | observation | For a year NASA has no file for, the nearest year's file is still read | reproduced | open |
 
 Details are in [the inventory](../inventory.md#findings).
 
