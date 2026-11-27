@@ -10,8 +10,9 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [FEMA benefit-cost analysis: discount rate, BCA Toolkit, project useful life](fema-bca.md) | facts checked: 2 confirmed, 3 read with no claim, 3 not checked | 5 | 0 | 3 | 4 | F0 |
 | [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed (8 read with no claim); values recomputed by a second reader in F2 (passed) | 12 | 0 | 0 | 1 | F0 |
 | [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed (6 read with no claim); values recomputed by a second reader in F2 (passed) | 9 | 0 | 0 | 1 | F0 |
+| [Global Historical Climatology Network - Daily (GHCN-Daily), daily precipitation at three New York City stations](ghcn-daily.md) | facts confirmed (8 read with no claim) | 8 | 0 | 0 | 1 | F5 |
 | [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed (3 read with no claim); values recomputed by a second reader in F2 (passed) | 19 | 0 | 0 | 9 | F0 |
-| [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 read with no claim, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
+| [FEMA Hazus 7 Flood and Inventory Technical Manuals; Hazus 4.0 depth-damage tables in FEMA&\#x27;s FAST tool](hazus-flood-functions.md) | facts checked: 1 confirmed, 10 read with no claim, 3 differ, 2 not checked | 11 | 3 | 2 | 2 | F6 |
 | [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 3 confirmed, 4 read with no claim, 2 differ | 7 | 2 | 0 | 2 | F0 |
 | [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed (9 read with no claim) | 15 | 0 | 0 | 0 | F0 |
 | [Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM](lidar-terrain.md) | facts checked: 4 confirmed, 6 read with no claim, 2 differ, 3 not checked | 10 | 2 | 3 | 1 | F0 |
@@ -32,7 +33,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs](sfincs-release.md) | facts checked: 2 confirmed, 4 read with no claim, 4 differ, 1 not checked | 6 | 4 | 1 | 3 | F0 |
 | [Public figures for the replacement or construction cost of electrical substations, by voltage class](substation-cost-sources.md) | facts checked: 4 confirmed, 2 not checked | 4 | 0 | 2 | 8 | F1 |
 | [Nirandjan et al. 2024 physical vulnerability database, Table D2 version 1.1.0](substation-curves-nirandjan.md) | facts checked: 5 confirmed, 2 read with no claim, 1 not checked | 7 | 0 | 1 | 2 | F0 |
-| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts checked: 6 confirmed, 6 read with no claim, 1 not checked | 12 | 0 | 1 | 4 | F0 |
+| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts confirmed (10 read with no claim) | 19 | 0 | 0 | 4 | F0 |
 | [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts checked: 4 confirmed, 7 read with no claim, 1 not checked | 11 | 0 | 1 | 1 | F0 |
 | [USGS 3DEP 1 m DEM tiles over the F1 study box (north Brooklyn, 500 m margin)](usgs-3dep-1m.md) | facts confirmed (3 read with no claim) | 13 | 0 | 0 | 2 | F1 |
 | [Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021](usgs-ida-depth-rasters.md) | facts checked: 2 confirmed, 11 read with no claim, 1 not checked | 13 | 0 | 1 | 0 | F0 |

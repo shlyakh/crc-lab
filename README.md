@@ -63,7 +63,7 @@ uv sync --all-extras --group dev
 uv run pytest -q
 ```
 
-Pinned: `crc-sdk==1.0.0`, `crc-framework==1.0.0` (see `CHANGELOG-upstream.md`).
+Pinned: `crc-sdk==1.1.0`, `crc-framework==1.1.0` (see `CHANGELOG-upstream.md`).
 
 ## Licence
 

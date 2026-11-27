@@ -524,7 +524,7 @@
    "id": "CRC-022-JRC",
    "kind": "observation",
    "note": "",
-   "observed": "GloFAS for the Texas box (201,757,502 pixels in four tiles, 9,851,138 curves, 10,703,386 rows): 1,604 s and a peak of 5,804 MB on an arm64 Mac with 16 GB, the 28 crops (about 0.6 GB at the publisher) fetched in the same run. The smaller boxes took 10 s (Austin, 22,201 curves) to 54 s (Houston, 212,867 curves). The table is validated in a separate worker process (crc_sdk/connectors/parquet.py:232), which fails with BrokenProcessPool when the calling script is read from standard input. Read in the code: the output file is written only at the end of the run. On crc-sdk 1.0.0 (2026-11-25), where nothing is fitted: the same box, read from the publisher by `JRC(...).select(area=...).read()`, took 9,081 s and a peak of 5,483 MB for 11,069,311 rows, on the same machine; Houston took 111 s and the Rhine box 137 s. Four earlier tries of the Texas read ended on a dropped connection and one when the machine slept; nothing of a failed read is kept.",
+   "observed": "GloFAS for the Texas box (201,757,502 pixels in four tiles, 9,851,138 curves, 10,703,386 rows): 1,604 s and a peak of 5,804 MB on an arm64 Mac with 16 GB, the 28 crops (about 0.6 GB at the publisher) fetched in the same run. The smaller boxes took 10 s (Austin, 22,201 curves) to 54 s (Houston, 212,867 curves). The table is validated in a separate worker process (crc_sdk/connectors/parquet.py:232), which fails with BrokenProcessPool when the calling script is read from standard input. Read in the code: the output file is written only at the end of the run. On crc-sdk 1.0.0 (2026-11-25), where nothing is fitted: the same box, read from the publisher by `JRC(...).select(area=...).read()`, took 9,081 s and a peak of 5,483 MB for 11,069,311 rows, on the same machine; Houston took 111 s and the Rhine box 137 s. That read was the fifth try: of the four earlier tries, one ended on a connection reset 38 s into the download and one on a reset when the machine woke from sleep after 4 h 23 min of reading; how the other two ended is not recorded. Nothing of a failed read is kept.",
    "source": "jrc-flood",
    "status": "open",
    "status_text": "open",
@@ -543,16 +543,16 @@
     "docs/sources.md:33",
     "check records jrc-flood/delivered[*] and the table 'Pixels by area' (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)"
    ],
-   "fixed_in": "",
+   "fixed_in": "1.1.0",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-023-JRC",
    "kind": "observation",
-   "note": "",
+   "note": "Fixed by pull request #64 (answer to our issue #59), released in crc-sdk 1.1.0. Shown on 2026-11-26 by tools/repro/crc_023_jrc_skipped_pixels.py against crc-sdk 1.1.0 (the GloFAS tile near Fremont, the JRC server): of 10,603 flooded pixels 9,828 are returned, the 459 with one depth among them (the return periods without a depth read as 0 m, counted in an unmapped_depth_as_zero note of 2,631 pixels); the 775 whose depth decreases are left out unrepaired and counted in their own source_no_data warning; the 76,398 dry pixels are in a dry_pixels note and no longer in the skipped count. The offline jrc-flood assessment, ported to this rule, confirms it on constructed files. The live jrc-flood re-run has not been made.",
    "observed": "Counted from the publisher's files by the reference reader, and equal to crc-sdk's own skipped count in every area. Houston: 1,045,703 skipped = 1,019,627 dry + 22,086 with one depth + 3,990 with a decreasing depth. Austin: 336,778 = 335,707 + 931 + 140. Fremont: 77,632 = 76,398 + 459 + 775. Rhine (EFAS): 2,440,888 = 2,433,343 + 6,815 + 730. So of the pixels the publisher shows flooded at some return period, the share left out is 26,076 of 278,654 in Houston (9.4%), 1,071 of 25,494 in Austin (4.2%), 1,234 of 10,603 in Fremont (11.6%) and 7,545 of 161,898 on the Rhine (4.7%). The warning carries no support_id and no split.",
    "source": "jrc-flood",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
+   "status": "fixed",
+   "status_text": "fixed in 1.1.0",
    "superseded_by": "",
    "title": "Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/59"
@@ -566,16 +566,16 @@
     "crc_sdk/_climate_io.py:105-133",
     "check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)"
    ],
-   "fixed_in": "",
+   "fixed_in": "1.0.1",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-024-JRC",
    "kind": "observation",
-   "note": "",
+   "note": "Fixed by pull request #55 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_024_jrc_outside_coverage.py run against crc-sdk 1.0.1 (Fremont box, EFAS, the JRC server): no rows and an area_outside_coverage warning; and by the offline jrc-flood assessment, whose coverage check now requires that warning. The live jrc-flood re-run on 1.0.1 or later has not been made.",
    "observed": "`JRC(product=JRC.Product.EFAS).select(area=Bounds(west=-122.15, south=37.42, east=-121.85, north=37.62)).read()` (Fremont, California, read through the European product) returns 0 rows; report counts requested 0, produced 0, skipped 0; no diagnostics; `complete=True`, `valid=True`; no exception (crc_sdk/_climate_io.py:105-133: a window that misses the raster adds no range).",
    "source": "jrc-flood",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
+   "status": "fixed",
+   "status_text": "fixed in 1.0.1",
    "superseded_by": "",
    "title": "A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/55"
@@ -590,16 +590,16 @@
     "docs/datasets.md:81-84",
     "probe jrc-decreasing in docs/reports/v1-probes-1.0.0.md (tools/probes/v1/probes.py), 2026-11-24"
    ],
-   "fixed_in": "",
+   "fixed_in": "1.1.0",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-025-OWN",
    "kind": "observation",
-   "note": "",
+   "note": "Fixed by pull request #64 (answer to our issue #59, which asked for a skip option or the pixel's position in the error), released in crc-sdk 1.1.0: the error now names the pixel. Shown on 2026-11-26 and 2026-11-27 by tools/repro/crc_025_from_raster_decreasing.py against crc-sdk 1.1.0: 'ValidationError: quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing (raster row 1, column 2; longitude 10.025000, latitude 49.985000); counts requested=6 produced=0; diagnostic support_id=[None]' and 'observed: the error names the pixel: yes', NOT REPRODUCED. What remains is intended upstream: the read still stops on a decreasing pixel, which the docstring of iter_raster_quantile_rows (crc_sdk/_climate_io.py:73-75 at v1.1.0) calls invalid source data for user rasters, while the JRC provider skips such pixels (skip_decreasing). The diagnostic's support_id is still None.",
    "observed": "The publisher's own GloFAS files for a 5 by 5 pixel block near Fremont and one near Houston, given to `Dataset.from_raster` with probabilities 1 - 1/T: `ValidationError: quantile evidence requires matching ordered knots, probabilities strictly increasing in [0, 1] and values nondecreasing`; counts requested 13, produced 0 (Fremont) and 4, 0 (Houston); the diagnostic's support_id is None. One pixel in each block has a depth lower at a longer return period (Fremont: 1.0, 1.0 at 10 and 20 years, then 0.256 at 50 years). Through `JRC(...)` the same blocks are read and that pixel is skipped.",
    "source": "own-data",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
+   "status": "fixed",
+   "status_text": "fixed in 1.1.0",
    "superseded_by": "",
    "title": "`Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/59"
@@ -618,7 +618,7 @@
    "framework_version": "1.0.0",
    "id": "CRC-026-FWK",
    "kind": "defect",
-   "note": "",
+   "note": "Seen again on crc-framework 1.0.1 and 1.1.0 (tools/repro/crc_026_fit_float32.py, 2026-11-26): both pixels converge as 32-bit values and fail as decimals, as on 1.0.0.",
    "observed": "crc-framework 1.0.0, `QuantileFit` with the Gumbel family, depths that are flat and then rise at the two longest return periods. As 32-bit floats: [..., 2.639, 3.768] converges after 54 iterations and [..., 1.016, 1.13] after 87. The same numbers as decimals do not converge after 362 and 300 iterations ('gumbel_r fitting did not converge'). At crc-framework 0.6.0 it was the reverse: the 32-bit values did not converge (374 and 358 iterations) and the decimals did (91 and 89).",
    "source": "framework",
    "status": "open",
@@ -642,7 +642,7 @@
    "framework_version": "1.0.0",
    "id": "CRC-027-FWK",
    "kind": "doc-code difference",
-   "note": "",
+   "note": "Seen again on crc-sdk 1.1.0 (tools/repro/crc_027_window_checksum.py, 2026-11-26, the JRC server): two boxes in the same file record two checksums, neither the publisher file's; the file read whole is recorded correctly.",
    "observed": "For each JRC depth file the recorded resource has an address ending in '#crc-window=<west>,<south>,<east>,<north>' and a SHA-256 of the bundle crc-sdk wrote for that window (crc_sdk/_climate_io.py:423-515). In the four JRC areas 44 of 55 recorded resources are of this kind; the README and the tile index, read whole, carry checksums equal to the reference's. The same holds for NEX files (address ending '#crc-variable=...&window=...').",
    "source": "framework",
    "status": "open",
@@ -705,15 +705,15 @@
    "documented": "docs/sources.md:43: 'Native storm point observations for an explicit `Agency`'.",
    "evidence": [
     "docs/sources.md:43",
-    "crc_sdk/_observed_sources.py:2262"
+    "crc_sdk/_observed_sources.py:2305 (v1.1.0)"
    ],
    "fixed_in": "",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-030-IBT",
    "kind": "doc-code difference",
-   "note": "",
-   "observed": "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2262). The package's own interface declaration, crc_sdk/contracts/api/public-api.json, states this default, so the default is intended and the difference is in the wording of docs/sources.md, where `explicit` may also be meant as `typed`.",
+   "note": "Seen again on crc-sdk 1.1.0 (tools/repro/crc_030_ibtracs_default_agency.py, offline, 2026-11-26): IBTrACS() is accepted and reads the USA agency.",
+   "observed": "`IBTrACS()` with no argument reads `Agency.USA` (crc_sdk/_observed_sources.py:2305 at v1.1.0, 2262 at 1.0.0). The package's own interface declaration, crc_sdk/contracts/api/public-api.json, states this default, so the default is intended and the difference is in the wording of docs/sources.md, where `explicit` may also be meant as `typed`.",
    "source": "ibtracs",
    "status": "open",
    "status_text": "open",
@@ -755,23 +755,23 @@
     "docs/sources.md:104-106, 124",
     "check record nex-gddp-cmip6/calendar[BCC-CSM2-MR rx1day historical 2014] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)"
    ],
-   "fixed_in": "",
+   "fixed_in": "1.1.0",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-032-NEX",
    "kind": "doc-code difference",
-   "note": "",
+   "note": "Fixed by pull request #62 (answer to our issue #58), released in crc-sdk 1.1.0: NEX series are read in their native CF calendar (Gregorian, 365-day, 360-day and the other CF names; crc_sdk/_climate_sampling.py:1837-1850 at v1.1.0). Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment, ported to this rule: the constructed 365-day model is read and returns rows. Not shown on NASA's files: tools/repro/crc_032_nex_calendar.py (a year's read is about 250 MB of range requests) and the live re-run were not run.",
    "observed": "The calendar is read from the first file's header and the read is refused unless it is `standard`, `gregorian` or `proleptic_gregorian` (crc_sdk/_climate_sampling.py:1811-1817). For BCC-CSM2-MR, whose files declare `365_day`: `ValidationError: NEX source does not use its published Gregorian calendar` (check calendar[BCC-CSM2-MR rx1day historical 2014]). A survey of the 2014 historical precipitation headers of 35 models on 2026-11-24, made by the porting agent and not kept as a record, found 14 Gregorian, 16 on `365_day`, 4 on `360_day` and one unread. crc-sdk 0.11 read 365-day models (its records label `365_day` as `noleap`).",
    "source": "nex-gddp-cmip6",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
+   "status": "fixed",
+   "status_text": "fixed in 1.1.0",
    "superseded_by": "",
    "title": "Models whose calendar is not Gregorian are refused, although inspection lists them",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/58"
   },
   {
    "basis": "reproduced",
-   "closed_in": "",
+   "closed_in": "1.0.1",
    "consequence": "Output derived from a share-alike model carries no licence and no warning, where the previous version recorded the licence and warned. A user cannot see from the output that redistribution has a condition.",
    "documented": "docs/data-licences.md:9-11: licence and attribution are recorded 'when known'; 'there is no invented default license or attribution'. Up to 0.11 crc-sdk kept the file's model licence beside NASA's CC0 and warned when it was not CC0.",
    "evidence": [
@@ -784,18 +784,18 @@
    "framework_version": "1.0.0",
    "id": "CRC-033-NEX",
    "kind": "doc-code difference",
-   "note": "",
+   "note": "Partly fixed. The model licence is fixed by pull request #54 (ours), released in crc-sdk 1.0.1: crc-sdk now reads cmip6_license when the file has no license attribute (crc_sdk/_climate_sampling.py:1878-1882 at v1.0.1, 1879-1883 at v1.1.0). Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files carrying cmip6_license (the resource now records CC-BY-SA 4.0). Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run. The two other parts of the title continue as CRC-039-NEX (NASA's CC0 statement not recorded) and CRC-040-NEX (no share-alike warning, dropped on purpose in 1.0).",
    "observed": "Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file states one: `CC-BY-SA 4.0` in the four temperature files (tasmax, tasmin) and `CC-BY 4.0` in the four precipitation files of the same model, ACCESS-CM2 (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: ...'). NASA's archive-level CC0 statement is not recorded either. No warning is raised.",
    "source": "nex-gddp-cmip6",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
-   "superseded_by": "",
+   "status": "superseded",
+   "status_text": "superseded by CRC-039-NEX from 1.0.1",
+   "superseded_by": "CRC-039-NEX",
    "title": "No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/54"
   },
   {
    "basis": "reproduced",
-   "closed_in": "",
+   "closed_in": "1.0.1",
    "consequence": "A request for a year outside a scenario's span costs a whole file read (about 250 MB by range requests) and returns rows that look like a year with gaps, not like a year that does not exist.",
    "documented": "Not documented.",
    "evidence": [
@@ -807,12 +807,12 @@
    "framework_version": "1.0.0",
    "id": "CRC-034-NEX",
    "kind": "observation",
-   "note": "",
+   "note": "Partly fixed. The silent part is fixed by pull request #56 (ours), released in crc-sdk 1.0.1: a year past the published years still gives rows without a value, now with a source_year_unavailable warning naming the year (docs/sources.md:135 at v1.1.0). The nearest year's file is still read for such a year, which #56 states it does not address: CRC-041-NEX. Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files, whose year-without-file check now requires the warning. Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run.",
    "observed": "Asked for the historical run in 2015, which ends in 2014, crc-sdk reads `pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc` and returns 2,332 rows, each with no value and the failure `incomplete_year` (0 of 365 days) (crc_sdk/_climate_sampling.py:1833-1835, 1911-1912; check year-without-file[rx1day historical 2015]). At 0.11 a file NASA did not have ended in an error.",
    "source": "nex-gddp-cmip6",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
-   "superseded_by": "",
+   "status": "superseded",
+   "status_text": "superseded by CRC-041-NEX from 1.0.1",
+   "superseded_by": "CRC-041-NEX",
    "title": "A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/56"
   },
@@ -827,16 +827,16 @@
     "docs/sources.md:93, 259-260",
     "check records ghcnh/annual[*] and the tables 'From stations to annual values' and 'Stations' (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)"
    ],
-   "fixed_in": "",
+   "fixed_in": "1.1.0",
    "found_on": "2026-11-24",
    "framework_version": "1.0.0",
    "id": "CRC-035-GHC",
    "kind": "observation",
-   "note": "",
+   "note": "Fixed by pull request #63 (answer to our issue #57), released in crc-sdk 1.1.0: a new argument daily_coverage sets the share of a day's 24 hours that need a report, so the day rule can now be relaxed; docs/sources.md:276-285 (v1.1.0) says both defaults leave most hourly station-years without a value and gives the 0.11 rule (daily_coverage=Coverage.minimum_fraction(0.75), coverage=Coverage.minimum_fraction(0.9)); the incomplete_days warning names both settings. What remains is intended upstream: the default is still Coverage.complete() for both rules. tools/repro/crc_035_ghcnh_default_coverage.py, which checks the default, on crc-sdk 1.1.0 (2026-11-26 and 2026-11-27): 'observed: values present, default: 2 of 20; Coverage.minimum_fraction(0.9): 20 of 20', REPRODUCED for the default only.",
    "observed": "For the first 40 USW stations in the Texas box, 2000 to 2024, NOAA has a file for 592 of 1,000 station-years. Through `GHCNh(indicator=...).read()` with the default coverage, 0 of 592 rows carry a value, for both indicators; every row has the failure `incomplete_year`. With `Coverage.minimum_fraction(0.9)`, 339 of 592 do. Under the rules of crc-sdk 0.11 (18 of 24 hours a day, 90% of days) the same files give, for example, 13, 16, 17, 15, 16 and 15 complete years for the first six stations, against 0 now. The 24-hour day is fixed in the code (crc_sdk/_station_reduction.py:65-75, 108-117) and cannot be relaxed. The reference recomputation agrees with crc-sdk on every row (checks annual[*], 6,512 values each, 0 differ). A second look on 2026-11-25 at five major airports (Austin, Dallas/Fort Worth, Houston, San Antonio, El Paso), 2019 to 2022: 2 of 20 station-years carry a default value, both with 365 of 365 complete days; the other 18 have 356 to 364 complete days and no value; all 20 have one at a 0.9 fraction (tools/repro/crc_035_ghcnh_default_coverage.py). So the default gives a value only for a year in which every day has all 24 reports.",
    "source": "ghcnh",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
+   "status": "fixed",
+   "status_text": "fixed in 1.1.0",
    "superseded_by": "",
    "title": "With the default completeness rule no station-year of forty Texas airport stations carries a value",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/issues/57"
@@ -856,7 +856,7 @@
    "framework_version": "1.0.0",
    "id": "CRC-036-GHC",
    "kind": "observation",
-   "note": "",
+   "note": "Seen again on crc-sdk 1.1.0 (tools/repro/crc_036_ghcnh_bad_report.py, 2026-11-26): one duplicated report in the second station's file raises for the whole selection.",
    "observed": "On constructed station files: station A alone returns its row. `select(stations=[A, C])`, where C's file holds one report of another station, raises `ValidationError: GHCNh returned an unrequested station` and returns nothing for A. The same holds for an unreadable DATE, a missing coordinate, a non-finite temperature, and two reports at one time and position (crc_sdk/_observed_decoders.py:409-421; crc_sdk/_evidence.py:672-674). At 0.11 such reports were dropped and the read went on. Not met in NOAA's files of the 40 stations assessed.",
    "source": "ghcnh",
    "status": "open",
@@ -867,7 +867,7 @@
   },
   {
    "basis": "reproduced",
-   "closed_in": "",
+   "closed_in": "1.0.1",
    "consequence": "The attribution a user would reproduce names an office that is not the publisher, and the output no longer says which version of the dataset it came from.",
    "documented": "docs/data-licences.md:9-11: licence and attribution are recorded 'when known' and retain 'the source's actual terms'.",
    "evidence": [
@@ -880,38 +880,135 @@
    "framework_version": "1.0.0",
    "id": "CRC-037-GHC",
    "kind": "observation",
-   "note": "",
+   "note": "Partly fixed. The attribution is fixed by pull request #53 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_037_ghcnh_attribution.py run against crc-sdk 1.0.1 (USW00012960, 2020, NOAA's bucket), and again on 1.1.0 on 2026-11-27: the station list and the station-year file are attributed to 'NOAA National Centers for Environmental Information; original source records retained.' The licence text and the missing dataset version, also named in this finding and left out of #53, continue as CRC-042-GHC. The live ghcnh re-run has not been made.",
    "observed": "Every GHCNh resource carries the attribution 'NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.' and the licence 'NOAA open-use terms; originator terms may apply' (crc_sdk/_observed_sources.py:118-122; checks provenance[*], 1,000 files). CO-OPS is NOAA's tides and water-level service and does not publish GHCNh; the constant is shared by the NOAA providers. No GHCNh version or DOI is recorded; 0.11 recorded `ghcnh-v1` and `CC0-1.0`.",
    "source": "ghcnh",
-   "status": "reported upstream",
-   "status_text": "reported upstream",
-   "superseded_by": "",
+   "status": "superseded",
+   "status_text": "superseded by CRC-042-GHC from 1.0.1",
+   "superseded_by": "CRC-042-GHC",
    "title": "GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version",
    "upstream_ref": "https://github.com/RiskThinking/crc-sdk/pull/53"
   },
   {
    "basis": "reproduced",
    "closed_in": "",
-   "consequence": "A read that needs many requests fails as a whole on one transient failure, and what was read up to then is lost unless a cache was configured. A state-sized JRC box has not been read at all on 1.0.0. Every caller has to add its own retry around `read()`, which repeats the whole read.",
+   "consequence": "A read that needs many requests fails as a whole on one transient failure, and what was read up to then is lost unless a cache was configured. On 1.0.0 the Texas JRC box was read only on the fifth try. Every caller has to add its own retry around `read()`, which repeats the whole read.",
    "documented": "docs/execution.md and docs/sources.md describe caches and pinned replays; neither states what happens when a publisher closes a connection during a read.",
    "evidence": [
-    "crc_sdk/_source_io.py:280",
-    "crc_sdk/_climate_io.py:407-420",
+    "crc_sdk/_source_io.py:282 (v1.1.0)",
+    "crc_sdk/_climate_io.py:486-499 (v1.1.0)",
     "tools/repro/crc_no_retry.py (run of 2026-11-25 on crc-sdk 1.0.0)",
-    "docs/reports/u3-crc-1.0.0.md (the Texas reads)"
+    "docs/reports/u3-crc-1.0.0.md (the Texas reads)",
+    "docs/reports/crc-1.0.0-issues/texas-tries-2026-11-25.txt (tries 2 to 5 of the Texas read)"
    ],
    "fixed_in": "",
    "found_on": "2026-11-25",
    "framework_version": "1.0.0",
    "id": "CRC-038-FWK",
    "kind": "observation",
-   "note": "",
-   "observed": "A download is one `urllib.request.urlopen(request, timeout=60)` call (crc_sdk/_source_io.py:280); remote rasters are opened through GDAL with `GDAL_DISABLE_READDIR_ON_OPEN` and an optional header file only, without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY` (crc_sdk/_climate_io.py:407-420). The word `retry` occurs in none of the package's 50 Python files. On a local server that closes the first connection and serves the second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; the same call repeated returns its rows (tools/repro/crc_no_retry.py). Seen with three publishers on 2026-11-24 and 25: JRC (four reads of the Texas box of 28 remote files ended within 90 seconds on `Connection reset by peer`, `RemoteDisconnected`, or a file GDAL could not recognise after a failed request), NOAA (seven resets among 1,000 GHCNh station-years, each ending a read) and NASA (NEX reads completed only with a retry placed around the standard library call). The raster path was read in the code and seen failing on JRC; it was not exercised on a constructed server.",
+   "note": "Seen again on crc-sdk 1.1.0 (tools/repro/crc_no_retry.py, offline, 2026-11-26 and 2026-11-27): the first dropped connection ends the read; none of the 51 crc_sdk files mentions a retry. Line references are to v1.1.0 (280 and 407-420 at 1.0.0).",
+   "observed": "A download is one `urllib.request.urlopen(request, timeout=60)` call (crc_sdk/_source_io.py:282 at v1.1.0); remote rasters are opened through GDAL with `GDAL_DISABLE_READDIR_ON_OPEN` and an optional header file only, without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY` (`_gdal_options`, crc_sdk/_climate_io.py:486-499 at v1.1.0). The word `retry` occurs in none of the package's 51 Python files at v1.1.0. On a local server that closes the first connection and serves the second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; the same call repeated returns its rows (tools/repro/crc_no_retry.py). Seen with three publishers on 2026-11-24 and 25: JRC (the Texas box, 28 remote files, was read on the fifth try, in 9,081 s (CRC-022-JRC); of the four earlier tries, one ended on a connection reset when the machine woke from sleep after 4 h 23 min, and three ended within 90 seconds: on a connection reset after 38 s, on `RemoteDisconnected` after 83 s, and on a file GDAL did not recognise after 26 s), NOAA (seven resets among 1,000 GHCNh station-years, each ending a read) and NASA (NEX reads completed only with a retry placed around the standard library call). The raster path was read in the code and seen failing on JRC; it was not exercised on a constructed server.",
    "source": "framework",
    "status": "open",
    "status_text": "open",
    "superseded_by": "",
    "title": "A connection the publisher drops ends the read: no download is tried a second time",
+   "upstream_ref": ""
+  },
+  {
+   "basis": "code reading",
+   "closed_in": "",
+   "consequence": "The output carries the model's terms but not the terms under which NASA publishes the downscaled data.",
+   "documented": "docs/data-licences.md:9-11: licence and attribution are recorded 'when known' and retain 'the source's actual terms'. Up to 0.11 crc-sdk kept the file's model licence beside NASA's CC0.",
+   "evidence": [
+    "crc_sdk/_climate_sampling.py:1879-1883 (v1.1.0)",
+    "docs/data-licences.md:9-11",
+    "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)"
+   ],
+   "fixed_in": "",
+   "found_on": "2026-11-24",
+   "framework_version": "1.0.0",
+   "id": "CRC-039-NEX",
+   "kind": "doc-code difference",
+   "note": "Continues the part of CRC-033-NEX that pull request #54 did not address. Read in the code of v1.1.0; not re-run on NASA's files (about 250 MB of range requests).",
+   "observed": "From 1.0.1 the resource records the model licence written in the file (`cmip6_license`, crc_sdk/_climate_sampling.py:1879-1883 at v1.1.0), and the attribution 'NASA Earth Exchange NEX-GDDP-CMIP6'. NASA's statement that the dataset is released under CC0 is not recorded anywhere on the resource.",
+   "source": "nex-gddp-cmip6",
+   "status": "open",
+   "status_text": "open",
+   "superseded_by": "",
+   "title": "NASA's archive-level CC0 statement is not recorded for NEX files",
+   "upstream_ref": ""
+  },
+  {
+   "basis": "code reading",
+   "closed_in": "",
+   "consequence": "A user sees a share-alike condition only by reading the licence on each resource of the output.",
+   "documented": "docs/migration-v1.md:632 (v1.1.0): RestrictiveLicenceWarning and the other licence checks of 0.11 are replaced by ResourceIdentity.license and attribution, because '1.0 records the publisher's terms as they are rather than ranking them; deciding what they allow is up to you.'",
+   "evidence": [
+    "docs/migration-v1.md:632 (v1.1.0)",
+    "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)"
+   ],
+   "fixed_in": "",
+   "found_on": "2026-11-24",
+   "framework_version": "1.0.0",
+   "id": "CRC-040-NEX",
+   "kind": "observation",
+   "note": "Continues the warning part of CRC-033-NEX. The migration guide states the change as intended (upstream_ref); set to by design with Yuri on 2026-11-27.",
+   "observed": "Up to 0.11 crc-sdk warned when a NEX file's model licence was not CC0. From 1.0 no warning is raised; from 1.0.1 the licence itself (for example `CC-BY-SA 4.0` for the ACCESS-CM2 temperature files) is recorded on the resource.",
+   "source": "nex-gddp-cmip6",
+   "status": "by design",
+   "status_text": "by design",
+   "superseded_by": "",
+   "title": "A share-alike model licence raises no warning",
+   "upstream_ref": "https://github.com/RiskThinking/crc-sdk/blob/v1.1.0/docs/migration-v1.md?plain=1#L632"
+  },
+  {
+   "basis": "reproduced",
+   "closed_in": "",
+   "consequence": "A request for a year outside a scenario's span costs a whole file read (about 250 MB by range requests) for rows that carry no value.",
+   "documented": "docs/sources.md:135 (v1.1.0): a year past the published years gives rows without a value and a `source_year_unavailable` warning naming those years. The page does not say that a file is read for it.",
+   "evidence": [
+    "docs/sources.md:135 (v1.1.0)",
+    "https://github.com/RiskThinking/crc-sdk/pull/56",
+    "tools/repro/out/crc_034_nex_missing_year.fix.txt",
+    "check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)"
+   ],
+   "fixed_in": "",
+   "found_on": "2026-11-24",
+   "framework_version": "1.0.0",
+   "id": "CRC-041-NEX",
+   "kind": "observation",
+   "note": "Continues the part of CRC-034-NEX that pull request #56 did not address. Shown on 1.0.0 and on the branch of #56; not re-run on the released 1.0.1 or 1.1.0 with NASA's files (about 250 MB of range requests).",
+   "observed": "Asked for the historical run in 2015, which ends in 2014, crc-sdk 1.0.0 read `pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc` and returned 2,332 rows without a value (check year-without-file[rx1day historical 2015]). With the change of pull request #56 applied (tools/repro/crc_034_nex_missing_year.py on its branch, tools/repro/out/crc_034_nex_missing_year.fix.txt): 'files read: ['pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc']' and the warning 'The source publishes no data for 2015; its published years are 1950-2014.' #56 states that it does not change which file is read.",
+   "source": "nex-gddp-cmip6",
+   "status": "open",
+   "status_text": "open",
+   "superseded_by": "",
+   "title": "For a year NASA has no file for, the nearest year's file is still read",
+   "upstream_ref": ""
+  },
+  {
+   "basis": "reproduced",
+   "closed_in": "",
+   "consequence": "The output does not say which version of the dataset it came from, and its licence text does not name GHCNh's terms.",
+   "documented": "docs/data-licences.md:9-11: licence and attribution are recorded 'when known' and retain 'the source's actual terms'.",
+   "evidence": [
+    "crc_sdk/_observed_sources.py:119 (v1.1.0)",
+    "docs/data-licences.md:9-11",
+    "check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)"
+   ],
+   "fixed_in": "",
+   "found_on": "2026-11-24",
+   "framework_version": "1.0.0",
+   "id": "CRC-042-GHC",
+   "kind": "observation",
+   "note": "Continues the licence and version part of CRC-037-GHC, which pull request #53 left out. On v1.1.0 the licence constant is unchanged (code reading; tools/repro/crc_037_ghcnh_attribution.py prints the attribution only).",
+   "observed": "Every GHCNh resource carries the licence 'NOAA open-use terms; originator terms may apply' (`_NOAA_TERMS`, crc_sdk/_observed_sources.py:119 at v1.1.0), shared by the NOAA providers. No GHCNh version or DOI is recorded; 0.11 recorded `ghcnh-v1` and `CC0-1.0`.",
+   "source": "ghcnh",
+   "status": "open",
+   "status_text": "open",
+   "superseded_by": "",
+   "title": "GHCNh files carry a generic licence text and no dataset version",
    "upstream_ref": ""
   }
  ],
@@ -1133,7 +1230,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-26T09:43:12Z",
+ "generated": "2026-11-27T14:31:46Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -1829,7 +1926,7 @@
      "id": "provenance",
      "note": "",
      "outcome": "confirmed",
-     "text": "Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.`, and a release identifier with a SHA-256 over them all. No GHCNh version is recorded."
+     "text": "Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information; original source records retained.` (CO-OPS no longer named since crc-sdk 1.0.1), and a release identifier with a SHA-256 over them all. No GHCNh version is recorded."
     }
    ],
    "status": {
@@ -2040,7 +2137,7 @@
      "id": "area",
      "note": "",
      "outcome": "confirmed",
-     "text": "Takes every pixel of the publisher's grid that the box touches."
+     "text": "Takes every pixel of the publisher's grid that the box touches. Since crc-sdk 1.1.0 the report's requested count holds the flooded pixels only; the dry ones are in the `dry_pixels` note."
     },
     {
      "code_ref": "crc_sdk/_climate_io.py:139-141, 173-178",
@@ -2050,25 +2147,25 @@
      "text": "Treats the file's nodata value and non-finite values as no depth."
     },
     {
-     "code_ref": "crc_sdk/_climate_io.py:173-189; crc_sdk/_climate_sources.py:457-463",
+     "code_ref": "crc_sdk/_climate_io.py:201-227; crc_sdk/_climate_sources.py:525-536",
      "id": "selection",
      "note": "",
      "outcome": "confirmed",
-     "text": "Returns a row for a pixel that has two or more depths, none lower than a depth at a shorter return period. Every other pixel is left out."
+     "text": "Returns a row for every pixel that has a depth at one or more return periods, unless its depths, with the return periods it has no depth for read as 0 m, are lower anywhere than at a shorter return period: those pixels are left out unrepaired. A pixel with no depth at any return period gets no row (crc-sdk 1.1.0; 1.0 also left out pixels with one depth)."
     },
     {
-     "code_ref": "crc_sdk/_climate_io.py:171, 189-190; crc_sdk/_climate_sources.py:137-150",
+     "code_ref": "crc_sdk/_climate_io.py:201-205, 242; crc_sdk/_climate_sources.py:145-185",
      "id": "skipped-count",
      "note": "",
      "outcome": "confirmed",
-     "text": "Counts the pixels left out and reports the number once for the read, in a warning that names both reasons together. Pixels that are simply dry are in the same number."
+     "text": "Counts the pixels left out for a decreasing depth in a `source_no_data` warning and in the report's skipped count. The pixels returned with a return period read as 0 m are counted in an `unmapped_depth_as_zero` note, and the dry pixels in a `dry_pixels` note; dry pixels are neither requested nor skipped (crc-sdk 1.1.0; 1.0 put dry pixels in the skipped number)."
     },
     {
      "code_ref": "crc_sdk/_climate_sources.py:445-453; crc_sdk/_climate_io.py:173-178, 191-193",
      "id": "knots",
      "note": "",
      "outcome": "confirmed",
-     "text": "Places a depth published for the return period T at the probability 1 - 1/T. A return period with no depth at the pixel gives no knot."
+     "text": "Places a depth published for the return period T at the probability 1 - 1/T. A return period with no depth at a returned pixel gives a knot of 0 m, so every row has a knot at every return period of the product."
     },
     {
      "code_ref": "crc_sdk/_climate_io.py:173-178, 191-193; crc_sdk/_climate_sources.py:482-496",
@@ -2124,7 +2221,7 @@
      "id": "coverage",
      "note": "",
      "outcome": "confirmed",
-     "text": "For a box that lies outside a product's coverage, returns no rows and raises no error."
+     "text": "For a box that lies outside a product's coverage, returns no rows and raises no error; since crc-sdk 1.0.1 the report carries an `area_outside_coverage` warning naming the product."
     }
    ],
    "status": {
@@ -2210,11 +2307,11 @@
      "text": "Takes the model, scenario and member from the request and the listing address, and labels the result with them; the file's own identity attributes are not compared with the request."
     },
     {
-     "code_ref": "crc_sdk/_climate_sampling.py:1811-1817, 1846-1850; crc_sdk/_climate_grid.py:83-112",
+     "code_ref": "crc_sdk/_climate_sampling.py:1837-1850; crc_sdk/_climate_grid.py:83-99",
      "id": "calendar",
      "note": "Asked for one model with a 365-day calendar (BCC-CSM2-MR, its header only); models with a 360-day calendar were not asked for.",
      "outcome": "confirmed",
-     "text": "Reads the calendar from the header of the earliest year's file and refuses the series unless it is Gregorian (`standard`, `gregorian` or `proleptic_gregorian`); each year's file must declare the same calendar."
+     "text": "Reads the calendar from the header of the earliest year's file and reads the series in that calendar when it is one CF names (Gregorian, `noleap`/`365_day`, `all_leap`/`366_day`, `360_day`, `julian`; crc-sdk 1.1.0, where 1.0 refused all but the Gregorian ones); each year's file must declare the same calendar."
     },
     {
      "code_ref": "crc_sdk/_climate_sampling.py:1863-1870; crc_sdk/_providers/cmip6.py:74-94; crc_sdk/_climate_grid.py:404-424",
@@ -2224,11 +2321,11 @@
      "text": "Decodes `days since <date>` to whole days (the stamp is floored), requires them to be unique and increasing, and keeps a day of the year only when exactly one time step falls in it."
     },
     {
-     "code_ref": "crc_sdk/_climate_sampling.py:1856-1862",
+     "code_ref": "crc_sdk/_climate_sampling.py:1879-1883",
      "id": "licence",
      "note": "",
      "outcome": "confirmed",
-     "text": "Copies a global `license` (or `licence`) attribute, when the file has one, onto the file's resource as its licence. NASA's files carry the model licence as `cmip6_license`, which is not read; NASA's statement that the archive is CC0 is not recorded."
+     "text": "Copies a global `license` attribute, else `licence`, else `cmip6_license` (the model licence NASA writes in its files; read since crc-sdk 1.0.1), onto the file's resource as its licence. NASA's statement that the archive is CC0 is not recorded."
     },
     {
      "code_ref": "crc_sdk/_climate_sampling.py:1851-1855, 1910; crc_sdk/_providers/cmip6.py:137-142; crc_sdk/_climate_io.py:836-855",
@@ -2287,11 +2384,11 @@
      "text": "Returns one row per selected grid cell and year, with or without a value: the cell's rectangle as geometry, its H3 cell (resolution 9) at the centre, `support_id` `nex:0p25:<row>:<column>` (its place in NASA's file), the time as the year, the value, the coverage (valid and expected days or windows, the minimum fraction) and, for a cell without a value, the failure `incomplete_year`. No distribution is fitted."
     },
     {
-     "code_ref": "crc_sdk/_climate_sampling.py:1833-1835, 1911-1912",
+     "code_ref": "crc_sdk/_climate_sampling.py:778-800",
      "id": "year-without-file",
      "note": "Asked for one year after the end of the historical run (2015); a year before the first file was not asked for.",
      "outcome": "confirmed",
-     "text": "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present)."
+     "text": "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present). Since crc-sdk 1.0.1 the report carries a `source_year_unavailable` warning naming the year and the published years."
     },
     {
      "code_ref": "crc_sdk/_climate_sampling.py:397-420, 930-1008, 1818-1828",
@@ -2678,7 +2775,7 @@
   }
  ],
  "versions": {
-  "crc-framework": "1.0.0",
-  "crc-sdk": "1.0.0"
+  "crc-framework": "1.1.0",
+  "crc-sdk": "1.1.0"
  }
 }

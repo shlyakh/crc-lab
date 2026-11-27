@@ -116,6 +116,10 @@ and has not been repeated on 1.0.0.
 
 ## 6. What was found
 
+*Note of 2026-11-27: the counts below are those of 2026-11-25 (crc-sdk 1.0.0). On crc-sdk 1.1.0 the register
+holds 42 findings: CRC-023, 024, 025, 032 and 035 are fixed, CRC-033, 034 and 037 are partly fixed and continue
+as CRC-039, 041 and 042, and CRC-040 is by design (`docs/reports/u4-crc-1.1.0.md`, `docs/validation/inventory.md`).*
+
 Thirty-eight findings so far: 5 defects, 9 differences between documentation and code, 24 observations.
 Thirty were reproduced on data; eight rest on reading the code and say so.
 

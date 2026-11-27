@@ -1,0 +1,18 @@
+crc-sdk 1.1.0, crc-framework 1.1.0, rasterio 1.5.1
+box: {'west': -122.15, 'south': 37.42, 'east': -121.85, 'north': 37.62}; publisher files: https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard/RP<T>/ID18_N40_W130_RP<T>_depth.tif (cache: /var/folders/_x/xxnz7zw16c315zf2q_vw4h1c0000gn/T/glofas-repro)
+call: JRC(product=JRC.Product.GLOFAS).select(area=Bounds(**BOX)).read()
+publisher's files, pixels touched by the box:
+  all                                            87001
+  dry (no depth at any return period)            76398
+  flooded, one depth only                          459
+  flooded, depth lower at a longer period          775
+  flooded, a nondecreasing curve                  9369
+crc-sdk: requested 10603, produced 9828, rows 9828, skipped 775; rows' tiles ['ID18_N40_W130']
+  diagnostic source_no_data support_id=None: Skipped 775 flooded pixels whose depth decreases as the return period rises. JRC simulates each return period separately; these pixels are not repaired.
+  diagnostic unmapped_depth_as_zero support_id=None: 2631 flooded pixels have no mapped depth at some return periods. JRC maps depths of at least 0.1 m in nested flood extents, so those return periods are read as 0 m.
+  diagnostic dry_pixels support_id=None: 76398 pixels are not flooded at any return period and are not returned.
+expected: 10603 rows (every flooded pixel), or the flooded pixels left out reported apart from the dry ones
+observed: 9828 rows; skipped 775; publisher: 76398 dry, 459 one depth, 775 decreasing
+observed: skipped = dry + one depth + decreasing: False; skipped = decreasing only: True
+observed: flooded pixels left out: 775 of 10603 (7.3%), named in a warning of their own (source_no_data)
+NOT REPRODUCED

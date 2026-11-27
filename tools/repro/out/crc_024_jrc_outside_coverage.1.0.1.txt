@@ -1,0 +1,7 @@
+crc-sdk 1.0.1
+call: JRC(product=JRC.Product.EFAS).select(area=Bounds(west=-122.15, south=37.42, east=-121.85, north=37.62)).read()
+rows: 0; counts: requested=0 produced=0 skipped=0; complete=True valid=True
+  diagnostic area_outside_coverage [warning, acquisition]: The selected area lies outside the efas source extent; no source pixels were read.
+expected: an error, or a diagnostic saying the box is outside the EFAS extent
+observed: 1 diagnostic(s)
+NOT REPRODUCED

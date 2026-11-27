@@ -106,7 +106,7 @@ Assessed on the sample of crc-sdk 0.11.2, so that the two versions can be compar
 | annual-value | For a complete year, takes the highest daily maximum (`annual_maximum_daily_maximum_temperature`) or the lowest daily minimum (`annual_minimum_daily_minimum_temperature`) over the complete days. An incomplete year keeps its row with no value, failure `incomplete_year`, and its coverage: complete days, days of the year and the fraction required. | crc_sdk/_aggregation.py:777-822 | **confirmed** |
 | location | Gives each distinct reported position its own support: `<station>@` and the first 20 hexadecimal digits of the SHA-256 of the position as a little-endian WKB point, with its H3 cell at resolution 9. A station that moves within a year gets one row per position, each reduced over its own reports only; no move is refused and positions are not merged. Elevation is not carried. | crc_sdk/_observed_decoders.py:66-76; crc_sdk/_station_reduction.py:40-55 | **confirmed** |
 | output | Returns `Samples`: one row per position and year, with the year as time, the value, its coverage and failure, the station and support identifiers, the H3 cell and the point; declared as annual values with an upper tail for the maximum and a lower tail for the minimum. A station-year with no file, or with a file holding no report, has no row: it is an `UnavailableStationYear` diagnostic, counted as requested and incomplete. The report counts requested, produced, no-data, usable and incomplete years. No curve is fitted: that needs an explicit `fit(SampleFit(...))`. | crc_sdk/_observed_sources.py:1142-1244, 1374-1513; docs/sources.md:93-96, 252-257 | **confirmed** |
-| provenance | Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.`, and a release identifier with a SHA-256 over them all. No GHCNh version is recorded. | crc_sdk/_observed_sources.py:118-122, 895-910, 1352-1366, 1549-1555 | **confirmed** |
+| provenance | Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information; original source records retained.` (CO-OPS no longer named since crc-sdk 1.0.1), and a release identifier with a SHA-256 over them all. No GHCNh version is recorded. | crc_sdk/_observed_sources.py:118-122, 895-910, 1352-1366, 1549-1555 | **confirmed** |
 
 ## Checks
 
@@ -172,9 +172,10 @@ The resources crc-sdk records with its output: every station-year file requested
 
 | Id | Kind | Finding | Basis | Status |
 | --- | --- | --- | --- | --- |
-| CRC-035-GHC | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | reported upstream |
+| CRC-035-GHC | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | fixed in 1.1.0 |
 | CRC-036-GHC | observation | One unusable report in one station's file stops the read of every selected station | reproduced | open |
-| CRC-037-GHC | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | reported upstream |
+| CRC-037-GHC | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | superseded by CRC-042-GHC from 1.0.1 |
+| CRC-042-GHC | observation | GHCNh files carry a generic licence text and no dataset version | reproduced | open |
 
 Details are in [the inventory](../inventory.md#findings).
 

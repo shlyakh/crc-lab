@@ -1,22 +1,25 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "crc-sdk[raster]==1.0.0", "crc-framework==1.0.0",
+#   "crc-sdk[raster]==1.1.0", "crc-framework==1.1.0",
 #   "rasterio<1.5.2; sys_platform == 'darwin'",
 # ]
 # ///
 """JRC GloFAS: dry pixels and flooded pixels that are left out share one skipped count.
 
 Expected (docs/sources.md: "original pixels and quantile knots"): every flooded pixel in the box
-becomes a row, or the read says which flooded pixels it left out and why. Observed: pixels with
-one depth, and pixels whose depth is lower at a longer return period, are dropped; the only trace
-is one count that also holds every dry pixel. The publisher's seven GeoTIFFs of the tile (~28 MB)
+becomes a row, or the read says which flooded pixels it left out and why. Observed on 1.0.0:
+pixels with one depth, and pixels whose depth is lower at a longer return period, are dropped; the
+only trace is one count that also holds every dry pixel. The script counts the flooded pixels that
+get no row and looks for a warning that counts them apart from the dry pixels; it prints what it
+finds on the version installed. The publisher's seven GeoTIFFs of the tile (~28 MB)
 are downloaded once to <temp dir>/glofas-repro and counted with rasterio, as crc-sdk reads them.
 
     uv run crc_023_jrc_skipped_pixels.py
 """
 
 import math
+import re
 import sys
 import tempfile
 import time
@@ -108,23 +111,31 @@ print(
 )
 for d in result.report.diagnostics:
     print(f"  diagnostic {d.code} support_id={d.support_id}: {d.message}")
-left_out = one + down
+left_out = max(flooded - result.table.num_rows, 0)
+# a warning of its own: it gives the number of flooded pixels left out and not the dry count
+own = [
+    d.code
+    for d in result.report.diagnostics
+    if re.search(rf"\b{left_out}\b", d.message) and not re.search(rf"\b{dry}\b", d.message)
+]
 print(
-    f"expected: {flooded} rows (every flooded pixel), or the {left_out} flooded pixels "
-    "left out reported apart from the dry ones"
+    f"expected: {flooded} rows (every flooded pixel), or the flooded pixels left out "
+    "reported apart from the dry ones"
 )
 print(
-    f"observed: {result.table.num_rows} rows; skipped {counts.skipped} = {dry} dry + {one} "
-    f"one depth + {down} decreasing: {counts.skipped == dry + one + down}"
+    f"observed: {result.table.num_rows} rows; skipped {counts.skipped}; publisher: {dry} dry, "
+    f"{one} one depth, {down} decreasing"
+)
+print(
+    f"observed: skipped = dry + one depth + decreasing: {counts.skipped == dry + one + down}; "
+    f"skipped = decreasing only: {counts.skipped == down}"
+)
+named = f"named in a warning of their own ({', '.join(own)})" if own else (
+    "not reported apart from the dry pixels"
 )
 print(
     f"observed: flooded pixels left out: {left_out} of {flooded} "
-    f"({100 * left_out / flooded:.1f}%), not named in the report"
+    f"({100 * left_out / flooded:.1f}%), {named}"
 )
-ok = (
-    counts.skipped == dry + one + down
-    and result.table.num_rows == curves
-    and left_out > 0
-    and all(d.support_id is None for d in result.report.diagnostics)
-)
+ok = left_out > 0 and not own
 print("REPRODUCED" if ok else "NOT REPRODUCED")
