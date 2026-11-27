@@ -32,7 +32,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [Deltares SFINCS v2.5.0, Docker images and hydromt-sfincs](sfincs-release.md) | facts checked: 2 confirmed, 4 read with no claim, 4 differ, 1 not checked | 6 | 4 | 1 | 3 | F0 |
 | [Public figures for the replacement or construction cost of electrical substations, by voltage class](substation-cost-sources.md) | facts checked: 4 confirmed, 2 not checked | 4 | 0 | 2 | 8 | F1 |
 | [Nirandjan et al. 2024 physical vulnerability database, Table D2 version 1.1.0](substation-curves-nirandjan.md) | facts checked: 5 confirmed, 2 read with no claim, 1 not checked | 7 | 0 | 1 | 2 | F0 |
-| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts checked: 6 confirmed, 6 read with no claim, 1 not checked | 12 | 0 | 1 | 4 | F0 |
+| [Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025](substation-curves-other.md) | facts confirmed (10 read with no claim) | 19 | 0 | 0 | 4 | F0 |
 | [National Structure Inventory (NSI) 2026 Base](usace-national-structure-inventory.md) | facts checked: 4 confirmed, 7 read with no claim, 1 not checked | 11 | 0 | 1 | 1 | F0 |
 | [USGS 3DEP 1 m DEM tiles over the F1 study box (north Brooklyn, 500 m margin)](usgs-3dep-1m.md) | facts confirmed (3 read with no claim) | 13 | 0 | 0 | 2 | F1 |
 | [Geospatial datasets of water surface elevation and water depth in New York City associated with the remnants of Hurricane Ida, September 1, 2021](usgs-ida-depth-rasters.md) | facts checked: 2 confirmed, 11 read with no claim, 1 not checked | 13 | 0 | 1 | 0 | F0 |

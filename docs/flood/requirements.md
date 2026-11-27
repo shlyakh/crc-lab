@@ -324,8 +324,10 @@ say what this file claims, stop and report; do not substitute a number.
     the last row of F2.1–3 was corrected in 1.1.0, so do not copy values from the preprint or 1.0.
   - **High: expert-derived, minimum and maximum** (Williams et al. 2025, JFRM 18(2):e70045, §3.2.2). At
     3 m: substation 0.52–0.76, distribution substation 0.51–0.77, grid exit point 0.49–0.70 **[S]**.
-    Values at 0.5, 1 and 2 m are in the paper's Fig. 7 and Data S4, not yet read. These curves are
-    specific to New Zealand, and the article's licence is reported as CC BY-NC-ND **[V]**: cite the
+    Values at 0.5, 1 and 2 m are read from Data S4 (CH-27, `substation-curves-other`); "minimum" and
+    "maximum" are minimum and maximum hazard conditions (velocity, duration), not uncertainty bounds, and
+    the paper gives points at 0.5, 1, 2 and 3 m only, with no datum stated for the depth. These curves are
+    specific to New Zealand, and the article's licence is CC BY-NC-ND **[S]** (p. 1): cite the
     values, do not copy the supplement into the repository, and see question 7.
   - **Alternative: lognormal fragility** (Bor et al. 2026, arXiv 2605.23053, Table 1; a preprint), for
     substations above 345 kV, anchored. Median depth, dispersion and damage ratio by state: slight
@@ -557,7 +559,7 @@ with an outcome.
 | NFIP redacted claims | OpenFEMA | FT5 | Public | F0 | Facts | |
 | Gridded rainfall | NOAA AORC v1.1 or Stage IV (catalogue); MRMS (replays) | FH4, FH5 | Public | F0 | Facts and second reader for the replay rainfall (F5); facts for the catalogue record | |
 | NOAA Atlas 14 | Point precipitation frequency, study-area centroid | FH6 | Public | F0 | Facts | |
-| Substation curves | Nirandjan et al. 2024, Zenodo doi:10.5281/zenodo.13889558 v1.1.0; Williams et al. 2025, doi:10.1111/jfr3.70045; Bor et al. 2026, arXiv 2605.23053; Karagiannakis et al. 2025, doi:10.1002/wcc.930 | FR2 | Nirandjan CC BY 4.0 **[S]**; Williams reported CC BY-NC-ND **[V]** | F0 (licences, files); F6 (every value) | Facts; every curve point read from the primary file in F6 | |
+| Substation curves | Nirandjan et al. 2024, Zenodo doi:10.5281/zenodo.13889558 v1.1.0; Williams et al. 2025, doi:10.1111/jfr3.70045; Bor et al. 2026, arXiv 2605.23053; Karagiannakis et al. 2025, doi:10.1002/wcc.930 | FR2 | Nirandjan CC BY 4.0 **[S]**; Williams CC BY-NC-ND **[S]** (article p. 1, CH-27) | F0 (licences, files); F6 (every value) | Facts; every curve point read from the primary file in F6 | |
 | Building curves | FEMA Hazus flood functions: Hazus 4.0 tables in FEMA's FAST tool (`nhrap-hazus/FAST`, commit 8e285a9); Hazus 7.0 Flood and Inventory Technical Manuals (June 2025) | FR3 | GPL-3.0 (FAST tables) **[S]**; the manuals state no licence | F0; F6 (values) | Facts | |
 | ICE Calculator 2.x | Lawrence Berkeley National Laboratory | FM5 | Free tool; check reuse terms | F0; F7 (terms of reuse) | Facts | |
 | JRC GloFAS flood maps | crc-sdk 1.0.0 `JRC(product=JRC.Product.GLOFAS)`; verified in V8 and again on 1.0.0 | FC1 | Copernicus | Done (validation record `jrc-flood`, crc-sdk 1.0.0) | Values recomputed: 48 of 48 checks confirmed | |
@@ -599,7 +601,8 @@ primary source, and the outcome recorded. Item numbers are referred to from the 
    only), any depth threshold, why 2023-09-29 did not pay, and "no payout to date" from a primary source
    (F8). Describe the pilot only as reported.
 7. Substation curves. **Onset, shape statement and 3 m values confirmed as tagged in FR2.** Open: every
-   point of F2.1–3 from the version 1.1.0 spreadsheet; Williams values below 3 m; the Hazus table (F6).
+   point of F2.1–3 from the version 1.1.0 spreadsheet; Williams values below 3 m (read 2026-11-27, CH-27);
+   the Hazus table (F6).
 8. FEMA discount rate. **7% confirmed.** Open: the standard useful life FEMA assigns to elevation and
    flood-protection measures; the current toolkit version (F7).
 9. Claim-date rule. **Confirmed from the preprint.** It is not peer reviewed; say so (F8).
@@ -713,7 +716,7 @@ fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 | FT5, §7 | NFIP redacted claims | The current dataset is version 3; version 2, which the claim-date preprint used, is gone. Coordinates are rounded to 0.1 degree; the census block group is given (`nfip-redacted-claims`) | Read version 3; place a claim by its block group, never by its coordinates |
 | FV5, FT5 | 311 complaints | Two naming schemes for the same complaint types are in use (`nyc-311`) | Count both |
 | FR2 | Hazus-type curve "about 7% at 1.2 m and 15% at about 3 m" | Read from the 1.1.0 spreadsheet: 0.0694 at 1.2 m, 0.1569 at 3.0 m; the three curves are identical and stop at 3.05 m with 0.16 (`substation-curves-nirandjan`). All 62 points are linear in feet through 0, 6, 10 and 16% at 0, 3, 7 and 10 ft **[I]**, the form of Hazus's utility tables (1 ft steps, full damage at 10 ft); the Hazus 7 manuals print no substation points to compare (`hazus-flood-functions`, CH-25) | Confirmed. Above 3.05 m the table is held flat to the stated maximum depth, tagged **[P]**. Whether F2 equals Hazus's own substation table stays open (it is in the Hazus software only) |
-| FR2 | Williams et al. values at 3 m | Not read: the publisher refuses automated access; the licence is CC BY-NC-ND 4.0 (`substation-curves-other`) | Still open; needs a person with access to read the paper, or question 7 decides for the lognormal alternative |
+| FR2 | Williams et al. values at 3 m | Read 2026-11-27 from the article and Data S4 that Yuri supplied: at 3 m substation 52.4–75.5%, distribution substation 51.3–76.5%, grid exit point 48.8–69.7% (Data S4; text p. 7 gives 52–76, 51–77, 49–70). Min and max are minimum and maximum hazard conditions (low velocity or short duration; high velocity or long duration, p. 3), each an expertise-weighted mean of 14 to 19 responses; points at 0.5, 1, 2 and 3 m only; grid exit point is the high-voltage, substation the medium-voltage and distribution substation the low-voltage class, no kV, equipment or depth datum stated; already 14–35% at 0.5 m. Licence printed on p. 1: Creative Commons Attribution-NonCommercial-NoDerivs (`substation-curves-other`, CH-27) | Confirmed. Proposed for F6 (CH-27, open): build the high bound from the Data S4 points with 0 at 0 m and the 3 m value held above 3 m, both **[P]**, depth read as above ground **[P]**, and labels it as our construction from Williams's points |
 | FR2, FM5 | Hazus functional depth 4 ft, Table 10-12 | Read in the Hazus 7.0 Inventory Technical Manual (June 2025): Table 9-13, p. 9-17, 4 ft for the low-, medium- and high-voltage substation classes, all slab on grade, equipment height 0 ft, "not analyzed in the flood model, mapping only". Hazus 7 prints no substation damage points; its utility damage functions for electric power are "not enabled" (Flood Technical Manual p. 9-3, footnote 21). Current Hazus is 7.2 (`hazus-flood-functions`) | Confirmed for all three classes, table number corrected (CH-25). FM5 uses 4 ft with the caveat |
 | FR3, §7 | Hazus functions "public domain" | FEMA's open tool that carries the tables is GPL-3.0; neither Hazus 7 manual carries a licence or terms-of-use statement. FAST's Hazus 4.0 tables assign the same default functions as the Hazus 7 manual (Tables 5-2 to 5-4); the manual prints no curve values to compare. Depth is above the top of the finished first floor (FR3) (`hazus-flood-functions`) | Accepted by Yuri 2026-11-26 (CH-25): GPL-3.0, values used and cited as GPL-3.0 data from FEMA's FAST tool |
 | FM4 | 7% with 3.1% "as a sensitivity" | 7% confirmed. 3.1% was revoked and is not an alternative FEMA accepts (`fema-bca`) | Keep 3.1% only as a sensitivity labelled "not a FEMA rate". Useful life and toolkit version still open for F7 |
