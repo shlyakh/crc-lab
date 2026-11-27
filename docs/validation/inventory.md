@@ -1,6 +1,6 @@
 # Inventory: crc-sdk sources
 
-Generated 2026-11-27 by `python -m data_source_check.build` against crc-framework 1.1.0, crc-sdk 1.0.1.
+Generated 2026-11-27 by `python -m data_source_check.build` against crc-framework 1.1.0, crc-sdk 1.1.0.
 Do not edit: change the files under `src/data_source_check/sources/` and rebuild.
 
 ## Sources
@@ -61,7 +61,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-020-JRC | jrc-flood | observation | With a cache, a pixel's source_id depends on the box asked for | reproduced | fixed in 1.0.0 |
 | CRC-021-JRC | jrc-flood | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
 | CRC-022-JRC | jrc-flood | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
-| CRC-023-JRC | jrc-flood | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | reported upstream |
+| CRC-023-JRC | jrc-flood | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | fixed in 1.1.0 |
 | CRC-024-JRC | jrc-flood | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | fixed in 1.0.1 |
 | CRC-025-OWN | own-data | observation | `Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel | reproduced | reported upstream |
 | CRC-026-FWK | framework | defect | Whether the quantile fit of a Gumbel curve converges depends on how the same depths are written: 32-bit values converge, their decimal values do not | reproduced | open |
@@ -70,7 +70,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-029-IBT | ibtracs | observation | Every point of the file is returned for every agency, most of them as rows with no value | reproduced | open |
 | CRC-030-IBT | ibtracs | doc-code difference | The documentation says an explicit agency; the constructor defaults to the United States agencies | code reading | open |
 | CRC-031-NEX | nex-gddp-cmip6 | observation | The file version cannot be chosen: the highest on NASA's listing is read, older revisions NASA still serves cannot be requested, and the version read appears only inside a file name | reproduced | open |
-| CRC-032-NEX | nex-gddp-cmip6 | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | reported upstream |
+| CRC-032-NEX | nex-gddp-cmip6 | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | fixed in 1.1.0 |
 | CRC-033-NEX | nex-gddp-cmip6 | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | fixed in 1.0.1 |
 | CRC-034-NEX | nex-gddp-cmip6 | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | fixed in 1.0.1 |
 | CRC-035-GHC | ghcnh | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | reported upstream |
@@ -259,7 +259,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** Counted from the publisher's files by the reference reader, and equal to crc-sdk's own skipped count in every area. Houston: 1,045,703 skipped = 1,019,627 dry + 22,086 with one depth + 3,990 with a decreasing depth. Austin: 336,778 = 335,707 + 931 + 140. Fremont: 77,632 = 76,398 + 459 + 775. Rhine (EFAS): 2,440,888 = 2,433,343 + 6,815 + 730. So of the pixels the publisher shows flooded at some return period, the share left out is 26,076 of 278,654 in Houston (9.4%), 1,071 of 25,494 in Austin (4.2%), 1,234 of 10,603 in Fremont (11.6%) and 7,545 of 161,898 on the Rhine (4.7%). The warning carries no support_id and no split.
 - **Consequence:** A pixel that floods only at the longest return period, and a pixel where the publisher's depths are inconsistent, are absent from the output in the same way as a pixel that never floods, and the reported count cannot tell the three apart: in Houston it is 40 times the number of flooded pixels dropped. A user who reads 'no row' as 'no flood' undercounts flooded area by the shares above. 'A few' in the code comment is 775 of 10,603 flooded pixels in the Fremont box.
 - **Evidence:** crc_sdk/_climate_io.py:173-189; crc_sdk/_climate_sources.py:149-151, 463-464; docs/sources.md:33; check records jrc-flood/delivered[*] and the table 'Pixels by area' (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/issues/59) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.1.0 (https://github.com/RiskThinking/crc-sdk/issues/59) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-024-JRC: A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid
 
@@ -331,7 +331,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** The calendar is read from the first file's header and the read is refused unless it is `standard`, `gregorian` or `proleptic_gregorian` (crc_sdk/_climate_sampling.py:1811-1817). For BCC-CSM2-MR, whose files declare `365_day`: `ValidationError: NEX source does not use its published Gregorian calendar` (check calendar[BCC-CSM2-MR rx1day historical 2014]). A survey of the 2014 historical precipitation headers of 35 models on 2026-11-24, made by the porting agent and not kept as a record, found 14 Gregorian, 16 on `365_day`, 4 on `360_day` and one unread. crc-sdk 0.11 read 365-day models (its records label `365_day` as `noleap`).
 - **Consequence:** By that survey 20 of 34 models cannot be read through 1.0, among them UKESM1-0-LL and CanESM5. The error text says 'published Gregorian calendar' of files whose published calendar is not Gregorian, and a user learns that a model is unreadable only after choosing it from the inspection.
 - **Evidence:** crc_sdk/_climate_sampling.py:1811-1817; docs/sources.md:104-106, 124; check record nex-gddp-cmip6/calendar[BCC-CSM2-MR rx1day historical 2014] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/issues/58) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.1.0 (https://github.com/RiskThinking/crc-sdk/issues/58) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-033-NEX: No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning
 

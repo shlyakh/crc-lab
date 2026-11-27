@@ -45,8 +45,8 @@ note = "That no comparison is made is shown in the offline tests, on a file that
 
 [[statement]]
 id = "calendar"
-text = "Reads the calendar from the header of the earliest year's file and refuses the series unless it is Gregorian (`standard`, `gregorian` or `proleptic_gregorian`); each year's file must declare the same calendar."
-code_ref = "crc_sdk/_climate_sampling.py:1811-1817, 1846-1850; crc_sdk/_climate_grid.py:83-112"
+text = "Reads the calendar from the header of the earliest year's file and reads the series in that calendar when it is one CF names (Gregorian, `noleap`/`365_day`, `all_leap`/`366_day`, `360_day`, `julian`; crc-sdk 1.1.0, where 1.0 refused all but the Gregorian ones); each year's file must declare the same calendar."
+code_ref = "crc_sdk/_climate_sampling.py:1837-1850; crc_sdk/_climate_grid.py:83-99"
 note = "Asked for one model with a 365-day calendar (BCC-CSM2-MR, its header only); models with a 360-day calendar were not asked for."
 
 [[statement]]
@@ -58,7 +58,7 @@ note = "The files read have 365 days and no gap. A day absent from the time axis
 [[statement]]
 id = "licence"
 text = "Copies a global `license` attribute, else `licence`, else `cmip6_license` (the model licence NASA writes in its files; read since crc-sdk 1.0.1), onto the file's resource as its licence. NASA's statement that the archive is CC0 is not recorded."
-code_ref = "crc_sdk/_climate_sampling.py:1878-1882"
+code_ref = "crc_sdk/_climate_sampling.py:1879-1883"
 
 [[statement]]
 id = "units-rain"
@@ -105,7 +105,7 @@ code_ref = "crc_sdk/_climate_sampling.py:837-892, 1913-1928; crc_sdk/_climate_gr
 [[statement]]
 id = "year-without-file"
 text = "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present). Since crc-sdk 1.0.1 the report carries a `source_year_unavailable` warning naming the year and the published years."
-code_ref = "crc_sdk/_climate_sampling.py:778-799, 1833-1835, 1911-1912"
+code_ref = "crc_sdk/_climate_sampling.py:778-800"
 note = "Asked for one year after the end of the historical run (2015); a year before the first file was not asked for."
 
 [[statement]]

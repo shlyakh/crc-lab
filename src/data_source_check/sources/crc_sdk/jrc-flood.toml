@@ -42,7 +42,7 @@ code_ref = "crc_sdk/_climate_sources.py:306-330; crc_sdk/_providers/jrc.py:62-80
 
 [[statement]]
 id = "area"
-text = "Takes every pixel of the publisher's grid that the box touches."
+text = "Takes every pixel of the publisher's grid that the box touches. Since crc-sdk 1.1.0 the report's requested count holds the flooded pixels only; the dry ones are in the `dry_pixels` note."
 code_ref = "crc_sdk/_climate_io.py:105-133, 166-170"
 
 [[statement]]
@@ -52,17 +52,17 @@ code_ref = "crc_sdk/_climate_io.py:139-141, 173-178"
 
 [[statement]]
 id = "selection"
-text = "Returns a row for a pixel that has two or more depths, none lower than a depth at a shorter return period. Every other pixel is left out."
-code_ref = "crc_sdk/_climate_io.py:173-189; crc_sdk/_climate_sources.py:457-463"
+text = "Returns a row for every pixel that has a depth at one or more return periods, unless its depths, with the return periods it has no depth for read as 0 m, are lower anywhere than at a shorter return period: those pixels are left out unrepaired. A pixel with no depth at any return period gets no row (crc-sdk 1.1.0; 1.0 also left out pixels with one depth)."
+code_ref = "crc_sdk/_climate_io.py:201-227; crc_sdk/_climate_sources.py:525-536"
 
 [[statement]]
 id = "skipped-count"
-text = "Counts the pixels left out and reports the number once for the read, in a warning that names both reasons together. Pixels that are simply dry are in the same number."
-code_ref = "crc_sdk/_climate_io.py:171, 189-190; crc_sdk/_climate_sources.py:137-150"
+text = "Counts the pixels left out for a decreasing depth in a `source_no_data` warning and in the report's skipped count. The pixels returned with a return period read as 0 m are counted in an `unmapped_depth_as_zero` note, and the dry pixels in a `dry_pixels` note; dry pixels are neither requested nor skipped (crc-sdk 1.1.0; 1.0 put dry pixels in the skipped number)."
+code_ref = "crc_sdk/_climate_io.py:201-205, 242; crc_sdk/_climate_sources.py:145-185"
 
 [[statement]]
 id = "knots"
-text = "Places a depth published for the return period T at the probability 1 - 1/T. A return period with no depth at the pixel gives no knot."
+text = "Places a depth published for the return period T at the probability 1 - 1/T. A return period with no depth at a returned pixel gives a knot of 0 m, so every row has a knot at every return period of the product."
 code_ref = "crc_sdk/_climate_sources.py:445-453; crc_sdk/_climate_io.py:173-178, 191-193"
 
 [[statement]]

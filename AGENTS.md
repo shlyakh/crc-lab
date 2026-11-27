@@ -24,7 +24,7 @@ Read first:
 
 Reference clones, read-only, pinned to the versions this repo uses (see `../README.md`):
 
-- `../upstream/crc-sdk/` (v1.0.1) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
+- `../upstream/crc-sdk/` (v1.1.0) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
   canonical dataset and probability conventions; `docs/sources/crc-open.md` for the release layout;
   `crc_sdk/workflows/*.py` docstrings are the parameter reference.
 - `../upstream/crc-docs/` — notebooks, pipelines, and the five end-user skills under `.agents/skills/`
@@ -35,8 +35,9 @@ Earlier scope (energy infrastructure, ERA5 layers, dependence) is in `docs/archi
 
 ## State on crc-sdk 1.0.0 (2026-11-24)
 
-The pins are crc-sdk 1.0.0 and crc-framework 1.0.0, a rewrite of both interfaces
-(`docs/reports/u3-crc-1.0.0.md`, `docs/crc-1.0-briefing.md`). Only the source validation project is ported,
+The pins moved to crc-sdk 1.0.0 and crc-framework 1.0.0, a rewrite of both interfaces
+(`docs/reports/u3-crc-1.0.0.md`, `docs/crc-1.0-briefing.md`), and on 2026-11-26 to 1.1.0 of both
+(`docs/reports/u4-crc-1.1.0.md`; the published validation records still state 1.0.0). Only the source validation project is ported,
 for its four assessed sources; each statement describes what 1.0 does by default (nothing is fitted). The
 explorer, the hail project where it calls CRC, `lab_common/horizons.py`, the ERA5 and NOAA water-level
 drafts and `adapters/crc/jrc_flood_011.py` still use 0.11 names: do not run them, and do not "fix" one

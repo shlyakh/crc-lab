@@ -284,7 +284,9 @@ def test_assessment_on_the_constructed_files(tmp_path: Path, served: str) -> Non
     labels = check(records, "labels[rx1day historical 2014]")["result"]
     # CRC-033-NEX, fixed in crc-sdk 1.0.1: the model licence written in the file is recorded
     assert labels["licence_on_resource"] == labels["cmip6_license_in_file"] == "CC-BY-SA 4.0"
-    assert check(records, "calendar[OTHER-365 rx1day historical 2014]")["result"]["crc_sdk_refuses"]
+    # CRC-032-NEX, fixed in crc-sdk 1.1.0: a 365-day model is read, not refused
+    other = check(records, "calendar[OTHER-365 rx1day historical 2014]")["result"]
+    assert not other["crc_sdk_refuses"] and other["rows_returned"] > 0
     empty = check(records, "year-without-file[rx1day historical 2015]")["result"]
     assert empty["rows_framework"] == 24 and not empty["year_listed"]
     differences = records["exploration"]["version_differences"]

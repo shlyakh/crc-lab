@@ -144,3 +144,4 @@ On each move, every finding that is not `fixed` or `by design` is checked again 
 | 2026-11-10 | Baseline: crc-sdk 0.11.1, crc-framework 0.6.0 | `docs/reports/0-setup.md`, `docs/baseline-crc-sdk-0.11.1.md` |
 | 2026-11-23 | crc-sdk 0.11.1 to 0.11.2 | `docs/reports/u2-crc-sdk-0.11.2.md` |
 | 2026-11-24 | crc-sdk 0.11.2 to 1.0.0 and crc-framework 0.6.0 to 1.0.0 (validation project ported; explorer and hail frozen) | `docs/reports/u3-crc-1.0.0.md` |
+| 2026-11-26 | crc-sdk 1.0.0 to 1.0.1 to 1.1.0 and crc-framework 1.0.0 to 1.0.1 to 1.1.0, four commits (no staged re-run: downloads) | `docs/reports/u4-crc-1.1.0.md` |

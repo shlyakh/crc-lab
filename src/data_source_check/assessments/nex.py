@@ -60,6 +60,11 @@ REDUCTION = {"rx1day": "annual_maximum", "rx5day": "annual_maximum", "txx": "ann
 CALENDARS = {"proleptic_gregorian": "proleptic_gregorian", "standard": "gregorian",
              "gregorian": "gregorian"}  # fmt: skip
 ATTRIBUTION = "NASA Earth Exchange NEX-GDDP-CMIP6"
+#: CF calendars crc-sdk reads a NEX series in since 1.1.0 (pull request #62); 1.0 read the
+#: Gregorian ones only
+READABLE_CALENDARS = frozenset(
+    {*CALENDARS, "noleap", "365_day", "all_leap", "366_day", "360_day", "julian"}
+)
 
 Runner = Callable[..., None]
 
@@ -432,19 +437,21 @@ def assess(
             model, scenario, member = case["model"], case["scenario"], case["member"]
             variable = reference.RECIPES[case["recipe"]][0]
             header = _other_header(cache, model, scenario, member, variable, live=live)
-            refuses = header["calendar"] not in CALENDARS
+            refuses = header["calendar"] not in READABLE_CALENDARS
             checks.append(make(
                 f"calendar[{name}]", "consistency",
                 f"Ask crc-sdk for {name}. The reference reads the calendar of that model's first "
-                "file (its header only, by range requests). crc-sdk must refuse exactly when the "
-                "calendar is not Gregorian (standard, gregorian, proleptic_gregorian).",
-                bool(got["error"]) == refuses and not (refuses and got["rows"]),
+                "file (its header only, by range requests). crc-sdk must read the series, with "
+                "rows, when the calendar is one CF names (Gregorian, 365-day, 366-day, 360-day, "
+                "Julian), and refuse it otherwise.",
+                bool(got["error"]) == refuses and not (refuses and got["rows"])
+                and (refuses or bool(got["rows"])),
                 inputs=({"role": "reference header", "url": header["url"]},),
                 result={"calendar_in_file": header["calendar"],
                         "crc_sdk_refuses": bool(got["error"]),
                         "crc_sdk_error": f"{got['error_type']}: {got['error']}"[:300],
                         "rows_returned": len(got["rows"])},
-                tolerance={"behaviour": "refused if and only if not Gregorian"},
+                tolerance={"behaviour": "read if and only if a CF calendar"},
                 steps=("calendar",),
             ))  # fmt: skip
 

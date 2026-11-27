@@ -1,0 +1,10 @@
+crc-sdk 1.1.0, crc-framework 1.1.0
+server: http://127.0.0.1:62748/ibtracs.ALL.list.v04r01.csv (1st connection closed unanswered, later ones served)
+call: IBTrACS(agency=IBTrACS.Agency.USA).read()
+expected: the dropped connection is tried again and the read returns 6 rows
+observed: read 1 -> RemoteDisconnected: Remote end closed connection without response
+observed: requests the read made to the server: 1
+observed: plain urllib GET of the same URL right after -> HTTP 200, 236 bytes
+observed: read 2 (same call again) -> 6 rows
+observed: installed crc_sdk .py files containing 'retry': 0 of 51
+REPRODUCED
