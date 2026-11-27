@@ -137,6 +137,34 @@ checked them on real files.
 - **Uncertainty.** Each frequency rests on the runs finished. At 60 runs the 100-year and rarer values rest
   on the 12 of the 30 top-ranked runs finished so far, each standing for 2.5 years.
 
+## Addendum: all 150 runs (2026-11-26, evening)
+
+The last catalogue run finished at 20:13: 150 of 150, no failures, largest water-balance residual 0.008% of
+the rain. The record `f4` now holds all 150 runs, and the weights are final: years in the stratum divided by
+its runs, so 1 year per run in T1, 2 in T2 and 14.2 in T3. Everything above is the 60-run copy and stays as
+Demo 1's figures (`snapshot_60/`, tag `flood-f4-demo1-60runs`). Every rule passes as before, and the rainfall
+rule fails as before at 2–10 years (CH-19; the rainfall values are the same, as they come from all 1,000
+synthetic years, not from the runs).
+
+| | 60 runs | 150 runs |
+| --- | --- | --- |
+| 5 m cells wet at 25 / 50 / 100 y | 3,796 / 12,197 / 19,650 | 4,097 / 14,443 / 23,423 |
+| 5 m cells wet at 200 / 500 y | 31,517 / 44,101 | 31,808 / 43,144 |
+| Cells wet in some run | 44,101 | 47,131 |
+| Buildings wet at the wall at 100 y, ≥ 0.05 m / ≥ 0.3 m | 6,388 / 1,452 | 6,843 / 1,934 |
+| Farragut, 100 / 500 y; wet in a year | 0.287 / 0.433 m; 6.8% | 0.318 / 0.427 m; 6.7% |
+| Hudson Avenue, 100 / 500 y; wet in a year | 0.153 / 0.504 m; 2.8% | 0.166 / 0.503 m; 3.3% |
+| Plymouth, 100 / 500 y; wet in a year | 0.132 / 0.171 m; 4.3% | 0.152 / 0.168 m; 4.2% |
+| Water Street, 500 y; wet in a year | 0.059 m; 0.3% | 0.057 m; 0.2% |
+
+- **Nothing changes in kind.** Nothing floods at 10 years, and the order of the substations is the same.
+- **The 100-year values rise.** Cells wet rise by 19% and buildings at 0.3 m by a third. The 60-run copy had
+  12 of the 30 top-ranked runs; the full set has all 30, one year each. The demo's 100-year figures are therefore on the
+  low side. At the substations the change is 0.01–0.03 m, well inside the RMSE of about 0.2 m.
+- **Both CRC routes** read back equal at 150 runs: 379,976 cells and 17,701 assets, 0 differ; the point route
+  reads the catalogue's depth at every probability (CH-23), largest difference 0 m.
+- Check time 517 s, of which 348 s reading the 90 runs not yet in the cache.
+
 ## Checks
 
 - `just test` passes: 505 in the full suite before F5, 267 flood tests after it.

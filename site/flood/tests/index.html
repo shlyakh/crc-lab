@@ -3901,29 +3901,29 @@ src/flood_lab/facts/; do not edit -->
 <span class="stage">F4</span>
 <span class="badge fail">fail</span>
 </header>
-<p class="mute small">Record <code>f4</code>, written 2026-11-26T20:38:45Z.</p>
-<ul class="notes"><li>domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).</li><li>rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).</li><li>depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.</li><li>buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell&#x27;s lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.</li><li>wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered).</li><li>progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).</li></ul>
-<figure><img src="figures/f4/domain.png" alt="domain.png" loading="lazy"><figcaption><b>domain.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/domain.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/rainfall_frequency.png" alt="rainfall_frequency.png" loading="lazy"><figcaption><b>rainfall_frequency.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/rainfall_frequency.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/depth_strip.png" alt="depth_strip.png" loading="lazy"><figcaption><b>depth_strip.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/depth_strip.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/buildings_wet.png" alt="buildings_wet.png" loading="lazy"><figcaption><b>buildings_wet.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/buildings_wet.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/wet_runs.png" alt="wet_runs.png" loading="lazy"><figcaption><b>wet_runs.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/wet_runs.png">Open</a></figcaption></figure>
-<figure><img src="figures/f4/progress.png" alt="progress.png" loading="lazy"><figcaption><b>progress.png.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/progress.png">Open</a></figcaption></figure>
-<p class="caption"><b>Checks.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
-<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">catalogue rainfall inside the Atlas 14 band, 2-100 y</td><td class="l">3-hour annual maximum at the study box (rank M / T of M) within Atlas 14 AMS 3-hr 90% band at 2, 5, 10, 25, 50 and 100 years (plan F4)</td><td>{&quot;10&quot;: 53.1, &quot;100&quot;: 89.0, &quot;2&quot;: 31.3, &quot;25&quot;: 68.6, &quot;5&quot;: 43.2, &quot;50&quot;: 79.2}</td><td>{&quot;10&quot;: [54.9, 90.7], &quot;100&quot;: [75.9, 150.6], &quot;2&quot;: [35.8, 58.2], &quot;25&quot;: [63.5, 113.3], &quot;5&quot;: [46.7, 76.5], &quot;50&quot;: [70.1, 130.0]} <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>fail, accepted: below the band at 2, 5, 10 y; accepted by Yuri as CH-19 (&#x27;Accept, start batch&#x27;, 2026-11-26); recorded as a finding</td></tr><tr><td class="l">every finished batch run has a record and a water balance within 1%</td><td class="l">spec.json, run_run.json and balance.json present, |residual| &lt;= 1% of the rain (FH8), for every finished catalogue and design run</td><td>{&quot;catalogue&quot;: 60, &quot;design&quot;: 12, &quot;largest_abs_residual_share&quot;: 0.00016773714051645578, &quot;outside_balance&quot;: [], &quot;runs&quot;: 72, &quot;without_record&quot;: []}</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">depth non-decreasing with return period before the clean-up</td><td class="l">share of read cells whose depth_at curve never falls as AEP falls &gt;= 0.99</td><td>1.0</td><td>0.99 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>0 cells changed by the clean-up</td></tr><tr><td class="l">depth non-decreasing in every cell after the clean-up</td><td class="l">every read cell non-decreasing after make_non_decreasing; cells changed reported</td><td>{&quot;cells_changed&quot;: 0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">grid route read back equal (Dataset.from_raster)</td><td class="l">every delivered cell&#x27;s knots equal what was written (1e-6 m), same probabilities, same cell count (FH7)</td><td>{&quot;call&quot;: &quot;Dataset.from_raster&quot;, &quot;cells_delivered&quot;: 379976, &quot;cells_differing&quot;: 0, &quot;cells_with_other_probabilities&quot;: 0, &quot;cells_written&quot;: 379976, &quot;equal&quot;: true, &quot;largest_difference_m&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">point route read back equal (Dataset.from_quantiles)</td><td class="l">every asset&#x27;s knots delivered equal to those written (1e-9) (FH7)</td><td>{&quot;assets_delivered&quot;: 17701, &quot;assets_differing&quot;: 0, &quot;assets_written&quot;: 17701, &quot;call&quot;: &quot;Dataset.from_quantiles&quot;, &quot;equal&quot;: true, &quot;largest_difference&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>full asset set</td></tr><tr><td class="l">point route reads the catalogue&#x27;s depth (CH-23)</td><td class="l">for every asset, CRC&#x27;s QuantileCurve on the knots at the seven probabilities equals the catalogue&#x27;s depth_at (1e-9 m)</td><td>{&quot;assets&quot;: 17701, &quot;assets_differing&quot;: 0, &quot;largest_difference_m&quot;: 0.0, &quot;probabilities&quot;: [0.5, 0.8, 0.9, 0.96, 0.98, 0.99, 0.995, 0.998], &quot;substations&quot;: {&quot;S-250386730&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.0, 0.0], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.0, 0.0], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.0, 0.0], &quot;500 y&quot;: [0.059, 0.059]}, &quot;S-339711332&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.287, 0.287], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.385, 0.385], &quot;25 y&quot;: [0.15, 0.15], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.257, 0.257], &quot;500 y&quot;: [0.433, 0.433]}, &quot;S-383102724&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.153, 0.153], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.381, 0.381], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.098, 0.098], &quot;500 y&quot;: [0.504, 0.504]}, &quot;S-383110539&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.132, 0.132], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.164, 0.164], &quot;25 y&quot;: [0.059, 0.059], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.109, 0.109], &quot;500 y&quot;: [0.171, 0.171]}, &quot;S-861227475&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.0, 0.0], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.0, 0.0], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.0, 0.0], &quot;500 y&quot;: [0.0, 0.0]}}}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">at least 60 catalogue runs before 1 December</td><td class="l">finished catalogue runs &gt;= 60 by 2026-12-01 (requirements §15)</td><td>60</td><td>60</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">all 150 catalogue runs finished</td><td class="l">finished catalogue runs = 150 (FH5 target)</td><td>60</td><td>150</td><td><span class="badge none">not judged</span></td><td class='l mute'>batch running; figures are rebuilt when it ends</td></tr></tbody></table></div>
-<p class="caption"><b>Numbers.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
-<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">M_synthetic_years</td><td>1000</td></tr><tr><td class="l">N_catalogue_runs_finished</td><td>60</td></tr><tr><td class="l">buildings_in_study_area</td><td>17750</td></tr><tr><td class="l">buildings_not_read</td><td>54</td></tr><tr><td class="l">buildings_wet_100y_catalogue</td><td>{&quot;0.05&quot;: 6388, &quot;0.3&quot;: 1452}</td></tr><tr><td class="l">buildings_wet_100y_design</td><td>{&quot;1 h&quot;: {&quot;0.05&quot;: 11659, &quot;0.3&quot;: 5839}, &quot;3 h&quot;: {&quot;0.05&quot;: 9525, &quot;0.3&quot;: 2752}}</td></tr><tr><td class="l">catalogue_runs_selected</td><td>150</td></tr><tr><td class="l">catalogue_storms_plotted</td><td>960</td></tr><tr><td class="l">cells_changed_by_clean_up</td><td>0</td></tr><tr><td class="l">cells_non_decreasing_before_clean_up</td><td>379976</td></tr><tr><td class="l">cells_read</td><td>379976</td></tr><tr><td class="l">cells_read_in_study_area</td><td>330615</td></tr><tr><td class="l">cells_wet_in_some_run</td><td>44101</td></tr><tr><td class="l">check_wall_time_s</td><td>392.4</td></tr><tr><td class="l">covered_years</td><td>1000</td></tr><tr><td class="l">design_runs_finished</td><td>12</td></tr><tr><td class="l">grid_read_back_equal</td><td>true</td></tr><tr><td class="l">interim_weights</td><td>true</td></tr><tr><td class="l">max_runs_wetting_a_cell</td><td>20</td></tr><tr><td class="l">non_decreasing_after_clean_up</td><td>true</td></tr><tr><td class="l">observed_box_median_3h_mm</td><td>38.14</td></tr><tr><td class="l">point_route_reads_catalogue</td><td>true</td></tr><tr><td class="l">points_assets_loaded</td><td>17701</td></tr><tr><td class="l">points_read_back_equal</td><td>true</td></tr><tr><td class="l">runs_extracted_this_time</td><td>72</td></tr><tr><td class="l">share_non_decreasing_before_clean_up</td><td>1.0</td></tr><tr><td class="l">substation_sites</td><td>5</td></tr></tbody></table></div>
-<p class="caption"><b>Parameters.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<p class="mute small">Record <code>f4</code>, written 2026-11-27T01:44:16Z.</p>
+<ul class="notes"><li>domain.png: 3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).</li><li>rainfall_frequency.png: 3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).</li><li>depth_strip.png: Per-cell depth at 10, 100 and 500 years from the catalogue (N = 150 catalogue storms, 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.</li><li>buildings_wet.png: Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 150 catalogue storms, 1000 of 1000 years covered; each building&#x27;s own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell&#x27;s lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.</li><li>wet_runs.png: Number of catalogue runs wetting each read 5 m cell (N = 150 catalogue storms, 1000 of 1000 years covered).</li><li>progress.png: Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).</li></ul>
+<figure><img src="figures/f4/domain.png" alt="domain.png" loading="lazy"><figcaption><b>domain.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/domain.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/rainfall_frequency.png" alt="rainfall_frequency.png" loading="lazy"><figcaption><b>rainfall_frequency.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/rainfall_frequency.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/depth_strip.png" alt="depth_strip.png" loading="lazy"><figcaption><b>depth_strip.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/depth_strip.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/buildings_wet.png" alt="buildings_wet.png" loading="lazy"><figcaption><b>buildings_wet.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/buildings_wet.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/wet_runs.png" alt="wet_runs.png" loading="lazy"><figcaption><b>wet_runs.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/wet_runs.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/progress.png" alt="progress.png" loading="lazy"><figcaption><b>progress.png.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15). <a href="figures/f4/progress.png">Open</a></figcaption></figure>
+<p class="caption"><b>Checks.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">catalogue rainfall inside the Atlas 14 band, 2-100 y</td><td class="l">3-hour annual maximum at the study box (rank M / T of M) within Atlas 14 AMS 3-hr 90% band at 2, 5, 10, 25, 50 and 100 years (plan F4)</td><td>{&quot;10&quot;: 53.1, &quot;100&quot;: 89.0, &quot;2&quot;: 31.3, &quot;25&quot;: 68.6, &quot;5&quot;: 43.2, &quot;50&quot;: 79.2}</td><td>{&quot;10&quot;: [54.9, 90.7], &quot;100&quot;: [75.9, 150.6], &quot;2&quot;: [35.8, 58.2], &quot;25&quot;: [63.5, 113.3], &quot;5&quot;: [46.7, 76.5], &quot;50&quot;: [70.1, 130.0]} <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'>fail, accepted: below the band at 2, 5, 10 y; accepted by Yuri as CH-19 (&#x27;Accept, start batch&#x27;, 2026-11-26); recorded as a finding</td></tr><tr><td class="l">every finished batch run has a record and a water balance within 1%</td><td class="l">spec.json, run_run.json and balance.json present, |residual| &lt;= 1% of the rain (FH8), for every finished catalogue and design run</td><td>{&quot;catalogue&quot;: 150, &quot;design&quot;: 12, &quot;largest_abs_residual_share&quot;: 0.00016773714051645578, &quot;outside_balance&quot;: [], &quot;runs&quot;: 162, &quot;without_record&quot;: []}</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">depth non-decreasing with return period before the clean-up</td><td class="l">share of read cells whose depth_at curve never falls as AEP falls &gt;= 0.99</td><td>1.0</td><td>0.99 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'>0 cells changed by the clean-up</td></tr><tr><td class="l">depth non-decreasing in every cell after the clean-up</td><td class="l">every read cell non-decreasing after make_non_decreasing; cells changed reported</td><td>{&quot;cells_changed&quot;: 0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">grid route read back equal (Dataset.from_raster)</td><td class="l">every delivered cell&#x27;s knots equal what was written (1e-6 m), same probabilities, same cell count (FH7)</td><td>{&quot;call&quot;: &quot;Dataset.from_raster&quot;, &quot;cells_delivered&quot;: 379976, &quot;cells_differing&quot;: 0, &quot;cells_with_other_probabilities&quot;: 0, &quot;cells_written&quot;: 379976, &quot;equal&quot;: true, &quot;largest_difference_m&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">point route read back equal (Dataset.from_quantiles)</td><td class="l">every asset&#x27;s knots delivered equal to those written (1e-9) (FH7)</td><td>{&quot;assets_delivered&quot;: 17701, &quot;assets_differing&quot;: 0, &quot;assets_written&quot;: 17701, &quot;call&quot;: &quot;Dataset.from_quantiles&quot;, &quot;equal&quot;: true, &quot;largest_difference&quot;: 0.0}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'>full asset set</td></tr><tr><td class="l">point route reads the catalogue&#x27;s depth (CH-23)</td><td class="l">for every asset, CRC&#x27;s QuantileCurve on the knots at the seven probabilities equals the catalogue&#x27;s depth_at (1e-9 m)</td><td>{&quot;assets&quot;: 17701, &quot;assets_differing&quot;: 0, &quot;largest_difference_m&quot;: 0.0, &quot;probabilities&quot;: [0.5, 0.8, 0.9, 0.96, 0.98, 0.99, 0.995, 0.998], &quot;substations&quot;: {&quot;S-250386730&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.0, 0.0], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.0, 0.0], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.0, 0.0], &quot;500 y&quot;: [0.057, 0.057]}, &quot;S-339711332&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.318, 0.318], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.393, 0.393], &quot;25 y&quot;: [0.154, 0.154], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.24, 0.24], &quot;500 y&quot;: [0.427, 0.427]}, &quot;S-383102724&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.166, 0.166], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.418, 0.418], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.086, 0.086], &quot;500 y&quot;: [0.503, 0.503]}, &quot;S-383110539&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.152, 0.152], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.165, 0.165], &quot;25 y&quot;: [0.062, 0.062], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.093, 0.093], &quot;500 y&quot;: [0.168, 0.168]}, &quot;S-861227475&quot;: {&quot;10 y&quot;: [0.0, 0.0], &quot;100 y&quot;: [0.0, 0.0], &quot;2 y&quot;: [0.0, 0.0], &quot;200 y&quot;: [0.0, 0.0], &quot;25 y&quot;: [0.0, 0.0], &quot;5 y&quot;: [0.0, 0.0], &quot;50 y&quot;: [0.0, 0.0], &quot;500 y&quot;: [0.0, 0.0]}}}</td><td>–</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">at least 60 catalogue runs before 1 December</td><td class="l">finished catalogue runs &gt;= 60 by 2026-12-01 (requirements §15)</td><td>150</td><td>60</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">all 150 catalogue runs finished</td><td class="l">finished catalogue runs = 150 (FH5 target)</td><td>150</td><td>150</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr></tbody></table></div>
+<p class="caption"><b>Numbers.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
+<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">M_synthetic_years</td><td>1000</td></tr><tr><td class="l">N_catalogue_runs_finished</td><td>150</td></tr><tr><td class="l">buildings_in_study_area</td><td>17750</td></tr><tr><td class="l">buildings_not_read</td><td>54</td></tr><tr><td class="l">buildings_wet_100y_catalogue</td><td>{&quot;0.05&quot;: 6843, &quot;0.3&quot;: 1934}</td></tr><tr><td class="l">buildings_wet_100y_design</td><td>{&quot;1 h&quot;: {&quot;0.05&quot;: 11659, &quot;0.3&quot;: 5839}, &quot;3 h&quot;: {&quot;0.05&quot;: 9525, &quot;0.3&quot;: 2752}}</td></tr><tr><td class="l">catalogue_runs_selected</td><td>150</td></tr><tr><td class="l">catalogue_storms_plotted</td><td>960</td></tr><tr><td class="l">cells_changed_by_clean_up</td><td>0</td></tr><tr><td class="l">cells_non_decreasing_before_clean_up</td><td>379976</td></tr><tr><td class="l">cells_read</td><td>379976</td></tr><tr><td class="l">cells_read_in_study_area</td><td>330615</td></tr><tr><td class="l">cells_wet_in_some_run</td><td>47131</td></tr><tr><td class="l">check_wall_time_s</td><td>517.4</td></tr><tr><td class="l">covered_years</td><td>1000</td></tr><tr><td class="l">design_runs_finished</td><td>12</td></tr><tr><td class="l">grid_read_back_equal</td><td>true</td></tr><tr><td class="l">interim_weights</td><td>false</td></tr><tr><td class="l">max_runs_wetting_a_cell</td><td>50</td></tr><tr><td class="l">non_decreasing_after_clean_up</td><td>true</td></tr><tr><td class="l">observed_box_median_3h_mm</td><td>38.14</td></tr><tr><td class="l">point_route_reads_catalogue</td><td>true</td></tr><tr><td class="l">points_assets_loaded</td><td>17701</td></tr><tr><td class="l">points_read_back_equal</td><td>true</td></tr><tr><td class="l">runs_extracted_this_time</td><td>90</td></tr><tr><td class="l">share_non_decreasing_before_clean_up</td><td>1.0</td></tr><tr><td class="l">substation_sites</td><td>5</td></tr></tbody></table></div>
+<p class="caption"><b>Parameters.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p>
 <div class="scroll"><table class="data"><thead><tr><th class="l">Parameter</th><th>Value</th><th>Tag</th><th class="l">Source</th></tr></thead><tbody><tr><td class="l">synthetic_years_M</td><td>1000</td><td><span class="tag">[P]</span></td><td class="l mute">RainyDay NYEARS, CH-19</td></tr><tr><td class="l">grid_depth_definition</td><td>calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area.</td><td><span class="tag">[I]</span></td><td class="l mute">calibration.py</td></tr><tr><td class="l">wet_m</td><td>0.05</td><td><span class="tag">[P]</span></td><td class="l mute">catalogue.WET_M</td></tr><tr><td class="l">aeps</td><td>[0.5, 0.2, 0.1, 0.04, 0.02, 0.01, 0.005, 0.002]</td><td><span class="tag">[P]</span></td><td class="l mute">catalogue.AEPS</td></tr><tr><td class="l">band_years</td><td>[2, 5, 10, 25, 50, 100]</td><td><span class="tag">[P]</span></td><td class="l mute">plan F4 pass rule</td></tr><tr><td class="l">non_decreasing_min_share</td><td>0.99</td><td><span class="tag">[P]</span></td><td class="l mute">plan F4 pass rule</td></tr><tr><td class="l">balance_max_share</td><td>0.01</td><td><span class="tag">[P]</span></td><td class="l mute">FH8</td></tr><tr><td class="l">lead_depth_m</td><td>0.3</td><td><span class="tag">[P]</span></td><td class="l mute">demo-concerns §2</td></tr><tr><td class="l">max_roof_share</td><td>0.5</td><td><span class="tag">[P]</span></td><td class="l mute">at_assets</td></tr><tr><td class="l">points_trial</td><td>500</td><td><span class="tag">[P]</span></td><td class="l mute">brief: time 500 first</td></tr><tr><td class="l">points_full_max_s</td><td>900.0</td><td><span class="tag">[P]</span></td><td class="l mute"></td></tr><tr><td class="l">depth_colours</td><td>[&quot;#c6dbef&quot;, &quot;#6baed6&quot;, &quot;#08519c&quot;]</td><td><span class="tag">[P]</span></td><td class="l mute">as F3; FP7 has none</td></tr></tbody></table></div>
-<details class="table"><summary>Table <code>captions</code></summary><p class="caption"><b>Table captions.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;buildings_wet.png&quot;: &quot;Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered; each building&#x27;s own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell&#x27;s lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.&quot;,
- &quot;depth_strip.png&quot;: &quot;Per-cell depth at 10, 100 and 500 years from the catalogue (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.&quot;,
+<details class="table"><summary>Table <code>captions</code></summary><p class="caption"><b>Table captions.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;buildings_wet.png&quot;: &quot;Buildings of the study area wet at the wall (0.05 m, 0.3 m) at 100 years: the catalogue (N = 150 catalogue storms, 1000 of 1000 years covered; each building&#x27;s own curve at annual exceedance probability (AEP) 0.01) against each design storm; beside it every design storm with the 5 m cells it wets. Shaded: storms that wet no 5 m cell or whose rain does not exceed the 30 mm/h constant loss rate; since CH-20 and CH-21 (ground never below a cell&#x27;s lowest sub-grid level) they wet no cell and no building, where before they showed about 2,900 buildings.&quot;,
+ &quot;depth_strip.png&quot;: &quot;Per-cell depth at 10, 100 and 500 years from the catalogue (N = 150 catalogue storms, 1000 of 1000 years covered) beside the 1-hour and 3-hour Atlas 14 design storms of the same return periods.&quot;,
  &quot;domain.png&quot;: &quot;3-hour ratio map (smoothed mean annual maximum over the study area&#x27;s, AORC 2002-2025) over the download window, domain B, the study box and the 960 storms of the chosen catalogue, each at the centre of the box-sized window of its largest 3-hour rain (RainyDay&#x27;s storm location).&quot;,
  &quot;progress.png&quot;: &quot;Catalogue runs finished per stratum; solver wall time and water-balance residual per finished run (catalogue and design).&quot;,
  &quot;rainfall_frequency.png&quot;: &quot;3-hour annual maximum rainfall at the study box: the chosen catalogue (960 storms, M = 1000, T = M / rank), the 240- and 480-storm sensitivities, Atlas 14 AMS 3-hr with its 90% band, and AORC observed box maxima at Weibull plotting positions T = (n + 1) / i. Below the band at 2-10 y: fail, accepted (CH-19).&quot;,
- &quot;wet_runs.png&quot;: &quot;Number of catalogue runs wetting each read 5 m cell (N = 60 catalogue storms (interim weights), 1000 of 1000 years covered).&quot;
+ &quot;wet_runs.png&quot;: &quot;Number of catalogue runs wetting each read 5 m cell (N = 150 catalogue storms, 1000 of 1000 years covered).&quot;
 }</pre></details>
-<details class="table"><summary>Table <code>catalogue_runs</code></summary><p class="caption"><b>Table catalogue_runs.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>catalogue_runs</code></summary><p class="caption"><b>Table catalogue_runs.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;box_total_mm&quot;: 52.138,
   &quot;has_run_run&quot;: true,
@@ -3936,7 +3936,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 208.01,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 23.429,
@@ -3950,7 +3950,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 256.51,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 104.729,
@@ -3964,7 +3964,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 353.42,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 48.183,
@@ -3978,7 +3978,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 254.36,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 16.958,
@@ -3992,7 +3992,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 329.94,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 50.038,
@@ -4006,7 +4006,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 356.23,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 25.863,
@@ -4020,7 +4020,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 311.49,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 104.483,
@@ -4034,7 +4034,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 560.08,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 50.333,
@@ -4048,7 +4048,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 304.31,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 28.167,
@@ -4062,7 +4062,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 398.72,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 51.746,
@@ -4076,7 +4076,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 338.75,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 33.704,
@@ -4090,7 +4090,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 285.96,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 85.104,
@@ -4104,7 +4104,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 317.37,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 60.763,
@@ -4118,7 +4118,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 233.19,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 37.208,
@@ -4132,7 +4132,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 231.58,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 61.358,
@@ -4146,7 +4146,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 297.6,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 34.021,
@@ -4160,7 +4160,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 375.44,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 75.479,
@@ -4174,7 +4174,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 383.94,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 52.208,
@@ -4188,7 +4188,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 225.52,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 31.738,
@@ -4202,7 +4202,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 225.21,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 47.029,
@@ -4216,7 +4216,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 224.03,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 43.996,
@@ -4230,7 +4230,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 232.72,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 99.238,
@@ -4244,7 +4244,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 576.08,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 70.092,
@@ -4258,7 +4258,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 356.96,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 41.446,
@@ -4272,7 +4272,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 376.74,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 54.383,
@@ -4286,7 +4286,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 428.55,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 24.658,
@@ -4300,7 +4300,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 283.24,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 77.154,
@@ -4314,7 +4314,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 278.07,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 47.55,
@@ -4328,7 +4328,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 255.15,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 24.254,
@@ -4342,7 +4342,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 249.75,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 69.85,
@@ -4356,7 +4356,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 219.85,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 20.692,
@@ -4370,7 +4370,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 207.45,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 114.517,
@@ -4384,7 +4384,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 464.58,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 71.142,
@@ -4398,7 +4398,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 250.32,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 21.692,
@@ -4412,7 +4412,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 205.74,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 49.333,
@@ -4426,7 +4426,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 201.27,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 21.288,
@@ -4440,7 +4440,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 200.77,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 78.95,
@@ -4454,7 +4454,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 228.99,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 50.175,
@@ -4468,7 +4468,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 199.15,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 42.771,
@@ -4482,7 +4482,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 201.14,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 57.163,
@@ -4496,7 +4496,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 203.72,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 30.775,
@@ -4510,7 +4510,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 206.28,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 85.904,
@@ -4524,7 +4524,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 252.39,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 54.483,
@@ -4538,7 +4538,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 197.01,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 28.929,
@@ -4552,7 +4552,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 234.93,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 50.429,
@@ -4566,7 +4566,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 301.65,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 23.254,
@@ -4580,7 +4580,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 295.42,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 75.621,
@@ -4594,7 +4594,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 416.89,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 59.621,
@@ -4608,7 +4608,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 244.52,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 43.042,
@@ -4622,7 +4622,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 240.79,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 51.496,
@@ -4636,7 +4636,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 303.65,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 22.142,
@@ -4650,7 +4650,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 251.15,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 82.617,
@@ -4664,7 +4664,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 248.96,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 53.471,
@@ -4678,7 +4678,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 249.15,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 35.646,
@@ -4692,7 +4692,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 220.14,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 48.692,
@@ -4706,7 +4706,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 198.12,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 20.7,
@@ -4720,7 +4720,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 197.58,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
  },
  {
   &quot;box_total_mm&quot;: 70.733,
@@ -4734,7 +4734,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;wall_time_s&quot;: 204.82,
-  &quot;weight_used&quot;: 2.5
+  &quot;weight_used&quot;: 1.0
  },
  {
   &quot;box_total_mm&quot;: 65.113,
@@ -4748,7 +4748,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;wall_time_s&quot;: 266.72,
-  &quot;weight_used&quot;: 5.0
+  &quot;weight_used&quot;: 2.0
  },
  {
   &quot;box_total_mm&quot;: 30.246,
@@ -4762,20 +4762,1280 @@ src/flood_lab/facts/; do not edit -->
   &quot;solver_finished&quot;: true,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;wall_time_s&quot;: 197.38,
-  &quot;weight_used&quot;: 35.416666666666664
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 58.333,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0075&quot;,
+  &quot;order&quot;: 61,
+  &quot;rank&quot;: 75,
+  &quot;residual_share_of_rain&quot;: -1.2426582530523646e-05,
+  &quot;return_period_y&quot;: 13.333333015441895,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 276.59,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 26.558,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0672&quot;,
+  &quot;order&quot;: 62,
+  &quot;rank&quot;: 672,
+  &quot;residual_share_of_rain&quot;: -3.33338758127899e-05,
+  &quot;return_period_y&quot;: 1.4880952835083008,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 226.5,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 79.329,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0020&quot;,
+  &quot;order&quot;: 63,
+  &quot;rank&quot;: 20,
+  &quot;residual_share_of_rain&quot;: -3.986818317395555e-06,
+  &quot;return_period_y&quot;: 50.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 243.36,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 59.408,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0074&quot;,
+  &quot;order&quot;: 64,
+  &quot;rank&quot;: 74,
+  &quot;residual_share_of_rain&quot;: 1.0641093745184154e-05,
+  &quot;return_period_y&quot;: 13.513513565063477,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 266.29,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 29.958,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0546&quot;,
+  &quot;order&quot;: 65,
+  &quot;rank&quot;: 546,
+  &quot;residual_share_of_rain&quot;: -3.114141696940862e-05,
+  &quot;return_period_y&quot;: 1.831501841545105,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 200.03,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 48.296,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0136&quot;,
+  &quot;order&quot;: 66,
+  &quot;rank&quot;: 136,
+  &quot;residual_share_of_rain&quot;: -7.581445601368615e-05,
+  &quot;return_period_y&quot;: 7.352941036224365,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 197.45,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 18.225,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0935&quot;,
+  &quot;order&quot;: 67,
+  &quot;rank&quot;: 935,
+  &quot;residual_share_of_rain&quot;: -1.8242904350189096e-06,
+  &quot;return_period_y&quot;: 1.0695186853408813,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 198.57,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 72.871,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0025&quot;,
+  &quot;order&quot;: 68,
+  &quot;rank&quot;: 25,
+  &quot;residual_share_of_rain&quot;: 3.0867956316699046e-06,
+  &quot;return_period_y&quot;: 40.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 228.41,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 52.058,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0104&quot;,
+  &quot;order&quot;: 69,
+  &quot;rank&quot;: 104,
+  &quot;residual_share_of_rain&quot;: -3.7234705723002304e-05,
+  &quot;return_period_y&quot;: 9.615385055541992,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 226.23,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 34.829,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0384&quot;,
+  &quot;order&quot;: 70,
+  &quot;rank&quot;: 384,
+  &quot;residual_share_of_rain&quot;: -1.5700183827757997e-05,
+  &quot;return_period_y&quot;: 2.6041667461395264,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 198.21,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 65.579,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0044&quot;,
+  &quot;order&quot;: 71,
+  &quot;rank&quot;: 44,
+  &quot;residual_share_of_rain&quot;: -8.245275738911317e-05,
+  &quot;return_period_y&quot;: 22.727272033691406,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 201.29,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 19.342,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0908&quot;,
+  &quot;order&quot;: 72,
+  &quot;rank&quot;: 908,
+  &quot;residual_share_of_rain&quot;: -4.5754878376896715e-06,
+  &quot;return_period_y&quot;: 1.1013215780258179,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 195.06,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 71.538,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0027&quot;,
+  &quot;order&quot;: 73,
+  &quot;rank&quot;: 27,
+  &quot;residual_share_of_rain&quot;: -3.859676715646024e-05,
+  &quot;return_period_y&quot;: 37.03703689575195,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 197.18,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 63.554,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0055&quot;,
+  &quot;order&quot;: 74,
+  &quot;rank&quot;: 55,
+  &quot;residual_share_of_rain&quot;: -5.4021807883966e-05,
+  &quot;return_period_y&quot;: 18.18181800842285,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 197.82,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 26.417,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0653&quot;,
+  &quot;order&quot;: 75,
+  &quot;rank&quot;: 653,
+  &quot;residual_share_of_rain&quot;: -3.82920331580795e-05,
+  &quot;return_period_y&quot;: 1.5313935279846191,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 199.25,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 48.842,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0133&quot;,
+  &quot;order&quot;: 76,
+  &quot;rank&quot;: 133,
+  &quot;residual_share_of_rain&quot;: -5.614865043634498e-05,
+  &quot;return_period_y&quot;: 7.518796920776367,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 206.11,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 32.654,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0443&quot;,
+  &quot;order&quot;: 77,
+  &quot;rank&quot;: 443,
+  &quot;residual_share_of_rain&quot;: -4.3391475372570225e-05,
+  &quot;return_period_y&quot;: 2.257336378097534,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 199.48,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 73.3,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0026&quot;,
+  &quot;order&quot;: 78,
+  &quot;rank&quot;: 26,
+  &quot;residual_share_of_rain&quot;: -4.6229192401814825e-05,
+  &quot;return_period_y&quot;: 38.46154022216797,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 218.43,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 60.496,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0058&quot;,
+  &quot;order&quot;: 79,
+  &quot;rank&quot;: 58,
+  &quot;residual_share_of_rain&quot;: -2.763221970752139e-05,
+  &quot;return_period_y&quot;: 17.241378784179688,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 202.56,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 26.825,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0631&quot;,
+  &quot;order&quot;: 80,
+  &quot;rank&quot;: 631,
+  &quot;residual_share_of_rain&quot;: -2.6497804205767688e-05,
+  &quot;return_period_y&quot;: 1.584786057472229,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 202.47,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 70.288,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0041&quot;,
+  &quot;order&quot;: 81,
+  &quot;rank&quot;: 41,
+  &quot;residual_share_of_rain&quot;: -6.543017902056362e-05,
+  &quot;return_period_y&quot;: 24.390243530273438,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 209.55,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 29.475,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0560&quot;,
+  &quot;order&quot;: 82,
+  &quot;rank&quot;: 560,
+  &quot;residual_share_of_rain&quot;: -4.4980422413478944e-05,
+  &quot;return_period_y&quot;: 1.7857142686843872,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 202.27,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 71.95,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0029&quot;,
+  &quot;order&quot;: 83,
+  &quot;rank&quot;: 29,
+  &quot;residual_share_of_rain&quot;: -1.276311347611571e-05,
+  &quot;return_period_y&quot;: 34.482757568359375,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 277.29,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 50.163,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0126&quot;,
+  &quot;order&quot;: 84,
+  &quot;rank&quot;: 126,
+  &quot;residual_share_of_rain&quot;: -2.0626303095105545e-05,
+  &quot;return_period_y&quot;: 7.936507701873779,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 202.19,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 40.642,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0250&quot;,
+  &quot;order&quot;: 85,
+  &quot;rank&quot;: 250,
+  &quot;residual_share_of_rain&quot;: -6.704032947039211e-05,
+  &quot;return_period_y&quot;: 4.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 193.68,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 65.038,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0054&quot;,
+  &quot;order&quot;: 86,
+  &quot;rank&quot;: 54,
+  &quot;residual_share_of_rain&quot;: -6.683927397509459e-05,
+  &quot;return_period_y&quot;: 18.518518447875977,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 200.21,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 39.879,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0266&quot;,
+  &quot;order&quot;: 87,
+  &quot;rank&quot;: 266,
+  &quot;residual_share_of_rain&quot;: -2.1257655502811333e-05,
+  &quot;return_period_y&quot;: 3.7593984603881836,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 204.05,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 106.55,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0004&quot;,
+  &quot;order&quot;: 88,
+  &quot;rank&quot;: 4,
+  &quot;residual_share_of_rain&quot;: -1.403933751619819e-05,
+  &quot;return_period_y&quot;: 250.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 421.76,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 50.092,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0117&quot;,
+  &quot;order&quot;: 89,
+  &quot;rank&quot;: 117,
+  &quot;residual_share_of_rain&quot;: -8.13003740090992e-05,
+  &quot;return_period_y&quot;: 8.547008514404297,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 198.7,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 46.063,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0154&quot;,
+  &quot;order&quot;: 90,
+  &quot;rank&quot;: 154,
+  &quot;residual_share_of_rain&quot;: -4.700478010961469e-05,
+  &quot;return_period_y&quot;: 6.49350643157959,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 198.04,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 64.65,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0046&quot;,
+  &quot;order&quot;: 91,
+  &quot;rank&quot;: 46,
+  &quot;residual_share_of_rain&quot;: -3.0997818619233884e-05,
+  &quot;return_period_y&quot;: 21.7391300201416,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 208.25,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 32.321,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0467&quot;,
+  &quot;order&quot;: 92,
+  &quot;rank&quot;: 467,
+  &quot;residual_share_of_rain&quot;: -3.018727160042837e-05,
+  &quot;return_period_y&quot;: 2.1413276195526123,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 198.07,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 102.483,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0007&quot;,
+  &quot;order&quot;: 93,
+  &quot;rank&quot;: 7,
+  &quot;residual_share_of_rain&quot;: 4.3315635267108504e-05,
+  &quot;return_period_y&quot;: 142.85714721679688,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 362.74,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 54.75,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0085&quot;,
+  &quot;order&quot;: 94,
+  &quot;rank&quot;: 85,
+  &quot;residual_share_of_rain&quot;: -8.03775396480288e-05,
+  &quot;return_period_y&quot;: 11.764705657958984,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 279.78,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 38.483,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0284&quot;,
+  &quot;order&quot;: 95,
+  &quot;rank&quot;: 284,
+  &quot;residual_share_of_rain&quot;: -1.792684038762136e-05,
+  &quot;return_period_y&quot;: 3.5211267471313477,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 259.99,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 61.754,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0061&quot;,
+  &quot;order&quot;: 96,
+  &quot;rank&quot;: 61,
+  &quot;residual_share_of_rain&quot;: 1.0174454864334056e-05,
+  &quot;return_period_y&quot;: 16.393442153930664,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 310.16,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 20.163,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0889&quot;,
+  &quot;order&quot;: 97,
+  &quot;rank&quot;: 889,
+  &quot;residual_share_of_rain&quot;: -5.385385314614342e-06,
+  &quot;return_period_y&quot;: 1.12485933303833,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 309.23,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 94.475,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0009&quot;,
+  &quot;order&quot;: 98,
+  &quot;rank&quot;: 9,
+  &quot;residual_share_of_rain&quot;: 9.876802145277037e-06,
+  &quot;return_period_y&quot;: 111.11111450195312,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 542.62,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 52.392,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0114&quot;,
+  &quot;order&quot;: 99,
+  &quot;rank&quot;: 114,
+  &quot;residual_share_of_rain&quot;: -4.730891477507376e-05,
+  &quot;return_period_y&quot;: 8.771929740905762,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 242.26,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 24.067,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0759&quot;,
+  &quot;order&quot;: 100,
+  &quot;rank&quot;: 759,
+  &quot;residual_share_of_rain&quot;: -2.8931632491193945e-05,
+  &quot;return_period_y&quot;: 1.3175230026245117,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 312.18,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 51.721,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0110&quot;,
+  &quot;order&quot;: 101,
+  &quot;rank&quot;: 110,
+  &quot;residual_share_of_rain&quot;: -4.9975582731165475e-05,
+  &quot;return_period_y&quot;: 9.090909004211426,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 443.78,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 34.775,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0368&quot;,
+  &quot;order&quot;: 102,
+  &quot;rank&quot;: 368,
+  &quot;residual_share_of_rain&quot;: -1.4086963912004968e-05,
+  &quot;return_period_y&quot;: 2.7173912525177,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 464.18,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 86.108,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0013&quot;,
+  &quot;order&quot;: 103,
+  &quot;rank&quot;: 13,
+  &quot;residual_share_of_rain&quot;: 2.5327642608709697e-05,
+  &quot;return_period_y&quot;: 76.92308044433594,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 514.51,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 47.238,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0144&quot;,
+  &quot;order&quot;: 104,
+  &quot;rank&quot;: 144,
+  &quot;residual_share_of_rain&quot;: -3.863339679536779e-05,
+  &quot;return_period_y&quot;: 6.94444465637207,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 278.05,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 15.0,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0980&quot;,
+  &quot;order&quot;: 105,
+  &quot;rank&quot;: 980,
+  &quot;residual_share_of_rain&quot;: -2.9675330690474884e-06,
+  &quot;return_period_y&quot;: 1.0204081535339355,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 242.41,
+  &quot;weight_used&quot;: 24.0
+ },
+ {
+  &quot;box_total_mm&quot;: 45.242,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0150&quot;,
+  &quot;order&quot;: 106,
+  &quot;rank&quot;: 150,
+  &quot;residual_share_of_rain&quot;: -3.724015462222032e-05,
+  &quot;return_period_y&quot;: 6.666666507720947,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 242.82,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 17.888,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0906&quot;,
+  &quot;order&quot;: 107,
+  &quot;rank&quot;: 906,
+  &quot;residual_share_of_rain&quot;: -2.247857188341565e-06,
+  &quot;return_period_y&quot;: 1.1037527322769165,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 236.64,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 90.075,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0011&quot;,
+  &quot;order&quot;: 108,
+  &quot;rank&quot;: 11,
+  &quot;residual_share_of_rain&quot;: 2.1944089740909e-05,
+  &quot;return_period_y&quot;: 90.90908813476562,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 500.54,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 69.325,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0037&quot;,
+  &quot;order&quot;: 109,
+  &quot;rank&quot;: 37,
+  &quot;residual_share_of_rain&quot;: -3.6518217995649295e-05,
+  &quot;return_period_y&quot;: 27.027027130126953,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 295.66,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 36.896,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0337&quot;,
+  &quot;order&quot;: 110,
+  &quot;rank&quot;: 337,
+  &quot;residual_share_of_rain&quot;: -1.4068976153022316e-05,
+  &quot;return_period_y&quot;: 2.9673590660095215,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 325.36,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 51.663,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0116&quot;,
+  &quot;order&quot;: 111,
+  &quot;rank&quot;: 116,
+  &quot;residual_share_of_rain&quot;: -1.8787070638451246e-05,
+  &quot;return_period_y&quot;: 8.620689392089844,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 373.84,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 32.463,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0445&quot;,
+  &quot;order&quot;: 112,
+  &quot;rank&quot;: 445,
+  &quot;residual_share_of_rain&quot;: -9.593212845823021e-06,
+  &quot;return_period_y&quot;: 2.2471909523010254,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 384.23,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 86.704,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0012&quot;,
+  &quot;order&quot;: 113,
+  &quot;rank&quot;: 12,
+  &quot;residual_share_of_rain&quot;: 3.79355499467525e-05,
+  &quot;return_period_y&quot;: 83.33333587646484,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 686.52,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 57.813,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0070&quot;,
+  &quot;order&quot;: 114,
+  &quot;rank&quot;: 70,
+  &quot;residual_share_of_rain&quot;: 8.210783017492905e-06,
+  &quot;return_period_y&quot;: 14.285714149475098,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 302.54,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 29.763,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0496&quot;,
+  &quot;order&quot;: 115,
+  &quot;rank&quot;: 496,
+  &quot;residual_share_of_rain&quot;: -2.492112175566609e-05,
+  &quot;return_period_y&quot;: 2.0161290168762207,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 249.92,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 49.788,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0131&quot;,
+  &quot;order&quot;: 116,
+  &quot;rank&quot;: 131,
+  &quot;residual_share_of_rain&quot;: -5.32064515275749e-05,
+  &quot;return_period_y&quot;: 7.633587837219238,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 314.61,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 16.833,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0965&quot;,
+  &quot;order&quot;: 117,
+  &quot;rank&quot;: 965,
+  &quot;residual_share_of_rain&quot;: -2.8442962512644505e-06,
+  &quot;return_period_y&quot;: 1.0362694263458252,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 304.9,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 75.613,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0021&quot;,
+  &quot;order&quot;: 118,
+  &quot;rank&quot;: 21,
+  &quot;residual_share_of_rain&quot;: -3.8035130116750945e-06,
+  &quot;return_period_y&quot;: 47.619049072265625,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 270.3,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 47.488,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0148&quot;,
+  &quot;order&quot;: 119,
+  &quot;rank&quot;: 148,
+  &quot;residual_share_of_rain&quot;: -4.1127190806048046e-05,
+  &quot;return_period_y&quot;: 6.756756782531738,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 244.54,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 37.446,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0331&quot;,
+  &quot;order&quot;: 120,
+  &quot;rank&quot;: 331,
+  &quot;residual_share_of_rain&quot;: -6.097044401160774e-05,
+  &quot;return_period_y&quot;: 3.0211479663848877,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 240.04,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 65.908,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0060&quot;,
+  &quot;order&quot;: 121,
+  &quot;rank&quot;: 60,
+  &quot;residual_share_of_rain&quot;: -1.566835193227642e-05,
+  &quot;return_period_y&quot;: 16.66666603088379,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 254.01,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 37.838,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0302&quot;,
+  &quot;order&quot;: 122,
+  &quot;rank&quot;: 302,
+  &quot;residual_share_of_rain&quot;: -2.9445540952906134e-05,
+  &quot;return_period_y&quot;: 3.311258316040039,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 242.02,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 81.879,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0016&quot;,
+  &quot;order&quot;: 123,
+  &quot;rank&quot;: 16,
+  &quot;residual_share_of_rain&quot;: 1.3986046350490596e-05,
+  &quot;return_period_y&quot;: 62.5,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 341.67,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 67.563,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0047&quot;,
+  &quot;order&quot;: 124,
+  &quot;rank&quot;: 47,
+  &quot;residual_share_of_rain&quot;: -2.412676144393544e-05,
+  &quot;return_period_y&quot;: 21.276596069335938,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 261.56,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 43.571,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0200&quot;,
+  &quot;order&quot;: 125,
+  &quot;rank&quot;: 200,
+  &quot;residual_share_of_rain&quot;: -4.504036545820249e-05,
+  &quot;return_period_y&quot;: 5.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 243.26,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 56.725,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0082&quot;,
+  &quot;order&quot;: 126,
+  &quot;rank&quot;: 82,
+  &quot;residual_share_of_rain&quot;: -2.8679636094126266e-05,
+  &quot;return_period_y&quot;: 12.195121765136719,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 240.43,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 24.938,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0685&quot;,
+  &quot;order&quot;: 127,
+  &quot;rank&quot;: 685,
+  &quot;residual_share_of_rain&quot;: 1.2136087460393692e-07,
+  &quot;return_period_y&quot;: 1.459854006767273,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 234.86,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 71.479,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0028&quot;,
+  &quot;order&quot;: 128,
+  &quot;rank&quot;: 28,
+  &quot;residual_share_of_rain&quot;: -3.8810877156419963e-05,
+  &quot;return_period_y&quot;: 35.71428680419922,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 240.29,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 51.596,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0105&quot;,
+  &quot;order&quot;: 129,
+  &quot;rank&quot;: 105,
+  &quot;residual_share_of_rain&quot;: -4.280215464477435e-05,
+  &quot;return_period_y&quot;: 9.523809432983398,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 240.38,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 25.088,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0736&quot;,
+  &quot;order&quot;: 130,
+  &quot;rank&quot;: 736,
+  &quot;residual_share_of_rain&quot;: -1.0335887062043046e-05,
+  &quot;return_period_y&quot;: 1.35869562625885,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 242.58,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 69.013,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0039&quot;,
+  &quot;order&quot;: 131,
+  &quot;rank&quot;: 39,
+  &quot;residual_share_of_rain&quot;: 4.4789105650521285e-05,
+  &quot;return_period_y&quot;: 25.64102554321289,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 337.03,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 18.358,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0930&quot;,
+  &quot;order&quot;: 132,
+  &quot;rank&quot;: 930,
+  &quot;residual_share_of_rain&quot;: 3.5290793795180907e-06,
+  &quot;return_period_y&quot;: 1.0752688646316528,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 239.32,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 80.038,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0017&quot;,
+  &quot;order&quot;: 133,
+  &quot;rank&quot;: 17,
+  &quot;residual_share_of_rain&quot;: -1.589417404221142e-05,
+  &quot;return_period_y&quot;: 58.82352828979492,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 270.31,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 56.55,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0087&quot;,
+  &quot;order&quot;: 134,
+  &quot;rank&quot;: 87,
+  &quot;residual_share_of_rain&quot;: -6.059880328733403e-05,
+  &quot;return_period_y&quot;: 11.494253158569336,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 238.86,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 27.5,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0616&quot;,
+  &quot;order&quot;: 135,
+  &quot;rank&quot;: 616,
+  &quot;residual_share_of_rain&quot;: -8.517853599687481e-07,
+  &quot;return_period_y&quot;: 1.6233766078948975,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 237.52,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 54.763,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0095&quot;,
+  &quot;order&quot;: 136,
+  &quot;rank&quot;: 95,
+  &quot;residual_share_of_rain&quot;: 1.9953844987499595e-06,
+  &quot;return_period_y&quot;: 10.526315689086914,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 284.57,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 43.954,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0169&quot;,
+  &quot;order&quot;: 137,
+  &quot;rank&quot;: 169,
+  &quot;residual_share_of_rain&quot;: -3.5770178179108307e-05,
+  &quot;return_period_y&quot;: 5.917159557342529,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 255.64,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 91.479,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0010&quot;,
+  &quot;order&quot;: 138,
+  &quot;rank&quot;: 10,
+  &quot;residual_share_of_rain&quot;: 7.770079256223278e-06,
+  &quot;return_period_y&quot;: 100.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 384.38,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 60.808,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0064&quot;,
+  &quot;order&quot;: 139,
+  &quot;rank&quot;: 64,
+  &quot;residual_share_of_rain&quot;: -2.2628393652642327e-07,
+  &quot;return_period_y&quot;: 15.625,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 280.2,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 29.55,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0572&quot;,
+  &quot;order&quot;: 140,
+  &quot;rank&quot;: 572,
+  &quot;residual_share_of_rain&quot;: -4.1019638501473505e-06,
+  &quot;return_period_y&quot;: 1.7482517957687378,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 236.78,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 56.375,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0072&quot;,
+  &quot;order&quot;: 141,
+  &quot;rank&quot;: 72,
+  &quot;residual_share_of_rain&quot;: -4.9941976455119156e-05,
+  &quot;return_period_y&quot;: 13.88888931274414,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 253.65,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 31.779,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0481&quot;,
+  &quot;order&quot;: 142,
+  &quot;rank&quot;: 481,
+  &quot;residual_share_of_rain&quot;: -1.120053646720604e-05,
+  &quot;return_period_y&quot;: 2.0790021419525146,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 233.28,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 110.333,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0003&quot;,
+  &quot;order&quot;: 143,
+  &quot;rank&quot;: 3,
+  &quot;residual_share_of_rain&quot;: -1.676709970130171e-05,
+  &quot;return_period_y&quot;: 333.3333435058594,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 521.15,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 56.0,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0079&quot;,
+  &quot;order&quot;: 144,
+  &quot;rank&quot;: 79,
+  &quot;residual_share_of_rain&quot;: -2.8308275312091674e-05,
+  &quot;return_period_y&quot;: 12.658227920532227,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 230.48,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 37.313,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0351&quot;,
+  &quot;order&quot;: 145,
+  &quot;rank&quot;: 351,
+  &quot;residual_share_of_rain&quot;: -6.230261549915403e-05,
+  &quot;return_period_y&quot;: 2.8490028381347656,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 229.25,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 63.292,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0050&quot;,
+  &quot;order&quot;: 146,
+  &quot;rank&quot;: 50,
+  &quot;residual_share_of_rain&quot;: -6.075234896442913e-05,
+  &quot;return_period_y&quot;: 20.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 246.4,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 26.167,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0667&quot;,
+  &quot;order&quot;: 147,
+  &quot;rank&quot;: 667,
+  &quot;residual_share_of_rain&quot;: -5.154624062382048e-05,
+  &quot;return_period_y&quot;: 1.4992504119873047,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 276.21,
+  &quot;weight_used&quot;: 14.0
+ },
+ {
+  &quot;box_total_mm&quot;: 119.254,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0001&quot;,
+  &quot;order&quot;: 148,
+  &quot;rank&quot;: 1,
+  &quot;residual_share_of_rain&quot;: -9.90571390511892e-06,
+  &quot;return_period_y&quot;: 1000.0,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T1&quot;,
+  &quot;wall_time_s&quot;: 594.72,
+  &quot;weight_used&quot;: 1.0
+ },
+ {
+  &quot;box_total_mm&quot;: 54.125,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0094&quot;,
+  &quot;order&quot;: 149,
+  &quot;rank&quot;: 94,
+  &quot;residual_share_of_rain&quot;: -4.210291789962719e-05,
+  &quot;return_period_y&quot;: 10.638298034667969,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T2&quot;,
+  &quot;wall_time_s&quot;: 231.5,
+  &quot;weight_used&quot;: 2.0
+ },
+ {
+  &quot;box_total_mm&quot;: 25.525,
+  &quot;has_run_run&quot;: true,
+  &quot;has_spec&quot;: true,
+  &quot;label&quot;: &quot;cat_r0709&quot;,
+  &quot;order&quot;: 150,
+  &quot;rank&quot;: 709,
+  &quot;residual_share_of_rain&quot;: -1.3628474295360091e-06,
+  &quot;return_period_y&quot;: 1.4104372262954712,
+  &quot;solver_finished&quot;: true,
+  &quot;stratum&quot;: &quot;T3&quot;,
+  &quot;wall_time_s&quot;: 253.11,
+  &quot;weight_used&quot;: 14.0
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>catalogue_wet_cells_005</code></summary><p class="caption"><b>Table catalogue_wet_cells_005.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>catalogue_wet_cells_005</code></summary><p class="caption"><b>Table catalogue_wet_cells_005.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;10 y&quot;: 0,
- &quot;100 y&quot;: 19650,
+ &quot;100 y&quot;: 23423,
  &quot;2 y&quot;: 0,
- &quot;200 y&quot;: 31517,
- &quot;25 y&quot;: 3796,
+ &quot;200 y&quot;: 31808,
+ &quot;25 y&quot;: 4097,
  &quot;5 y&quot;: 0,
- &quot;50 y&quot;: 12197,
- &quot;500 y&quot;: 44101
+ &quot;50 y&quot;: 14443,
+ &quot;500 y&quot;: 43144
 }</pre></details>
-<details class="table"><summary>Table <code>design_runs</code></summary><p class="caption"><b>Table design_runs.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>design_runs</code></summary><p class="caption"><b>Table design_runs.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;has_run_run&quot;: true,
   &quot;has_spec&quot;: true,
@@ -4873,7 +6133,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;wall_time_s&quot;: 709.42
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>design_storms</code></summary><p class="caption"><b>Table design_storms.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>design_storms</code></summary><p class="caption"><b>Table design_storms.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;allowance_mm_per_h&quot;: 30.0,
   &quot;buildings_wet&quot;: {
@@ -5079,7 +6339,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;wet_cells_005&quot;: 61014
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>floor_storms_wetting_no_cell_or_without_net_rain</code></summary><p class="caption"><b>Table floor_storms_wetting_no_cell_or_without_net_rain.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>floor_storms_wetting_no_cell_or_without_net_rain</code></summary><p class="caption"><b>Table floor_storms_wetting_no_cell_or_without_net_rain.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;ds_1h_2y&quot;: {
   &quot;allowance_mm_per_h&quot;: 30.0,
   &quot;buildings_wet_at_wall&quot;: {
@@ -5126,7 +6386,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;wet_cells_005&quot;: 0
  }
 }</pre></details>
-<details class="table"><summary>Table <code>grid_route</code></summary><p class="caption"><b>Table grid_route.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>grid_route</code></summary><p class="caption"><b>Table grid_route.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;call&quot;: &quot;Dataset.from_raster&quot;,
  &quot;cells_delivered&quot;: 379976,
  &quot;cells_differing&quot;: 0,
@@ -5134,10 +6394,10 @@ src/flood_lab/facts/; do not edit -->
  &quot;cells_written&quot;: 379976,
  &quot;equal&quot;: true,
  &quot;largest_difference_m&quot;: 0.0,
- &quot;report&quot;: &quot;ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code=&#x27;source_no_data&#x27;, severity=&lt;DiagnosticSeverity.WARNING: &#x27;warning&#x27;&gt;, stage=&lt;Stage.DECODING: &#x27;decoding&#x27;&gt;, message=&#x27;Skipped 260024 raster supports with fewer than two valid probability knots.&#x27;, source=&#x27;quantile_rasters&#x27;, support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider=&#x27;user&#x27;, product=&#x27;quantile_rasters&#x27;, release=ReleaseReference(id=&#x27;sha256:27f0e9a5df28d47cef952335e68ea0e698817f3bbba49eca3c6a2d3f719b4214&#x27;, sha256=&#x27;sha256:27f0e9a5df28d47cef952335e68ea0e698817f3bbba49eca3c6a2d3f719b4214&#x27;, retrieved_at=None), resources=(ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.5.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 296969, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.2.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 311560, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.1.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 313192, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.04.tif&#x27;, sha256=&#x27;sha256:5abcaa237f2c2bddc336a7fd63fc101f02be822ef240ca145c1245454616492f&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 315347, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.02.tif&#x27;, sha256=&#x27;sha256:b41451ca571f3ddba449d4d0ab53afff5e7c946da7925f1189c0754dadfeab3f&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 320833, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.01.tif&#x27;, sha256=&#x27;sha256:a0ccc3af6824b599249172f8f0a2b3b29144428d357b452f9ea19c6d29e99e58&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 324574, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.005.tif&#x27;, sha256=&#x27;sha256:47a098aabe42f32ad4d6325d508df72824c15e781c4014431c0b9932e90f5f9c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 333999, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency60/grid/depth_aep_0.002.tif&#x27;, sha256=&#x27;sha256:285544402df6c51f8d135287c0877f6d28c9d0fb5c702f4a45ed7f64bc6a173a&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 26, 20, 36, 11, 340104, tzinfo=datetime.timezone.utc))), member=None, model=None),))&quot;
+ &quot;report&quot;: &quot;ExecutionReport(complete=True, valid=True, diagnostics=(ExecutionDiagnostic(code=&#x27;source_no_data&#x27;, severity=&lt;DiagnosticSeverity.WARNING: &#x27;warning&#x27;&gt;, stage=&lt;Stage.DECODING: &#x27;decoding&#x27;&gt;, message=&#x27;Skipped 260024 raster supports with fewer than two valid probability knots.&#x27;, source=&#x27;quantile_rasters&#x27;, support_id=None, query_value=None, remedy=None),), counts=ExecutionCounts(requested=640000, produced=379976, skipped=260024, no_data=0, matched_assets=0, unmatched_assets=0, usable_years=0, incomplete_years=0), source_identities=(SourceIdentity(provider=&#x27;user&#x27;, product=&#x27;quantile_rasters&#x27;, release=ReleaseReference(id=&#x27;sha256:6538488746dc245b98a0a8a6d7c2283dee198be78721466e15dee6cc2d561897&#x27;, sha256=&#x27;sha256:6538488746dc245b98a0a8a6d7c2283dee198be78721466e15dee6cc2d561897&#x27;, retrieved_at=None), resources=(ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.5.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 475779, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.2.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 479791, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.1.tif&#x27;, sha256=&#x27;sha256:925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 481456, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.04.tif&#x27;, sha256=&#x27;sha256:7951af228e969b88a7de7c5049025cc6cb8138cd9e2f9307fcab7ccb55ded779&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 484362, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.02.tif&#x27;, sha256=&#x27;sha256:d8542f8793fe4d0453deaab24fe6e6d3bb1af7cdb3d4a823efa28e1012a2bb4a&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 487412, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.01.tif&#x27;, sha256=&#x27;sha256:ac1426d085e5b60030ba38fb03978b8fb6efa930fefc7a634a524f5a2891afc5&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 492228, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.005.tif&#x27;, sha256=&#x27;sha256:db672e31ed59a35ab357c6758cd90fdf9f8ef39ae6aa968fd0dcac1ee8662051&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 502056, tzinfo=datetime.timezone.utc)), ResourceIdentity(uri=&#x27;file:///Users/yuri/work/crc/crc-lab/data/cache/flood/f4/frequency/grid/depth_aep_0.002.tif&#x27;, sha256=&#x27;sha256:0f478b183865a57260ad991b5e1414f7c9e907cd6a849d7017099187eb1d3f7b&#x27;, license=None, attribution=None, retrieved_at=datetime.datetime(2026, 11, 27, 1, 41, 36, 508734, tzinfo=datetime.timezone.utc))), member=None, model=None),))&quot;
 }</pre></details>
-<details class="table"><summary>Table <code>point_route</code></summary><p class="caption"><b>Table point_route.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;estimated_full_s&quot;: 6.8,
+<details class="table"><summary>Table <code>point_route</code></summary><p class="caption"><b>Table point_route.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;estimated_full_s&quot;: 7.4,
  &quot;full&quot;: {
   &quot;assets_delivered&quot;: 17701,
   &quot;assets_differing&quot;: 0,
@@ -5146,7 +6406,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;equal&quot;: true,
   &quot;largest_difference&quot;: 0.0
  },
- &quot;full_s&quot;: 4.6,
+ &quot;full_s&quot;: 6.9,
  &quot;trial&quot;: {
   &quot;assets_delivered&quot;: 505,
   &quot;assets_differing&quot;: 0,
@@ -5159,7 +6419,7 @@ src/flood_lab/facts/; do not edit -->
  &quot;trial_equal&quot;: true,
  &quot;trial_s&quot;: 0.2
 }</pre></details>
-<details class="table"><summary>Table <code>point_route_reads_catalogue</code></summary><p class="caption"><b>Table point_route_reads_catalogue.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>point_route_reads_catalogue</code></summary><p class="caption"><b>Table point_route_reads_catalogue.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;assets&quot;: 17701,
  &quot;assets_differing&quot;: 0,
  &quot;largest_difference_m&quot;: 0.0,
@@ -5204,8 +6464,8 @@ src/flood_lab/facts/; do not edit -->
     0.0
    ],
    &quot;500 y&quot;: [
-    0.059,
-    0.059
+    0.057,
+    0.057
    ]
   },
   &quot;S-339711332&quot;: {
@@ -5214,32 +6474,32 @@ src/flood_lab/facts/; do not edit -->
     0.0
    ],
    &quot;100 y&quot;: [
-    0.287,
-    0.287
+    0.318,
+    0.318
    ],
    &quot;2 y&quot;: [
     0.0,
     0.0
    ],
    &quot;200 y&quot;: [
-    0.385,
-    0.385
+    0.393,
+    0.393
    ],
    &quot;25 y&quot;: [
-    0.15,
-    0.15
+    0.154,
+    0.154
    ],
    &quot;5 y&quot;: [
     0.0,
     0.0
    ],
    &quot;50 y&quot;: [
-    0.257,
-    0.257
+    0.24,
+    0.24
    ],
    &quot;500 y&quot;: [
-    0.433,
-    0.433
+    0.427,
+    0.427
    ]
   },
   &quot;S-383102724&quot;: {
@@ -5248,16 +6508,16 @@ src/flood_lab/facts/; do not edit -->
     0.0
    ],
    &quot;100 y&quot;: [
-    0.153,
-    0.153
+    0.166,
+    0.166
    ],
    &quot;2 y&quot;: [
     0.0,
     0.0
    ],
    &quot;200 y&quot;: [
-    0.381,
-    0.381
+    0.418,
+    0.418
    ],
    &quot;25 y&quot;: [
     0.0,
@@ -5268,12 +6528,12 @@ src/flood_lab/facts/; do not edit -->
     0.0
    ],
    &quot;50 y&quot;: [
-    0.098,
-    0.098
+    0.086,
+    0.086
    ],
    &quot;500 y&quot;: [
-    0.504,
-    0.504
+    0.503,
+    0.503
    ]
   },
   &quot;S-383110539&quot;: {
@@ -5282,32 +6542,32 @@ src/flood_lab/facts/; do not edit -->
     0.0
    ],
    &quot;100 y&quot;: [
-    0.132,
-    0.132
+    0.152,
+    0.152
    ],
    &quot;2 y&quot;: [
     0.0,
     0.0
    ],
    &quot;200 y&quot;: [
-    0.164,
-    0.164
+    0.165,
+    0.165
    ],
    &quot;25 y&quot;: [
-    0.059,
-    0.059
+    0.062,
+    0.062
    ],
    &quot;5 y&quot;: [
     0.0,
     0.0
    ],
    &quot;50 y&quot;: [
-    0.109,
-    0.109
+    0.093,
+    0.093
    ],
    &quot;500 y&quot;: [
-    0.171,
-    0.171
+    0.168,
+    0.168
    ]
   },
   &quot;S-861227475&quot;: {
@@ -5346,33 +6606,33 @@ src/flood_lab/facts/; do not edit -->
   }
  }
 }</pre></details>
-<details class="table"><summary>Table <code>progress</code></summary><p class="caption"><b>Table progress.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>progress</code></summary><p class="caption"><b>Table progress.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
-  &quot;complete&quot;: false,
-  &quot;finished&quot;: 12,
+  &quot;complete&quot;: true,
+  &quot;finished&quot;: 30,
   &quot;ranks&quot;: &quot;1-30&quot;,
   &quot;runs&quot;: 30,
   &quot;stratum&quot;: &quot;T1&quot;,
   &quot;years&quot;: 30
  },
  {
-  &quot;complete&quot;: false,
-  &quot;finished&quot;: 24,
+  &quot;complete&quot;: true,
+  &quot;finished&quot;: 60,
   &quot;ranks&quot;: &quot;31-150&quot;,
   &quot;runs&quot;: 60,
   &quot;stratum&quot;: &quot;T2&quot;,
   &quot;years&quot;: 120
  },
  {
-  &quot;complete&quot;: false,
-  &quot;finished&quot;: 24,
+  &quot;complete&quot;: true,
+  &quot;finished&quot;: 60,
   &quot;ranks&quot;: &quot;151-1000&quot;,
   &quot;runs&quot;: 60,
   &quot;stratum&quot;: &quot;T3&quot;,
   &quot;years&quot;: 850
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>rainfall_band</code></summary><p class="caption"><b>Table rainfall_band.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
+<details class="table"><summary>Table <code>rainfall_band</code></summary><p class="caption"><b>Table rainfall_band.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>[
  {
   &quot;atlas14_mm&quot;: 45.5,
   &quot;catalogue_mm&quot;: 31.3,
@@ -5422,7 +6682,7 @@ src/flood_lab/facts/; do not edit -->
   &quot;years&quot;: 100
  }
 ]</pre></details>
-<details class="table"><summary>Table <code>rainfall_sensitivities</code></summary><p class="caption"><b>Table rainfall_sensitivities.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>rainfall_sensitivities</code></summary><p class="caption"><b>Table rainfall_sensitivities.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;240 storms (10 a year)&quot;: {
   &quot;10 y&quot;: 54.3,
   &quot;100 y&quot;: 96.0,
@@ -5440,34 +6700,34 @@ src/flood_lab/facts/; do not edit -->
   &quot;50 y&quot;: 89.8
  }
 }</pre></details>
-<details class="table"><summary>Table <code>substation_depth_on_25m2_m</code></summary><p class="caption"><b>Table substation_depth_on_25m2_m.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+<details class="table"><summary>Table <code>substation_depth_on_25m2_m</code></summary><p class="caption"><b>Table substation_depth_on_25m2_m.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
  &quot;S-250386730&quot;: {
   &quot;10 y&quot;: 0.0,
   &quot;100 y&quot;: 0.0,
-  &quot;500 y&quot;: 0.059,
+  &quot;500 y&quot;: 0.057,
   &quot;name&quot;: &quot;Water Street Substation&quot;,
-  &quot;wet_probability&quot;: 0.0025
+  &quot;wet_probability&quot;: 0.002
  },
  &quot;S-339711332&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.287,
-  &quot;500 y&quot;: 0.433,
+  &quot;100 y&quot;: 0.318,
+  &quot;500 y&quot;: 0.427,
   &quot;name&quot;: &quot;Farragut Substation&quot;,
-  &quot;wet_probability&quot;: 0.0675
+  &quot;wet_probability&quot;: 0.067
  },
  &quot;S-383102724&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.153,
-  &quot;500 y&quot;: 0.504,
+  &quot;100 y&quot;: 0.166,
+  &quot;500 y&quot;: 0.503,
   &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
-  &quot;wet_probability&quot;: 0.0275
+  &quot;wet_probability&quot;: 0.033
  },
  &quot;S-383110539&quot;: {
   &quot;10 y&quot;: 0.0,
-  &quot;100 y&quot;: 0.132,
-  &quot;500 y&quot;: 0.171,
+  &quot;100 y&quot;: 0.152,
+  &quot;500 y&quot;: 0.168,
   &quot;name&quot;: &quot;Plymouth Substation&quot;,
-  &quot;wet_probability&quot;: 0.0425
+  &quot;wet_probability&quot;: 0.042
  },
  &quot;S-861227475&quot;: {
   &quot;10 y&quot;: 0.0,
@@ -5477,18 +6737,18 @@ src/flood_lab/facts/; do not edit -->
   &quot;wet_probability&quot;: 0.0
  }
 }</pre></details>
-<details class="table"><summary>Table <code>timing_s</code></summary><p class="caption"><b>Table timing_s.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
- &quot;asset_curves_s&quot;: 0.0,
- &quot;crc_grid_route_s&quot;: 140.9,
- &quot;crc_point_route_s&quot;: 10.2,
- &quot;figures_s&quot;: 3.7,
- &quot;grid_curves_s&quot;: 1.8,
- &quot;inputs_s&quot;: 1.7,
- &quot;non_decreasing_share_s&quot;: 0.3,
- &quot;per_run_extraction_s&quot;: 233.2,
+<details class="table"><summary>Table <code>timing_s</code></summary><p class="caption"><b>Table timing_s.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><pre>{
+ &quot;asset_curves_s&quot;: 0.1,
+ &quot;crc_grid_route_s&quot;: 143.2,
+ &quot;crc_point_route_s&quot;: 12.3,
+ &quot;figures_s&quot;: 4.5,
+ &quot;grid_curves_s&quot;: 5.4,
+ &quot;inputs_s&quot;: 1.5,
+ &quot;non_decreasing_share_s&quot;: 1.6,
+ &quot;per_run_extraction_s&quot;: 348.3,
  &quot;write_rasters_s&quot;: 0.5
 }</pre></details>
-<details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> F4 storm catalogue and batch: N = 60 catalogue storms (interim weights), 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/selection.json</td><td>85422</td><td class="l"><code>a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/params.json</td><td>1079</td><td class="l"><code>ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json</td><td>2312</td><td class="l"><code>c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv</td><td>209126</td><td class="l"><code>ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292</code></td></tr><tr><td class="l">f4/domain/domain_B_land.shp</td><td>588</td><td class="l"><code>c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6</code></td></tr><tr><td class="l">f4/domain/domain.json</td><td>4971</td><td class="l"><code>f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d</code></td></tr><tr><td class="l">f4/domain/domain_maps.npz</td><td>5390791</td><td class="l"><code>ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e</code></td></tr><tr><td class="l">f4/domain/box_ams_observed.json</td><td>749</td><td class="l"><code>ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031</code></td></tr><tr><td class="l">f3/atlas14/table.json</td><td>10890</td><td class="l"><code>f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800</code></td></tr><tr><td class="l">f4/queue_design.json</td><td>2706</td><td class="l"><code>7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b</code></td></tr><tr><td class="l">f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000</code></td></tr><tr><td class="l">f4/queue_catalogue.json</td><td>107022</td><td class="l"><code>6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416</code></td></tr><tr><td class="l">terrain/water_1m.tif</td><td>68068</td><td class="l"><code>c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872</code></td></tr><tr><td class="l">site/flood/data/substations.geojson</td><td>6298</td><td class="l"><code>fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff</code></td></tr><tr><td class="l">site/flood/data/study_area.geojson</td><td>6664</td><td class="l"><code>0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5</code></td></tr><tr><td class="l">nyc-building-footprints/footprints-box.geojson</td><td>18380697</td><td class="l"><code>44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43</code></td></tr><tr><td class="l">f3/model/dem_model_1m.tif</td><td>49142122</td><td class="l"><code>dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf</code></td></tr><tr><td class="l">f3/model/buildings_1m.tif</td><td>535470</td><td class="l"><code>3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f3/model/pits_1m.tif</td><td>39160</td><td class="l"><code>47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa</code></td></tr><tr><td class="l">runs60/cat_r0101/zsmax.tif</td><td>1686079</td><td class="l"><code>b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd</code></td></tr><tr><td class="l">runs60/cat_r0779/zsmax.tif</td><td>1682945</td><td class="l"><code>027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f</code></td></tr><tr><td class="l">runs60/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr><tr><td class="l">runs60/cat_r0138/zsmax.tif</td><td>1686007</td><td class="l"><code>8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324</code></td></tr><tr><td class="l">runs60/cat_r0958/zsmax.tif</td><td>1682404</td><td class="l"><code>5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713</code></td></tr><tr><td class="l">runs60/cat_r0124/zsmax.tif</td><td>1686322</td><td class="l"><code>4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953</code></td></tr><tr><td class="l">runs60/cat_r0714/zsmax.tif</td><td>1683371</td><td class="l"><code>8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e</code></td></tr><tr><td class="l">runs60/cat_r0005/zsmax.tif</td><td>1688763</td><td class="l"><code>c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d</code></td></tr><tr><td class="l">runs60/cat_r0122/zsmax.tif</td><td>1703258</td><td class="l"><code>f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345</code></td></tr><tr><td class="l">runs60/cat_r0602/zsmax.tif</td><td>1685353</td><td class="l"><code>9e076dcf8d7da8e6fbe9b5dc37ab98766ff52acd519a18b12360ce00710ca08b</code></td></tr><tr><td class="l">runs60/cat_r0091/zsmax.tif</td><td>1698960</td><td class="l"><code>c0e87e134d70cbdf56cfdbdc7bea28430be85cffee5a9ee0f624342460159ee6</code></td></tr><tr><td class="l">runs60/cat_r0412/zsmax.tif</td><td>1685670</td><td class="l"><code>61dd9ed2a08f980927f4ba9838c1916ef347ed5f75c1b318752a292199430ccb</code></td></tr><tr><td class="l">runs60/cat_r0015/zsmax.tif</td><td>1686562</td><td class="l"><code>822abb0e19a410bb1be99bde42e5d6b7b44f6a77b7e73ce879a69dde8214e774</code></td></tr><tr><td class="l">runs60/cat_r0065/zsmax.tif</td><td>1691934</td><td class="l"><code>1d73a3b489919ddc000564a438433777c77b4d3d03736b707cd776178790c251</code></td></tr><tr><td class="l">runs60/cat_r0309/zsmax.tif</td><td>1684762</td><td class="l"><code>1340fbb04d8cf756fe34fa65771cad1a1d7af04a9af6496fae04b03ec7e3ff06</code></td></tr><tr><td class="l">runs60/cat_r0078/zsmax.tif</td><td>1697257</td><td class="l"><code>5990f3e23bef1c3c28f7ef7771e3e9bbc8b126fc951f2159a1aa0e473920c99a</code></td></tr><tr><td class="l">runs60/cat_r0423/zsmax.tif</td><td>1684618</td><td class="l"><code>c4f71c5676b1431c7db88db2116aaa9c4114731b8f63a0ba84b5b883fd00b142</code></td></tr><tr><td class="l">runs60/cat_r0024/zsmax.tif</td><td>1688093</td><td class="l"><code>07f76ddb07bc784d417e04f2e26e5835ca29c3cb930805b97124795776b771e6</code></td></tr><tr><td class="l">runs60/cat_r0112/zsmax.tif</td><td>1687095</td><td class="l"><code>f58154dcac5a08e218718b585dbe1d9bb97f4d2548d0a25673afd99b9ea992eb</code></td></tr><tr><td class="l">runs60/cat_r0503/zsmax.tif</td><td>1686643</td><td class="l"><code>be42958c5947a467f1147b56bd14bda3ca7cf56a520e0458c275d8432587e18b</code></td></tr><tr><td class="l">runs60/cat_r0139/zsmax.tif</td><td>1696647</td><td class="l"><code>82a3a2c022c5df305484db892fd2c5b74adf7dd1baaff3844149b1b96bb9e7a9</code></td></tr><tr><td class="l">runs60/cat_r0185/zsmax.tif</td><td>1697339</td><td class="l"><code>6f4ee880944aaa5af645858d45d120ea9bdd6e681d023313d26629341f2f557e</code></td></tr><tr><td class="l">runs60/cat_r0008/zsmax.tif</td><td>1685635</td><td class="l"><code>e674cc0c7cdfce624ea5289486165e1bd66228abfc643de9f84a4318a577b771</code></td></tr><tr><td class="l">runs60/cat_r0031/zsmax.tif</td><td>1692232</td><td class="l"><code>92cfb0e0ebe444147c42056200350a01d4eefc7ea8e6ea8eb11b95d9c9db1b68</code></td></tr><tr><td class="l">runs60/cat_r0240/zsmax.tif</td><td>1700312</td><td class="l"><code>e1f21d13cdb97132551e6ee4ac4d009ba151e8122ce6aec5106ee9f58cfc9a61</code></td></tr><tr><td class="l">runs60/cat_r0100/zsmax.tif</td><td>1697735</td><td class="l"><code>da5cbb2ef1009ca74e6a34dd9779074e519a87a655e5c688f56b44c571ccb644</code></td></tr><tr><td class="l">runs60/cat_r0740/zsmax.tif</td><td>1682191</td><td class="l"><code>90de37e0a46bbed43ea0d58c6a747c7bf9754b81e2482960cd5330cac9273735</code></td></tr><tr><td class="l">runs60/cat_r0018/zsmax.tif</td><td>1697037</td><td class="l"><code>fcc001f3ced96c234c35b35e71e161e704b8a999b029e76f5a3807b556b7d65c</code></td></tr><tr><td class="l">runs60/cat_r0146/zsmax.tif</td><td>1700714</td><td class="l"><code>c3683a69814ca130fa6a31cd0ea382ecee682ed236d61bc9fa8f6fadf52832d7</code></td></tr><tr><td class="l">runs60/cat_r0791/zsmax.tif</td><td>1682707</td><td class="l"><code>397a98de36db26843a2f3c343d348566acb87ba7f335f7e282c0e61a45b41d75</code></td></tr><tr><td class="l">runs60/cat_r0033/zsmax.tif</td><td>1700885</td><td class="l"><code>4b0418be5f3b1f0e1b3132ee4e3f6bec6f50e8b240e33e93c2196df55e7ecf18</code></td></tr><tr><td class="l">runs60/cat_r0870/zsmax.tif</td><td>1682347</td><td class="l"><code>8566647588365b7bfcd495da69227eb7751f94142ee1fb12875415af2157e1ba</code></td></tr><tr><td class="l">runs60/cat_r0002/zsmax.tif</td><td>1690785</td><td class="l"><code>13f81ca55b691952bce048cd30ae9100105b5eeca6fcfd3291599d21dfee5735</code></td></tr><tr><td class="l">runs60/cat_r0036/zsmax.tif</td><td>1688858</td><td class="l"><code>2315dd8fd0ac52ffbc823f6e0837ccbcfb2e5ce8ced6cf086a1c72520a998d5b</code></td></tr><tr><td class="l">runs60/cat_r0826/zsmax.tif</td><td>1685813</td><td class="l"><code>0449e7bd13af4b7f6ed7e786cf903ec99be5ba1d3a6189fbb7a62334e30d4dbf</code></td></tr><tr><td class="l">runs60/cat_r0128/zsmax.tif</td><td>1684468</td><td class="l"><code>5e741808eaa19527bf62c9028f6a3bce7b08ee1c0e24cb0fcc39a2f57a42445d</code></td></tr><tr><td class="l">runs60/cat_r0850/zsmax.tif</td><td>1682044</td><td class="l"><code>9353041d117c69391449694409b5a92cb814dc68758a445db2e32bdc95344308</code></td></tr><tr><td class="l">runs60/cat_r0022/zsmax.tif</td><td>1693042</td><td class="l"><code>a394865d56e28a7b279d3f41c05b718c80ba27799ddbaf05031126743d94e629</code></td></tr><tr><td class="l">runs60/cat_r0130/zsmax.tif</td><td>1691456</td><td class="l"><code>79718ca94173f0c6f62a559f516b9c2046b8d168268f1ec4cfe5f9ad6e6c7328</code></td></tr><tr><td class="l">runs60/cat_r0222/zsmax.tif</td><td>1684661</td><td class="l"><code>8bcbea538749873646170af3102d27df10505073dea561542feadd28bfc20351</code></td></tr><tr><td class="l">runs60/cat_r0083/zsmax.tif</td><td>1689220</td><td class="l"><code>d9b4e7a02cd594842c9ddd2e49a9faee95d7af2307ffbaa017372a22503465b4</code></td></tr><tr><td class="l">runs60/cat_r0516/zsmax.tif</td><td>1684989</td><td class="l"><code>1941e79268518c69c0ffe491e76a2e5bc6db3f765f1ac5481cf3c2e4a28c8065</code></td></tr><tr><td class="l">runs60/cat_r0014/zsmax.tif</td><td>1689875</td><td class="l"><code>a9b7ff01e569bd78852e0ca53faa348ac53e4dd24df70a073ad0e3821eaf1145</code></td></tr><tr><td class="l">runs60/cat_r0090/zsmax.tif</td><td>1684782</td><td class="l"><code>e77806a427ad55f1980931fd144c298d4a88f376faea50902ed1592b023c6482</code></td></tr><tr><td class="l">runs60/cat_r0586/zsmax.tif</td><td>1684899</td><td class="l"><code>b608ed37b041239d2a9b8d7cc23769cb63214e6477c3dc3807dceb02633add29</code></td></tr><tr><td class="l">runs60/cat_r0119/zsmax.tif</td><td>1697173</td><td class="l"><code>b82bb430532c717d0b2392f1ae48ec6a2b87e4043e0d12e420fe07fbe71013bd</code></td></tr><tr><td class="l">runs60/cat_r0808/zsmax.tif</td><td>1686573</td><td class="l"><code>4d20bb2e09440a75476385ebb0e6586c4383f9b9f0c531c340a938c0765dac87</code></td></tr><tr><td class="l">runs60/cat_r0023/zsmax.tif</td><td>1686525</td><td class="l"><code>abe0e5cb92e3ab51e3a27be8619dc69ea93b768a0209e0227e8455dda7c2236c</code></td></tr><tr><td class="l">runs60/cat_r0067/zsmax.tif</td><td>1697344</td><td class="l"><code>5ce9bafdc25f89e92c0dff81ccbd60afe3c9c2ffdc0965f5aca0a5c353c8ca14</code></td></tr><tr><td class="l">runs60/cat_r0207/zsmax.tif</td><td>1683577</td><td class="l"><code>f2f69ec7e8631668086447a7833103af533e56ddb0b6bc3d2dcb38012a5a60b1</code></td></tr><tr><td class="l">runs60/cat_r0107/zsmax.tif</td><td>1702961</td><td class="l"><code>fb5f55c1e23f6a89fc39326d27a74e48594b47808c1d96ae4721be202444d3eb</code></td></tr><tr><td class="l">runs60/cat_r0814/zsmax.tif</td><td>1684326</td><td class="l"><code>ae136f466b9684d5a28f2607f1f8bf6c29954500abe0de0ba3fe5ccec48eceeb</code></td></tr><tr><td class="l">runs60/cat_r0019/zsmax.tif</td><td>1697327</td><td class="l"><code>fd612a6d68a4bffbf1697752e3fa57dc4f78312cef88690d0a7fca887267d157</code></td></tr><tr><td class="l">runs60/cat_r0098/zsmax.tif</td><td>1695176</td><td class="l"><code>3dd16bdf1c89b5fd71e2e999fa6f1f4dcad9637eab4db37569247777df9f5e72</code></td></tr><tr><td class="l">runs60/cat_r0396/zsmax.tif</td><td>1684810</td><td class="l"><code>faa63c926339d17456145635a9f374e4cc2571a3cd67f74586cbd099c1f17026</code></td></tr><tr><td class="l">runs60/cat_r0142/zsmax.tif</td><td>1688822</td><td class="l"><code>5f9917da24d3f0f54145c86bf45b0513f893fc1bcb1b2f745b20c6d4ffc601c4</code></td></tr><tr><td class="l">runs60/cat_r0863/zsmax.tif</td><td>1684926</td><td class="l"><code>3e1a98ff97bb95713938dd94d51cd2161726bc3dfa693985c142fa668918eed1</code></td></tr><tr><td class="l">runs60/cat_r0030/zsmax.tif</td><td>1699320</td><td class="l"><code>8ba4c0d24b44d93bc73112294f4983840c5f1e6d5e918b68ab229dd8af06ba9d</code></td></tr><tr><td class="l">runs60/cat_r0051/zsmax.tif</td><td>1688016</td><td class="l"><code>49aa5cdf308cbf222c1b8556e8670f4c6e39d9929d257aa37c48f4976db59188</code></td></tr><tr><td class="l">runs60/cat_r0529/zsmax.tif</td><td>1684338</td><td class="l"><code>4d450c34bd800326df4afcb639876fcd90aa3431f671aede7e05b1f236860457</code></td></tr><tr><td class="l">runs60/ds_1h_2y/zsmax.tif</td><td>2271121</td><td class="l"><code>2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49</code></td></tr><tr><td class="l">runs60/ds_1h_5y/zsmax.tif</td><td>2249212</td><td class="l"><code>f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96</code></td></tr><tr><td class="l">runs60/ds_1h_10y/zsmax.tif</td><td>2242402</td><td class="l"><code>cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1</code></td></tr><tr><td class="l">runs60/ds_1h_25y/zsmax.tif</td><td>2238348</td><td class="l"><code>9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708</code></td></tr><tr><td class="l">runs60/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">runs60/ds_1h_500y/zsmax.tif</td><td>2228504</td><td class="l"><code>6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd</code></td></tr><tr><td class="l">runs60/ds_3h_2y/zsmax.tif</td><td>2250332</td><td class="l"><code>b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a</code></td></tr><tr><td class="l">runs60/ds_3h_5y/zsmax.tif</td><td>2254870</td><td class="l"><code>ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8</code></td></tr><tr><td class="l">runs60/ds_3h_10y/zsmax.tif</td><td>2255619</td><td class="l"><code>815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd</code></td></tr><tr><td class="l">runs60/ds_3h_25y/zsmax.tif</td><td>2256241</td><td class="l"><code>d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a</code></td></tr><tr><td class="l">runs60/ds_3h_100y/zsmax.tif</td><td>2236597</td><td class="l"><code>705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d</code></td></tr><tr><td class="l">runs60/ds_3h_500y/zsmax.tif</td><td>2219609</td><td class="l"><code>e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2</code></td></tr></tbody></table></div></details>
+<details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/selection.json</td><td>85422</td><td class="l"><code>a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/params.json</td><td>1079</td><td class="l"><code>ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json</td><td>2312</td><td class="l"><code>c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv</td><td>209126</td><td class="l"><code>ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292</code></td></tr><tr><td class="l">f4/domain/domain_B_land.shp</td><td>588</td><td class="l"><code>c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6</code></td></tr><tr><td class="l">f4/domain/domain.json</td><td>4971</td><td class="l"><code>f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d</code></td></tr><tr><td class="l">f4/domain/domain_maps.npz</td><td>5390791</td><td class="l"><code>ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e</code></td></tr><tr><td class="l">f4/domain/box_ams_observed.json</td><td>749</td><td class="l"><code>ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031</code></td></tr><tr><td class="l">f3/atlas14/table.json</td><td>10890</td><td class="l"><code>f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800</code></td></tr><tr><td class="l">f4/queue_design.json</td><td>2706</td><td class="l"><code>7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b</code></td></tr><tr><td class="l">f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000</code></td></tr><tr><td class="l">f4/queue_catalogue.json</td><td>107022</td><td class="l"><code>6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416</code></td></tr><tr><td class="l">terrain/water_1m.tif</td><td>68068</td><td class="l"><code>c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872</code></td></tr><tr><td class="l">site/flood/data/substations.geojson</td><td>6298</td><td class="l"><code>fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff</code></td></tr><tr><td class="l">site/flood/data/study_area.geojson</td><td>6664</td><td class="l"><code>0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5</code></td></tr><tr><td class="l">nyc-building-footprints/footprints-box.geojson</td><td>18380697</td><td class="l"><code>44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43</code></td></tr><tr><td class="l">f3/model/dem_model_1m.tif</td><td>49142122</td><td class="l"><code>dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf</code></td></tr><tr><td class="l">f3/model/buildings_1m.tif</td><td>535470</td><td class="l"><code>3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f3/model/pits_1m.tif</td><td>39160</td><td class="l"><code>47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa</code></td></tr><tr><td class="l">f4/runs/cat_r0101/zsmax.tif</td><td>1686079</td><td class="l"><code>b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd</code></td></tr><tr><td class="l">f4/runs/cat_r0779/zsmax.tif</td><td>1682945</td><td class="l"><code>027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f</code></td></tr><tr><td class="l">f4/runs/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0138/zsmax.tif</td><td>1686007</td><td class="l"><code>8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324</code></td></tr><tr><td class="l">f4/runs/cat_r0958/zsmax.tif</td><td>1682404</td><td class="l"><code>5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713</code></td></tr><tr><td class="l">f4/runs/cat_r0124/zsmax.tif</td><td>1686322</td><td class="l"><code>4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953</code></td></tr><tr><td class="l">f4/runs/cat_r0714/zsmax.tif</td><td>1683371</td><td class="l"><code>8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e</code></td></tr><tr><td class="l">f4/runs/cat_r0005/zsmax.tif</td><td>1688763</td><td class="l"><code>c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d</code></td></tr><tr><td class="l">f4/runs/cat_r0122/zsmax.tif</td><td>1703258</td><td class="l"><code>f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345</code></td></tr><tr><td class="l">f4/runs/cat_r0602/zsmax.tif</td><td>1685353</td><td class="l"><code>9e076dcf8d7da8e6fbe9b5dc37ab98766ff52acd519a18b12360ce00710ca08b</code></td></tr><tr><td class="l">f4/runs/cat_r0091/zsmax.tif</td><td>1698960</td><td class="l"><code>c0e87e134d70cbdf56cfdbdc7bea28430be85cffee5a9ee0f624342460159ee6</code></td></tr><tr><td class="l">f4/runs/cat_r0412/zsmax.tif</td><td>1685670</td><td class="l"><code>61dd9ed2a08f980927f4ba9838c1916ef347ed5f75c1b318752a292199430ccb</code></td></tr><tr><td class="l">f4/runs/cat_r0015/zsmax.tif</td><td>1686562</td><td class="l"><code>822abb0e19a410bb1be99bde42e5d6b7b44f6a77b7e73ce879a69dde8214e774</code></td></tr><tr><td class="l">f4/runs/cat_r0065/zsmax.tif</td><td>1691934</td><td class="l"><code>1d73a3b489919ddc000564a438433777c77b4d3d03736b707cd776178790c251</code></td></tr><tr><td class="l">f4/runs/cat_r0309/zsmax.tif</td><td>1684762</td><td class="l"><code>1340fbb04d8cf756fe34fa65771cad1a1d7af04a9af6496fae04b03ec7e3ff06</code></td></tr><tr><td class="l">f4/runs/cat_r0078/zsmax.tif</td><td>1697257</td><td class="l"><code>5990f3e23bef1c3c28f7ef7771e3e9bbc8b126fc951f2159a1aa0e473920c99a</code></td></tr><tr><td class="l">f4/runs/cat_r0423/zsmax.tif</td><td>1684618</td><td class="l"><code>c4f71c5676b1431c7db88db2116aaa9c4114731b8f63a0ba84b5b883fd00b142</code></td></tr><tr><td class="l">f4/runs/cat_r0024/zsmax.tif</td><td>1688093</td><td class="l"><code>07f76ddb07bc784d417e04f2e26e5835ca29c3cb930805b97124795776b771e6</code></td></tr><tr><td class="l">f4/runs/cat_r0112/zsmax.tif</td><td>1687095</td><td class="l"><code>f58154dcac5a08e218718b585dbe1d9bb97f4d2548d0a25673afd99b9ea992eb</code></td></tr><tr><td class="l">f4/runs/cat_r0503/zsmax.tif</td><td>1686643</td><td class="l"><code>be42958c5947a467f1147b56bd14bda3ca7cf56a520e0458c275d8432587e18b</code></td></tr><tr><td class="l">f4/runs/cat_r0139/zsmax.tif</td><td>1696647</td><td class="l"><code>82a3a2c022c5df305484db892fd2c5b74adf7dd1baaff3844149b1b96bb9e7a9</code></td></tr><tr><td class="l">f4/runs/cat_r0185/zsmax.tif</td><td>1697339</td><td class="l"><code>6f4ee880944aaa5af645858d45d120ea9bdd6e681d023313d26629341f2f557e</code></td></tr><tr><td class="l">f4/runs/cat_r0008/zsmax.tif</td><td>1685635</td><td class="l"><code>e674cc0c7cdfce624ea5289486165e1bd66228abfc643de9f84a4318a577b771</code></td></tr><tr><td class="l">f4/runs/cat_r0031/zsmax.tif</td><td>1692232</td><td class="l"><code>92cfb0e0ebe444147c42056200350a01d4eefc7ea8e6ea8eb11b95d9c9db1b68</code></td></tr><tr><td class="l">f4/runs/cat_r0240/zsmax.tif</td><td>1700312</td><td class="l"><code>e1f21d13cdb97132551e6ee4ac4d009ba151e8122ce6aec5106ee9f58cfc9a61</code></td></tr><tr><td class="l">f4/runs/cat_r0100/zsmax.tif</td><td>1697735</td><td class="l"><code>da5cbb2ef1009ca74e6a34dd9779074e519a87a655e5c688f56b44c571ccb644</code></td></tr><tr><td class="l">f4/runs/cat_r0740/zsmax.tif</td><td>1682191</td><td class="l"><code>90de37e0a46bbed43ea0d58c6a747c7bf9754b81e2482960cd5330cac9273735</code></td></tr><tr><td class="l">f4/runs/cat_r0018/zsmax.tif</td><td>1697037</td><td class="l"><code>fcc001f3ced96c234c35b35e71e161e704b8a999b029e76f5a3807b556b7d65c</code></td></tr><tr><td class="l">f4/runs/cat_r0146/zsmax.tif</td><td>1700714</td><td class="l"><code>c3683a69814ca130fa6a31cd0ea382ecee682ed236d61bc9fa8f6fadf52832d7</code></td></tr><tr><td class="l">f4/runs/cat_r0791/zsmax.tif</td><td>1682707</td><td class="l"><code>397a98de36db26843a2f3c343d348566acb87ba7f335f7e282c0e61a45b41d75</code></td></tr><tr><td class="l">f4/runs/cat_r0033/zsmax.tif</td><td>1700885</td><td class="l"><code>4b0418be5f3b1f0e1b3132ee4e3f6bec6f50e8b240e33e93c2196df55e7ecf18</code></td></tr><tr><td class="l">f4/runs/cat_r0870/zsmax.tif</td><td>1682347</td><td class="l"><code>8566647588365b7bfcd495da69227eb7751f94142ee1fb12875415af2157e1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0002/zsmax.tif</td><td>1690785</td><td class="l"><code>13f81ca55b691952bce048cd30ae9100105b5eeca6fcfd3291599d21dfee5735</code></td></tr><tr><td class="l">f4/runs/cat_r0036/zsmax.tif</td><td>1688858</td><td class="l"><code>2315dd8fd0ac52ffbc823f6e0837ccbcfb2e5ce8ced6cf086a1c72520a998d5b</code></td></tr><tr><td class="l">f4/runs/cat_r0826/zsmax.tif</td><td>1685813</td><td class="l"><code>0449e7bd13af4b7f6ed7e786cf903ec99be5ba1d3a6189fbb7a62334e30d4dbf</code></td></tr><tr><td class="l">f4/runs/cat_r0128/zsmax.tif</td><td>1684468</td><td class="l"><code>5e741808eaa19527bf62c9028f6a3bce7b08ee1c0e24cb0fcc39a2f57a42445d</code></td></tr><tr><td class="l">f4/runs/cat_r0850/zsmax.tif</td><td>1682044</td><td class="l"><code>9353041d117c69391449694409b5a92cb814dc68758a445db2e32bdc95344308</code></td></tr><tr><td class="l">f4/runs/cat_r0022/zsmax.tif</td><td>1693042</td><td class="l"><code>a394865d56e28a7b279d3f41c05b718c80ba27799ddbaf05031126743d94e629</code></td></tr><tr><td class="l">f4/runs/cat_r0130/zsmax.tif</td><td>1691456</td><td class="l"><code>79718ca94173f0c6f62a559f516b9c2046b8d168268f1ec4cfe5f9ad6e6c7328</code></td></tr><tr><td class="l">f4/runs/cat_r0222/zsmax.tif</td><td>1684661</td><td class="l"><code>8bcbea538749873646170af3102d27df10505073dea561542feadd28bfc20351</code></td></tr><tr><td class="l">f4/runs/cat_r0083/zsmax.tif</td><td>1689220</td><td class="l"><code>d9b4e7a02cd594842c9ddd2e49a9faee95d7af2307ffbaa017372a22503465b4</code></td></tr><tr><td class="l">f4/runs/cat_r0516/zsmax.tif</td><td>1684989</td><td class="l"><code>1941e79268518c69c0ffe491e76a2e5bc6db3f765f1ac5481cf3c2e4a28c8065</code></td></tr><tr><td class="l">f4/runs/cat_r0014/zsmax.tif</td><td>1689875</td><td class="l"><code>a9b7ff01e569bd78852e0ca53faa348ac53e4dd24df70a073ad0e3821eaf1145</code></td></tr><tr><td class="l">f4/runs/cat_r0090/zsmax.tif</td><td>1684782</td><td class="l"><code>e77806a427ad55f1980931fd144c298d4a88f376faea50902ed1592b023c6482</code></td></tr><tr><td class="l">f4/runs/cat_r0586/zsmax.tif</td><td>1684899</td><td class="l"><code>b608ed37b041239d2a9b8d7cc23769cb63214e6477c3dc3807dceb02633add29</code></td></tr><tr><td class="l">f4/runs/cat_r0119/zsmax.tif</td><td>1697173</td><td class="l"><code>b82bb430532c717d0b2392f1ae48ec6a2b87e4043e0d12e420fe07fbe71013bd</code></td></tr><tr><td class="l">f4/runs/cat_r0808/zsmax.tif</td><td>1686573</td><td class="l"><code>4d20bb2e09440a75476385ebb0e6586c4383f9b9f0c531c340a938c0765dac87</code></td></tr><tr><td class="l">f4/runs/cat_r0023/zsmax.tif</td><td>1686525</td><td class="l"><code>abe0e5cb92e3ab51e3a27be8619dc69ea93b768a0209e0227e8455dda7c2236c</code></td></tr><tr><td class="l">f4/runs/cat_r0067/zsmax.tif</td><td>1697344</td><td class="l"><code>5ce9bafdc25f89e92c0dff81ccbd60afe3c9c2ffdc0965f5aca0a5c353c8ca14</code></td></tr><tr><td class="l">f4/runs/cat_r0207/zsmax.tif</td><td>1683577</td><td class="l"><code>f2f69ec7e8631668086447a7833103af533e56ddb0b6bc3d2dcb38012a5a60b1</code></td></tr><tr><td class="l">f4/runs/cat_r0107/zsmax.tif</td><td>1702961</td><td class="l"><code>fb5f55c1e23f6a89fc39326d27a74e48594b47808c1d96ae4721be202444d3eb</code></td></tr><tr><td class="l">f4/runs/cat_r0814/zsmax.tif</td><td>1684326</td><td class="l"><code>ae136f466b9684d5a28f2607f1f8bf6c29954500abe0de0ba3fe5ccec48eceeb</code></td></tr><tr><td class="l">f4/runs/cat_r0019/zsmax.tif</td><td>1697327</td><td class="l"><code>fd612a6d68a4bffbf1697752e3fa57dc4f78312cef88690d0a7fca887267d157</code></td></tr><tr><td class="l">f4/runs/cat_r0098/zsmax.tif</td><td>1695176</td><td class="l"><code>3dd16bdf1c89b5fd71e2e999fa6f1f4dcad9637eab4db37569247777df9f5e72</code></td></tr><tr><td class="l">f4/runs/cat_r0396/zsmax.tif</td><td>1684810</td><td class="l"><code>faa63c926339d17456145635a9f374e4cc2571a3cd67f74586cbd099c1f17026</code></td></tr><tr><td class="l">f4/runs/cat_r0142/zsmax.tif</td><td>1688822</td><td class="l"><code>5f9917da24d3f0f54145c86bf45b0513f893fc1bcb1b2f745b20c6d4ffc601c4</code></td></tr><tr><td class="l">f4/runs/cat_r0863/zsmax.tif</td><td>1684926</td><td class="l"><code>3e1a98ff97bb95713938dd94d51cd2161726bc3dfa693985c142fa668918eed1</code></td></tr><tr><td class="l">f4/runs/cat_r0030/zsmax.tif</td><td>1699320</td><td class="l"><code>8ba4c0d24b44d93bc73112294f4983840c5f1e6d5e918b68ab229dd8af06ba9d</code></td></tr><tr><td class="l">f4/runs/cat_r0051/zsmax.tif</td><td>1688016</td><td class="l"><code>49aa5cdf308cbf222c1b8556e8670f4c6e39d9929d257aa37c48f4976db59188</code></td></tr><tr><td class="l">f4/runs/cat_r0529/zsmax.tif</td><td>1684338</td><td class="l"><code>4d450c34bd800326df4afcb639876fcd90aa3431f671aede7e05b1f236860457</code></td></tr><tr><td class="l">f4/runs/cat_r0075/zsmax.tif</td><td>1692957</td><td class="l"><code>307a3bb1b93acb242f128d8c88d3e98a07d5ad6c6e32f0e7856bb6b9ae73e437</code></td></tr><tr><td class="l">f4/runs/cat_r0672/zsmax.tif</td><td>1682611</td><td class="l"><code>c21a645ef1355b61db2d1692824d7849b0c929034a73e49ced7f369e48fce6d9</code></td></tr><tr><td class="l">f4/runs/cat_r0020/zsmax.tif</td><td>1687636</td><td class="l"><code>ff7b9c30ebc7ff364b63df37f926029a24f51d4a2e54f15ceab88814d817f925</code></td></tr><tr><td class="l">f4/runs/cat_r0074/zsmax.tif</td><td>1695632</td><td class="l"><code>672e0d46a3c1b68cf98d8d3bc4fdfee41e890ca511e90957b7dea0e5bf96f333</code></td></tr><tr><td class="l">f4/runs/cat_r0546/zsmax.tif</td><td>1684058</td><td class="l"><code>4f118e15ab5865fadeab41837fa04a7356537005a4d8593a8cadf151a6aff040</code></td></tr><tr><td class="l">f4/runs/cat_r0136/zsmax.tif</td><td>1689761</td><td class="l"><code>f6ff671664a09e4d6e04d0252268278825af0fa09a9bebe3a6681e49f045bf6b</code></td></tr><tr><td class="l">f4/runs/cat_r0935/zsmax.tif</td><td>1680750</td><td class="l"><code>1bfc398858206eb13cbaa12c34f35ae67ff5f2f79e5f7f6bde18a9ba587ecab5</code></td></tr><tr><td class="l">f4/runs/cat_r0025/zsmax.tif</td><td>1691548</td><td class="l"><code>6cdba7ce2b00e46ba13011adcf105e51fa5b6f48974a10dafb693c446215309b</code></td></tr><tr><td class="l">f4/runs/cat_r0104/zsmax.tif</td><td>1691040</td><td class="l"><code>5e263692157446b850d5c0e29187ce0f38c5e3cdfc991b57fa10b9d91102178e</code></td></tr><tr><td class="l">f4/runs/cat_r0384/zsmax.tif</td><td>1683671</td><td class="l"><code>136da91c3c7a608c287e14dbf4fbae87de0ac77a2ab27c4941dd36bd00b3a4e7</code></td></tr><tr><td class="l">f4/runs/cat_r0044/zsmax.tif</td><td>1699880</td><td class="l"><code>c22964298ff62b3de74b3b6eb702e3225531a89ab0fa3835bb52ef90dbe50939</code></td></tr><tr><td class="l">f4/runs/cat_r0908/zsmax.tif</td><td>1681335</td><td class="l"><code>df735279f5a187f8585c209553fc56e6ccef1a61a6868cfe3937910e5307ed14</code></td></tr><tr><td class="l">f4/runs/cat_r0027/zsmax.tif</td><td>1686876</td><td class="l"><code>76d9ed2a316888283985189aab0c7df224e91d68d8b7093f9f7159dc055c368f</code></td></tr><tr><td class="l">f4/runs/cat_r0055/zsmax.tif</td><td>1686758</td><td class="l"><code>4a14f0c98759cd373925f808e08ca1cdeb8a05128a4baf36a2bd827e48064135</code></td></tr><tr><td class="l">f4/runs/cat_r0653/zsmax.tif</td><td>1684168</td><td class="l"><code>d5b2de6155dd73be969dad733dc9c09670e115deaa03356f6c58131186bbd2b9</code></td></tr><tr><td class="l">f4/runs/cat_r0133/zsmax.tif</td><td>1701708</td><td class="l"><code>4275d8e5bb4f521d2501a81be8511b5e877d4a7a5c41aad6fcf6a3345f886d4c</code></td></tr><tr><td class="l">f4/runs/cat_r0443/zsmax.tif</td><td>1685896</td><td class="l"><code>37565fde7e987c452b6880e511ac75a0b3a8899e6dbda69d7759b390020658ed</code></td></tr><tr><td class="l">f4/runs/cat_r0026/zsmax.tif</td><td>1694590</td><td class="l"><code>d884189063cb2478f9ae9b31181927e10b6012a51aa68c333e6374ea95e5ad5d</code></td></tr><tr><td class="l">f4/runs/cat_r0058/zsmax.tif</td><td>1698019</td><td class="l"><code>4bf0116d09861dd11c23789c887f9e798c43404df7e4322e5988bfbf99cd6f8e</code></td></tr><tr><td class="l">f4/runs/cat_r0631/zsmax.tif</td><td>1683626</td><td class="l"><code>82cd0107de9a196c5fdd11a1d4a90fec089b4403a92b511cecbb6f6e386b1eae</code></td></tr><tr><td class="l">f4/runs/cat_r0041/zsmax.tif</td><td>1695128</td><td class="l"><code>0b20de72208b8c1c962a77bf5f61564490782b61d6977135322d7082cba48ea6</code></td></tr><tr><td class="l">f4/runs/cat_r0560/zsmax.tif</td><td>1685560</td><td class="l"><code>bddd8cc01eb9cac6fb8222581a19138c26b50f9dbaecd3c0a0ecc2121d488b6d</code></td></tr><tr><td class="l">f4/runs/cat_r0029/zsmax.tif</td><td>1692370</td><td class="l"><code>8b8e621041283ff89010d1eeb0c8a7df4f9efbcba426d418f1af1d68cb8886eb</code></td></tr><tr><td class="l">f4/runs/cat_r0126/zsmax.tif</td><td>1700004</td><td class="l"><code>46fdf82c8097b6ece231bbec767dc3043cf0aee4d88bec9653eabea311391b92</code></td></tr><tr><td class="l">f4/runs/cat_r0250/zsmax.tif</td><td>1689529</td><td class="l"><code>6340aa036642ec023c7f97e76b137935b34a607ef05d6e8f01a5fa91108b79c1</code></td></tr><tr><td class="l">f4/runs/cat_r0054/zsmax.tif</td><td>1690759</td><td class="l"><code>53455bd5ae17c4fde67d92bfd9747a958e212aadee3a568d762871828a1ca45e</code></td></tr><tr><td class="l">f4/runs/cat_r0266/zsmax.tif</td><td>1702313</td><td class="l"><code>64c500c893b30cdd629b73501f860c74ebfe4c776d1e731f7bd1db3f0b24f93b</code></td></tr><tr><td class="l">f4/runs/cat_r0004/zsmax.tif</td><td>1683159</td><td class="l"><code>98d3d1bb130fc070561563d96fd05eea8a8e401cdce6fe5071f77ab88f0a6f0b</code></td></tr><tr><td class="l">f4/runs/cat_r0117/zsmax.tif</td><td>1687214</td><td class="l"><code>2d3cbdb7422577b8d600476781531f0333e8f00c35fd319c6fbfb02c20ae8fd0</code></td></tr><tr><td class="l">f4/runs/cat_r0154/zsmax.tif</td><td>1684125</td><td class="l"><code>c6a45a257eb50f2dc042528dd2d834cac5d36a8b4f60b07a836e03f5e3f0b9a7</code></td></tr><tr><td class="l">f4/runs/cat_r0046/zsmax.tif</td><td>1700689</td><td class="l"><code>fb9fd5fa81879f5c66c921fe055c1e94b42fd8b6b2696fd79697882121f6e36f</code></td></tr><tr><td class="l">f4/runs/cat_r0467/zsmax.tif</td><td>1685227</td><td class="l"><code>332757f50e769a90384da20c379eb04bb2f43119c65fd3cd9230d70d79a7b339</code></td></tr><tr><td class="l">f4/runs/cat_r0007/zsmax.tif</td><td>1684681</td><td class="l"><code>6072f186410b8ba824d98c5b58f32c7c3f935e5519758b5b5e1d120d97ba9ac0</code></td></tr><tr><td class="l">f4/runs/cat_r0085/zsmax.tif</td><td>1695371</td><td class="l"><code>c2378b1d606351536d989339faca2893a184e735c891459a1fbd0196ee1ab394</code></td></tr><tr><td class="l">f4/runs/cat_r0284/zsmax.tif</td><td>1683945</td><td class="l"><code>08032dd675dc781a9ec2ced7f4a9464493df92987b15c39c160732091cdb0394</code></td></tr><tr><td class="l">f4/runs/cat_r0061/zsmax.tif</td><td>1695976</td><td class="l"><code>ad3ffdc18bf8ca88a9851bfd067e656d69ab7f38b69308758032bede2cd8c13a</code></td></tr><tr><td class="l">f4/runs/cat_r0889/zsmax.tif</td><td>1682104</td><td class="l"><code>fcc518464ceeb86e6f79696f3e61473961c9c1551fd34c14d3f64ef746de7c97</code></td></tr><tr><td class="l">f4/runs/cat_r0009/zsmax.tif</td><td>1685019</td><td class="l"><code>c9936ee13d26ec578a7e6a8b446e4fe622d380ad5544634d5f2d5e2348d4b95f</code></td></tr><tr><td class="l">f4/runs/cat_r0114/zsmax.tif</td><td>1685154</td><td class="l"><code>a7bb43014afd748fa5f899e6215711850b0a0bb942391d85bed3b1bc8a448688</code></td></tr><tr><td class="l">f4/runs/cat_r0759/zsmax.tif</td><td>1684061</td><td class="l"><code>f2ccb98dbff0c634f1df1a05b7d49792f396ee989579933725131779b390cbdb</code></td></tr><tr><td class="l">f4/runs/cat_r0110/zsmax.tif</td><td>1684885</td><td class="l"><code>6ee291480633a916c8221b4f7d2cb328a40eb7581dd58810e79dc12a66339b41</code></td></tr><tr><td class="l">f4/runs/cat_r0368/zsmax.tif</td><td>1683698</td><td class="l"><code>afcab1d088af291caf1b1324c07b70892808b39d07fd73a15855bd3b05a97727</code></td></tr><tr><td class="l">f4/runs/cat_r0013/zsmax.tif</td><td>1686316</td><td class="l"><code>927ace1b9c940f544495177a9fdc720ff7db948bba204db8be89dc70ff8d37d8</code></td></tr><tr><td class="l">f4/runs/cat_r0144/zsmax.tif</td><td>1690858</td><td class="l"><code>81bc074bd1db86f4ccb6b39071c87331f31839e6264acbaa6d2cc8f9004a2947</code></td></tr><tr><td class="l">f4/runs/cat_r0980/zsmax.tif</td><td>1680339</td><td class="l"><code>9eb1697350cf01cb3f281e0ac43c5947fb6bfa483c69a3e9bb79870e4f3deb72</code></td></tr><tr><td class="l">f4/runs/cat_r0150/zsmax.tif</td><td>1684176</td><td class="l"><code>01e69800ea71e292e3c1c786d49b96aaa072dcdb7ce260a16b427ab87975f580</code></td></tr><tr><td class="l">f4/runs/cat_r0906/zsmax.tif</td><td>1681146</td><td class="l"><code>740b41035ea39137913407286010bda4a58ba954712043d1d27716d3bb6b245d</code></td></tr><tr><td class="l">f4/runs/cat_r0011/zsmax.tif</td><td>1687576</td><td class="l"><code>244adc54d02a59948c8c892a4029578643f47bed40a879ce832f15f19c44f5f9</code></td></tr><tr><td class="l">f4/runs/cat_r0037/zsmax.tif</td><td>1694097</td><td class="l"><code>daa3696b31468e04fc2a8a81538241c0b1e90e34a72022ad1da1d241b2f8f5bb</code></td></tr><tr><td class="l">f4/runs/cat_r0337/zsmax.tif</td><td>1696837</td><td class="l"><code>333c71ecba90cb1b32b5b78bbd0e7453b9c9493bbccc4a69e91278106a057e8e</code></td></tr><tr><td class="l">f4/runs/cat_r0116/zsmax.tif</td><td>1695237</td><td class="l"><code>bb00ffe14d89e1e9bdeb6d417b94df4fd9fbdf507aeed5e8c3f4255a3c8634a1</code></td></tr><tr><td class="l">f4/runs/cat_r0445/zsmax.tif</td><td>1684265</td><td class="l"><code>4adcc8e6212944970b99b4b22c4ec1cd3c583b31048f7ffd200bd563470b76a9</code></td></tr><tr><td class="l">f4/runs/cat_r0012/zsmax.tif</td><td>1692071</td><td class="l"><code>2a81613cac176d23495f358db965b68ba9e2d3633312a77ec11f57c60822e94a</code></td></tr><tr><td class="l">f4/runs/cat_r0070/zsmax.tif</td><td>1699146</td><td class="l"><code>86267364f3e82278b34baa3c3b2c39331c2b9092b91d9f69fd59d290dd87ffdf</code></td></tr><tr><td class="l">f4/runs/cat_r0496/zsmax.tif</td><td>1685494</td><td class="l"><code>6b4515d527a38e7248c55cd0cb751c09889039c6c169a5c9f54bd0662e58c57c</code></td></tr><tr><td class="l">f4/runs/cat_r0131/zsmax.tif</td><td>1685204</td><td class="l"><code>8b47709912607172a90458d3ebee733311620cb8cf1b9baee296433b7f52fa4c</code></td></tr><tr><td class="l">f4/runs/cat_r0965/zsmax.tif</td><td>1681164</td><td class="l"><code>1c0b99989f3741703b8386a3f3892fc88514fd56060d80facc21ea8ec133dcc3</code></td></tr><tr><td class="l">f4/runs/cat_r0021/zsmax.tif</td><td>1697535</td><td class="l"><code>e962548a1e9180c2f3f54428b80c69f97336d795c44f510a3c747cf57d18ea77</code></td></tr><tr><td class="l">f4/runs/cat_r0148/zsmax.tif</td><td>1687592</td><td class="l"><code>cef1b2fe658ee00abad36bd39289ac7aae49b6b4640a034661eff0dd951f2998</code></td></tr><tr><td class="l">f4/runs/cat_r0331/zsmax.tif</td><td>1691474</td><td class="l"><code>1d2a7c7da7eaaf9367d5bda2b6b0d388ed597379ae06afbfb65a31c015ffad04</code></td></tr><tr><td class="l">f4/runs/cat_r0060/zsmax.tif</td><td>1700288</td><td class="l"><code>d3910d917143cd4c7ab9c05b5b56695b938e1998d208925de019ac6e0f65cc0c</code></td></tr><tr><td class="l">f4/runs/cat_r0302/zsmax.tif</td><td>1683575</td><td class="l"><code>65444cb392ab4dd83e349e6f3da66a8028ce2e8801706811edf10862505c0a86</code></td></tr><tr><td class="l">f4/runs/cat_r0016/zsmax.tif</td><td>1687940</td><td class="l"><code>58be7d36283957cbb6656c6b05d461917a133bafdb5d4babaac8ca10a478e090</code></td></tr><tr><td class="l">f4/runs/cat_r0047/zsmax.tif</td><td>1695341</td><td class="l"><code>b100c54e4f75aa150b08de7d76b91411ffc416327786edcddd6ed666081e65c9</code></td></tr><tr><td class="l">f4/runs/cat_r0200/zsmax.tif</td><td>1700616</td><td class="l"><code>cbec63a6b958301a10c1cc3e95fe338af02cc313bbb17419c059363b46388938</code></td></tr><tr><td class="l">f4/runs/cat_r0082/zsmax.tif</td><td>1686597</td><td class="l"><code>766d03e54494572e902748e6d8efe799bd86ac0b48bf41bfe91a5903bc3a521d</code></td></tr><tr><td class="l">f4/runs/cat_r0685/zsmax.tif</td><td>1682732</td><td class="l"><code>cd524c2bf89eb89d2f50d412170cd26566d33866c93207f885359500f161ce5e</code></td></tr><tr><td class="l">f4/runs/cat_r0028/zsmax.tif</td><td>1687212</td><td class="l"><code>6630488d99325a85994d9bdd51c41407186a2c044ab089d13104b030a522d38b</code></td></tr><tr><td class="l">f4/runs/cat_r0105/zsmax.tif</td><td>1686767</td><td class="l"><code>d3313f4af21ef4efe5d3d7a7e08606fd5f2033156abbbf0c36496fd3872af949</code></td></tr><tr><td class="l">f4/runs/cat_r0736/zsmax.tif</td><td>1686372</td><td class="l"><code>62eb63d8f0fe470274255a95a06df30cdc4a6b68767a8f303b0546f20cd18f7b</code></td></tr><tr><td class="l">f4/runs/cat_r0039/zsmax.tif</td><td>1688635</td><td class="l"><code>474108e5d2a22ca404434bc19c984ef5ba985aae19b5fbb6ca1d0cd3bd1560d6</code></td></tr><tr><td class="l">f4/runs/cat_r0930/zsmax.tif</td><td>1680671</td><td class="l"><code>932f97cdf3d737569e9318bdb765973179fc45b7fa774115aac5538071236c6d</code></td></tr><tr><td class="l">f4/runs/cat_r0017/zsmax.tif</td><td>1690280</td><td class="l"><code>385e6c42452c2e5330c9fcb2e65dee7d2ccf763a02ad6b151d3cbccb236be9d2</code></td></tr><tr><td class="l">f4/runs/cat_r0087/zsmax.tif</td><td>1686983</td><td class="l"><code>ba57a51b3d48447f7a01cc69249a060fc4d40f2e8fda267033ca59c5e9908f4e</code></td></tr><tr><td class="l">f4/runs/cat_r0616/zsmax.tif</td><td>1683582</td><td class="l"><code>60b92869a03c3fd4f0339010309090d4b731bc6befe78339946e939d277d2234</code></td></tr><tr><td class="l">f4/runs/cat_r0095/zsmax.tif</td><td>1693789</td><td class="l"><code>89ad571d33f4dae4983b8124752fab79d1fee1f8f3971de0b6da1eb9003b1ee8</code></td></tr><tr><td class="l">f4/runs/cat_r0169/zsmax.tif</td><td>1684235</td><td class="l"><code>7cfccbe985237249e69bd48729254defe6fcd598c1e764e50d22a939d00dc4a7</code></td></tr><tr><td class="l">f4/runs/cat_r0010/zsmax.tif</td><td>1686387</td><td class="l"><code>a3c5715f2e386ed6292d467135d87720956f54bfd39c2a7330d6a3404d8ceeff</code></td></tr><tr><td class="l">f4/runs/cat_r0064/zsmax.tif</td><td>1692088</td><td class="l"><code>6119f22c8fe66a970e494d31a22516b6f9eed2eee5e172a0243c910affc31b4a</code></td></tr><tr><td class="l">f4/runs/cat_r0572/zsmax.tif</td><td>1684144</td><td class="l"><code>c3e14d3d0ee31dde06a0a8a73d94f9a4d114a591b93c55ffc4af393d05dfc150</code></td></tr><tr><td class="l">f4/runs/cat_r0072/zsmax.tif</td><td>1694521</td><td class="l"><code>9dd41c090a0cf262aeeea7567c67bf35bcc3fc84b0d674591128f312ed06cf0a</code></td></tr><tr><td class="l">f4/runs/cat_r0481/zsmax.tif</td><td>1683065</td><td class="l"><code>a11c8a1143fcd03703f591b03845f0532f86ac2989200128061bacbe6eb4e211</code></td></tr><tr><td class="l">f4/runs/cat_r0003/zsmax.tif</td><td>1686038</td><td class="l"><code>abb3eea898517be9b868a39ab97b1f3b565c929705a505308ee9973608ad64e0</code></td></tr><tr><td class="l">f4/runs/cat_r0079/zsmax.tif</td><td>1686267</td><td class="l"><code>52d56ff4e7d11d49fb12d6cc7a902390d834e7b05672516f16bd31c4bf6ad336</code></td></tr><tr><td class="l">f4/runs/cat_r0351/zsmax.tif</td><td>1692096</td><td class="l"><code>18dd5f8d5ec0a7d49981241248ea65d3e61a838a18542dafcc345df09c8ecddb</code></td></tr><tr><td class="l">f4/runs/cat_r0050/zsmax.tif</td><td>1686050</td><td class="l"><code>cb9d82858bc6a4340c6343a1b092b0d5fd61613f8276a96e6c494a7e165c4c51</code></td></tr><tr><td class="l">f4/runs/cat_r0667/zsmax.tif</td><td>1685358</td><td class="l"><code>1328a17ef2a0c01f75efbc8e8e9567a638e3b3f0953bc1ad7e5a64058865f0d3</code></td></tr><tr><td class="l">f4/runs/cat_r0001/zsmax.tif</td><td>1685882</td><td class="l"><code>fdc3458a501d0a09ea7ae90370c75eb91db1310c739e1cb2ac4dea857df0d452</code></td></tr><tr><td class="l">f4/runs/cat_r0094/zsmax.tif</td><td>1689166</td><td class="l"><code>f574c1a648f1fc2c9d4121af35fd4cf2663527750eef355958e70f69b2e05ae1</code></td></tr><tr><td class="l">f4/runs/cat_r0709/zsmax.tif</td><td>1682970</td><td class="l"><code>608df9a102864fe2e4eff1740879545159ba27d234580f765e49b87ece04592c</code></td></tr><tr><td class="l">f4/runs/ds_1h_2y/zsmax.tif</td><td>2271121</td><td class="l"><code>2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49</code></td></tr><tr><td class="l">f4/runs/ds_1h_5y/zsmax.tif</td><td>2249212</td><td class="l"><code>f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96</code></td></tr><tr><td class="l">f4/runs/ds_1h_10y/zsmax.tif</td><td>2242402</td><td class="l"><code>cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1</code></td></tr><tr><td class="l">f4/runs/ds_1h_25y/zsmax.tif</td><td>2238348</td><td class="l"><code>9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708</code></td></tr><tr><td class="l">f4/runs/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">f4/runs/ds_1h_500y/zsmax.tif</td><td>2228504</td><td class="l"><code>6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd</code></td></tr><tr><td class="l">f4/runs/ds_3h_2y/zsmax.tif</td><td>2250332</td><td class="l"><code>b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a</code></td></tr><tr><td class="l">f4/runs/ds_3h_5y/zsmax.tif</td><td>2254870</td><td class="l"><code>ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8</code></td></tr><tr><td class="l">f4/runs/ds_3h_10y/zsmax.tif</td><td>2255619</td><td class="l"><code>815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd</code></td></tr><tr><td class="l">f4/runs/ds_3h_25y/zsmax.tif</td><td>2256241</td><td class="l"><code>d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a</code></td></tr><tr><td class="l">f4/runs/ds_3h_100y/zsmax.tif</td><td>2236597</td><td class="l"><code>705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d</code></td></tr><tr><td class="l">f4/runs/ds_3h_500y/zsmax.tif</td><td>2219609</td><td class="l"><code>e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2</code></td></tr></tbody></table></div></details>
 <p class="mute small">Software: crc-framework 1.0.0, crc-sdk 1.0.0, geopandas 1.2.0, matplotlib 3.11.2, numpy 2.5.4, python 3.12.11, rasterio 1.5.1</p>
 </article>
 <article class="card" id="record-f5">
