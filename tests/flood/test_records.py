@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from flood_lab.records import Check, Input, Parameter, Record
+from lab_common import PINNED
 from lab_common.io import write_json_atomic, write_text_atomic
 
 
@@ -27,7 +28,7 @@ def test_record_round_trip_and_verdict(tmp_path: Path) -> None:
     assert document["schema"] == "flood_lab/0.1"
     assert document["passed"] is True
     assert document["inputs"][0]["sha256"].startswith("ba7816bf")
-    assert document["software"]["crc-sdk"] == "1.0.0"
+    assert document["software"]["crc-sdk"] == PINNED["crc-sdk"]
 
 
 def test_verdict_is_unknown_when_a_rule_could_not_be_judged() -> None:

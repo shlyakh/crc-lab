@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk[netcdf]==1.0.0"]
+# dependencies = ["crc-sdk[netcdf]==1.1.0"]
 # ///
 """NEX-GDDP-CMIP6 files are recorded without the licence written in them.
 

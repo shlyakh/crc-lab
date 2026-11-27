@@ -11,6 +11,7 @@ maps and the comparisons with outside evidence still rest on it.
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -102,7 +103,7 @@ def _compare_area(copy: reference.Copy, area: Area, periods: Sequence[int],
     theirs = _parse(table) if table is not None and table.num_rows else None
     out: dict[str, Any] = {
         "tiles": [], "pixels": 0, "dry": 0, "one_depth": 0, "decreasing": 0, "deliverable": 0,
-        "equal_depths": 0, "fewer_than_four": 0,
+        "equal_depths": 0, "fewer_than_four": 0, "filled": 0,
         "rows": 0 if theirs is None else int(len(theirs["row"])),
         "rows_outside_window": 0, "rows_repeated": 0, "missing": 0, "extra": 0,
         "pixels_compared": 0, "pixels_differing": 0, "values_compared": 0,
@@ -138,16 +139,19 @@ def _compare_area(copy: reference.Copy, area: Area, periods: Sequence[int],
             values = reference.depths(raw, first.nodata, rules).reshape(count, -1)
             valid = ~np.isnan(values)
             knots = valid.sum(axis=0)
-            filled = np.where(valid, values, -np.inf)
-            before = np.vstack([np.full((1, values.shape[1]), -np.inf),
-                                np.maximum.accumulate(filled, axis=0)[:-1]])  # fmt: skip
-            falls = (valid & (values < before)).any(axis=0)
-            deliverable = (knots >= 2) & ~falls
+            # crc-sdk 1.1.0 (pull request #64): a return period with no depth at a pixel that
+            # has a depth at another one is read as 0 m; the pixel is left out when the depths
+            # so completed fall anywhere as the return period rises; a dry pixel gives no row.
+            zeroed = np.where(valid, values, 0.0)
+            falls = (np.diff(zeroed, axis=0) < 0).any(axis=0)
+            wet = knots >= 1
+            deliverable = wet & ~falls
             out["pixels"] += values.shape[1]
             out["dry"] += int((knots == 0).sum())
             out["one_depth"] += int((knots == 1).sum())
-            out["decreasing"] += int(((knots >= 2) & falls).sum())
+            out["decreasing"] += int((wet & falls).sum())
             out["deliverable"] += int(deliverable.sum())
+            out["filled"] += int((deliverable & (knots < count)).sum())
             out["fewer_than_four"] += int((deliverable & (knots < 4)).sum())
             spread = np.where(valid, values, np.nan)
             with np.errstate(invalid="ignore"):
@@ -191,14 +195,8 @@ def _compare_area(copy: reference.Copy, area: Area, periods: Sequence[int],
 
             both = deliverable & delivered
             if both.any():
-                rank = np.cumsum(valid, axis=0) - 1
-                pixel = np.broadcast_to(np.arange(values.shape[1]), values.shape)
-                wanted_values = np.full(values.shape, np.nan)
-                wanted_probability = np.full(values.shape, np.nan)
-                wanted_values[rank[valid], pixel[valid]] = values[valid]
-                wanted_probability[rank[valid], pixel[valid]] = np.broadcast_to(
-                    expected_probability[:, None], values.shape
-                )[valid]
+                wanted_values = zeroed
+                wanted_probability = np.broadcast_to(expected_probability[:, None], values.shape)
                 a, b = given_values[:, both], wanted_values[:, both]
                 wrong = ~((a == b) | (np.isnan(a) & np.isnan(b)))
                 p, q = given_probability[:, both], wanted_probability[:, both]
@@ -329,9 +327,20 @@ def assess(
             {"role": "crc-sdk read", "url": copy.base, "read_from": run.get("read_from", "")},
         )
         counts = run.get("counts") or {}
-        skipped = ours["dry"] + ours["one_depth"] + ours["decreasing"]
+        skipped = ours["decreasing"]  # dry pixels are not skipped since crc-sdk 1.1.0
+        codes = str(run.get("diagnostics", []))
+        notes = {
+            "unmapped_depth_as_zero": "unmapped_depth_as_zero" in codes,
+            "dry_pixels": "dry_pixels" in codes,
+        }
+        dry_noted = next(
+            (int(m.group(1)) for d in run.get("diagnostics", [])
+             if isinstance(d, dict) and d.get("code") == "dry_pixels"
+             and (m := re.match(r"\s*(\d+)", str(d.get("message", ""))))),
+            0 if not ours["dry"] else None,
+        )  # fmt: skip
         summary = {k: ours[k] for k in (
-            "pixels", "dry", "one_depth", "decreasing", "deliverable", "equal_depths",
+            "pixels", "dry", "one_depth", "decreasing", "deliverable", "filled", "equal_depths",
             "fewer_than_four", "rows", "rows_outside_window", "rows_repeated", "missing", "extra",
         )}  # fmt: skip
         explored["areas"].append({
@@ -351,25 +360,33 @@ def assess(
         record(
             f"area[{area.id}]", "completeness",
             "The pixels the publisher's grids hold inside the box (every pixel the box touches) "
-            "against the number crc-sdk reports as requested and the positions of its rows.",
-            counts.get("requested") == ours["pixels"] and not ours["rows_outside_window"],
+            "against the number crc-sdk reports as requested plus the number its dry_pixels note "
+            "gives (since crc-sdk 1.1.0 a dry pixel is not counted as requested), and the "
+            "positions of its rows.",
+            (counts.get("requested") or 0) + (dry_noted or 0) == ours["pixels"]
+            and dry_noted == ours["dry"] and not ours["rows_outside_window"],
             steps=("area",), inputs=inputs,
             result={"pixels_reference": ours["pixels"],
                     "requested_crc_sdk": counts.get("requested"),
+                    "dry_reference": ours["dry"], "dry_noted_crc_sdk": dry_noted,
                     "rows_outside_window": ours["rows_outside_window"],
                     "tiles": [t["tile"] for t in ours["tiles"]]},
             tolerance={"counts": "identical"},
         )  # fmt: skip
         record(
             f"delivered[{area.id}]", "completeness",
-            "Which pixels get a row. The reference delivers a pixel that has two or more depths "
-            "none of which is lower than an earlier one, and skips the rest; crc-sdk's rows and "
-            "its reported counts are compared with that.",
+            "Which pixels get a row. The reference delivers a pixel that has a depth at one or "
+            "more return periods unless, with the return periods it has no depth for read as "
+            "0 m, a depth is lower than the one at a shorter return period; it skips those and "
+            "gives dry pixels no row. crc-sdk's rows, its skipped count (the decreasing pixels "
+            "only) and its notes on filled and dry pixels are compared with that.",
             not ours["missing"] and not ours["extra"] and counts.get("produced") == ours["rows"]
-            and counts.get("skipped") == skipped and ours["rows"] == ours["deliverable"],
+            and counts.get("skipped") == skipped and ours["rows"] == ours["deliverable"]
+            and notes["unmapped_depth_as_zero"] == bool(ours["filled"])
+            and notes["dry_pixels"] == bool(ours["dry"]),
             steps=("selection", "skipped-count"), inputs=inputs,
             result={**summary, "skipped_reference": skipped, "counts_crc_sdk": counts,
-                    "diagnostics": run.get("diagnostics", [])},
+                    "notes_crc_sdk": notes, "diagnostics": run.get("diagnostics", [])},
             tolerance={"pixels": "the same set", "counts": "identical"},
         )  # fmt: skip
         record(
@@ -546,8 +563,10 @@ def assess(
         record(
             f"coverage[{area.id}]", "completeness",
             "Ask crc-sdk for a box that lies outside the product's coverage and record what "
-            "comes back: an error, or no rows.",
-            not run.get("error") and not run.get("rows"),
+            "comes back: an error, or no rows with an area_outside_coverage warning (crc-sdk "
+            "1.0.1, pull request #55).",
+            not run.get("error") and not run.get("rows")
+            and "area_outside_coverage" in str(run.get("diagnostics", [])),
             steps=("coverage",),
             inputs=({"role": "crc-sdk read", "url": copies[area.dataset].base},),
             result={"rows": run.get("rows", 0), "error_type": run.get("error_type", ""),
@@ -555,7 +574,7 @@ def assess(
                     "diagnostics": run.get("diagnostics", []),
                     "reported_complete": run.get("complete"),
                     "reported_valid": run.get("valid")},
-            tolerance={"behaviour": "no rows and no error"},
+            tolerance={"behaviour": "no rows, no error, the warning"},
         )  # fmt: skip
 
     local = sorted(d for d, where in read_from.items() if where is not None and d not in publisher)
@@ -603,15 +622,17 @@ def _summary(check: dict[str, Any]) -> str:
         return f"crc-sdk raises {result['error_type']}: {result['error'][:200]}"
     if name == "area":
         return (f"{n_(result['pixels_reference'])} pixels in the publisher's window, "
-                f"{n_(result['requested_crc_sdk'])} requested by crc-sdk; "
+                f"{n_(result['requested_crc_sdk'])} requested by crc-sdk and "
+                f"{n_(result.get('dry_noted_crc_sdk') or 0)} noted dry; "
                 f"{n_(result['rows_outside_window'])} rows outside the window")  # fmt: skip
     if name == "delivered":
         return (f"{n_(result['rows'])} rows for {n_(result['deliverable'])} deliverable pixels; "
                 f"{n_(result['missing'])} missing, {n_(result['extra'])} extra; skipped "
                 f"{n_(result['counts_crc_sdk'].get('skipped'))} against "
                 f"{n_(result['skipped_reference'])} ({n_(result['dry'])} dry, "
-                f"{n_(result['one_depth'])} with one depth, {n_(result['decreasing'])} with a "
-                "depth that decreases)")  # fmt: skip
+                f"{n_(result['decreasing'])} with a depth that decreases); "
+                f"{n_(result.get('filled', 0))} delivered with an unmapped return period read as "
+                f"0 m ({n_(result['one_depth'])} with one depth)")  # fmt: skip
     if name == "values":
         return (f"{n_(result['values_compared'])} depths of {n_(result['pixels_compared'])} "
                 f"pixels compared; {n_(result['values_differing'])} depths and "

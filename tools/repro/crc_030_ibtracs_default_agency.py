@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk==1.0.0", "crc-framework==1.0.0"]
+# dependencies = ["crc-sdk==1.1.0", "crc-framework==1.1.0"]
 # ///
 """IBTrACS: the documentation says the agency is explicit; the constructor has a default.
 

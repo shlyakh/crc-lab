@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk==1.0.0", "crc-framework==1.0.0"]
+# dependencies = ["crc-sdk==1.1.0", "crc-framework==1.1.0"]
 # ///
 """IBTrACS: every point of the file is returned for every agency, most as rows with no value.
 

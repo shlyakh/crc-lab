@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "crc-sdk[raster]==1.0.0", "crc-framework==1.0.0",
+#   "crc-sdk[raster]==1.1.0", "crc-framework==1.1.0",
 #   "rasterio<1.5.2; sys_platform == 'darwin'",
 # ]
 # ///

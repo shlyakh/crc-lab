@@ -60,6 +60,11 @@ REDUCTION = {"rx1day": "annual_maximum", "rx5day": "annual_maximum", "txx": "ann
 CALENDARS = {"proleptic_gregorian": "proleptic_gregorian", "standard": "gregorian",
              "gregorian": "gregorian"}  # fmt: skip
 ATTRIBUTION = "NASA Earth Exchange NEX-GDDP-CMIP6"
+#: CF calendars crc-sdk reads a NEX series in since 1.1.0 (pull request #62); 1.0 read the
+#: Gregorian ones only
+READABLE_CALENDARS = frozenset(
+    {*CALENDARS, "noleap", "365_day", "all_leap", "366_day", "360_day", "julian"}
+)
 
 Runner = Callable[..., None]
 
@@ -343,14 +348,16 @@ def assess(
                           if v is not None and k in conversion}  # fmt: skip
         reductions = labels.get("reductions", [])
         annual_reduction = next((r for r in reductions if r["operation"].startswith("annual")), {})
-        licence_attr = attrs.get("license") or attrs.get("licence")
+        # crc-sdk 1.0.1 (pull request #54): `license`, else `licence`, else `cmip6_license`
+        licence_attr = attrs.get("license") or attrs.get("licence") or attrs.get("cmip6_license")
         checks.append(make(
             f"labels[{name}]", "consistency",
             "The labels crc-sdk puts on its result against the request and the file's own "
             "attributes: variable, unit, scenario, model, member, release, calendar, the unit "
             "conversion and the annual reduction recorded in the provenance (with its coverage "
             "rule), the licence on the file's resource against the file's global `license` "
-            "attribute, the attribution, and a retrieval time.",
+            "attribute, else `licence`, else `cmip6_license`, the attribution, and a retrieval "
+            "time.",
             not wrong and not on_rows and got_conversion == conversion
             and annual_reduction.get("operation") == REDUCTION[case["recipe"]]
             and annual_reduction.get("coverage_fraction") == rules.minimum_valid_fraction
@@ -410,13 +417,17 @@ def assess(
             result |= {"year_listed": case["year"] in listed_years, "nearest_year": nearest,
                        "files_read_by_crc_sdk": got.get("files_read", []),
                        "crc_sdk_error": f"{got['error_type']}: {got['error']}"[:300]
-                       if got["error"] else ""}  # fmt: skip
+                       if got["error"] else "",
+                       "diagnostics": (got.get("labels") or {}).get("diagnostics", [])}  # fmt: skip
             checks.append(make(
                 f"year-without-file[{name}]", "completeness",
                 f"Ask crc-sdk for {name}, a year NASA has no file for: crc-sdk must return one row "
                 "per grid cell of the box (the cells of the nearest year's file) with no value, "
-                "0 days present and the failure incomplete_year.",
-                compare.rows_agree(result) if expected_rows else None,
+                "0 days present and the failure incomplete_year, and a source_year_unavailable "
+                "warning (crc-sdk 1.0.1, pull request #56).",
+                compare.rows_agree(result)
+                and "source_year_unavailable" in result["diagnostics"]
+                if expected_rows else None,
                 inputs=({"role": "crc-sdk answer", "url": address},),
                 result=result, tolerance={"numbers": f"within {TOLERANCE}", "order": "identical"},
                 steps=("year-without-file",),
@@ -426,19 +437,21 @@ def assess(
             model, scenario, member = case["model"], case["scenario"], case["member"]
             variable = reference.RECIPES[case["recipe"]][0]
             header = _other_header(cache, model, scenario, member, variable, live=live)
-            refuses = header["calendar"] not in CALENDARS
+            refuses = header["calendar"] not in READABLE_CALENDARS
             checks.append(make(
                 f"calendar[{name}]", "consistency",
                 f"Ask crc-sdk for {name}. The reference reads the calendar of that model's first "
-                "file (its header only, by range requests). crc-sdk must refuse exactly when the "
-                "calendar is not Gregorian (standard, gregorian, proleptic_gregorian).",
-                bool(got["error"]) == refuses and not (refuses and got["rows"]),
+                "file (its header only, by range requests). crc-sdk must read the series, with "
+                "rows, when the calendar is one CF names (Gregorian, 365-day, 366-day, 360-day, "
+                "Julian), and refuse it otherwise.",
+                bool(got["error"]) == refuses and not (refuses and got["rows"])
+                and (refuses or bool(got["rows"])),
                 inputs=({"role": "reference header", "url": header["url"]},),
                 result={"calendar_in_file": header["calendar"],
                         "crc_sdk_refuses": bool(got["error"]),
                         "crc_sdk_error": f"{got['error_type']}: {got['error']}"[:300],
                         "rows_returned": len(got["rows"])},
-                tolerance={"behaviour": "refused if and only if not Gregorian"},
+                tolerance={"behaviour": "read if and only if a CF calendar"},
                 steps=("calendar",),
             ))  # fmt: skip
 

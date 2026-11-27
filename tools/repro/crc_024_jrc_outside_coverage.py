@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk[raster]==1.0.0", "rasterio<1.5.2; sys_platform == 'darwin'"]
+# dependencies = ["crc-sdk[raster]==1.1.0", "rasterio<1.5.2; sys_platform == 'darwin'"]
 # ///
 """A JRC flood read whose box lies outside the product's extent looks like a dry area.
 

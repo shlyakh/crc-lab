@@ -428,10 +428,12 @@ evidence = [
   "check records jrc-flood/delivered[*] and the table 'Pixels by area' (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.1.0"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/59"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #64 (answer to our issue #59), released in crc-sdk 1.1.0. Shown on 2026-11-26 by tools/repro/crc_023_jrc_skipped_pixels.py against crc-sdk 1.1.0 (the GloFAS tile near Fremont, the JRC server): of 10,603 flooded pixels 9,828 are returned, the 459 with one depth among them (the return periods without a depth read as 0 m, counted in an unmapped_depth_as_zero note of 2,631 pixels); the 775 whose depth decreases are left out unrepaired and counted in their own source_no_data warning; the 76,398 dry pixels are in a dry_pixels note and no longer in the skipped count. The offline jrc-flood assessment, ported to this rule, confirms it on constructed files. The live jrc-flood re-run has not been made."
 
 [[finding]]
 id = "CRC-024-JRC"
@@ -446,10 +448,12 @@ evidence = [
   "check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/55"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #55 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_024_jrc_outside_coverage.py run against crc-sdk 1.0.1 (Fremont box, EFAS, the JRC server): no rows and an area_outside_coverage warning; and by the offline jrc-flood assessment, whose coverage check now requires that warning. The live jrc-flood re-run on 1.0.1 or later has not been made."
 
 [[finding]]
 id = "CRC-025-OWN"
@@ -469,6 +473,7 @@ status = "reported upstream"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/59"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_025_from_raster_decreasing.py, 2026-11-26): one decreasing pixel still fails the whole read (produced 0), but the error now names the pixel by raster row, column, longitude and latitude (pull request #64). The JRC provider still skips such pixels. crc-sdk's docstring now says a decreasing user raster is treated as invalid source data on purpose (crc_sdk/_climate_io.py, iter_raster_quantile_rows); whether the rest is by design is for Yuri."
 
 [[finding]]
 id = "CRC-026-FWK"
@@ -486,6 +491,7 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-framework 1.0.1 and 1.1.0 (tools/repro/crc_026_fit_float32.py, 2026-11-26): both pixels converge as 32-bit values and fail as decimals, as on 1.0.0."
 
 [[finding]]
 id = "CRC-027-FWK"
@@ -504,6 +510,7 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_027_window_checksum.py, 2026-11-26, the JRC server): two boxes in the same file record two checksums, neither the publisher file's; the file read whole is recorded correctly."
 
 [[finding]]
 id = "CRC-028-IBT"
@@ -556,6 +563,7 @@ basis = "code reading"
 status = "open"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_030_ibtracs_default_agency.py, offline, 2026-11-26): IBTrACS() is accepted and reads the USA agency."
 
 [[finding]]
 id = "CRC-031-NEX"
@@ -589,10 +597,12 @@ evidence = [
   "check record nex-gddp-cmip6/calendar[BCC-CSM2-MR rx1day historical 2014] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.1.0"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/58"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #62 (answer to our issue #58), released in crc-sdk 1.1.0: NEX series are read in their native CF calendar (Gregorian, 365-day, 360-day and the other CF names; crc_sdk/_climate_sampling.py:1837-1850 at v1.1.0). Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment, ported to this rule: the constructed 365-day model is read and returns rows. Not shown on NASA's files: tools/repro/crc_032_nex_calendar.py (a year's read is about 250 MB of range requests) and the live re-run were not run."
 
 [[finding]]
 id = "CRC-033-NEX"
@@ -608,10 +618,12 @@ evidence = [
   "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/54"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #54 (ours), released in crc-sdk 1.0.1: crc-sdk now reads cmip6_license when the file has no license attribute (crc_sdk/_climate_sampling.py:1878-1882 at v1.0.1, 1879-1883 at v1.1.0). Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files carrying cmip6_license (the resource now records CC-BY-SA 4.0). Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run. NASA's archive-level CC0 statement is still not recorded."
 
 [[finding]]
 id = "CRC-034-NEX"
@@ -626,10 +638,12 @@ evidence = [
   "check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/56"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #56 (ours), released in crc-sdk 1.0.1: a year past the published years still gives rows without a value, now with a source_year_unavailable warning naming the year. Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files, whose year-without-file check now requires the warning. Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run."
 
 [[finding]]
 id = "CRC-035-GHC"
@@ -650,6 +664,7 @@ status = "reported upstream"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/issues/57"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_035_ghcnh_default_coverage.py, 2026-11-26): with the default rules 2 of 20 station-years carry a value, 20 of 20 with Coverage.minimum_fraction(0.9). Pull request #63 (answer to our issue #57) adds daily_coverage, the share of hours a day needs, keeps both defaults at complete coverage, documents that this leaves most station-years without a value, and names the relaxing settings in the incomplete_days warning. The default behaviour is unchanged; whether it is now by design is for Yuri."
 
 [[finding]]
 id = "CRC-036-GHC"
@@ -668,6 +683,7 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_036_ghcnh_bad_report.py, 2026-11-26): one duplicated report in the second station's file raises for the whole selection."
 
 [[finding]]
 id = "CRC-037-GHC"
@@ -683,10 +699,12 @@ evidence = [
   "check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/53"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #53 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_037_ghcnh_attribution.py run against crc-sdk 1.0.1 (USW00012960, 2020, NOAA's bucket): the station list and the station-year file are attributed to NOAA NCEI only. The licence text and the missing dataset version, also named in this finding, are unchanged. The live ghcnh re-run has not been made."
 
 [[finding]]
 id = "CRC-038-FWK"
@@ -706,3 +724,4 @@ basis = "reproduced"
 status = "open"
 found_on = "2026-11-25"
 framework_version = "1.0.0"
+note = "Seen again on crc-sdk 1.1.0 (tools/repro/crc_no_retry.py, offline, 2026-11-26): the first dropped connection ends the read; no crc_sdk file mentions a retry."

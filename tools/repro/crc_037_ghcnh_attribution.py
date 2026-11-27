@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk==1.0.0"]
+# dependencies = ["crc-sdk==1.1.0"]
 # ///
 """GHCNh hourly files are attributed to NOAA CO-OPS as well as NOAA NCEI.
 

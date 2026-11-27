@@ -70,6 +70,7 @@ def test_every_check_is_confirmed_on_the_constructed_files(
     assert glofas["decreasing"] >= 1 and glofas["dry"] >= 1 and glofas["one_depth"] >= 1
     assert glofas["equal_depths"] >= 1 and glofas["fewer_than_four"] >= 1
     assert glofas["rows"] == glofas["deliverable"] > 100
+    assert glofas["filled"] >= glofas["one_depth"]  # one-depth pixels are delivered since 1.1.0
     values = next(c for c in records["checks"] if c["check"] == "values[glofas-test]")
     assert values["result"]["values_compared"] > glofas["rows"] * 2
     far = records["exploration"]["outside"][0]
@@ -85,13 +86,15 @@ def test_the_placed_pixels_are_delivered_or_left_out_as_the_statement_says(
     table = framework.rows(tmp_path / "cache" / "framework" / "glofas-test")
     rows = {r["support_id"]: r for r in table.to_pylist()}
     name = "jrc:glofas:ID1_N31_W100:{}:{}".format
-    assert len(rows[name(*made.THREE)]["values"]) == 3  # 0.11 needed four depths for a curve
-    assert len(rows[name(*made.FOUR)]["values"]) == 4
+    # crc-sdk 1.1.0: every return period is a knot; one the pixel has no depth for is 0 m
+    every = [1 - 1 / period for period in made.GLOFAS_PERIODS]
+    three = rows[name(*made.THREE)]
+    assert len(three["values"]) == len(made.GLOFAS_PERIODS)
+    assert three["values"][:-3] == [0.0] * (len(made.GLOFAS_PERIODS) - 3)
+    assert three["probabilities"] == pytest.approx(every)
+    assert len(rows[name(*made.FOUR)]["values"]) == len(made.GLOFAS_PERIODS)
     assert set(rows[name(*made.FLAT)]["values"]) == {1.0}  # equal depths are delivered
     assert name(*made.DOWN) not in rows and name(*made.DRY) not in rows
-    assert rows[name(*made.THREE)]["probabilities"] == pytest.approx(
-        [1 - 1 / period for period in made.GLOFAS_PERIODS[-3:]]
-    )
 
 
 @pytest.mark.parametrize(

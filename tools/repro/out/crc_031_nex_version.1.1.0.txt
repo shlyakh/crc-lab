@@ -1,0 +1,17 @@
+crc-sdk 1.1.0, crc-framework 1.1.0
+NEX parameters: ['indicator', 'model', 'scenario', 'member', 'release', 'coverage']
+NASA serves for ACCESS-CM2 historical r1i1p1f1 pr 2014: ['pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014.nc', 'pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v1.1.nc', 'pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc']
+call: NEX(indicator=ANNUAL_MAXIMUM_DAILY_PRECIPITATION, model='ACCESS-CM2', scenario='historical', member='r1i1p1f1')
+      .select(area=Bounds(**{'west': -97.8, 'south': 30.2, 'east': -97.7, 'north': 30.3}), time=Period.window(2014, 2014)).read()
+rows: 4; columns: ['variable_id', 'scenario_id', 'period_id', 'support_id', 'cell_id', 'geometry', 'time', 'value', 'station_id', 'group_id', 'failure', 'coverage']
+release id: ACCESS-CM2/historical/r1i1p1f1/pr
+files named in result.metadata.source.resources[*].uri:
+  pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_1950_v2.0.nc
+  pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc
+expected: a parameter to choose the file version, or the version read in the output's fields
+observed: no version parameter: True; columns naming a version: []; versions read: ['2.0']
+REPRODUCED
+real 13.30
+user 1.33
+sys 0.42
+exit 0

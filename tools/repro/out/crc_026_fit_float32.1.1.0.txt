@@ -1,0 +1,11 @@
+crc-framework 1.1.0, numpy 2.5.5
+call: fit_quantiles(QuantileCurve([1 - 1/T for T in (10, 20, 50, 75, 100, 200, 500)], depths),
+                    QuantileFit(family=DistributionFamily.GUMBEL_RIGHT))
+expected: the same outcome for both forms of each pixel
+depths (last two)    written as   observed
+(2.639, 3.768)       float32      converged after 54 iterations
+(2.639, 3.768)       decimal      FitError: gumbel_r fitting did not converge after 362 iterations
+(1.016, 1.13)        float32      converged after 87 iterations
+(1.016, 1.13)        decimal      FitError: gumbel_r fitting did not converge after 300 iterations
+observed: the two forms differ in outcome for 2 of 2 pixels
+REPRODUCED
