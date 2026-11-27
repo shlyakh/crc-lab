@@ -816,8 +816,9 @@ def queue_items(root: Path) -> list[dict]:
         ("ring_ds_1h_100y", cache / "f4" / "runs" / "ds_1h_100y", None),
     )
     chosen = chosen_storms(cache)
+    # the catalogue's square runs with rain on the whole square (CH-26)
     pairs += tuple(
-        (f"ring_{c}", cache / "f4" / "runs" / c, ring / "forcing" / f"ring_{c}.nc")
+        (f"ring_{c}", cache / "f4" / "runs_cover" / c, ring / "forcing" / f"ring_{c}.nc")
         for c in chosen["labels"]
     )
     items = []

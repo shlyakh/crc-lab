@@ -32,19 +32,19 @@
   {
    "name": "same rain on the square in both runs",
    "note": "",
-   "passed": false,
+   "passed": true,
    "proposed": true,
    "rule": "rain on F3's interior cells, ring run against the square run's balance.json",
    "threshold": 0.0001,
    "value": [
     1.544570015841496e-05,
     6.439397435531436e-06,
-    0.40736674192436423,
-    0.4164516519799843
+    5.66035157413973e-07,
+    6.140053569335941e-07
    ]
   }
  ],
- "created_at": "2026-11-27T03:36:05Z",
+ "created_at": "2026-11-27T21:20:36Z",
  "figures": [
   "docs/flood/figures/f4/ring_model.png",
   "docs/flood/figures/f4/ring_difference.png",
@@ -54,9 +54,9 @@
  "id": "f4-ring",
  "inputs": [
   {
-   "bytes": 1401,
+   "bytes": 1413,
    "path": "f4/ring/queue_ring.json",
-   "sha256": "dae628929842357d8090131493ad01d4972d0feabb7760bbdb564e013f32a524",
+   "sha256": "bd23efdeee900ee67d20f11c5ddd8958f995531032399a775103897ba24de5ee",
    "url": ""
   },
   {
@@ -126,9 +126,9 @@
    "url": ""
   },
   {
-   "bytes": 1688763,
-   "path": "f4/runs/cat_r0005/zsmax.tif",
-   "sha256": "c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d",
+   "bytes": 2239526,
+   "path": "f4/runs_cover/cat_r0005/zsmax.tif",
+   "sha256": "82457615eb1be21f53fa34993e4171620a9653afd631e129a52d3023374d2f30",
    "url": ""
   },
   {
@@ -144,9 +144,9 @@
    "url": ""
   },
   {
-   "bytes": 1685784,
-   "path": "f4/runs/cat_r0006/zsmax.tif",
-   "sha256": "59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba",
+   "bytes": 2240208,
+   "path": "f4/runs_cover/cat_r0006/zsmax.tif",
+   "sha256": "794537ec15773e533dbdb66444f5cd181b01801af19955ee7279a7ce1b484034",
    "url": ""
   }
  ],
@@ -187,7 +187,7 @@
    "zb_cells_differing": 0,
    "zb_largest_abs_difference_m": 0.0
   },
-  "seconds": 21.9
+  "seconds": 21.6
  },
  "parameters": [
   {
@@ -234,7 +234,7 @@
    ]
   }
  ],
- "passed": false,
+ "passed": true,
  "schema": "flood_lab/0.1",
  "software": {
   "crc-framework": "1.0.0",
@@ -542,44 +542,44 @@
      "count": 17750,
      "max_m": 4.287,
      "not_read": 54,
-     "wet_005": 7267,
-     "wet_030": 2634
+     "wet_005": 9644,
+     "wet_030": 3132
     },
-    "buildings_wall_change_gt_005": 2645,
+    "buildings_wall_change_gt_005": 203,
     "change": {
      "by_nearest_edge": {
-      "east": 1659,
-      "north": 4447,
-      "south": 949,
+      "east": 194,
+      "north": 37,
+      "south": 937,
       "west": 285
      },
      "cells_read": 330615,
-     "changed": 7340,
-     "deeper": 7340,
+     "changed": 1453,
+     "deeper": 1453,
      "distance_m": {
       "bins": {
-       "0-50": 611,
-       "100-250": 1093,
-       "1000-2000": 328,
-       "250-500": 2234,
-       "50-100": 498,
-       "500-1000": 2576,
+       "0-50": 408,
+       "100-250": 307,
+       "1000-2000": 0,
+       "250-500": 488,
+       "50-100": 205,
+       "500-1000": 45,
        ">=2000": 0
       },
-      "max": 1117.5,
-      "median": 417.5,
-      "p90": 897.5
+      "max": 662.5,
+      "median": 137.5,
+      "p90": 347.5
      },
-     "largest_decrease_m": -0.0025,
+     "largest_decrease_m": -0.0027,
      "largest_increase_m": 2.857,
-     "mean_change_m": 0.00465,
+     "mean_change_m": 0.00116,
      "shallower": 0
     },
     "label": "ring_cat_r0005",
     "outer_balance_residual_share": 2.1091618964184152e-05,
-    "rain_match_share": 0.40736674192436423,
+    "rain_match_share": 5.66035157413973e-07,
     "rain_on_f3_interior_ring_m3": 1545841.25,
-    "rain_on_f3_interior_square_m3": 1098392.625,
+    "rain_on_f3_interior_square_m3": 1545840.375,
     "run_on": {
      "by_edge": {
       "east": {
@@ -654,11 +654,11 @@
      },
      {
       "LocNumber": "S-861227475",
-      "change_m": 0.094,
+      "change_m": 0.0,
       "name": "(no name)",
       "ring_m": 0.094,
       "ring_meets_lead_rule": false,
-      "square_m": 0.0,
+      "square_m": 0.094,
       "square_meets_lead_rule": false
      }
     ],
@@ -667,8 +667,8 @@
      "wet_030": 6959
     },
     "wet_square": {
-     "wet_005": 29649,
-     "wet_030": 5643
+     "wet_005": 35183,
+     "wet_030": 6477
     }
    },
    {
@@ -683,44 +683,44 @@
      "count": 17750,
      "max_m": 3.528,
      "not_read": 54,
-     "wet_005": 5985,
-     "wet_030": 1179
+     "wet_005": 8175,
+     "wet_030": 1515
     },
-    "buildings_wall_change_gt_005": 2416,
+    "buildings_wall_change_gt_005": 186,
     "change": {
      "by_nearest_edge": {
-      "east": 1829,
-      "north": 2966,
-      "south": 167,
+      "east": 288,
+      "north": 306,
+      "south": 157,
       "west": 535
      },
      "cells_read": 330615,
-     "changed": 5497,
-     "deeper": 5497,
+     "changed": 1286,
+     "deeper": 1286,
      "distance_m": {
       "bins": {
-       "0-50": 495,
-       "100-250": 923,
-       "1000-2000": 144,
-       "250-500": 1706,
-       "50-100": 362,
-       "500-1000": 1867,
+       "0-50": 290,
+       "100-250": 188,
+       "1000-2000": 0,
+       "250-500": 359,
+       "50-100": 84,
+       "500-1000": 365,
        ">=2000": 0
       },
-      "max": 1082.5,
-      "median": 422.5,
-      "p90": 817.5
+      "max": 847.5,
+      "median": 377.5,
+      "p90": 657.5
      },
-     "largest_decrease_m": -0.0027,
-     "largest_increase_m": 1.8633,
-     "mean_change_m": 0.0031,
+     "largest_decrease_m": -0.0046,
+     "largest_increase_m": 1.8362,
+     "mean_change_m": 0.00074,
      "shallower": 0
     },
     "label": "ring_cat_r0006",
     "outer_balance_residual_share": 9.489917321391917e-06,
-    "rain_match_share": 0.4164516519799843,
+    "rain_match_share": 6.140053569335941e-07,
     "rain_on_f3_interior_ring_m3": 1425069.875,
-    "rain_on_f3_interior_square_m3": 1006084.375,
+    "rain_on_f3_interior_square_m3": 1425069.0,
     "run_on": {
      "by_edge": {
       "east": {
@@ -795,11 +795,11 @@
      },
      {
       "LocNumber": "S-861227475",
-      "change_m": 0.073,
+      "change_m": 0.0,
       "name": "(no name)",
       "ring_m": 0.073,
       "ring_meets_lead_rule": false,
-      "square_m": 0.0,
+      "square_m": 0.073,
       "square_meets_lead_rule": false
      }
     ],
@@ -808,8 +808,8 @@
      "wet_030": 2253
     },
     "wet_square": {
-     "wet_005": 16533,
-     "wet_030": 1575
+     "wet_005": 20749,
+     "wet_030": 1993
     }
    }
   ]
