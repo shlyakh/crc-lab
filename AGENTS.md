@@ -29,7 +29,7 @@ Reference clones, read-only, pinned to the versions this repo uses (see `../READ
   `crc_sdk/workflows/*.py` docstrings are the parameter reference.
 - `../upstream/crc-docs/` — notebooks, pipelines, and the five end-user skills under `.agents/skills/`
   (the pattern for any skill this repo ships later; not needed for building the explorer).
-- `../upstream/crc-framework-rs/` (v1.0.0) — the Rust numerical core; reference only.
+- `../upstream/crc-framework-rs/` (v1.0.1) — the Rust numerical core; reference only.
 
 Earlier scope (energy infrastructure, ERA5 layers, dependence) is in `docs/archive/` and is not current.
 

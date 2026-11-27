@@ -1133,7 +1133,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-27T02:14:17Z",
+ "generated": "2026-11-27T02:19:15Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {
@@ -2678,7 +2678,7 @@
   }
  ],
  "versions": {
-  "crc-framework": "1.0.0",
+  "crc-framework": "1.0.1",
   "crc-sdk": "1.0.1"
  }
 }
