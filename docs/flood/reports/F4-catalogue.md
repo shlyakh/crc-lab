@@ -186,7 +186,7 @@ The four run-on runs ended at 22:36 (record `f4-ring`). Every water balance clos
   - **Not affected:** the replays, the calibration, the design storms and the rainfall frequency.
   - **Affected:** the catalogue's depths and the buildings and substations above, including Demo 1's 60-run
     copy. They are too low, most of all in the two strips. The four named substations lie outside the
-    strips, about 2 km south of the north strip, so their depths change only through water that runs
+    strips, about 1.4 km south of the north strip and 3 km west of the east strip, so their depths change only through water that runs
     from the strips; the rerun will say by how much.
 - **Fixed and running again:** each scenario is rebuilt over the square with one pixel to spare, keeping
   every old pixel. All 150 runs are going again into `runs_cover/`, starting 23:25 at about 8 minutes a run.
