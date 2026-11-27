@@ -332,10 +332,17 @@ say what this file claims, stop and report; do not substitute a number.
     0.50 m, 0.40, 0.05; moderate 1.00 m, 0.40, 0.20; extensive 1.50 m, 0.40, 0.50; complete 3.00 m, 0.40,
     1.00 **[S]**. Compute the expected damage ratio from these in code and test it.
   - The Hazus "functional depth" at which a substation is taken out of service is 4 ft (1.22 m) for the
-    default slab-on-grade low- and high-voltage classes **[S as reported]** (Hazus Inventory Technical
-    Manual 4.2 SP3, Table 10-12). Use it as the outage threshold in FM5 after reading the table.
+    default slab-on-grade low-, medium- and high-voltage classes, equipment height 0 ft **[S]** (Hazus 7.0
+    Inventory Technical Manual, June 2025, Table 9-13, p. 9-17; Table 10-12 of the 4.2 SP3 manual was not
+    read). Hazus 7 does not analyse substations in its flood model ("mapping only") and prints no
+    substation depth-damage points (`hazus-flood-functions`). Use the 4 ft as the outage threshold in FM5,
+    with that caveat; a component is out of service when the depth exceeds it by 0.1 ft (Flood Technical
+    Manual §9.4.2).
 - **FR3.** Buildings: Hazus depth-damage functions by occupancy, depth measured from first-floor elevation,
-  with the basement variant where the subgrade flag is set.
+  with the basement variant where the subgrade flag is set. (Read 2026-11-26, CH-25: Hazus indexes its
+  functions by depth above the top of the finished first floor, that is inundation depth above ground
+  minus the first-floor height above grade **[S]**, Hazus 7.0 Flood Technical Manual p. 2-3 and 8-2,
+  Inventory Technical Manual p. 5-10. The values are the Hazus 4.0 tables in FEMA's FAST tool, GPL-3.0.)
 - **FR4.** Loss per event per asset: the damage ratio comes from CRC (`Impact.evaluate` on the event's
   depths); the event-loss table is held by the extension (FR9, FR10), since CRC 1.0.0 has none: event id, annual rate or
   synthetic year, asset id, depth, damage ratio for each curve, loss (ratio times value).
@@ -551,7 +558,7 @@ with an outcome.
 | Gridded rainfall | NOAA AORC v1.1 or Stage IV (catalogue); MRMS (replays) | FH4, FH5 | Public | F0 | Facts and second reader for the replay rainfall (F5); facts for the catalogue record | |
 | NOAA Atlas 14 | Point precipitation frequency, study-area centroid | FH6 | Public | F0 | Facts | |
 | Substation curves | Nirandjan et al. 2024, Zenodo doi:10.5281/zenodo.13889558 v1.1.0; Williams et al. 2025, doi:10.1111/jfr3.70045; Bor et al. 2026, arXiv 2605.23053; Karagiannakis et al. 2025, doi:10.1002/wcc.930 | FR2 | Nirandjan CC BY 4.0 **[S]**; Williams reported CC BY-NC-ND **[V]** | F0 (licences, files); F6 (every value) | Facts; every curve point read from the primary file in F6 | |
-| Building curves | FEMA Hazus flood functions | FR3 | Public domain | F0; F6 (values) | Facts | |
+| Building curves | FEMA Hazus flood functions: Hazus 4.0 tables in FEMA's FAST tool (`nhrap-hazus/FAST`, commit 8e285a9); Hazus 7.0 Flood and Inventory Technical Manuals (June 2025) | FR3 | GPL-3.0 (FAST tables) **[S]**; the manuals state no licence | F0; F6 (values) | Facts | |
 | ICE Calculator 2.x | Lawrence Berkeley National Laboratory | FM5 | Free tool; check reuse terms | F0; F7 (terms of reuse) | Facts | |
 | JRC GloFAS flood maps | crc-sdk 1.0.0 `JRC(product=JRC.Product.GLOFAS)`; verified in V8 and again on 1.0.0 | FC1 | Copernicus | Done (validation record `jrc-flood`, crc-sdk 1.0.0) | Values recomputed: 48 of 48 checks confirmed | |
 | Google runoff reanalysis | notebook linked from Google's flood forecasting resources page | FC2 | **Unverified**; read in F12 | F12 | Facts | |
@@ -705,10 +712,10 @@ fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 | FV5, FT5 | Storm Events by date | Times are on the standard-time clock all year; Coastal Flood events are by forecast zone, not county (`noaa-storm-events`) | The reader states its clock rule and reads zone events too |
 | FT5, §7 | NFIP redacted claims | The current dataset is version 3; version 2, which the claim-date preprint used, is gone. Coordinates are rounded to 0.1 degree; the census block group is given (`nfip-redacted-claims`) | Read version 3; place a claim by its block group, never by its coordinates |
 | FV5, FT5 | 311 complaints | Two naming schemes for the same complaint types are in use (`nyc-311`) | Count both |
-| FR2 | Hazus-type curve "about 7% at 1.2 m and 15% at about 3 m" | Read from the 1.1.0 spreadsheet: 0.0694 at 1.2 m, 0.1569 at 3.0 m; the three curves are identical and stop at 3.05 m with 0.16 (`substation-curves-nirandjan`) | Confirmed. Above 3.05 m the table is held flat to the stated maximum depth, tagged **[P]** |
+| FR2 | Hazus-type curve "about 7% at 1.2 m and 15% at about 3 m" | Read from the 1.1.0 spreadsheet: 0.0694 at 1.2 m, 0.1569 at 3.0 m; the three curves are identical and stop at 3.05 m with 0.16 (`substation-curves-nirandjan`). All 62 points are linear in feet through 0, 6, 10 and 16% at 0, 3, 7 and 10 ft **[I]**, the form of Hazus's utility tables (1 ft steps, full damage at 10 ft); the Hazus 7 manuals print no substation points to compare (`hazus-flood-functions`, CH-25) | Confirmed. Above 3.05 m the table is held flat to the stated maximum depth, tagged **[P]**. Whether F2 equals Hazus's own substation table stays open (it is in the Hazus software only) |
 | FR2 | Williams et al. values at 3 m | Not read: the publisher refuses automated access; the licence is CC BY-NC-ND 4.0 (`substation-curves-other`) | Still open; needs a person with access to read the paper, or question 7 decides for the lognormal alternative |
-| FR2, FM5 | Hazus functional depth 4 ft, Table 10-12 | Not read: FEMA's site refuses automated access. Current Hazus is 7.2 (`hazus-flood-functions`) | Still open for F6 |
-| FR3, §7 | Hazus functions "public domain" | FEMA's open tool that carries the tables is GPL-3.0; no public-domain statement was read | Record GPL-3.0 for the tool's tables until FEMA's own statement is read |
+| FR2, FM5 | Hazus functional depth 4 ft, Table 10-12 | Read in the Hazus 7.0 Inventory Technical Manual (June 2025): Table 9-13, p. 9-17, 4 ft for the low-, medium- and high-voltage substation classes, all slab on grade, equipment height 0 ft, "not analyzed in the flood model, mapping only". Hazus 7 prints no substation damage points; its utility damage functions for electric power are "not enabled" (Flood Technical Manual p. 9-3, footnote 21). Current Hazus is 7.2 (`hazus-flood-functions`) | Confirmed for all three classes, table number corrected (CH-25). FM5 uses 4 ft with the caveat |
+| FR3, §7 | Hazus functions "public domain" | FEMA's open tool that carries the tables is GPL-3.0; neither Hazus 7 manual carries a licence or terms-of-use statement. FAST's Hazus 4.0 tables assign the same default functions as the Hazus 7 manual (Tables 5-2 to 5-4); the manual prints no curve values to compare. Depth is above the top of the finished first floor (FR3) (`hazus-flood-functions`) | Accepted by Yuri 2026-11-26 (CH-25): GPL-3.0, values used and cited as GPL-3.0 data from FEMA's FAST tool |
 | FM4 | 7% with 3.1% "as a sensitivity" | 7% confirmed. 3.1% was revoked and is not an alternative FEMA accepts (`fema-bca`) | Keep 3.1% only as a sensitivity labelled "not a FEMA rate". Useful life and toolkit version still open for F7 |
 | FM5 | ICE Calculator damage functions × customers | The coefficients are licensed spreadsheets, not reusable offline; the online tool and its API are public (`ice-calculator`) | Outage cost comes from the tool or its API, with the inputs and the response stored. Question for Yuri below |
 | FH5, §8 | RainyDay "current GitHub release" | No release or tag exists; the active repository's environment pins Python 3.8 (`rainyday`) | Pin a commit; its own environment |
