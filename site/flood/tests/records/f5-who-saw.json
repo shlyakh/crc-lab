@@ -36,7 +36,7 @@
    "note": "",
    "passed": null,
    "proposed": false,
-   "rule": "for each storm, counts inside the square from Groundsource, Storm Events, 311, FloodNet and the surveyed marks, each by its stated rule",
+   "rule": "for each storm, counts inside the square from Groundsource, Storm Events, 311, FloodNet and the surveyed marks, each by its stated rule; 311 over the storm days and the 1 day after (CH-24)",
    "threshold": null,
    "value": {
     "ida_2021": {
@@ -53,9 +53,9 @@
       "main_label": "places centred in the square"
      },
      "nyc_311": {
-      "context": 69,
+      "context": 87,
       "context_label": "rows, both naming schemes",
-      "main": 69,
+      "main": 87,
       "main_label": "requests (twin rows paired)"
      },
      "storm_events": {
@@ -85,9 +85,9 @@
       "main_label": "places centred in the square"
      },
      "nyc_311": {
-      "context": 225,
+      "context": 231,
       "context_label": "rows, both naming schemes",
-      "main": 121,
+      "main": 124,
       "main_label": "requests (twin rows paired)"
      },
      "storm_events": {
@@ -106,6 +106,44 @@
    }
   },
   {
+   "name": "FV5: the two 311 fetches agree on the storm days",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "rows, requests and twin pairs in the square on the storm days are the same in the storm-day fetch and in the fetch of the weeks round the storm, which the main counts read (CH-24)",
+   "threshold": null,
+   "value": {
+    "ida_2021": {
+     "context": {
+      "around_fetch": 69,
+      "storm_day_fetch": 69
+     },
+     "main": {
+      "around_fetch": 69,
+      "storm_day_fetch": 69
+     },
+     "twin_pairs": {
+      "around_fetch": 0,
+      "storm_day_fetch": 0
+     }
+    },
+    "sep29_2023": {
+     "context": {
+      "around_fetch": 225,
+      "storm_day_fetch": 225
+     },
+     "main": {
+      "around_fetch": 121,
+      "storm_day_fetch": 121
+     },
+     "twin_pairs": {
+      "around_fetch": 104,
+      "storm_day_fetch": 104
+     }
+    }
+   }
+  },
+  {
    "name": "FV5: 311 counts both naming schemes",
    "note": "Reported. The facts row says 'count both'; on 29 Sep 2023 most rows of the current scheme have a twin of the legacy scheme, so counting rows would count most requests twice.",
    "passed": null,
@@ -113,34 +151,34 @@
    "rule": "rows of the legacy and the current scheme are both read; rows of one request under both schemes are paired (nyc_311.twins, the strict case of observations.sightings) and counted once",
    "threshold": null,
    "value": {
-    "context": 225,
-    "current_rows": 106,
-    "legacy_rows": 119,
-    "main": 121,
-    "twin_pairs": 104
+    "context": 231,
+    "current_rows": 109,
+    "legacy_rows": 122,
+    "main": 124,
+    "twin_pairs": 107
    }
   },
   {
    "name": "FV5: reports of the same flooding combined into sightings",
-   "note": "Reported, not judged. The sensitivity table (tables.sightings_sensitivity) gives the count for other thresholds.",
+   "note": "Reported, not judged. Rule accepted in CH-24 (2026-11-27); the limits stay placeholders, to be re-tested in F8 on more storms. The sensitivity table (tables.sightings_sensitivity) gives the count for other thresholds; tables.storm_days_only the counts on the storm days alone.",
    "passed": null,
    "proposed": true,
-   "rule": "observations of 311, FloodNet and the marks within 50 m [P] and 12 h [P] of each other, chained, are one sighting; every member kept (observations.sightings)",
+   "rule": "observations of 311, FloodNet and the marks within 50 m [P] and 12 h [P] of each other, chained, are one sighting; every member kept (observations.sightings); over the 311 window (CH-24)",
    "threshold": null,
    "value": {
     "ida_2021": {
-     "requests_311": 69,
-     "sightings": 68
+     "requests_311": 87,
+     "sightings": 85
     },
     "sep29_2023": {
-     "requests_311": 121,
-     "sightings": 91
+     "requests_311": 124,
+     "sightings": 94
     }
    }
   },
   {
    "name": "FV5: late calls, the day after the storm against dry days",
-   "note": "Reported. A True proposes extending that storm's 311 window by the day after; the window used for the counts is unchanged until Yuri decides.",
+   "note": "Reported. Ida's day after is clearly above the baseline; on this evidence CH-24 (accepted 2026-11-27) extends every storm's 311 window by 1 day after the storm, for both storms as one rule.",
    "passed": null,
    "proposed": true,
    "rule": "requests on the day after the storm above every dry baseline day and at least 2 times the baseline mean [P]",
@@ -151,7 +189,7 @@
    }
   }
  ],
- "created_at": "2026-11-27T01:51:01Z",
+ "created_at": "2026-11-27T08:46:59Z",
  "figures": [
   "docs/flood/figures/f5/who_saw_counts.png",
   "docs/flood/figures/f5/who_saw_map_ida_2021.png",
@@ -382,10 +420,10 @@
   "F5 second part (FV3, FV5). Counts are reported, not judged. Not applicable. No point of the Jamaica Bay map lies in the square (0 of 109,875); the map's cells cover 0 m\u00b2 of it; the nearest point is 2,046 m from the square.",
   "Storm Events clock: every New York City row says EST-5; times are turned into UTC and then into the New York wall clock before a day is matched (facts noaa-storm-events, time_zone).",
   "311: created_date has no zone; read as the New York wall clock as written.",
-  "Sightings (observations.sightings) are the lab's grouping, refining the facts row's 'count both': twin rows are one request, and reports close in place and time are one sighting with every member kept. Change entry CH-24 is proposed, not entered.",
-  "who_saw_counts.png: Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
-  "who_saw_map_ida_2021.png: Ida, 1-2 Sep 2021: who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
-  "who_saw_map_sep29_2023.png: 29 Sep 2023: who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
+  "Sightings (observations.sightings) are the lab's grouping, refining the facts row's 'count both': twin rows are one request, and reports close in place and time are one sighting with every member kept. Change CH-24, accepted by Yuri on 2026-11-27: the rule as stated, its limits placeholders [P] to be re-tested in F8, and each storm's 311 window extended by 1 day after the storm; the main counts, sightings and maps use that window, tables.storm_days_only keeps the storm days alone.",
+  "who_saw_counts.png: Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES); 311 also takes the day after each storm (CH-24: 1-3 Sep 2021, 29-30 Sep 2023). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
+  "who_saw_map_ida_2021.png: Ida, 1-2 Sep 2021 (311 and sightings: 1-3 Sep 2021, CH-24): who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
+  "who_saw_map_sep29_2023.png: 29 Sep 2023 (311 and sightings: 29-30 Sep 2023, CH-24): who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
   "late_calls.png: Flooding-related 311 requests per day inside the square (twin rows paired), four weeks each side of each storm. Dark: the storm days; light purple: the two days after; grey: dry days, the baseline (GHCN-Daily rain below 1.0 mm at Central Park, LaGuardia and JFK on the day and the 2 days before, other than the storm and the 7 days after); pale: other days. Dashed line: baseline mean; dotted: baseline maximum.",
   "jamaica_bay_overlap.png: The Jamaica Bay Ida depth map (Kasaei et al. 2025, Mendeley doi:10.17632/hs2zt6ngwd.1, CC BY 4.0; points of the published shapefile, coloured by flood_dept, metres) within 3.5 km of the model square, with the shortest distance between them. Shown with credit; not changed except for the projection to EPSG:32618."
  ],
@@ -397,15 +435,19 @@
   "ida_2021_floodnet": 0,
   "ida_2021_groundsource": 10,
   "ida_2021_late_day_after_clearly_above": true,
-  "ida_2021_nyc_311": 69,
-  "ida_2021_sightings": 68,
+  "ida_2021_nyc_311": 87,
+  "ida_2021_sightings": 85,
+  "ida_2021_storm_days_only_requests_311": 69,
+  "ida_2021_storm_days_only_sightings": 68,
   "ida_2021_storm_events": 0,
   "ida_2021_usgs_marks": 11,
   "sep29_2023_floodnet": 5,
   "sep29_2023_groundsource": 11,
   "sep29_2023_late_day_after_clearly_above": false,
-  "sep29_2023_nyc_311": 121,
-  "sep29_2023_sightings": 91,
+  "sep29_2023_nyc_311": 124,
+  "sep29_2023_sightings": 94,
+  "sep29_2023_storm_days_only_requests_311": 121,
+  "sep29_2023_storm_days_only_sightings": 91,
   "sep29_2023_storm_events": 1,
   "sep29_2023_usgs_marks": null
  },
@@ -480,6 +522,12 @@
    "value": 2.0
   },
   {
+   "name": "days_after_311",
+   "source": "311 window: storm days and these after",
+   "tag": "I",
+   "value": 1
+  },
+  {
    "name": "box_311",
    "source": "coarse first cut round the square",
    "tag": "I",
@@ -505,8 +553,8 @@
  "passed": null,
  "schema": "flood_lab/0.1",
  "software": {
-  "crc-framework": "1.0.0",
-  "crc-sdk": "1.0.0",
+  "crc-framework": "1.1.0",
+  "crc-sdk": "1.1.0",
   "geopandas": "1.2.0",
   "matplotlib": "3.11.2",
   "numpy": "2.5.4",
@@ -520,40 +568,9 @@
   "captions": {
    "jamaica_bay_overlap.png": "The Jamaica Bay Ida depth map (Kasaei et al. 2025, Mendeley doi:10.17632/hs2zt6ngwd.1, CC BY 4.0; points of the published shapefile, coloured by flood_dept, metres) within 3.5 km of the model square, with the shortest distance between them. Shown with credit; not changed except for the projection to EPSG:32618.",
    "late_calls.png": "Flooding-related 311 requests per day inside the square (twin rows paired), four weeks each side of each storm. Dark: the storm days; light purple: the two days after; grey: dry days, the baseline (GHCN-Daily rain below 1.0 mm at Central Park, LaGuardia and JFK on the day and the 2 days before, other than the storm and the 7 days after); pale: other days. Dashed line: baseline mean; dotted: baseline maximum.",
-   "who_saw_counts.png": "Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
-   "who_saw_map_ida_2021.png": "Ida, 1-2 Sep 2021: who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
-   "who_saw_map_sep29_2023.png": "29 Sep 2023: who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square."
-  },
-  "extended_window": {
-   "ida_2021": {
-    "by_sources": {
-     "nyc_311": 79,
-     "nyc_311 + usgs_marks": 1,
-     "usgs_marks": 5
-    },
-    "days": [
-     "2021-09-01",
-     "2021-09-02",
-     "2021-09-03"
-    ],
-    "requests_311": 87,
-    "rows_311": 87,
-    "sightings": 85
-   },
-   "sep29_2023": {
-    "by_sources": {
-     "floodnet": 1,
-     "floodnet + nyc_311": 4,
-     "nyc_311": 89
-    },
-    "days": [
-     "2023-09-29",
-     "2023-09-30"
-    ],
-    "requests_311": 124,
-    "rows_311": 231,
-    "sightings": 94
-   }
+   "who_saw_counts.png": "Counts inside the model square for each source and storm. Dark bar: the main count (Groundsource places centred in the square; Storm Events flood events with a point in it; 311 flooding-related requests with twin rows of the two naming schemes paired; FloodNet sensors that recorded an event; USGS marks). Light bar: the context (places touching the square; flood events of the square's counties and zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida 1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule (record, RULES); 311 also takes the day after each storm (CH-24: 1-3 Sep 2021, 29-30 Sep 2023). Counts are reported, not judged: a source with no entry is not evidence of no flood.",
+   "who_saw_map_ida_2021.png": "Ida, 1-2 Sep 2021 (311 and sightings: 1-3 Sep 2021, CH-24): who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square.",
+   "who_saw_map_sep29_2023.png": "29 Sep 2023 (311 and sightings: 29-30 Sep 2023, CH-24): who saw the flood inside the model square. Background: the frozen F3 replay of this storm, maximum inundation depth from 0.05 m (for orientation only; nothing is compared). Purple dots: 311 flooding-related requests, a twin pair drawn once. Black rings: sightings of more than one report (observations.sightings: within 50 m and 12 h, chained), the number of reports beside rings of three or more. Green squares: FloodNet sensors in service (filled: recorded an event). Black diamonds: USGS marks. Orange outlines: Groundsource places of the storm days, solid when centred in the square, dashed when within 500 m and no larger than the square (larger places, such as a borough, are counted but not drawn). Dotted red: the hull of the points of a Storm Events event with a point in the square."
   },
   "fv3": {
    "applicable": false,
@@ -888,18 +905,18 @@
      "by_kind": {
       "catch basin clogged": {
        "current_rows": 0,
-       "legacy_rows": 17,
-       "requests": 17
+       "legacy_rows": 20,
+       "requests": 20
       },
       "sewer backup": {
        "current_rows": 0,
-       "legacy_rows": 40,
-       "requests": 40
+       "legacy_rows": 53,
+       "requests": 53
       },
       "street flooding": {
        "current_rows": 0,
-       "legacy_rows": 10,
-       "requests": 10
+       "legacy_rows": 12,
+       "requests": 12
       },
       "water in basement": {
        "current_rows": 0,
@@ -907,11 +924,11 @@
        "requests": 2
       }
      },
-     "context": 69,
+     "context": 87,
      "context_label": "rows, both naming schemes",
      "current_rows": 0,
-     "legacy_rows": 69,
-     "main": 69,
+     "legacy_rows": 87,
+     "main": 87,
      "main_label": "requests (twin rows paired)",
      "points": [
       [
@@ -1189,11 +1206,87 @@
       [
        585834.0,
        4505250.0
+      ],
+      [
+       589228.7,
+       4508109.8
+      ],
+      [
+       589242.7,
+       4506480.0
+      ],
+      [
+       589424.0,
+       4506990.0
+      ],
+      [
+       588728.6,
+       4505790.3
+      ],
+      [
+       585790.5,
+       4508431.4
+      ],
+      [
+       585611.0,
+       4506450.8
+      ],
+      [
+       588803.2,
+       4507634.4
+      ],
+      [
+       589395.6,
+       4508115.3
+      ],
+      [
+       588232.7,
+       4506996.9
+      ],
+      [
+       588080.4,
+       4506888.8
+      ],
+      [
+       585832.7,
+       4505631.2
+      ],
+      [
+       586536.1,
+       4504690.6
+      ],
+      [
+       585625.4,
+       4508447.5
+      ],
+      [
+       588469.2,
+       4508011.2
+      ],
+      [
+       586837.3,
+       4504806.1
+      ],
+      [
+       589096.3,
+       4507350.7
+      ],
+      [
+       588971.6,
+       4506287.3
+      ],
+      [
+       587594.5,
+       4507621.0
       ]
      ],
      "twin_pairs": 0,
      "twin_pairs_same_address": 0,
      "twin_seconds_max": null,
+     "unplaced_days": [
+      "2021-09-01",
+      "2021-09-02"
+     ],
      "unplaced_in_boroughs": 8,
      "unplaced_rows": [
       {
@@ -1896,19 +1989,19 @@
     "nyc_311": {
      "by_kind": {
       "catch basin clogged": {
-       "current_rows": 13,
-       "legacy_rows": 19,
-       "requests": 19
+       "current_rows": 14,
+       "legacy_rows": 20,
+       "requests": 20
       },
       "sewer backup": {
-       "current_rows": 53,
-       "legacy_rows": 54,
-       "requests": 56
+       "current_rows": 54,
+       "legacy_rows": 55,
+       "requests": 57
       },
       "street flooding": {
-       "current_rows": 35,
-       "legacy_rows": 36,
-       "requests": 36
+       "current_rows": 36,
+       "legacy_rows": 37,
+       "requests": 37
       },
       "water in basement": {
        "current_rows": 5,
@@ -1916,11 +2009,11 @@
        "requests": 10
       }
      },
-     "context": 225,
+     "context": 231,
      "context_label": "rows, both naming schemes",
-     "current_rows": 106,
-     "legacy_rows": 119,
-     "main": 121,
+     "current_rows": 109,
+     "legacy_rows": 122,
+     "main": 124,
      "main_label": "requests (twin rows paired)",
      "points": [
       [
@@ -2040,6 +2133,10 @@
        4504985.5
       ],
       [
+       587253.1,
+       4505441.3
+      ],
+      [
        588457.7,
        4507822.2
       ],
@@ -2146,6 +2243,10 @@
       [
        589055.3,
        4508464.7
+      ],
+      [
+       589384.1,
+       4508193.5
       ],
       [
        588527.8,
@@ -2392,6 +2493,10 @@
        4508071.7
       ],
       [
+       588481.3,
+       4508053.4
+      ],
+      [
        588420.4,
        4507773.6
       ],
@@ -2408,9 +2513,12 @@
        4504606.2
       ]
      ],
-     "twin_pairs": 104,
-     "twin_pairs_same_address": 95,
+     "twin_pairs": 107,
+     "twin_pairs_same_address": 98,
      "twin_seconds_max": 189.0,
+     "unplaced_days": [
+      "2023-09-29"
+     ],
      "unplaced_in_boroughs": 23,
      "unplaced_rows": [
       {
@@ -2770,9 +2878,9 @@
      "main_label": "places centred in the square"
     },
     "nyc_311": {
-     "context": 69,
+     "context": 87,
      "context_label": "rows, both naming schemes",
-     "main": 69,
+     "main": 87,
      "main_label": "requests (twin rows paired)"
     },
     "storm_events": {
@@ -2802,9 +2910,9 @@
      "main_label": "places centred in the square"
     },
     "nyc_311": {
-     "context": 225,
+     "context": 231,
      "context_label": "rows, both naming schemes",
-     "main": 121,
+     "main": 124,
      "main_label": "requests (twin rows paired)"
     },
     "storm_events": {
@@ -3889,8 +3997,8 @@
     "window": "a row whose start_date to end_date range (as published: days, no time of day, no zone) holds one of the storm's days"
    },
    "nyc_311": {
-    "inside": "latitude and longitude, projected to EPSG:32618, fall in the square; requests with no location cannot be placed and are counted apart for the two boroughs",
-    "window": "created_date (a floating time stamp, read as the New York wall clock as written) falls on one of the storm's days"
+    "inside": "latitude and longitude, projected to EPSG:32618, fall in the square; requests with no location cannot be placed and are counted apart for the two boroughs (on the storm days only: the fetch of the weeks round the storm holds placed rows only)",
+    "window": "created_date (a floating time stamp, read as the New York wall clock as written) falls in the storm's 311 window: the storm days and the 1 day after (CH-24; Ida 1-3 Sep 2021, 2023 29-30 Sep 2023). Rows from the fetch of the weeks round the storm (flooding types only); the storm-day fetch gives the same rows on the storm days"
    },
    "storm_events": {
     "inside": "main count: the begin point, end point or a point of the locations file lies in the square; context: every flood event of the square's counties (Kings, New York) and NWS zones (75 Kings (Brooklyn), 72 New York (Manhattan)), county and zone events both read",
@@ -3905,14 +4013,14 @@
    "area_reports": "Groundsource places (centred in the square) and Storm Events events (with a point in the square) name an area, not a spot: they join no sighting and link none; each sighting lists the area reports whose shape holds a member (Groundsource: the place polygon over the storm days; Storm Events: the hull of the event's points over its begin to end), with windows within 12 h",
    "duplicates": "the strict case, applied first: 311 twin rows of one request (nyc_311.twins = sightings.duplicate_pairs: other scheme, same kind, within 600 s, same address or within 25 m)",
    "near": "two observations within 50 m [P] and with time windows within 12 h [P] of each other; any source, any kind",
-   "observation": "one report of water at a place and time: 311 requests (a twin pair is one observation keeping both row ids; time = created_date), FloodNet events at sensors in the square that started on a storm day (time = start to end, New York clock), USGS marks in the square (no time: the whole storm days)",
+   "observation": "one report of water at a place and time, over the storm's 311 window (the storm days and the day after, CH-24): 311 requests (a twin pair is one observation keeping both row ids; time = created_date), FloodNet events at sensors in the square that started in the window (time = start to end, New York clock), USGS marks in the square (no time: the whole window)",
    "sighting": "observations joined by chains of near pairs (single linkage); every member is kept with its source and row ids; extent = largest distance between two members"
   },
   "sightings": {
    "ida_2021": [
     {
      "easting_m": 588374.2,
-     "end": "2021-09-03T00:00:00",
+     "end": "2021-09-04T00:00:00",
      "extent_m": 6.5,
      "inside_area_reports": [],
      "kinds": [
@@ -3923,7 +4031,7 @@
      "observations": [
       {
        "easting_m": 588372.0,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41678",
        "kind": "high-water mark",
        "northing_m": 4508395.2,
@@ -3936,7 +4044,7 @@
       },
       {
        "easting_m": 588376.3,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41433",
        "kind": "high-water mark",
        "northing_m": 4508400.2,
@@ -3957,7 +4065,7 @@
     },
     {
      "easting_m": 588613.2,
-     "end": "2021-09-03T00:00:00",
+     "end": "2021-09-04T00:00:00",
      "extent_m": 16.9,
      "inside_area_reports": [
       "groundsource:a6f134c7965c45a28be2c1af62449549"
@@ -3970,7 +4078,7 @@
      "observations": [
       {
        "easting_m": 588607.9,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41028",
        "kind": "high-water mark",
        "northing_m": 4506088.0,
@@ -3983,7 +4091,7 @@
       },
       {
        "easting_m": 588618.6,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41619",
        "kind": "high-water mark",
        "northing_m": 4506074.9,
@@ -4004,7 +4112,7 @@
     },
     {
      "easting_m": 588639.5,
-     "end": "2021-09-03T00:00:00",
+     "end": "2021-09-04T00:00:00",
      "extent_m": 5.2,
      "inside_area_reports": [
       "groundsource:a6f134c7965c45a28be2c1af62449549"
@@ -4017,7 +4125,7 @@
      "observations": [
       {
        "easting_m": 588637.0,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41030",
        "kind": "high-water mark",
        "northing_m": 4505960.1,
@@ -4030,7 +4138,7 @@
       },
       {
        "easting_m": 588642.1,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41620",
        "kind": "high-water mark",
        "northing_m": 4505961.1,
@@ -4051,7 +4159,7 @@
     },
     {
      "easting_m": 588669.1,
-     "end": "2021-09-03T00:00:00",
+     "end": "2021-09-04T00:00:00",
      "extent_m": 0.0,
      "inside_area_reports": [
       "groundsource:a6f134c7965c45a28be2c1af62449549"
@@ -4064,7 +4172,7 @@
      "observations": [
       {
        "easting_m": 588669.1,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41447",
        "kind": "high-water mark",
        "northing_m": 4506057.3,
@@ -4085,7 +4193,7 @@
     },
     {
      "easting_m": 588834.6,
-     "end": "2021-09-03T00:00:00",
+     "end": "2021-09-04T00:00:00",
      "extent_m": 13.3,
      "inside_area_reports": [
       "groundsource:a6f134c7965c45a28be2c1af62449549"
@@ -4098,7 +4206,7 @@
      "observations": [
       {
        "easting_m": 588830.3,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41617",
        "kind": "high-water mark",
        "northing_m": 4506124.0,
@@ -4111,7 +4219,7 @@
       },
       {
        "easting_m": 588838.8,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41023",
        "kind": "high-water mark",
        "northing_m": 4506113.6,
@@ -4131,9 +4239,9 @@
      "start": "2021-09-01T00:00:00"
     },
     {
-     "easting_m": 588996.0,
-     "end": "2021-09-03T00:00:00",
-     "extent_m": 54.4,
+     "easting_m": 588989.9,
+     "end": "2021-09-04T00:00:00",
+     "extent_m": 54.6,
      "inside_area_reports": [
       "groundsource:a6f134c7965c45a28be2c1af62449549"
      ],
@@ -4141,12 +4249,12 @@
       "high-water mark",
       "sewer backup"
      ],
-     "members": 3,
-     "northing_m": 4506265.5,
+     "members": 4,
+     "northing_m": 4506271.0,
      "observations": [
       {
        "easting_m": 589003.7,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41017",
        "kind": "high-water mark",
        "northing_m": 4506258.2,
@@ -4159,7 +4267,7 @@
       },
       {
        "easting_m": 589011.3,
-       "end": "2021-09-03T00:00:00",
+       "end": "2021-09-04T00:00:00",
        "id": "41615",
        "kind": "high-water mark",
        "northing_m": 4506249.8,
@@ -4182,9 +4290,22 @@
        ],
        "source": "nyc_311",
        "start": "2021-09-02T20:42:00"
+      },
+      {
+       "easting_m": 588971.6,
+       "end": "2021-09-03T15:22:00",
+       "id": "51741927",
+       "kind": "sewer backup",
+       "northing_m": 4506287.3,
+       "radius_m": 0.0,
+       "rows": [
+        "51741927"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T15:22:00"
       }
      ],
-     "rows": 3,
+     "rows": 4,
      "sighting": "ida_2021-006",
      "sources": [
       "nyc_311",
@@ -6337,6 +6458,560 @@
       "nyc_311"
      ],
      "start": "2021-09-02T19:17:00"
+    },
+    {
+     "easting_m": 588080.4,
+     "end": "2021-09-03T07:06:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:a6f134c7965c45a28be2c1af62449549"
+     ],
+     "kinds": [
+      "catch basin clogged"
+     ],
+     "members": 1,
+     "northing_m": 4506888.8,
+     "observations": [
+      {
+       "easting_m": 588080.4,
+       "end": "2021-09-03T07:06:00",
+       "id": "51736942",
+       "kind": "catch basin clogged",
+       "northing_m": 4506888.8,
+       "radius_m": 0.0,
+       "rows": [
+        "51736942"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T07:06:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-069",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T07:06:00"
+    },
+    {
+     "easting_m": 589242.7,
+     "end": "2021-09-03T09:59:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:a6f134c7965c45a28be2c1af62449549"
+     ],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4506480.0,
+     "observations": [
+      {
+       "easting_m": 589242.7,
+       "end": "2021-09-03T09:59:00",
+       "id": "51731296",
+       "kind": "sewer backup",
+       "northing_m": 4506480.0,
+       "radius_m": 0.0,
+       "rows": [
+        "51731296"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T09:59:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-070",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T09:59:00"
+    },
+    {
+     "easting_m": 589228.7,
+     "end": "2021-09-03T10:13:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:a6f134c7965c45a28be2c1af62449549"
+     ],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4508109.8,
+     "observations": [
+      {
+       "easting_m": 589228.7,
+       "end": "2021-09-03T10:13:00",
+       "id": "51731151",
+       "kind": "sewer backup",
+       "northing_m": 4508109.8,
+       "radius_m": 0.0,
+       "rows": [
+        "51731151"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T10:13:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-071",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T10:13:00"
+    },
+    {
+     "easting_m": 587594.5,
+     "end": "2021-09-03T10:30:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:a6f134c7965c45a28be2c1af62449549"
+     ],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4507621.0,
+     "observations": [
+      {
+       "easting_m": 587594.5,
+       "end": "2021-09-03T10:30:00",
+       "id": "51743208",
+       "kind": "sewer backup",
+       "northing_m": 4507621.0,
+       "radius_m": 0.0,
+       "rows": [
+        "51743208"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T10:30:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-072",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T10:30:00"
+    },
+    {
+     "easting_m": 585790.5,
+     "end": "2021-09-03T11:38:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4508431.4,
+     "observations": [
+      {
+       "easting_m": 585790.5,
+       "end": "2021-09-03T11:38:00",
+       "id": "51732156",
+       "kind": "sewer backup",
+       "northing_m": 4508431.4,
+       "radius_m": 0.0,
+       "rows": [
+        "51732156"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T11:38:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-073",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T11:38:00"
+    },
+    {
+     "easting_m": 588469.2,
+     "end": "2021-09-03T11:44:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:a6f134c7965c45a28be2c1af62449549"
+     ],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4508011.2,
+     "observations": [
+      {
+       "easting_m": 588469.2,
+       "end": "2021-09-03T11:44:00",
+       "id": "51739464",
+       "kind": "sewer backup",
+       "northing_m": 4508011.2,
+       "radius_m": 0.0,
+       "rows": [
+        "51739464"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T11:44:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-074",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T11:44:00"
+    },
+    {
+     "easting_m": 589424.0,
+     "end": "2021-09-03T12:40:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "street flooding"
+     ],
+     "members": 1,
+     "northing_m": 4506990.0,
+     "observations": [
+      {
+       "easting_m": 589424.0,
+       "end": "2021-09-03T12:40:00",
+       "id": "51731506",
+       "kind": "street flooding",
+       "northing_m": 4506990.0,
+       "radius_m": 0.0,
+       "rows": [
+        "51731506"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T12:40:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-075",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T12:40:00"
+    },
+    {
+     "easting_m": 588803.2,
+     "end": "2021-09-03T12:45:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4507634.4,
+     "observations": [
+      {
+       "easting_m": 588803.2,
+       "end": "2021-09-03T12:45:00",
+       "id": "51733503",
+       "kind": "sewer backup",
+       "northing_m": 4507634.4,
+       "radius_m": 0.0,
+       "rows": [
+        "51733503"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T12:45:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-076",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T12:45:00"
+    },
+    {
+     "easting_m": 585611.0,
+     "end": "2021-09-03T13:20:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "catch basin clogged"
+     ],
+     "members": 1,
+     "northing_m": 4506450.8,
+     "observations": [
+      {
+       "easting_m": 585611.0,
+       "end": "2021-09-03T13:20:00",
+       "id": "51733230",
+       "kind": "catch basin clogged",
+       "northing_m": 4506450.8,
+       "radius_m": 0.0,
+       "rows": [
+        "51733230"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T13:20:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-077",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T13:20:00"
+    },
+    {
+     "easting_m": 586837.3,
+     "end": "2021-09-03T13:27:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "catch basin clogged"
+     ],
+     "members": 1,
+     "northing_m": 4504806.1,
+     "observations": [
+      {
+       "easting_m": 586837.3,
+       "end": "2021-09-03T13:27:00",
+       "id": "51740751",
+       "kind": "catch basin clogged",
+       "northing_m": 4504806.1,
+       "radius_m": 0.0,
+       "rows": [
+        "51740751"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T13:27:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-078",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T13:27:00"
+    },
+    {
+     "easting_m": 585625.4,
+     "end": "2021-09-03T13:33:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4508447.5,
+     "observations": [
+      {
+       "easting_m": 585625.4,
+       "end": "2021-09-03T13:33:00",
+       "id": "51736982",
+       "kind": "sewer backup",
+       "northing_m": 4508447.5,
+       "radius_m": 0.0,
+       "rows": [
+        "51736982"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T13:33:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-079",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T13:33:00"
+    },
+    {
+     "easting_m": 588232.7,
+     "end": "2021-09-03T13:53:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4506996.9,
+     "observations": [
+      {
+       "easting_m": 588232.7,
+       "end": "2021-09-03T13:53:00",
+       "id": "51735840",
+       "kind": "sewer backup",
+       "northing_m": 4506996.9,
+       "radius_m": 0.0,
+       "rows": [
+        "51735840"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T13:53:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-080",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T13:53:00"
+    },
+    {
+     "easting_m": 589395.6,
+     "end": "2021-09-03T14:46:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "street flooding"
+     ],
+     "members": 1,
+     "northing_m": 4508115.3,
+     "observations": [
+      {
+       "easting_m": 589395.6,
+       "end": "2021-09-03T14:46:00",
+       "id": "51733508",
+       "kind": "street flooding",
+       "northing_m": 4508115.3,
+       "radius_m": 0.0,
+       "rows": [
+        "51733508"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T14:46:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-081",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T14:46:00"
+    },
+    {
+     "easting_m": 586536.1,
+     "end": "2021-09-03T14:59:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4504690.6,
+     "observations": [
+      {
+       "easting_m": 586536.1,
+       "end": "2021-09-03T14:59:00",
+       "id": "51736976",
+       "kind": "sewer backup",
+       "northing_m": 4504690.6,
+       "radius_m": 0.0,
+       "rows": [
+        "51736976"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T14:59:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-082",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T14:59:00"
+    },
+    {
+     "easting_m": 585832.7,
+     "end": "2021-09-03T16:05:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4505631.2,
+     "observations": [
+      {
+       "easting_m": 585832.7,
+       "end": "2021-09-03T16:05:00",
+       "id": "51736951",
+       "kind": "sewer backup",
+       "northing_m": 4505631.2,
+       "radius_m": 0.0,
+       "rows": [
+        "51736951"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T16:05:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-083",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T16:05:00"
+    },
+    {
+     "easting_m": 589096.3,
+     "end": "2021-09-03T16:45:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4507350.7,
+     "observations": [
+      {
+       "easting_m": 589096.3,
+       "end": "2021-09-03T16:45:00",
+       "id": "51741530",
+       "kind": "sewer backup",
+       "northing_m": 4507350.7,
+       "radius_m": 0.0,
+       "rows": [
+        "51741530"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T16:45:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-084",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T16:45:00"
+    },
+    {
+     "easting_m": 588728.6,
+     "end": "2021-09-03T17:16:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4505790.3,
+     "observations": [
+      {
+       "easting_m": 588728.6,
+       "end": "2021-09-03T17:16:00",
+       "id": "51732142",
+       "kind": "sewer backup",
+       "northing_m": 4505790.3,
+       "radius_m": 0.0,
+       "rows": [
+        "51732142"
+       ],
+       "source": "nyc_311",
+       "start": "2021-09-03T17:16:00"
+      }
+     ],
+     "rows": 1,
+     "sighting": "ida_2021-085",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2021-09-03T17:16:00"
     }
    ],
    "sep29_2023": [
@@ -9967,6 +10642,110 @@
       "nyc_311"
      ],
      "start": "2023-09-29T23:19:12"
+    },
+    {
+     "easting_m": 589384.1,
+     "end": "2023-09-30T01:32:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:6b78ebfe849340dd9220d0a5a401c444",
+      "groundsource:f1be6b59b1964906a8d791c70805537f"
+     ],
+     "kinds": [
+      "sewer backup"
+     ],
+     "members": 1,
+     "northing_m": 4508193.5,
+     "observations": [
+      {
+       "easting_m": 589384.1,
+       "end": "2023-09-30T01:32:00",
+       "id": "59445564",
+       "kind": "sewer backup",
+       "northing_m": 4508193.5,
+       "radius_m": 0.0,
+       "rows": [
+        "59445564",
+        "58969564"
+       ],
+       "source": "nyc_311",
+       "start": "2023-09-30T01:29:13"
+      }
+     ],
+     "rows": 2,
+     "sighting": "sep29_2023-092",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2023-09-30T01:29:13"
+    },
+    {
+     "easting_m": 588481.3,
+     "end": "2023-09-30T09:47:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [
+      "groundsource:f1be6b59b1964906a8d791c70805537f"
+     ],
+     "kinds": [
+      "street flooding"
+     ],
+     "members": 1,
+     "northing_m": 4508053.4,
+     "observations": [
+      {
+       "easting_m": 588481.3,
+       "end": "2023-09-30T09:47:00",
+       "id": "59459623",
+       "kind": "street flooding",
+       "northing_m": 4508053.4,
+       "radius_m": 0.0,
+       "rows": [
+        "59459623",
+        "58968272"
+       ],
+       "source": "nyc_311",
+       "start": "2023-09-30T09:44:16"
+      }
+     ],
+     "rows": 2,
+     "sighting": "sep29_2023-093",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2023-09-30T09:44:16"
+    },
+    {
+     "easting_m": 587253.1,
+     "end": "2023-09-30T10:20:00",
+     "extent_m": 0.0,
+     "inside_area_reports": [],
+     "kinds": [
+      "catch basin clogged"
+     ],
+     "members": 1,
+     "northing_m": 4505441.3,
+     "observations": [
+      {
+       "easting_m": 587253.1,
+       "end": "2023-09-30T10:20:00",
+       "id": "59438809",
+       "kind": "catch basin clogged",
+       "northing_m": 4505441.3,
+       "radius_m": 0.0,
+       "rows": [
+        "59438809",
+        "58974401"
+       ],
+       "source": "nyc_311",
+       "start": "2023-09-30T10:19:10"
+      }
+     ],
+     "rows": 2,
+     "sighting": "sep29_2023-094",
+     "sources": [
+      "nyc_311"
+     ],
+     "start": "2023-09-30T10:19:10"
     }
    ]
   },
@@ -9975,254 +10754,353 @@
     {
      "near_h": 1.0,
      "near_m": 0.0,
-     "sightings": 79,
-     "sightings_kinds_apart": 80
+     "sightings": 97,
+     "sightings_kinds_apart": 98
     },
     {
      "near_h": 3.0,
      "near_m": 0.0,
-     "sightings": 79,
-     "sightings_kinds_apart": 80
+     "sightings": 97,
+     "sightings_kinds_apart": 98
     },
     {
      "near_h": 12.0,
      "near_m": 0.0,
-     "sightings": 79,
-     "sightings_kinds_apart": 80
+     "sightings": 97,
+     "sightings_kinds_apart": 98
     },
     {
      "near_h": 24.0,
      "near_m": 0.0,
+     "sightings": 95,
+     "sightings_kinds_apart": 96
+    },
+    {
+     "near_h": 1.0,
+     "near_m": 25.0,
+     "sightings": 91,
+     "sightings_kinds_apart": 92
+    },
+    {
+     "near_h": 3.0,
+     "near_m": 25.0,
+     "sightings": 90,
+     "sightings_kinds_apart": 91
+    },
+    {
+     "near_h": 12.0,
+     "near_m": 25.0,
+     "sightings": 89,
+     "sightings_kinds_apart": 90
+    },
+    {
+     "near_h": 24.0,
+     "near_m": 25.0,
+     "sightings": 85,
+     "sightings_kinds_apart": 87
+    },
+    {
+     "near_h": 1.0,
+     "near_m": 50.0,
+     "sightings": 89,
+     "sightings_kinds_apart": 92
+    },
+    {
+     "near_h": 3.0,
+     "near_m": 50.0,
+     "sightings": 88,
+     "sightings_kinds_apart": 91
+    },
+    {
+     "near_h": 12.0,
+     "near_m": 50.0,
+     "sightings": 85,
+     "sightings_kinds_apart": 90
+    },
+    {
+     "near_h": 24.0,
+     "near_m": 50.0,
+     "sightings": 80,
+     "sightings_kinds_apart": 86
+    },
+    {
+     "near_h": 1.0,
+     "near_m": 100.0,
+     "sightings": 85,
+     "sightings_kinds_apart": 89
+    },
+    {
+     "near_h": 3.0,
+     "near_m": 100.0,
+     "sightings": 83,
+     "sightings_kinds_apart": 87
+    },
+    {
+     "near_h": 12.0,
+     "near_m": 100.0,
      "sightings": 77,
+     "sightings_kinds_apart": 83
+    },
+    {
+     "near_h": 24.0,
+     "near_m": 100.0,
+     "sightings": 73,
+     "sightings_kinds_apart": 79
+    },
+    {
+     "near_h": 1.0,
+     "near_m": 200.0,
+     "sightings": 80,
+     "sightings_kinds_apart": 87
+    },
+    {
+     "near_h": 3.0,
+     "near_m": 200.0,
+     "sightings": 76,
+     "sightings_kinds_apart": 84
+    },
+    {
+     "near_h": 12.0,
+     "near_m": 200.0,
+     "sightings": 63,
      "sightings_kinds_apart": 78
     },
     {
-     "near_h": 1.0,
-     "near_m": 25.0,
-     "sightings": 73,
-     "sightings_kinds_apart": 74
-    },
-    {
-     "near_h": 3.0,
-     "near_m": 25.0,
-     "sightings": 72,
-     "sightings_kinds_apart": 73
-    },
-    {
-     "near_h": 12.0,
-     "near_m": 25.0,
-     "sightings": 71,
-     "sightings_kinds_apart": 72
-    },
-    {
      "near_h": 24.0,
-     "near_m": 25.0,
-     "sightings": 69,
-     "sightings_kinds_apart": 70
-    },
-    {
-     "near_h": 1.0,
-     "near_m": 50.0,
-     "sightings": 72,
-     "sightings_kinds_apart": 74
-    },
-    {
-     "near_h": 3.0,
-     "near_m": 50.0,
-     "sightings": 71,
-     "sightings_kinds_apart": 73
-    },
-    {
-     "near_h": 12.0,
-     "near_m": 50.0,
-     "sightings": 68,
-     "sightings_kinds_apart": 72
-    },
-    {
-     "near_h": 24.0,
-     "near_m": 50.0,
-     "sightings": 65,
-     "sightings_kinds_apart": 70
-    },
-    {
-     "near_h": 1.0,
-     "near_m": 100.0,
-     "sightings": 68,
-     "sightings_kinds_apart": 71
-    },
-    {
-     "near_h": 3.0,
-     "near_m": 100.0,
-     "sightings": 66,
-     "sightings_kinds_apart": 69
-    },
-    {
-     "near_h": 12.0,
-     "near_m": 100.0,
-     "sightings": 60,
-     "sightings_kinds_apart": 65
-    },
-    {
-     "near_h": 24.0,
-     "near_m": 100.0,
-     "sightings": 58,
-     "sightings_kinds_apart": 63
-    },
-    {
-     "near_h": 1.0,
-     "near_m": 200.0,
-     "sightings": 64,
-     "sightings_kinds_apart": 69
-    },
-    {
-     "near_h": 3.0,
-     "near_m": 200.0,
-     "sightings": 61,
-     "sightings_kinds_apart": 67
-    },
-    {
-     "near_h": 12.0,
      "near_m": 200.0,
      "sightings": 50,
-     "sightings_kinds_apart": 61
-    },
-    {
-     "near_h": 24.0,
-     "near_m": 200.0,
-     "sightings": 40,
-     "sightings_kinds_apart": 57
+     "sightings_kinds_apart": 71
     }
    ],
    "sep29_2023": [
     {
      "near_h": 1.0,
      "near_m": 0.0,
-     "sightings": 120,
-     "sightings_kinds_apart": 122
+     "sightings": 123,
+     "sightings_kinds_apart": 125
     },
     {
      "near_h": 3.0,
      "near_m": 0.0,
-     "sightings": 116,
-     "sightings_kinds_apart": 118
+     "sightings": 119,
+     "sightings_kinds_apart": 121
     },
     {
      "near_h": 12.0,
      "near_m": 0.0,
-     "sightings": 116,
-     "sightings_kinds_apart": 118
+     "sightings": 119,
+     "sightings_kinds_apart": 121
     },
     {
      "near_h": 24.0,
      "near_m": 0.0,
-     "sightings": 116,
-     "sightings_kinds_apart": 118
+     "sightings": 117,
+     "sightings_kinds_apart": 120
     },
     {
      "near_h": 1.0,
      "near_m": 25.0,
-     "sightings": 109,
-     "sightings_kinds_apart": 118
+     "sightings": 112,
+     "sightings_kinds_apart": 121
     },
     {
      "near_h": 3.0,
+     "near_m": 25.0,
+     "sightings": 105,
+     "sightings_kinds_apart": 114
+    },
+    {
+     "near_h": 12.0,
      "near_m": 25.0,
      "sightings": 102,
      "sightings_kinds_apart": 111
     },
     {
-     "near_h": 12.0,
-     "near_m": 25.0,
-     "sightings": 99,
-     "sightings_kinds_apart": 108
-    },
-    {
      "near_h": 24.0,
      "near_m": 25.0,
-     "sightings": 98,
-     "sightings_kinds_apart": 108
+     "sightings": 99,
+     "sightings_kinds_apart": 110
     },
     {
      "near_h": 1.0,
      "near_m": 50.0,
-     "sightings": 103,
-     "sightings_kinds_apart": 113
+     "sightings": 106,
+     "sightings_kinds_apart": 116
     },
     {
      "near_h": 3.0,
      "near_m": 50.0,
-     "sightings": 95,
+     "sightings": 98,
+     "sightings_kinds_apart": 109
+    },
+    {
+     "near_h": 12.0,
+     "near_m": 50.0,
+     "sightings": 94,
      "sightings_kinds_apart": 106
     },
     {
-     "near_h": 12.0,
-     "near_m": 50.0,
-     "sightings": 91,
-     "sightings_kinds_apart": 103
-    },
-    {
      "near_h": 24.0,
      "near_m": 50.0,
-     "sightings": 90,
-     "sightings_kinds_apart": 103
+     "sightings": 91,
+     "sightings_kinds_apart": 105
     },
     {
      "near_h": 1.0,
      "near_m": 100.0,
-     "sightings": 88,
-     "sightings_kinds_apart": 107
+     "sightings": 91,
+     "sightings_kinds_apart": 110
     },
     {
      "near_h": 3.0,
      "near_m": 100.0,
-     "sightings": 80,
-     "sightings_kinds_apart": 100
+     "sightings": 83,
+     "sightings_kinds_apart": 103
     },
     {
      "near_h": 12.0,
      "near_m": 100.0,
-     "sightings": 76,
-     "sightings_kinds_apart": 93
+     "sightings": 79,
+     "sightings_kinds_apart": 96
     },
     {
      "near_h": 24.0,
      "near_m": 100.0,
      "sightings": 75,
-     "sightings_kinds_apart": 93
+     "sightings_kinds_apart": 94
     },
     {
      "near_h": 1.0,
      "near_m": 200.0,
-     "sightings": 76,
-     "sightings_kinds_apart": 97
+     "sightings": 79,
+     "sightings_kinds_apart": 100
     },
     {
      "near_h": 3.0,
      "near_m": 200.0,
-     "sightings": 63,
-     "sightings_kinds_apart": 85
+     "sightings": 66,
+     "sightings_kinds_apart": 88
     },
     {
      "near_h": 12.0,
      "near_m": 200.0,
-     "sightings": 49,
-     "sightings_kinds_apart": 71
+     "sightings": 52,
+     "sightings_kinds_apart": 74
     },
     {
      "near_h": 24.0,
      "near_m": 200.0,
      "sightings": 49,
-     "sightings_kinds_apart": 71
+     "sightings_kinds_apart": 72
     }
    ]
   },
   "sightings_summary": {
    "ida_2021": {
     "by_sources": {
+     "nyc_311": 79,
+     "nyc_311 + usgs_marks": 1,
+     "usgs_marks": 5
+    },
+    "days": [
+     "2021-09-01",
+     "2021-09-02",
+     "2021-09-03"
+    ],
+    "extent_m_max": 54.6,
+    "inside_area_reports": {
+     "groundsource": 50,
+     "storm_events": 0
+    },
+    "largest": {
+     "extent_m": 54.6,
+     "members": 4,
+     "sighting": "ida_2021-006",
+     "sources": [
+      "nyc_311",
+      "usgs_marks"
+     ]
+    },
+    "observations": 98,
+    "observations_by_source": {
+     "nyc_311": 87,
+     "usgs_marks": 11
+    },
+    "raw_rows_311": 87,
+    "requests_311": 87,
+    "sightings": 85,
+    "sightings_of_more_than_one_kind": 3,
+    "sightings_of_more_than_one_source": 1,
+    "sightings_with_more_than_one_member": 9,
+    "twin_pairs_311": 0,
+    "with_source": {
+     "floodnet": 0,
+     "nyc_311": 80,
+     "usgs_marks": 6
+    }
+   },
+   "sep29_2023": {
+    "by_sources": {
+     "floodnet": 1,
+     "floodnet + nyc_311": 4,
+     "nyc_311": 89
+    },
+    "days": [
+     "2023-09-29",
+     "2023-09-30"
+    ],
+    "extent_m_max": 51.7,
+    "inside_area_reports": {
+     "groundsource": 59,
+     "storm_events": 7
+    },
+    "largest": {
+     "extent_m": 51.7,
+     "members": 5,
+     "sighting": "sep29_2023-028",
+     "sources": [
+      "nyc_311"
+     ]
+    },
+    "observations": 129,
+    "observations_by_source": {
+     "floodnet": 5,
+     "nyc_311": 124
+    },
+    "raw_rows_311": 231,
+    "requests_311": 124,
+    "sightings": 94,
+    "sightings_of_more_than_one_kind": 10,
+    "sightings_of_more_than_one_source": 4,
+    "sightings_with_more_than_one_member": 18,
+    "twin_pairs_311": 107,
+    "with_source": {
+     "floodnet": 5,
+     "nyc_311": 93,
+     "usgs_marks": 0
+    }
+   }
+  },
+  "storm_days": {
+   "ida_2021": [
+    "2021-09-01",
+    "2021-09-02"
+   ],
+   "sep29_2023": [
+    "2023-09-29"
+   ]
+  },
+  "storm_days_only": {
+   "ida_2021": {
+    "by_sources": {
      "nyc_311": 62,
      "nyc_311 + usgs_marks": 1,
      "usgs_marks": 5
     },
+    "days": [
+     "2021-09-01",
+     "2021-09-02"
+    ],
     "extent_m_max": 54.4,
     "inside_area_reports": {
      "groundsource": 45,
@@ -10261,6 +11139,9 @@
      "floodnet + nyc_311": 4,
      "nyc_311": 86
     },
+    "days": [
+     "2023-09-29"
+    ],
     "extent_m_max": 51.7,
     "inside_area_reports": {
      "groundsource": 57,
@@ -10293,13 +11174,15 @@
     }
    }
   },
-  "storm_days": {
+  "windows_311": {
    "ida_2021": [
     "2021-09-01",
-    "2021-09-02"
+    "2021-09-02",
+    "2021-09-03"
    ],
    "sep29_2023": [
-    "2023-09-29"
+    "2023-09-29",
+    "2023-09-30"
    ]
   }
  },

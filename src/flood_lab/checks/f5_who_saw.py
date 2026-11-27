@@ -16,8 +16,9 @@ and date matching (stated in ``RULES`` and in the record):
 - Groundsource (``sources.groundsource``): dated places whose date range holds a storm day.
 - NOAA Storm Events (``sources.storm_events``): flood events of the square's counties and zones
   whose span on the New York clock holds a storm day.
-- 311 (``sources.nyc_311``): flooding-related requests created on a storm day, both naming
-  schemes, with the twin rows of one request paired.
+- 311 (``sources.nyc_311``): flooding-related requests created in the storm's 311 window (the
+  storm days and ``DAYS_AFTER_311`` day after, change CH-24), both naming schemes, with the twin
+  rows of one request paired.
 - FloodNet (``sources.floodnet``): sensors in the square in service on a storm day, and those that
   recorded an event starting that day (New York day).
 - USGS high-water marks (``sources.usgs_hwm``): the Ida survey's marks in the square.
@@ -37,9 +38,19 @@ inundation depth (the frozen F3 replays) under the points for orientation only.
 3. *Groundsource near the square.* Places by relation: centroid inside, overlapping, and within
    each of ``GS_NEAR_M``.
 
+**CH-24 (accepted by Yuri, 2026-11-27).** The twin and sighting rules above are the lab's, with
+their limits [P] to be re-tested in F8 on more storms. Each storm's 311 window is extended by one
+day after the storm (Ida: 1-3 Sep 2021; 2023: 29-30 Sep 2023), because the day after Ida held far
+more requests than any dry day (section 4 of the F5 report). The main 311 counts, the sightings,
+their sensitivity table and the maps use that window; the 311 rows are read from the weeks-round
+fetch (``AROUND``), whose storm-day rows equal those of the storm-day fetch (a check says so).
+Sightings take the FloodNet events that started in the window and let a mark span it. The
+other sources keep the storm days. The storm-days-only figures stay in the table
+``storm_days_only`` for comparison; the late-call baseline is unchanged.
+
 Writes ``site/flood/tests/records/f5-who-saw.json`` and figures under ``docs/flood/figures/f5/``.
-The record keeps its id; F5c adds tables (``sightings*``, ``groundsource_relations``,
-``late_calls*``, ``extended_window``) and does not change the earlier counts.
+The record keeps its id; F5c added tables (``sightings*``, ``groundsource_relations``,
+``late_calls*``); CH-24 adds ``windows_311`` and ``storm_days_only``.
 """
 
 from __future__ import annotations
@@ -80,6 +91,10 @@ STORMS: tuple[tuple[str, tuple[str, ...], str], ...] = (
     ("ida_2021", ("2021-09-01", "2021-09-02"), "Ida, 1-2 Sep 2021"),
     ("sep29_2023", ("2023-09-29",), "29 Sep 2023"),
 )
+#: CH-24 (accepted 2026-11-27): the 311 window is the storm days and this many days after [I]
+DAYS_AFTER_311 = 1
+#: the 311 windows as labels (see ``window_311``)
+WINDOW_LABELS = {"ida_2021": "1-3 Sep 2021", "sep29_2023": "29-30 Sep 2023"}
 #: Storm Events files of each storm's year (fetched in F0; facts noaa-storm-events)
 SE_FILES = {
     "ida_2021": (
@@ -143,9 +158,13 @@ RULES = {
     },
     "nyc_311": {
         "window": "created_date (a floating time stamp, read as the New York wall clock as "
-        "written) falls on one of the storm's days",
+        f"written) falls in the storm's 311 window: the storm days and the {DAYS_AFTER_311} "
+        "day after (CH-24; Ida 1-3 Sep 2021, 2023 29-30 Sep 2023). Rows from the fetch of the "
+        "weeks round the storm (flooding types only); the storm-day fetch gives the same rows on "
+        "the storm days",
         "inside": "latitude and longitude, projected to EPSG:32618, fall in the square; requests "
-        "with no location cannot be placed and are counted apart for the two boroughs",
+        "with no location cannot be placed and are counted apart for the two boroughs (on the "
+        "storm days only: the fetch of the weeks round the storm holds placed rows only)",
     },
     "floodnet": {
         "window": "context: sensors in service on a storm day (installed on or before it, not "
@@ -162,10 +181,11 @@ RULES = {
 }
 #: the sighting rule (observations.sightings), as the record states it
 SIGHTING_RULE = {
-    "observation": "one report of water at a place and time: 311 requests (a twin pair is one "
-    "observation keeping both row ids; time = created_date), FloodNet events at sensors in the "
-    "square that started on a storm day (time = start to end, New York clock), USGS marks in "
-    "the square (no time: the whole storm days)",
+    "observation": "one report of water at a place and time, over the storm's 311 window (the "
+    "storm days and the day after, CH-24): 311 requests (a twin pair is one observation keeping "
+    "both row ids; time = created_date), FloodNet events at sensors in the square that started "
+    "in the window (time = start to end, New York clock), USGS marks in the square (no time: "
+    "the whole window)",
     "duplicates": "the strict case, applied first: 311 twin rows of one request (nyc_311.twins = "
     "sightings.duplicate_pairs: other scheme, same kind, within "
     f"{sightings.DUPLICATE_S:.0f} s, same address or within {sightings.DUPLICATE_M:.0f} m)",
@@ -224,6 +244,14 @@ def square_lonlat():
     ring = shapely.box(*SQUARE).segmentize(50.0).exterior.coords
     lon, lat = t.transform(*map(list, zip(*ring, strict=True)))
     return shapely.Polygon(zip(lon, lat, strict=True))
+
+
+def window_311(days: tuple[str, ...], after: int = DAYS_AFTER_311) -> tuple[str, ...]:
+    """The storm's 311 window (CH-24): its days and the ``after`` days after the last."""
+    from datetime import date, timedelta
+
+    end = date.fromisoformat(days[-1])
+    return tuple(days) + tuple((end + timedelta(days=k)).isoformat() for k in range(1, after + 1))
 
 
 def on_days(start: pd.Series, end: pd.Series, days: tuple[str, ...]) -> pd.Series:
@@ -548,6 +576,44 @@ def covered_by(
     return found
 
 
+def observations_in(
+    requests: pd.DataFrame,
+    fn_events: pd.DataFrame,
+    marks: list[dict[str, Any]],
+    storm: str,
+    days: tuple[str, ...],
+) -> list[sightings.Observation]:
+    """The point observations of the days: 311 requests, FloodNet events, marks spanning them."""
+    flood, xs, ys, pairs = rows_311(requests, days)
+    return (
+        observations_311(flood, xs, ys, pairs)
+        + observations_floodnet(fn_events, days)
+        + observations_marks(marks, storm, days)
+    )
+
+
+def summary_311(c311: dict[str, Any], sight: dict[str, Any]) -> dict[str, Any]:
+    """The 311 counts and sightings of one window, as ``tables.sightings_summary`` holds them."""
+    keys = (
+        "observations",
+        "observations_by_source",
+        "sightings",
+        "sightings_with_more_than_one_member",
+        "sightings_of_more_than_one_source",
+        "sightings_of_more_than_one_kind",
+        "by_sources",
+        "with_source",
+        "inside_area_reports",
+        "largest",
+        "extent_m_max",
+    )
+    return {
+        "raw_rows_311": c311["context"],
+        "requests_311": c311["main"],
+        "twin_pairs_311": c311["twin_pairs"],
+    } | {k: sight[k] for k in keys}
+
+
 def sighting_table(
     storm: str,
     observations: list[sightings.Observation],
@@ -811,8 +877,13 @@ def figure_counts(counts: dict[str, dict[str, dict[str, Any]]]) -> str:
         c0 = counts[STORMS[0][0]][source]
         axis.set_yticks(ys, labels, fontsize=8.5)
         axis.set_xlim(0, top * 1.15)
+        extra = (
+            f" (storm days and the {DAYS_AFTER_311} day after, CH-24)"
+            if source == "nyc_311"
+            else ""
+        )
         axis.set_title(
-            f"{NAMES[source]}: dark = {c0['main_label']}, light = {c0['context_label']}",
+            f"{NAMES[source]}: dark = {c0['main_label']}, light = {c0['context_label']}{extra}",
             fontsize=9,
             loc="left",
         )
@@ -970,7 +1041,8 @@ def figure_map(
     r311, fn = counts["nyc_311"], counts["floodnet"]
     marks = counts["usgs_marks"]["main"]
     axis.set_title(
-        f"Who saw the flood: {label}, inside the square\n"
+        f"Who saw the flood: {label}, inside the square (311 and sightings: "
+        f"{WINDOW_LABELS[storm]})\n"
         f"311: {r311['context']} rows, {r311['main']} requests · {sight['sightings']} sightings "
         f"({sight['sightings_with_more_than_one_member']} of more than one report)\n"
         f"FloodNet: {fn['main']} of {fn['context']} sensors recorded · marks: "
@@ -1291,7 +1363,9 @@ def main(argv: list[str] | None = None) -> int:
     sensitivity: dict[str, list[dict[str, Any]]] = {}
     relations: dict[str, dict[str, Any]] = {}
     late: dict[str, dict[str, Any]] = {}
-    extended: dict[str, dict[str, Any]] = {}
+    windows: dict[str, list[str]] = {}
+    storm_days_only: dict[str, dict[str, Any]] = {}
+    fetches_agree: dict[str, dict[str, Any]] = {}
     around_queries: dict[str, Any] = {}
     rain_queries: dict[str, Any] = {}
     map_shapes: dict[str, tuple[list, list]] = {}
@@ -1300,30 +1374,41 @@ def main(argv: list[str] | None = None) -> int:
         se = storm_events.events(details, locations)
         requests, query = nyc_311.read(root, storm)
         queries[storm] = query
+        name, window, rain_window = AROUND[storm]
+        around, around_queries[storm] = nyc_311.read(root, name)
+        win = window_311(days)
+        windows[storm] = list(win)
+        unplaced = nyc_311.unplaced(root, storm)
         counts[storm] = {
             "groundsource": count_groundsource(places_table, days, square),
             "storm_events": count_storm_events(se, days),
-            "nyc_311": count_311(requests, days, nyc_311.unplaced(root, storm)),
+            "nyc_311": count_311(around, win, unplaced) | {"unplaced_days": list(days)},
             "floodnet": count_floodnet(fn_events, root / floodnet.SENSORS, days),
             "usgs_marks": count_marks(marks, storm),
         }
-        # 1. sightings
-        flood, xs, ys, pairs = rows_311(requests, days)
-        observations = (
-            observations_311(flood, xs, ys, pairs)
-            + observations_floodnet(fn_events, days)
-            + observations_marks(marks, storm, days)
-        )
         area_list = areas(
             places_table,
             counts[storm]["groundsource"]["rows"],
             counts[storm]["storm_events"]["rows"],
             days,
         )
+        # 1. sightings, over the 311 window (CH-24)
+        observations = observations_in(around, fn_events, marks, storm, win)
         sight[storm] = sighting_table(storm, observations, area_list)
         sensitivity[storm] = sightings.sensitivity(
             observations, SENSITIVITY_M, [h * 3600.0 for h in SENSITIVITY_H]
         )
+        # the same on the storm days only, from the storm-day fetch, for comparison
+        days_311 = count_311(requests, days, unplaced)
+        days_sight = sighting_table(
+            storm, observations_in(requests, fn_events, marks, storm, days), area_list
+        )
+        storm_days_only[storm] = {"days": list(days)} | summary_311(days_311, days_sight)
+        same = count_311(around, days, unplaced)
+        fetches_agree[storm] = {
+            k: {"storm_day_fetch": days_311[k], "around_fetch": same[k]}
+            for k in ("context", "main", "twin_pairs")
+        }
         # 3. Groundsource by relation to the square
         relations[storm] = groundsource_relations(places_table, days, square)
         near = {r["uuid"]: r for r in relations[storm]["rows"]}
@@ -1343,8 +1428,6 @@ def main(argv: list[str] | None = None) -> int:
             [a["shape"] for a in area_list if a["source"] == "storm_events"],
         )
         # 2. late calls
-        name, window, rain_window = AROUND[storm]
-        around, around_queries[storm] = nyc_311.read(root, name)
         rain = ghcn_daily.read(root, name)
         rain_queries[storm] = json.loads(
             (root / ghcn_daily.FOLDER / f"{name}.query.json").read_text()
@@ -1357,21 +1440,6 @@ def main(argv: list[str] | None = None) -> int:
             window,
             days,
         )
-        plus = tuple(days) + (late[storm]["rows"][len(days)]["day"],)
-        e_flood, e_xs, e_ys, e_pairs = rows_311(around, plus)
-        e_obs = (
-            observations_311(e_flood, e_xs, e_ys, e_pairs)
-            + observations_floodnet(fn_events, plus)
-            + observations_marks(marks, storm, plus)
-        )
-        e_sight = sighting_table(storm, e_obs, [])
-        extended[storm] = {
-            "days": list(plus),
-            "rows_311": int(len(e_flood)),
-            "requests_311": int(len(e_flood) - len(e_pairs)),
-            "sightings": e_sight["sightings"],
-            "by_sources": e_sight["by_sources"],
-        }
 
     study = gpd.read_file(STUDY_AREA).to_crs("EPSG:32618")
     depth = model_depths(root)
@@ -1400,24 +1468,7 @@ def main(argv: list[str] | None = None) -> int:
         for storm, *_ in STORMS
     }
     combined = {
-        storm: {
-            "raw_rows_311": counts[storm]["nyc_311"]["context"],
-            "requests_311": counts[storm]["nyc_311"]["main"],
-            "twin_pairs_311": counts[storm]["nyc_311"]["twin_pairs"],
-            "observations": sight[storm]["observations"],
-            "observations_by_source": sight[storm]["observations_by_source"],
-            "sightings": sight[storm]["sightings"],
-            "sightings_with_more_than_one_member": sight[storm][
-                "sightings_with_more_than_one_member"
-            ],
-            "sightings_of_more_than_one_source": sight[storm]["sightings_of_more_than_one_source"],
-            "sightings_of_more_than_one_kind": sight[storm]["sightings_of_more_than_one_kind"],
-            "by_sources": sight[storm]["by_sources"],
-            "with_source": sight[storm]["with_source"],
-            "inside_area_reports": sight[storm]["inside_area_reports"],
-            "largest": sight[storm]["largest"],
-            "extent_m_max": sight[storm]["extent_m_max"],
-        }
+        storm: {"days": windows[storm]} | summary_311(counts[storm]["nyc_311"], sight[storm])
         for storm, *_ in STORMS
     }
     late_summary = {
@@ -1452,9 +1503,22 @@ def main(argv: list[str] | None = None) -> int:
         Check(
             name="FV5: who saw the flood (reported, not judged)",
             rule="for each storm, counts inside the square from Groundsource, Storm Events, 311, "
-            "FloodNet and the surveyed marks, each by its stated rule",
+            "FloodNet and the surveyed marks, each by its stated rule; 311 over the storm days "
+            f"and the {DAYS_AFTER_311} day after (CH-24)",
             passed=None,
             value=summary,
+        ),
+        Check(
+            name="FV5: the two 311 fetches agree on the storm days",
+            rule="rows, requests and twin pairs in the square on the storm days are the same in "
+            "the storm-day fetch and in the fetch of the weeks round the storm, which the main "
+            "counts read (CH-24)",
+            passed=all(
+                v["storm_day_fetch"] == v["around_fetch"]
+                for agree in fetches_agree.values()
+                for v in agree.values()
+            ),
+            value=fetches_agree,
         ),
         Check(
             name="FV5: 311 counts both naming schemes",
@@ -1474,12 +1538,14 @@ def main(argv: list[str] | None = None) -> int:
             name="FV5: reports of the same flooding combined into sightings",
             rule=f"observations of 311, FloodNet and the marks within {sightings.NEAR_M:.0f} m "
             f"[P] and {sightings.NEAR_S / 3600:.0f} h [P] of each other, chained, are one "
-            "sighting; every member kept (observations.sightings)",
+            "sighting; every member kept (observations.sightings); over the 311 window (CH-24)",
             passed=None,
             value={s: {k: combined[s][k] for k in ("requests_311", "sightings")} for s in combined},
             proposed=True,
-            note="Reported, not judged. The sensitivity table (tables.sightings_sensitivity) "
-            "gives the count for other thresholds.",
+            note="Reported, not judged. Rule accepted in CH-24 (2026-11-27); the limits stay "
+            "placeholders, to be re-tested in F8 on more storms. The sensitivity table "
+            "(tables.sightings_sensitivity) gives the count for other thresholds; "
+            "tables.storm_days_only the counts on the storm days alone.",
         ),
         Check(
             name="FV5: late calls, the day after the storm against dry days",
@@ -1488,8 +1554,9 @@ def main(argv: list[str] | None = None) -> int:
             passed=None,
             value=proposal,
             proposed=True,
-            note="Reported. A True proposes extending that storm's 311 window by the day after; "
-            "the window used for the counts is unchanged until Yuri decides.",
+            note="Reported. Ida's day after is clearly above the baseline; on this evidence "
+            f"CH-24 (accepted 2026-11-27) extends every storm's 311 window by {DAYS_AFTER_311} "
+            "day after the storm, for both storms as one rule.",
         ),
     ]
     captions = {
@@ -1501,12 +1568,14 @@ def main(argv: list[str] | None = None) -> int:
             "context (places touching the square; flood events of the square's counties and "
             "zones; 311 rows of both schemes; sensors in service; mark sites). Windows: Ida "
             "1 and 2 Sep 2021, the other storm 29 Sep 2023, each source by its own date rule "
-            "(record, RULES). Counts are reported, not judged: a source with no entry is not "
+            "(record, RULES); 311 also takes the day after each storm (CH-24: 1-3 Sep 2021, "
+            "29-30 Sep 2023). Counts are reported, not judged: a source with no entry is not "
             "evidence of no flood."
         ),
         **{
             f"who_saw_map_{storm}.png": (
-                f"{label}: who saw the flood inside the model square. Background: the frozen F3 "
+                f"{label} (311 and sightings: {WINDOW_LABELS[storm]}, CH-24): who saw the flood "
+                "inside the model square. Background: the frozen F3 "
                 "replay of this storm, maximum inundation depth from "
                 f"{DEPTH_SHOWN_M} m (for orientation only; nothing is compared). Purple dots: "
                 "311 flooding-related requests, a twin pair drawn once. Black rings: sightings "
@@ -1616,6 +1685,9 @@ def main(argv: list[str] | None = None) -> int:
                 "baseline_excluded_after", EXCLUDED_AFTER, "P", "days after a storm kept out"
             ),
             Parameter("late_above_factor", ABOVE_FACTOR, "P", "clearly above: this times the mean"),
+            Parameter(
+                "days_after_311", DAYS_AFTER_311, "I", "311 window: storm days and these after"
+            ),
             Parameter("box_311", list(BOX_311), "I", "coarse first cut round the square"),
             Parameter("box_groundsource", list(BOX_GS_NEAR), "I", "first cut round the square"),
         ],
@@ -1630,6 +1702,11 @@ def main(argv: list[str] | None = None) -> int:
                 for source, c in counts[storm].items()
             },
             **{f"{storm}_sightings": sight[storm]["sightings"] for storm, *_ in STORMS},
+            **{
+                f"{storm}_storm_days_only_{k}": storm_days_only[storm][k]
+                for storm, *_ in STORMS
+                for k in ("requests_311", "sightings")
+            },
             **{f"{storm}_late_day_after_clearly_above": proposal[storm] for storm, *_ in STORMS},
         },
         tables={
@@ -1645,7 +1722,8 @@ def main(argv: list[str] | None = None) -> int:
             "late_calls_daily": {
                 s: {k: late[s][k] for k in ("daily", "dry", "rain_max_mm")} for s in late
             },
-            "extended_window": extended,
+            "windows_311": windows,
+            "storm_days_only": storm_days_only,
             "rules": RULES,
             "storm_days": {s: list(d) for s, d, _ in STORMS},
             "nyc_311_queries": {
@@ -1674,7 +1752,11 @@ def main(argv: list[str] | None = None) -> int:
             "311: created_date has no zone; read as the New York wall clock as written.",
             "Sightings (observations.sightings) are the lab's grouping, refining the facts row's "
             "'count both': twin rows are one request, and reports close in place and time are "
-            "one sighting with every member kept. Change entry CH-24 is proposed, not entered.",
+            "one sighting with every member kept. Change CH-24, accepted by Yuri on 2026-11-27: "
+            "the rule as stated, its limits placeholders [P] to be re-tested in F8, and each "
+            f"storm's 311 window extended by {DAYS_AFTER_311} day after the storm; the main "
+            "counts, sightings and maps use that window, tables.storm_days_only keeps the storm "
+            "days alone.",
             *(f"{k}: {v}" for k, v in captions.items()),
         ],
     )
@@ -1699,7 +1781,8 @@ def main(argv: list[str] | None = None) -> int:
                     }
                     for s in late
                 },
-                "extended": extended,
+                "storm_days_only": storm_days_only,
+                "fetches_agree": fetches_agree,
                 "written": datetime.now(UTC).isoformat(),
             },
             indent=1,

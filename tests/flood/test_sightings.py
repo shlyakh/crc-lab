@@ -145,6 +145,45 @@ def test_same_spot_on_different_days_stays_apart() -> None:
     assert len(s.group([first, mark])) == 1
 
 
+def test_311_window_is_the_storm_days_and_one_day_after() -> None:
+    # CH-24: one day after the last storm day, across a month's end too
+    assert f5.DAYS_AFTER_311 == 1
+    assert f5.window_311(("2021-09-01", "2021-09-02")) == (
+        "2021-09-01",
+        "2021-09-02",
+        "2021-09-03",
+    )
+    assert f5.window_311(("2023-09-30",)) == ("2023-09-30", "2023-10-01")
+    assert f5.window_311(("2023-09-29",), after=0) == ("2023-09-29",)
+    assert f5.WINDOW_LABELS.keys() == {k for k, *_ in f5.STORMS}
+
+
+def test_window_takes_the_late_call_and_lets_a_mark_span_it() -> None:
+    table = nyc_311.requests_table(
+        [
+            _row("1", "2021-09-01T22:00:00.000", "Sewer", "Sewer Backup (Use Comments) (SA)"),
+            # the afternoon after the storm, at the same spot
+            _row("2", "2021-09-03T15:00:00.000", "Sewer", "Sewer Backup (Use Comments) (SA)"),
+            # two days after: outside the window
+            _row("3", "2021-09-04T09:00:00.000", "Sewer", "Sewer Backup (Use Comments) (SA)"),
+        ]
+    )
+    x, y = f5.to_utm([-73.96], [40.71])
+    marks = [{"hwm_id": 7, "site_no": "A", "easting_m": float(x[0]), "northing_m": float(y[0])}]
+    no_events = pd.DataFrame(columns=["local_day", "longitude", "latitude"])
+    days = ("2021-09-01", "2021-09-02")
+    storm_days = f5.observations_in(table, no_events, marks, "ida_2021", days)
+    window = f5.observations_in(table, no_events, marks, "ida_2021", f5.window_311(days))
+    assert sorted(o.id for o in storm_days) == ["1", "7"]
+    assert sorted(o.id for o in window) == ["1", "2", "7"]
+    mark = next(o for o in window if o.source == "usgs_marks")
+    assert mark.end == pd.Timestamp("2021-09-04")
+    # the late call is 15 h after the storm days, so it joins the mark only over the window
+    assert len(s.group(window)) == 1
+    late = next(o for o in window if o.id == "2")
+    assert len(s.group([*storm_days, late])) == 2
+
+
 def test_grouping_does_not_depend_on_order_and_disc_radius_counts() -> None:
     obs = [_obs(str(i), "2023-09-29T09:00", dx=45.0 * i) for i in range(4)]
     assert [len(g) for g in s.group(obs)] == [len(g) for g in s.group(obs[::-1])] == [4]
