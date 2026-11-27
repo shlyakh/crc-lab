@@ -13,6 +13,11 @@ setup:
 test:
     uv run pytest -q
 
+# crc_event_loss against Oasis LMF's EP tables (BSD-3; P-6 of docs/research/event-loss-prior-art.md).
+# Not a project dependency: it brings numba and about 40 other packages; first run compiles ~25 s.
+event-loss-crosscheck:
+    uv run --with oasislmf==2.5.10 pytest -q tests/event_loss
+
 # Lint and format check
 lint:
     uv run ruff check src tests

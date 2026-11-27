@@ -61,7 +61,7 @@ same marginals) appear in none of the three, nor in any open-source package the 
 (catagg, gemact). They are our own diagnostic and should be presented as such. This also supports
 CH-28: there is no established "the event loss lies between the brackets" test to follow.
 
-**Differences that need a decision.**
+**Differences that needed a decision.** All six accepted as recommended (Yuri, 2026-11-27); built in `crc_event_loss`.
 
 | # | Question | Others | Options | My recommendation |
 |---|---|---|---|---|
@@ -70,7 +70,7 @@ CH-28: there is no established "the event loss lies between the brackets" test t
 | P-3 | Intensity above the curve's last point | CLIMADA and OpenQuake clip to the last value; nobody fails | (a) failure (now: CRC refuses, BD-4, C-6); (b) a stated `CLAMP` policy | Keep failure as the default, since it is the strict choice. Add `FailurePolicy`-style reporting with counts, and consider an explicit clamp as a sensitivity. This sits oddly with the others; your call |
 | P-4 | Annual-rate route, year sums | CLIMADA samples Poisson years and rescales every year silently | Leave out (now); or sample with a seed and report any correction | Leave out. If added later, report the correction factor and never apply it silently |
 | P-5 | Column names in the table | ORD (Oasis): EventId, SummaryId, SampleId, Loss; PeriodNo, PeriodWeight | own names; or ORD names in an export | Keep our names inside the package. Add an ORD-style export of the year and event tables (SPLT/SELT) later, so that results can be read by Oasis tools |
-| P-6 | Cross-check | — | Run Oasis's weighted EPT code on the same year-loss table as an independent check of AEP, OEP and TVaR | Yes, as a test outside the package (BSD-3, so it can be a test dependency). Differences come only from P-1 interpolation and must be explained |
+| P-6 | Cross-check | — | Run Oasis's weighted EPT code on the same year-loss table as an independent check of AEP, OEP and TVaR | Yes, as a test outside the package (BSD-3, so it can be a test dependency). Built: `tests/event_loss/test_oasis_crosscheck.py`, `just event-loss-crosscheck` (oasislmf 2.5.10). It found two more differences: the boundary rank (question 7 of the design note) and Oasis's unweighted TVaR (question 8) |
 
 ## 3. Sources
 

@@ -1,10 +1,11 @@
 # crc_event_loss: an event-loss table for Climate Risk Commons
 
-Design note, draft 1, 2026-11-27 (requirements FR9 to FR12, decision D17). For RiskThinking's
-engineers, after Yuri's review; nothing in it has been sent or proposed upstream. The interface it
-describes is in `src/crc_event_loss/` as signatures and docstrings only; no part is implemented
-yet. This note is drafted before the code (plan F6, step 1) and will be corrected to match what is
-built.
+Design note, draft 2, 2026-11-27 (requirements FR9 to FR12, decision D17). For RiskThinking's
+engineers, after Yuri's review; nothing in it has been sent or proposed upstream. The package is
+implemented in `src/crc_event_loss/` as described here, with the decisions P-1 to P-6 of
+`docs/research/event-loss-prior-art.md` (accepted by Yuri on 2026-11-27) and CH-28. Tests:
+`tests/event_loss/` (`just test`; the cross-check against Oasis LMF is `just event-loss-crosscheck`).
+A reader from outside the project should start with `docs/crc-event-loss-for-reviewers.md`.
 
 Versions read: crc-framework 1.1.0 and crc-sdk 1.1.0 (installed); crc-framework-rs pull request
 #27 at commit 5466b84 and crc-sdk pull request #47 at commit 6821eae, both open and last updated
@@ -90,7 +91,23 @@ Three behaviours of CRC 1.1.0 shape the table:
   only then.
 - `Distribution.quantile(q)` returns the smallest loss whose cumulative probability reaches q
   (checked on a discrete distribution with ties); CVaR is the mean of the upper tail mass 1 − q,
-  with the year at the cutoff taken in part. The attribution follows the same convention.
+  with the year at the cutoff taken in part. The attribution follows the same convention. CVaR is
+  read with `Distribution.statistics(metrics=[Statistic.CVAR], level=q)`; there is no `cvar`
+  method.
+- `Distribution.discrete` drops atoms of zero mass and refuses masses that do not sum to 1 within
+  1e-12; `Distribution.empirical` counts rank masses exactly (K/N). `Diagnostic` has no JSON form;
+  the package writes its own.
+
+Two rules of the extension follow from the comparison with other frameworks
+(`docs/research/event-loss-prior-art.md`):
+
+- **No level beyond the catalogue (P-2).** A level q whose tail mass 1 − q is smaller than the
+  smallest year mass is refused with an error that names the highest level the years support, as
+  OpenQuake refuses return periods beyond its effective time. A relative slack of 1e-9 admits
+  q = 0.9 with ten years (1 − 0.9 is 0.09999999999999998 in floating point).
+- **Attribution is the Euler allocation.** A component's share of CVaR is its weighted mean loss
+  in the tail years (Tasche, arXiv:0708.2542); none of CLIMADA, Oasis LMF or OpenQuake allocates
+  a tail figure, so this is the literature's rule, not a framework's.
 
 ## 3. Worked example
 
@@ -192,9 +209,20 @@ storm catalogue against #27's dependence by distance.
    totals, and carry sampling error. Is there a preferred exact route for many-state components
    (for example a convolution on a stated grid)?
 3. **What the brackets promise.** They bound CVaR (full dependence from above); they do not bound
-   VaR (section 3). The study's plan has a pass rule that the events' 1-in-100 loss lies between
-   the brackets; that rule can fail without any error. A change proposal (CH-28) puts the rule on
-   CVaR and reports VaR against the brackets without a verdict.
+   VaR (section 3). Settled by CH-28 (accepted 2026-11-27): the study's pass rule is on CVaR, and
+   VaR is reported against the brackets without a verdict. No other framework found offers such
+   brackets, so they are presented as this extension's own check.
+7. **Which loss is "1 in T".** CRC's VaR at q = 1 − 1/T is the lower quantile. Where 1/T is a
+   whole number of years' mass, it is the next loss down from the one catastrophe-model tools
+   report: with 8 equal years, 1-in-4 is the 3rd largest loss in CRC and the 2nd largest in Oasis
+   LMF and OpenQuake (return period of the k-th largest = years / k). With 1,000 equal years,
+   CRC's 1-in-100 is the 11th largest, the tools' the 10th. Both are correct quantiles at an atom;
+   they differ in which end of the flat part of the curve they take. The extension reports CRC's,
+   and the study shows the tools' convention beside it, labelled (shown by the cross-check test).
+8. **Oasis's weighted TVaR.** In Oasis LMF 2.5.10, `write_ept_weighted` weights the return
+   periods but its TVaR is the plain running mean of the ranked losses. With unequal year weights
+   it differs from a weighted CVaR; the cross-check test shows both. A possible report to Oasis,
+   not to CRC.
 4. **One curve per table.** FR4 of the study's requirements lists a damage ratio for each curve in
    one table. The interface keeps one impact choice per table, named by `label`, and several
    tables side by side over one event set, so that a table's sums are never mixed across curves.

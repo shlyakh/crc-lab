@@ -421,7 +421,8 @@ occurrence and aggregate exceedance curves with bootstrap bands. A bracket chart
 dependence, from the event table, and under independence. A bar pair: expected annual loss from the event
 table and from CRC's curves, the latter by both routes of FH7.
 
-**Pass.** Hand recomputation matches; the event-table 1-in-100 loss lies between the two brackets; the two
+**Pass.** Hand recomputation matches; the event-table CVaR at 99% is at or below the full-dependence
+bracket (CH-28; the 1-in-100 loss is shown against both brackets without a verdict); the two
 expected-annual-loss routes are within 5% or the difference is explained (*proposed*); every failure row
 CRC returned is accounted for.
 

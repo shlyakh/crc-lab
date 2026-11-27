@@ -5,8 +5,6 @@ set, a table of losses per event and component, and the sums of those losses wit
 within a year; every figure of a loss distribution is then CRC's own
 (``crc_framework.Distribution``).
 It imports crc_framework, numpy and pyarrow, and nothing that names a hazard, place or asset type.
-
-Interface draft for review; nothing is implemented yet.
 """
 
 from ._aggregate import (
@@ -20,10 +18,8 @@ from ._aggregate import (
     summary_inputs,
 )
 from ._events import EventSet, Timeline, YearWeights
+from ._format import FORMAT, FORMAT_VERSION
 from ._table import EventLossTable, Exposure, Failure, FailurePolicy, MissingIntensity
-
-FORMAT = "crc-event-loss"
-FORMAT_VERSION = "0.1"
 
 __all__ = [
     "FORMAT",
