@@ -52,6 +52,7 @@ arrive.
 
 | Version | Date | Tag | What changed |
 | --- | --- | --- | --- |
+| 10 | 2026-11-27 | `flood-requirements-v10` (set at the merge of CH-25) | CH-25: Hazus 7 manuals read (substation functional depth 4 ft, Inventory TM Table 9-13; no Hazus 7 substation curve; building curves take depth above the first floor); the FAST building tables recorded as GPL-3.0 (source table row corrected) |
 | 9 | 2026-11-26 | `flood-requirements-v9` (set at the merge of CH-22 and CH-23) | CH-22: hydrology terms (constant loss rate, inundation depth, water-level and outflow boundaries, run-on; conventions marked). CH-23: point-route knots as steps (FH7) |
 | 8 | 2026-11-26 | `flood-requirements-v8` (set at the merge of the F3 site maps) | CH-17: AORC v1.1, 2002 to 2025, is the catalogue record; flow diagram splits rainfall into MRMS, AORC and Atlas 14 |
 | 7 | 2026-11-26 | `flood-requirements-v7` (set at the merge of F3) | CH-16: decisions at the F3 stop (FH8 tolerance, standing water left out, allowance frozen, CSI accepted). CH-14: two roughness constants for Tier 1. CH-15: AORC coverage fact corrected |
