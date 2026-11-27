@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-framework==1.0.0", "numpy"]
+# dependencies = ["crc-framework==1.1.0", "numpy"]
 # ///
 """Gumbel quantile fit: the outcome depends on how the same depths are written.
 

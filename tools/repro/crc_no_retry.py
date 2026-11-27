@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk==1.0.0", "crc-framework==1.0.0"]
+# dependencies = ["crc-sdk==1.1.0", "crc-framework==1.1.0"]
 # ///
 """One dropped connection ends a read: crc-sdk never tries a download a second time.
 

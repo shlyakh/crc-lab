@@ -1,0 +1,17 @@
+crc-sdk 1.1.0, rasterio 1.5.1, GDAL 3.12.4
+control, no failure: read OK (values correct: True), requests: 4 [(1, 'HEAD', None, 'ok'), (2, 'GET', 'bytes=0-16383', 'ok'), (3, 'GET', 'bytes=4719482-5243769', 'ok'), (4, 'GET', 'bytes=6816634-7340921', 'ok')]
+drop first, crc-sdk options: read OK (values correct: True), requests: 5 [(1, 'HEAD', None, 'FAIL'), (2, 'HEAD', None, 'ok'), (3, 'GET', 'bytes=0-16383', 'ok'), (4, 'GET', 'bytes=4719482-5243769', 'ok'), (5, 'GET', 'bytes=6816634-7340921', 'ok')]
+drop third, crc-sdk options: read OK (values correct: True), requests: 5 [(1, 'HEAD', None, 'ok'), (2, 'GET', 'bytes=0-16383', 'ok'), (3, 'GET', 'bytes=4719482-5243769', 'FAIL'), (4, 'GET', 'bytes=6816634-7340921', 'ok'), (5, 'GET', 'bytes=4719482-5243769', 'ok')]
+503 third, crc-sdk options: read OK (values correct: True), requests: 6 [(1, 'HEAD', None, 'ok'), (2, 'GET', 'bytes=0-16383', 'ok'), (3, 'GET', 'bytes=4719482-5243769', 'FAIL'), (4, 'GET', 'bytes=6816634-7340921', 'ok'), (5, 'GET', 'bytes=4719482-5243769', 'ok'), (6, 'GET', 'bytes=6816634-7340921', 'ok')]
+drop at first request                      crc-sdk options                  -> read OK (values correct: True), requests: 5
+drop at first request                      + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 5
+drop at second request (first data range)  crc-sdk options                  -> read OK (values correct: True), requests: 5
+drop at second request (first data range)  + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 5
+drop at third request                      crc-sdk options                  -> read OK (values correct: True), requests: 5
+drop at third request                      + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 5
+503  at first request                      crc-sdk options                  -> FAILED RasterioIOError: HTTP response code: 503, requests: 1
+503  at first request                      + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 5
+503  at second request (first data range)  crc-sdk options                  -> FAILED RasterioIOError: '/vsicurl/http://127.0.0.1:58169/t12/x.tif' not recognized as being in a supported file format., requests: 2
+503  at second request (first data range)  + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 5
+503  at third request                      crc-sdk options                  -> read OK (values correct: True), requests: 6
+503  at third request                      + MAX_RETRY=3, RETRY_DELAY=0.2   -> read OK (values correct: True), requests: 6

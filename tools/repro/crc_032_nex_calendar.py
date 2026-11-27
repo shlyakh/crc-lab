@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk[netcdf]==1.0.0", "crc-framework==1.0.0"]
+# dependencies = ["crc-sdk[netcdf]==1.1.0", "crc-framework==1.1.0"]
 # ///
 """NEX-GDDP-CMIP6: a model on a 365-day calendar is listed by inspection, then refused.
 

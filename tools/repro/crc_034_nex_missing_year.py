@@ -1,6 +1,6 @@
 # /// script
 # requires-python = ">=3.11"
-# dependencies = ["crc-sdk[netcdf]==1.0.0"]
+# dependencies = ["crc-sdk[netcdf]==1.1.0"]
 # ///
 """A NEX year that NASA does not publish comes back as rows with gaps.
 
