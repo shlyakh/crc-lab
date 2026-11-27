@@ -446,10 +446,12 @@ evidence = [
   "check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/55"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #55 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_024_jrc_outside_coverage.py run against crc-sdk 1.0.1 (Fremont box, EFAS, the JRC server): no rows and an area_outside_coverage warning; and by the offline jrc-flood assessment, whose coverage check now requires that warning. The live jrc-flood re-run on 1.0.1 or later has not been made."
 
 [[finding]]
 id = "CRC-025-OWN"
@@ -608,10 +610,12 @@ evidence = [
   "check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/54"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #54 (ours), released in crc-sdk 1.0.1: crc-sdk now reads cmip6_license when the file has no license attribute (crc_sdk/_climate_sampling.py:1878-1882 at v1.0.1). Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files carrying cmip6_license (the resource now records CC-BY-SA 4.0). Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run. NASA's archive-level CC0 statement is still not recorded."
 
 [[finding]]
 id = "CRC-034-NEX"
@@ -626,10 +630,12 @@ evidence = [
   "check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/56"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #56 (ours), released in crc-sdk 1.0.1: a year past the published years still gives rows without a value, now with a source_year_unavailable warning naming the year. Shown on 2026-11-26 by the offline nex-gddp-cmip6 assessment on constructed files, whose year-without-file check now requires the warning. Not shown on NASA's files: the repro (about 250 MB of range requests) and the live re-run were not run."
 
 [[finding]]
 id = "CRC-035-GHC"
@@ -683,10 +689,12 @@ evidence = [
   "check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)",
 ]
 basis = "reproduced"
-status = "reported upstream"
+status = "fixed"
+fixed_in = "1.0.1"
 upstream_ref = "https://github.com/RiskThinking/crc-sdk/pull/53"
 found_on = "2026-11-24"
 framework_version = "1.0.0"
+note = "Fixed by pull request #53 (ours), released in crc-sdk 1.0.1. Shown on 2026-11-26 by tools/repro/crc_037_ghcnh_attribution.py run against crc-sdk 1.0.1 (USW00012960, 2020, NOAA's bucket): the station list and the station-year file are attributed to NOAA NCEI only. The licence text and the missing dataset version, also named in this finding, are unchanged. The live ghcnh re-run has not been made."
 
 [[finding]]
 id = "CRC-038-FWK"

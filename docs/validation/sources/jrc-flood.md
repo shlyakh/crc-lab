@@ -66,7 +66,7 @@ Assessed at crc-sdk 1.0.0 on the default path, where nothing is fitted. The expl
 | labels | Labels every row with the variable `jrc:<product>:flood_depth` and with no scenario and no period. | crc_sdk/_climate_sources.py:482-496; crc_sdk/_climate_io.py:204-207 | **confirmed** |
 | licence | Records the Open Database License (`ODbL-1.0`) for every file, with the attribution 'Copernicus Emergency Management Service; European Commission Joint Research Centre'. The licence is written in the code and is not read from the publisher. | crc_sdk/_climate_sources.py:310-318, 431-432, 450-451 | **confirmed** |
 | provenance | Records for every file its address, a SHA-256, the licence, the attribution and the retrieval time. For a depth file the checksum is of the window crc-sdk cut from it, not of the publisher's file. | crc_sdk/_climate_io.py:423-515; crc_sdk/_source_io.py:359-397 | **confirmed** |
-| coverage | For a box that lies outside a product's coverage, returns no rows and raises no error. | crc_sdk/_climate_sources.py:436-441; crc_sdk/_climate_io.py:105-133 | **confirmed** |
+| coverage | For a box that lies outside a product's coverage, returns no rows and raises no error; since crc-sdk 1.0.1 the report carries an `area_outside_coverage` warning naming the product. | crc_sdk/_climate_sources.py:436-441; crc_sdk/_climate_io.py:105-133 | **confirmed** |
 
 ## Checks
 
@@ -228,7 +228,7 @@ crc-sdk read from the publisher's server; the values it returned are compared in
 | CRC-021-JRC | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
 | CRC-022-JRC | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
 | CRC-023-JRC | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | reported upstream |
-| CRC-024-JRC | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | reported upstream |
+| CRC-024-JRC | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | fixed in 1.0.1 |
 
 Details are in [the inventory](../inventory.md#findings).
 

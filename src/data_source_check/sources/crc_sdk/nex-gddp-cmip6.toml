@@ -57,8 +57,8 @@ note = "The files read have 365 days and no gap. A day absent from the time axis
 
 [[statement]]
 id = "licence"
-text = "Copies a global `license` (or `licence`) attribute, when the file has one, onto the file's resource as its licence. NASA's files carry the model licence as `cmip6_license`, which is not read; NASA's statement that the archive is CC0 is not recorded."
-code_ref = "crc_sdk/_climate_sampling.py:1856-1862"
+text = "Copies a global `license` attribute, else `licence`, else `cmip6_license` (the model licence NASA writes in its files; read since crc-sdk 1.0.1), onto the file's resource as its licence. NASA's statement that the archive is CC0 is not recorded."
+code_ref = "crc_sdk/_climate_sampling.py:1878-1882"
 
 [[statement]]
 id = "units-rain"
@@ -104,8 +104,8 @@ code_ref = "crc_sdk/_climate_sampling.py:837-892, 1913-1928; crc_sdk/_climate_gr
 
 [[statement]]
 id = "year-without-file"
-text = "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present)."
-code_ref = "crc_sdk/_climate_sampling.py:1833-1835, 1911-1912"
+text = "A year NASA has no file for is not refused: crc-sdk reads the nearest year's file to place the cells and returns every cell without a value (failure `incomplete_year`, 0 days present). Since crc-sdk 1.0.1 the report carries a `source_year_unavailable` warning naming the year and the published years."
+code_ref = "crc_sdk/_climate_sampling.py:778-799, 1833-1835, 1911-1912"
 note = "Asked for one year after the end of the historical run (2015); a year before the first file was not asked for."
 
 [[statement]]

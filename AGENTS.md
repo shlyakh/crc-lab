@@ -24,7 +24,7 @@ Read first:
 
 Reference clones, read-only, pinned to the versions this repo uses (see `../README.md`):
 
-- `../upstream/crc-sdk/` (v1.0.0) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
+- `../upstream/crc-sdk/` (v1.0.1) — `docs/README.md` indexes every page; `docs/concepts.md` for plans, the
   canonical dataset and probability conventions; `docs/sources/crc-open.md` for the release layout;
   `crc_sdk/workflows/*.py` docstrings are the parameter reference.
 - `../upstream/crc-docs/` — notebooks, pipelines, and the five end-user skills under `.agents/skills/`

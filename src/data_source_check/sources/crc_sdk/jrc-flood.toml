@@ -102,5 +102,5 @@ code_ref = "crc_sdk/_climate_io.py:423-515; crc_sdk/_source_io.py:359-397"
 
 [[statement]]
 id = "coverage"
-text = "For a box that lies outside a product's coverage, returns no rows and raises no error."
+text = "For a box that lies outside a product's coverage, returns no rows and raises no error; since crc-sdk 1.0.1 the report carries an `area_outside_coverage` warning naming the product."
 code_ref = "crc_sdk/_climate_sources.py:436-441; crc_sdk/_climate_io.py:105-133"

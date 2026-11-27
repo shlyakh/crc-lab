@@ -282,7 +282,8 @@ def test_assessment_on_the_constructed_files(tmp_path: Path, served: str) -> Non
     leap = next(c for c in records["exploration"]["cases"] if c["case"] == "rx1day ssp585 2052")
     assert (leap["calendar"], leap["days"], leap["file_version"]) == ("standard", 366, "1.1")
     labels = check(records, "labels[rx1day historical 2014]")["result"]
-    assert labels["licence_on_resource"] is None and labels["cmip6_license_in_file"]
+    # CRC-033-NEX, fixed in crc-sdk 1.0.1: the model licence written in the file is recorded
+    assert labels["licence_on_resource"] == labels["cmip6_license_in_file"] == "CC-BY-SA 4.0"
     assert check(records, "calendar[OTHER-365 rx1day historical 2014]")["result"]["crc_sdk_refuses"]
     empty = check(records, "year-without-file[rx1day historical 2015]")["result"]
     assert empty["rows_framework"] == 24 and not empty["year_listed"]

@@ -1,6 +1,6 @@
 # Inventory: crc-sdk sources
 
-Generated 2026-11-26 by `python -m data_source_check.build` against crc-framework 1.0.0, crc-sdk 1.0.0.
+Generated 2026-11-27 by `python -m data_source_check.build` against crc-framework 1.0.0, crc-sdk 1.0.1.
 Do not edit: change the files under `src/data_source_check/sources/` and rebuild.
 
 ## Sources
@@ -62,7 +62,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-021-JRC | jrc-flood | defect | A cache made under a relative path cannot be read offline from another working folder | reproduced | open |
 | CRC-022-JRC | jrc-flood | observation | A state-sized box is read in one process: 2 h 31 min and 5.5 GB of memory for the Texas box on 1.0.0 (27 minutes and 5.8 GB on 0.11) | reproduced | open |
 | CRC-023-JRC | jrc-flood | observation | Flooded pixels with one depth, or with a depth lower than one at a shorter return period, are left out; the only trace is one count that also holds every dry pixel | reproduced | reported upstream |
-| CRC-024-JRC | jrc-flood | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | reported upstream |
+| CRC-024-JRC | jrc-flood | observation | A box outside a product's coverage returns no rows, no diagnostic, and a report that says the read is complete and valid | reproduced | fixed in 1.0.1 |
 | CRC-025-OWN | own-data | observation | `Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel | reproduced | reported upstream |
 | CRC-026-FWK | framework | defect | Whether the quantile fit of a Gumbel curve converges depends on how the same depths are written: 32-bit values converge, their decimal values do not | reproduced | open |
 | CRC-027-FWK | framework | doc-code difference | For a file read by window, the checksum recorded is of crc-sdk's own cut-out, not of the publisher's file | reproduced | open |
@@ -71,11 +71,11 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 | CRC-030-IBT | ibtracs | doc-code difference | The documentation says an explicit agency; the constructor defaults to the United States agencies | code reading | open |
 | CRC-031-NEX | nex-gddp-cmip6 | observation | The file version cannot be chosen: the highest on NASA's listing is read, older revisions NASA still serves cannot be requested, and the version read appears only inside a file name | reproduced | open |
 | CRC-032-NEX | nex-gddp-cmip6 | doc-code difference | Models whose calendar is not Gregorian are refused, although inspection lists them | reproduced | reported upstream |
-| CRC-033-NEX | nex-gddp-cmip6 | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | reported upstream |
-| CRC-034-NEX | nex-gddp-cmip6 | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | reported upstream |
+| CRC-033-NEX | nex-gddp-cmip6 | doc-code difference | No licence is recorded for NEX files; the model licence written in the file is not read, and a share-alike licence raises no warning | reproduced | fixed in 1.0.1 |
+| CRC-034-NEX | nex-gddp-cmip6 | observation | A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value | reproduced | fixed in 1.0.1 |
 | CRC-035-GHC | ghcnh | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | reported upstream |
 | CRC-036-GHC | ghcnh | observation | One unusable report in one station's file stops the read of every selected station | reproduced | open |
-| CRC-037-GHC | ghcnh | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | reported upstream |
+| CRC-037-GHC | ghcnh | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | fixed in 1.0.1 |
 | CRC-038-FWK | framework | observation | A connection the publisher drops ends the read: no download is tried a second time | reproduced | open |
 
 ### CRC-001-NEX: Temperature recipes (txx, tnn) fail on real NEX files
@@ -267,7 +267,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** `JRC(product=JRC.Product.EFAS).select(area=Bounds(west=-122.15, south=37.42, east=-121.85, north=37.62)).read()` (Fremont, California, read through the European product) returns 0 rows; report counts requested 0, produced 0, skipped 0; no diagnostics; `complete=True`, `valid=True`; no exception (crc_sdk/_climate_io.py:105-133: a window that misses the raster adds no range).
 - **Consequence:** A wrong product, or a box with west and east exchanged, cannot be told from a region the product covers and shows dry: both give an empty, complete, valid result. At 0.11 the same request ended in an error, though one that did not name the coverage (CRC-016-JRC).
 - **Evidence:** crc_sdk/_climate_io.py:105-133; check record jrc-flood/coverage[efas-fremont] (records of jrc-flood, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/pull/55) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.0.1 (https://github.com/RiskThinking/crc-sdk/pull/55) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-025-OWN: `Dataset.from_raster` fails the whole read when one pixel's value decreases as probability rises, with an error that does not name the pixel; the JRC provider skips the same pixel
 
@@ -339,7 +339,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** Only a global attribute named `license` or `licence` is copied onto the resource (crc_sdk/_climate_sampling.py:1856-1862). NASA's files carry `cmip6_license`. In all eight cases the recorded licence is null while the file states one: `CC-BY-SA 4.0` in the four temperature files (tasmax, tasmin) and `CC-BY 4.0` in the four precipitation files of the same model, ACCESS-CM2 (checks labels[*]: 'licence on the resource: None; cmip6_license in the file: ...'). NASA's archive-level CC0 statement is not recorded either. No warning is raised.
 - **Consequence:** Output derived from a share-alike model carries no licence and no warning, where the previous version recorded the licence and warned. A user cannot see from the output that redistribution has a condition.
 - **Evidence:** crc_sdk/_climate_sampling.py:1856-1862; docs/data-licences.md:9-11; check records nex-gddp-cmip6/labels[*] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/pull/54) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.0.1 (https://github.com/RiskThinking/crc-sdk/pull/54) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-034-NEX: A year NASA has no file for is not refused: the nearest year's file is read and every cell comes back with no value
 
@@ -347,7 +347,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** Asked for the historical run in 2015, which ends in 2014, crc-sdk reads `pr_day_ACCESS-CM2_historical_r1i1p1f1_gn_2014_v2.0.nc` and returns 2,332 rows, each with no value and the failure `incomplete_year` (0 of 365 days) (crc_sdk/_climate_sampling.py:1833-1835, 1911-1912; check year-without-file[rx1day historical 2015]). At 0.11 a file NASA did not have ended in an error.
 - **Consequence:** A request for a year outside a scenario's span costs a whole file read (about 250 MB by range requests) and returns rows that look like a year with gaps, not like a year that does not exist.
 - **Evidence:** crc_sdk/_climate_sampling.py:1833-1835, 1911-1912; check record nex-gddp-cmip6/year-without-file[rx1day historical 2015] (records of nex-gddp-cmip6, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/pull/56) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.0.1 (https://github.com/RiskThinking/crc-sdk/pull/56) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-035-GHC: With the default completeness rule no station-year of forty Texas airport stations carries a value
 
@@ -371,7 +371,7 @@ Option values (recipes, datasets, versions) not yet assessed: 39.
 - **Observed:** Every GHCNh resource carries the attribution 'NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.' and the licence 'NOAA open-use terms; originator terms may apply' (crc_sdk/_observed_sources.py:118-122; checks provenance[*], 1,000 files). CO-OPS is NOAA's tides and water-level service and does not publish GHCNh; the constant is shared by the NOAA providers. No GHCNh version or DOI is recorded; 0.11 recorded `ghcnh-v1` and `CC0-1.0`.
 - **Consequence:** The attribution a user would reproduce names an office that is not the publisher, and the output no longer says which version of the dataset it came from.
 - **Evidence:** crc_sdk/_observed_sources.py:118-122; docs/data-licences.md:9-11; check records ghcnh/provenance[*] (records of ghcnh, run of 2026-11-24 on crc-sdk 1.0.0)
-- **Basis:** reproduced · **Status:** reported upstream (https://github.com/RiskThinking/crc-sdk/pull/53) · found 2026-11-24 at crc-sdk 1.0.0
+- **Basis:** reproduced · **Status:** fixed in 1.0.1 (https://github.com/RiskThinking/crc-sdk/pull/53) · found 2026-11-24 at crc-sdk 1.0.0
 
 ### CRC-038-FWK: A connection the publisher drops ends the read: no download is tried a second time
 

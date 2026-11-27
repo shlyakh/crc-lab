@@ -470,7 +470,7 @@ dev = [
 requires-dist = [
     { name = "cfgrib", marker = "extra == 'radar'", specifier = ">=0.9.15.1" },
     { name = "crc-framework", specifier = "==1.0.0" },
-    { name = "crc-sdk", extras = ["zarr", "raster", "netcdf"], specifier = "==1.0.0" },
+    { name = "crc-sdk", extras = ["zarr", "raster", "netcdf"], specifier = "==1.0.1" },
     { name = "eccodes", marker = "extra == 'radar'", specifier = ">=2.50.0" },
     { name = "eccodeslib", marker = "extra == 'radar'", specifier = "==2.48.0.26" },
     { name = "geopandas", marker = "extra == 'assets'", specifier = ">=1.0" },
@@ -500,7 +500,7 @@ dev = [
 
 [[package]]
 name = "crc-sdk"
-version = "1.0.0"
+version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "crc-framework" },
@@ -515,9 +515,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1e/57/858ec3efd72b0a6626affe26cc5ed6afc52196b0892112157ed1b1c31374/crc_sdk-1.0.0.tar.gz", hash = "sha256:40f7a842a50ab358a5ebe6c8a80aabc5842243e0cd077088a4e2664d4eced94b", size = 414037, upload-time = "2026-11-24T21:52:25.417Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/59/ad/6e2e5afd761b7ba11b6e4b2aaf7b013ab6bb36765bf56662bcdf3e5a54a5/crc_sdk-1.0.1.tar.gz", hash = "sha256:e2139685ce29d83df863fe30fe72a13821b58ae1cdb4def0337af52149d43f13", size = 415407, upload-time = "2026-11-25T17:23:28.609Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8c/6e/de46474896409469ca44aefeb05a7b91b9ac65e6ebddcbfeb40ddeccf560/crc_sdk-1.0.0-py3-none-any.whl", hash = "sha256:66904070ff7f582a71487cdf80d9b575669910374553ddf6bd29b0bb02d05b51", size = 323493, upload-time = "2026-11-24T21:52:24.024Z" },
+    { url = "https://files.pythonhosted.org/packages/38/6f/f6420d738147fa0dab9b63405be7d898c1c40025a943a8085ecc5631a53c/crc_sdk-1.0.1-py3-none-any.whl", hash = "sha256:3ce76840e6d12c8f86b04a1018fe86bb517e10bca27a2087c900cf88ee994519", size = 323861, upload-time = "2026-11-25T17:23:27.087Z" },
 ]
 
 [package.optional-dependencies]

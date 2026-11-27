@@ -546,8 +546,10 @@ def assess(
         record(
             f"coverage[{area.id}]", "completeness",
             "Ask crc-sdk for a box that lies outside the product's coverage and record what "
-            "comes back: an error, or no rows.",
-            not run.get("error") and not run.get("rows"),
+            "comes back: an error, or no rows with an area_outside_coverage warning (crc-sdk "
+            "1.0.1, pull request #55).",
+            not run.get("error") and not run.get("rows")
+            and "area_outside_coverage" in str(run.get("diagnostics", [])),
             steps=("coverage",),
             inputs=({"role": "crc-sdk read", "url": copies[area.dataset].base},),
             result={"rows": run.get("rows", 0), "error_type": run.get("error_type", ""),
@@ -555,7 +557,7 @@ def assess(
                     "diagnostics": run.get("diagnostics", []),
                     "reported_complete": run.get("complete"),
                     "reported_valid": run.get("valid")},
-            tolerance={"behaviour": "no rows and no error"},
+            tolerance={"behaviour": "no rows, no error, the warning"},
         )  # fmt: skip
 
     local = sorted(d for d, where in read_from.items() if where is not None and d not in publisher)

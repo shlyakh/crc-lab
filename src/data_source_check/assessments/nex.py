@@ -343,14 +343,16 @@ def assess(
                           if v is not None and k in conversion}  # fmt: skip
         reductions = labels.get("reductions", [])
         annual_reduction = next((r for r in reductions if r["operation"].startswith("annual")), {})
-        licence_attr = attrs.get("license") or attrs.get("licence")
+        # crc-sdk 1.0.1 (pull request #54): `license`, else `licence`, else `cmip6_license`
+        licence_attr = attrs.get("license") or attrs.get("licence") or attrs.get("cmip6_license")
         checks.append(make(
             f"labels[{name}]", "consistency",
             "The labels crc-sdk puts on its result against the request and the file's own "
             "attributes: variable, unit, scenario, model, member, release, calendar, the unit "
             "conversion and the annual reduction recorded in the provenance (with its coverage "
             "rule), the licence on the file's resource against the file's global `license` "
-            "attribute, the attribution, and a retrieval time.",
+            "attribute, else `licence`, else `cmip6_license`, the attribution, and a retrieval "
+            "time.",
             not wrong and not on_rows and got_conversion == conversion
             and annual_reduction.get("operation") == REDUCTION[case["recipe"]]
             and annual_reduction.get("coverage_fraction") == rules.minimum_valid_fraction
@@ -410,13 +412,17 @@ def assess(
             result |= {"year_listed": case["year"] in listed_years, "nearest_year": nearest,
                        "files_read_by_crc_sdk": got.get("files_read", []),
                        "crc_sdk_error": f"{got['error_type']}: {got['error']}"[:300]
-                       if got["error"] else ""}  # fmt: skip
+                       if got["error"] else "",
+                       "diagnostics": (got.get("labels") or {}).get("diagnostics", [])}  # fmt: skip
             checks.append(make(
                 f"year-without-file[{name}]", "completeness",
                 f"Ask crc-sdk for {name}, a year NASA has no file for: crc-sdk must return one row "
                 "per grid cell of the box (the cells of the nearest year's file) with no value, "
-                "0 days present and the failure incomplete_year.",
-                compare.rows_agree(result) if expected_rows else None,
+                "0 days present and the failure incomplete_year, and a source_year_unavailable "
+                "warning (crc-sdk 1.0.1, pull request #56).",
+                compare.rows_agree(result)
+                and "source_year_unavailable" in result["diagnostics"]
+                if expected_rows else None,
                 inputs=({"role": "crc-sdk answer", "url": address},),
                 result=result, tolerance={"numbers": f"within {TOLERANCE}", "order": "identical"},
                 steps=("year-without-file",),

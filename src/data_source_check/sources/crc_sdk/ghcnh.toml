@@ -91,5 +91,5 @@ code_ref = "crc_sdk/_observed_sources.py:1142-1244, 1374-1513; docs/sources.md:9
 
 [[statement]]
 id = "provenance"
-text = "Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information and NOAA CO-OPS; original source records retained.`, and a release identifier with a SHA-256 over them all. No GHCNh version is recorded."
+text = "Records with the output every resource read: the station list and every station-year file requested, absent ones included, each with its address, SHA-256, retrieval time, the licence text `NOAA open-use terms; originator terms may apply` and the attribution `NOAA National Centers for Environmental Information; original source records retained.` (CO-OPS no longer named since crc-sdk 1.0.1), and a release identifier with a SHA-256 over them all. No GHCNh version is recorded."
 code_ref = "crc_sdk/_observed_sources.py:118-122, 895-910, 1352-1366, 1549-1555"
