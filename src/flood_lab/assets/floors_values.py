@@ -17,7 +17,19 @@ Two tables are taken from the asset table ``assets_oed.csv`` (F1) and nothing ne
      ``usace-national-structure-inventory/docs/technical-documentation.html``). It is not a
      measurement of the building and is never labelled as one;
   3. else empty, source ``""``. No default from any other table is filled in here (the Hazus 7
-     Inventory Technical Manual's Table 5-13 is an option left to Yuri).
+     Inventory Technical Manual's Table 5-13 would fill none of the empty ones).
+
+  Rules FF-1 to FF-5 of ``docs/flood/loss-rules.md`` (accepted by Yuri 2026-11-27, CH-29), all
+  thresholds [P]:
+
+  * FF-1: the city's height is the main case, as the table holds it (negative values kept);
+  * FF-2: a city height above ``FLAG_ABOVE_M`` is used and flagged ``above_3m``;
+  * FF-3: a city height above ``SUSPECT_ABOVE_M`` is taken as a data error: it is not used
+    (``ffh_city_m`` keeps it for display), the building falls to step 2, flag ``city_suspect``;
+  * FF-4: where the city marks the grade as estimated, ``ffh_alt_m`` is the first-floor elevation
+    less our 1 m terrain at the footprint centre, for a sensitivity run, flag ``grade_estimated``
+    (subject to FF-3 too: above ``SUSPECT_ABOVE_M`` it is left empty);
+  * FF-5: a city height below 0 m is used and flagged ``below_grade``.
 
   ``basement`` is the city's subgrade flag (``lab_subgrade``, ``"Y"`` or ``"N"``); where that is
   empty, it is ``"Y"`` when the inventory point's ``found_type`` is ``"B"`` (basement) and ``"N"``
@@ -54,6 +66,9 @@ FIRST_FLOOR_COLUMNS = (
     "ffh_tag",
     "basement",
     "basement_source",
+    "ffh_flags",
+    "ffh_city_m",
+    "ffh_alt_m",
 )
 VALUE_COLUMNS = (
     "LocNumber",
@@ -72,6 +87,12 @@ CITY = "city table"
 NSI_HEIGHT = "NSI found_ht"
 NSI_TYPE = "NSI found_type"
 CITY_FLAG = CITY  # the subgrade flag of the same table
+#: FF-2: a city height above this is flagged, metres [P] (docs/flood/loss-rules.md)
+FLAG_ABOVE_M = 3.0
+#: FF-3: a city height above this is taken as a data error and not used, metres [P]
+SUSPECT_ABOVE_M = 6.0
+#: the phrase of ``lab_ground_elev_source`` that marks an estimated grade (assets/buildings.py)
+GRADE_ESTIMATED = "estimated"
 #: the tag of each first-floor source: S stated by the source; "default" is the inventory's own word
 FFH_TAGS = {CITY: "S", NSI_HEIGHT: "default"}
 
@@ -148,7 +169,25 @@ def first_floors(assets: pd.DataFrame, nsi: Path) -> pd.DataFrame:
         point = points.get(_id(asset.get("lab_nsi_id")), {})
         city = _number(asset.get("lab_first_floor_height_m"))
         found_ht = _number(point.get("found_ht"))
+        flags = []
+        alt = None
         if city is not None:
+            if city > SUSPECT_ABOVE_M:
+                flags.append("city_suspect")
+            elif city > FLAG_ABOVE_M:
+                flags.append("above_3m")
+            elif city < 0:
+                flags.append("below_grade")
+            if GRADE_ESTIMATED in _text(asset.get("lab_ground_elev_source")):
+                flags.append("grade_estimated")
+                floor = _number(asset.get("lab_first_floor_elev_m"))
+                terrain = _number(asset.get("lab_terrain_elev_m"))
+                if floor is not None and terrain is not None:
+                    alt = floor - terrain
+                    if alt > SUSPECT_ABOVE_M:
+                        alt = None
+        usable = city is not None and city <= SUSPECT_ABOVE_M
+        if usable:
             height, source = city, CITY
         elif found_ht is not None:
             height, source = found_ht * FOOT_M, NSI_HEIGHT
@@ -172,10 +211,14 @@ def first_floors(assets: pd.DataFrame, nsi: Path) -> pd.DataFrame:
                 "ffh_tag": FFH_TAGS.get(source, ""),
                 "basement": basement,
                 "basement_source": basement_source,
+                "ffh_flags": ";".join(flags),
+                "ffh_city_m": city,
+                "ffh_alt_m": alt,
             }
         )
     frame = pd.DataFrame(rows, columns=list(FIRST_FLOOR_COLUMNS))
-    frame["ffh_m"] = frame["ffh_m"].astype("Float64")
+    for column in ("ffh_m", "ffh_city_m", "ffh_alt_m"):
+        frame[column] = frame[column].astype("Float64")
     return frame
 
 

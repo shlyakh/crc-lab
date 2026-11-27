@@ -44,6 +44,9 @@ def test_columns_are_exactly_the_contract() -> None:
         "ffh_tag",
         "basement",
         "basement_source",
+        "ffh_flags",
+        "ffh_city_m",
+        "ffh_alt_m",
     )
     assert fv.VALUE_COLUMNS == (
         "LocNumber",
@@ -59,7 +62,7 @@ def test_columns_are_exactly_the_contract() -> None:
 
 
 def test_one_row_per_building_only(floors: pd.DataFrame) -> None:
-    assert list(floors.index) == ["B-1", "B-2", "B-3", "B-4", "B-5", "B-6"]
+    assert list(floors.index) == ["B-1", "B-2", "B-3", "B-4", "B-5", "B-6", "B-7", "B-8"]
 
 
 def test_fallback_order_city_then_inventory_then_empty(floors: pd.DataFrame) -> None:
@@ -97,7 +100,7 @@ def test_empty_is_never_zero(tmp_path: Path, floors: pd.DataFrame, values: pd.Da
     fv.write_csv(floors.reset_index(), out)
     lines = out.read_text(encoding="utf-8").splitlines()
     assert lines[0] == ",".join(fv.FIRST_FLOOR_COLUMNS)
-    assert next(line for line in lines if line.startswith("B-4,")) == "B-4,,,,,"
+    assert next(line for line in lines if line.startswith("B-4,")) == "B-4,,,,,,,,"
     assert not list(tmp_path.glob(".*.tmp"))
 
 
@@ -184,11 +187,36 @@ def test_real_table_keeps_the_rules() -> None:
     known = floors["ffh_m"].notna()
     assert (floors.loc[known, "ffh_tag"] != "").all()
     assert (floors.loc[~known, "ffh_source"] == "").all()
-    assert (floors["ffh_source"] == "city table").sum() == (
-        buildings["lab_first_floor_height_m"] != ""
-    ).sum()
+    city = pd.to_numeric(buildings["lab_first_floor_height_m"], errors="coerce")
+    assert (floors["ffh_source"] == "city table").sum() == (city <= fv.SUSPECT_ABOVE_M).sum()
+    assert (
+        floors["ffh_flags"].str.contains("city_suspect").sum() == (city > fv.SUSPECT_ABOVE_M).sum()
+    )
     values = fv.asset_values(assets)
     removed = assets["lab_reviewed"].str.startswith("removed").sum()
     assert len(values) == len(assets) - removed
     given = values[["value_low_usd", "value_mid_usd", "value_high_usd"]].notna().any(axis=1)
     assert values.loc[given, "value_tag"].isin(fv.VALUE_TAGS).all()
+
+
+def test_tall_heights_are_flagged_and_alternatives_given(floors: pd.DataFrame) -> None:
+    """FF-2 and FF-4 (docs/flood/loss-rules.md): above 3 m used and flagged; estimated grade."""
+    b7 = floors.loc["B-7"]
+    assert (b7["ffh_m"], b7["ffh_source"], b7["ffh_tag"]) == (3.5, "city table", "S")
+    assert b7["ffh_flags"] == "above_3m;grade_estimated"
+    assert b7["ffh_alt_m"] == pytest.approx(9.5 - 7.0)
+    # a grade that is not estimated gets no alternative
+    assert pd.isna(floors.loc["B-1", "ffh_alt_m"]) and floors.loc["B-1", "ffh_flags"] == ""
+
+
+def test_a_suspect_city_height_falls_to_the_inventory(floors: pd.DataFrame) -> None:
+    """FF-3: above 6 m the city's height is kept for display only."""
+    b8 = floors.loc["B-8"]
+    assert b8["ffh_city_m"] == 17.0
+    assert b8["ffh_m"] == pytest.approx(2.0 * FOOT_M)
+    assert (b8["ffh_source"], b8["ffh_tag"], b8["ffh_flags"]) == (
+        "NSI found_ht",
+        "default",
+        "city_suspect",
+    )
+    assert floors.loc["B-5", "ffh_flags"] == "below_grade"

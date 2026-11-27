@@ -1,0 +1,171 @@
+id = "sphere-hazus-data"
+title = "SPHERE's copy of the Hazus flood depth-damage tables (flBldgDmgFn, flContDmgFn, flInvDmgFn, flDmgXRef)"
+publisher = "NiyamIT, Inc. (open-source repository Niyam-Projects/sphere on GitHub); the values are FEMA Hazus data"
+checked_on = "2026-11-27"
+stage = "F6"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FR3"]
+known_biases = "The values are FEMA Hazus data redistributed by a third party, not by FEMA; SPHERE does not state which Hazus version or database they were exported from. Every structure, contents and inventory row that FAST (Hazus 4.0 tables) also has is identical, so SPHERE carries the same age and the same limits as the FAST tables (see hazus-flood-functions). SPHERE adds 295 structure and 311 contents rows FAST does not have (ids 705-999 for structures); four structure rows (740-743, source 'FEMA BCA Toolkit') stop at 16 ft. SPHERE's riverine cross-reference differs from FAST's rule outside whole storey counts 1 to 999 (see assignment_vs_fast), so the lab keeps FAST's assignment rule (Yuri's condition, 2026-11-27)."
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "SPHERE (NiyamIT), package sphere-data, folder packages/data/src/sphere/data: flBldgDmgFn.csv (building structure depth-damage functions, 892 rows), flContDmgFn.csv (contents, 818 rows), flInvDmgFn.csv (inventory, 116 rows) and flDmgXRef.csv (default cross-reference from occupancy, basement, storeys and hazard to the three function ids, 208 rows). Row counts are the lines of each file less the header [I]."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/tree/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data"
+passage = "default_vulnerability.py lines 342-346: 'Tables created: xref_flood - damage function cross-reference (flDmgXRef.csv) ddf_building - building DDF curves (flBldgDmgFn.csv) ddf_content - content DDF curves (flContDmgFn.csv) ddf_inventory - inventory DDF curves (flInvDmgFn.csv)'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "https://github.com/Niyam-Projects/sphere at commit 2967fe660981a185579d6257c3d9df341b695687; files fetched from raw.githubusercontent.com at that commit: LICENSE, THIRD_PARTY_NOTICES.md and the four fl*.csv files above."
+outcome = "confirmed"
+source_url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flBldgDmgFn.csv"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "MIT, 'Copyright (c) 2025-2026 NiyamIT, Inc.' (the repository's LICENSE; GitHub's licence field MIT). THIRD_PARTY_NOTICES.md names as third-party material only the files damage_curves_structure/contents/inventory.csv and df_lookup_structures/contents/inventory.csv, forked from fema-ffrd/inland-consequences (MIT, commit d713a48f); the fl*.csv files used here are not listed there, so they fall under SPHERE's own MIT LICENSE. The values themselves are FEMA Hazus data (equal to the Hazus 4.0 tables in FEMA's FAST tool, fact equal_to_fast); SPHERE states no separate licence for them."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/LICENSE"
+passage = "LICENSE: 'MIT License Copyright (c) 2025-2026 NiyamIT, Inc. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction'. THIRD_PARTY_NOTICES.md: 'SPHERE includes material from the projects below. Each keeps its own license. ## Inland Consequences ... **License:** MIT, Copyright (c) 2025 fema-ffrd. ... **Files** (in `packages/data/src/sphere/data/`, used by `HazusFloodAnalysis2`): `damage_curves_structure.csv`, `damage_curves_contents.csv`, `damage_curves_inventory.csv` `df_lookup_structures.csv`, `df_lookup_contents.csv`, `df_lookup_inventory.csv`'"
+note = "Chosen over FAST (GPL-3.0) for the values by Yuri on 2026-11-27; FAST stays the cross-check and the listed alternative. The MIT notice (copyright line and permission text) must travel with redistributed copies."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "flBldgDmgFn.csv (UTF-8 with byte-order mark): BldgDmgFnId, Source, ft04m, ft03m, ft02m, ft01m, ft00, ft01 ... ft24, Comment; percent damage at -4 to 24 ft depth in structure in 1 ft steps; no occupancy or description column. flContDmgFn.csv and flInvDmgFn.csv the same with ContDmgFnId and InvDmgFnId. flDmgXRef.csv: BldgDmgFnId, ContDmgFnId, InvDmgFnId, Occupancy, Basement (0/1), StoriesMin, StoriesMax, HazardR, HazardCA, HazardCV (0/1)."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flBldgDmgFn.csv"
+passage = "BldgDmgFnId,Source,ft04m,ft03m,ft02m,ft01m,ft00,ft01,...,ft24,Comment / 105,FIA,0,0,0,0,18,22,25,28,30,31,40,43,43,45,46,47,47,49,50,50,50,51,51,52,52,53,53,54,54, ; flDmgXRef.csv: BldgDmgFnId,ContDmgFnId,InvDmgFnId,Occupancy,Basement,StoriesMin,StoriesMax,HazardR,HazardCA,HazardCV / 616,460,116,AGR1,0,1,4,1,1,1"
+note = "Structure rows 740-743 (Source 'FEMA BCA Toolkit') have empty cells from ft17 to ft24; the reader keeps their points to 16 ft. None of them is used."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Not applicable (US-wide tables)."
+outcome = "not applicable"
+source_url = "https://github.com/Niyam-Projects/sphere"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Not applicable."
+outcome = "not applicable"
+source_url = "https://github.com/Niyam-Projects/sphere"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Files taken from commit 2967fe660981a185579d6257c3d9df341b695687 of 2026-11-18 ('fix: fork Inland DDFs into sphere-data and fix foundation mapping (#18)'), on branch main. The last commit touching flBldgDmgFn.csv before it is e1d2c14 of 2025-09-04 ('Updated for namespace extension.'). Latest GitHub release: sphere-v0.2.0 of 2025-09-22; the pinned commit is later than the release."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/Niyam-Projects/sphere/commits/2967fe660981a185579d6257c3d9df341b695687"
+passage = "commit.committer.date=2026-11-18T21:30:19Z message='fix: fork Inland DDFs into sphere-data and fix foundation mapping (#18)'; releases[0]: tag_name=sphere-v0.2.0 published_at=2025-09-22T03:09:16Z; commits?path=packages/data/src/sphere/data/flBldgDmgFn.csv: e1d2c14 2025-09-04T01:20:11Z 'Updated for namespace extension.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "Files kept under data/cache/flood/hazus-flood-functions/sphere/ with sha256 in [[file]]; each file's size equals the size in GitHub's tree listing at the pinned commit. GitHub publishes no sha256 of its own (git blob ids only)."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/Niyam-Projects/sphere/git/trees/2967fe660981a185579d6257c3d9df341b695687?recursive=1"
+passage = "tree sizes: LICENSE 1075, THIRD_PARTY_NOTICES.md 1037, flBldgDmgFn.csv 132144, flContDmgFn.csv 113219, flDmgXRef.csv 6442, flInvDmgFn.csv 13711 (equal to the downloaded files)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "equal_to_fast"
+claimed = ""
+observed = "Every row of FAST's libraries (commit 8e285a9, source hazus-flood-functions) has a row with the same id and the same 29 values in SPHERE [I]: structure 597 of 597 (flBldgStructDmgFn.csv vs flBldgDmgFn.csv), contents 507 of 507 (flBldgContDmgFn.csv vs flContDmgFn.csv), inventory 116 of 116 (flBldgInvDmgFn.csv vs flInvDmgFn.csv). So the ids are the same in both sources and the curve ids hazus_struct_<id> stay. SPHERE has 295 structure rows (ids 705-999) and 311 contents rows FAST lacks. The 36 structure curves FAST's riverine table names, the ones in curves.yaml, are among the equal rows (also checked by Yuri, 2026-11-27, and by build.py at every build)."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flBldgDmgFn.csv"
+passage = "Compared by script on the cached files (values read as numbers, m4..p24 against ft04m..ft24): 'common 597 differ 0', contents 'common 507 differ 0 only FAST 0', inventory 'common 116 differ 0 only FAST 0'."
+note = "FAST's library also carries Occupancy and Description columns that SPHERE's does not; the Source column is present in both."
+verdict_note = ""
+
+[[fact]]
+name = "assignment_rule"
+claimed = ""
+observed = "SPHERE assigns curves from flDmgXRef.csv in default_vulnerability.py (HazusFloodAnalysis, the fl*.csv path; HazusFloodAnalysis2 in hazus_flood2.py uses the inland-consequences tables instead). Basement = 1 when foundation_type is 'B' or 4, else 0 (line 116). A row matches when Occupancy equals the building's occupancy exactly, Basement equals the flag, StoriesMin <= number_stories < StoriesMax and Hazard<R|CA|CV> = 1 (lines 154-163; again 204-213). Riverine ('R') is used for every building with depth > -5 when the flood type is 'R' (lines 119-124); hazus_flood.py sets flood_peril_type 'R' where empty (line 364). Pandas path: the first matching row in file order (argmax, line 219); no match gives id 0 (line 222). DuckDB path (gather_damage_functions): every matching row with weight 1/count (lines 425-448, weight at line 429), so overlapping rows are averaged; buildings with no match get the first cross-reference row with the same first four occupancy letters, ordered by StoriesMin (gather_missing_functions, lines 460-488)."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/packages/flood/src/sphere/flood/default_vulnerability.py"
+passage = "line 116: gdf['Basement'] = self.buildings.foundation_type.isin(['B', 4]).astype(int); lines 157-163: stories_match = ((... >= ...StoriesMin) & (... < ...StoriesMax)) ... occupancy_match = ... == ...Occupancy ... basement_match = ... == ...Basement; line 219: matches = lookup_values[all_conditions.argmax(axis=1)]; line 222: matches[all_conditions.sum(axis=1) == 0] = 0; line 429: 1.0 / COUNT(*) OVER (PARTITION BY b.id) AS weight; lines 481-483: WHERE LEFT(b.occupancy_type, 4) = LEFT(x.Occupancy, 4) ORDER BY x.StoriesMin LIMIT 1"
+note = "Line 105 replaces 'RES3' followed by a non-digit with 'RES3', which leaves the text unchanged."
+verdict_note = ""
+
+[[fact]]
+name = "first_floor_missing"
+claimed = ""
+observed = "SPHERE's DuckDB loss path treats a missing first-floor height as 0: the depth read on a curve is hazard depth minus COALESCE(first_floor_height, 0) (default_vulnerability.py line 570; the same in hazus_flood2.py line 634), clamped to the curve's depth range (lines 576-588). The pandas path subtracts first_floor_height without a default (hazus_flood.py line 81). The lab does not take this rule: a building without a first-floor height is handled by its own rule at the event-loss step."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/packages/flood/src/sphere/flood/default_vulnerability.py"
+passage = "default_vulnerability.py line 570: '(h.depth - COALESCE(b.first_floor_height, 0)) AS eval_depth'; hazus_flood2.py line 634: '(h.depth - COALESCE(b.first_floor_height, 0)) AS eval_depth'; hazus_flood.py line 81: 'self.buildings.flood_depth - self.buildings.first_floor_height'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "assignment_vs_fast"
+claimed = ""
+observed = "For the 17,744 buildings of site/flood/data/assets_oed.csv (334 combinations of lab_occupancy_hazus, NumberOfStoreys and basement flag; flag = lab_subgrade Y/N, else lab_foundation_type 'B' or another stated type, as floors_values.py does), SPHERE's riverine cross-reference (first match) and FAST's rule (hazpy UDF.py) give the same structure curve for 17,743 buildings and differ for 1 [I]: B-3000349, EDU2, NumberOfStoreys 1900, no basement: FAST 652, SPHERE none (StoriesMax 1000). 5,842 buildings get no curve from either (no occupancy or storeys, or NSI occupancy codes with suffixes such as RES1-2SWB). No combination present matches more than one cross-reference row. Outside the data the rules also differ for storeys below 1 (SPHERE none, FAST a curve), for RES1 with a fractional storey count (FAST split level 111/112; SPHERE 129 and 111 overlap at 1.5 to 1.6, 107/108 at 2.5) and for RES2 with 2 or more storeys (SPHERE none, FAST 189). So the lab keeps FAST's assignment rule and takes only the values from SPHERE."
+outcome = "confirmed"
+source_url = "https://github.com/Niyam-Projects/sphere/blob/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flDmgXRef.csv"
+passage = "flDmgXRef.csv: '652,...,EDU2,0,7,1000,1,...'; '129,...,RES1,0,1,2,1,...', '111,...,RES1,0,1.5,1.6,1,...', '189,...,RES2,0,1,2,1,...'. Script output: 'DISAGREE EDU2 1900.0 False FAST 652 SPHERE None buildings 1 / combinations 334 buildings agree 17743 disagree 1 / multi []'"
+note = "1900 storeys is most likely a year entered as a storey count; it is a fault in the asset table, not in either rule. Tested in tests/flood/test_f6_curves.py."
+verdict_note = ""
+
+[[file]]
+path = "hazus-flood-functions/sphere/LICENSE"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/LICENSE"
+bytes = 1075
+sha256 = "b74ecf0453d4790d463b517e853b8b699297f54e4a264ea74d7de5b6055cd9c9"
+fetched_at = "2026-11-27T14:04:42Z"
+
+[[file]]
+path = "hazus-flood-functions/sphere/THIRD_PARTY_NOTICES.md"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/THIRD_PARTY_NOTICES.md"
+bytes = 1037
+sha256 = "3a645508211ca4a90447e5ac69a4f45cd08813963dd2b6883c210df277480c9b"
+fetched_at = "2026-11-27T14:04:42Z"
+
+[[file]]
+path = "hazus-flood-functions/sphere/flBldgDmgFn.csv"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flBldgDmgFn.csv"
+bytes = 132144
+sha256 = "250e3a45a3938f5a115fb9c89d0589a04a6077401555e212d3bf1d6292b45e67"
+fetched_at = "2026-11-27T14:04:42Z"
+
+[[file]]
+path = "hazus-flood-functions/sphere/flDmgXRef.csv"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flDmgXRef.csv"
+bytes = 6442
+sha256 = "8480a33b676daf95d614dedf9cb2004bebecf7626888a2d3d1625978f874b288"
+fetched_at = "2026-11-27T14:04:42Z"
+
+[[file]]
+path = "hazus-flood-functions/sphere/flContDmgFn.csv"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flContDmgFn.csv"
+bytes = 113219
+sha256 = "aee6035828e57485615296a823239b0f65e98974bc32d9f7aba1563d1032efb6"
+fetched_at = "2026-11-27T14:04:42Z"
+
+[[file]]
+path = "hazus-flood-functions/sphere/flInvDmgFn.csv"
+url = "https://raw.githubusercontent.com/Niyam-Projects/sphere/2967fe660981a185579d6257c3d9df341b695687/packages/data/src/sphere/data/flInvDmgFn.csv"
+bytes = 13711
+sha256 = "721ffc13b628c037e25fd8558a30bc583cc8b27ebdf1e4e98173eeedea710040"
+fetched_at = "2026-11-27T14:04:42Z"

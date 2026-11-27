@@ -50,7 +50,7 @@ read for the lab's own data cards on 2026-11-25 (field `checked_on` in each file
 | Reports of flooding | FV5, FT5 | Groundsource; NOAA Storm Events; NYC 311; NFIP claims | NWS Local Storm Reports (IEM); Copernicus EMS; Sentinel-1; Dartmouth archive | Each tells who saw or paid; none measures depth | Low each (labels, not drivers) |
 | Published Ida depth map | FV3 | Kasaei et al. 2025 (Jamaica Bay) | none | Only published model of Ida | Low (comparison only; may not overlap the area) |
 | Damage curves, substations | FR2 | Nirandjan et al. 2024 v1.1.0 (Table D2), plus other published curves | Williams et al. 2025; Bor et al. 2026; Karagiannakis et al. 2025; JRC Huizinga 2017 | Open licence (CC BY 4.0), values read from the file | Low to medium: an envelope, curves are interchangeable in `curves.yaml` |
-| Damage curves, buildings | FR3 | FEMA Hazus flood functions (FAST tables, Hazus 4.0) | JRC Huizinga 2017; USACE depth-damage | US occupancy classes match the inventory | Medium |
+| Damage curves, buildings | FR3 | FEMA Hazus flood functions, SPHERE's copy of the tables (MIT); default assignment by FAST's rule | FEMA FAST tables, Hazus 4.0 (GPL-3.0; cross-check, identical values); JRC Huizinga 2017; USACE depth-damage | US occupancy classes match the inventory; open licence | Medium |
 | Outage cost | FM5 | LBNL ICE Calculator 2.2 (online tool and API) | none found | Free public tool, utility-survey based | Medium |
 | Substation value | FD4 | Labelled placeholder range from public cost documents | none better | No replacement value of an urban substation is public | n/a (placeholder) |
 | Discount rate | FM4 | 7% (FEMA BCA); 3.1% as sensitivity only | OMB A-94 Appendix C rates | FEMA requires 7% | Low |
@@ -310,23 +310,37 @@ Facts files: `substation-curves-nirandjan.toml`, `substation-curves-other.toml` 
 | Bor et al. 2026 | arXiv preprint, CC BY 4.0, high-voltage substations only (above 345 kV) **[V]** |
 | Karagiannakis et al. 2025 | CC BY 4.0, read from the arXiv copy **[V]** |
 
-#### Chosen: damage curves for buildings: FEMA Hazus flood functions
+#### Chosen: damage curves for buildings: FEMA Hazus flood functions, as SPHERE ships them
 
-Facts file: `hazus-flood-functions.toml` **[V]**. The machine-readable tables used are in FEMA's FAST repository
-(GPL-3.0, last push 2022-03-30, Hazus 4.0 data, archived in effect). FEMA's own pages and the Inventory Technical
-Manual (Table 10-12, the 4 ft functional depth) were not readable on 2026-11-25 **[V]**.
+Facts file: `sphere-hazus-data.toml` **[V]**. The curve values are read from SPHERE (NiyamIT,
+`Niyam-Projects/sphere`, commit 2967fe6 of 2026-11-18, `packages/data/src/sphere/data/flBldgDmgFn.csv`),
+MIT licence, "Copyright (c) 2025-2026 NiyamIT, Inc."; SPHERE's third-party notices name only its
+inland-consequences files, so the `fl*.csv` files fall under SPHERE's own MIT licence **[S]**. The values are
+FEMA Hazus data: every one of FAST's 597 structure, 507 contents and 116 inventory rows has the same id and
+values in SPHERE **[I]** (Yuri's decision, 2026-11-27). Which curve a building gets stays FAST's default
+rule (riverine table, hazpy `UDF.py`): SPHERE's cross-reference `flDmgXRef.csv` gives the same curve for
+17,743 of the 17,744 buildings and none for one building recorded as EDU2 with 1900 storeys **[I]**; it
+also differs from FAST's rule for fractional RES1 storeys and for RES2 above one storey (none in the
+asset table). SPHERE's own loss code treats a missing first-floor height as 0; the lab does not.
+
+Cross-check and listed alternative: facts file `hazus-flood-functions.toml` **[V]**, FEMA's FAST repository
+(GPL-3.0, last push 2022-03-30, Hazus 4.0 data, archived in effect); `curves.yaml` is built only when the
+two agree. FEMA's own pages and the Inventory Technical Manual (Table 10-12, the 4 ft functional depth) were
+not readable on 2026-11-25 **[V]**.
 
 #### Alternatives
 
 | Product | Facts | Source |
 | --- | --- | --- |
+| **FEMA FAST lookup tables (Hazus 4.0)** | `nhrap-hazus/FAST` commit 8e285a9, folder `Lookuptables`; GPL-3.0; the default assignment tables and the full libraries; values identical to SPHERE's for every FAST row; the lab's cross-check and the source of its assignment rule (`hazus-flood-functions.toml`) **[V]** | https://github.com/nhrap-hazus/FAST |
 | **FEMA Hazus 7.2** | Current version, released 2026-06-05 per the release notes; page last updated 2026-09-14; built on Esri ArcGIS Pro 3.4 to 3.6; Hazus 6.1 downloads ended 2026-03-03; supports earthquake, hurricane and flood. Licence or cost: not stated. Flood-specific limits and the flood model's resolution: not read. The technical manual on the site is the legacy Hazus-MH 2.1 (not read) **[S]**. FEMA did not block this page **[S]**; it did block the Inventory Manual earlier **[V]** | https://www.fema.gov/flood-maps/products-tools/hazus |
 | **JRC global flood depth-damage functions (Huizinga et al. 2017)** | JRC105688, EUR 28552 EN, 2017-04-12; per-continent curves, maximum damage per country; residential, commerce, industry, infrastructure (roads), agriculture; infrastructure curves are generic; reuse authorised with acknowledgement; the catalogue record carries a contradictory line and the JRC data page returned "request rejected". Uncertainty chapter numbers not extracted **[S]** | https://publications.jrc.ec.europa.eu/repository/handle/JRC105688 |
 | **USACE depth-damage (EGM 04-01, HEC-FDA)** | EGM 04-01 is "generic depth-damage relationships for residential structures with basements" (2003), found in a search snippet and a HEC-FDA certification report. No official page was read | https://www.hec.usace.army.mil/software/hec-fda/documentation/HEC-FDA_CertificationReport.pdf (not read in detail) |
 
 **Reasons.** Nirandjan is the only substation set with an open licence whose values were read from the file;
 the others stay as envelope members, shown with their tags (FR2). Hazus is chosen for buildings because its
-occupancy classes match the NSI. **Switch trigger [P].** Williams values read by a person with access
+occupancy classes match the NSI; SPHERE's copy because it carries the same values under MIT rather than
+GPL-3.0. **Switch trigger [P].** Williams values read by a person with access
 (question 7 of the requirements); Hazus functions read from FEMA's own 7.2 files; a US-specific substation
 curve published.
 

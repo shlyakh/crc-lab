@@ -1,0 +1,187 @@
+id = "usace-cwccis"
+title = "USACE Civil Works Construction Cost Index System (CWCCIS), EM 1110-2-1304: cost indices by feature code, tables revised 31 March 2026"
+publisher = "US Army Corps of Engineers (HQUSACE, Engineering and Construction; tables maintained by the Walla Walla District Cost Engineering Branch)"
+checked_on = "2026-11-27"
+stage = "F6"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD4"]
+known_biases = "The indices are built for USACE civil works construction (dams, levees, locks, power plants, and so on), not for private buildings or electric utility substations; no feature code is a substation or a commercial building. Feature 19 BUILDINGS, GROUNDS & UTILITIES has the same values as features 13, 14, 18 and 20 in every quarter printed. Quarters are US federal fiscal quarters (1Q = October to December of the previous calendar year). In the 31 March 2026 tables every quarter from 1Q26 (Oct-Dec 2025) onward is marked * and is projected from OMB inflation factors, so there is no actual 2026 value; the last actual quarter is 4Q25 (Jul-Sep 2025). The two quarters 3Q25 and 4Q25 were projections in the September 2025 edition and were changed to actual values in the March 2026 edition, so any figure taken from the September 2025 edition for those two quarters differs. The EM itself is dated 31 March 2021 and only points to tables published separately; the escalation instructions copy kept is the 30 September 2019 edition (examples use 2016 to 2019 data). The EM 1110-2-1304 and tables PDFs were fetched from the USACE document library and a web.archive.org copy because www.usace.army.mil, www.nww.usace.army.mil and www.publications.usace.army.mil return HTTP 403 to automated clients."
+
+[[fact]]
+name = "revision"
+claimed = "Latest revision of EM 1110-2-1304 and of its index tables"
+observed = "The manual text is EM 1110-2-1304 dated 31 March 2021 (supersedes the 30 September 2019 edition; 4 pages). It states that the cost index tables are published separately and updated at the end of March and September. The latest tables listed on the Walla Walla District page (archived copy read, 2026) are 'Current CWCCIS Indices 31 March 2026'; the earlier editions listed are 30 September 2025, 31 March 2025, 30 September 2024, 31 March 2024, 30 September 2023, 31 March 2022, 30 September 2021 and 31 March 2021. The 31 March 2026 tables file is 52 pages, footer 'EM 1110-2-1304 31 March 2026', PDF title 'EM 1110-2-1304 31 MAR 2026 CWCCIS': Table 1 quarterly (pages 1 to 38), Table 2 yearly (pages 39 to 49), Table 3 state adjustment factors (page 50), Table 4 historical state adjustment factors (pages 51 to 52). The next update (30 September 2026 tables) was not found on the page read."
+outcome = "confirmed"
+source_url = "https://www.nww.usace.army.mil/Missions/Cost-Engineering/CWCCIS-Indices/"
+passage = "Current CWCCIS Indices 31 March 2026 ; CWCCIS Indices Archive Historical CWCCIS Tables 30 September 2025 31 March 2025 30 September 2024 31 March 2024 30 September 2023 31 March 2022 30 September 2021 31 March 2021 ; EM 1110-2-1304 - 31 March 2021 : This manual supersedes EM 1110-2-1304, dated 30 September 2019. ; 11. Index Tables and Examples. The cost index tables, which are located at https://www.usace.army.mil/Cost-Engineering/CWCCIS-Indices/, will be updated each year at the end of both March and September."
+note = "Page read through web.archive.org (snapshot of 2026) because the live site returns 403 to curl and WebFetch. The 31 March 2026 tables PDF was downloaded from the link on that page (publibrary.sec.usace.army.mil). The newest tables are as of 31 March 2026; a 30 September 2026 edition may exist but is not listed on the page read."
+verdict_note = ""
+
+[[fact]]
+name = "base"
+claimed = "Index base year and base value"
+observed = "Base year 1967 = 100. Every page of Table 1 and Table 2 of the 31 March 2026 tables is headed 'Base Year 1967 = 100'. The EM states the base year and initial value as 1967 and 100.00."
+outcome = "confirmed"
+source_url = "https://www.publications.usace.army.mil/Portals/76/Users/182/86/2486/EM%201110-2-1304_2021.pdf"
+passage = "9. Basis. A cost index is a normalized average for a given collection of goods and/or services for a given period of time. ... The base year and initial index value used by this manual is 1967 and 100.00 respectively. (EM 1110-2-1304, 31 March 2021, page 2) ; TABLE 1, QUARTERLY COST INDICES BY CWWBS FEATURE CODE, Base Year 1967 = 100 (tables 31 March 2026, page 22)"
+note = "Files usace-cwccis/EM_1110-2-1304_2021.pdf (copy from web.archive.org of the publications.usace.army.mil address) and usace-cwccis/CWCCIS_Mar_2026-Combined_Tables.pdf."
+verdict_note = ""
+
+[[fact]]
+name = "feature_codes"
+claimed = "Feature codes (CWWBS) relevant to buildings and to electric power, substation and utility relocation work"
+observed = "Table 1 and Table 2 list CWWBS feature codes 02 to 20 with weights: 02 RELOCATIONS 5%; 03 RESERVOIRS 5%; 04 DAMS 15%; 05 LOCKS 2%; 06 FISH & WILDLIFE FACILITIES 5%; 07 POWER PLANT 10%; 08 ROADS, RAILROADS & BRIDGES 10%; 09 CHANNELS & CANALS 3%; 10 BREAKWATER & SEAWALLS 5%; 11 LEVEES & FLOODWALLS 5%; 12 NAVIGATION PORTS & HARBORS 10%; 13 PUMPING PLANT 5%; 14 RECREATION FACILITIES 5%; 15 FLOODWAY CONTROL & DIVERSION STRUCTURE 2%; 16 BANK STABILIZATION 2%; 17 BEACH REPLENISHMENT 2%; 18 CULTURAL RESOURCE PRESERVATION 2%; 19 BUILDINGS, GROUNDS & UTILITIES 5%; 20 PERMANENT OPERATING EQUIPMENT 2%; then COMPOSITE INDEX (WEIGHTED AVERAGE) 100%. For buildings the matching code is 19 (the document gives no narrower building code). For electric power or substation work there is no substation code: the candidates are 19 (the name includes UTILITIES), 07 POWER PLANT (hydropower plant, partly built from the Bureau of Reclamation Turbines and Generators index) and 02 RELOCATIONS (the usual code for relocating utilities, though the document does not define its content). The EM says the feature code list is in ER 1110-2-1302; that ER was not read."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = " 07 POWER PLANT 10% ; 19 BUILDINGS, GROUNDS & UTILITIES 5% ; 02 RELOCATIONS 5% ; COMPOSITE INDEX (WEIGHTED AVERAGE) 100% (tables 31 March 2026, Table 1, page 23) ; b. Civil Works Work Breakdown Structure Feature Code. The CW Work Breakdown Structure Feature Code can be found in ER 1110-2-1302, CW Cost Engineering. (EM 1110-2-1304, 31 March 2021, page 2) ; e. Bureau of Reclamation Construction Cost Trends. The Turbines and Generators index in this publication is one of the elements used to calculate the cost indices for Feature Code 07, Power Plants."
+note = "Which code to use for substations is a choice for the study, not a statement of the document. The document defines no feature code content beyond the names."
+verdict_note = ""
+
+[[fact]]
+name = "quarters_and_actual_vs_projected"
+claimed = "Fiscal quarters, which quarter contains August 2025, and whether 2026 values are actual"
+observed = "USACE quarters are federal fiscal-year quarters: the column heads print '1Q25' over 'Oct - Dec' of 2024, '2Q25' Jan - Mar 2025, '3Q25' Apr - Jun 2025, '4Q25' Jul - Sep 2025, and the footnote reads 1st QTR = 2 OCT THRU 31 DEC/1 JAN, 2nd QTR = 2 JAN THRU 31 MAR/1 APR, 3rd QTR = 2 APR THRU 30 JUN/1 JUL, 4th QTR = 2 JUL THRU 30 SEPT/1 OCT. August 2025 is therefore in 4Q25 (fiscal year 2025). In the 31 March 2026 tables the headings 1Q26* to 4Q27* (page 24) and FY26* onward (Table 2, page 46) carry an asterisk, and the note says 'FY* indicates data developed based on OMB projections.' So the last actual quarter is 4Q25 (Jul - Sep 2025); all 2026 values (1Q26 = Oct - Dec 2025 to 4Q26 = Jul - Sep 2026) are projected. The September 2025 edition marked 3Q25* and 4Q25* as projected; the March 2026 edition prints them without the asterisk."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "1Q25 2Q25 3Q25 4Q25 / 2024 2025 2025 2025 / Wt % (Oct - Dec) (Jan - Mar) (Apr - Jun) (Jul - Sep) (Table 1, page 23) ; 1Q26* 2Q26* 3Q26* 4Q26* 1Q27* 2Q27* 3Q27* 4Q27* (Table 1, page 24) ; Note: FY* indicates data developed based on OMB projections. ; [ 1st QTR = 2 OCT THRU 31 DEC/1 JAN] [2nd QTR = 2 JAN THRU 31 MAR/ 1 APR] [3rd QTR = 2 APR THRU 30 JUN/ 1 JUL] [4th QTR = 2 JUL THRU 30 SEPT/ 1 OCT] ; 3. ... Table 1 and table 2 are prepared by fiscal year (beginning 2 October, ending 30 September/1 October) with the indices based on the first day of each quarter. (Instructions for Adjusting Costs, page 1)"
+note = "Sept 2025 edition (usace-cwccis/CWCCIS_Tables_SEP-2025.pdf, Table 1 page 23) header: 1Q25 2Q25 3Q25* 4Q25*, with composite 1192.24 (3Q25*) and 1199.99 (4Q25*), against 1183.59 and 1187.89 in the March 2026 edition."
+verdict_note = ""
+
+[[fact]]
+name = "index_values_fy23_fy24_fy25_table2"
+claimed = "Yearly (fiscal year) indices for FY23, FY24, FY25 and FY26, composite and feature codes 02, 07, 19"
+observed = "Table 2, YEARLY COST INDICES BY CWWBS FEATURE CODE, Base Year 1967 = 100, tables revised 31 March 2026. FY23 (Oct 22 - Sep 23, page 45): 02 RELOCATIONS 1148.83; 07 POWER PLANT 1046.34; 19 BUILDINGS, GROUNDS & UTILITIES 1156.39; COMPOSITE 1133.78. FY24 (Oct 23 - Sep 24, page 46): 02 1175.83; 07 1070.54; 19 1151.57; COMPOSITE 1154.97. FY25 (Oct 24 - Sep 25, page 46): 02 1204.89; 07 1107.05; 19 1162.72; COMPOSITE 1178.00. FY26* (projected, page 46): 02 1232.58; 07 1143.52; 19 1195.50; COMPOSITE 1207.59. FY27*: 02 1273.69; 07 1181.66; 19 1235.38; COMPOSITE 1247.87. The instructions say Table 2 values are developed by averaging quarterly indices for each year."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "FY24 FY25 FY26* ... 02 RELOCATIONS 5% 1175.83 1204.89 1232.58 ; 07 POWER PLANT 10% 1070.54 1107.05 1143.52 ; 19 BUILDINGS, GROUNDS & UTILITIES 5% 1151.57 1162.72 1195.50 ; COMPOSITE INDEX (WEIGHTED AVERAGE) 100% 1154.97 1178.00 1207.59 ; YEARLY PERCENTAGE CHANGE 1.9% 2.0% 2.5% (page 46) ; FY23 ... 02 RELOCATIONS 5% 1148.83 ; 07 POWER PLANT 10% 1046.34 ; 19 BUILDINGS, GROUNDS & UTILITIES 5% 1156.39 ; COMPOSITE INDEX (WEIGHTED AVERAGE) 100% 1133.78 (page 45)"
+note = "Fiscal years, not calendar years. The substation figures priced '2023 or 2024' in the other facts file do not say whether the price year is fiscal or calendar; the quarterly values below allow either."
+verdict_note = ""
+
+[[fact]]
+name = "index_values_quarterly_2023_to_2026"
+claimed = "Quarterly indices around the price dates: calendar 2023 and 2024, August 2025 (4Q25), and 2026"
+observed = "Table 1, QUARTERLY COST INDICES BY CWWBS FEATURE CODE, Base Year 1967 = 100, tables revised 31 March 2026. Page 22, quarters 1Q23 (Oct-Dec 2022), 2Q23 (Jan-Mar 2023), 3Q23 (Apr-Jun 2023), 4Q23 (Jul-Sep 2023): 02 RELOCATIONS 1133.08, 1146.67, 1159.84, 1155.72; 07 POWER PLANT 1033.18, 1045.85, 1051.10, 1055.21; 19 BUILDINGS, GROUNDS & UTILITIES 1140.31, 1159.64, 1167.06, 1158.56; COMPOSITE 1121.67, 1130.44, 1138.98, 1144.03. Page 23, quarters 1Q24 (Oct-Dec 2023), 2Q24, 3Q24, 4Q24 (Jul-Sep 2024), 1Q25 (Oct-Dec 2024), 2Q25, 3Q25 (Apr-Jun 2025), 4Q25 (Jul-Sep 2025, contains August 2025): 02 RELOCATIONS 1166.71, 1170.71, 1180.82, 1185.09, 1192.85, 1210.71, 1206.21, 1209.77; 07 POWER PLANT 1063.71, 1068.22, 1074.87, 1075.37, 1083.11, 1104.34, 1115.81, 1124.95; 19 BUILDINGS, GROUNDS & UTILITIES 1163.25, 1158.12, 1146.96, 1137.95, 1136.30, 1165.27, 1173.96, 1175.35; COMPOSITE 1149.32, 1155.42, 1157.94, 1157.20, 1162.49, 1178.05, 1183.59, 1187.89. Page 24, PROJECTED (asterisk) quarters 1Q26* (Oct-Dec 2025), 2Q26* (Jan-Mar 2026), 3Q26* (Apr-Jun 2026), 4Q26* (Jul-Sep 2026): 02 RELOCATIONS 1220.68, 1228.61, 1236.55, 1244.48; 07 POWER PLANT 1132.48, 1139.84, 1147.20, 1154.56; 19 BUILDINGS, GROUNDS & UTILITIES 1183.96, 1191.66, 1199.35, 1207.05; COMPOSITE 1195.93, 1203.70, 1211.48, 1219.25. The calendar-2026 value for a given date is the projected quarter that contains it, for example 1Q27* (Oct-Dec 2026) 02 1255.06, 07 1164.38, 19 1217.31, COMPOSITE 1229.61."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = " 19 BUILDINGS, GROUNDS & UTILITIES 5% 1163.25 1158.12 1146.96 1137.95 1136.30 1165.27 1173.96 1175.35 ; 07 POWER PLANT 10% 1063.71 1068.22 1074.87 1075.37 1083.11 1104.34 1115.81 1124.95 ; COMPOSITE INDEX (WEIGHTED AVERAGE) 100% 1149.32 1155.42 1157.94 1157.20 1162.49 1178.05 1183.59 1187.89 (page 23, columns 1Q24 to 4Q25) ; 19 BUILDINGS, GROUNDS & UTILITIES 5% 1183.96 1191.66 1199.35 1207.05 1217.31 1230.90 1241.40 1251.91 ; COMPOSITE ... 1195.93 1203.70 1211.48 1219.25 1229.61 1243.34 1253.96 1264.57 (page 24, columns 1Q26* to 4Q27*)"
+note = "Table 1 is the preferred table for a quarter-to-quarter move (the instructions call it 'more exact short-term and long-term escalation'). The 2026 values will be replaced when USACE publishes the 30 September 2026 tables; the March 2026 values are projections from OMB updating factors, not observations."
+verdict_note = ""
+
+[[fact]]
+name = "escalation_procedure"
+claimed = "How the document says to escalate a cost from one date to another"
+observed = "Instructions for Adjusting Costs Using Tables (file kept is the 30 September 2019 edition of the instructions; the formula is not tied to data). Ratio of the index at the target quarter to the index at the quarter of the known cost, multiplied by the known cost. Both indices must come from the same table and the same feature code. Table 1 for quarters, Table 2 for years. State adjustment factors only after the cost has been moved through time. The EM adds that indexing is for interim use: re-estimate at least every two years and not index more than two consecutive years; forecasts beyond two years may be unreliable."
+outcome = "confirmed"
+source_url = "https://usace.contentdm.oclc.org/utils/getfile/collection/p16021coll9/id/1552"
+passage = "The following formula is used for the purpose of updating/escalating an existing project cost. Cost Index: Quarter A / Cost Index: Quarter B x Cost in Quarter B (Known) = Cost in Quarter A (Unknown). Cost Index A is the cost index for the quarter the project costs are updated to. Cost Index B is the cost index for the quarter the project costs are updated from. Note: Both cost indices must be from the same table and Feature Code. (Figure 1, page 2) ; 2. How to Update a Project Cost. Indices used in any calculation must be from the same table and CWWBS Feature Code. State adjustment factors should only be utilized after the project cost has been moved through time as needed using the appropriate cost indices. (page 1) ; 7. Policy. ... The procedure is to re-estimate project costs using current labor, equipment, and material rates at least every two years and use indexed values to escalate for inflation during the interim. Using index values to update project costs more than two consecutive years is not recommended. 12. Reliability. ... forecasting beyond two years may be unreliable. (EM 1110-2-1304, 31 March 2021, pages 1 and 2)"
+note = "Files usace-cwccis/CWCCIS_Instructions_for_Adjusting_Costs.pdf (web.archive.org snapshot of 2026-03-02 of the USACE digital library file; the page footer says EM 1110-2-1304 30 Sep 2019) and usace-cwccis/EM_1110-2-1304_2021.pdf. Whether a March 2026 version of the instructions exists was not established. The text-extraction of the formula in the PDF shows the example numbers garbled, so only the formula words are quoted."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "Licence or terms of use"
+observed = "The EM states a distribution statement and no copyright or licence statement was found in the files. The manual is a US Army publication (a US government work). The tables files carry no distribution statement in the text read."
+outcome = "confirmed"
+source_url = "https://www.publications.usace.army.mil/Portals/76/Users/182/86/2486/EM%201110-2-1304_2021.pdf"
+passage = "3. Distribution Statement. Approved for public release; distribution is unlimited. (EM 1110-2-1304, 31 March 2021, page 1)"
+note = "That a US government work has no US copyright (17 U.S.C. 105) is general law and is not said in the document. The sources of the underlying series (ENR, RSMeans, BLS, Bureau of Reclamation) are named in the EM, para 14; the document does not discuss their licences."
+verdict_note = ""
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "USACE Civil Works Construction Cost Index System (CWCCIS), Engineer Manual EM 1110-2-1304 (manual text dated 31 March 2021) and its index tables (Table 1 quarterly indices, Table 2 yearly indices, Table 3 state adjustment factors, Table 4 historical state adjustment factors), tables revised 31 March 2026. Four PDFs are kept: the 31 March 2026 tables (52 pages), the 30 September 2025 tables (52 pages), the EM text (4 pages) and the instructions for adjusting costs (4 pages, 30 September 2019 edition)."
+outcome = "confirmed"
+source_url = "https://www.nww.usace.army.mil/Missions/Cost-Engineering/CWCCIS-Indices/"
+passage = "EM 1110-2-1304 - 31 March 2021 : Engineering and Design CIVIL WORKS CONSTRUCTION COST INDEX SYSTEM (CWCCIS) ; EM 1110-2-1304 31 March 2026 (footer of the tables)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "Page listing the tables: https://www.nww.usace.army.mil/Missions/Cost-Engineering/CWCCIS-Indices/ (read through web.archive.org; the live site and www.usace.army.mil and www.publications.usace.army.mil return HTTP 403 to automated clients). Files fetched: the 31 March 2026 tables and the 30 September 2025 tables from publibrary.sec.usace.army.mil (live links on that page); EM_1110-2-1304_2021.pdf from web.archive.org/web/2026id_/https://www.publications.usace.army.mil/Portals/76/Users/182/86/2486/EM%201110-2-1304_2021.pdf; the instructions from web.archive.org/web/20260302023340id_/https://usace.contentdm.oclc.org/utils/getfile/collection/p16021coll9/id/1552. Exact addresses are in [[file]]."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "-"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "Table 1 (quarterly, pages 1 to 38) and Table 2 (yearly, pages 39 to 49): columns Wt % (weight) and one column per quarter (1Q80 to 4Q27 and later, each with its calendar months) or per fiscal year (FY68 onward, with Oct-Sep dates); rows CWWBS feature codes 02 RELOCATIONS, 03 RESERVOIRS, 04 DAMS, 05 LOCKS, 06 FISH & WILDLIFE FACILITIES, 07 POWER PLANT, 08 ROADS, RAILROADS & BRIDGES, 09 CHANNELS & CANALS, 10 BREAKWATER & SEAWALLS, 11 LEVEES & FLOODWALLS, 12 NAVIGATION PORTS & HARBORS, 13 PUMPING PLANT, 14 RECREATION FACILITIES, 15 FLOODWAY CONTROL & DIVERSION STRUCTURE, 16 BANK STABILIZATION, 17 BEACH REPLENISHMENT, 18 CULTURAL RESOURCE PRESERVATION, 19 BUILDINGS, GROUNDS & UTILITIES, 20 PERMANENT OPERATING EQUIPMENT, and COMPOSITE INDEX (WEIGHTED AVERAGE) 100%. Table 2 adds a YEARLY PERCENTAGE CHANGE row. Index values are numbers with two decimals, base year 1967 = 100. Table 3 (page 50) and Table 4 (pages 51 and 52) hold state adjustment factors."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "TABLE 1, QUARTERLY COST INDICES BY CWWBS FEATURE CODE, Base Year 1967 = 100 ; CWWBS - FEATURE CODES Wt % ; COMPOSITE INDEX (WEIGHTED AVERAGE) 100% ; TABLE 2, YEARLY COST INDICES BY CWWBS FEATURE CODE ; YEARLY PERCENTAGE CHANGE ; TABLE 3, STATE ADJUSTMENT FACTORS (page 50)"
+note = "The state tables were not read in detail; only their titles and page positions are stated here."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "National (United States): one set of indices for all USACE civil works, not by place. Table 3 gives state adjustment factors to move a cost from one state to another (the instructions say Alaska and Hawaii are not in the national average), and Table 4 the last 10 years of them. The state factor values were not read and are not used by the lab."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "Table 3 State Adjustment Factors. Table 3 is prepared on a state-by-state basis. ... Note that Alaska and Hawaii are not considered in the national average. This table is updated annually. (Instructions for Adjusting Costs, page 1)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "Table 1: quarters from 1Q80 (Oct-Dec 1979) to 4Q55* (page 38); quarters are US federal fiscal quarters. Table 2: fiscal years FY68 (page 39) onward to FY55* (page 49). Actual values end at 4Q25 (Jul-Sep 2025) and FY25; from 1Q26* (Oct-Dec 2025) and FY26* onward the values are projections from OMB updating factors and are marked with an asterisk."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "1Q26* 2Q26* 3Q26* 4Q26* 1Q27* 2Q27* 3Q27* 4Q27* ; Note: FY* indicates data developed based on OMB projections. (Table 1, page 24)"
+note = "Last column heads read from pages 38 and 49."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Tables revised 31 March 2026 (footer EM 1110-2-1304 31 March 2026; listed as Current CWCCIS Indices 31 March 2026); also kept the 30 September 2025 tables. The manual text is EM 1110-2-1304 of 31 March 2021, which supersedes the 30 September 2019 edition. Tables are updated each year at the end of March and September."
+outcome = "confirmed"
+source_url = "https://www.nww.usace.army.mil/Missions/Cost-Engineering/CWCCIS-Indices/"
+passage = "Current CWCCIS Indices 31 March 2026 ; This manual supersedes EM 1110-2-1304, dated 30 September 2019. ; will be updated each year at the end of both March and September."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "sha256 of the four files kept under data/cache/flood/usace-cwccis/ (also in [[file]]): CWCCIS_Mar_2026-Combined_Tables.pdf f8f4e9f42476aae566c2cbc6c286dcacc6b23afbd754266bf4dbd8bce0d0bed8 (413831 bytes); CWCCIS_Tables_SEP-2025.pdf 42bcb8ef2486f9ce3ed8ae617f1391940e22fe51cfd3eed000a07cdb94ff5d06 (707958 bytes); EM_1110-2-1304_2021.pdf 3ec0fb3ca93061fd4c66ff1f23495cb302c442a3a3673a662b25f539e6d67156 (157782 bytes); CWCCIS_Instructions_for_Adjusting_Costs.pdf 4c8ecede691acb9e73c26d991be76af0e4dd2c15f0cff9dd52f1e7274da72bf5 (281805 bytes). USACE publishes no checksum."
+outcome = "confirmed"
+source_url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+passage = "-"
+note = "Computed locally with shasum -a 256 and stat -f %z on 2026-11-27."
+verdict_note = ""
+
+[[file]]
+path = "usace-cwccis/CWCCIS_Mar_2026-Combined_Tables.pdf"
+url = "https://publibrary.sec.usace.army.mil/api/download?id=9fcedc82-37ec-4b3c-e8de-1b9dfc89ebec&filename=CWCCIS_Mar_2026-Combined%20Tables.pdf&token=&preview=true"
+bytes = 413831
+sha256 = "f8f4e9f42476aae566c2cbc6c286dcacc6b23afbd754266bf4dbd8bce0d0bed8"
+fetched_at = "2026-11-27"
+
+[[file]]
+path = "usace-cwccis/CWCCIS_Tables_SEP-2025.pdf"
+url = "https://publibrary.sec.usace.army.mil/api/download?id=15b4b314-eeed-4bd2-8eb4-66417d7be7ef&filename=CWCCIS_Tables_SEP-2025.pdf&token=&preview=true"
+bytes = 707958
+sha256 = "42bcb8ef2486f9ce3ed8ae617f1391940e22fe51cfd3eed000a07cdb94ff5d06"
+fetched_at = "2026-11-27"
+
+[[file]]
+path = "usace-cwccis/EM_1110-2-1304_2021.pdf"
+url = "https://web.archive.org/web/2026id_/https://www.publications.usace.army.mil/Portals/76/Users/182/86/2486/EM%201110-2-1304_2021.pdf"
+bytes = 157782
+sha256 = "3ec0fb3ca93061fd4c66ff1f23495cb302c442a3a3673a662b25f539e6d67156"
+fetched_at = "2026-11-27"
+
+[[file]]
+path = "usace-cwccis/CWCCIS_Instructions_for_Adjusting_Costs.pdf"
+url = "https://web.archive.org/web/20260302023340id_/https://usace.contentdm.oclc.org/utils/getfile/collection/p16021coll9/id/1552"
+bytes = 281805
+sha256 = "4c8ecede691acb9e73c26d991be76af0e4dd2c15f0cff9dd52f1e7274da72bf5"
+fetched_at = "2026-11-27"

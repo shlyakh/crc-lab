@@ -20,14 +20,23 @@ sources:
   sha256: a4d4cfe168f24ee3ad4fd802ee093da21d017a178f5345205e8723a3d2737f9c
   bytes: 1655307
   licence: CC BY 4.0
+  used_for: substation curves
+- path: data/cache/flood/hazus-flood-functions/sphere/flBldgDmgFn.csv
+  sha256: 250e3a45a3938f5a115fb9c89d0589a04a6077401555e212d3bf1d6292b45e67
+  bytes: 132144
+  licence: MIT (SPHERE, Copyright (c) 2025-2026 NiyamIT, Inc., commit 2967fe6); values are FEMA Hazus
+    data
+  used_for: building curve values
 - path: data/cache/flood/hazus-flood-functions/fast/Building_DDF_Riverine_LUT_Hazus4p0.csv
   sha256: 941d41388451290530a05a295ab5c6c7c480e8474ed2f5d062a69b3439e0f633
   bytes: 33699
   licence: GPL-3.0 (FEMA FAST, commit 8e285a9)
+  used_for: building curve assignment (riverine default)
 - path: data/cache/flood/hazus-flood-functions/fast/flBldgStructDmgFn.csv
   sha256: b7fc0e12c618165c641f1a3ba08b0cca57c70168945024597be16396245510a8
   bytes: 98616
   licence: GPL-3.0 (FEMA FAST, commit 8e285a9)
+  used_for: cross-check of the building curve values (identical)
 - cited: Williams et al. 2025, J. Flood Risk Manag. 18(2):e70045, Data S4 p. 1, aggregated values
   licence: CC BY-NC-ND (values cited, not copied)
 - cited: Bor et al. 2026, arXiv 2605.23053v1, Table 1
@@ -1551,11 +1560,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 107 (RES1, FIA: two floors, no basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 107 (FIA)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: two floors, no basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.0
@@ -1621,11 +1631,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 108 (RES1, FIA (MOD.): two floors, w/ basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 108 (FIA (MOD.))
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: two floors, w/ basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.04
@@ -1691,11 +1702,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 109 (RES1, FIA: three or more floors, no basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 109 (FIA)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: three or more floors, no basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.0
@@ -1761,11 +1773,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 110 (RES1, FIA (MOD.): three or more floors, w/ basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 110 (FIA (MOD.))
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: three or more floors, w/ basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.03
@@ -1831,11 +1844,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 111 (RES1, FIA: split level, no basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 111 (FIA)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: split level, no basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.0
@@ -1901,11 +1915,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 112 (RES1, FIA (MOD.): split level, w/ basement, Structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 112 (FIA (MOD.))
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: split level, w/ basement, Structure, A-Zone)'
   points:
   - - -1.2192
     - 0.06
@@ -1971,11 +1986,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 129 (RES1, USACE - IWR: one story, no basement, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 129 (USACE - IWR)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: one story, no basement, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2041,11 +2057,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 189 (RES2, FIA: Mobile home, structure, A-Zone)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 189 (FIA)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES2: Mobile home, structure, A-Zone)'
   points:
   - - -1.2192
     - 0.0
@@ -2111,11 +2128,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 204 (RES3, USACE - Chicago: Apartment Unit Grade, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 204 (USACE - Chicago)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES3: Apartment Unit Grade, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2181,11 +2199,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 205 (RES3, USACE - Chicago: Apartment Unit Sub-Grade, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 205 (USACE - Chicago)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES3: Apartment Unit Sub-Grade, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2251,11 +2270,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 209 (RES4, USACE - Galveston: Average Hotel & Motel, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 209 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES4: Average Hotel & Motel, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2321,11 +2341,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 214 (RES5, USACE - Galveston: Nursing Home, structure)'
+  source: 'SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 214 (USACE - Galveston; comment: RES6 default)'
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES5: Nursing Home, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2391,11 +2412,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 215 (RES6, USACE - Galveston: Nursing Home, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 215 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES6: Nursing Home, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2461,11 +2483,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 217 (COM1, USACE - Galveston: Average Retail, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 217 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM1: Average Retail, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2531,11 +2554,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 341 (COM2, USACE - Galveston: Average wholesale, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 341 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM2: Average wholesale, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2601,11 +2625,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 375 (COM3, USACE - Galveston: Average Personal & Repair Services, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 375 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM3: Average Personal & Repair Services, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2671,11 +2696,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 431 (COM4, USACE - Galveston: Average Prof/Tech Services, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 431 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM4: Average Prof/Tech Services, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2741,11 +2767,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 467 (COM5, USACE - Galveston: Bank, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 467 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM5: Bank, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2811,11 +2838,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 474 (COM6, USACE - Galveston: Hospital, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 474 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM6: Hospital, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2881,11 +2909,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 475 (COM7, USACE - Galveston: Average Medical Office, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 475 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM7: Average Medical Office, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -2951,11 +2980,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 493 (COM8, USACE - Galveston: Average Entertainment/Recreation, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 493 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM8: Average Entertainment/Recreation, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3021,11 +3051,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 532 (COM9, USACE - Galveston: Average theatre, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 532 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM9: Average theatre, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3091,11 +3122,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 543 (COM10, USACE - Galveston: Garage, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 543 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (COM10: Garage, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3161,11 +3193,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 545 (IND1, USACE - Galveston: Average heavy industrial, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 545 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND1: Average heavy industrial, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3231,11 +3264,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 559 (IND2, USACE - Galveston: Average light industrial, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 559 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND2: Average light industrial, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3301,11 +3335,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 575 (IND3, USACE - Galveston: Average Food/Drug/Chem, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 575 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND3: Average Food/Drug/Chem, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3371,11 +3406,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 586 (IND4, USACE - Galveston: Average Metals/Minerals processing, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 586 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND4: Average Metals/Minerals processing, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3441,11 +3477,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 591 (IND5, USACE - Galveston: Average High Technology, structure)'
+  source: 'SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 591 (USACE - Galveston; comment: IND3 Default)'
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND5: Average High Technology, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3511,11 +3548,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 592 (IND6, USACE - Galveston: Average Construction, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 592 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (IND6: Average Construction, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3581,11 +3619,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 616 (AGR1, USACE - Galveston: Average Agriculture, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 616 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (AGR1: Average Agriculture, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3651,11 +3690,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 624 (REL1, USACE - Galveston: Church, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 624 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (REL1: Church, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3721,11 +3761,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 631 (GOV1, USACE - Galveston: Average government services, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 631 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (GOV1: Average government services, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3791,11 +3832,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 640 (GOV2, USACE - Galveston: Average emergency response, Structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 640 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (GOV2: Average emergency response, Structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3861,11 +3903,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 643 (EDU1, USACE - Galveston: Average school, structure)'
+  source: SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 643 (USACE - Galveston)
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (EDU1: Average school, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -3931,11 +3974,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 652 (EDU2, USACE - Galveston: Average college/university, structure)'
+  source: 'SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 652 (USACE - Galveston; comment: EDU1 default)'
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (EDU2: Average college/university, structure)'
   points:
   - - -1.2192
     - 0.0
@@ -4001,11 +4045,12 @@ building_curves:
   unit: m
   datum: above first floor
   output: damage ratio (fraction of replacement value)
-  source: 'FEMA FAST (Hazus 4.0 lookup tables, GPL-3.0), commit 8e285a9, Lookuptables/flBldgStructDmgFn.csv,
-    row id 704 (RES1, BCAR - Jan 2011: one story, w/ basement, Structure  (B14))'
+  source: 'SPHERE (NiyamIT, MIT licence; FEMA Hazus data), commit 2967fe6, packages/data/src/sphere/data/flBldgDmgFn.csv,
+    row id 704 (BCAR - Jan 2011; comment: RAMPP Inserted)'
   tag: I
   confidence: Hazus default
-  note: feet to metres and percent to fraction; values as published at 1 ft steps
+  note: 'feet to metres and percent to fraction; values as published at 1 ft steps; identical row in FAST
+    8e285a9 flBldgStructDmgFn.csv (RES1: one story, w/ basement, Structure  (B14))'
   points:
   - - -1.2192
     - 0.0
