@@ -172,9 +172,10 @@ The resources crc-sdk records with its output: every station-year file requested
 
 | Id | Kind | Finding | Basis | Status |
 | --- | --- | --- | --- | --- |
-| CRC-035-GHC | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | reported upstream |
+| CRC-035-GHC | observation | With the default completeness rule no station-year of forty Texas airport stations carries a value | reproduced | fixed in 1.1.0 |
 | CRC-036-GHC | observation | One unusable report in one station's file stops the read of every selected station | reproduced | open |
-| CRC-037-GHC | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | fixed in 1.0.1 |
+| CRC-037-GHC | observation | GHCNh files are attributed to 'NOAA NCEI and NOAA CO-OPS', with a generic licence text and no dataset version | reproduced | superseded by CRC-042-GHC from 1.0.1 |
+| CRC-042-GHC | observation | GHCNh files carry a generic licence text and no dataset version | reproduced | open |
 
 Details are in [the inventory](../inventory.md#findings).
 

@@ -169,7 +169,7 @@ say what this file claims, stop and report; do not substitute a number.
   never the solver; `just site` gains `site-flood`.
 - **FG9.** A CRC behaviour met on the way that differs from its documentation, or that a user would not
   expect, is a candidate finding: it is entered in `src/data_source_check/sources/crc_sdk/findings.toml`
-  (next free number CRC-039; statuses as in `core/records.py`) with a draft in `local/upstream-review.md`.
+  (next free number CRC-043; statuses as in `core/records.py`) with a draft in `local/upstream-review.md`.
   Nothing is sent upstream until Yuri has reviewed the draft.
 - **FG10.** Long reads and runs use `caffeinate -i` and are resumable: publishers drop connections, and
   crc-sdk 1.0.0 does not try a download a second time (CRC-038-FWK).
