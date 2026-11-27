@@ -42,9 +42,10 @@ all five areas read by crc-sdk from JRC's server:
 
 - The JRC server did not answer on the evening of the release; the first record of that evening was made
   from local copies of the publisher's files and is replaced.
-- The Texas box was read on the fifth try. Three tries ended within 90 seconds on a connection that JRC's
-  server reset or closed (crc-sdk 1.0.0 has no second try for a download) and one ended when the laptop
-  slept. The read that completed took 9,081 s (2 h 31 min) with a peak of 5.5 GB, against 27 minutes for the
+- The Texas box was read on the fifth try. Of the four that failed, one ended on a connection reset 38
+  seconds into the download and one on a reset when the laptop woke from sleep after 4 h 23 min (crc-sdk
+  1.0.0 has no second try for a download); how the other two ended was not recorded (corrected
+  2026-11-27: this line said three ended within 90 seconds). The read that completed took 9,081 s (2 h 31 min) with a peak of 5.5 GB, against 27 minutes for the
   whole run on 0.11.2. It returned 11,069,311 rows, the number the reference reader derives from the
   publisher's files; 0 of 72,460,914 depths differ.
 - In the Texas box 616,899 of 11,686,210 flooded pixels (5.3%) are left out: 424,212 with one depth and
