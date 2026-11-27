@@ -137,6 +137,93 @@ checked them on real files.
 - **Uncertainty.** Each frequency rests on the runs finished. At 60 runs the 100-year and rarer values rest
   on the 12 of the 30 top-ranked runs finished so far, each standing for 2.5 years.
 
+## Addendum: all 150 runs (2026-11-26, evening)
+
+The last catalogue run finished at 20:13: 150 of 150, no failures, largest water-balance residual 0.008% of
+the rain. The record `f4` now holds all 150 runs, and the weights are final: years in the stratum divided by
+its runs, so 1 year per run in T1, 2 in T2 and 14.2 in T3. Everything above is the 60-run copy and stays as
+Demo 1's figures (`snapshot_60/`, tag `flood-f4-demo1-60runs`). Every rule passes as before, and the rainfall
+rule fails as before at 2–10 years (CH-19; the rainfall values are the same, as they come from all 1,000
+synthetic years, not from the runs).
+
+| | 60 runs | 150 runs |
+| --- | --- | --- |
+| 5 m cells wet at 25 / 50 / 100 y | 3,796 / 12,197 / 19,650 | 4,097 / 14,443 / 23,423 |
+| 5 m cells wet at 200 / 500 y | 31,517 / 44,101 | 31,808 / 43,144 |
+| Cells wet in some run | 44,101 | 47,131 |
+| Buildings wet at the wall at 100 y, ≥ 0.05 m / ≥ 0.3 m | 6,388 / 1,452 | 6,843 / 1,934 |
+| Farragut, 100 / 500 y; wet in a year | 0.287 / 0.433 m; 6.8% | 0.318 / 0.427 m; 6.7% |
+| Hudson Avenue, 100 / 500 y; wet in a year | 0.153 / 0.504 m; 2.8% | 0.166 / 0.503 m; 3.3% |
+| Plymouth, 100 / 500 y; wet in a year | 0.132 / 0.171 m; 4.3% | 0.152 / 0.168 m; 4.2% |
+| Water Street, 500 y; wet in a year | 0.059 m; 0.3% | 0.057 m; 0.2% |
+
+- **Nothing changes in kind.** Nothing floods at 10 years, and the order of the substations is the same.
+- **The 100-year values rise.** Cells wet rise by 19% and buildings at 0.3 m by a third. The 60-run copy had
+  12 of the 30 top-ranked runs; the full set has all 30, one year each. The demo's 100-year figures are therefore on the
+  low side. At the substations the change is 0.01–0.03 m, well inside the RMSE of about 0.2 m.
+- **Both CRC routes** read back equal at 150 runs: 379,976 cells and 17,701 assets, 0 differ; the point route
+  reads the catalogue's depth at every probability (CH-23), largest difference 0 m.
+- Check time 517 s, of which 348 s reading the 90 runs not yet in the cache.
+
+### Run-on on the 5 km model, and the rain the catalogue runs missed (CH-26)
+
+The four run-on runs ended at 22:36 (record `f4-ring`). Every water balance closes within 0.002%, and the
+5 km model's cells under the square are the square model's own (terrain difference 0 m).
+
+| Storm | Square rain, run-on run against square run | Cells changed (≥ 0.05 m wet: square → ring) | Buildings wet at 0.3 m (square → ring) | Substations |
+| --- | --- | --- | --- | --- |
+| Ida replay | equal (0.002%) | 3,374 deeper, none shallower (43,135 → 45,273) | 4,023 → 4,124 | unchanged (Hudson Avenue 0.415 m, Farragut 0.39 m) |
+| 1-hour 100-year design storm | equal (0.001%) | 5,770 deeper, none shallower (61,757 → 64,795) | 5,839 → 5,972 | unchanged within 0.001 m |
+| Catalogue rank 5 (rain on the whole square, CH-26) | equal (0.0001%) | 1,453 deeper, none shallower (35,183 → 36,222) | 3,132 → 3,210 | unchanged within 0.001 m |
+| Catalogue rank 6 (rain on the whole square, CH-26) | equal (0.0001%) | 1,286 deeper, none shallower (20,749 → 21,755) | 1,515 → 1,559 | unchanged within 0.001 m |
+
+- **Run-on is small at the assets.** Where the rain is the same, run-on deepens 1–2% of the read cells. The
+  change is largest along the east and south edges, with a median distance of about 300 m from an edge. About
+  100 buildings get wet at 0.3 m, and no substation depth changes.
+- **The catalogue runs missed rain on 28.5% of the square (CH-26).** RainyDay's scenario holds only the
+  pixels whose centres lie in the study box. SFINCS gives no rain beyond the outermost pixel centres, so the
+  north strip (about 680 m) was dry in every catalogue storm, and so was about half of the east strip.
+  - **Not affected:** the replays, the calibration, the design storms and the rainfall frequency.
+  - **Affected:** the catalogue's depths and the buildings and substations above, including Demo 1's 60-run
+    copy. They are too low, most of all in the two strips. The four named substations lie outside the
+    strips, about 1.4 km south of the north strip and 3 km west of the east strip, so their depths change only through water that runs
+    from the strips; the rerun shows they do not change (addendum below).
+- **Fixed and run again:** each scenario is rebuilt over the square with one pixel to spare, keeping
+  every old pixel. All 150 runs went again into `runs_cover/` (23:38 to 14:09 on 27 November, no failures,
+  largest water-balance residual 0.011%). The two catalogue rows of the table above are from the new runs;
+  at first they gave the square 1.41 and 1.42 times the rain of the square runs. The results follow.
+
+## Addendum: the catalogue with rain on the whole square (CH-26, 2026-11-27)
+
+The record `f4` now reads the 150 runs in `runs_cover/` (the 12 design runs are the same files). Every rule
+passes as before, and the rainfall rule fails as before at 2–10 years (CH-19: the rainfall values do not
+depend on the runs).
+
+| | 150 runs, square partly dry | 150 runs, rain on the whole square |
+| --- | --- | --- |
+| 5 m cells wet at 25 / 50 / 100 y | 4,097 / 14,443 / 23,423 | 6,169 / 19,989 / 32,647 |
+| 5 m cells wet at 200 / 500 y | 31,808 / 43,144 | 44,396 / 58,279 |
+| Cells wet in some run | 47,131 | 63,747 |
+| Buildings wet at the wall at 100 y, ≥ 0.05 m / ≥ 0.3 m | 6,843 / 1,934 | 9,307 / 2,424 |
+| Farragut, 100 / 500 y; wet in a year | 0.318 / 0.427 m; 6.7% | unchanged |
+| Hudson Avenue, 100 / 500 y; wet in a year | 0.166 / 0.503 m; 3.3% | unchanged |
+| Plymouth, 100 / 500 y; wet in a year | 0.152 / 0.168 m; 4.2% | unchanged |
+| Water Street, 500 y; wet in a year | 0.057 m; 0.2% | unchanged |
+| Unnamed substation S-861227475, 100 / 500 y; wet in a year | dry | 0.087 / 0.098 m; 5.1% |
+
+- **The four named substations do not change** (to 0.001 m): none of the water from the strips reaches them.
+- **The unnamed substation becomes wet.** It stays below the lead rule at every return period.
+- **The wet area at 100 years rises by 39%,** and buildings wet at 0.3 m by a quarter. Of the 9,227 cells
+  newly wet at 0.05 m, 5,316 are in the north strip, 1,167 in the east strip and 2,744 elsewhere, downslope
+  of the strips.
+- **Depths rise almost everywhere.** Each run gets the same rain as before plus rain on the strips, so a run's
+  depth cannot fall. The frequency depths fall in 11 of 640,000 cells at 100 years, by at most 0.05 m: the
+  weighting and the clean-up that keeps depth non-decreasing with return period.
+- **Demo 1's 60-run copy** (`snapshot_60/`, tag `flood-f4-demo1-60runs`) has the dry strips. Its figures for
+  the four named substations hold. Its area and building figures are low by about the shares above.
+- The figures `depth_strip`, `buildings_wet`, `wet_runs` and `progress` are redrawn from the new runs; the
+  old runs stay in `runs/` until Yuri says they can go.
+
 ## Checks
 
 - `just test` passes: 505 in the full suite before F5, 267 flood tests after it.
