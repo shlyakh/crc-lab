@@ -1,0 +1,146 @@
+id = "ghcn-daily"
+title = "Global Historical Climatology Network - Daily (GHCN-Daily), daily precipitation at three New York City stations"
+publisher = "NOAA National Centers for Environmental Information (NCEI)"
+checked_on = "2026-11-26"
+stage = "F5"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FV5"]
+known_biases = "Only used to choose dry days for the 311 baseline (F5, late calls). Three point gauges 6.2 to 15.9 km from the square's edge: rain that fell only on the square would be missed. NCEI's own use limitation: the stations were not managed for climate monitoring and the data are not homogenized. Which hours a day covers at these stations was not found in the readme (not checked)."
+
+[[fact]]
+name = "identifier"
+claimed = ""
+observed = "GHCN-Daily, Version 3, NCEI collection gov.noaa.ncdc:C00861, doi:10.7289/V5D21VHZ; version file on 2026-11-26: 3.35-upd-2026112318. Stations USW00094728 (NY CITY CNTRL PARK), USW00014732 (LAGUARDIA AP), USW00094789 (JFK INTL AP)."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt"
+passage = """
+The current version of GHCN Daily is 3.35-upd-2026112318 (i.e, an update that started at 2026112318 [yyyymmddhh] UTC; yyyy=year; mm=month; dd=day; hh=hour),
+created by appending recently available data updates to the last fully reprocessed version: 3.35-por-2026110623.
+[ghcnd-stations.txt] USW00014732  40.7794  -73.8803    3.0 NY LAGUARDIA AP  72503 ; USW00094728  40.7789  -73.9692   42.7 NY NY CITY CNTRL PARK  HCN 72506 ; USW00094789  40.6392  -73.7639    2.7 NY JFK INTL AP  74486"""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = ""
+observed = "NCEI Access Data Service, https://www.ncei.noaa.gov/access/services/data/v1 with dataset=daily-summaries, stations, startDate, endDate, dataTypes=PRCP, format=json, units=metric; answered without a token on 2026-11-26."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728,USW00014732&startDate=2021-08-01&endDate=2021-08-05&dataTypes=PRCP&format=json&units=metric&includeStationName=true"
+passage = """{"DATE":"2021-08-01","STATION":"USW00094728","PRCP":"1.0","NAME":"NY CITY CENTRAL PARK, NY US"}"""
+note = "The full queries are in ghcn-daily/<name>.query.json and in record f5-who-saw (tables.ghcn_daily_queries)."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = ""
+observed = "No licence is named in the collection metadata. It asks for a citation (Menne et al. 2012, doi:10.7289/V5D21VHZ, and the overview article doi:10.1175/JTECH-D-11-00103.1) and states distribution and use liability disclaimers. Treated as NOAA data with attribution, as the lab's other NOAA sources."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/xml"
+passage = """
+Cite as: Menne, Matthew J., Imke Durre, Bryant Korzeniewski, Shelley McNeill, Kristy Thomas, Xungang Yin, Steven Anthony, Ron Ray, Russell S. Vose, Byron E.Gleason, and Tamara G. Houston (2012): Global Historical Climatology Network - Daily (GHCN-Daily), Version 3. [indicate subset used]. NOAA National Climatic Data Center. doi:10.7289/V5D21VHZ [access date].
+Distribution liability: NOAA and NCEI make no warranty, expressed or implied, regarding these data, nor does the fact of distribution constitute such a warranty."""
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = ""
+observed = "The readme gives PRCP in tenths of mm; the Access Data Service with units=metric returns PRCP in mm as text (e.g. \"1.0\"), with DATE, STATION and NAME. A day with no report has no row or an empty value; the reader keeps it as missing, never zero."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt"
+passage = "PRCP = Precipitation (tenths of mm)"
+note = "That units=metric gives mm is read from the values (Central Park 2021-09-01: 181.1, the storm day), not from a documentation page."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "Point gauges. Central Park 8.2 km, LaGuardia 10.9 km and JFK 18.4 km from the square's centre (6.2, 8.1 and 15.9 km from its edge), computed from the station table's positions in EPSG:32618."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"
+passage = "USW00094728  40.7789  -73.9692 ; USW00014732  40.7794  -73.8803 ; USW00094789  40.6392  -73.7639"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "The collection runs from 1880-01-01 to the present. Fetched: 2021-08-02 to 2021-10-01 and 2023-08-30 to 2023-10-29, 61 days at each of the three stations in each window, every day with a value."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/xml"
+passage = "<gml:beginPosition>1880-01-01</gml:beginPosition> <gml:endPosition indeterminatePosition=\"now\"/>"
+note = "Which hours a station's day covers (local standard time or the wall clock) is not stated in the readme; not checked."
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = ""
+observed = "Version 3.35, update 3.35-upd-2026112318 of the reprocessed version 3.35-por-2026110623; updated daily. Values of recent days can change between updates."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt"
+passage = "The current version of GHCN Daily is 3.35-upd-2026112318"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "NCEI publishes no checksum for an Access Data Service answer. Each answer is kept as returned, with its SHA-256 in <name>.query.json and in the record's inputs."
+outcome = "not applicable"
+source_url = "https://www.ncei.noaa.gov/access/services/data/v1"
+passage = "n/a"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "use_limitation"
+claimed = ""
+observed = "NCEI says the stations were not managed to climate-monitoring standards and the data are not homogenized. Here only daily totals near 0 mm are used, to call a day dry."
+outcome = "confirmed"
+source_url = "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/xml"
+passage = "In general, the stations providing daily observations were not managed to meet the desired standards for climate monitoring. ... GHCNd data have not been homogenized to account for the potential artifacts associated with the various reporting practices at stations."
+note = ""
+verdict_note = ""
+
+[[file]]
+path = "ghcn-daily/around_ida_2021.json"
+url = "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728%2CUSW00014732%2CUSW00094789&startDate=2021-08-02&endDate=2021-10-01&dataTypes=PRCP&format=json&units=metric&includeStationName=true"
+bytes = 17903
+sha256 = "f47447387d1b7566671e853de8d697cb423aac9a7b6524dfb8decd1dcc84f575"
+fetched_at = "2026-11-26T22:01:08Z"
+
+[[file]]
+path = "ghcn-daily/around_sep29_2023.json"
+url = "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728%2CUSW00014732%2CUSW00094789&startDate=2023-08-30&endDate=2023-10-29&dataTypes=PRCP&format=json&units=metric&includeStationName=true"
+bytes = 17913
+sha256 = "9e1d79425eb72587b783481b47e4ebfc6db304289443fdc1b2bf85341a36a0fb"
+fetched_at = "2026-11-26T22:01:08Z"
+
+[[file]]
+path = "ghcn-daily/docs/readme.txt"
+url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt"
+bytes = 29587
+sha256 = "0e4e6f0e6947cf1add884c328a01760f31c56ef5fb86b85ed57dd5dc4c4aeaa6"
+fetched_at = "2026-11-26T22:10:24Z"
+
+[[file]]
+path = "ghcn-daily/docs/ghcnd-version.txt"
+url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-version.txt"
+bytes = 270
+sha256 = "076c97505990a0efbee6d60f90dcdcdb56c6fc73c34e8626961668a95c6a93e5"
+fetched_at = "2026-11-26T22:10:27Z"
+
+[[file]]
+path = "ghcn-daily/docs/stations.txt"
+url = "https://www.ncei.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt"
+bytes = 11441526
+sha256 = "437ee87f0343bcad408a492cf7a02163fb69255364c541b4006d5d76055d0dc3"
+fetched_at = "2026-11-26T22:10:27Z"
+
+[[file]]
+path = "ghcn-daily/docs/iso-C00861.xml"
+url = "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.ncdc:C00861/xml"
+bytes = 184457
+sha256 = "132a61d748baba7f7f18bc0f7a9db49f8036f7a4ef4fd3b7939e0fdb188fe4d5"
+fetched_at = "2026-11-26T22:10:39Z"

@@ -148,6 +148,10 @@ def test_311_both_schemes_and_twins() -> None:
     assert c["twin_pairs"] == 1 and c["main"] == 3
     assert c["unplaced_in_boroughs"] == 3
     assert c["by_kind"]["street flooding"] == {"legacy_rows": 2, "current_rows": 1, "requests": 2}
+    # CH-24: over the 311 window (the storm day and the day after) row 6 counts too
+    assert f5b.window_311(("2023-09-29",)) == ("2023-09-29", "2023-09-30")
+    w = f5b.count_311(table, f5b.window_311(("2023-09-29",)), unplaced)
+    assert w["context"] == 5 and w["main"] == 4 and w["twin_pairs"] == 1
 
 
 def test_311_twins_by_position_when_addresses_differ() -> None:
