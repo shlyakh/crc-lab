@@ -9,7 +9,9 @@ Transformation statement:
    as returned under ``nyc-311/<storm>/page_<n>.json``, beside ``query.json`` with the query, the
    addresses asked and the time fetched. A second query counts the flooding-related requests in
    the square's boroughs that carry no location at all (``unplaced_<storm>.json``): those cannot
-   be placed and are only reported.
+   be placed and are only reported. For the late-call and baseline counts, ``fetch_flood`` asks
+   the same box for the flooding-related requests only (``FLOOD_TYPES``) over a longer window
+   (step 1b), cached the same way under ``nyc-311/<name>/``.
 2. ``created_date`` is a floating time stamp (no zone); the dictionary read states none. It is
    read as the New York wall clock, as written, and the request belongs to the calendar day of
    that clock.
@@ -44,6 +46,8 @@ from typing import Any
 
 import pandas as pd
 
+from flood_lab.observations import sightings
+
 DATASET = "erm2-nwe9"
 ENDPOINT = f"https://data.cityofnewyork.us/resource/{DATASET}.json"
 FOLDER = "nyc-311"
@@ -69,8 +73,8 @@ FLOOD_TYPES: dict[tuple[str, str], tuple[str, str]] = {
     ("Water Maintenance", "Water in Basement"): ("current", "water in basement"),
 }
 #: twin rule of statement step 3 [P]: created this close in time, s, and placed this close, m
-TWIN_S = 600.0
-TWIN_M = 25.0
+TWIN_S = sightings.DUPLICATE_S
+TWIN_M = sightings.DUPLICATE_M
 COLUMNS = [
     "unique_key",
     "created_date",
@@ -143,15 +147,25 @@ def _write(path: Path, data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def fetch(
-    root: Path, storm: str, window: tuple[str, str], box: tuple[float, float, float, float]
-) -> dict[str, Any]:
-    """Statement step 1, over the network. Writes the raw pages and ``query.json``."""
-    folder = root / FOLDER / storm
-    asked = queries(window, box)
+def flood_query(window: tuple[str, str], box: tuple[float, float, float, float]) -> dict[str, str]:
+    """Statement step 1b: the flooding-related requests only, in the box, over a longer window.
+
+    Used for the late-call and baseline counts; the same box and the same ``FLOOD_TYPES``.
+    """
+    first, last = window
+    west, south, east, north = box
+    return {
+        "$where": f"created_date between '{first}T00:00:00' and '{last}T23:59:59' AND "
+        f"within_box(location, {north}, {west}, {south}, {east}) AND {_where_types()}",
+        "$order": "unique_key",
+        "$limit": str(PAGE),
+    }
+
+
+def _fetch_pages(folder: Path, asked: dict[str, str]) -> list[dict[str, Any]]:
     pages, offset = [], 0
     while True:
-        params = dict(asked["placed"], **{"$offset": str(offset)})
+        params = dict(asked, **{"$offset": str(offset)})
         url, data = _get(params)
         rows = json.loads(data)
         name = f"page_{len(pages) + 1}.json"
@@ -168,6 +182,16 @@ def fetch(
         if len(rows) < PAGE:
             break
         offset += PAGE
+    return pages
+
+
+def fetch(
+    root: Path, storm: str, window: tuple[str, str], box: tuple[float, float, float, float]
+) -> dict[str, Any]:
+    """Statement step 1, over the network. Writes the raw pages and ``query.json``."""
+    folder = root / FOLDER / storm
+    asked = queries(window, box)
+    pages = _fetch_pages(folder, asked["placed"])
     url, data = _get(asked["unplaced"])
     unplaced = {
         "file": f"unplaced_{storm}.json",
@@ -185,6 +209,26 @@ def fetch(
         "queries": asked,
         "pages": pages,
         "unplaced": unplaced,
+    }
+    _write(folder / "query.json", json.dumps(query, indent=1).encode())
+    return query
+
+
+def fetch_flood(
+    root: Path, name: str, window: tuple[str, str], box: tuple[float, float, float, float]
+) -> dict[str, Any]:
+    """Statement step 1b, over the network: pages and ``query.json`` under ``nyc-311/<name>/``."""
+    folder = root / FOLDER / name
+    asked = flood_query(window, box)
+    query = {
+        "dataset": DATASET,
+        "endpoint": ENDPOINT,
+        "name": name,
+        "what": "flooding-related requests only (FLOOD_TYPES), placed in the box",
+        "window_local_days": list(window),
+        "box_west_south_east_north": list(box),
+        "queries": {"placed": asked},
+        "pages": _fetch_pages(folder, asked),
     }
     _write(folder / "query.json", json.dumps(query, indent=1).encode())
     return query
@@ -240,36 +284,10 @@ def twins(
     """Statement step 3: pairs of one current-scheme and one legacy-scheme row of one request.
 
     ``x`` and ``y`` are projected positions in metres (same index as ``table``); without them only
-    the address is used. Candidate pairs are taken closest in time first, each row at most once.
+    the address is used. The rule is the strict case of ``observations.sightings``
+    (``duplicate_pairs``, rule step 2), with the scheme as the copy.
     """
     flood = table[table["scheme"].notna()]
-    current = flood[flood["scheme"] == "current"]
-    legacy = flood[flood["scheme"] == "legacy"]
-    when = pd.to_datetime(flood["created_date"])
-    candidates = []
-    for i, c in current.iterrows():
-        same = legacy[legacy["kind"] == c["kind"]]
-        for j, g in same.iterrows():
-            gap = abs((when[j] - when[i]).total_seconds())
-            if gap > max_s:
-                continue
-            address = (
-                isinstance(c["incident_address"], str)
-                and c["incident_address"] == g["incident_address"]
-            )
-            near = (
-                x is not None
-                and y is not None
-                and bool(pd.notna(x[i]) and pd.notna(x[j]))
-                and float(((x[i] - x[j]) ** 2 + (y[i] - y[j]) ** 2) ** 0.5) <= max_m
-            )
-            if address or near:
-                candidates.append((gap, str(c["unique_key"]), str(g["unique_key"]), address))
-    used: set[str] = set()
-    pairs = []
-    for gap, a, b, address in sorted(candidates):
-        if a in used or b in used:
-            continue
-        used |= {a, b}
-        pairs.append({"current": a, "legacy": b, "seconds": gap, "same_address": address})
-    return sorted(pairs, key=lambda p: p["current"])
+    return sightings.duplicate_pairs(
+        flood, copy="scheme", first="current", second="legacy", x=x, y=y, max_s=max_s, max_m=max_m
+    )
