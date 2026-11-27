@@ -1,0 +1,818 @@
+{
+ "checks": [
+  {
+   "name": "the ring's cells are the square's cells",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "grid offsets whole cells, same terrain file, lowest sub-grid level equal on all 640000 cells",
+   "threshold": 0.0,
+   "value": {
+    "zb_largest_abs_difference_m": 0.0
+   }
+  },
+  {
+   "name": "water balance (continuity) of the outer domain within 1%",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "|rain - drained - stored - out| / rain over the ring model's interior cells (FH8)",
+   "threshold": 0.01,
+   "value": 2.1091618964184152e-05
+  },
+  {
+   "name": "water balance (continuity) of the square within 1%",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "|rain + net inflow across the inner cross-sections - drained - stored| / rain on the square",
+   "threshold": 0.01,
+   "value": 1.4461217795156929e-05
+  },
+  {
+   "name": "same rain on the square in both runs",
+   "note": "",
+   "passed": false,
+   "proposed": true,
+   "rule": "rain on F3's interior cells, ring run against the square run's balance.json",
+   "threshold": 0.0001,
+   "value": [
+    1.544570015841496e-05,
+    6.439397435531436e-06,
+    0.40736674192436423,
+    0.4164516519799843
+   ]
+  }
+ ],
+ "created_at": "2026-11-27T03:36:05Z",
+ "figures": [
+  "docs/flood/figures/f4/ring_model.png",
+  "docs/flood/figures/f4/ring_difference.png",
+  "docs/flood/figures/f4/ring_run_on.png",
+  "docs/flood/figures/f4/ring_change_distance.png"
+ ],
+ "id": "f4-ring",
+ "inputs": [
+  {
+   "bytes": 1401,
+   "path": "f4/ring/queue_ring.json",
+   "sha256": "dae628929842357d8090131493ad01d4972d0feabb7760bbdb564e013f32a524",
+   "url": ""
+  },
+  {
+   "bytes": 5127,
+   "path": "f4/ring/model/base/base.json",
+   "sha256": "f51e5ba99f50c8df22f4a6c44e17ff521b54a3ff49f8c3ffedf02d64887440b2",
+   "url": ""
+  },
+  {
+   "bytes": 3110386,
+   "path": "f4/ring/model/zb_5m.tif",
+   "sha256": "19d4fe0e89628c48c7a05c1b848eabb0591256daa355571f7bf9fe10527c7ed1",
+   "url": ""
+  },
+  {
+   "bytes": 1969760,
+   "path": "f3/model/zb_5m.tif",
+   "sha256": "640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e",
+   "url": ""
+  },
+  {
+   "bytes": 3691,
+   "path": "f4/ring/runs/ring_ida/balance.json",
+   "sha256": "7a63e3e549c59ca28d69e23eb0cfd58c4ce0eab722b1fcd4b71cb730e511de26",
+   "url": ""
+  },
+  {
+   "bytes": 3461762,
+   "path": "f4/ring/runs/ring_ida/zsmax.tif",
+   "sha256": "c4fad5fe81e17a68b8b483c4ec7a97e7ad731c64f556fe72e5cfc12eab0b7293",
+   "url": ""
+  },
+  {
+   "bytes": 2232557,
+   "path": "f3/runs/ida_q30/zsmax.tif",
+   "sha256": "19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b",
+   "url": ""
+  },
+  {
+   "bytes": 2574,
+   "path": "f4/ring/runs/ring_ds_1h_100y/balance.json",
+   "sha256": "5ef9bd2e722e6523ff2e77f01cefa933d6b860b9f9f0548f054aeae5c2b61ff7",
+   "url": ""
+  },
+  {
+   "bytes": 3463726,
+   "path": "f4/ring/runs/ring_ds_1h_100y/zsmax.tif",
+   "sha256": "89a8a7000c5bdbca8828930a4acfae1ac7f80a9d8d87a49857363090a7e36863",
+   "url": ""
+  },
+  {
+   "bytes": 2233274,
+   "path": "f4/runs/ds_1h_100y/zsmax.tif",
+   "sha256": "f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a",
+   "url": ""
+  },
+  {
+   "bytes": 2721,
+   "path": "f4/ring/runs/ring_cat_r0005/balance.json",
+   "sha256": "bddec716299cf89b334f02a292c5a54a525f5f1180c6efc9f231e1010e09e5cc",
+   "url": ""
+  },
+  {
+   "bytes": 3476564,
+   "path": "f4/ring/runs/ring_cat_r0005/zsmax.tif",
+   "sha256": "d411cc5c383a354304f1b25480dc3397a458c353b32ec5e0374340425959c32b",
+   "url": ""
+  },
+  {
+   "bytes": 1688763,
+   "path": "f4/runs/cat_r0005/zsmax.tif",
+   "sha256": "c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d",
+   "url": ""
+  },
+  {
+   "bytes": 2714,
+   "path": "f4/ring/runs/ring_cat_r0006/balance.json",
+   "sha256": "fae589c7fb195911c5076c531ef598dab77aca0a7624423b02a8bbf91cd6d5aa",
+   "url": ""
+  },
+  {
+   "bytes": 3487363,
+   "path": "f4/ring/runs/ring_cat_r0006/zsmax.tif",
+   "sha256": "3fd78c944486ebe33f4a80b6092a862e56e367e15d8f05d81d15dc88ebf91e22",
+   "url": ""
+  },
+  {
+   "bytes": 1685784,
+   "path": "f4/runs/cat_r0006/zsmax.tif",
+   "sha256": "59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.",
+  "Both runs have the same rain on the square: the ring's forcing keeps every pixel of the square run's forcing file and adds pixels around it by the same nearest-cell rule.",
+  "The ring's outer edge is an outflow boundary on land, as F3's: run-on from beyond 500 m is still left out."
+ ],
+ "numbers": {
+  "alignment": {
+   "aligned": true,
+   "cut_origin": [
+    585500.0,
+    4508500.0
+   ],
+   "cut_shape": [
+    800,
+    800
+   ],
+   "ring_grid": {
+    "dx": 5.0,
+    "epsg": 32618,
+    "mmax": 1000,
+    "nmax": 1000,
+    "x0": 585000.0,
+    "y0": 4504000.0
+   },
+   "ring_transform_is_ring": true,
+   "square_cells_all_interior": true,
+   "square_transform_is_project_grid": true,
+   "terrain_identical_to_f3": true,
+   "window_rows_cols": [
+    100,
+    900,
+    100,
+    900
+   ],
+   "zb_cells_differing": 0,
+   "zb_largest_abs_difference_m": 0.0
+  },
+  "seconds": 21.9
+ },
+ "parameters": [
+  {
+   "name": "ring_extent",
+   "source": "sfincs_ring.RING",
+   "tag": "P",
+   "value": [
+    585000.0,
+    4504000.0,
+    590000.0,
+    4509000.0
+   ]
+  },
+  {
+   "name": "inner_piece_m",
+   "source": "sfincs_ring.SECTION_M",
+   "tag": "P",
+   "value": 50.0
+  },
+  {
+   "name": "change_m",
+   "source": "f4_ring.CHANGE_M",
+   "tag": "P",
+   "value": 0.05
+  },
+  {
+   "name": "rain_match_share",
+   "source": "f4_ring.RAIN_MATCH_SHARE",
+   "tag": "P",
+   "value": 0.0001
+  },
+  {
+   "name": "balance_max_share",
+   "source": "FH8",
+   "tag": "P",
+   "value": 0.01
+  },
+  {
+   "name": "loss_rate_qinf_mm_h",
+   "source": "CH-16, frozen",
+   "tag": "P",
+   "value": [
+    30.0
+   ]
+  }
+ ],
+ "passed": false,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.0.0",
+  "crc-sdk": "1.0.0",
+  "geopandas": "1.2.0",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "python": "3.12.11",
+  "rasterio": "1.5.1"
+ },
+ "stage": "F4",
+ "tables": {
+  "storms": [
+   {
+    "buildings_ring": {
+     "count": 17750,
+     "max_m": 4.275,
+     "not_read": 54,
+     "wet_005": 10710,
+     "wet_030": 4124
+    },
+    "buildings_square": {
+     "count": 17750,
+     "max_m": 4.274,
+     "not_read": 54,
+     "wet_005": 10600,
+     "wet_030": 4023
+    },
+    "buildings_wall_change_gt_005": 379,
+    "change": {
+     "by_nearest_edge": {
+      "east": 1568,
+      "north": 110,
+      "south": 1192,
+      "west": 504
+     },
+     "cells_read": 330615,
+     "changed": 3374,
+     "deeper": 3374,
+     "distance_m": {
+      "bins": {
+       "0-50": 630,
+       "100-250": 669,
+       "1000-2000": 0,
+       "250-500": 1176,
+       "50-100": 315,
+       "500-1000": 584,
+       ">=2000": 0
+      },
+      "max": 997.5,
+      "median": 272.5,
+      "p90": 867.5
+     },
+     "largest_decrease_m": -0.0055,
+     "largest_increase_m": 3.2791,
+     "mean_change_m": 0.00248,
+     "shallower": 0
+    },
+    "label": "ring_ida",
+    "outer_balance_residual_share": 9.778104761180474e-06,
+    "rain_match_share": 1.544570015841496e-05,
+    "rain_on_f3_interior_ring_m3": 2330781.75,
+    "rain_on_f3_interior_square_m3": 2330745.75,
+    "run_on": {
+     "by_edge": {
+      "east": {
+       "inflow_m3": 6249.2,
+       "inflow_share_of_square_rain": 0.002667828952493646,
+       "net_inward_m3": 4041.2,
+       "outflow_m3": 2208.0
+      },
+      "north": {
+       "inflow_m3": 58042.2,
+       "inflow_share_of_square_rain": 0.024778690256604126,
+       "net_inward_m3": -197208.0,
+       "outflow_m3": 255250.3
+      },
+      "south": {
+       "inflow_m3": 4845.6,
+       "inflow_share_of_square_rain": 0.0020686180568704965,
+       "net_inward_m3": 1412.9,
+       "outflow_m3": 3432.7
+      },
+      "west": {
+       "inflow_m3": 32917.4,
+       "inflow_share_of_square_rain": 0.014052682025300613,
+       "net_inward_m3": -134499.5,
+       "outflow_m3": 167416.8
+      }
+     },
+     "inflow_m3": 102054.4,
+     "inflow_share_of_square_rain": 0.043567819291268885,
+     "net_inward_m3": -326253.5,
+     "outflow_m3": 428307.9,
+     "square_rain_m3": 2342425.5
+    },
+    "square_balance_residual_share": 8.007084703456254e-06,
+    "square_run": "ida_q30",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "change_m": 0.0,
+      "name": "Water Street Substation",
+      "ring_m": 0.047,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.047,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-339711332",
+      "change_m": 0.0,
+      "name": "Farragut Substation",
+      "ring_m": 0.39,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.39,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383102724",
+      "change_m": 0.0,
+      "name": "Hudson Avenue Substation",
+      "ring_m": 0.415,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.415,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383110539",
+      "change_m": 0.0,
+      "name": "Plymouth Substation",
+      "ring_m": 0.165,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.165,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-861227475",
+      "change_m": 0.0,
+      "name": "(no name)",
+      "ring_m": 0.094,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.094,
+      "square_meets_lead_rule": false
+     }
+    ],
+    "wet_ring": {
+     "wet_005": 45273,
+     "wet_030": 10794
+    },
+    "wet_square": {
+     "wet_005": 43135,
+     "wet_030": 9812
+    }
+   },
+   {
+    "buildings_ring": {
+     "count": 17750,
+     "max_m": 4.853,
+     "not_read": 54,
+     "wet_005": 11784,
+     "wet_030": 5972
+    },
+    "buildings_square": {
+     "count": 17750,
+     "max_m": 4.853,
+     "not_read": 54,
+     "wet_005": 11659,
+     "wet_030": 5839
+    },
+    "buildings_wall_change_gt_005": 480,
+    "change": {
+     "by_nearest_edge": {
+      "east": 2260,
+      "north": 152,
+      "south": 1607,
+      "west": 1751
+     },
+     "cells_read": 330615,
+     "changed": 5770,
+     "deeper": 5770,
+     "distance_m": {
+      "bins": {
+       "0-50": 880,
+       "100-250": 1152,
+       "1000-2000": 55,
+       "250-500": 1698,
+       "50-100": 547,
+       "500-1000": 1438,
+       ">=2000": 0
+      },
+      "max": 1452.5,
+      "median": 317.5,
+      "p90": 817.5
+     },
+     "largest_decrease_m": -0.036,
+     "largest_increase_m": 3.3854,
+     "mean_change_m": 0.00422,
+     "shallower": 0
+    },
+    "label": "ring_ds_1h_100y",
+    "outer_balance_residual_share": -1.9355679304727646e-05,
+    "rain_match_share": 6.439397435531436e-06,
+    "rain_on_f3_interior_ring_m3": 1164712.75,
+    "rain_on_f3_interior_square_m3": 1164705.25,
+    "run_on": {
+     "by_edge": {
+      "east": {
+       "inflow_m3": 13540.1,
+       "inflow_share_of_square_rain": 0.011567304599411849,
+       "net_inward_m3": 8548.6,
+       "outflow_m3": 4991.5
+      },
+      "north": {
+       "inflow_m3": 34056.7,
+       "inflow_share_of_square_rain": 0.029094557830814514,
+       "net_inward_m3": -149629.2,
+       "outflow_m3": 183685.9
+      },
+      "south": {
+       "inflow_m3": 6609.8,
+       "inflow_share_of_square_rain": 0.005646713190045953,
+       "net_inward_m3": 1995.5,
+       "outflow_m3": 4614.2
+      },
+      "west": {
+       "inflow_m3": 39791.9,
+       "inflow_share_of_square_rain": 0.03399412479049791,
+       "net_inward_m3": -102445.4,
+       "outflow_m3": 142237.2
+      }
+     },
+     "inflow_m3": 93998.4,
+     "inflow_share_of_square_rain": 0.08030270041077023,
+     "net_inward_m3": -241530.4,
+     "outflow_m3": 335528.9,
+     "square_rain_m3": 1170551.0
+    },
+    "square_balance_residual_share": 1.4461217795156929e-05,
+    "square_run": "ds_1h_100y",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "change_m": 0.0,
+      "name": "Water Street Substation",
+      "ring_m": 0.059,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.059,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-339711332",
+      "change_m": 0.0,
+      "name": "Farragut Substation",
+      "ring_m": 0.448,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.448,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383102724",
+      "change_m": 0.001,
+      "name": "Hudson Avenue Substation",
+      "ring_m": 0.504,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.503,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383110539",
+      "change_m": 0.0,
+      "name": "Plymouth Substation",
+      "ring_m": 0.17,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.17,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-861227475",
+      "change_m": 0.0,
+      "name": "(no name)",
+      "ring_m": 0.109,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.109,
+      "square_meets_lead_rule": false
+     }
+    ],
+    "wet_ring": {
+     "wet_005": 64795,
+     "wet_030": 21067
+    },
+    "wet_square": {
+     "wet_005": 61757,
+     "wet_030": 19424
+    }
+   },
+   {
+    "buildings_ring": {
+     "count": 17750,
+     "max_m": 4.287,
+     "not_read": 54,
+     "wet_005": 9728,
+     "wet_030": 3210
+    },
+    "buildings_square": {
+     "count": 17750,
+     "max_m": 4.287,
+     "not_read": 54,
+     "wet_005": 7267,
+     "wet_030": 2634
+    },
+    "buildings_wall_change_gt_005": 2645,
+    "change": {
+     "by_nearest_edge": {
+      "east": 1659,
+      "north": 4447,
+      "south": 949,
+      "west": 285
+     },
+     "cells_read": 330615,
+     "changed": 7340,
+     "deeper": 7340,
+     "distance_m": {
+      "bins": {
+       "0-50": 611,
+       "100-250": 1093,
+       "1000-2000": 328,
+       "250-500": 2234,
+       "50-100": 498,
+       "500-1000": 2576,
+       ">=2000": 0
+      },
+      "max": 1117.5,
+      "median": 417.5,
+      "p90": 897.5
+     },
+     "largest_decrease_m": -0.0025,
+     "largest_increase_m": 2.857,
+     "mean_change_m": 0.00465,
+     "shallower": 0
+    },
+    "label": "ring_cat_r0005",
+    "outer_balance_residual_share": 2.1091618964184152e-05,
+    "rain_match_share": 0.40736674192436423,
+    "rain_on_f3_interior_ring_m3": 1545841.25,
+    "rain_on_f3_interior_square_m3": 1098392.625,
+    "run_on": {
+     "by_edge": {
+      "east": {
+       "inflow_m3": 1301.4,
+       "inflow_share_of_square_rain": 0.0008378119213680955,
+       "net_inward_m3": 835.6,
+       "outflow_m3": 465.8
+      },
+      "north": {
+       "inflow_m3": 22277.0,
+       "inflow_share_of_square_rain": 0.014341638562557525,
+       "net_inward_m3": -133343.5,
+       "outflow_m3": 155620.4
+      },
+      "south": {
+       "inflow_m3": 3037.9,
+       "inflow_share_of_square_rain": 0.001955758446395535,
+       "net_inward_m3": 1103.1,
+       "outflow_m3": 1934.8
+      },
+      "west": {
+       "inflow_m3": 14050.1,
+       "inflow_share_of_square_rain": 0.009045266668447741,
+       "net_inward_m3": -99212.5,
+       "outflow_m3": 113262.6
+      }
+     },
+     "inflow_m3": 40666.3,
+     "inflow_share_of_square_rain": 0.026180475598768897,
+     "net_inward_m3": -230617.3,
+     "outflow_m3": 271283.7,
+     "square_rain_m3": 1553307.2
+    },
+    "square_balance_residual_share": -5.6747178422140464e-08,
+    "square_run": "cat_r0005",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "change_m": 0.0,
+      "name": "Water Street Substation",
+      "ring_m": 0.044,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.044,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-339711332",
+      "change_m": 0.0,
+      "name": "Farragut Substation",
+      "ring_m": 0.385,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.385,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383102724",
+      "change_m": 0.0,
+      "name": "Hudson Avenue Substation",
+      "ring_m": 0.381,
+      "ring_meets_lead_rule": true,
+      "square_m": 0.381,
+      "square_meets_lead_rule": true
+     },
+     {
+      "LocNumber": "S-383110539",
+      "change_m": 0.0,
+      "name": "Plymouth Substation",
+      "ring_m": 0.164,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.164,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-861227475",
+      "change_m": 0.094,
+      "name": "(no name)",
+      "ring_m": 0.094,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.0,
+      "square_meets_lead_rule": false
+     }
+    ],
+    "wet_ring": {
+     "wet_005": 36222,
+     "wet_030": 6959
+    },
+    "wet_square": {
+     "wet_005": 29649,
+     "wet_030": 5643
+    }
+   },
+   {
+    "buildings_ring": {
+     "count": 17750,
+     "max_m": 3.528,
+     "not_read": 54,
+     "wet_005": 8256,
+     "wet_030": 1559
+    },
+    "buildings_square": {
+     "count": 17750,
+     "max_m": 3.528,
+     "not_read": 54,
+     "wet_005": 5985,
+     "wet_030": 1179
+    },
+    "buildings_wall_change_gt_005": 2416,
+    "change": {
+     "by_nearest_edge": {
+      "east": 1829,
+      "north": 2966,
+      "south": 167,
+      "west": 535
+     },
+     "cells_read": 330615,
+     "changed": 5497,
+     "deeper": 5497,
+     "distance_m": {
+      "bins": {
+       "0-50": 495,
+       "100-250": 923,
+       "1000-2000": 144,
+       "250-500": 1706,
+       "50-100": 362,
+       "500-1000": 1867,
+       ">=2000": 0
+      },
+      "max": 1082.5,
+      "median": 422.5,
+      "p90": 817.5
+     },
+     "largest_decrease_m": -0.0027,
+     "largest_increase_m": 1.8633,
+     "mean_change_m": 0.0031,
+     "shallower": 0
+    },
+    "label": "ring_cat_r0006",
+    "outer_balance_residual_share": 9.489917321391917e-06,
+    "rain_match_share": 0.4164516519799843,
+    "rain_on_f3_interior_ring_m3": 1425069.875,
+    "rain_on_f3_interior_square_m3": 1006084.375,
+    "run_on": {
+     "by_edge": {
+      "east": {
+       "inflow_m3": 1908.5,
+       "inflow_share_of_square_rain": 0.0013325757156845538,
+       "net_inward_m3": 1266.7,
+       "outflow_m3": 641.9
+      },
+      "north": {
+       "inflow_m3": 14175.3,
+       "inflow_share_of_square_rain": 0.009897605898147583,
+       "net_inward_m3": -99070.4,
+       "outflow_m3": 113245.7
+      },
+      "south": {
+       "inflow_m3": 731.2,
+       "inflow_share_of_square_rain": 0.0005105698603978051,
+       "net_inward_m3": 225.6,
+       "outflow_m3": 505.6
+      },
+      "west": {
+       "inflow_m3": 12133.1,
+       "inflow_share_of_square_rain": 0.00847168639508822,
+       "net_inward_m3": -75471.9,
+       "outflow_m3": 87605.0
+      }
+     },
+     "inflow_m3": 28948.1,
+     "inflow_share_of_square_rain": 0.02021243786931816,
+     "net_inward_m3": -173050.0,
+     "outflow_m3": 201998.1,
+     "square_rain_m3": 1432194.0
+    },
+    "square_balance_residual_share": 4.64658123644555e-06,
+    "square_run": "cat_r0006",
+    "substations": [
+     {
+      "LocNumber": "S-250386730",
+      "change_m": 0.0,
+      "name": "Water Street Substation",
+      "ring_m": 0.036,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.036,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-339711332",
+      "change_m": 0.0,
+      "name": "Farragut Substation",
+      "ring_m": 0.287,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.287,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-383102724",
+      "change_m": -0.001,
+      "name": "Hudson Avenue Substation",
+      "ring_m": 0.151,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.152,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-383110539",
+      "change_m": 0.0,
+      "name": "Plymouth Substation",
+      "ring_m": 0.128,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.128,
+      "square_meets_lead_rule": false
+     },
+     {
+      "LocNumber": "S-861227475",
+      "change_m": 0.073,
+      "name": "(no name)",
+      "ring_m": 0.073,
+      "ring_meets_lead_rule": false,
+      "square_m": 0.0,
+      "square_meets_lead_rule": false
+     }
+    ],
+    "wet_ring": {
+     "wet_005": 21755,
+     "wet_030": 2253
+    },
+    "wet_square": {
+     "wet_005": 16533,
+     "wet_030": 1575
+    }
+   }
+  ]
+ },
+ "title": "Run-on from a 500 m ring around the square: ring model against the square model"
+}

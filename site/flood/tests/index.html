@@ -102,7 +102,7 @@ src/flood_lab/facts/; do not edit -->
   (docs/flood/requirements.md, section 4). Sources list the outcome of each fact read from the
   primary source (FS6), with the level of check named as in FS7.</p>
 </section>
-<section class="tiles" aria-label="Counts"><div class="tile-row"><span class="row-label">Records and sources</span><div class="tile" data-count="records"><b>16</b><span>records</span></div><div class="tile" data-count="pass"><b>10</b><span>pass</span></div><div class="tile" data-count="fail"><b>3</b><span>fail</span></div><div class="tile" data-count="not judged"><b>3</b><span>not judged</span></div><div class="tile" data-count="sources"><b>32</b><span>sources</span></div></div><div class="tile-row"><span class="row-label">Required facts (FS6, 8 per source), by outcome</span><div class="tile" data-count="required confirmed"><b>179</b><span>confirmed</span></div><div class="tile" data-count="required differs"><b>6</b><span>differs</span></div><div class="tile" data-count="required not checked"><b>15</b><span>not checked</span></div><div class="tile" data-count="required not applicable"><b>56</b><span>not applicable</span></div></div><div class="tile-row"><span class="row-label">Further facts, by outcome</span><div class="tile" data-count="further confirmed"><b>125</b><span>confirmed</span></div><div class="tile" data-count="further differs"><b>10</b><span>differs</span></div><div class="tile" data-count="further not checked"><b>12</b><span>not checked</span></div><div class="tile" data-count="further not applicable"><b>18</b><span>not applicable</span></div></div></section>
+<section class="tiles" aria-label="Counts"><div class="tile-row"><span class="row-label">Records and sources</span><div class="tile" data-count="records"><b>17</b><span>records</span></div><div class="tile" data-count="pass"><b>10</b><span>pass</span></div><div class="tile" data-count="fail"><b>4</b><span>fail</span></div><div class="tile" data-count="not judged"><b>3</b><span>not judged</span></div><div class="tile" data-count="sources"><b>32</b><span>sources</span></div></div><div class="tile-row"><span class="row-label">Required facts (FS6, 8 per source), by outcome</span><div class="tile" data-count="required confirmed"><b>179</b><span>confirmed</span></div><div class="tile" data-count="required differs"><b>6</b><span>differs</span></div><div class="tile" data-count="required not checked"><b>15</b><span>not checked</span></div><div class="tile" data-count="required not applicable"><b>56</b><span>not applicable</span></div></div><div class="tile-row"><span class="row-label">Further facts, by outcome</span><div class="tile" data-count="further confirmed"><b>125</b><span>confirmed</span></div><div class="tile" data-count="further differs"><b>10</b><span>differs</span></div><div class="tile" data-count="further not checked"><b>12</b><span>not checked</span></div><div class="tile" data-count="further not applicable"><b>18</b><span>not applicable</span></div></div></section>
 <section id="records"><div class="sec-head"><h2>Records</h2></div>
 <article class="card" id="record-f0-area-candidates">
 <header class="card-head">
@@ -6749,6 +6749,593 @@ src/flood_lab/facts/; do not edit -->
  &quot;write_rasters_s&quot;: 0.5
 }</pre></details>
 <details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> F4 storm catalogue and batch: N = 150 catalogue storms, 1000 of 1000 years covered. Depth frequency is empirical (catalogue.depth_at, RainyDay&#x27;s rank convention), one storm per synthetic year; the largest-rain storm of a year is taken as its worst flood. Grid depth: calibration.run_depth (src/flood_lab/hazard/calibration.py): peak water level less the ground at each 5 m cell&#x27;s centre 1 m pixel, the ground never below the cell&#x27;s lowest sub-grid level (CH-20), floored at 0, the definition the constant loss rate was calibrated and FH8 tested on; not read (NaN) where calibration.Frame leaves a cell out: centre pixel in a building footprint, any pixel in a filled pit, centre pixel on mapped water, lowest level below the start water level (CH-16). Whole square, not only the study area. Asset depths: at_assets (1 m pixels; substation lead measure, building wall band). Figures made before the batch completes are rebuilt afterwards (requirements §15).</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/selection.json</td><td>85422</td><td class="l"><code>a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/f4_B_d3_n960_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>a6163c95b2b6af4b72cb786e4b0ba77429e0462f787a70cfe5bfb7b07e355442</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/params.json</td><td>1079</td><td class="l"><code>ba7085564b746f1f5f2a90d625d9510976f10ec10aff2f7e7231b349ff5de33a</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/run_record.json</td><td>2312</td><td class="l"><code>c26099852a6496d84fb92e0323c857b68c87bdfbe78ca0f2a4b9bfba9885e667</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n960/f4_B_d3_n960/catalogue.csv</td><td>209126</td><td class="l"><code>ebee68086461d1cd610eb25097df9b97c3c596cce02ff72d694152a7f4b30292</code></td></tr><tr><td class="l">f4/domain/domain_B_land.shp</td><td>588</td><td class="l"><code>c370965766e894cf046e2cbdb758cb5efb5c476b374ea3e414f17a7f637258d6</code></td></tr><tr><td class="l">f4/domain/domain.json</td><td>4971</td><td class="l"><code>f8bacecff31bfbb404c9f9f256097bc9d22f38ba8adb32f3e8ef5220a4bb8e5d</code></td></tr><tr><td class="l">f4/domain/domain_maps.npz</td><td>5390791</td><td class="l"><code>ff538d38dd0be0b902385379d47d9931e371f33f7eccb1e0d395a75ddcb2e70e</code></td></tr><tr><td class="l">f4/domain/box_ams_observed.json</td><td>749</td><td class="l"><code>ca7f1bca7fbdf36b357d9d6226214be50485ec0f7e3c47d2506e03e080478031</code></td></tr><tr><td class="l">f3/atlas14/table.json</td><td>10890</td><td class="l"><code>f49f5097e582ec923f260e93764dadacdb79ecc70dcfd0f046002178de9cd800</code></td></tr><tr><td class="l">f4/queue_design.json</td><td>2706</td><td class="l"><code>7f6f118749c9981ef9310914e4eb51aa8a225cae45b1ad64235103abe84d405b</code></td></tr><tr><td class="l">f4/rainyday/catalogue/f4_B_d3/f4_B_d3_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>9b5ba06d7b36d1b40c9b2596c6c061ec3dd5a6784795720ef1845495f3e08b93</code></td></tr><tr><td class="l">f4/rainyday/catalogue_n480/f4_B_d3_n480/f4_B_d3_n480_FreqAnalysis.csv</td><td>35051</td><td class="l"><code>011c9ac89f6b10db4a9663f31a72b90d04aeab4b4fdebdff95434f6ff5861000</code></td></tr><tr><td class="l">f4/queue_catalogue.json</td><td>107022</td><td class="l"><code>6929489970a29b7e335fa83f21d53d8d6d97d475a924f0cb2b02cd4c817b6416</code></td></tr><tr><td class="l">terrain/water_1m.tif</td><td>68068</td><td class="l"><code>c0a62a16df7cc5e3ddbc4f62a6c242ff96f956faccd9366c0007ad827c8b7872</code></td></tr><tr><td class="l">site/flood/data/substations.geojson</td><td>6298</td><td class="l"><code>fe57de4021d10274f7b0c3beba998a201f627387de70440c1e2db2dff79b26ff</code></td></tr><tr><td class="l">site/flood/data/study_area.geojson</td><td>6664</td><td class="l"><code>0336d291815e7246a45dc94e7278aa23856a1cdd2e7da54252bc2f662c269bd5</code></td></tr><tr><td class="l">nyc-building-footprints/footprints-box.geojson</td><td>18380697</td><td class="l"><code>44f0c37d0c4c8e0ee8624861ed957b70bf80bd1c65f7e6b8117c954d67e3ee43</code></td></tr><tr><td class="l">f3/model/dem_model_1m.tif</td><td>49142122</td><td class="l"><code>dedaf41f4c6e996b1662244fddec6e1d6e3372b00b7a759701ac62538a8a13cf</code></td></tr><tr><td class="l">f3/model/buildings_1m.tif</td><td>535470</td><td class="l"><code>3254ed98e2b997c44dc15cdae858845d693cf1a5150708cc376854af49ea2dfe</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f3/model/pits_1m.tif</td><td>39160</td><td class="l"><code>47589e90219147b2efaf16960a49e878c09c2578386ce36a13232e38fbc1befa</code></td></tr><tr><td class="l">f4/runs/cat_r0101/zsmax.tif</td><td>1686079</td><td class="l"><code>b786b040a8c25a7b23afeb59aa99e47777e0da5eaeeaceeb6dbc2785bce4d7bd</code></td></tr><tr><td class="l">f4/runs/cat_r0779/zsmax.tif</td><td>1682945</td><td class="l"><code>027d500218c9de5a42dc4bf499c314805209f8ec4d88987575dabaee7650e61f</code></td></tr><tr><td class="l">f4/runs/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0138/zsmax.tif</td><td>1686007</td><td class="l"><code>8bc0651dcc8bd87f478a9efb1a8829bd54c8b4dedcffc7c6f06cca6cbb3a3324</code></td></tr><tr><td class="l">f4/runs/cat_r0958/zsmax.tif</td><td>1682404</td><td class="l"><code>5fb6784079c0e5936fcb05d8dd66bce41ab2ead5437b4fb0764b4ea195f17713</code></td></tr><tr><td class="l">f4/runs/cat_r0124/zsmax.tif</td><td>1686322</td><td class="l"><code>4826e37903f435bd0dc2e75d17013797469a5b7ebdd0554bea4214618d51c953</code></td></tr><tr><td class="l">f4/runs/cat_r0714/zsmax.tif</td><td>1683371</td><td class="l"><code>8ca1757a6901d6ed207c6303c675a2da0c1175cc47eeb8b13025d67b6aebf88e</code></td></tr><tr><td class="l">f4/runs/cat_r0005/zsmax.tif</td><td>1688763</td><td class="l"><code>c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d</code></td></tr><tr><td class="l">f4/runs/cat_r0122/zsmax.tif</td><td>1703258</td><td class="l"><code>f54cddb22e2815f50d0757cf42ef042b23d88516bd38b3b511f4d40aba289345</code></td></tr><tr><td class="l">f4/runs/cat_r0602/zsmax.tif</td><td>1685353</td><td class="l"><code>9e076dcf8d7da8e6fbe9b5dc37ab98766ff52acd519a18b12360ce00710ca08b</code></td></tr><tr><td class="l">f4/runs/cat_r0091/zsmax.tif</td><td>1698960</td><td class="l"><code>c0e87e134d70cbdf56cfdbdc7bea28430be85cffee5a9ee0f624342460159ee6</code></td></tr><tr><td class="l">f4/runs/cat_r0412/zsmax.tif</td><td>1685670</td><td class="l"><code>61dd9ed2a08f980927f4ba9838c1916ef347ed5f75c1b318752a292199430ccb</code></td></tr><tr><td class="l">f4/runs/cat_r0015/zsmax.tif</td><td>1686562</td><td class="l"><code>822abb0e19a410bb1be99bde42e5d6b7b44f6a77b7e73ce879a69dde8214e774</code></td></tr><tr><td class="l">f4/runs/cat_r0065/zsmax.tif</td><td>1691934</td><td class="l"><code>1d73a3b489919ddc000564a438433777c77b4d3d03736b707cd776178790c251</code></td></tr><tr><td class="l">f4/runs/cat_r0309/zsmax.tif</td><td>1684762</td><td class="l"><code>1340fbb04d8cf756fe34fa65771cad1a1d7af04a9af6496fae04b03ec7e3ff06</code></td></tr><tr><td class="l">f4/runs/cat_r0078/zsmax.tif</td><td>1697257</td><td class="l"><code>5990f3e23bef1c3c28f7ef7771e3e9bbc8b126fc951f2159a1aa0e473920c99a</code></td></tr><tr><td class="l">f4/runs/cat_r0423/zsmax.tif</td><td>1684618</td><td class="l"><code>c4f71c5676b1431c7db88db2116aaa9c4114731b8f63a0ba84b5b883fd00b142</code></td></tr><tr><td class="l">f4/runs/cat_r0024/zsmax.tif</td><td>1688093</td><td class="l"><code>07f76ddb07bc784d417e04f2e26e5835ca29c3cb930805b97124795776b771e6</code></td></tr><tr><td class="l">f4/runs/cat_r0112/zsmax.tif</td><td>1687095</td><td class="l"><code>f58154dcac5a08e218718b585dbe1d9bb97f4d2548d0a25673afd99b9ea992eb</code></td></tr><tr><td class="l">f4/runs/cat_r0503/zsmax.tif</td><td>1686643</td><td class="l"><code>be42958c5947a467f1147b56bd14bda3ca7cf56a520e0458c275d8432587e18b</code></td></tr><tr><td class="l">f4/runs/cat_r0139/zsmax.tif</td><td>1696647</td><td class="l"><code>82a3a2c022c5df305484db892fd2c5b74adf7dd1baaff3844149b1b96bb9e7a9</code></td></tr><tr><td class="l">f4/runs/cat_r0185/zsmax.tif</td><td>1697339</td><td class="l"><code>6f4ee880944aaa5af645858d45d120ea9bdd6e681d023313d26629341f2f557e</code></td></tr><tr><td class="l">f4/runs/cat_r0008/zsmax.tif</td><td>1685635</td><td class="l"><code>e674cc0c7cdfce624ea5289486165e1bd66228abfc643de9f84a4318a577b771</code></td></tr><tr><td class="l">f4/runs/cat_r0031/zsmax.tif</td><td>1692232</td><td class="l"><code>92cfb0e0ebe444147c42056200350a01d4eefc7ea8e6ea8eb11b95d9c9db1b68</code></td></tr><tr><td class="l">f4/runs/cat_r0240/zsmax.tif</td><td>1700312</td><td class="l"><code>e1f21d13cdb97132551e6ee4ac4d009ba151e8122ce6aec5106ee9f58cfc9a61</code></td></tr><tr><td class="l">f4/runs/cat_r0100/zsmax.tif</td><td>1697735</td><td class="l"><code>da5cbb2ef1009ca74e6a34dd9779074e519a87a655e5c688f56b44c571ccb644</code></td></tr><tr><td class="l">f4/runs/cat_r0740/zsmax.tif</td><td>1682191</td><td class="l"><code>90de37e0a46bbed43ea0d58c6a747c7bf9754b81e2482960cd5330cac9273735</code></td></tr><tr><td class="l">f4/runs/cat_r0018/zsmax.tif</td><td>1697037</td><td class="l"><code>fcc001f3ced96c234c35b35e71e161e704b8a999b029e76f5a3807b556b7d65c</code></td></tr><tr><td class="l">f4/runs/cat_r0146/zsmax.tif</td><td>1700714</td><td class="l"><code>c3683a69814ca130fa6a31cd0ea382ecee682ed236d61bc9fa8f6fadf52832d7</code></td></tr><tr><td class="l">f4/runs/cat_r0791/zsmax.tif</td><td>1682707</td><td class="l"><code>397a98de36db26843a2f3c343d348566acb87ba7f335f7e282c0e61a45b41d75</code></td></tr><tr><td class="l">f4/runs/cat_r0033/zsmax.tif</td><td>1700885</td><td class="l"><code>4b0418be5f3b1f0e1b3132ee4e3f6bec6f50e8b240e33e93c2196df55e7ecf18</code></td></tr><tr><td class="l">f4/runs/cat_r0870/zsmax.tif</td><td>1682347</td><td class="l"><code>8566647588365b7bfcd495da69227eb7751f94142ee1fb12875415af2157e1ba</code></td></tr><tr><td class="l">f4/runs/cat_r0002/zsmax.tif</td><td>1690785</td><td class="l"><code>13f81ca55b691952bce048cd30ae9100105b5eeca6fcfd3291599d21dfee5735</code></td></tr><tr><td class="l">f4/runs/cat_r0036/zsmax.tif</td><td>1688858</td><td class="l"><code>2315dd8fd0ac52ffbc823f6e0837ccbcfb2e5ce8ced6cf086a1c72520a998d5b</code></td></tr><tr><td class="l">f4/runs/cat_r0826/zsmax.tif</td><td>1685813</td><td class="l"><code>0449e7bd13af4b7f6ed7e786cf903ec99be5ba1d3a6189fbb7a62334e30d4dbf</code></td></tr><tr><td class="l">f4/runs/cat_r0128/zsmax.tif</td><td>1684468</td><td class="l"><code>5e741808eaa19527bf62c9028f6a3bce7b08ee1c0e24cb0fcc39a2f57a42445d</code></td></tr><tr><td class="l">f4/runs/cat_r0850/zsmax.tif</td><td>1682044</td><td class="l"><code>9353041d117c69391449694409b5a92cb814dc68758a445db2e32bdc95344308</code></td></tr><tr><td class="l">f4/runs/cat_r0022/zsmax.tif</td><td>1693042</td><td class="l"><code>a394865d56e28a7b279d3f41c05b718c80ba27799ddbaf05031126743d94e629</code></td></tr><tr><td class="l">f4/runs/cat_r0130/zsmax.tif</td><td>1691456</td><td class="l"><code>79718ca94173f0c6f62a559f516b9c2046b8d168268f1ec4cfe5f9ad6e6c7328</code></td></tr><tr><td class="l">f4/runs/cat_r0222/zsmax.tif</td><td>1684661</td><td class="l"><code>8bcbea538749873646170af3102d27df10505073dea561542feadd28bfc20351</code></td></tr><tr><td class="l">f4/runs/cat_r0083/zsmax.tif</td><td>1689220</td><td class="l"><code>d9b4e7a02cd594842c9ddd2e49a9faee95d7af2307ffbaa017372a22503465b4</code></td></tr><tr><td class="l">f4/runs/cat_r0516/zsmax.tif</td><td>1684989</td><td class="l"><code>1941e79268518c69c0ffe491e76a2e5bc6db3f765f1ac5481cf3c2e4a28c8065</code></td></tr><tr><td class="l">f4/runs/cat_r0014/zsmax.tif</td><td>1689875</td><td class="l"><code>a9b7ff01e569bd78852e0ca53faa348ac53e4dd24df70a073ad0e3821eaf1145</code></td></tr><tr><td class="l">f4/runs/cat_r0090/zsmax.tif</td><td>1684782</td><td class="l"><code>e77806a427ad55f1980931fd144c298d4a88f376faea50902ed1592b023c6482</code></td></tr><tr><td class="l">f4/runs/cat_r0586/zsmax.tif</td><td>1684899</td><td class="l"><code>b608ed37b041239d2a9b8d7cc23769cb63214e6477c3dc3807dceb02633add29</code></td></tr><tr><td class="l">f4/runs/cat_r0119/zsmax.tif</td><td>1697173</td><td class="l"><code>b82bb430532c717d0b2392f1ae48ec6a2b87e4043e0d12e420fe07fbe71013bd</code></td></tr><tr><td class="l">f4/runs/cat_r0808/zsmax.tif</td><td>1686573</td><td class="l"><code>4d20bb2e09440a75476385ebb0e6586c4383f9b9f0c531c340a938c0765dac87</code></td></tr><tr><td class="l">f4/runs/cat_r0023/zsmax.tif</td><td>1686525</td><td class="l"><code>abe0e5cb92e3ab51e3a27be8619dc69ea93b768a0209e0227e8455dda7c2236c</code></td></tr><tr><td class="l">f4/runs/cat_r0067/zsmax.tif</td><td>1697344</td><td class="l"><code>5ce9bafdc25f89e92c0dff81ccbd60afe3c9c2ffdc0965f5aca0a5c353c8ca14</code></td></tr><tr><td class="l">f4/runs/cat_r0207/zsmax.tif</td><td>1683577</td><td class="l"><code>f2f69ec7e8631668086447a7833103af533e56ddb0b6bc3d2dcb38012a5a60b1</code></td></tr><tr><td class="l">f4/runs/cat_r0107/zsmax.tif</td><td>1702961</td><td class="l"><code>fb5f55c1e23f6a89fc39326d27a74e48594b47808c1d96ae4721be202444d3eb</code></td></tr><tr><td class="l">f4/runs/cat_r0814/zsmax.tif</td><td>1684326</td><td class="l"><code>ae136f466b9684d5a28f2607f1f8bf6c29954500abe0de0ba3fe5ccec48eceeb</code></td></tr><tr><td class="l">f4/runs/cat_r0019/zsmax.tif</td><td>1697327</td><td class="l"><code>fd612a6d68a4bffbf1697752e3fa57dc4f78312cef88690d0a7fca887267d157</code></td></tr><tr><td class="l">f4/runs/cat_r0098/zsmax.tif</td><td>1695176</td><td class="l"><code>3dd16bdf1c89b5fd71e2e999fa6f1f4dcad9637eab4db37569247777df9f5e72</code></td></tr><tr><td class="l">f4/runs/cat_r0396/zsmax.tif</td><td>1684810</td><td class="l"><code>faa63c926339d17456145635a9f374e4cc2571a3cd67f74586cbd099c1f17026</code></td></tr><tr><td class="l">f4/runs/cat_r0142/zsmax.tif</td><td>1688822</td><td class="l"><code>5f9917da24d3f0f54145c86bf45b0513f893fc1bcb1b2f745b20c6d4ffc601c4</code></td></tr><tr><td class="l">f4/runs/cat_r0863/zsmax.tif</td><td>1684926</td><td class="l"><code>3e1a98ff97bb95713938dd94d51cd2161726bc3dfa693985c142fa668918eed1</code></td></tr><tr><td class="l">f4/runs/cat_r0030/zsmax.tif</td><td>1699320</td><td class="l"><code>8ba4c0d24b44d93bc73112294f4983840c5f1e6d5e918b68ab229dd8af06ba9d</code></td></tr><tr><td class="l">f4/runs/cat_r0051/zsmax.tif</td><td>1688016</td><td class="l"><code>49aa5cdf308cbf222c1b8556e8670f4c6e39d9929d257aa37c48f4976db59188</code></td></tr><tr><td class="l">f4/runs/cat_r0529/zsmax.tif</td><td>1684338</td><td class="l"><code>4d450c34bd800326df4afcb639876fcd90aa3431f671aede7e05b1f236860457</code></td></tr><tr><td class="l">f4/runs/cat_r0075/zsmax.tif</td><td>1692957</td><td class="l"><code>307a3bb1b93acb242f128d8c88d3e98a07d5ad6c6e32f0e7856bb6b9ae73e437</code></td></tr><tr><td class="l">f4/runs/cat_r0672/zsmax.tif</td><td>1682611</td><td class="l"><code>c21a645ef1355b61db2d1692824d7849b0c929034a73e49ced7f369e48fce6d9</code></td></tr><tr><td class="l">f4/runs/cat_r0020/zsmax.tif</td><td>1687636</td><td class="l"><code>ff7b9c30ebc7ff364b63df37f926029a24f51d4a2e54f15ceab88814d817f925</code></td></tr><tr><td class="l">f4/runs/cat_r0074/zsmax.tif</td><td>1695632</td><td class="l"><code>672e0d46a3c1b68cf98d8d3bc4fdfee41e890ca511e90957b7dea0e5bf96f333</code></td></tr><tr><td class="l">f4/runs/cat_r0546/zsmax.tif</td><td>1684058</td><td class="l"><code>4f118e15ab5865fadeab41837fa04a7356537005a4d8593a8cadf151a6aff040</code></td></tr><tr><td class="l">f4/runs/cat_r0136/zsmax.tif</td><td>1689761</td><td class="l"><code>f6ff671664a09e4d6e04d0252268278825af0fa09a9bebe3a6681e49f045bf6b</code></td></tr><tr><td class="l">f4/runs/cat_r0935/zsmax.tif</td><td>1680750</td><td class="l"><code>1bfc398858206eb13cbaa12c34f35ae67ff5f2f79e5f7f6bde18a9ba587ecab5</code></td></tr><tr><td class="l">f4/runs/cat_r0025/zsmax.tif</td><td>1691548</td><td class="l"><code>6cdba7ce2b00e46ba13011adcf105e51fa5b6f48974a10dafb693c446215309b</code></td></tr><tr><td class="l">f4/runs/cat_r0104/zsmax.tif</td><td>1691040</td><td class="l"><code>5e263692157446b850d5c0e29187ce0f38c5e3cdfc991b57fa10b9d91102178e</code></td></tr><tr><td class="l">f4/runs/cat_r0384/zsmax.tif</td><td>1683671</td><td class="l"><code>136da91c3c7a608c287e14dbf4fbae87de0ac77a2ab27c4941dd36bd00b3a4e7</code></td></tr><tr><td class="l">f4/runs/cat_r0044/zsmax.tif</td><td>1699880</td><td class="l"><code>c22964298ff62b3de74b3b6eb702e3225531a89ab0fa3835bb52ef90dbe50939</code></td></tr><tr><td class="l">f4/runs/cat_r0908/zsmax.tif</td><td>1681335</td><td class="l"><code>df735279f5a187f8585c209553fc56e6ccef1a61a6868cfe3937910e5307ed14</code></td></tr><tr><td class="l">f4/runs/cat_r0027/zsmax.tif</td><td>1686876</td><td class="l"><code>76d9ed2a316888283985189aab0c7df224e91d68d8b7093f9f7159dc055c368f</code></td></tr><tr><td class="l">f4/runs/cat_r0055/zsmax.tif</td><td>1686758</td><td class="l"><code>4a14f0c98759cd373925f808e08ca1cdeb8a05128a4baf36a2bd827e48064135</code></td></tr><tr><td class="l">f4/runs/cat_r0653/zsmax.tif</td><td>1684168</td><td class="l"><code>d5b2de6155dd73be969dad733dc9c09670e115deaa03356f6c58131186bbd2b9</code></td></tr><tr><td class="l">f4/runs/cat_r0133/zsmax.tif</td><td>1701708</td><td class="l"><code>4275d8e5bb4f521d2501a81be8511b5e877d4a7a5c41aad6fcf6a3345f886d4c</code></td></tr><tr><td class="l">f4/runs/cat_r0443/zsmax.tif</td><td>1685896</td><td class="l"><code>37565fde7e987c452b6880e511ac75a0b3a8899e6dbda69d7759b390020658ed</code></td></tr><tr><td class="l">f4/runs/cat_r0026/zsmax.tif</td><td>1694590</td><td class="l"><code>d884189063cb2478f9ae9b31181927e10b6012a51aa68c333e6374ea95e5ad5d</code></td></tr><tr><td class="l">f4/runs/cat_r0058/zsmax.tif</td><td>1698019</td><td class="l"><code>4bf0116d09861dd11c23789c887f9e798c43404df7e4322e5988bfbf99cd6f8e</code></td></tr><tr><td class="l">f4/runs/cat_r0631/zsmax.tif</td><td>1683626</td><td class="l"><code>82cd0107de9a196c5fdd11a1d4a90fec089b4403a92b511cecbb6f6e386b1eae</code></td></tr><tr><td class="l">f4/runs/cat_r0041/zsmax.tif</td><td>1695128</td><td class="l"><code>0b20de72208b8c1c962a77bf5f61564490782b61d6977135322d7082cba48ea6</code></td></tr><tr><td class="l">f4/runs/cat_r0560/zsmax.tif</td><td>1685560</td><td class="l"><code>bddd8cc01eb9cac6fb8222581a19138c26b50f9dbaecd3c0a0ecc2121d488b6d</code></td></tr><tr><td class="l">f4/runs/cat_r0029/zsmax.tif</td><td>1692370</td><td class="l"><code>8b8e621041283ff89010d1eeb0c8a7df4f9efbcba426d418f1af1d68cb8886eb</code></td></tr><tr><td class="l">f4/runs/cat_r0126/zsmax.tif</td><td>1700004</td><td class="l"><code>46fdf82c8097b6ece231bbec767dc3043cf0aee4d88bec9653eabea311391b92</code></td></tr><tr><td class="l">f4/runs/cat_r0250/zsmax.tif</td><td>1689529</td><td class="l"><code>6340aa036642ec023c7f97e76b137935b34a607ef05d6e8f01a5fa91108b79c1</code></td></tr><tr><td class="l">f4/runs/cat_r0054/zsmax.tif</td><td>1690759</td><td class="l"><code>53455bd5ae17c4fde67d92bfd9747a958e212aadee3a568d762871828a1ca45e</code></td></tr><tr><td class="l">f4/runs/cat_r0266/zsmax.tif</td><td>1702313</td><td class="l"><code>64c500c893b30cdd629b73501f860c74ebfe4c776d1e731f7bd1db3f0b24f93b</code></td></tr><tr><td class="l">f4/runs/cat_r0004/zsmax.tif</td><td>1683159</td><td class="l"><code>98d3d1bb130fc070561563d96fd05eea8a8e401cdce6fe5071f77ab88f0a6f0b</code></td></tr><tr><td class="l">f4/runs/cat_r0117/zsmax.tif</td><td>1687214</td><td class="l"><code>2d3cbdb7422577b8d600476781531f0333e8f00c35fd319c6fbfb02c20ae8fd0</code></td></tr><tr><td class="l">f4/runs/cat_r0154/zsmax.tif</td><td>1684125</td><td class="l"><code>c6a45a257eb50f2dc042528dd2d834cac5d36a8b4f60b07a836e03f5e3f0b9a7</code></td></tr><tr><td class="l">f4/runs/cat_r0046/zsmax.tif</td><td>1700689</td><td class="l"><code>fb9fd5fa81879f5c66c921fe055c1e94b42fd8b6b2696fd79697882121f6e36f</code></td></tr><tr><td class="l">f4/runs/cat_r0467/zsmax.tif</td><td>1685227</td><td class="l"><code>332757f50e769a90384da20c379eb04bb2f43119c65fd3cd9230d70d79a7b339</code></td></tr><tr><td class="l">f4/runs/cat_r0007/zsmax.tif</td><td>1684681</td><td class="l"><code>6072f186410b8ba824d98c5b58f32c7c3f935e5519758b5b5e1d120d97ba9ac0</code></td></tr><tr><td class="l">f4/runs/cat_r0085/zsmax.tif</td><td>1695371</td><td class="l"><code>c2378b1d606351536d989339faca2893a184e735c891459a1fbd0196ee1ab394</code></td></tr><tr><td class="l">f4/runs/cat_r0284/zsmax.tif</td><td>1683945</td><td class="l"><code>08032dd675dc781a9ec2ced7f4a9464493df92987b15c39c160732091cdb0394</code></td></tr><tr><td class="l">f4/runs/cat_r0061/zsmax.tif</td><td>1695976</td><td class="l"><code>ad3ffdc18bf8ca88a9851bfd067e656d69ab7f38b69308758032bede2cd8c13a</code></td></tr><tr><td class="l">f4/runs/cat_r0889/zsmax.tif</td><td>1682104</td><td class="l"><code>fcc518464ceeb86e6f79696f3e61473961c9c1551fd34c14d3f64ef746de7c97</code></td></tr><tr><td class="l">f4/runs/cat_r0009/zsmax.tif</td><td>1685019</td><td class="l"><code>c9936ee13d26ec578a7e6a8b446e4fe622d380ad5544634d5f2d5e2348d4b95f</code></td></tr><tr><td class="l">f4/runs/cat_r0114/zsmax.tif</td><td>1685154</td><td class="l"><code>a7bb43014afd748fa5f899e6215711850b0a0bb942391d85bed3b1bc8a448688</code></td></tr><tr><td class="l">f4/runs/cat_r0759/zsmax.tif</td><td>1684061</td><td class="l"><code>f2ccb98dbff0c634f1df1a05b7d49792f396ee989579933725131779b390cbdb</code></td></tr><tr><td class="l">f4/runs/cat_r0110/zsmax.tif</td><td>1684885</td><td class="l"><code>6ee291480633a916c8221b4f7d2cb328a40eb7581dd58810e79dc12a66339b41</code></td></tr><tr><td class="l">f4/runs/cat_r0368/zsmax.tif</td><td>1683698</td><td class="l"><code>afcab1d088af291caf1b1324c07b70892808b39d07fd73a15855bd3b05a97727</code></td></tr><tr><td class="l">f4/runs/cat_r0013/zsmax.tif</td><td>1686316</td><td class="l"><code>927ace1b9c940f544495177a9fdc720ff7db948bba204db8be89dc70ff8d37d8</code></td></tr><tr><td class="l">f4/runs/cat_r0144/zsmax.tif</td><td>1690858</td><td class="l"><code>81bc074bd1db86f4ccb6b39071c87331f31839e6264acbaa6d2cc8f9004a2947</code></td></tr><tr><td class="l">f4/runs/cat_r0980/zsmax.tif</td><td>1680339</td><td class="l"><code>9eb1697350cf01cb3f281e0ac43c5947fb6bfa483c69a3e9bb79870e4f3deb72</code></td></tr><tr><td class="l">f4/runs/cat_r0150/zsmax.tif</td><td>1684176</td><td class="l"><code>01e69800ea71e292e3c1c786d49b96aaa072dcdb7ce260a16b427ab87975f580</code></td></tr><tr><td class="l">f4/runs/cat_r0906/zsmax.tif</td><td>1681146</td><td class="l"><code>740b41035ea39137913407286010bda4a58ba954712043d1d27716d3bb6b245d</code></td></tr><tr><td class="l">f4/runs/cat_r0011/zsmax.tif</td><td>1687576</td><td class="l"><code>244adc54d02a59948c8c892a4029578643f47bed40a879ce832f15f19c44f5f9</code></td></tr><tr><td class="l">f4/runs/cat_r0037/zsmax.tif</td><td>1694097</td><td class="l"><code>daa3696b31468e04fc2a8a81538241c0b1e90e34a72022ad1da1d241b2f8f5bb</code></td></tr><tr><td class="l">f4/runs/cat_r0337/zsmax.tif</td><td>1696837</td><td class="l"><code>333c71ecba90cb1b32b5b78bbd0e7453b9c9493bbccc4a69e91278106a057e8e</code></td></tr><tr><td class="l">f4/runs/cat_r0116/zsmax.tif</td><td>1695237</td><td class="l"><code>bb00ffe14d89e1e9bdeb6d417b94df4fd9fbdf507aeed5e8c3f4255a3c8634a1</code></td></tr><tr><td class="l">f4/runs/cat_r0445/zsmax.tif</td><td>1684265</td><td class="l"><code>4adcc8e6212944970b99b4b22c4ec1cd3c583b31048f7ffd200bd563470b76a9</code></td></tr><tr><td class="l">f4/runs/cat_r0012/zsmax.tif</td><td>1692071</td><td class="l"><code>2a81613cac176d23495f358db965b68ba9e2d3633312a77ec11f57c60822e94a</code></td></tr><tr><td class="l">f4/runs/cat_r0070/zsmax.tif</td><td>1699146</td><td class="l"><code>86267364f3e82278b34baa3c3b2c39331c2b9092b91d9f69fd59d290dd87ffdf</code></td></tr><tr><td class="l">f4/runs/cat_r0496/zsmax.tif</td><td>1685494</td><td class="l"><code>6b4515d527a38e7248c55cd0cb751c09889039c6c169a5c9f54bd0662e58c57c</code></td></tr><tr><td class="l">f4/runs/cat_r0131/zsmax.tif</td><td>1685204</td><td class="l"><code>8b47709912607172a90458d3ebee733311620cb8cf1b9baee296433b7f52fa4c</code></td></tr><tr><td class="l">f4/runs/cat_r0965/zsmax.tif</td><td>1681164</td><td class="l"><code>1c0b99989f3741703b8386a3f3892fc88514fd56060d80facc21ea8ec133dcc3</code></td></tr><tr><td class="l">f4/runs/cat_r0021/zsmax.tif</td><td>1697535</td><td class="l"><code>e962548a1e9180c2f3f54428b80c69f97336d795c44f510a3c747cf57d18ea77</code></td></tr><tr><td class="l">f4/runs/cat_r0148/zsmax.tif</td><td>1687592</td><td class="l"><code>cef1b2fe658ee00abad36bd39289ac7aae49b6b4640a034661eff0dd951f2998</code></td></tr><tr><td class="l">f4/runs/cat_r0331/zsmax.tif</td><td>1691474</td><td class="l"><code>1d2a7c7da7eaaf9367d5bda2b6b0d388ed597379ae06afbfb65a31c015ffad04</code></td></tr><tr><td class="l">f4/runs/cat_r0060/zsmax.tif</td><td>1700288</td><td class="l"><code>d3910d917143cd4c7ab9c05b5b56695b938e1998d208925de019ac6e0f65cc0c</code></td></tr><tr><td class="l">f4/runs/cat_r0302/zsmax.tif</td><td>1683575</td><td class="l"><code>65444cb392ab4dd83e349e6f3da66a8028ce2e8801706811edf10862505c0a86</code></td></tr><tr><td class="l">f4/runs/cat_r0016/zsmax.tif</td><td>1687940</td><td class="l"><code>58be7d36283957cbb6656c6b05d461917a133bafdb5d4babaac8ca10a478e090</code></td></tr><tr><td class="l">f4/runs/cat_r0047/zsmax.tif</td><td>1695341</td><td class="l"><code>b100c54e4f75aa150b08de7d76b91411ffc416327786edcddd6ed666081e65c9</code></td></tr><tr><td class="l">f4/runs/cat_r0200/zsmax.tif</td><td>1700616</td><td class="l"><code>cbec63a6b958301a10c1cc3e95fe338af02cc313bbb17419c059363b46388938</code></td></tr><tr><td class="l">f4/runs/cat_r0082/zsmax.tif</td><td>1686597</td><td class="l"><code>766d03e54494572e902748e6d8efe799bd86ac0b48bf41bfe91a5903bc3a521d</code></td></tr><tr><td class="l">f4/runs/cat_r0685/zsmax.tif</td><td>1682732</td><td class="l"><code>cd524c2bf89eb89d2f50d412170cd26566d33866c93207f885359500f161ce5e</code></td></tr><tr><td class="l">f4/runs/cat_r0028/zsmax.tif</td><td>1687212</td><td class="l"><code>6630488d99325a85994d9bdd51c41407186a2c044ab089d13104b030a522d38b</code></td></tr><tr><td class="l">f4/runs/cat_r0105/zsmax.tif</td><td>1686767</td><td class="l"><code>d3313f4af21ef4efe5d3d7a7e08606fd5f2033156abbbf0c36496fd3872af949</code></td></tr><tr><td class="l">f4/runs/cat_r0736/zsmax.tif</td><td>1686372</td><td class="l"><code>62eb63d8f0fe470274255a95a06df30cdc4a6b68767a8f303b0546f20cd18f7b</code></td></tr><tr><td class="l">f4/runs/cat_r0039/zsmax.tif</td><td>1688635</td><td class="l"><code>474108e5d2a22ca404434bc19c984ef5ba985aae19b5fbb6ca1d0cd3bd1560d6</code></td></tr><tr><td class="l">f4/runs/cat_r0930/zsmax.tif</td><td>1680671</td><td class="l"><code>932f97cdf3d737569e9318bdb765973179fc45b7fa774115aac5538071236c6d</code></td></tr><tr><td class="l">f4/runs/cat_r0017/zsmax.tif</td><td>1690280</td><td class="l"><code>385e6c42452c2e5330c9fcb2e65dee7d2ccf763a02ad6b151d3cbccb236be9d2</code></td></tr><tr><td class="l">f4/runs/cat_r0087/zsmax.tif</td><td>1686983</td><td class="l"><code>ba57a51b3d48447f7a01cc69249a060fc4d40f2e8fda267033ca59c5e9908f4e</code></td></tr><tr><td class="l">f4/runs/cat_r0616/zsmax.tif</td><td>1683582</td><td class="l"><code>60b92869a03c3fd4f0339010309090d4b731bc6befe78339946e939d277d2234</code></td></tr><tr><td class="l">f4/runs/cat_r0095/zsmax.tif</td><td>1693789</td><td class="l"><code>89ad571d33f4dae4983b8124752fab79d1fee1f8f3971de0b6da1eb9003b1ee8</code></td></tr><tr><td class="l">f4/runs/cat_r0169/zsmax.tif</td><td>1684235</td><td class="l"><code>7cfccbe985237249e69bd48729254defe6fcd598c1e764e50d22a939d00dc4a7</code></td></tr><tr><td class="l">f4/runs/cat_r0010/zsmax.tif</td><td>1686387</td><td class="l"><code>a3c5715f2e386ed6292d467135d87720956f54bfd39c2a7330d6a3404d8ceeff</code></td></tr><tr><td class="l">f4/runs/cat_r0064/zsmax.tif</td><td>1692088</td><td class="l"><code>6119f22c8fe66a970e494d31a22516b6f9eed2eee5e172a0243c910affc31b4a</code></td></tr><tr><td class="l">f4/runs/cat_r0572/zsmax.tif</td><td>1684144</td><td class="l"><code>c3e14d3d0ee31dde06a0a8a73d94f9a4d114a591b93c55ffc4af393d05dfc150</code></td></tr><tr><td class="l">f4/runs/cat_r0072/zsmax.tif</td><td>1694521</td><td class="l"><code>9dd41c090a0cf262aeeea7567c67bf35bcc3fc84b0d674591128f312ed06cf0a</code></td></tr><tr><td class="l">f4/runs/cat_r0481/zsmax.tif</td><td>1683065</td><td class="l"><code>a11c8a1143fcd03703f591b03845f0532f86ac2989200128061bacbe6eb4e211</code></td></tr><tr><td class="l">f4/runs/cat_r0003/zsmax.tif</td><td>1686038</td><td class="l"><code>abb3eea898517be9b868a39ab97b1f3b565c929705a505308ee9973608ad64e0</code></td></tr><tr><td class="l">f4/runs/cat_r0079/zsmax.tif</td><td>1686267</td><td class="l"><code>52d56ff4e7d11d49fb12d6cc7a902390d834e7b05672516f16bd31c4bf6ad336</code></td></tr><tr><td class="l">f4/runs/cat_r0351/zsmax.tif</td><td>1692096</td><td class="l"><code>18dd5f8d5ec0a7d49981241248ea65d3e61a838a18542dafcc345df09c8ecddb</code></td></tr><tr><td class="l">f4/runs/cat_r0050/zsmax.tif</td><td>1686050</td><td class="l"><code>cb9d82858bc6a4340c6343a1b092b0d5fd61613f8276a96e6c494a7e165c4c51</code></td></tr><tr><td class="l">f4/runs/cat_r0667/zsmax.tif</td><td>1685358</td><td class="l"><code>1328a17ef2a0c01f75efbc8e8e9567a638e3b3f0953bc1ad7e5a64058865f0d3</code></td></tr><tr><td class="l">f4/runs/cat_r0001/zsmax.tif</td><td>1685882</td><td class="l"><code>fdc3458a501d0a09ea7ae90370c75eb91db1310c739e1cb2ac4dea857df0d452</code></td></tr><tr><td class="l">f4/runs/cat_r0094/zsmax.tif</td><td>1689166</td><td class="l"><code>f574c1a648f1fc2c9d4121af35fd4cf2663527750eef355958e70f69b2e05ae1</code></td></tr><tr><td class="l">f4/runs/cat_r0709/zsmax.tif</td><td>1682970</td><td class="l"><code>608df9a102864fe2e4eff1740879545159ba27d234580f765e49b87ece04592c</code></td></tr><tr><td class="l">f4/runs/ds_1h_2y/zsmax.tif</td><td>2271121</td><td class="l"><code>2cd8cb0dbf01085c2141325afcc3f9fa9241c12e2e9dea46ccab086f2b052e49</code></td></tr><tr><td class="l">f4/runs/ds_1h_5y/zsmax.tif</td><td>2249212</td><td class="l"><code>f14568798b5b390352055a7a6819f66403265c4948604fd1dd52234b3e2bdc96</code></td></tr><tr><td class="l">f4/runs/ds_1h_10y/zsmax.tif</td><td>2242402</td><td class="l"><code>cc92a765fc660ce7a95d2dec0fd630ad49c3870fd726418d47fb92bd298804b1</code></td></tr><tr><td class="l">f4/runs/ds_1h_25y/zsmax.tif</td><td>2238348</td><td class="l"><code>9875a9a2ba238404cd3c4b71922e4e51040615b53400f45c73428c06df00b708</code></td></tr><tr><td class="l">f4/runs/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">f4/runs/ds_1h_500y/zsmax.tif</td><td>2228504</td><td class="l"><code>6e90d5055e6a000b99ebe4b78e3235f355fa650c4e2f0b5ff14fcfdf52106afd</code></td></tr><tr><td class="l">f4/runs/ds_3h_2y/zsmax.tif</td><td>2250332</td><td class="l"><code>b1923cce07a6e878da187ee276c44f929a7337f6615bc73d6a68f84b3abeea0a</code></td></tr><tr><td class="l">f4/runs/ds_3h_5y/zsmax.tif</td><td>2254870</td><td class="l"><code>ce94ca8e4fa87f81588e3ceb3d7a9b96f3bd63aafb216fea47dbbfe252eefda8</code></td></tr><tr><td class="l">f4/runs/ds_3h_10y/zsmax.tif</td><td>2255619</td><td class="l"><code>815c0716355752aef8f703a83296cd7de17d89a9466863d079ef34a03d3b1ecd</code></td></tr><tr><td class="l">f4/runs/ds_3h_25y/zsmax.tif</td><td>2256241</td><td class="l"><code>d4861ead7ac6c7eebb32af1188fadda9839bb4552177733f563e95aeb96eba6a</code></td></tr><tr><td class="l">f4/runs/ds_3h_100y/zsmax.tif</td><td>2236597</td><td class="l"><code>705db9e2dfec03f733eca551011530a4f1b578e0cb4c70aa3f6d93f68395627d</code></td></tr><tr><td class="l">f4/runs/ds_3h_500y/zsmax.tif</td><td>2219609</td><td class="l"><code>e75e9fdf9f5954ddf9d9ff56e7aa368541c724512405dda76a0addc96a54e1e2</code></td></tr></tbody></table></div></details>
+<p class="mute small">Software: crc-framework 1.0.0, crc-sdk 1.0.0, geopandas 1.2.0, matplotlib 3.11.2, numpy 2.5.4, python 3.12.11, rasterio 1.5.1</p>
+</article>
+<article class="card" id="record-f4-ring">
+<header class="card-head">
+<h3>Run-on from a 500 m ring around the square: ring model against the square model</h3>
+<span class="stage">F4</span>
+<span class="badge fail">fail</span>
+</header>
+<p class="mute small">Record <code>f4-ring</code>, written 2026-11-27T03:36:05Z.</p>
+<ul class="notes"><li>Both runs have the same rain on the square: the ring&#x27;s forcing keeps every pixel of the square run&#x27;s forcing file and adds pixels around it by the same nearest-cell rule.</li><li>The ring&#x27;s outer edge is an outflow boundary on land, as F3&#x27;s: run-on from beyond 500 m is still left out.</li></ul>
+<figure><img src="figures/f4/ring_model.png" alt="ring_model.png" loading="lazy"><figcaption><b>ring_model.png.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact. <a href="figures/f4/ring_model.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/ring_difference.png" alt="ring_difference.png" loading="lazy"><figcaption><b>ring_difference.png.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact. <a href="figures/f4/ring_difference.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/ring_run_on.png" alt="ring_run_on.png" loading="lazy"><figcaption><b>ring_run_on.png.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact. <a href="figures/f4/ring_run_on.png">Open</a></figcaption></figure>
+<figure><img src="figures/f4/ring_change_distance.png" alt="ring_change_distance.png" loading="lazy"><figcaption><b>ring_change_distance.png.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact. <a href="figures/f4/ring_change_distance.png">Open</a></figcaption></figure>
+<p class="caption"><b>Checks.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Check</th><th class="l">Rule</th><th>Value</th><th>Threshold</th><th>Verdict</th><th class="l">Note</th></tr></thead><tbody><tr><td class="l">the ring&#x27;s cells are the square&#x27;s cells</td><td class="l">grid offsets whole cells, same terrain file, lowest sub-grid level equal on all 640000 cells</td><td>{&quot;zb_largest_abs_difference_m&quot;: 0.0}</td><td>0.0</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance (continuity) of the outer domain within 1%</td><td class="l">|rain - drained - stored - out| / rain over the ring model&#x27;s interior cells (FH8)</td><td>2.1091618964184152e-05</td><td>0.01</td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">water balance (continuity) of the square within 1%</td><td class="l">|rain + net inflow across the inner cross-sections - drained - stored| / rain on the square</td><td>1.4461217795156929e-05</td><td>0.01 <span class="proposed">proposed</span></td><td><span class="badge pass">pass</span></td><td class='l mute'></td></tr><tr><td class="l">same rain on the square in both runs</td><td class="l">rain on F3&#x27;s interior cells, ring run against the square run&#x27;s balance.json</td><td>[1.544570015841496e-05, 6.439397435531436e-06, 0.40736674192436423, 0.4164516519799843]</td><td>0.0001 <span class="proposed">proposed</span></td><td><span class="badge fail">fail</span></td><td class='l mute'></td></tr></tbody></table></div>
+<p class="caption"><b>Numbers.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.</p>
+<div class="scroll"><table class="data kv"><thead><tr><th class="l">Number</th><th>Value</th></tr></thead><tbody><tr><td class="l">alignment</td><td>{&quot;aligned&quot;: true, &quot;cut_origin&quot;: [585500.0, 4508500.0], &quot;cut_shape&quot;: [800, 800], &quot;ring_grid&quot;: {&quot;dx&quot;: 5.0, &quot;epsg&quot;: 32618, &quot;mmax&quot;: 1000, &quot;nmax&quot;: 1000, &quot;x0&quot;: 585000.0, &quot;y0&quot;: 4504000.0}, &quot;ring_transform_is_ring&quot;: true, &quot;square_cells_all_interior&quot;: true, &quot;square_transform_is_project_grid&quot;: true, &quot;terrain_identical_to_f3&quot;: true, &quot;window_rows_cols&quot;: [100, 900, 100, 900], &quot;zb_cells_differing&quot;: 0, &quot;zb_largest_abs_difference_m&quot;: 0.0}</td></tr><tr><td class="l">seconds</td><td>21.9</td></tr></tbody></table></div>
+<p class="caption"><b>Parameters.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.</p>
+<div class="scroll"><table class="data"><thead><tr><th class="l">Parameter</th><th>Value</th><th>Tag</th><th class="l">Source</th></tr></thead><tbody><tr><td class="l">ring_extent</td><td>[585000.0, 4504000.0, 590000.0, 4509000.0]</td><td><span class="tag">[P]</span></td><td class="l mute">sfincs_ring.RING</td></tr><tr><td class="l">inner_piece_m</td><td>50.0</td><td><span class="tag">[P]</span></td><td class="l mute">sfincs_ring.SECTION_M</td></tr><tr><td class="l">change_m</td><td>0.05</td><td><span class="tag">[P]</span></td><td class="l mute">f4_ring.CHANGE_M</td></tr><tr><td class="l">rain_match_share</td><td>0.0001</td><td><span class="tag">[P]</span></td><td class="l mute">f4_ring.RAIN_MATCH_SHARE</td></tr><tr><td class="l">balance_max_share</td><td>0.01</td><td><span class="tag">[P]</span></td><td class="l mute">FH8</td></tr><tr><td class="l">loss_rate_qinf_mm_h</td><td>[30.0]</td><td><span class="tag">[P]</span></td><td class="l mute">CH-16, frozen</td></tr></tbody></table></div>
+<details class="table"><summary>Table <code>storms</code></summary><p class="caption"><b>Table storms.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.</p><pre>[
+ {
+  &quot;buildings_ring&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.275,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 10710,
+   &quot;wet_030&quot;: 4124
+  },
+  &quot;buildings_square&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.274,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 10600,
+   &quot;wet_030&quot;: 4023
+  },
+  &quot;buildings_wall_change_gt_005&quot;: 379,
+  &quot;change&quot;: {
+   &quot;by_nearest_edge&quot;: {
+    &quot;east&quot;: 1568,
+    &quot;north&quot;: 110,
+    &quot;south&quot;: 1192,
+    &quot;west&quot;: 504
+   },
+   &quot;cells_read&quot;: 330615,
+   &quot;changed&quot;: 3374,
+   &quot;deeper&quot;: 3374,
+   &quot;distance_m&quot;: {
+    &quot;bins&quot;: {
+     &quot;0-50&quot;: 630,
+     &quot;100-250&quot;: 669,
+     &quot;1000-2000&quot;: 0,
+     &quot;250-500&quot;: 1176,
+     &quot;50-100&quot;: 315,
+     &quot;500-1000&quot;: 584,
+     &quot;&gt;=2000&quot;: 0
+    },
+    &quot;max&quot;: 997.5,
+    &quot;median&quot;: 272.5,
+    &quot;p90&quot;: 867.5
+   },
+   &quot;largest_decrease_m&quot;: -0.0055,
+   &quot;largest_increase_m&quot;: 3.2791,
+   &quot;mean_change_m&quot;: 0.00248,
+   &quot;shallower&quot;: 0
+  },
+  &quot;label&quot;: &quot;ring_ida&quot;,
+  &quot;outer_balance_residual_share&quot;: 9.778104761180474e-06,
+  &quot;rain_match_share&quot;: 1.544570015841496e-05,
+  &quot;rain_on_f3_interior_ring_m3&quot;: 2330781.75,
+  &quot;rain_on_f3_interior_square_m3&quot;: 2330745.75,
+  &quot;run_on&quot;: {
+   &quot;by_edge&quot;: {
+    &quot;east&quot;: {
+     &quot;inflow_m3&quot;: 6249.2,
+     &quot;inflow_share_of_square_rain&quot;: 0.002667828952493646,
+     &quot;net_inward_m3&quot;: 4041.2,
+     &quot;outflow_m3&quot;: 2208.0
+    },
+    &quot;north&quot;: {
+     &quot;inflow_m3&quot;: 58042.2,
+     &quot;inflow_share_of_square_rain&quot;: 0.024778690256604126,
+     &quot;net_inward_m3&quot;: -197208.0,
+     &quot;outflow_m3&quot;: 255250.3
+    },
+    &quot;south&quot;: {
+     &quot;inflow_m3&quot;: 4845.6,
+     &quot;inflow_share_of_square_rain&quot;: 0.0020686180568704965,
+     &quot;net_inward_m3&quot;: 1412.9,
+     &quot;outflow_m3&quot;: 3432.7
+    },
+    &quot;west&quot;: {
+     &quot;inflow_m3&quot;: 32917.4,
+     &quot;inflow_share_of_square_rain&quot;: 0.014052682025300613,
+     &quot;net_inward_m3&quot;: -134499.5,
+     &quot;outflow_m3&quot;: 167416.8
+    }
+   },
+   &quot;inflow_m3&quot;: 102054.4,
+   &quot;inflow_share_of_square_rain&quot;: 0.043567819291268885,
+   &quot;net_inward_m3&quot;: -326253.5,
+   &quot;outflow_m3&quot;: 428307.9,
+   &quot;square_rain_m3&quot;: 2342425.5
+  },
+  &quot;square_balance_residual_share&quot;: 8.007084703456254e-06,
+  &quot;square_run&quot;: &quot;ida_q30&quot;,
+  &quot;substations&quot;: [
+   {
+    &quot;LocNumber&quot;: &quot;S-250386730&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Water Street Substation&quot;,
+    &quot;ring_m&quot;: 0.047,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.047,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-339711332&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Farragut Substation&quot;,
+    &quot;ring_m&quot;: 0.39,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.39,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383102724&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
+    &quot;ring_m&quot;: 0.415,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.415,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383110539&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Plymouth Substation&quot;,
+    &quot;ring_m&quot;: 0.165,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.165,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-861227475&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;(no name)&quot;,
+    &quot;ring_m&quot;: 0.094,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.094,
+    &quot;square_meets_lead_rule&quot;: false
+   }
+  ],
+  &quot;wet_ring&quot;: {
+   &quot;wet_005&quot;: 45273,
+   &quot;wet_030&quot;: 10794
+  },
+  &quot;wet_square&quot;: {
+   &quot;wet_005&quot;: 43135,
+   &quot;wet_030&quot;: 9812
+  }
+ },
+ {
+  &quot;buildings_ring&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.853,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 11784,
+   &quot;wet_030&quot;: 5972
+  },
+  &quot;buildings_square&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.853,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 11659,
+   &quot;wet_030&quot;: 5839
+  },
+  &quot;buildings_wall_change_gt_005&quot;: 480,
+  &quot;change&quot;: {
+   &quot;by_nearest_edge&quot;: {
+    &quot;east&quot;: 2260,
+    &quot;north&quot;: 152,
+    &quot;south&quot;: 1607,
+    &quot;west&quot;: 1751
+   },
+   &quot;cells_read&quot;: 330615,
+   &quot;changed&quot;: 5770,
+   &quot;deeper&quot;: 5770,
+   &quot;distance_m&quot;: {
+    &quot;bins&quot;: {
+     &quot;0-50&quot;: 880,
+     &quot;100-250&quot;: 1152,
+     &quot;1000-2000&quot;: 55,
+     &quot;250-500&quot;: 1698,
+     &quot;50-100&quot;: 547,
+     &quot;500-1000&quot;: 1438,
+     &quot;&gt;=2000&quot;: 0
+    },
+    &quot;max&quot;: 1452.5,
+    &quot;median&quot;: 317.5,
+    &quot;p90&quot;: 817.5
+   },
+   &quot;largest_decrease_m&quot;: -0.036,
+   &quot;largest_increase_m&quot;: 3.3854,
+   &quot;mean_change_m&quot;: 0.00422,
+   &quot;shallower&quot;: 0
+  },
+  &quot;label&quot;: &quot;ring_ds_1h_100y&quot;,
+  &quot;outer_balance_residual_share&quot;: -1.9355679304727646e-05,
+  &quot;rain_match_share&quot;: 6.439397435531436e-06,
+  &quot;rain_on_f3_interior_ring_m3&quot;: 1164712.75,
+  &quot;rain_on_f3_interior_square_m3&quot;: 1164705.25,
+  &quot;run_on&quot;: {
+   &quot;by_edge&quot;: {
+    &quot;east&quot;: {
+     &quot;inflow_m3&quot;: 13540.1,
+     &quot;inflow_share_of_square_rain&quot;: 0.011567304599411849,
+     &quot;net_inward_m3&quot;: 8548.6,
+     &quot;outflow_m3&quot;: 4991.5
+    },
+    &quot;north&quot;: {
+     &quot;inflow_m3&quot;: 34056.7,
+     &quot;inflow_share_of_square_rain&quot;: 0.029094557830814514,
+     &quot;net_inward_m3&quot;: -149629.2,
+     &quot;outflow_m3&quot;: 183685.9
+    },
+    &quot;south&quot;: {
+     &quot;inflow_m3&quot;: 6609.8,
+     &quot;inflow_share_of_square_rain&quot;: 0.005646713190045953,
+     &quot;net_inward_m3&quot;: 1995.5,
+     &quot;outflow_m3&quot;: 4614.2
+    },
+    &quot;west&quot;: {
+     &quot;inflow_m3&quot;: 39791.9,
+     &quot;inflow_share_of_square_rain&quot;: 0.03399412479049791,
+     &quot;net_inward_m3&quot;: -102445.4,
+     &quot;outflow_m3&quot;: 142237.2
+    }
+   },
+   &quot;inflow_m3&quot;: 93998.4,
+   &quot;inflow_share_of_square_rain&quot;: 0.08030270041077023,
+   &quot;net_inward_m3&quot;: -241530.4,
+   &quot;outflow_m3&quot;: 335528.9,
+   &quot;square_rain_m3&quot;: 1170551.0
+  },
+  &quot;square_balance_residual_share&quot;: 1.4461217795156929e-05,
+  &quot;square_run&quot;: &quot;ds_1h_100y&quot;,
+  &quot;substations&quot;: [
+   {
+    &quot;LocNumber&quot;: &quot;S-250386730&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Water Street Substation&quot;,
+    &quot;ring_m&quot;: 0.059,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.059,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-339711332&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Farragut Substation&quot;,
+    &quot;ring_m&quot;: 0.448,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.448,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383102724&quot;,
+    &quot;change_m&quot;: 0.001,
+    &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
+    &quot;ring_m&quot;: 0.504,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.503,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383110539&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Plymouth Substation&quot;,
+    &quot;ring_m&quot;: 0.17,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.17,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-861227475&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;(no name)&quot;,
+    &quot;ring_m&quot;: 0.109,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.109,
+    &quot;square_meets_lead_rule&quot;: false
+   }
+  ],
+  &quot;wet_ring&quot;: {
+   &quot;wet_005&quot;: 64795,
+   &quot;wet_030&quot;: 21067
+  },
+  &quot;wet_square&quot;: {
+   &quot;wet_005&quot;: 61757,
+   &quot;wet_030&quot;: 19424
+  }
+ },
+ {
+  &quot;buildings_ring&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.287,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 9728,
+   &quot;wet_030&quot;: 3210
+  },
+  &quot;buildings_square&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 4.287,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 7267,
+   &quot;wet_030&quot;: 2634
+  },
+  &quot;buildings_wall_change_gt_005&quot;: 2645,
+  &quot;change&quot;: {
+   &quot;by_nearest_edge&quot;: {
+    &quot;east&quot;: 1659,
+    &quot;north&quot;: 4447,
+    &quot;south&quot;: 949,
+    &quot;west&quot;: 285
+   },
+   &quot;cells_read&quot;: 330615,
+   &quot;changed&quot;: 7340,
+   &quot;deeper&quot;: 7340,
+   &quot;distance_m&quot;: {
+    &quot;bins&quot;: {
+     &quot;0-50&quot;: 611,
+     &quot;100-250&quot;: 1093,
+     &quot;1000-2000&quot;: 328,
+     &quot;250-500&quot;: 2234,
+     &quot;50-100&quot;: 498,
+     &quot;500-1000&quot;: 2576,
+     &quot;&gt;=2000&quot;: 0
+    },
+    &quot;max&quot;: 1117.5,
+    &quot;median&quot;: 417.5,
+    &quot;p90&quot;: 897.5
+   },
+   &quot;largest_decrease_m&quot;: -0.0025,
+   &quot;largest_increase_m&quot;: 2.857,
+   &quot;mean_change_m&quot;: 0.00465,
+   &quot;shallower&quot;: 0
+  },
+  &quot;label&quot;: &quot;ring_cat_r0005&quot;,
+  &quot;outer_balance_residual_share&quot;: 2.1091618964184152e-05,
+  &quot;rain_match_share&quot;: 0.40736674192436423,
+  &quot;rain_on_f3_interior_ring_m3&quot;: 1545841.25,
+  &quot;rain_on_f3_interior_square_m3&quot;: 1098392.625,
+  &quot;run_on&quot;: {
+   &quot;by_edge&quot;: {
+    &quot;east&quot;: {
+     &quot;inflow_m3&quot;: 1301.4,
+     &quot;inflow_share_of_square_rain&quot;: 0.0008378119213680955,
+     &quot;net_inward_m3&quot;: 835.6,
+     &quot;outflow_m3&quot;: 465.8
+    },
+    &quot;north&quot;: {
+     &quot;inflow_m3&quot;: 22277.0,
+     &quot;inflow_share_of_square_rain&quot;: 0.014341638562557525,
+     &quot;net_inward_m3&quot;: -133343.5,
+     &quot;outflow_m3&quot;: 155620.4
+    },
+    &quot;south&quot;: {
+     &quot;inflow_m3&quot;: 3037.9,
+     &quot;inflow_share_of_square_rain&quot;: 0.001955758446395535,
+     &quot;net_inward_m3&quot;: 1103.1,
+     &quot;outflow_m3&quot;: 1934.8
+    },
+    &quot;west&quot;: {
+     &quot;inflow_m3&quot;: 14050.1,
+     &quot;inflow_share_of_square_rain&quot;: 0.009045266668447741,
+     &quot;net_inward_m3&quot;: -99212.5,
+     &quot;outflow_m3&quot;: 113262.6
+    }
+   },
+   &quot;inflow_m3&quot;: 40666.3,
+   &quot;inflow_share_of_square_rain&quot;: 0.026180475598768897,
+   &quot;net_inward_m3&quot;: -230617.3,
+   &quot;outflow_m3&quot;: 271283.7,
+   &quot;square_rain_m3&quot;: 1553307.2
+  },
+  &quot;square_balance_residual_share&quot;: -5.6747178422140464e-08,
+  &quot;square_run&quot;: &quot;cat_r0005&quot;,
+  &quot;substations&quot;: [
+   {
+    &quot;LocNumber&quot;: &quot;S-250386730&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Water Street Substation&quot;,
+    &quot;ring_m&quot;: 0.044,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.044,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-339711332&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Farragut Substation&quot;,
+    &quot;ring_m&quot;: 0.385,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.385,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383102724&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
+    &quot;ring_m&quot;: 0.381,
+    &quot;ring_meets_lead_rule&quot;: true,
+    &quot;square_m&quot;: 0.381,
+    &quot;square_meets_lead_rule&quot;: true
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383110539&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Plymouth Substation&quot;,
+    &quot;ring_m&quot;: 0.164,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.164,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-861227475&quot;,
+    &quot;change_m&quot;: 0.094,
+    &quot;name&quot;: &quot;(no name)&quot;,
+    &quot;ring_m&quot;: 0.094,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.0,
+    &quot;square_meets_lead_rule&quot;: false
+   }
+  ],
+  &quot;wet_ring&quot;: {
+   &quot;wet_005&quot;: 36222,
+   &quot;wet_030&quot;: 6959
+  },
+  &quot;wet_square&quot;: {
+   &quot;wet_005&quot;: 29649,
+   &quot;wet_030&quot;: 5643
+  }
+ },
+ {
+  &quot;buildings_ring&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 3.528,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 8256,
+   &quot;wet_030&quot;: 1559
+  },
+  &quot;buildings_square&quot;: {
+   &quot;count&quot;: 17750,
+   &quot;max_m&quot;: 3.528,
+   &quot;not_read&quot;: 54,
+   &quot;wet_005&quot;: 5985,
+   &quot;wet_030&quot;: 1179
+  },
+  &quot;buildings_wall_change_gt_005&quot;: 2416,
+  &quot;change&quot;: {
+   &quot;by_nearest_edge&quot;: {
+    &quot;east&quot;: 1829,
+    &quot;north&quot;: 2966,
+    &quot;south&quot;: 167,
+    &quot;west&quot;: 535
+   },
+   &quot;cells_read&quot;: 330615,
+   &quot;changed&quot;: 5497,
+   &quot;deeper&quot;: 5497,
+   &quot;distance_m&quot;: {
+    &quot;bins&quot;: {
+     &quot;0-50&quot;: 495,
+     &quot;100-250&quot;: 923,
+     &quot;1000-2000&quot;: 144,
+     &quot;250-500&quot;: 1706,
+     &quot;50-100&quot;: 362,
+     &quot;500-1000&quot;: 1867,
+     &quot;&gt;=2000&quot;: 0
+    },
+    &quot;max&quot;: 1082.5,
+    &quot;median&quot;: 422.5,
+    &quot;p90&quot;: 817.5
+   },
+   &quot;largest_decrease_m&quot;: -0.0027,
+   &quot;largest_increase_m&quot;: 1.8633,
+   &quot;mean_change_m&quot;: 0.0031,
+   &quot;shallower&quot;: 0
+  },
+  &quot;label&quot;: &quot;ring_cat_r0006&quot;,
+  &quot;outer_balance_residual_share&quot;: 9.489917321391917e-06,
+  &quot;rain_match_share&quot;: 0.4164516519799843,
+  &quot;rain_on_f3_interior_ring_m3&quot;: 1425069.875,
+  &quot;rain_on_f3_interior_square_m3&quot;: 1006084.375,
+  &quot;run_on&quot;: {
+   &quot;by_edge&quot;: {
+    &quot;east&quot;: {
+     &quot;inflow_m3&quot;: 1908.5,
+     &quot;inflow_share_of_square_rain&quot;: 0.0013325757156845538,
+     &quot;net_inward_m3&quot;: 1266.7,
+     &quot;outflow_m3&quot;: 641.9
+    },
+    &quot;north&quot;: {
+     &quot;inflow_m3&quot;: 14175.3,
+     &quot;inflow_share_of_square_rain&quot;: 0.009897605898147583,
+     &quot;net_inward_m3&quot;: -99070.4,
+     &quot;outflow_m3&quot;: 113245.7
+    },
+    &quot;south&quot;: {
+     &quot;inflow_m3&quot;: 731.2,
+     &quot;inflow_share_of_square_rain&quot;: 0.0005105698603978051,
+     &quot;net_inward_m3&quot;: 225.6,
+     &quot;outflow_m3&quot;: 505.6
+    },
+    &quot;west&quot;: {
+     &quot;inflow_m3&quot;: 12133.1,
+     &quot;inflow_share_of_square_rain&quot;: 0.00847168639508822,
+     &quot;net_inward_m3&quot;: -75471.9,
+     &quot;outflow_m3&quot;: 87605.0
+    }
+   },
+   &quot;inflow_m3&quot;: 28948.1,
+   &quot;inflow_share_of_square_rain&quot;: 0.02021243786931816,
+   &quot;net_inward_m3&quot;: -173050.0,
+   &quot;outflow_m3&quot;: 201998.1,
+   &quot;square_rain_m3&quot;: 1432194.0
+  },
+  &quot;square_balance_residual_share&quot;: 4.64658123644555e-06,
+  &quot;square_run&quot;: &quot;cat_r0006&quot;,
+  &quot;substations&quot;: [
+   {
+    &quot;LocNumber&quot;: &quot;S-250386730&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Water Street Substation&quot;,
+    &quot;ring_m&quot;: 0.036,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.036,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-339711332&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Farragut Substation&quot;,
+    &quot;ring_m&quot;: 0.287,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.287,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383102724&quot;,
+    &quot;change_m&quot;: -0.001,
+    &quot;name&quot;: &quot;Hudson Avenue Substation&quot;,
+    &quot;ring_m&quot;: 0.151,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.152,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-383110539&quot;,
+    &quot;change_m&quot;: 0.0,
+    &quot;name&quot;: &quot;Plymouth Substation&quot;,
+    &quot;ring_m&quot;: 0.128,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.128,
+    &quot;square_meets_lead_rule&quot;: false
+   },
+   {
+    &quot;LocNumber&quot;: &quot;S-861227475&quot;,
+    &quot;change_m&quot;: 0.073,
+    &quot;name&quot;: &quot;(no name)&quot;,
+    &quot;ring_m&quot;: 0.073,
+    &quot;ring_meets_lead_rule&quot;: false,
+    &quot;square_m&quot;: 0.0,
+    &quot;square_meets_lead_rule&quot;: false
+   }
+  ],
+  &quot;wet_ring&quot;: {
+   &quot;wet_005&quot;: 21755,
+   &quot;wet_030&quot;: 2253
+  },
+  &quot;wet_square&quot;: {
+   &quot;wet_005&quot;: 16533,
+   &quot;wet_030&quot;: 1575
+  }
+ }
+]</pre></details>
+<details class="table"><summary>Inputs</summary><p class="caption"><b>Inputs.</b> Run-on (a convention: water flowing onto an area from upslope) is the volume entering the square across its edges; inflow and outflow per edge are integrated per 50 m piece and 10 s output step, so both are lower bounds of the gross fluxes and their difference is exact.</p><div class="scroll"><table class="data"><thead><tr><th class="l">Path</th><th>Bytes</th><th class="l">SHA-256</th></tr></thead><tbody><tr><td class="l">f4/ring/queue_ring.json</td><td>1401</td><td class="l"><code>dae628929842357d8090131493ad01d4972d0feabb7760bbdb564e013f32a524</code></td></tr><tr><td class="l">f4/ring/model/base/base.json</td><td>5127</td><td class="l"><code>f51e5ba99f50c8df22f4a6c44e17ff521b54a3ff49f8c3ffedf02d64887440b2</code></td></tr><tr><td class="l">f4/ring/model/zb_5m.tif</td><td>3110386</td><td class="l"><code>19d4fe0e89628c48c7a05c1b848eabb0591256daa355571f7bf9fe10527c7ed1</code></td></tr><tr><td class="l">f3/model/zb_5m.tif</td><td>1969760</td><td class="l"><code>640e03b260e9186eced401dbf20abdde7a18f7e77880ffff5bad043ed868dc6e</code></td></tr><tr><td class="l">f4/ring/runs/ring_ida/balance.json</td><td>3691</td><td class="l"><code>7a63e3e549c59ca28d69e23eb0cfd58c4ce0eab722b1fcd4b71cb730e511de26</code></td></tr><tr><td class="l">f4/ring/runs/ring_ida/zsmax.tif</td><td>3461762</td><td class="l"><code>c4fad5fe81e17a68b8b483c4ec7a97e7ad731c64f556fe72e5cfc12eab0b7293</code></td></tr><tr><td class="l">f3/runs/ida_q30/zsmax.tif</td><td>2232557</td><td class="l"><code>19345281bf2e6a0de8f9805a7eb183a43fbbfbc7922dd198346dd5b59cd0d44b</code></td></tr><tr><td class="l">f4/ring/runs/ring_ds_1h_100y/balance.json</td><td>2574</td><td class="l"><code>5ef9bd2e722e6523ff2e77f01cefa933d6b860b9f9f0548f054aeae5c2b61ff7</code></td></tr><tr><td class="l">f4/ring/runs/ring_ds_1h_100y/zsmax.tif</td><td>3463726</td><td class="l"><code>89a8a7000c5bdbca8828930a4acfae1ac7f80a9d8d87a49857363090a7e36863</code></td></tr><tr><td class="l">f4/runs/ds_1h_100y/zsmax.tif</td><td>2233274</td><td class="l"><code>f4a5fd83679fae166068bc89e372bbd72270692e3c9eeea77131bfa1b115d28a</code></td></tr><tr><td class="l">f4/ring/runs/ring_cat_r0005/balance.json</td><td>2721</td><td class="l"><code>bddec716299cf89b334f02a292c5a54a525f5f1180c6efc9f231e1010e09e5cc</code></td></tr><tr><td class="l">f4/ring/runs/ring_cat_r0005/zsmax.tif</td><td>3476564</td><td class="l"><code>d411cc5c383a354304f1b25480dc3397a458c353b32ec5e0374340425959c32b</code></td></tr><tr><td class="l">f4/runs/cat_r0005/zsmax.tif</td><td>1688763</td><td class="l"><code>c1ab6379c5c3beffc68d72775efdceb9338557284f00c87c890a5c9ed637653d</code></td></tr><tr><td class="l">f4/ring/runs/ring_cat_r0006/balance.json</td><td>2714</td><td class="l"><code>fae589c7fb195911c5076c531ef598dab77aca0a7624423b02a8bbf91cd6d5aa</code></td></tr><tr><td class="l">f4/ring/runs/ring_cat_r0006/zsmax.tif</td><td>3487363</td><td class="l"><code>3fd78c944486ebe33f4a80b6092a862e56e367e15d8f05d81d15dc88ebf91e22</code></td></tr><tr><td class="l">f4/runs/cat_r0006/zsmax.tif</td><td>1685784</td><td class="l"><code>59a3957445758e63f9002d1b8ec629a6766a418574df6bd62501687b75ecd1ba</code></td></tr></tbody></table></div></details>
 <p class="mute small">Software: crc-framework 1.0.0, crc-sdk 1.0.0, geopandas 1.2.0, matplotlib 3.11.2, numpy 2.5.4, python 3.12.11, rasterio 1.5.1</p>
 </article>
 <article class="card" id="record-f5">

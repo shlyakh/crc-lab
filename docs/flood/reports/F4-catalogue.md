@@ -165,6 +165,33 @@ synthetic years, not from the runs).
   reads the catalogue's depth at every probability (CH-23), largest difference 0 m.
 - Check time 517 s, of which 348 s reading the 90 runs not yet in the cache.
 
+### Run-on on the 5 km model, and the rain the catalogue runs missed (CH-26)
+
+The four run-on runs ended at 22:36 (record `f4-ring`). Every water balance closes within 0.002%, and the
+5 km model's cells under the square are the square model's own (terrain difference 0 m).
+
+| Storm | Square rain, run-on run / square run | Cells changed (≥ 0.05 m wet: square → ring) | Buildings wet at 0.3 m (square → ring) | Substations |
+| --- | --- | --- | --- | --- |
+| Ida replay | equal (0.002%) | 3,374 deeper, none shallower (43,135 → 45,273) | 4,023 → 4,124 | unchanged (Hudson Avenue 0.415 m, Farragut 0.39 m) |
+| 1-hour 100-year design storm | equal (0.001%) | 5,770 deeper, none shallower (61,757 → 64,795) | 5,839 → 5,972 | unchanged within 0.001 m |
+| Catalogue rank 5 | **1.41 times** | not comparable | not comparable | not comparable |
+| Catalogue rank 6 | **1.42 times** | not comparable | not comparable | not comparable |
+
+- **Run-on is small at the assets.** Where the rain is the same, run-on deepens 1–2% of the read cells. The
+  change is largest along the east and south edges, with a median distance of about 300 m from an edge. About
+  100 buildings get wet at 0.3 m, and no substation depth changes.
+- **The catalogue runs missed rain on 28.5% of the square (CH-26).** RainyDay's scenario holds only the
+  pixels whose centres lie in the study box. SFINCS gives no rain beyond the outermost pixel centres, so the
+  north strip (about 680 m) was dry in every catalogue storm, and so was about half of the east strip.
+  - **Not affected:** the replays, the calibration, the design storms and the rainfall frequency.
+  - **Affected:** the catalogue's depths and the buildings and substations above, including Demo 1's 60-run
+    copy. They are too low, most of all in the two strips. The four named substations lie outside the
+    strips, about 2 km south of the north strip, so their depths change only through water that runs
+    from the strips; the rerun will say by how much.
+- **Fixed and running again:** each scenario is rebuilt over the square with one pixel to spare, keeping
+  every old pixel. All 150 runs are going again into `runs_cover/`, starting 23:25 at about 8 minutes a run.
+  The F4 check and the run-on comparison follow, and the tables above are replaced then.
+
 ## Checks
 
 - `just test` passes: 505 in the full suite before F5, 267 flood tests after it.
