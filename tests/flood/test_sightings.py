@@ -62,7 +62,7 @@ def test_exact_twins_are_one_observation_with_both_rows() -> None:
     assert sorted(r for o in one[0]["observations"] for r in o["rows"]) == ["10", "11", "12"]
 
 
-def test_duplicate_pairs_take_the_closest_in_time_first() -> None:
+def test_duplicate_pairs_with_one_candidate_take_the_closest() -> None:
     rows = pd.DataFrame(
         {
             "unique_key": ["a", "b", "c"],
@@ -74,6 +74,30 @@ def test_duplicate_pairs_take_the_closest_in_time_first() -> None:
     )
     pairs = s.duplicate_pairs(rows, copy="copy", first="one", second="two")
     assert [(p["one"], p["two"]) for p in pairs] == [("a", "c")]
+
+
+def test_two_requests_at_one_address_are_not_paired_crosswise() -> None:
+    # 29 Sep 2023, 296 Broadway: two requests, each held under both schemes. Closest-first would
+    # pair 09:20:09 with 09:20:00 (9 s) and leave 09:17:43 with 09:23:00 (317 s).
+    rows = pd.DataFrame(
+        {
+            "unique_key": ["c1", "c2", "l1", "l2"],
+            "created_date": [
+                "2023-09-29T09:17:43",
+                "2023-09-29T09:20:09",
+                "2023-09-29T09:20:00",
+                "2023-09-29T09:23:00",
+            ],
+            "kind": ["backup"] * 4,
+            "incident_address": ["296 BROADWAY"] * 4,
+            "copy": ["current", "current", "legacy", "legacy"],
+        }
+    )
+    pairs = s.duplicate_pairs(rows, copy="copy", first="current", second="legacy")
+    assert [(p["current"], p["legacy"], p["seconds"]) for p in pairs] == [
+        ("c1", "l1", 137.0),
+        ("c2", "l2", 171.0),
+    ]
 
 
 def test_chain_a_near_b_near_c_is_one_sighting() -> None:

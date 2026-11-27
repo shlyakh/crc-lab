@@ -108,7 +108,7 @@ Counts are reported, not judged. A source with no entry is not evidence that the
   - **Finding: the two schemes often hold the same request twice.**
     - On 29 Sep 2023, 104 of the 106 current-scheme rows in the square have a legacy-scheme row of the
       same kind.
-    - Each twin was created 317 s or less after its partner, with a different `unique_key`. 95 of the
+    - Each twin was created 189 s or less after its partner (317 s before the pairing fix of the review), with a different `unique_key`. 95 of the
       pairs share an address; the other 9 lie within 25 m.
     - So counting rows of both schemes counts most requests twice: 225 rows, 121 requests.
     - The pairing rule (same kind; same address or within 25 m; within 600 s) is a proposed value **[P]**.
@@ -337,7 +337,8 @@ the places of the rows above it too.
 - F5c (`flood/f5c`): `just lint` passes. `uv run pytest -q tests/flood` passes: 291 passed and 1 skipped.
   Of these, 10 tests are new, in `tests/flood/test_sightings.py`, on small made-up fixtures:
   - exact twins become one observation that keeps both row ids, and a later caller joins as a near report;
-  - duplicates are paired closest in time first;
+  - a duplicate with one candidate pairs with the closest, and two requests at one address are not paired
+    crosswise (added after the review);
   - a chain A near B near C is one sighting, and breaks at a tighter distance;
   - different kinds and sources at one spot combine, and stay apart when kinds are kept apart;
   - the same spot on different days stays apart, and a mark joins a call at its spot;
@@ -346,6 +347,12 @@ the places of the rows above it too.
   - the dry-day rule, the late-call baseline and the Groundsource distances.
 - `uv run python -m flood_lab.gallery` and `just site-flood` pass: 16 records, 33 sources (GHCN-Daily is
   new).
+- Review: a fresh Opus agent reviewed the F5c code blind (without this report). It found distances in
+  metres, time zones, GHCN units, day windows, grouping and counts correct, checked on the cached data.
+  Fixed: twins were paired closest-first, which at 296 Broadway (29 Sep 2023) paired two requests
+  crosswise; they are now paired by one assignment over all candidates. No count changes; the largest
+  twin gap is 189 s, was 317 s. Not fixed, stated: the dry-day baseline excludes the week after this
+  storm only, so a day after Henri (22-23 Aug 2021) can enter the Ida baseline (one request on 26 Aug).
 - No solver, no F3 or F4 check, and nothing under `data/cache/flood/f4/` was run or touched.
 
 ## Open questions
@@ -363,4 +370,5 @@ the places of the rows above it too.
 | --- | --- | --- |
 | Coordination, brief (both parts) | main session | not available |
 | First part: FV3 fetch and overlap, FV5 readers, check, figures, tests, facts, report | Opus 5.5 (one agent, no sub-agents) | not available to the agent |
+| Blind review of F5c, and the pairing fix (fix by the main session) | Opus | 80,901 |
 | F5c: sighting module, late-call fetch and baseline, GHCN-Daily reader and facts, Groundsource relations, maps, tests, this report | Opus 5.5 (one agent, no sub-agents) | not available to the agent |

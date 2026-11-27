@@ -36,9 +36,10 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from scipy.optimize import linear_sum_assignment
 
 #: rule step 2 [P]: rows of one report under two copies are created this close, s, and placed this
-#: close, m (the 311 pairs found on 29 Sep 2023 lie within 317 s and 25 m)
+#: close, m (the 311 pairs found on 29 Sep 2023 lie within 189 s and 25 m)
 DUPLICATE_S = 600.0
 DUPLICATE_M = 25.0
 #: rule step 3 [P]: "a few tens of metres" and "close in time"
@@ -110,12 +111,27 @@ def duplicate_pairs(
             )
             if address or near:
                 candidates.append((gap, str(a["unique_key"]), str(b["unique_key"]), address))
-    used: set[str] = set()
+    if not candidates:
+        return []
+    # One assignment over all candidates: as many pairs as possible, then the smallest total gap.
+    # A greedy closest-first pass can pair two requests at one address crosswise (29 Sep 2023,
+    # 296 Broadway: 9 s and 317 s instead of 137 s and 171 s).
+    a_keys = sorted({c[1] for c in candidates})
+    b_keys = sorted({c[2] for c in candidates})
+    ai = {k: n for n, k in enumerate(a_keys)}
+    bi = {k: n for n, k in enumerate(b_keys)}
+    forbidden = 1.0 + max_s * (len(candidates) + 1)
+    cost = np.full((len(a_keys), len(b_keys)), forbidden)
+    info = {}
+    for gap, a, b, address in candidates:
+        cost[ai[a], bi[b]] = gap
+        info[(a, b)] = (gap, address)
     pairs = []
-    for gap, a, b, address in sorted(candidates):
-        if a in used or b in used:
+    for r, c in zip(*linear_sum_assignment(cost), strict=True):
+        if cost[r, c] >= forbidden:
             continue
-        used |= {a, b}
+        a, b = a_keys[r], b_keys[c]
+        gap, address = info[(a, b)]
         pairs.append({first: a, second: b, "seconds": gap, "same_address": address})
     return sorted(pairs, key=lambda p: p[first])
 

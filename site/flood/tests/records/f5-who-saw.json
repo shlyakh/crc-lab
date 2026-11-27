@@ -151,7 +151,7 @@
    }
   }
  ],
- "created_at": "2026-11-26T22:12:27Z",
+ "created_at": "2026-11-27T01:51:01Z",
  "figures": [
   "docs/flood/figures/f5/who_saw_counts.png",
   "docs/flood/figures/f5/who_saw_map_ida_2021.png",
@@ -2410,7 +2410,7 @@
      ],
      "twin_pairs": 104,
      "twin_pairs_same_address": 95,
-     "twin_seconds_max": 317.0,
+     "twin_seconds_max": 189.0,
      "unplaced_in_boroughs": 23,
      "unplaced_rows": [
       {
@@ -7345,31 +7345,31 @@
      "observations": [
       {
        "easting_m": 588001.1,
-       "end": "2023-09-29T09:23:00",
+       "end": "2023-09-29T09:20:00",
        "id": "59452481",
        "kind": "sewer backup",
        "northing_m": 4506923.5,
        "radius_m": 0.0,
        "rows": [
         "59452481",
-        "58962128"
+        "58957604"
        ],
        "source": "nyc_311",
        "start": "2023-09-29T09:17:43"
       },
       {
        "easting_m": 588001.1,
-       "end": "2023-09-29T09:20:09",
+       "end": "2023-09-29T09:23:00",
        "id": "59442006",
        "kind": "sewer backup",
        "northing_m": 4506923.5,
        "radius_m": 0.0,
        "rows": [
         "59442006",
-        "58957604"
+        "58962128"
        ],
        "source": "nyc_311",
-       "start": "2023-09-29T09:20:00"
+       "start": "2023-09-29T09:20:09"
       }
      ],
      "rows": 4,
