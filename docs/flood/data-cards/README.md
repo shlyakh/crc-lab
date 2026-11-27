@@ -11,7 +11,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [FloodNet: Street Flooding Events Measured by FloodNet Sensors](floodnet-flood-events.md) | facts confirmed (8 read with no claim); values recomputed by a second reader in F2 (passed) | 12 | 0 | 0 | 1 | F0 |
 | [FloodNet: Sensor Deployment Metadata](floodnet-sensors.md) | facts confirmed (6 read with no claim); values recomputed by a second reader in F2 (passed) | 9 | 0 | 0 | 1 | F0 |
 | [Groundsource: A Dataset of Flood Events from News](groundsource.md) | facts confirmed (3 read with no claim); values recomputed by a second reader in F2 (passed) | 19 | 0 | 0 | 9 | F0 |
-| [FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual](hazus-flood-functions.md) | facts checked: 4 read with no claim, 1 differ, 1 not checked | 4 | 1 | 1 | 3 | F0 |
+| [FEMA Hazus 7 Flood and Inventory Technical Manuals; Hazus 4.0 depth-damage tables in FEMA&\#x27;s FAST tool](hazus-flood-functions.md) | facts checked: 1 confirmed, 10 read with no claim, 3 differ, 2 not checked | 11 | 3 | 2 | 2 | F6 |
 | [Interruption Cost Estimate (ICE) Calculator 2.x](ice-calculator.md) | facts checked: 3 confirmed, 4 read with no claim, 2 differ | 7 | 2 | 0 | 2 | F0 |
 | [Post-tropical cyclone Ida (2021) flood map for New York City’s Jamaica Bay watershed](jamaica-bay-ida-depth-map.md) | facts confirmed (9 read with no claim) | 15 | 0 | 0 | 0 | F0 |
 | [Lidar terrain for New York City: USGS 3DEP 1 m DEM and NYC 2017 topobathymetric lidar DEM](lidar-terrain.md) | facts checked: 4 confirmed, 6 read with no claim, 2 differ, 3 not checked | 10 | 2 | 3 | 1 | F0 |

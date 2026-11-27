@@ -1,71 +1,161 @@
 id = "hazus-flood-functions"
-title = "FEMA Hazus flood depth-damage functions and Hazus Inventory Technical Manual"
-publisher = "FEMA (Hazus); open-source tool repository nhrap-hazus/FAST on GitHub"
-checked_on = "2026-11-25"
-stage = "F0"
+title = "FEMA Hazus 7 Flood and Inventory Technical Manuals; Hazus 4.0 depth-damage tables in FEMA's FAST tool"
+publisher = "FEMA (Hazus 7.0 Flood Model Technical Manual and Inventory Technical Manual, June 2025); open-source tool repository nhrap-hazus/FAST on GitHub"
+checked_on = "2026-11-26"
+stage = "F6"
 level = "facts"
 second_reader_stage = ""
 used_for = ["FR2", "FR3", "FM5"]
-known_biases = "FEMA's own pages and documents returned HTTP 403 to the data-source-check client (www.fema.gov), so the Inventory Technical Manual, Table 10-12 and the 4 ft functional depth were NOT read. The current-version statement comes from an Internet Archive copy of FEMA's Hazus page (secondary). The FAST lookup tables are Hazus 4.0 data; the repository is archived by its owner ('no longer receiving updates')."
+known_biases = "Hazus 7 does not analyse electric power substations in its flood model (mapping only) and neither manual tabulates a substation depth-damage point; the substation functional depth of 4 ft is a default for a component Hazus itself does not analyse. The manuals are for Hazus 7.0 (June 2025) while the current software is 7.2. The building depth-damage values come from FAST, whose tables are Hazus 4.0 (repository no longer updated since 2022); the default function assignments match the Hazus 7 manual, but the manual gives no curve points to compare values with. Licence: GPL-3.0 (FAST), Yuri's decision of 2026-11-26; neither manual carries a licence or terms-of-use statement."
 
 [[fact]]
 name = "identifier"
 claimed = "Hazus Inventory Technical Manual 4.2 SP3, Table 10-12"
-observed = "Not checked: https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf and the Hazus page return HTTP 403 (Access Denied) to the client; no other copy of the manual found. The 4 ft (1.22 m) functional depth for slab-on-grade low- and high-voltage substations and its table number are unconfirmed."
-outcome = "not checked"
-source_url = "https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf"
-passage = "HTTP 403 'Access Denied'"
+observed = "Read instead: Hazus 7.0 Inventory Technical Manual, June 2025 (file fema_rsl_hazus-7-invtm_06272025_1.pdf, 203 pages) and Hazus 7.0 Flood Model Technical Manual, June 2025 (fema_rsl_hazus-7-fltm_06272025_0.pdf, 83 pages), downloaded by Yuri. In Hazus 7 the substation flood defaults are in Inventory Technical Manual Table 9-13 'Electric Power System Classifications and Flood Model Default Parameters' (caption p. 9-16, rows p. 9-17; PDF pages 164-165), not Table 10-12. The 4.2 SP3 manual itself was still not read."
+outcome = "differs"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-invtm_06272025_1.pdf, p. 9-16 to 9-17"
+passage = "Hazus Inventory Technical Manual, Hazus 7.0, June 2025 ... 'For the Flood Model, Table 9-13 includes additional default values used for certain electric power system data.' 'Table 9-13 Electric Power System Classifications and Flood Model Default Parameters'"
+note = "Earlier observation (F0, 2026-11-25): 'Not checked: https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-4.2.3.pdf and the Hazus page return HTTP 403 (Access Denied) to the client; no other copy of the manual found. The 4 ft (1.22 m) functional depth for slab-on-grade low- and high-voltage substations and its table number are unconfirmed.' Page numbers here are the printed ones; PDF page indices in brackets where given."
+verdict_note = ""
+
+[[fact]]
+name = "substation_functional_depth"
+claimed = "functional depth 4 ft (1.22 m) for the default slab-on-grade low- and high-voltage substations"
+observed = "Table 9-13 (Inventory TM p. 9-17): ESSL Low Voltage Substation, ESSM Medium Voltage Substation and ESSH High Voltage Substation are all 'Slab on grade', FL Equipment Height 0 ft, FL Functional Depth 4 ft, each with the comment 'Component is not analyzed in the flood model, mapping only capabilities.' The same 4 ft holds for EDFLT and the three power-plant classes. So the claim holds and extends to the medium-voltage class; 4 ft = 1.2192 m [I]. The table has no anchored/unanchored split: Table 9-12 (p. 9-16) gives one label per voltage class '[different combinations for with or without anchored components]'. Voltage classes (p. 9-15): high 350 kV and above (Large, 500 kV), medium 150-350 kV (230 kV), low 34.5-150 kV (115 kV)."
+outcome = "confirmed"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-invtm_06272025_1.pdf, Table 9-13, p. 9-17 (PDF p. 165)"
+passage = "ESSL Low Voltage Substation | Slab on grade | 0 | 4 | Component is not analyzed in the flood model, mapping only capabilities. ESSM Medium Voltage Substation | Slab on grade | 0 | 4 | ... ESSH High Voltage Substation | Slab on grade | 0 | 4 | Component is not analyzed in the flood model, mapping only capabilities. (columns: FL Foundation Type, FL Equipment Height (ft), FL Functional Depth (ft), Comments). p. 9-16: 'The Functional Depth represents the assumed flood elevation where the facility is closed and people evacuated, because the equipment is assumed to be flooded. It should be noted that the functional depth for utility systems components is not editable by the user and is not directly linked to the equipment height specified for each component in the inventory. Analysis is not performed for Electric Power Systems but can be mapped for reference.'"
+note = "For FM5: the 4 ft is a Hazus default for a component Hazus does not analyse in flood; use it as the outage threshold tagged [S] with this caveat."
+verdict_note = ""
+
+[[fact]]
+name = "functional_depth_rule"
+claimed = ""
+observed = "A utility component is non-functional when the flood depth at its location exceeds the functional depth by 0.1 ft or more; the same rule for essential facilities. Functionality rests on damage to critical equipment rather than building damage. The functional depth is not editable and not linked to the equipment height or the flood-protection level."
+outcome = "confirmed"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf, section 9.4.2, p. 9-5; section 8.4.3, p. 8-3"
+passage = "p. 9-5: 'In the Hazus Flood Model, Utility System Component functionality is based primarily on an estimation of damage to critical equipment rather than building damage. A determination is made based on the functional depth indicated for each facility type in the Damage Functions for Utility Systems dialog. If the depth of flooding at the component location exceeds the functional depth threshold by 0.1 feet or more, the component will be considered non-functional.' Footnote 24: 'the functional depth for Utility Systems Components is not editable by the user and is not directly linked to the equipment height specified for each component in the inventory.'"
 note = ""
+verdict_note = ""
+
+[[fact]]
+name = "building_functional_depth"
+claimed = ""
+observed = "No functional depth is given for ordinary (aggregated baseline inventory) buildings in either manual. For essential facilities, Inventory TM Table 7-15 (p. 7-18 to 7-19) gives: MDFLT, EFHS, EFHM, EFHL hospitals 0.5 ft; EFMC medical center 0.5 ft; FDFLT and EFFS fire station 2 ft; PDFLT and EFPS police station 1 ft; EDFLT default emergency center 0.5 ft; EFEO emergency center 1 ft; SDFLT, EFS1 school and EFS2 university 0.5 ft. Default first-floor heights there: 3 ft for hospitals and medical centres, 0 ft for the others."
+outcome = "confirmed"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-invtm_06272025_1.pdf, Table 7-15, p. 7-18 to 7-19 (PDF pp. 127-128)"
+passage = "Table 7-15 Essential Facilities Inventory Occupancy Classification and Flood Model Default Parameters ... EFHL Large Hospital Concrete Basement 3 Mid COM6 0.5 ... EFFS Fire Station Concrete Slab on Grade 0 Low GOV2 2 ... EFPS Police Station Concrete Basement 0 Low GOV2 1 ... EFS1 School Masonry Slab on Grade 0 Low EDU1 0.5. 'Functional Depth: The general assumption is that when the depth of flooding reaches the functional depth, typically the facility is closed and people evacuated.'"
+note = "Searched both manuals for 'functional depth'; the only tables are 7-15 (essential facilities) and the utility tables of section 9."
+verdict_note = ""
+
+[[fact]]
+name = "substation_damage_functions"
+claimed = "Hazus-type substation curve (FEMA 2013) of about 7% at 1.2 m and 15% at about 3 m, as compiled by Nirandjan et al. as F2.1-F2.3"
+observed = "Not found: neither Hazus 7 manual tabulates a depth-damage point for electric substations, by voltage class or anchoring. Flood TM Table 9-1 (p. 9-2) lists Electric Power Substations as 'Mapping Only Capabilities'; footnote 21 (p. 9-3) says default damage functions for electric power facilities exist in the 'Damage Functions for Utility Systems' dialog but are not enabled and give no results. For the utility components Hazus does analyse (water, wastewater, oil, gas): damage is read at depth minus equipment height (Equation 9-1, printed as an image; equipment height rounded to whole feet), interpolated between 1-ft increments, maximum damage at 10 ft (p. 9-3 to 9-4). The damage-function library also holds USACE New York District (Passaic River, 1985) models for 10 utility facilities 'such as electric power substations' (p. 5-20), without values. The FAST tables hold no electric-substation curve (only building curves for COM3 'Cleaners substation' and COM4 'Utility Company')."
+outcome = "not checked"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf, Table 9-1 p. 9-2, section 9.4.1 p. 9-3 to 9-4, section 5.4.1.2.4 p. 5-20"
+passage = "p. 9-3: 'In the Hazus Flood Model, Utility System Components reach maximum damage at 10 feet of flooding.' Footnote 21: 'The Hazus Flood Model contains default damage functions for electric power facilities viewable in the Damage Functions for Utility Systems dialog; however, these damage functions are not enabled, and no results will be produced for electric power facilities included in the inventory.' p. 9-4: 'The Hazus Flood Model extrapolates the percent damage between the 1-foot increments listed in the Damage Functions for Utility Systems dialog.' p. 5-20: 'Also included in the damage functions are models for 10 utility facilities, such as electric power substations, pump houses, and water treatment plants (USACE, 1985).'"
+note = "The substation curve values live only in the Hazus software's database (the dialog), which was not read."
+verdict_note = ""
+
+[[fact]]
+name = "nirandjan_comparison"
+claimed = "Nirandjan F2.1-F2.3: 0.0694 at 1.2 m and 0.1569 at 3.0 m"
+observed = "No Hazus 7 value to compare point by point (see substation_damage_functions). What can be compared [I]: all 62 points of F2.1-F2.3 (0 to 3.05 m, `substation-curves-nirandjan`) equal, to 6e-17, linear interpolation in feet through (0 ft, 0), (3 ft, 0.06), (7 ft, 0.10), (10 ft, 0.16), held at 0.16 at 3.05 m (10.007 ft). So F2 is a table defined on a foot grid ending at 10 ft, the form Hazus uses for utility damage functions (1-ft increments, maximum at 10 ft, Flood TM p. 9-3 to 9-4); 1.2 m = 3.94 ft gives 0.0694 and 3.0 m = 9.84 ft gives 0.1569. Whether these are the values in Hazus's utility dialog for ESSL/ESSM/ESSH is not established."
+outcome = "not checked"
+source_url = "file substation-curves-nirandjan/Table_D2_Hazard_Fragility_and_Vulnerability_Curves_V1.1.0.xlsx sheet F_Vuln_Depth; file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf p. 9-3 to 9-4"
+passage = "Computed from the 62 points recorded in substation-curves-nirandjan.toml (fact f2_curves): max |F2(d) - interp(d/0.3048, [0,3,7,10], [0,0.06,0.10,0.16])| = 5.6e-17."
+note = "The breakpoints are an inference from the values, not read from any document."
+verdict_note = ""
+
+[[fact]]
+name = "building_depth_reference"
+claimed = "depth measured from first-floor elevation (FR3)"
+observed = "Hazus defines flood depth as flood elevation minus ground surface elevation (Flood TM p. 2-3); building damage functions are indexed by depth relative to the top of the finished first floor, i.e. depth above ground minus the first-floor height above grade (FFHAG): stated for essential facilities (p. 8-2) and implied for the basement curves (-4 ft is '4 ft below the top of the First Floor Height Above Grade', p. 5-13). The Inventory TM (p. 5-10) warns that FFHAG is not the first-floor elevation: it is the height in feet above the ground to the top of the finished floor. Default FFHAG by foundation type is Inventory TM Table 5-13 (p. 5-18), read-only; the FFHAG dialogs are not functional in Hazus 7.0 (p. 5-16). For the aggregated inventory, grid depths are area-weighted per census block in 0.5 ft increments (p. 5-2). FAST computes depth in structure = grid depth - FirstFloorHt, then caps it to -4..24 ft, the range of its tables."
+outcome = "differs"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf p. 2-3, 5-13, 8-2; fema_rsl_hazus-7-invtm_06272025_1.pdf p. 5-10, 5-16; https://github.com/nhrap-hazus/hazpy/blob/a207732fdb08723d91c34d4671f4770286f8a962/hazpy/flood/modules/UDF.py"
+passage = "Flood TM p. 2-3: 'Depth: Flood depth is the difference between flood and ground surface elevations.' p. 8-2: 'percent damage for each essential facility is interpolated from the one-foot depths shown in the damage function library based on flood depth at the facility location minus the first flood height above grade for that facility.' Inventory TM p. 5-10: 'FFHAG is not synonymous with first floor elevation or lowest floor elevation. FFHAG is the assumed number of feet above the ground surface to the top of the finished floor.' hazpy UDF.py (used by FAST): 'depth = rastervalue - FFHeight' ... 'depth = 24 if depth > 24 else depth; depth = -4 if depth < -4 else depth'."
+note = "Differs only in wording: FR3's 'from first-floor elevation' should read 'above the top of the finished first floor (depth above ground minus first-floor height above grade)'."
+verdict_note = ""
+
+[[fact]]
+name = "building_function_sources"
+claimed = ""
+observed = "Default structure functions (Flood TM Tables 5-2 riverine p. 5-3 to 5-7, 5-3 coastal V p. 5-7 to 5-8, 5-4 coastal A p. 5-8 to 5-9), by occupancy, stories and basement: RES1 one storey no basement USACE-IWR (129), one storey with basement BCAR Jan 2011 (704), two and three or more storeys and split level FIA or FIA (modified) for basements (107-112); RES2 FIA (189); RES3A-F USACE-Chicago apartment grade/sub-grade (204/205); RES4-6, COM1-10, IND1-6, AGR1, REL1, GOV1-2, EDU1-2 USACE-Galveston (e.g. COM1 217, COM4 431, EDU1 643). Coastal V and A replace RES1-RES3B with BCAR Jan 2011 and FIA V-zone functions (658, 114-118, 120, 667, 190, 659, 660). Sources: FEMA BCAR (2011), FIMA (FIA) credibility-weighted claims to 2001, USACE Chicago, Galveston and IWR (p. 5-9). FIA basement curves are modified to total damage (adds 7% at -4 ft and 4% at -1 ft, p. 5-14)."
+outcome = "confirmed"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf, section 5.4.1.1, p. 5-3 to 5-14"
+passage = "p. 5-9: 'The default damage functions provided within Hazus were compiled from the following sources: FEMA Benefit-Cost Analysis Re-engineering (BCAR) report (2011), the Federal Insurance and Mitigation Administration (FIMA) FIA credibility-weighted damages, and the U.S. Army Corps of Engineers (USACE) Chicago District, Galveston District, and Institute for Water Resources (IWR).' Table 5-2: 'RES1 1 No Basement USACE - IWR One story, no basement, Structure 129'; 'RES1 1 Basement BCAR - Jan 2011 One story, w/ basement, Structure (B14) 704'."
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "table_location"
+claimed = ""
+observed = "Hazus 7 keeps the functions in its SQL database, edited in the 'General Building Stock Damage Functions' window and the 'Damage Functions for Utility Systems' dialog or the SQL tables; the manuals name no file and print no building curve values (figures 5-1 to 5-4 only). Machine-readable copies: FAST folder Lookuptables, exported from the Hazus 4.0 SQL database."
+outcome = "confirmed"
+source_url = "file hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf p. 5-3 footnote 3, p. 5-22, p. 9-3"
+passage = "p. 5-22: 'The user can identify and select the damage function they would prefer to use in the estimation of damage to buildings of any occupancy type in the SQL table.' p. 5-3 footnote 3: 'the specific occupancy IDs shown in Hazus in the General Building Stock Damage Functions window are a combination of occupancy type, number or stories, and basement status.' FAST Lookuptables/README.txt: 'DDFs and other tables were obtained from Hazus 4.0 SQL database.'"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "fast_vs_hazus7"
+claimed = ""
+observed = "The FAST Hazus 4.0 lookup tables assign the same default function IDs as the Hazus 7 manual: riverine, all 33 occupancy groups and every RES1 storey/basement row of Table 5-2 (e.g. R11N 129, R11B 704 'RAMPP Inserted'); coastal V and A rows of Tables 5-3 and 5-4 (658, 114-118, 120, 667, 190, 659, 660; 107-110, 112, 189). Each LUT row's 29 values (-4 to 24 ft) equal the row of the full library flBldgStructDmgFn.csv with the same ID (all 196 + 64 + 64 rows). The values themselves cannot be compared with Hazus 7, which prints none. Differences in method noted by FAST's code: Hazus-MH rounds first-floor height to 0.5 ft and caps the grid at 24 ft before subtracting it; FAST subtracts first."
+outcome = "confirmed"
+source_url = "https://github.com/nhrap-hazus/FAST/tree/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables"
+passage = "Building_DDF_Riverine_LUT_Hazus4p0.csv: 'RES1,R11N,USACE - IWR,\"one story, no basement, Structure\",1 Story,,0,0,0,3,13,23,32,40,47,53,59,63,67,71,73,75,77,79,80,81,81,82,82,83,83,83,84,84,84,129,...'; 'RES1,R11B,BCAR - Jan 2011,\"one story, w/ basement, Structure  (B14)\",1 Story,RAMPP Inserted,...,704'. hazpy UDF.py: 'Note that Hazus-MH flood model caps the grid raster at 24 feet, then does the subtraction.'"
+note = "Comparison by script over the PDF text (pdftotext -layout) and the CSVs; RES1-RES3 coastal rows checked by eye."
 verdict_note = ""
 
 [[fact]]
 name = "current_version"
 claimed = ""
-observed = "Current Hazus is 7.2 (Internet Archive copy of FEMA's Hazus page, snapshot 2026-11-14): 'Hazus 7.2 is available'; Hazus 6.1 is no longer available for download since 2026-03-03; not all functionality of 6.1 and earlier exists in 7.0, 7.1 or 7.2. The Hazus 4.2 SP3 manual is therefore an old version."
+observed = "Current Hazus is 7.2 (Internet Archive copy of FEMA's Hazus page, snapshot 2026-11-14): 'Hazus 7.2 is available'; Hazus 6.1 is no longer available for download since 2026-03-03; not all functionality of 6.1 and earlier exists in 7.0, 7.1 or 7.2. The manuals read are for Hazus 7.0 (June 2025), the newest Yuri found; the Hazus 4.2 SP3 manual is an old version."
 outcome = "confirmed"
 source_url = "http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps/products-tools/hazus"
 passage = "Hazus 7.2 Release Hazus 7.2 is available ... Hazus 6.1 No Longer Available for Downloads FEMA no longer supports the download of Hazus 6.1 as of March 3, 2026 due to the retirement of ArcGIS Desktop. To continue your work, please download Hazus 7.2 from the Map Service Center."
-note = "Secondary (web.archive.org copy)."
+note = "Secondary (web.archive.org copy). Manual title pages: 'Hazus Flood Model Technical Manual Hazus 7.0 June 2025'; 'Hazus Inventory Technical Manual Hazus 7.0 June 2025'."
 verdict_note = ""
 
 [[fact]]
 name = "address"
 claimed = ""
-observed = "Machine-readable depth-damage functions: FEMA's open-source Flood Assessment Structure Tool repository https://github.com/nhrap-hazus/FAST, folder Lookuptables: Building_DDF_Riverine_LUT_Hazus4p0.csv, Building_DDF_CoastalA_LUT_Hazus4p0.csv, Building_DDF_CoastalV_LUT_Hazus4p0.csv, Content_DDF_*_LUT_Hazus4p0.csv, Inventory_DDF_LUT_Hazus4p0.csv, AllDDF.xlsx, flBldgContDmgFn.csv, OccupancyTypes.csv (plus DefaultDDFAssignmentTables.xlsx). These are Hazus 4.0 tables for buildings and contents. Not downloaded; whether they contain substation (essential/utility) curves was not checked. Current Hazus 7.2 data come with the software from the FEMA Map Service Center (msc.fema.gov did not respond, HTTP 000)."
+observed = "Manuals: two PDFs downloaded by Yuri from FEMA on 2026-11-26 (address not recorded). Tables: https://github.com/nhrap-hazus/FAST commit 8e285a9daf7bc762c171c68fb81c4daeedf46efc (branch main, 2022-03-30), folder Lookuptables. Kept: Building_DDF_{Riverine,CoastalA,CoastalV}_LUT_Hazus4p0.csv, Content_DDF_{Riverine,CoastalA,CoastalV}_LUT_Hazus4p0.csv, Inventory_DDF_LUT_Hazus4p0.csv (the default assignments) and the full libraries flBldgStructDmgFn.csv, flBldgContDmgFn.csv, flBldgInvDmgFn.csv, which are the depth-damage files FAST's flood code (hazpy flood/modules/UDF.py) opens; plus OccupancyTypes.csv, README.txt and LICENSE."
 outcome = "confirmed"
-source_url = "https://github.com/nhrap-hazus/FAST"
-passage = "Lookuptables/README.txt: 'DDFs and other tables were obtained from Hazus 4.0 SQL database. We verified that no additions, changes, or deletions to the DDFs occurred in Hazus 3.1, 3.2, and 4.0.'"
-note = ""
+source_url = "https://api.github.com/repos/nhrap-hazus/FAST/git/trees/main?recursive=1"
+passage = "hazpy UDF.py: 'BR = \"Building_DDF_Riverine_LUT_Hazus4p0.csv\" BCA = \"Building_DDF_CoastalA_LUT_Hazus4p0.csv\" BCV = \"Building_DDF_CoastalV_LUT_Hazus4p0.csv\" BFull = \"flBldgStructDmgFn.csv\" # Full DDF library for Building Structural damage ... IR = \"Inventory_DDF_LUT_Hazus4p0.csv\"'"
+note = "Earlier observation (F0): the same file list, 'Not downloaded; whether they contain substation (essential/utility) curves was not checked. Current Hazus 7.2 data come with the software from the FEMA Map Service Center (msc.fema.gov did not respond, HTTP 000).'"
 verdict_note = ""
 
 [[fact]]
 name = "licence"
 claimed = "Public domain (section 7)"
-observed = "FAST repository: GPL-3.0 (GitHub licence). Public-domain status of the Hazus tables is not stated in the sources read; FEMA's page was not readable. Repository archived in effect: last push 2022-03-30, README: 'ATTENTION: The latest version of this tool is available at https://msc.fema.gov/portal/resources/hazus This github repository is no longer receiving updates.'"
+observed = "GPL-3.0: the FAST repository's LICENSE is the GNU General Public License version 3; the tables are used and cited as GPL-3.0 data from FEMA's FAST tool (Yuri's decision, 2026-11-26). Neither Hazus 7 manual carries a licence, copyright, public-domain or terms-of-use statement (searched for licence/license, copyright, public domain, terms of use, disclaimer, permission, reproduce); the only caveat is section 1.6 of the Flood TM, 'Uncertainties in Loss Estimates'."
 outcome = "differs"
-source_url = "https://api.github.com/repos/nhrap-hazus/FAST"
-passage = "license.spdx_id=GPL-3.0; pushed_at=2022-03-30T00:17:01Z"
-note = "The claim 'public domain' is unverified; code licence is GPL-3.0."
+source_url = "https://github.com/nhrap-hazus/FAST/blob/8e285a9daf7bc762c171c68fb81c4daeedf46efc/LICENSE"
+passage = "LICENSE: 'GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007'; api.github.com/repos/nhrap-hazus/FAST: license.spdx_id=GPL-3.0. Flood TM p. 1-4: 'The results of a flood loss study should not be looked upon as a prediction. Instead, they are only an estimate'"
+note = "Earlier observation (F0): 'FAST repository: GPL-3.0 (GitHub licence). Public-domain status of the Hazus tables is not stated in the sources read; FEMA's page was not readable.' The FAST README says the repository is no longer receiving updates."
 verdict_note = ""
 
 [[fact]]
 name = "release"
 claimed = ""
-observed = "FAST latest GitHub release 0.0.7 (2021-03-17)."
+observed = "FAST latest GitHub release 0.0.7 (2021-03-17); files taken from commit 8e285a9 of 2022-03-30, the last push. hazpy (the package FAST runs) at commit a207732."
 outcome = "confirmed"
 source_url = "https://api.github.com/repos/nhrap-hazus/FAST/releases"
-passage = "tag_name=0.0.7 published_at=2021-03-17T22:03:34Z"
+passage = "tag_name=0.0.7 published_at=2021-03-17T22:03:34Z; commits/main sha=8e285a9daf7bc762c171c68fb81c4daeedf46efc date=2022-03-30T00:17:01Z"
 note = ""
 verdict_note = ""
 
 [[fact]]
 name = "fields"
 claimed = ""
-observed = "FAST uses depth damage functions assigned by occupancy type, first floor elevation, foundation type and number of stories (Riverine, CoastalA, CoastalV)."
+observed = "Building LUT columns: Occupancy, SpecificOccupId, Source, Description, Stories, Comment, m4..m1, p0..p24 (percent damage at -4 to 24 ft depth in structure, 1 ft steps), DDF_ID, Basement, HazardRiverine, HazardCV, HazardCA, SortOrder. Library columns: BldgDmgFnID (ContDmgFnId, InvDmgFnId), Occupancy, Source, Description, m4..p24, Comment. Values are percent (0-100), depths in feet."
 outcome = "confirmed"
-source_url = "https://github.com/nhrap-hazus/FAST"
-passage = "FAST uses the Hazus Flood model methodology to assign depth damage functions to buildings according to their occupancy type, first floor elevation, foundation type, and number of stories."
-note = ""
+source_url = "https://github.com/nhrap-hazus/FAST/blob/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Building_DDF_Riverine_LUT_Hazus4p0.csv"
+passage = "Occupancy,SpecificOccupId,Source,Description,Stories,Comment,m4,m3,m2,m1,p0,p1,...,p24,DDF_ID,Basement,HazardRiverine,HazardCV,HazardCA,SortOrder"
+note = "Earlier observation (F0): 'FAST uses depth damage functions assigned by occupancy type, first floor elevation, foundation type and number of stories (Riverine, CoastalA, CoastalV).'"
 verdict_note = ""
 
 [[fact]]
@@ -91,11 +181,11 @@ verdict_note = ""
 [[fact]]
 name = "checksum"
 claimed = ""
-observed = "No files kept."
-outcome = "not applicable"
-source_url = "https://github.com/nhrap-hazus/FAST"
-passage = "-"
-note = ""
+observed = "Files kept under data/cache/flood/hazus-flood-functions/ with sha256 in [[file]]; each FAST file's size equals the size GitHub's tree listing gives. GitHub publishes no sha256 of its own (git blob ids only)."
+outcome = "confirmed"
+source_url = "https://api.github.com/repos/nhrap-hazus/FAST/git/trees/main?recursive=1"
+passage = "tree sizes: Building_DDF_Riverine_LUT_Hazus4p0.csv 33699, flBldgStructDmgFn.csv 98616, LICENSE 35149 (equal to the downloaded files)"
+note = "Earlier observation (F0): 'No files kept.'"
 verdict_note = ""
 
 [[file]]
@@ -104,3 +194,108 @@ url = "http://web.archive.org/web/20261114021132/https://www.fema.gov/flood-maps
 bytes = 164417
 sha256 = "4aaf9cb4eb4505d6203d856557545ef046511bb40fb2e6ebf19ccc0c63629781"
 fetched_at = "2026-11-25T17:05:53Z"
+
+[[file]]
+path = "hazus-flood-functions/fema_rsl_hazus-7-fltm_06272025_0.pdf"
+url = "downloaded by Yuri from FEMA; address not recorded"
+bytes = 1234449
+sha256 = "4fd5a0402dab23c9607ec824f728e2cef68cfac00a3882cdec3a0746516f7690"
+fetched_at = "2026-11-27T01:51:38Z"
+
+[[file]]
+path = "hazus-flood-functions/fema_rsl_hazus-7-invtm_06272025_1.pdf"
+url = "downloaded by Yuri from FEMA; address not recorded"
+bytes = 3106479
+sha256 = "e703958b542efa81f0ff5d7ddff937a4330a764a23ac8b90b23a5905f7fd1c19"
+fetched_at = "2026-11-27T01:51:51Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Building_DDF_Riverine_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Building_DDF_Riverine_LUT_Hazus4p0.csv"
+bytes = 33699
+sha256 = "941d41388451290530a05a295ab5c6c7c480e8474ed2f5d062a69b3439e0f633"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Building_DDF_CoastalA_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Building_DDF_CoastalA_LUT_Hazus4p0.csv"
+bytes = 11582
+sha256 = "e949a4a6a9b11c19f35fb1faa038ede769ad72bc56e9e5cc73224db5b8881552"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Building_DDF_CoastalV_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Building_DDF_CoastalV_LUT_Hazus4p0.csv"
+bytes = 11571
+sha256 = "b5b56c1dcd2eb9f0326e1e8a5f58abe806cd8ca393871f676a3ea8f169422459"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Content_DDF_Riverine_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Content_DDF_Riverine_LUT_Hazus4p0.csv"
+bytes = 37054
+sha256 = "e9879f6de93ba8b374dbfea94ffd979b5f5ae1da7ce26a67543c173a8b68defd"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Content_DDF_CoastalA_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Content_DDF_CoastalA_LUT_Hazus4p0.csv"
+bytes = 12120
+sha256 = "45182435896dd7a2f7245b1ad10493f3ececdacf6173d59969e077ab53a9c8ad"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Content_DDF_CoastalV_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Content_DDF_CoastalV_LUT_Hazus4p0.csv"
+bytes = 12116
+sha256 = "367421fc8c6b567f80ab07555d621142ce9ad0338036974e027cb2a386e7cb30"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/Inventory_DDF_LUT_Hazus4p0.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/Inventory_DDF_LUT_Hazus4p0.csv"
+bytes = 9849
+sha256 = "e5b502dc0d48306305590a94b1e709ba3e055e54d33c9c30f3eb1274eaea9c9a"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/flBldgStructDmgFn.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/flBldgStructDmgFn.csv"
+bytes = 98616
+sha256 = "b7fc0e12c618165c641f1a3ba08b0cca57c70168945024597be16396245510a8"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/flBldgContDmgFn.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/flBldgContDmgFn.csv"
+bytes = 86626
+sha256 = "4aac53864935e688883adcefaedb813addfbe3804d71f5857f5af66f9db88067"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/flBldgInvDmgFn.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/flBldgInvDmgFn.csv"
+bytes = 18141
+sha256 = "918d65589f8f1d93e55b15fc98226a55d3ea6c0b157500ff17ee2a73a688e092"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/OccupancyTypes.csv"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/OccupancyTypes.csv"
+bytes = 4959
+sha256 = "e5cd56817dfd2790f18bc43188b7013cd9b39e3633ef4dd0b1e34a08dc17aa96"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/README.txt"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/Lookuptables/README.txt"
+bytes = 246
+sha256 = "2170f27f2a04c7d86931a928984e8dcef10270c9cd528f2643b4b79df9fde82f"
+fetched_at = "2026-11-27T01:58:55Z"
+
+[[file]]
+path = "hazus-flood-functions/fast/LICENSE"
+url = "https://raw.githubusercontent.com/nhrap-hazus/FAST/8e285a9daf7bc762c171c68fb81c4daeedf46efc/LICENSE"
+bytes = 35149
+sha256 = "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+fetched_at = "2026-11-27T01:58:55Z"
