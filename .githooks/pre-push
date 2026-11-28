@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Installed by `just hooks`. Runs tools/ci.sh (the pages workflow's checks) when main is pushed.
+# Other branches push without checks. Skip once with: git push --no-verify
+set -euo pipefail
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+    if [ "$remote_ref" = "refs/heads/main" ]; then
+        echo "pre-push: main is being pushed; running tools/ci.sh" >&2
+        env -u VIRTUAL_ENV bash "$(git rev-parse --show-toplevel)/tools/ci.sh"
+    fi
+done

@@ -18,6 +18,20 @@ test:
 event-loss-crosscheck:
     uv run --with oasislmf==2.5.10 pytest -q tests/event_loss
 
+# Every check the pages workflow runs (tools/ci.sh; the workflow calls the same script). Run before merging into main.
+ci:
+    bash tools/ci.sh
+
+# Rebuild every generated file that is committed and checked by `just ci`, offline
+regen:
+    uv run python -m flood_lab.data_cards
+    uv run python -m flood_lab.gallery
+    uv run python -m data_source_check.build
+
+# Run tools/ci.sh before every push of main from this clone (.githooks/pre-push); undo: git config --unset core.hooksPath
+hooks:
+    git config core.hooksPath .githooks
+
 # Lint and format check
 lint:
     uv run ruff check src tests
