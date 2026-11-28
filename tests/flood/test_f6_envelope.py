@@ -14,12 +14,33 @@ SUB = {e["id"]: e for e in CURVES["substation_curves"]}
 
 def test_every_family_is_present_for_each_tier() -> None:
     for kv in (345.0, 138.0, 500.0):
-        chosen = envelope.envelope_for(kv)
+        chosen = envelope.envelope_for(kv, basis="hazus_kv")
         assert chosen is not None and set(chosen) == {"low", "high", "williams_min", "bor"}
         assert set(chosen.values()) <= set(SUB)
-    assert envelope.envelope_for(None) is None
-    assert envelope.envelope_for(float("nan")) is None
-    assert envelope.envelope_for(13.0) is None  # below the lowest Hazus class
+    for kind in ("transmission", "distribution", "distribution;transmission"):
+        chosen = envelope.envelope_for(None, kind)
+        assert chosen is not None and set(chosen.values()) <= set(SUB)
+    assert envelope.envelope_for(None, basis="hazus_kv") is None
+    assert envelope.envelope_for(float("nan"), basis="hazus_kv") is None
+    assert envelope.envelope_for(13.0, basis="hazus_kv") is None  # below the lowest Hazus class
+    assert envelope.envelope_for(345.0, "unknown") is None  # no stated role, no curve
+    assert envelope.envelope_for(345.0, "") is None
+
+
+def test_role_is_the_main_case_c5() -> None:
+    """C-5: transmission takes grid exit point, distribution takes substation; Hazus kV aside."""
+    farragut = envelope.envelope_for(345.0, "transmission")
+    assert farragut is not None and farragut["high"] == "williams_grid_exit_point_max"
+    area = envelope.envelope_for(138.0, "distribution")
+    assert area is not None and area["high"] == "williams_substation_max"
+    assert envelope.envelope_for(345.0, "transmission", "hazus_kv")["high"] == (
+        "williams_substation_max"
+    )
+    assert envelope.envelope_for(138.0, "distribution", "hazus_kv")["high"] == (
+        "williams_distribution_substation_max"
+    )
+    with pytest.raises(ValueError):
+        envelope.tier_for(138.0, "distribution", "other")
 
 
 def test_hazus_tiers() -> None:

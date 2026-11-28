@@ -17,7 +17,14 @@ Rules that are ours and placeholders [P] (CH-27, accepted by Yuri 2026-11-27, an
 * Williams has no point at 0 m: the curve is 0 at 0 m and linear to the 0.5 m point;
 * depth is read as inundation depth above ground (no datum is stated by Williams; Nirandjan and
   Bor are depth above ground);
-* the voltage tier of an asset follows Hazus's classes, since Williams names tiers without kV.
+* Williams names three substation components but gives no voltages, so each asset is matched
+  to one by its role (C-5, Yuri 2026-11-28): an OpenStreetMap ``substation=transmission`` site
+  takes "grid exit point" and a ``substation=distribution`` site (Con Edison's area substations)
+  takes "substation"; Williams's "distribution substation" (labelled "low-voltage substation",
+  p. 6) is used for none of the study's assets. Hazus's voltage classes (Hazus 7.0
+  Inventory TM p. 9-15: high 350 kV and above, medium 150-350 kV, low 34.5-150 kV) are kept as
+  the sensitivity basis ``hazus_kv``: on it the 345 kV Farragut site is "medium" and the 138 kV
+  sites "low".
 
 No crc import here: the tables go to CRC through ``flood_lab.risk.crc_adapter``.
 """
@@ -40,6 +47,10 @@ BOR_STEP_M = 0.01
 HAZUS_TIERS_KV = (("high", 350.0), ("medium", 150.0), ("low", 34.5))
 #: Williams et al. 2025 p. 6: grid exit point [high-voltage substation], substation
 #: [medium-voltage substation], distribution substation [low-voltage substation] [S]
+#: C-5 (Yuri 2026-11-28), the main case [P]: OSM substation role to Williams tier
+ROLE_TIER = {"transmission": "high", "distribution": "medium"}
+#: the bases ``tier_for`` accepts: the role (main case) and Hazus's kV classes (sensitivity)
+TIER_BASES = ("role", "hazus_kv")
 WILLIAMS_COMPONENT = {
     "high": "grid exit point",
     "medium": "substation",
@@ -132,14 +143,44 @@ def substation_curves(nirandjan_xlsx: Path) -> dict[str, PointCurve]:
     return curves
 
 
-def envelope_for(kv: float | None) -> dict[str, str] | None:
-    """Which curve of ``substation_curves`` each family uses for a substation of this voltage.
+def role_tier(kind: str | None) -> str | None:
+    """Williams tier of a substation from its OpenStreetMap role (C-5, the main case) [P].
 
-    None when the voltage tier is unknown: the asset gets no substation curve (and has no value).
-    Bor's set is for HV substations above 345 kV; it is offered for every tier as the
-    alternative FR2 names, and the page must say where it is out of its stated range.
+    ``kind`` is the asset table's ``lab_substation_kind`` (the OSM ``substation=*`` values of the
+    site's outlines, ``;``-joined); transmission anywhere in it wins, as in the asset build. None
+    when no role in ``ROLE_TIER`` is stated.
     """
-    tier = voltage_tier(kv)
+    if not kind or kind != kind:  # empty or NaN
+        return None
+    roles = str(kind).split(";")
+    if "transmission" in roles:
+        return ROLE_TIER["transmission"]
+    for role in roles:
+        if role in ROLE_TIER:
+            return ROLE_TIER[role]
+    return None
+
+
+def tier_for(kv: float | None, kind: str | None, basis: str = "role") -> str | None:
+    """Williams tier of a substation on ``basis`` "role" (C-5, main case) or "hazus_kv" (sensitivity)."""
+    if basis == "role":
+        return role_tier(kind)
+    if basis == "hazus_kv":
+        return voltage_tier(kv)
+    raise ValueError(f"unknown tier basis {basis!r}; expected one of {TIER_BASES}")
+
+
+def envelope_for(
+    kv: float | None, kind: str | None = None, basis: str = "role"
+) -> dict[str, str] | None:
+    """Which curve of ``substation_curves`` each family uses for a substation.
+
+    The Williams curves follow the tier on ``basis`` (``tier_for``). None when the tier is unknown:
+    the asset gets no substation curve (and has no value). Bor's set is for HV substations above
+    345 kV; it is offered for every tier as the alternative FR2 names, and the page must say where
+    it is out of its stated range.
+    """
+    tier = tier_for(kv, kind, basis)
     if tier is None:
         return None
     component = WILLIAMS_COMPONENT[tier].replace(" ", "_")

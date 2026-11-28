@@ -9,8 +9,14 @@ rules:
     \ must catch;\n* a curve whose source stops short of ``MAX_DEPTH_M`` holds its last value from there\
     \ on;\n* Williams has no point at 0 m: the curve is 0 at 0 m and linear to the 0.5 m point;\n* depth\
     \ is read as inundation depth above ground (no datum is stated by Williams; Nirandjan and\n  Bor are\
-    \ depth above ground);\n* the voltage tier of an asset follows Hazus's classes, since Williams names\
-    \ tiers without kV."
+    \ depth above ground);\n* Williams names three substation components but gives no voltages, so each\
+    \ asset is matched\n  to one by its role (C-5, Yuri 2026-11-28): an OpenStreetMap ``substation=transmission``\
+    \ site\n  takes \"grid exit point\" and a ``substation=distribution`` site (Con Edison's area substations)\n\
+    \  takes \"substation\"; Williams's \"distribution substation\" (labelled \"low-voltage substation\"\
+    ,\n  p. 6) is used for none of the study's assets. Hazus's voltage classes (Hazus 7.0\n  Inventory\
+    \ TM p. 9-15: high 350 kV and above, medium 150-350 kV, low 34.5-150 kV) are kept as\n  the sensitivity\
+    \ basis ``hazus_kv``: on it the 345 kV Farragut site is \"medium\" and the 138 kV\n  sites \"low\"\
+    ."
   buildings: Depth above the top of the finished first floor = inundation depth above ground minus first-floor
     height above grade (Hazus 7.0 Flood TM p. 2-3, 8-2) [S]. Points from -4 to 24 ft as published, in
     metres [I]. The rule for a dry building and for depths outside -4..24 ft is set at the event-loss
