@@ -1,0 +1,110 @@
+id = "nyc-pluto"
+title = "NYC Primary Land Use Tax Lot Output (PLUTO), version 26v3 (NYC Open Data `64uk-42ks`)"
+publisher = "NYC Department of City Planning (DCP), on NYC Open Data"
+checked_on = "2026-11-28"
+stage = "F6"
+level = "facts"
+second_reader_stage = ""
+used_for = ["FD5"]
+known_biases = "PLUTO describes tax lots, not buildings. On a lot with several buildings, the building class, units, floor area and basement code are those of the lot, and NumFloors is that of the tallest building on the lot (data dictionary, NumFloors); the lab uses NumFloors directly only where the lot has one building, and flags it on the lot's largest footprint otherwise (rule A-4). The fields come from the Department of Finance's tax and appraisal systems (PTS, CAMA): building class is an assessment class, not a survey of use; BsmtCode is stated to be available for one, two or three family structures and not verified by DOF for other property; a zero floor area or empty NumFloors on a lot with buildings means not available. A condominium is one billing lot (75xx) holding the classes of its unit lots merged by DCP (RC, RD, RM, RX, RZ, RI). The table is the city as of the 26v3 release (November 2026), not as of a storm date. Of the 17,195 lots asked, 15,590 were returned: the others are mainly base_bbl values of condominium unit lots, which PLUTO does not hold as rows (the lab joins on mappluto_bbl first). AssessTot is a tax assessment, not a replacement value, and is not used."
+
+[[fact]]
+name = "identifier"
+claimed = "NYC MapPLUTO/PLUTO (DCP), version 26v3, NYC Open Data 64uk-42ks"
+observed = "Dataset 64uk-42ks, name 'Primary Land Use Tax Lot Output (PLUTO)', attribution 'Department of City Planning (DCP)', description ends 'Current version: 26v3'. Every one of the 15,590 rows fetched has version = 26v3. The data dictionary cached is headed 'PLUTO DATA DICTIONARY November 2026 (26v3)'."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+passage = "\"id\" : \"64uk-42ks\", \"name\" : \"Primary Land Use Tax Lot Output (PLUTO)\", \"attribution\" : \"Department of City Planning (DCP)\" ; description: Extensive land use and geographic data at the tax lot level in comma-separated values (CSV) file format. ... Current version: 26v3"
+note = "MapPLUTO (the geofile) and PLUTO (the table) share the data dictionary; only the table is fetched, without geometry. The footprint layer joins to it by mappluto_bbl (facts nyc-building-footprints, fact fields)."
+verdict_note = ""
+
+[[fact]]
+name = "address"
+claimed = "Socrata API https://data.cityofnewyork.us/resource/64uk-42ks.json, no login"
+observed = "The resource endpoint answers without a token. The lab asks only for the lots under the study area's footprints: $where bbl in ('<ten digits>.00000000', ...), 150 lots per request, $select of 19 columns (bbl, borough, block, lot, address, bldgclass, landuse, numbldgs, numfloors, bldgarea, resarea, comarea, areasource, unitsres, unitstotal, lotarea, bsmtcode, yearbuilt, version). 115 requests on 2026-11-28 between 14:58 and 15:06 UTC; every address asked is in nyc-pluto/query.json."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/64uk-42ks.json"
+passage = "-"
+note = "The API writes bbl as text with eight decimals (3000030001.00000000); the lab reads it as ten digits."
+verdict_note = ""
+
+[[fact]]
+name = "licence"
+claimed = "NYC Open Data terms of use"
+observed = "The dataset metadata has no licence field (license and licenseId are empty). The NYC Open Data terms of use, read for the city's other datasets (facts nyc-building-elevation-subgrade, fact licence), are recorded here as what applies; they were not confirmed further for PLUTO. The data dictionary carries DCP's own disclaimer (no warranty of completeness, accuracy, content or fitness)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+passage = "\"license\": null, \"licenseId\": null (metadata as fetched) ; PLUTO is provided by the Department of City Planning (DCP) on DCP's website for informational purposes only. DCP does not warranty the completeness, accuracy, content, or fitness for any particular purpose or use of PLUTO, nor are any such warranties to be implied or inferred with respect to PLUTO as furnished on the website. (data dictionary 26v3, Disclaimer, p. 3)"
+note = "Not confirmed further: whether DCP's BYTES of the BIG APPLE download page states other terms was not read."
+verdict_note = ""
+
+[[fact]]
+name = "fields"
+claimed = "BldgClass, LandUse, NumFloors, NumBldgs, BldgArea, BsmtCode: meanings from the PLUTO data dictionary"
+observed = "Data dictionary 26v3. BUILDING CLASS (BldgClass, p. 18): 'A code describing the major use of structures on the tax lot', from the Department of Finance Property Tax System; for condominiums DCP merges the unit lots' classes (RC, RD, RI, RM, RX, RZ); codes in Appendix C (pp. 51-54). LAND USE (LandUse, p. 19): 11 DCP categories assigned from building class (Appendix D, p. 55). NUMBER OF BUILDINGS (NumBldgs, p. 28): count of BINs of the building footprints on the lot. NUMBER OF FLOORS (NumFloors, p. 28): 'The number of full and partial floors starting from the ground floor, for the tallest building on the tax lot'; above-ground basements not included; null with buildings on the lot means not available. TOTAL BUILDING FLOOR AREA (BldgArea, pp. 22-23): gross floor area of all structures on the lot (source code 5: largest structure only); zero with buildings on the lot means not available. BASEMENT TYPE/GRADE (BsmtCode, pp. 32-33): 0 None/No Basement; 1 above grade full; 2 below grade full; 3 above grade partial; 4 below grade partial; 5 Unknown; 'This information is available for one, two or three family structures'; for other property 'the data is not verified by DOF'; basements of brownstones and attached row houses are 'considered above grade'."
+outcome = "confirmed"
+source_url = "https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/bytes/pluto_datadictionary.pdf"
+passage = "NUMBER OF FLOORS (NumFloors) ... The number of full and partial floors starting from the ground floor, for the tallest building on the tax lot. ... Above ground basements are not included in the NUMBER OF FLOORS. ... If the NUMBER OF FLOORS is null and the NUMBER OF BUILDINGS is greater than zero, then NUMBER OF FLOORS is not available for the tax lot. (p. 28) ; BASEMENT TYPE/GRADE (BsmtCode) ... 0 None/No Basement 1 Above grade full basement ... 2 Below grade full basement ... 3 Above grade partial basement ... 4 Below grade partial basement ... 5 Unknown. This information is available for one, two or three family structures. ... A value may exist for other types of property, but the data is not verified by DOF. (p. 32) ; BUILDING CLASS (BldgClass) ... A code describing the major use of structures on the tax lot. (p. 18)"
+note = "Pages are the printed page numbers of the 26v3 dictionary (pluto_datadictionary.pdf, 711,323 bytes). An older copy at www.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf is the May 2022 (22v1) edition and was not used."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_space"
+claimed = ""
+observed = "New York City, every tax lot of the five boroughs. Fetched: the 15,590 lots under the study area's 17,744 building footprints (mappluto_bbl and base_bbl of each footprint, 17,195 distinct values asked). Joined on mappluto_bbl, else base_bbl, 5,408 of the 5,416 buildings without an NSI point have a lot (on base_bbl alone, 5,053)."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/resource/64uk-42ks.json"
+passage = "-"
+note = "Counts from src/flood_lab/assets/exposures.py and nyc-pluto/query.json, 2026-11-28."
+verdict_note = ""
+
+[[fact]]
+name = "coverage_time"
+claimed = ""
+observed = "One release, 26v3 (November 2026), a snapshot of the city's tax and appraisal records at that release; the dataset is updated quarterly (metadata: Update Frequency Quarterly). It is not tied to any storm date."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+passage = "'Update': {'Automation': 'Yes', 'Update Frequency': 'Quarterly', 'Data Change Frequency': 'Quarterly'} ; PLUTO DATA DICTIONARY November 2026 (26v3)"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "release"
+claimed = "26v3"
+observed = "Version 26v3 on every row; metadata rowsUpdatedAt 1795476446 (2026-11-23T23:27:26Z), publicationDate 1779987139 (2026-05-28T16:52:19Z). Fetched 2026-11-28."
+outcome = "confirmed"
+source_url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+passage = "\"rowsUpdatedAt\" : 1795476446 ; \"publicationDate\" : 1779987139 ; Current version: 26v3"
+note = ""
+verdict_note = ""
+
+[[fact]]
+name = "checksum"
+claimed = ""
+observed = "DCP publishes no checksum. Files kept under data/cache/flood/nyc-pluto/: 115 answers lots_1.json to lots_115.json (sha256, bytes and address of each in query.json), query.json, meta_64uk-42ks.json and pluto_datadictionary.pdf; the last three are in [[file]]."
+outcome = "not applicable"
+source_url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+passage = "n/a"
+note = "Computed locally with shasum -a 256 on 2026-11-28."
+verdict_note = ""
+
+[[file]]
+path = "nyc-pluto/query.json"
+url = "https://data.cityofnewyork.us/resource/64uk-42ks.json"
+bytes = 541555
+sha256 = "ff42067a023633d46a0872a41d2efeae8b7b75efb5e4e5c5915e3eb549f77835"
+fetched_at = "2026-11-28T15:05:57Z"
+
+[[file]]
+path = "nyc-pluto/meta_64uk-42ks.json"
+url = "https://data.cityofnewyork.us/api/views/64uk-42ks.json"
+bytes = 202691
+sha256 = "3e4b0676b3b9352d48dfbd271df32d5d35481ef58a7d831be0b926b3a9982c30"
+fetched_at = "2026-11-28T15:05:57Z"
+
+[[file]]
+path = "nyc-pluto/pluto_datadictionary.pdf"
+url = "https://s-media.nyc.gov/agencies/dcp/assets/files/pdf/data-tools/bytes/pluto_datadictionary.pdf"
+bytes = 711323
+sha256 = "5fa28d38622d5aa3994b203ad4b8d992bedb4a611856d592d1ee2fcb5b62a1ec"
+fetched_at = "2026-11-28T15:06:00Z"

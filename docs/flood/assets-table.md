@@ -31,8 +31,9 @@ record `site/flood/tests/records/f1-assets.json` and on the gallery; none is rep
 
 - A building with no row in the elevation table has its ground elevation from the terrain and no
   first-floor height. Garages are almost never in that table.
-- A building with no inventory point has no value and no occupancy. Its loss cannot be computed until a
-  value is assigned, and none has been invented.
+- A building with no inventory point has no value and no occupancy in this table. Since CH-31
+  (2026-11-28) the exposures table `site/flood/data/exposures.csv` gives it a substitute class (PLUTO)
+  and value (Hazus cost per ft²), flagged as such; this table is unchanged.
 - Customers served per substation (FD7) is empty: no public figure exists and no placeholder was made.
 - Substation values are placeholders spanning a factor of about forty.
 - Building occupancy and construction codes in OED terms are empty.

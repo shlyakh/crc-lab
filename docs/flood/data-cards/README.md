@@ -23,6 +23,7 @@ One card per source whose facts were read from the primary source (FS6). Require
 | [Building Elevation and Subgrade (BES)](nyc-building-elevation-subgrade.md) | facts confirmed (7 read with no claim) | 16 | 0 | 0 | 1 | F0 |
 | [NYC Building Footprints (BUILDING, \`5zhs-2jue\`)](nyc-building-footprints.md) | facts checked: 4 confirmed, 3 read with no claim, 1 differ | 7 | 1 | 0 | 1 | F1 |
 | [2020 Neighborhood Tabulation Areas (NTAs)](nyc-nta-2020.md) | facts confirmed (7 read with no claim) | 7 | 0 | 0 | 1 | F0 |
+| [NYC Primary Land Use Tax Lot Output (PLUTO), version 26v3 (NYC Open Data \`64uk-42ks\`)](nyc-pluto.md) | facts confirmed (2 read with no claim) | 7 | 0 | 0 | 1 | F6 |
 | [NYC Stormwater Flood Maps](nyc-stormwater-flood-maps.md) | facts checked: 8 confirmed, 4 read with no claim, 2 differ, 1 not checked; values recomputed by a second reader in F2 (passed) | 12 | 2 | 1 | 1 | F0 |
 | [NYC 2017 topobathymetric lidar DEM (NYC Open Data 7sc8-jtbz), packaging for the F1 box](nyc-topobathy-2017.md) | facts checked: 3 confirmed, 7 read with no claim, 1 not checked | 10 | 0 | 1 | 2 | F1 |
 | [OpenStreetMap power=substation, Brooklyn and Queens box](osm-substations.md) | facts checked: 5 confirmed, 7 read with no claim, 1 differ | 12 | 1 | 0 | 1 | F0 |

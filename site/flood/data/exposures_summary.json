@@ -1,0 +1,123 @@
+{
+ "buildings": 17744,
+ "buildings_with_curve": 16888,
+ "buildings_with_curve_by_route": {
+  "neighbour": 24,
+  "nsi": 11902,
+  "nsi suffix": 426,
+  "pluto": 4536
+ },
+ "buildings_with_value": 17744,
+ "buildings_without_curve_by_route": {
+  "neighbour": 32,
+  "pluto": 824
+ },
+ "buildings_without_value_by_route": {},
+ "by_asset_substitute_class": {
+  "": 11205,
+  "NSI default first-floor height": 697,
+  "PLUTO class;Hazus cost per ft\u00b2": 3354,
+  "PLUTO class;PLUTO lot floors (tallest building);Hazus cost per ft\u00b2": 578,
+  "PLUTO class;neighbour mode storeys;Hazus cost per ft\u00b2": 7,
+  "PLUTO class;storeys from roof height;Hazus cost per ft\u00b2": 1421,
+  "neighbour mode class;Hazus cost per ft\u00b2": 9,
+  "neighbour mode class;neighbour mode storeys;Hazus cost per ft\u00b2": 1,
+  "neighbour mode class;storeys from roof height;Hazus cost per ft\u00b2": 46,
+  "suffix base class": 406,
+  "suffix base class;NSI default first-floor height": 20
+ },
+ "by_gap_cause": {
+  "A": 1180,
+  "B": 3446,
+  "C": 790
+ },
+ "by_route": {
+  "neighbour": 56,
+  "nsi": 11902,
+  "nsi suffix": 426,
+  "pluto": 5360
+ },
+ "by_substitute_kind": {
+  "Hazus cost per ft\u00b2": 5416,
+  "NSI default first-floor height": 717,
+  "PLUTO class": 5360,
+  "PLUTO lot floors (tallest building)": 578,
+  "neighbour mode class": 56,
+  "neighbour mode storeys": 8,
+  "storeys from roof height": 1467,
+  "study-area mode class": 0,
+  "suffix base class": 426
+ },
+ "lot_check": {
+  "buildings_added": 1180,
+  "buildings_added_on_those_lots": 213,
+  "excess_over_hazus_all_on_exceeding_lots_quantiles": {
+   "p10": 1.123,
+   "p25": 1.244,
+   "p50": 1.308,
+   "p75": 1.409,
+   "p90": 1.51
+  },
+  "lots": 768,
+  "lots_where_nsi_alone_reaches_hazus_all": 202,
+  "lots_with_hazus_for_every_building": 768,
+  "nsi_value_on_shared_lots_usd_2026": 6788460899,
+  "ratio_nsi_to_hazus_all_quantiles": {
+   "p10": 0.336,
+   "p25": 0.494,
+   "p50": 0.693,
+   "p75": 1.022,
+   "p90": 1.247
+  },
+  "value_added_all_shared_lots_usd_2026": 2159194739,
+  "value_added_on_those_lots_usd_2026": 37817375
+ },
+ "lot_shared_with_nsi": 1180,
+ "minor_structures_without_nsi": 480,
+ "nsi_value_over_hazus_at_nsi_floor_area_quantiles": {
+  "p10": 0.658,
+  "p25": 0.78,
+  "p50": 1.124,
+  "p75": 1.34,
+  "p90": 1.544
+ },
+ "pluto_basement_disagrees_with_city_flag": 127,
+ "pluto_bldgarea_over_floor_area_single_lots": {
+  "buildings": 3369,
+  "p10": 0.623,
+  "p25": 0.778,
+  "p50": 0.965,
+  "p75": 1.076,
+  "p90": 1.337
+ },
+ "pluto_lots_read": 15590,
+ "pluto_version": [
+  "26v3"
+ ],
+ "price_factors": {
+  "4Q22": 1.055151,
+  "4Q24": 1.060723,
+  "4Q25": 1.026971
+ },
+ "storey_height_ft": 12.62,
+ "study_area_mode_class": "RES3B",
+ "study_area_mode_storeys": 2,
+ "substations": 6,
+ "suffix_basement_disagree": 155,
+ "suffix_occupancies": {
+  "RES1-1SNB": 1,
+  "RES1-1SWB": 17,
+  "RES1-2SNB": 11,
+  "RES1-2SWB": 159,
+  "RES1-3SNB": 13,
+  "RES1-3SWB": 225
+ },
+ "suffix_storeys_above_3": 53,
+ "suffix_storeys_disagree": 53,
+ "value_mid_total_usd_2026_by_route": {
+  "neighbour": 114397529,
+  "nsi": 49277516139,
+  "nsi suffix": 397713660,
+  "pluto": 10650547671
+ }
+}
