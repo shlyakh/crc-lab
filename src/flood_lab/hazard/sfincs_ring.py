@@ -458,6 +458,7 @@ def aligned_forcing(
     var: str,
     lat: str,
     lon: str,
+    bounds=RING,
 ) -> dict:
     """The square run's own forcing file extended to cover the ring, on its own pixels.
 
@@ -489,7 +490,7 @@ def aligned_forcing(
     stamps = stamps.tz_localize(None) if stamps.tz is not None else stamps
     hour_of = {s - pd.Timedelta(hours=1): i for i, s in enumerate(stamps)}
     js = [hour_of.get(s) for s in starts]
-    w, s, e, n = RING
+    w, s, e, n = bounds
     nx, bx = extend_axis(tx, w, e)
     ny, by = extend_axis(ty, s, n)
     gx, gy = np.meshgrid(nx, ny)
@@ -562,10 +563,13 @@ def _scenario_row(scenarios_csv: Path, scenario_nc: Path) -> dict:
     raise KeyError(f"{scenario_nc.name} is not in {scenarios_csv}")
 
 
-def rebuild_scenario(scenario_nc: Path, out_nc: Path, run_dir: Path) -> dict:
-    """A scenario file over the ring: the parent storm's ``rain`` from RainyDay's catalogue moved by
-    the scenario's shift (``scenarios.csv``), on the scenario's own time axis (stamps not in the
-    parent are RainyDay's padding: zero, checked on the scenario's cells)."""
+def rebuild_scenario(scenario_nc: Path, out_nc: Path, run_dir: Path, bounds=RING) -> dict:
+    """A scenario file over ``bounds`` (the ring by default): the parent storm's ``rain`` from
+    RainyDay's catalogue moved by the scenario's shift (``scenarios.csv``), on the scenario's own
+    time axis (stamps not in the parent are RainyDay's padding: zero, checked on the scenario's
+    cells). Over the square (CH-26) it gives the square runs pixels beyond the square's edges:
+    RainyDay's own scenario holds only the pixels whose centres lie in the study box, and SFINCS
+    puts no rain on cells outside the outermost pixel centres of a ``netamprfile``."""
     import glob
 
     import numpy as np
@@ -594,8 +598,8 @@ def rebuild_scenario(scenario_nc: Path, out_nc: Path, run_dir: Path) -> dict:
         attrs = dict(sc.attrs)
     if not (np.all(np.diff(lat) > 0) and np.all(np.diff(lon) > 0)):
         raise ValueError("the catalogue's axes do not ascend")
-    # the ring's lat/lon bounds, from points along its edges
-    w, s, e, n = RING
+    # the box's lat/lon bounds, from points along its edges
+    w, s, e, n = bounds
     k = 81
     xs = np.r_[np.linspace(w, e, k), np.full(k, e), np.linspace(e, w, k), np.full(k, w)]
     ys = np.r_[np.full(k, s), np.linspace(s, n, k), np.full(k, n), np.linspace(n, s, k)]
@@ -626,7 +630,7 @@ def rebuild_scenario(scenario_nc: Path, out_nc: Path, run_dir: Path) -> dict:
         {"rain": (("time", "latitude", "longitude"), out.astype("float32"))},
         coords={"time": stime, "latitude": blat, "longitude": blon},
         attrs={
-            "source": f"rebuilt over {RING} (EPSG:{EPSG}) from {Path(files[0]).name}, "
+            "source": f"rebuilt over {tuple(bounds)} (EPSG:{EPSG}) from {Path(files[0]).name}, "
             f"shift x {dx} y {dy} cells, as {scenario_nc.name}",
             "rainrate_units": attrs.get("rainrate_units", "mm hr^-1"),
         },
@@ -646,6 +650,7 @@ def rebuild_scenario(scenario_nc: Path, out_nc: Path, run_dir: Path) -> dict:
         "domain_rows": list(rows),
         "domain_cols": list(cols),
         "shape": list(out.shape),
+        "bounds": list(bounds),
         "ring_lonlat_bounds": [float(la.min()), float(la.max()), float(lo.min()), float(lo.max())],
         "padded_steps": padded,
         "proof": {
@@ -811,8 +816,9 @@ def queue_items(root: Path) -> list[dict]:
         ("ring_ds_1h_100y", cache / "f4" / "runs" / "ds_1h_100y", None),
     )
     chosen = chosen_storms(cache)
+    # the catalogue's square runs with rain on the whole square (CH-26)
     pairs += tuple(
-        (f"ring_{c}", cache / "f4" / "runs" / c, ring / "forcing" / f"ring_{c}.nc")
+        (f"ring_{c}", cache / "f4" / "runs_cover" / c, ring / "forcing" / f"ring_{c}.nc")
         for c in chosen["labels"]
     )
     items = []
@@ -895,6 +901,7 @@ def main() -> None:
     r.add_argument("scenario", type=Path)
     r.add_argument("out", type=Path)
     r.add_argument("--run-dir", type=Path, required=True, help="RainyDay output folder")
+    r.add_argument("--box", choices=("ring", "square"), default="ring")
     sc = sub.add_parser("scenario-forcing")
     sc.add_argument("scenario", type=Path, help="a rebuilt scenario file")
     sc.add_argument("out", type=Path)
@@ -907,6 +914,7 @@ def main() -> None:
     al.add_argument("--var", default="rain")
     al.add_argument("--lat", default="latitude")
     al.add_argument("--lon", default="longitude")
+    al.add_argument("--box", choices=("ring", "square"), default="ring")
     a = sub.add_parser("analyse")
     a.add_argument("folder", type=Path)
     q = sub.add_parser("queue")
@@ -922,13 +930,15 @@ def main() -> None:
         "aligned-forcing",
     ):
         if args.command == "aligned-forcing":
+            box = SQUARE if args.box == "square" else RING
             rec = aligned_forcing(
-                args.template, args.source, args.out, args.var, args.lat, args.lon
+                args.template, args.source, args.out, args.var, args.lat, args.lon, box
             )
         elif args.command == "replay-forcing":
             rec = replay_forcing(args.mrms, args.out, args.tref, args.hours)
         elif args.command == "rebuild-scenario":
-            rec = rebuild_scenario(args.scenario, args.out, args.run_dir)
+            box = SQUARE if args.box == "square" else RING
+            rec = rebuild_scenario(args.scenario, args.out, args.run_dir, box)
         else:
             rec = scenario_forcing(args.scenario, args.out, args.tref, args.hours)
         sm._write_json(args.out.with_suffix(".json"), rec)

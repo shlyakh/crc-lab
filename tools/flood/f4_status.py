@@ -21,7 +21,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 F4 = ROOT / "data" / "cache" / "flood" / "f4"
-RUNS = F4 / "runs"
+#: the runs folder: FLOOD_RUNS as the batch takes it (relative to the repository), else f4/runs
+RUNS = ROOT / os.environ["FLOOD_RUNS"] if os.environ.get("FLOOD_RUNS") else F4 / "runs"
+QUEUE = "queue_cover.json" if RUNS.name == "runs_cover" else "queue_catalogue.json"
 LINE = re.compile(r"^(\S+) (\S+) solver exit (\S+) finished (\S+) wall ([\d.]+) s")
 
 
@@ -77,7 +79,9 @@ def status() -> str:
     alive = subprocess.run(
         ["pgrep", "-f", "f3_batch.py"], capture_output=True, text=True
     ).stdout.strip()
-    restart = "just flood-f4-batch data/cache/flood/f4/queue_catalogue.json"
+    restart = (
+        f"FLOOD_RUNS={RUNS.relative_to(ROOT)} just flood-f4-batch data/cache/flood/f4/{QUEUE}"
+    )
     out.append(f"  batch process: {'alive' if alive else 'NOT RUNNING (restart: ' + restart + ')'}")
     if walls:
         recent = list(walls.values())[-10:]

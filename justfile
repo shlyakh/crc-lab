@@ -289,6 +289,10 @@ flood-diagrams:
 flood-f4-status *flags:
     python3 tools/flood/f4_status.py {{flags}}
 
+# Flood lab F4: status of the rerun with the rain covering the square (CH-26)
+flood-f4-status-cover *flags:
+    FLOOD_RUNS=data/cache/flood/f4/runs_cover python3 tools/flood/f4_status.py {{flags}}
+
 # Flood lab F4: run-on sensitivity on a 5 km model (square + 500 m ring); build, run, analyse, compare
 flood-f4-ring-base:
     uv run --no-project --python 3.12 --with hydromt-sfincs==2.0.0 --with 'rasterio<1.5.2; sys_platform == "darwin"' --with scipy python src/flood_lab/hazard/sfincs_ring.py base --cache data/cache/flood

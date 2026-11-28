@@ -1,6 +1,6 @@
 # Requirements: Flood Loss & Trigger Lab
 
-Version 10, 2026-11-27, tag `flood-requirements-v10` (earlier versions are tags `flood-requirements-v1` to `-v9`; what changed is in `docs/flood/changes.md`);
+Version 11, 2026-11-27, tag `flood-requirements-v11` (earlier versions are tags `flood-requirements-v1` to `-v10`; what changed is in `docs/flood/changes.md`);
 first draft 2026-11-24. Author: Yuri Shlyakhter, with Claude.
 Handoff document for the Claude Code build in crc-lab. The stages, hours, tests and the way of working
 are in `docs/flood/plan.md`. Nothing here is started.
@@ -303,7 +303,22 @@ say what this file claims, stop and report; do not substitute a number.
 - **FV4.** No retuning in this stage. If error exceeds 0.5 m root-mean-square **[P]**, the write-up says the
   depth layer cannot support substation-level claims.
 - **FV5.** "Who saw the flood": for each storm, counts and locations inside the area from Groundsource, NOAA
-  Storm Events, 311 complaints, FloodNet and surveyed marks, on one chart and one map.
+  Storm Events, 311 complaints, FloodNet and surveyed marks, on one chart and one map. Rules of CH-24
+  (accepted 2026-11-27):
+  - **311 twins.** Two 311 rows of the legacy and the current naming scheme, of the same kind, created
+    within 600 s **[P]**, at the same address or within 25 m **[P]**, are one request (both row ids kept).
+  - **Sightings.** Reports from 311, FloodNet and the surveyed marks that lie within 50 m **[P]** of each
+    other and whose times are within 12 h **[P]** are chained (single linkage) into one sighting; every
+    member is kept with its source and row ids. Groundsource places and Storm Events events are listed per
+    sighting (the area reports whose shape holds a member) and link nothing. The three limits are
+    placeholders, re-tested in F8 on more storms.
+  - **311 window.** Each storm's 311 window is its storm days and the one day after (Ida: 1-3 Sep 2021;
+    29 Sep 2023: 29-30 Sep 2023), because the day after Ida held 18 requests in the square against a
+    dry-day maximum of 5 (F5 report, section 4). The main counts, the sightings and the maps use it; the
+    counts of the storm days alone are kept beside them. The late-call baseline (dry days from GHCN-Daily)
+    is unchanged. Sightings take the FloodNet events that started in the window, and a mark, which has
+    no time, spans the window. The other counts keep the storm days.
+  - **Maps.** Each storm's map draws its own storm's modelled depth (the frozen F3 replay) as background.
 
 ### Risk in CRC (FR)
 
@@ -328,7 +343,10 @@ say what this file claims, stop and report; do not substitute a number.
     "maximum" are minimum and maximum hazard conditions (velocity, duration), not uncertainty bounds, and
     the paper gives points at 0.5, 1, 2 and 3 m only, with no datum stated for the depth. These curves are
     specific to New Zealand, and the article's licence is CC BY-NC-ND **[S]** (p. 1): cite the
-    values, do not copy the supplement into the repository, and see question 7.
+    values, do not copy the supplement into the repository, and see question 7. The high side of the
+    envelope (CH-27, accepted 2026-11-27) is built from the Data S4 points of the component that matches
+    the asset's voltage tier, with 0 at 0 m and the 3 m value held above 3 m, depth read as inundation
+    depth above ground, all **[P]**, and labelled as the lab's construction from Williams's points.
   - **Alternative: lognormal fragility** (Bor et al. 2026, arXiv 2605.23053, Table 1; a preprint), for
     substations above 345 kV, anchored. Median depth, dispersion and damage ratio by state: slight
     0.50 m, 0.40, 0.05; moderate 1.00 m, 0.40, 0.20; extensive 1.50 m, 0.40, 0.50; complete 3.00 m, 0.40,
@@ -556,6 +574,7 @@ with an outcome.
 | Groundsource | Zenodo record 18647054, `groundsource_2026.parquet`, 667.1 MB, md5 `cd1b5de6508f7aad8e1d1d0dd4cecea6`, published 2026-02-15 **[S]** | FS2, FV5, FT5 | CC BY 4.0 **[S]**; row count and schema **[V]** | F0 | Facts and second reader (F2) | |
 | NOAA Storm Events | NOAA's bulk files, read by a small `flood_lab` reader for the New York counties (FT5) | FV5, FT5 | Attribution | F0 | Facts | |
 | 311 service requests | NYC Open Data (find the current dataset id in F0) | FV5, FT5 | NYC Open Data terms | F0 | Facts | |
+| GHCN-Daily (CH-24) | NOAA NCEI, GHCN-Daily version 3, doi:10.7289/V5D21VHZ (version 3.35 on 2026-11-26); daily PRCP at Central Park `USW00094728`, LaGuardia `USW00014732` and JFK `USW00094789`, through NCEI's Access Data Service (`daily-summaries`) **[S]** | FV5 (dry days for the late-call baseline) | No licence named in the collection metadata; it asks for a citation (Menne et al. 2012) and states liability disclaimers **[S]**; used as NOAA data with attribution (`ghcn-daily`) | F5 (2026-11-26) | Facts | Confirmed: identifier, address, licence, fields, coverage, release, use limitation; checksum not applicable (`ghcn-daily`) |
 | NFIP redacted claims | OpenFEMA | FT5 | Public | F0 | Facts | |
 | Gridded rainfall | NOAA AORC v1.1 or Stage IV (catalogue); MRMS (replays) | FH4, FH5 | Public | F0 | Facts and second reader for the replay rainfall (F5); facts for the catalogue record | |
 | NOAA Atlas 14 | Point precipitation frequency, study-area centroid | FH6 | Public | F0 | Facts | |
@@ -716,7 +735,7 @@ fold the rows into them. Data cards are in `docs/flood/data-cards/`.
 | FT5, §7 | NFIP redacted claims | The current dataset is version 3; version 2, which the claim-date preprint used, is gone. Coordinates are rounded to 0.1 degree; the census block group is given (`nfip-redacted-claims`) | Read version 3; place a claim by its block group, never by its coordinates |
 | FV5, FT5 | 311 complaints | Two naming schemes for the same complaint types are in use (`nyc-311`) | Count both |
 | FR2 | Hazus-type curve "about 7% at 1.2 m and 15% at about 3 m" | Read from the 1.1.0 spreadsheet: 0.0694 at 1.2 m, 0.1569 at 3.0 m; the three curves are identical and stop at 3.05 m with 0.16 (`substation-curves-nirandjan`). All 62 points are linear in feet through 0, 6, 10 and 16% at 0, 3, 7 and 10 ft **[I]**, the form of Hazus's utility tables (1 ft steps, full damage at 10 ft); the Hazus 7 manuals print no substation points to compare (`hazus-flood-functions`, CH-25) | Confirmed. Above 3.05 m the table is held flat to the stated maximum depth, tagged **[P]**. Whether F2 equals Hazus's own substation table stays open (it is in the Hazus software only) |
-| FR2 | Williams et al. values at 3 m | Read 2026-11-27 from the article and Data S4 that Yuri supplied: at 3 m substation 52.4–75.5%, distribution substation 51.3–76.5%, grid exit point 48.8–69.7% (Data S4; text p. 7 gives 52–76, 51–77, 49–70). Min and max are minimum and maximum hazard conditions (low velocity or short duration; high velocity or long duration, p. 3), each an expertise-weighted mean of 14 to 19 responses; points at 0.5, 1, 2 and 3 m only; grid exit point is the high-voltage, substation the medium-voltage and distribution substation the low-voltage class, no kV, equipment or depth datum stated; already 14–35% at 0.5 m. Licence printed on p. 1: Creative Commons Attribution-NonCommercial-NoDerivs (`substation-curves-other`, CH-27) | Confirmed. Proposed for F6 (CH-27, open): build the high bound from the Data S4 points with 0 at 0 m and the 3 m value held above 3 m, both **[P]**, depth read as above ground **[P]**, and labels it as our construction from Williams's points |
+| FR2 | Williams et al. values at 3 m | Read 2026-11-27 from the article and Data S4 that Yuri supplied: at 3 m substation 52.4–75.5%, distribution substation 51.3–76.5%, grid exit point 48.8–69.7% (Data S4; text p. 7 gives 52–76, 51–77, 49–70). Min and max are minimum and maximum hazard conditions (low velocity or short duration; high velocity or long duration, p. 3), each an expertise-weighted mean of 14 to 19 responses; points at 0.5, 1, 2 and 3 m only; grid exit point is the high-voltage, substation the medium-voltage and distribution substation the low-voltage class, no kV, equipment or depth datum stated; already 14–35% at 0.5 m. Licence printed on p. 1: Creative Commons Attribution-NonCommercial-NoDerivs (`substation-curves-other`, CH-27) | Confirmed. For F6 (CH-27, accepted by Yuri 2026-11-27): build the high bound from the Data S4 points with 0 at 0 m and the 3 m value held above 3 m, both **[P]**, depth read as above ground **[P]**, and labels it as our construction from Williams's points |
 | FR2, FM5 | Hazus functional depth 4 ft, Table 10-12 | Read in the Hazus 7.0 Inventory Technical Manual (June 2025): Table 9-13, p. 9-17, 4 ft for the low-, medium- and high-voltage substation classes, all slab on grade, equipment height 0 ft, "not analyzed in the flood model, mapping only". Hazus 7 prints no substation damage points; its utility damage functions for electric power are "not enabled" (Flood Technical Manual p. 9-3, footnote 21). Current Hazus is 7.2 (`hazus-flood-functions`) | Confirmed for all three classes, table number corrected (CH-25). FM5 uses 4 ft with the caveat |
 | FR3, §7 | Hazus functions "public domain" | FEMA's open tool that carries the tables is GPL-3.0; neither Hazus 7 manual carries a licence or terms-of-use statement. FAST's Hazus 4.0 tables assign the same default functions as the Hazus 7 manual (Tables 5-2 to 5-4); the manual prints no curve values to compare. Depth is above the top of the finished first floor (FR3) (`hazus-flood-functions`) | Accepted by Yuri 2026-11-26 (CH-25): GPL-3.0, values used and cited as GPL-3.0 data from FEMA's FAST tool |
 | FM4 | 7% with 3.1% "as a sensitivity" | 7% confirmed. 3.1% was revoked and is not an alternative FEMA accepts (`fema-bca`) | Keep 3.1% only as a sensitivity labelled "not a FEMA rate". Useful life and toolkit version still open for F7 |

@@ -250,8 +250,9 @@ REPRODUCED
   (`crc_sdk/_climate_io.py:407-420`). On a local server that closes the first connection and serves the
   second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; repeated, it returns its
   rows. In two days this was met with three publishers: JRC (the Texas box was read on the fifth try; of the
-  four earlier tries, one ended on a connection reset 38 seconds into the download and one on a reset when
-  the machine woke from sleep; how the other two ended is not recorded), NOAA (seven resets among 1,000 GHCNh station-years) and NASA (the NEX scripts on this page
+  four earlier tries, one ended on a connection reset when the machine woke from sleep, and three ended
+  within 90 seconds: on a connection reset after 38 s, on `RemoteDisconnected` after 83 s, and on a file GDAL
+  did not recognise after 26 s; [log](texas-tries-2026-11-25.txt)), NOAA (seven resets among 1,000 GHCNh station-years) and NASA (the NEX scripts on this page
   complete only with a retry around the standard library call).
 - **Reproduce.** `uv run tools/repro/crc_no_retry.py` (offline, a few seconds; points IBTrACS at the local
   server by setting one private name). The raster path was read in the code and seen failing on JRC; it

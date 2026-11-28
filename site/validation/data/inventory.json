@@ -898,7 +898,8 @@
     "crc_sdk/_source_io.py:282 (v1.1.0)",
     "crc_sdk/_climate_io.py:486-499 (v1.1.0)",
     "tools/repro/crc_no_retry.py (run of 2026-11-25 on crc-sdk 1.0.0)",
-    "docs/reports/u3-crc-1.0.0.md (the Texas reads)"
+    "docs/reports/u3-crc-1.0.0.md (the Texas reads)",
+    "docs/reports/crc-1.0.0-issues/texas-tries-2026-11-25.txt (tries 2 to 5 of the Texas read)"
    ],
    "fixed_in": "",
    "found_on": "2026-11-25",
@@ -906,7 +907,7 @@
    "id": "CRC-038-FWK",
    "kind": "observation",
    "note": "Seen again on crc-sdk 1.1.0 (tools/repro/crc_no_retry.py, offline, 2026-11-26 and 2026-11-27): the first dropped connection ends the read; none of the 51 crc_sdk files mentions a retry. Line references are to v1.1.0 (280 and 407-420 at 1.0.0).",
-   "observed": "A download is one `urllib.request.urlopen(request, timeout=60)` call (crc_sdk/_source_io.py:282 at v1.1.0); remote rasters are opened through GDAL with `GDAL_DISABLE_READDIR_ON_OPEN` and an optional header file only, without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY` (`_gdal_options`, crc_sdk/_climate_io.py:486-499 at v1.1.0). The word `retry` occurs in none of the package's 51 Python files at v1.1.0. On a local server that closes the first connection and serves the second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; the same call repeated returns its rows (tools/repro/crc_no_retry.py). Seen with three publishers on 2026-11-24 and 25: JRC (the Texas box, 28 remote files, was read on the fifth try, in 9,081 s (CRC-022-JRC); of the four earlier tries, one ended on a connection reset 38 s into the download and one on a reset when the machine woke from sleep after 4 h 23 min; how the other two ended is not recorded), NOAA (seven resets among 1,000 GHCNh station-years, each ending a read) and NASA (NEX reads completed only with a retry placed around the standard library call). The raster path was read in the code and seen failing on JRC; it was not exercised on a constructed server.",
+   "observed": "A download is one `urllib.request.urlopen(request, timeout=60)` call (crc_sdk/_source_io.py:282 at v1.1.0); remote rasters are opened through GDAL with `GDAL_DISABLE_READDIR_ON_OPEN` and an optional header file only, without `GDAL_HTTP_MAX_RETRY` or `GDAL_HTTP_RETRY_DELAY` (`_gdal_options`, crc_sdk/_climate_io.py:486-499 at v1.1.0). The word `retry` occurs in none of the package's 51 Python files at v1.1.0. On a local server that closes the first connection and serves the second, `IBTrACS(...).read()` makes one request and raises `RemoteDisconnected`; the same call repeated returns its rows (tools/repro/crc_no_retry.py). Seen with three publishers on 2026-11-24 and 25: JRC (the Texas box, 28 remote files, was read on the fifth try, in 9,081 s (CRC-022-JRC); of the four earlier tries, one ended on a connection reset when the machine woke from sleep after 4 h 23 min, and three ended within 90 seconds: on a connection reset after 38 s, on `RemoteDisconnected` after 83 s, and on a file GDAL did not recognise after 26 s), NOAA (seven resets among 1,000 GHCNh station-years, each ending a read) and NASA (NEX reads completed only with a retry placed around the standard library call). The raster path was read in the code and seen failing on JRC; it was not exercised on a constructed server.",
    "source": "framework",
    "status": "open",
    "status_text": "open",
@@ -1229,7 +1230,7 @@
   ],
   "unclaimed_symbols": []
  },
- "generated": "2026-11-27T08:36:10Z",
+ "generated": "2026-11-27T14:31:46Z",
  "schema": "data_source_check/0.1",
  "sources": [
   {

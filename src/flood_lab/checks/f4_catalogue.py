@@ -799,7 +799,8 @@ def main(argv: list[str] | None = None) -> int:
 
     root = cache.root()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--runs", type=Path, default=root / "f4" / "runs")
+    # runs_cover/: the catalogue with rain on the whole square (CH-26); design runs linked in
+    ap.add_argument("--runs", type=Path, default=root / "f4" / "runs_cover")
     ap.add_argument("--selection", type=Path, default=root / "f4" / "selection.json")
     ap.add_argument("--work", type=Path, default=root / "f4" / "frequency")
     ap.add_argument("--figures", type=Path, default=paths.FIGURES / "f4")

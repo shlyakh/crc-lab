@@ -1,0 +1,15 @@
+# JRC flood, Texas box, crc-sdk 1.0.0: tries 2 to 5 of 2026-11-25 (CRC-038-FWK, CRC-022-JRC)
+#
+# Copied on 2026-11-27 from the output of the background run of 2026-11-25 (agent session
+# 2fc0e00e, task blrbcrtu9), which lived in a temporary folder. Columns: try (0-based in this run),
+# rows, seconds, peak memory (MB), error type, message, counts. The first try of the morning
+# (row 0, not in this copy) ended after 38.28 s on "<urlopen error [Errno 54] Connection reset
+# by peer>" (run summary of 2026-11-25 08:42 UTC). The overnight try before these ended on a
+# connection reset when the machine woke from sleep, after 4 h 23 min of reading.
+#
+1 0 82.51 1642.3 RemoteDisconnected Remote end closed connection without response None
+2 0 25.66 121.7 RasterioIOError '/vsicurl/https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/CEMS-GLOFAS/flood_hazard/RP10/ID29_N40_W110_RP10_depth.tif' not recognized as being in a supported file format. None
+3 11069311 9080.86 5482.9   {'no_data': 0, 'produced': 11069311, 'requested': 201757502, 'skipped': 190688191}
+Wed Nov 25 07:04:19 EST 2026
+
+[exited with code 0]

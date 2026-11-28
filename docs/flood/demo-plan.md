@@ -31,7 +31,7 @@ The rule of requirements §1 holds for both: no company is named as an audience 
 | DP1 | Demo 1 is for the CRC maintainers first. The ask is that they take this to resilience advisors together with Yuri or introduce him; the supporting ask is review of the extensions for upstream |
 | DP2 | What Demo 1 is about is verification: how well a climate-risk system can be checked. The flood study is the worked example |
 | DP3 | By Monday night the build finishes one complete, checked chain to the investment case. Triggers and basis risk (F8) are deferred and come back only if time allows |
-| DP4 | The storm catalogue runs in full (150 storms) unattended over the weekend, starting when the calibrated constant loss rate (the drainage allowance) is frozen. Monday's figures use the runs finished by then, at least 60; every run's full grid of maximum inundation depth and storm descriptors are kept as training data for Demo 2 |
+| DP4 | The storm catalogue runs in full (150 storms) unattended over the weekend, starting when the calibrated constant loss rate (the drainage allowance) is frozen. Monday's figures use the runs finished by then, at least 60 (updated 2026-11-27, Yuri: Demo 1 uses all 150 runs with rain on the whole square, CH-26, not the 60-run copy tagged `flood-f4-demo1-60runs`); every run's full grid of maximum inundation depth and storm descriptors are kept as training data for Demo 2 |
 | DP5 | Validation (F5) is reduced for Monday to the surveyed marks and the sensors. "Who saw the flood" moves after Demo 1 |
 | DP6 | A thin prototype of composable assets: one substation as three components. Built after F7 passes, time-boxed to 5 hours. A proposal note is written whether or not the prototype is built |
 | DP7 | Replacement values stay placeholder ranges (FD4). The benefit-cost result is shown with a break-even view, so the conclusion can be read without trusting the placeholder. Valuation formulas are not worked on now |
@@ -85,7 +85,7 @@ Hours are the plan's estimates; changes against plan version 2 are in the last c
 | F1 Terrain and assets | Yes | None |
 | F2 Sources with second readers | Yes | None |
 | F3 Solver, calibration, two replays | Yes | None |
-| F4 Storm catalogue | Running; at least 60 storms finished | Full 150 run unattended from the calibration freeze; outputs kept whole (CH-8) |
+| F4 Storm catalogue | All 150 storms, rain on the whole square (CH-26; Yuri, 2026-11-27) | Full 150 run unattended from the calibration freeze; outputs kept whole (CH-8) |
 | F5 Validation | Marks and sensors only | "Who saw the flood" after Demo 1 (CH-9) |
 | F6 Curves, event-loss extension, risk | Yes | None; figures state how many storms they rest on |
 | F7 Measures, outage cost, benefit-cost | Yes | Break-even view added, about 2 hours (CH-10) |
