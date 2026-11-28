@@ -205,7 +205,8 @@ the brackets. The package is also stricter than all three about intensities outs
    years, CRC's 1-in-100 is the 11th largest annual loss; Oasis and OpenQuake (return period of
    the k-th largest = years / k) give the 10th. Both are valid quantiles at an atom. The package
    reports CRC's. Should a "return-period loss" in the industry's convention also be offered, and
-   should it come from CRC (an upper quantile) rather than from this package?
+   should it come from CRC (an upper quantile) rather than from this package? Our current choice:
+   report CRC's figure and show the tools' figure beside it, labelled.
 2. **Weighted years upstream.** Pull request #27's annual-loss summary treats every trial as
    equally likely. Should it accept year weights, as Oasis does, or should weighted catalogues be
    expanded to equal-weight trials first? The package refuses the silent expansion.

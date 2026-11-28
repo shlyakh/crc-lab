@@ -104,7 +104,8 @@ Two rules of the extension follow from the comparison with other frameworks
 - **No level beyond the catalogue (P-2).** A level q whose tail mass 1 − q is smaller than the
   smallest year mass is refused with an error that names the highest level the years support, as
   OpenQuake refuses return periods beyond its effective time. A relative slack of 1e-9 admits
-  q = 0.9 with ten years (1 − 0.9 is 0.09999999999999998 in floating point).
+  q = 0.9 with ten years (1 − 0.9 is 0.09999999999999998 in floating point); accepted by Yuri
+  2026-11-28.
 - **Attribution is the Euler allocation.** A component's share of CVaR is its weighted mean loss
   in the tail years (Tasche, arXiv:0708.2542); none of CLIMADA, Oasis LMF or OpenQuake allocates
   a tail figure, so this is the literature's rule, not a framework's.
@@ -217,8 +218,9 @@ storm catalogue against #27's dependence by distance.
    report: with 8 equal years, 1-in-4 is the 3rd largest loss in CRC and the 2nd largest in Oasis
    LMF and OpenQuake (return period of the k-th largest = years / k). With 1,000 equal years,
    CRC's 1-in-100 is the 11th largest, the tools' the 10th. Both are correct quantiles at an atom;
-   they differ in which end of the flat part of the curve they take. The extension reports CRC's,
-   and the study shows the tools' convention beside it, labelled (shown by the cross-check test).
+   they differ in which end of the flat part of the curve they take. Settled (Yuri, 2026-11-28):
+   the extension reports CRC's, and the study shows the tools' convention beside it, labelled
+   (shown by the cross-check test).
 8. **Oasis's weighted TVaR.** In Oasis LMF 2.5.10, `write_ept_weighted` weights the return
    periods but its TVaR is the plain running mean of the ranked losses. With unequal year weights
    it differs from a weighted CVaR; the cross-check test shows both. A possible report to Oasis,
