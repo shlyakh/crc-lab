@@ -1,0 +1,14 @@
+# Framework releases that require the assessed sources to be re-validated (a staged re-run with
+# downloads, then `just validation-accept <id>`). Listed by Yuri, one release at a time.
+#
+# Any release not listed here leaves an assessment current: the monitor and the page say it was
+# assessed on an earlier version (Yuri, 2026-11-28: "only selected crc updates").
+#
+# Example:
+#   [releases]
+#   crc-sdk = ["1.2.0"]
+#   crc-framework = ["1.2.0"]
+
+[releases]
+crc-sdk = []
+crc-framework = []

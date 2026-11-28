@@ -1,8 +1,11 @@
 """Monitoring: has anything an assessment rests on changed since it was run?
 
 Pure functions over records. Three things can make an assessment stale: the publisher changed
-a file it read, the framework version changed, or the framework now offers something the
-inventory does not cover. A second run can then be compared with the first, check by check.
+a file it read, a framework release that a person listed for re-validation was installed
+(``revalidate.toml``), or the framework now offers something the inventory does not cover. Any
+other framework release leaves the assessment current and says it was assessed on an earlier
+version: Yuri re-validates selected releases only (2026-11-28). A second run can then be
+compared with the first, check by check.
 Nothing here publishes anything: a re-run is staged for a person to review.
 
 A file that a person has declared rewritten in place (the ``[monitoring]`` table of the source's
@@ -21,6 +24,7 @@ from typing import Any
 
 #: the states a source can be in
 CURRENT, NEW_COPY, STALE = "current", "current (new copy)", "stale"
+EARLIER = "current (assessed on an earlier version)"
 
 
 def rewritten_in_place(url: str, monitoring: dict[str, Any] | None) -> bool:
@@ -67,11 +71,14 @@ def source_state(
     installed: dict[str, str],
     monitoring: dict[str, Any] | None = None,
     today: str = "",
+    revalidate: dict[str, Iterable[str]] | None = None,
 ) -> dict[str, Any]:
     """Whether one source's assessment still stands, and why not.
 
     ``monitoring`` is the source's ``[monitoring]`` table and ``today`` the date of the run
-    (ISO); together they decide what is a new copy and whether a re-run is due.
+    (ISO); together they decide what is a new copy and whether a re-run is due. ``revalidate``
+    names, per package, the installed releases that require a new assessment; a version change
+    to any other release is reported (``versions_changed``, state ``EARLIER``) and is not stale.
     """
     inputs = recorded_inputs(records)
     moved = []
@@ -120,11 +127,17 @@ def source_state(
         reasons.append(
             f"{count} file{'s' if count > 1 else ''} rewritten in place could not be reached"
         )
-    if versions_changed:
-        listed = (
-            f"{name} {v['assessed']} to {v['installed']}" for name, v in versions_changed.items()
+    selected = {
+        name: v
+        for name, v in versions_changed.items()
+        if v["installed"] in set((revalidate or {}).get(name, ()))
+    }
+    if selected:
+        listed = (f"{name} {v['assessed']} to {v['installed']}" for name, v in selected.items())
+        reasons.append(
+            "the framework version changed to a release listed for re-validation: "
+            + ", ".join(listed)
         )
-        reasons.append("the framework version changed: " + ", ".join(listed))
     stale = bool(reasons)
     state: dict[str, Any] = {
         "source": records["source"],
@@ -134,7 +147,13 @@ def source_state(
         "files_unreachable": unreachable,
         "versions_changed": versions_changed,
         "stale": stale,
-        "state": STALE if stale else NEW_COPY if new_copies else CURRENT,
+        "state": STALE
+        if stale
+        else EARLIER
+        if versions_changed
+        else NEW_COPY
+        if new_copies
+        else CURRENT,
         "reasons": reasons,
     }
     if monitoring:
@@ -214,6 +233,11 @@ def state_text(state: dict[str, Any]) -> str:
     if state["stale"]:
         return "stale: " + "; ".join(state["reasons"])
     text = state.get("state", CURRENT)
+    if text == EARLIER:
+        text = "current; assessed on " + ", ".join(
+            f"{name} {v['assessed']} (installed {v['installed']})"
+            for name, v in sorted(state["versions_changed"].items())
+        )
     if state.get("living", {}).get("rerun_due"):
         text += "; re-run due"
     return text

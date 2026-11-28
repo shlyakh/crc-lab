@@ -7,9 +7,9 @@
   "crc-framework": "1.1.0",
   "crc-sdk": "1.1.0"
  },
- "needs_attention": true,
+ "needs_attention": false,
  "reruns": [],
- "run_at": "2026-11-27T02:37:09Z",
+ "run_at": "2026-11-28T15:10:12Z",
  "sources": [
   {
    "assessed_at": "2026-11-24T23:38:04Z",
@@ -27,10 +27,10 @@
     ],
     "new_copies": [
      {
-      "bytes_now": 333315058,
+      "bytes_now": 333319654,
       "bytes_then": 333311392,
       "change": "changed",
-      "now": "Tue, 24 Nov 2026 14:53:05 GMT",
+      "now": "Thu, 26 Nov 2026 15:12:35 GMT",
       "sha256_assessed": "5dab0647113845f594bdf60f8d9b22af244da50010b272043341568c0125edff",
       "url": "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ALL.list.v04r01.csv",
       "was": "Sun, 22 Nov 2026 14:58:29 GMT"
@@ -44,12 +44,10 @@
      "ibtracs.ALL.list.v04r01.csv"
     ]
    },
-   "reasons": [
-    "the framework version changed: crc-sdk 1.0.0 to 1.1.0, crc-framework 1.0.0 to 1.1.0"
-   ],
+   "reasons": [],
    "source": "ibtracs",
-   "stale": true,
-   "state": "stale",
+   "stale": false,
+   "state": "current (assessed on an earlier version)",
    "versions_changed": {
     "crc-framework": {
      "assessed": "1.0.0",
@@ -65,13 +63,13 @@
    "assessed_at": "2026-11-25T01:55:26Z",
    "files": 1009,
    "files_changed": [],
-   "files_unreachable": [],
-   "reasons": [
-    "the framework version changed: crc-sdk 1.0.0 to 1.1.0, crc-framework 1.0.0 to 1.1.0"
+   "files_unreachable": [
+    "https://noaa-ghcnh-pds.s3.amazonaws.com/hourly/access/by-year/2000/parquet/GHCNh_USW00000276_2000.parquet"
    ],
+   "reasons": [],
    "source": "ghcnh",
-   "stale": true,
-   "state": "stale",
+   "stale": false,
+   "state": "current (assessed on an earlier version)",
    "versions_changed": {
     "crc-framework": {
      "assessed": "1.0.0",
@@ -88,12 +86,10 @@
    "files": 0,
    "files_changed": [],
    "files_unreachable": [],
-   "reasons": [
-    "the framework version changed: crc-sdk 1.0.0 to 1.1.0, crc-framework 1.0.0 to 1.1.0"
-   ],
+   "reasons": [],
    "source": "jrc-flood",
-   "stale": true,
-   "state": "stale",
+   "stale": false,
+   "state": "current (assessed on an earlier version)",
    "versions_changed": {
     "crc-framework": {
      "assessed": "1.0.0",
@@ -110,12 +106,10 @@
    "files": 6,
    "files_changed": [],
    "files_unreachable": [],
-   "reasons": [
-    "the framework version changed: crc-sdk 1.0.0 to 1.1.0, crc-framework 1.0.0 to 1.1.0"
-   ],
+   "reasons": [],
    "source": "nex-gddp-cmip6",
-   "stale": true,
-   "state": "stale",
+   "stale": false,
+   "state": "current (assessed on an earlier version)",
    "versions_changed": {
     "crc-framework": {
      "assessed": "1.0.0",

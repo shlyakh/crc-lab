@@ -204,3 +204,16 @@ everything") a home; the choice over `make` was not discussed then and is writte
 just test     # uv run pytest -q
 just lint     # uv run ruff check src tests && uv run ruff format --check src tests
 ```
+
+Before anything is merged into `main`: `just regen` (rebuilds every generated, committed file: flood data
+cards and gallery, validation inventory), commit what changed, then `just ci`. `just ci` runs
+`tools/ci.sh`, the same script the pages workflow runs, so a pass locally is a pass on GitHub. `just hooks`
+(once per clone) makes a push of `main` run it first. When the workflow fails, fix the cause in
+`tools/ci.sh` or the generator, not one test at a time.
+
+The validation monitor (`.github/workflows/validation-monitor.yml`) is separate: it fails on purpose when
+an assessment is stale (a publisher file changed, or a framework release listed in
+`src/data_source_check/revalidate.toml` is installed). Yuri re-validates selected releases only
+(2026-11-28): any other release leaves an assessment current, and the monitor and the page say which
+version it was assessed on. The fix for a stale assessment is a staged re-run and Yuri's acceptance
+(`just validation-monitor-rerun`, `just validation-accept <id>`), never a change to the check.

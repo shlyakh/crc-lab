@@ -82,7 +82,9 @@ def test_source_state_names_every_reason() -> None:
         "https://x/gone": {"status": 404},
         "https://x/absent": {"status": 200, "etag": '"8"'},
     }
-    state = monitoring.source_state(RECORDS, moved, {"crc-sdk": "0.12.0"})
+    state = monitoring.source_state(
+        RECORDS, moved, {"crc-sdk": "0.12.0"}, revalidate={"crc-sdk": ["0.12.0"]}
+    )
     assert state["stale"] and len(state["reasons"]) == 2
     assert {item["change"] for item in state["files_changed"]} == {"changed", "gone", "appeared"}
     assert state["versions_changed"] == {"crc-sdk": {"assessed": "0.11.1", "installed": "0.12.0"}}
@@ -183,12 +185,19 @@ def test_an_undeclared_file_that_changed_still_fails() -> None:
 
 def test_a_framework_change_on_a_living_file_source_fails() -> None:
     changed = SAME | {"https://x/a": {"status": 200, "etag": '"7"'}}
-    state = monitoring.source_state(RECORDS, changed, {"crc-sdk": "0.12.0"}, LIVING)
+    state = monitoring.source_state(
+        RECORDS, changed, {"crc-sdk": "0.12.0"}, LIVING, revalidate={"crc-sdk": ["0.12.0"]}
+    )
     assert state["stale"] and state["reasons"] == [
-        "the framework version changed: crc-sdk 0.11.1 to 0.12.0"
+        "the framework version changed to a release listed for re-validation: "
+        "crc-sdk 0.11.1 to 0.12.0"
     ]
     framework = monitoring.source_state(
-        RECORDS, SAME, {"crc-sdk": "0.11.1", "crc-framework": "1.0.0"}, LIVING
+        RECORDS,
+        SAME,
+        {"crc-sdk": "0.11.1", "crc-framework": "1.0.0"},
+        LIVING,
+        revalidate={"crc-framework": ["1.0.0"]},
     )
     assert framework["stale"] and "crc-framework None to 1.0.0" in framework["reasons"][0]
 
@@ -404,3 +413,28 @@ def test_framework_output_of_other_versions_is_removed_and_the_publisher_files_k
     assert monitor.fresh_for("nex-gddp-cmip6", tmp_path, new) == ["framework"]
     assert (folder / "reference" / "file.nc").read_text() == "publisher"
     assert set(monitor.FRAMEWORK_OUTPUT) == set(build.ASSESSMENTS)
+
+
+def test_an_unlisted_release_leaves_the_assessment_current() -> None:
+    """Yuri 2026-11-28: only releases listed in revalidate.toml make an assessment stale."""
+    state = monitoring.source_state(RECORDS, SAME, {"crc-sdk": "0.12.0"})
+    assert not state["stale"] and state["state"] == monitoring.EARLIER
+    assert state["versions_changed"] == {"crc-sdk": {"assessed": "0.11.1", "installed": "0.12.0"}}
+    assert monitoring.state_text(state) == "current; assessed on crc-sdk 0.11.1 (installed 0.12.0)"
+    assert not monitoring.needs_attention([state], {"unclaimed_symbols": [], "new_options": []})
+    other = monitoring.source_state(
+        RECORDS, SAME, {"crc-sdk": "0.12.0"}, revalidate={"crc-sdk": ["0.13.0"]}
+    )
+    assert not other["stale"]
+    listed = monitoring.source_state(
+        RECORDS, SAME, {"crc-sdk": "0.12.0"}, revalidate={"crc-sdk": ["0.12.0"]}
+    )
+    assert listed["stale"] and listed["state"] == monitoring.STALE
+
+
+def test_the_revalidate_file_loads() -> None:
+    from data_source_check import monitor
+
+    table = monitor.load_revalidate()
+    assert set(table) <= {"crc-sdk", "crc-framework"}
+    assert all(isinstance(v, list) for v in table.values())
