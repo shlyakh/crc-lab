@@ -204,6 +204,16 @@ site-flood:
 flood-facts:
     uv run python -m flood_lab.data_cards
 
+# Flood lab F6: exposures (PLUTO and Hazus substitutes; --fetch asks the PLUTO API), CH-31
+flood-exposures *flags:
+    uv run --extra flood python -m flood_lab.assets.exposures {{flags}}
+
+# Flood lab F6: event-loss table, CRC risk figures, brackets, bootstrap (~4 min), then the figures and gallery
+flood-f6:
+    uv run --extra flood python -m flood_lab.risk.metrics
+    uv run --extra flood --with matplotlib python -m flood_lab.checks.f6_risk
+    uv run python -m flood_lab.gallery
+
 # Flood lab: rebuild the gallery of visual tests from the committed records, offline
 flood-checks:
     uv run python -m flood_lab.gallery
