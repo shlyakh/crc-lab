@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -348,6 +349,29 @@ def figure_eal(metrics: dict, n: int, m: int, out: Path) -> str:
     return _png(figure, "eal_routes.png", out)
 
 
+#: the blind hand recomputation (plan F6 step 6), executed with its outputs saved
+HAND_NOTEBOOK = paths.ROOT / "docs" / "flood" / "notebooks" / "F6-hand-recomputation.ipynb"
+
+
+def hand_recomputation(path: Path = HAND_NOTEBOOK) -> dict:
+    """The verdict the notebook states in its findings: passed when it reports 0 differences.
+
+    None when the notebook is absent or states no count; False when it reports differences.
+    """
+    if not path.exists():
+        return {"passed": None, "note": "pending: notebook not found"}
+    cells = json.loads(path.read_text(encoding="utf-8"))["cells"]
+    text = " ".join("".join(c["source"]) for c in cells if c["cell_type"] == "markdown")
+    found = re.search(r"\(([\d,]+) checks, (\d+) differences\)", text)
+    if not found:
+        return {"passed": None, "note": f"{path.name} states no count of checks"}
+    checks, differences = found.group(1), int(found.group(2))
+    return {
+        "passed": differences == 0,
+        "note": f"{path.name}: {checks} checks, {differences} differences",
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--data", type=Path, default=DATA)
@@ -382,15 +406,16 @@ def main(argv: list[str] | None = None) -> int:
     figures.append(figure_eal(metrics, n, m, args.figures))
 
     # --- checks -------------------------------------------------------------------------------
+    hand = hand_recomputation()
     checks = [
         Check(
             "hand recomputation of three assets (FR7)",
             "a notebook written by an agent that does not see the code recomputes the three "
             "assets of metrics.json 'hand_check' to the cent",
-            None,
+            hand["passed"],
             metrics["hand_check"],
             "to the cent",
-            note="pending: done separately (plan F6 step 6)",
+            note=hand["note"],
         )
     ]
     cvar = {

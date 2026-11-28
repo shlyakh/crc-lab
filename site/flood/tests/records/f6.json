@@ -2,8 +2,8 @@
  "checks": [
   {
    "name": "hand recomputation of three assets (FR7)",
-   "note": "pending: done separately (plan F6 step 6)",
-   "passed": null,
+   "note": "F6-hand-recomputation.ipynb: 2,568 checks, 0 differences",
+   "passed": true,
    "proposed": false,
    "rule": "a notebook written by an agent that does not see the code recomputes the three assets of metrics.json 'hand_check' to the cent",
    "threshold": "to the cent",
@@ -141,7 +141,7 @@
    "value": 1000.0
   }
  ],
- "created_at": "2026-11-28T18:24:58Z",
+ "created_at": "2026-11-28T20:18:37Z",
  "figures": [
   "docs/flood/figures/f6/substation_S-250386730.png",
   "docs/flood/figures/f6/substation_S-339711332.png",

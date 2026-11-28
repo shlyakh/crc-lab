@@ -85,7 +85,7 @@ Buildings alone: EAL $88.78 M on $57.6 billion of value in the sums.
 
 | Item | Result |
 |---|---|
-| Hand recomputation of three assets (FR7) | **pending** — done separately (see below) |
+| Hand recomputation of three assets (FR7) | **pass**: `docs/flood/notebooks/F6-hand-recomputation.ipynb` (blind agent, Opus 5.5), 2,568 checks, 0 differences to the cent and 1e-9 relative (see below) |
 | Event-table CVaR 99% ≤ full-dependence bracket (CH-28) | **pass**, all four families (e.g. $3,076.3 M ≤ $3,153.1 M) |
 | 1-in-100 against both brackets | shown, no verdict (independence < events < full dependence at 1 in 100 for all four families) |
 | EAL event table vs CRC curves, point route, within 5% | **pass**: buildings +1.7e-8, substations ≤ 6.7e-8 relative (the same depths; differences from the 1e-9 step width of the knots) |
@@ -125,9 +125,15 @@ duplicates F1 dropped).
 
 Value high moves Williams max to $96.8 M (substation high values are $403–628 M, placeholders).
 
-## Hand recomputation (FR7): what to check
+## Hand recomputation (FR7)
 
-To be done by an agent that does not see the code. Three assets (`metrics.json` → `hand_check`):
+Done 2026-11-28 by an agent that did not see the code: the notebook
+`docs/flood/notebooks/F6-hand-recomputation.ipynb` recomputes the three assets from the per-run depths,
+`exposures.csv`, `curves.yaml` and the rules: 2,568 checks, 0 differences. Two notes from it: (1) the
+per-asset `loss_*y_point` columns are in the tools' convention (above); (2) `eal_point` differs from
+Σw·L/1000 by up to 4.5e-8 relative, CRC's expectation on the step knots. It also notes that no rule in
+`loss-rules.md` states the 0.05 m dry cut (question 1) or that the 138 kV sites take Bor's HV >345 kV
+row (C-3 says only "Bor 2026"). Three assets (`metrics.json` → `hand_check`):
 
 - **Substation** S-383102724 (Hudson Avenue, the deepest lead depth of the valued sites, 0.504 m),
   all four families.
@@ -144,7 +150,10 @@ the raw depths are copied in `site/flood/data/f6/hand_check_inputs.csv`), `site/
 - `site/flood/data/f6/substation_event_losses.csv`: `depth_used_m`, `damage_ratio`, `loss_usd_2026` per
   run and family for the substation;
 - `site/flood/data/f6/substations.csv`: `eal_event_table`, `eal_point`, `loss_{10,100,500}y_point`,
-  `depth_{10,100,500}y_point` (depth at T in CRC's convention on the step curve);
+  `depth_{10,100,500}y_point` (depth at T read on the point route's step curve; at a level that falls
+  exactly on a year, the step knots of CH-23 give the upper end of the flat part, i.e. the tools'
+  convention, return period of the k-th largest = 1,000 / cumulative weight; found by the hand
+  recomputation; no per-asset figure in CRC's lower-quantile convention is written);
 - `site/flood/data/f6/buildings.csv`: `runs_read`, `runs_no_loss`, `runs_failed`, `eal_event_table`,
   `eal_point`, `depth_*y_point`, `loss_*y_point` for the two buildings;
 - `site/flood/data/f6/annual_losses.csv`: `main__buildings` and `main__low` (with `mass`) for the
