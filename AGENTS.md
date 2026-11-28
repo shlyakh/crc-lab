@@ -212,5 +212,8 @@ cards and gallery, validation inventory), commit what changed, then `just ci`. `
 `tools/ci.sh` or the generator, not one test at a time.
 
 The validation monitor (`.github/workflows/validation-monitor.yml`) is separate: it fails on purpose when
-an assessment is stale (a pin moved, a publisher file changed). Its fix is a staged re-run and Yuri's
-acceptance (`just validation-monitor-rerun`, `just validation-accept <id>`), never a change to the check.
+an assessment is stale (a publisher file changed, or a framework release listed in
+`src/data_source_check/revalidate.toml` is installed). Yuri re-validates selected releases only
+(2026-11-28): any other release leaves an assessment current, and the monitor and the page say which
+version it was assessed on. The fix for a stale assessment is a staged re-run and Yuri's acceptance
+(`just validation-monitor-rerun`, `just validation-accept <id>`), never a change to the check.

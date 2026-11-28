@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import tomllib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
@@ -38,6 +39,19 @@ from .core import compare, inventory, monitoring
 from .core.io import write_json_atomic, write_text_atomic
 
 STAGING = build.CACHE / "staging"
+#: the framework releases a person listed for re-validation (see the file)
+REVALIDATE = Path(__file__).with_name("revalidate.toml")
+
+
+def load_revalidate(path: Path = REVALIDATE) -> dict[str, list[str]]:
+    """Package name to the releases listed for re-validation; empty when the file is absent."""
+    if not path.exists():
+        return {}
+    table = tomllib.loads(path.read_text(encoding="utf-8"))
+    releases = table.get("releases", {})
+    return {name: [str(v) for v in versions] for name, versions in releases.items()}
+
+
 USER_AGENT = "data-source-check"
 #: folders of a source's cache that hold material which does not pass through the framework
 #: (outside evidence, administrative boundaries). A re-run reuses the copies held, each with
@@ -117,8 +131,9 @@ def run(*, rerun: bool = False, page_data: Path = build.PAGE_DATA, docs: Path = 
         heads = dict(zip(urls, pool.map(ask, urls), strict=True))
     run_at = compare.now()
     declared = {source.id: source.monitoring for source in sources}
+    revalidate = load_revalidate()
     states = [monitoring.source_state(value, heads, offered["versions"],
-                                      declared.get(name), today=run_at)
+                                      declared.get(name), today=run_at, revalidate=revalidate)
               for name, value in records.items()]  # fmt: skip
     report: dict[str, Any] = {
         "run_at": run_at,
