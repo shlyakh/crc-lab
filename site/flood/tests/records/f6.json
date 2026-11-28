@@ -1,0 +1,2592 @@
+{
+ "checks": [
+  {
+   "name": "hand recomputation of three assets (FR7)",
+   "note": "pending: done separately (plan F6 step 6)",
+   "passed": null,
+   "proposed": false,
+   "rule": "a notebook written by an agent that does not see the code recomputes the three assets of metrics.json 'hand_check' to the cent",
+   "threshold": "to the cent",
+   "value": {
+    "ordinary_building": "B-3000013",
+    "substation": "S-383102724",
+    "substitute_value_and_minus_4ft_building": "B-3000650"
+   }
+  },
+  {
+   "name": "event-table CVaR at 99% at or below the full-dependence bracket (CH-28)",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "CVaR_0.99(event table) <= sum of the components' CVaR_0.99, every curve family",
+   "threshold": "event table <= full dependence",
+   "value": {
+    "bor": [
+     3074090118.366474,
+     3150794053.592703
+    ],
+    "high": [
+     3118844039.4792905,
+     3197135533.831475
+    ],
+    "low": [
+     3076302653.7381377,
+     3153082503.47107
+    ],
+    "williams_min": [
+     3091451967.096831,
+     3168770933.7530093
+    ]
+   }
+  },
+  {
+   "name": "1-in-100 loss against both brackets (no verdict, CH-28)",
+   "note": "CH-28: VaR has no bound from the brackets; reported without a verdict",
+   "passed": null,
+   "proposed": false,
+   "rule": "VaR at 99% of the event table shown beside full dependence and independence",
+   "threshold": "no verdict",
+   "value": {
+    "bor": {
+     "events": 2297442153.412317,
+     "full_dependence": 2423422275.262361,
+     "independence": 201342409.9806803
+    },
+    "high": {
+     "events": 2322572401.050212,
+     "full_dependence": 2458128646.8680363,
+     "independence": 204257423.33962682
+    },
+    "low": {
+     "events": 2299674653.5748487,
+     "full_dependence": 2426147284.8903866,
+     "independence": 202187760.9008873
+    },
+    "williams_min": {
+     "events": 2307765451.521092,
+     "full_dependence": 2437484880.74374,
+     "independence": 202838988.88187173
+    }
+   }
+  },
+  {
+   "name": "expected annual loss, event table against CRC's curves, point route",
+   "note": "",
+   "passed": true,
+   "proposed": true,
+   "rule": "within 5% (proposed), on the same assets",
+   "threshold": 0.05,
+   "value": {
+    "bor": 6.65635770998e-08,
+    "buildings": 1.7233867489851304e-08,
+    "high": 2.393761794559748e-08,
+    "low": 2.4029247856007925e-08,
+    "williams_min": 2.41122731643875e-08
+   }
+  },
+  {
+   "name": "expected annual loss, event table against CRC's curves, grid route",
+   "note": "outside 5%: explained in docs/flood/reports/F6-risk.md (a 5 m cell at the asset point instead of the wall or lead depth, eight probabilities with linear interpolation between them, the tail completion); the verdict is Yuri's",
+   "passed": null,
+   "proposed": true,
+   "rule": "within 5% (proposed), or the difference explained",
+   "threshold": 0.05,
+   "value": {
+    "bor": -1.0,
+    "buildings": -0.8458255494318251,
+    "high": -1.0,
+    "low": -1.0,
+    "williams_min": -1.0
+   }
+  },
+  {
+   "name": "every failure row accounted for",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "CRC refusals counted; every building left out of the sums named with its reason",
+   "threshold": "all counted",
+   "value": {
+    "by_reason": {
+     "BD rule failed (BD-3 unknown basement, BD-4 above 24 ft or BD-5 no height) when wet": 7,
+     "no footprint of the hazard's set (F3/F4 select footprints by another rule)": 7,
+     "no structure curve (A-12) and wet": 421,
+     "wall band has no readable pixel in the runs (F4 'buildings_not_read')": 53
+    },
+    "crc_failure_rows_buildings": 0,
+    "crc_failure_rows_substations": {
+     "bor": 0,
+     "high": 0,
+     "low": 0,
+     "williams_min": 0
+    }
+   }
+  },
+  {
+   "name": "occurrence equals aggregate (one storm per synthetic year)",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "the extension's OCCURRENCE and AGGREGATE sums are equal year by year",
+   "threshold": true,
+   "value": true
+  },
+  {
+   "name": "year weights sum to M",
+   "note": "",
+   "passed": true,
+   "proposed": false,
+   "rule": "catalogue block weights sum to M = 1,000",
+   "threshold": 1000,
+   "value": 1000.0
+  }
+ ],
+ "created_at": "2026-11-28T18:24:58Z",
+ "figures": [
+  "docs/flood/figures/f6/substation_S-250386730.png",
+  "docs/flood/figures/f6/substation_S-339711332.png",
+  "docs/flood/figures/f6/substation_S-383102724.png",
+  "docs/flood/figures/f6/substation_S-383110539.png",
+  "docs/flood/figures/f6/portfolio_exceedance.png",
+  "docs/flood/figures/f6/brackets.png",
+  "docs/flood/figures/f6/eal_routes.png"
+ ],
+ "id": "f6",
+ "inputs": [
+  {
+   "bytes": 85422,
+   "path": "f4/selection.json",
+   "sha256": "a1fbeede2cd01b3f2915243e46731e9966538a33c540258ca7d09b02c39a03f6",
+   "url": ""
+  },
+  {
+   "bytes": 501285,
+   "path": "f4/frequency_cover/per_run/cat_r0001.npz",
+   "sha256": "058a8aa3d722db58e34b7b9adba8105840824af4784638495370abfe3206b9f6",
+   "url": ""
+  },
+  {
+   "bytes": 550864,
+   "path": "f4/frequency_cover/per_run/cat_r0002.npz",
+   "sha256": "6f27970b291646ee6faa1121cb62ad52b61ab34b03daa081a00bde589ae70032",
+   "url": ""
+  },
+  {
+   "bytes": 481072,
+   "path": "f4/frequency_cover/per_run/cat_r0003.npz",
+   "sha256": "27d9fa656e172805816e89b2b6d26e22ceeafc7d3f407a5c35ee380ef140f36e",
+   "url": ""
+  },
+  {
+   "bytes": 452144,
+   "path": "f4/frequency_cover/per_run/cat_r0004.npz",
+   "sha256": "defefc0f7193f8e41cfa71fd3af9fbdf5bdf4ed0997d06f4a4d22a6367d94e19",
+   "url": ""
+  },
+  {
+   "bytes": 463490,
+   "path": "f4/frequency_cover/per_run/cat_r0005.npz",
+   "sha256": "710a3a5ef2adbb8643fe36551a5ffe5e3b13332bbe661510cddca0a7ae664e46",
+   "url": ""
+  },
+  {
+   "bytes": 379708,
+   "path": "f4/frequency_cover/per_run/cat_r0006.npz",
+   "sha256": "8ad46473f2939072beb0c7f3691b6cacab930d5b8cd61fd7c460e930525e527a",
+   "url": ""
+  },
+  {
+   "bytes": 412071,
+   "path": "f4/frequency_cover/per_run/cat_r0007.npz",
+   "sha256": "d948606d93802088a07b415d8a6a2213746160dbbc1f1f3faba205bbd2ee72c4",
+   "url": ""
+  },
+  {
+   "bytes": 438556,
+   "path": "f4/frequency_cover/per_run/cat_r0008.npz",
+   "sha256": "bb1af5a1d53a21217b0d68f3c22aa623c7b39f04f04a182e653fba42b88205b0",
+   "url": ""
+  },
+  {
+   "bytes": 396160,
+   "path": "f4/frequency_cover/per_run/cat_r0009.npz",
+   "sha256": "46d3771b352d66671e567e9ac4cfb9a9bbbedf01ab4b533ff981291669411020",
+   "url": ""
+  },
+  {
+   "bytes": 417721,
+   "path": "f4/frequency_cover/per_run/cat_r0010.npz",
+   "sha256": "06f6248a2779628a4bd5aa6bc48735bbd0c9ac45b9f25ab46442899fc2da95ab",
+   "url": ""
+  },
+  {
+   "bytes": 508852,
+   "path": "f4/frequency_cover/per_run/cat_r0011.npz",
+   "sha256": "8403c768e3ea1c3510d75f676c71f17a07dd5e8a6f8db2813bde24a464d87e3b",
+   "url": ""
+  },
+  {
+   "bytes": 473861,
+   "path": "f4/frequency_cover/per_run/cat_r0012.npz",
+   "sha256": "6e19532223740e528d70172de0b378ef2fad6ad3d92bc42183cb129197b8e665",
+   "url": ""
+  },
+  {
+   "bytes": 402435,
+   "path": "f4/frequency_cover/per_run/cat_r0013.npz",
+   "sha256": "a79278e764e8c7e85b277e05ccb2a25c15a4c05b0f3a338f2536a1ff58ac64aa",
+   "url": ""
+  },
+  {
+   "bytes": 237438,
+   "path": "f4/frequency_cover/per_run/cat_r0014.npz",
+   "sha256": "f58057e9e4d47e89a14cf611c68f10c7173bc0f0015cf1371ba1b10517a1ef48",
+   "url": ""
+  },
+  {
+   "bytes": 372050,
+   "path": "f4/frequency_cover/per_run/cat_r0015.npz",
+   "sha256": "e1ac8a735230db9b1dab177c4605989f813be4cf020af984532d9a5af760b47d",
+   "url": ""
+  },
+  {
+   "bytes": 392459,
+   "path": "f4/frequency_cover/per_run/cat_r0016.npz",
+   "sha256": "d92c389abc9c736ce4766f5488641295bfc8993538a481a23ee023e2ad229fe5",
+   "url": ""
+  },
+  {
+   "bytes": 249685,
+   "path": "f4/frequency_cover/per_run/cat_r0017.npz",
+   "sha256": "efe971db34a14201720b0dbd8ec7d5694b88417a02850e0fd7d795caca6bad1d",
+   "url": ""
+  },
+  {
+   "bytes": 142852,
+   "path": "f4/frequency_cover/per_run/cat_r0018.npz",
+   "sha256": "7c891f75293bfea3136b5b14f1322b6e1cb96806f006657d290f332b22444098",
+   "url": ""
+  },
+  {
+   "bytes": 225559,
+   "path": "f4/frequency_cover/per_run/cat_r0019.npz",
+   "sha256": "49554e6f5e5b09349e344114f64f71626c766a48bbb472fe66346576b6e0be08",
+   "url": ""
+  },
+  {
+   "bytes": 338562,
+   "path": "f4/frequency_cover/per_run/cat_r0020.npz",
+   "sha256": "d2abc62d172d7af885a31c2fac7490beb20637cc3d2eb163d763c3c375122731",
+   "url": ""
+  },
+  {
+   "bytes": 154844,
+   "path": "f4/frequency_cover/per_run/cat_r0021.npz",
+   "sha256": "3678e851a4dd64de7e4d9d4eeec04eccc8658810ffa9b45522196a9098320a22",
+   "url": ""
+  },
+  {
+   "bytes": 247084,
+   "path": "f4/frequency_cover/per_run/cat_r0022.npz",
+   "sha256": "9f0572666526d30e15445e13e4de1d379f5a48c609fe4e2132bbcd0d00188976",
+   "url": ""
+  },
+  {
+   "bytes": 356075,
+   "path": "f4/frequency_cover/per_run/cat_r0023.npz",
+   "sha256": "c902147e355baabc9044cfb270a9b15bfaa8cba5e0b5a38430f7cfb0d4533024",
+   "url": ""
+  },
+  {
+   "bytes": 376238,
+   "path": "f4/frequency_cover/per_run/cat_r0024.npz",
+   "sha256": "cfde88119e03969be20e9d8b1a3089f1553cb4fa42fce7e35fa01247c40ddf0f",
+   "url": ""
+  },
+  {
+   "bytes": 232877,
+   "path": "f4/frequency_cover/per_run/cat_r0025.npz",
+   "sha256": "0d574b49d50190ac09db0b516ea44b41ef62e7f4039efac4b9793a545f537a1d",
+   "url": ""
+  },
+  {
+   "bytes": 209537,
+   "path": "f4/frequency_cover/per_run/cat_r0026.npz",
+   "sha256": "7648e1b3f51a7db4bf0d7387175b0b44f8a5d07c5a72f9f23fd18305faea1a70",
+   "url": ""
+  },
+  {
+   "bytes": 128826,
+   "path": "f4/frequency_cover/per_run/cat_r0027.npz",
+   "sha256": "59e93615dff2c63956f13ad33efe68dcc4c5082aea7e5c702b2b655391e6945b",
+   "url": ""
+  },
+  {
+   "bytes": 128897,
+   "path": "f4/frequency_cover/per_run/cat_r0028.npz",
+   "sha256": "d29e1824b93c7b5e96ce4ae132397b11b4142ef68cbb974fe77a961f1fcb7b7f",
+   "url": ""
+  },
+  {
+   "bytes": 396849,
+   "path": "f4/frequency_cover/per_run/cat_r0029.npz",
+   "sha256": "4435cf65b34f54b2ab315d5c17139d6770d4937f6adc76209c53b6bf589c403f",
+   "url": ""
+  },
+  {
+   "bytes": 179734,
+   "path": "f4/frequency_cover/per_run/cat_r0030.npz",
+   "sha256": "7e240ae387c361463e0c5957625c9b512ae5e913523de2eb07245f31ff562389",
+   "url": ""
+  },
+  {
+   "bytes": 225091,
+   "path": "f4/frequency_cover/per_run/cat_r0031.npz",
+   "sha256": "1f3877585494741c72840a7257e85132a18d8ee29d5e31b99c99d4381c5e3bf1",
+   "url": ""
+  },
+  {
+   "bytes": 163667,
+   "path": "f4/frequency_cover/per_run/cat_r0033.npz",
+   "sha256": "4531a0ac0b6a07c63a10cb02a8ccc23ee5651ae8f41c55d99854a1c8e054a0b8",
+   "url": ""
+  },
+  {
+   "bytes": 297628,
+   "path": "f4/frequency_cover/per_run/cat_r0036.npz",
+   "sha256": "0598b09919bdd67d10e2fd41de34fd9464258e6f7712fa55f6e124d4e37d2bc6",
+   "url": ""
+  },
+  {
+   "bytes": 259417,
+   "path": "f4/frequency_cover/per_run/cat_r0037.npz",
+   "sha256": "7e82f75d6b9ac34b04820610590afd3f9f28d1b4c0e902b5f1492bb629c32791",
+   "url": ""
+  },
+  {
+   "bytes": 367020,
+   "path": "f4/frequency_cover/per_run/cat_r0039.npz",
+   "sha256": "eded5a5febf6a74d9b05940d886245bcdc2f974418583ee7b62ede07e5cd17f0",
+   "url": ""
+  },
+  {
+   "bytes": 239636,
+   "path": "f4/frequency_cover/per_run/cat_r0041.npz",
+   "sha256": "1eff52c98c34efb057ae2e4cfe1184575295fdd211a2fdf2ae699124ce14da66",
+   "url": ""
+  },
+  {
+   "bytes": 169689,
+   "path": "f4/frequency_cover/per_run/cat_r0044.npz",
+   "sha256": "1e60ec037b05e72fa9acfdf2cdfd5edee54ef6566b2dabe5cb5c888d06ded90d",
+   "url": ""
+  },
+  {
+   "bytes": 180955,
+   "path": "f4/frequency_cover/per_run/cat_r0046.npz",
+   "sha256": "4faa07a8fb2f32955e60ab5f2c1f30999293a37caeb6402131d41bd4e28dbdc3",
+   "url": ""
+  },
+  {
+   "bytes": 257153,
+   "path": "f4/frequency_cover/per_run/cat_r0047.npz",
+   "sha256": "e25002a47fc6ec5ec7728ff8bb110d0665dbac95912f42804bc907af893656e1",
+   "url": ""
+  },
+  {
+   "bytes": 128214,
+   "path": "f4/frequency_cover/per_run/cat_r0050.npz",
+   "sha256": "01ef1f6830b38e1abbc181ff823183b2084d8b995ac910c10b8de48f76c76827",
+   "url": ""
+  },
+  {
+   "bytes": 318363,
+   "path": "f4/frequency_cover/per_run/cat_r0051.npz",
+   "sha256": "8caf3462cddeffb661929b64882785bf236c4414d2870eb97664160d2a26b226",
+   "url": ""
+  },
+  {
+   "bytes": 141387,
+   "path": "f4/frequency_cover/per_run/cat_r0054.npz",
+   "sha256": "12bd0871eac49211894a92cf9b0ad37b75d09cb2abaee221eb5c1c91c06c1d72",
+   "url": ""
+  },
+  {
+   "bytes": 128550,
+   "path": "f4/frequency_cover/per_run/cat_r0055.npz",
+   "sha256": "f6ddf426dae6fb088917195dffa0aa6d88d7e9af7fc33698bcb8b119c41ac0da",
+   "url": ""
+  },
+  {
+   "bytes": 151897,
+   "path": "f4/frequency_cover/per_run/cat_r0058.npz",
+   "sha256": "4664167eadcd00fdb0e7bfbedb0b02edaf680a64c9332ab3cd32e2b8bb683db7",
+   "url": ""
+  },
+  {
+   "bytes": 213495,
+   "path": "f4/frequency_cover/per_run/cat_r0060.npz",
+   "sha256": "7368f0756347707223c9cd0966097dbb8e4222280c7fbd57a8d62ae0bf187857",
+   "url": ""
+  },
+  {
+   "bytes": 189698,
+   "path": "f4/frequency_cover/per_run/cat_r0061.npz",
+   "sha256": "b6b86ea4c3e33110d5d47f6e805fc67bc4211c16ac5ae72431e644fc12e9fa5d",
+   "url": ""
+  },
+  {
+   "bytes": 293855,
+   "path": "f4/frequency_cover/per_run/cat_r0064.npz",
+   "sha256": "97ddbf77f874d836b27f2f129072ca266c4381bb7b7c650258b93064d018bc10",
+   "url": ""
+  },
+  {
+   "bytes": 146146,
+   "path": "f4/frequency_cover/per_run/cat_r0065.npz",
+   "sha256": "c8262ce19ebfefe46342b7107bff50fab700ad3cf8558bdc05f2b06d60f284d4",
+   "url": ""
+  },
+  {
+   "bytes": 231032,
+   "path": "f4/frequency_cover/per_run/cat_r0067.npz",
+   "sha256": "05b7cc84b4110d74677499104b6b686c03294e7f2ebcb6b84d9d25c6c76d894e",
+   "url": ""
+  },
+  {
+   "bytes": 184378,
+   "path": "f4/frequency_cover/per_run/cat_r0070.npz",
+   "sha256": "218e2263847c9a90c999a109bb448404c1889b319fcd7d295dbb8569d402d1c2",
+   "url": ""
+  },
+  {
+   "bytes": 194607,
+   "path": "f4/frequency_cover/per_run/cat_r0072.npz",
+   "sha256": "880e494391d32d7304add74630d9bf16c3625c023e44bd2b4446bd275430aa6d",
+   "url": ""
+  },
+  {
+   "bytes": 354608,
+   "path": "f4/frequency_cover/per_run/cat_r0074.npz",
+   "sha256": "e13eced6ce09d25a48643ee97ced63ef6520e37fff89dc3fcdaa0eb4c9ea18ed",
+   "url": ""
+  },
+  {
+   "bytes": 152780,
+   "path": "f4/frequency_cover/per_run/cat_r0075.npz",
+   "sha256": "2d2a5ef33e54b255b4c5c79812a37c85e75e9596c622fe15b0e5d97eab35363c",
+   "url": ""
+  },
+  {
+   "bytes": 195081,
+   "path": "f4/frequency_cover/per_run/cat_r0078.npz",
+   "sha256": "f640c9891cc07659d0f9dab36686739356616c6a1b2eaa959457fff65e212d75",
+   "url": ""
+  },
+  {
+   "bytes": 127962,
+   "path": "f4/frequency_cover/per_run/cat_r0079.npz",
+   "sha256": "68e0f99b21f4fd51245147e208ca92e11631fecd111e94b03d3eda673fa4b186",
+   "url": ""
+  },
+  {
+   "bytes": 128532,
+   "path": "f4/frequency_cover/per_run/cat_r0082.npz",
+   "sha256": "d16c9ed1033d3f6bc74289d33a86e1d5df32f573e0112cb9aaf6b4781c08dd17",
+   "url": ""
+  },
+  {
+   "bytes": 155280,
+   "path": "f4/frequency_cover/per_run/cat_r0083.npz",
+   "sha256": "0085885bbee653171b8c54f230cda8ba724210ec619003b77792d4b327534840",
+   "url": ""
+  },
+  {
+   "bytes": 139843,
+   "path": "f4/frequency_cover/per_run/cat_r0085.npz",
+   "sha256": "5c3598b16968de7a801bd500df54d47ea6b7e1d74806905e3370b8435f6b987e",
+   "url": ""
+  },
+  {
+   "bytes": 129107,
+   "path": "f4/frequency_cover/per_run/cat_r0087.npz",
+   "sha256": "593666231a5459a4b2b6519d9ab568446f1d90ca9b10c5b15beeba9d38b521c0",
+   "url": ""
+  },
+  {
+   "bytes": 127032,
+   "path": "f4/frequency_cover/per_run/cat_r0090.npz",
+   "sha256": "9ee20085db6292193461ac84ce519fb977abfe7beb5d2f6ccc7ce7b21d8c9377",
+   "url": ""
+  },
+  {
+   "bytes": 160675,
+   "path": "f4/frequency_cover/per_run/cat_r0091.npz",
+   "sha256": "24608bc7e57762c2eb883cce69a04a1af144446ca5c1ef1671cc3a4f445dda64",
+   "url": ""
+  },
+  {
+   "bytes": 129154,
+   "path": "f4/frequency_cover/per_run/cat_r0094.npz",
+   "sha256": "f3bcd6b38174f820b9531275a116fbf0470da4b0ec4d4f4dc532305b11d3ae78",
+   "url": ""
+  },
+  {
+   "bytes": 317072,
+   "path": "f4/frequency_cover/per_run/cat_r0095.npz",
+   "sha256": "5025510343dcb542df6c874e6ac4dc9059ac504384eb1e794f0a7b7743ffd629",
+   "url": ""
+  },
+  {
+   "bytes": 271928,
+   "path": "f4/frequency_cover/per_run/cat_r0098.npz",
+   "sha256": "0678338f7b145a08cfcfed6be201468c0ecfdcfe514b70e75fa076bf28911306",
+   "url": ""
+  },
+  {
+   "bytes": 294448,
+   "path": "f4/frequency_cover/per_run/cat_r0100.npz",
+   "sha256": "24de37170b3ea44f69283aa035b7610b5ee09a50ce9c48fb527588015b512dab",
+   "url": ""
+  },
+  {
+   "bytes": 127897,
+   "path": "f4/frequency_cover/per_run/cat_r0101.npz",
+   "sha256": "3673d0772009315319aef0e2df5715a869e14dfdc53bbc22a9f612048e831b04",
+   "url": ""
+  },
+  {
+   "bytes": 299451,
+   "path": "f4/frequency_cover/per_run/cat_r0104.npz",
+   "sha256": "5f4b1b2b5e6bd0fc365dca7e18e699b7446c177590ac18754254837ceddcd17b",
+   "url": ""
+  },
+  {
+   "bytes": 127865,
+   "path": "f4/frequency_cover/per_run/cat_r0105.npz",
+   "sha256": "ffbf5ccd4f1d6228c4bff968b99c914c4f9041eba06bfa35d6ec7ee48f44d3ff",
+   "url": ""
+  },
+  {
+   "bytes": 168399,
+   "path": "f4/frequency_cover/per_run/cat_r0107.npz",
+   "sha256": "b717a5e75cab5024d0e829a5ff4e4ba08af5ccabd4beb99f99855dabe20316ac",
+   "url": ""
+  },
+  {
+   "bytes": 127061,
+   "path": "f4/frequency_cover/per_run/cat_r0110.npz",
+   "sha256": "ed96855ab567979d6be842de729629459bec38a481b2c3a06f8232b46376266a",
+   "url": ""
+  },
+  {
+   "bytes": 127836,
+   "path": "f4/frequency_cover/per_run/cat_r0112.npz",
+   "sha256": "e7c56113267e35c1486634f5286bbf2dd6ce410a2ead48578e7602926df1557a",
+   "url": ""
+  },
+  {
+   "bytes": 128218,
+   "path": "f4/frequency_cover/per_run/cat_r0114.npz",
+   "sha256": "a124fa24050d158695b0995bbd18a1951bf4ed4b5e453ca44e11580f52224c83",
+   "url": ""
+  },
+  {
+   "bytes": 144106,
+   "path": "f4/frequency_cover/per_run/cat_r0116.npz",
+   "sha256": "29b7b4d682ca2acc6e82f8a8c960705f01217e831cf20b2bf659dd4fab81b657",
+   "url": ""
+  },
+  {
+   "bytes": 128421,
+   "path": "f4/frequency_cover/per_run/cat_r0117.npz",
+   "sha256": "342caa568aa47ad0ff9edef91199f52a60c91f8100ebee1ff9c9dcbe2ea7af88",
+   "url": ""
+  },
+  {
+   "bytes": 249871,
+   "path": "f4/frequency_cover/per_run/cat_r0119.npz",
+   "sha256": "5a376fc32fd06d2c56b89944e88becb1f96e74b52fdb10e36d46202129bf4492",
+   "url": ""
+  },
+  {
+   "bytes": 203100,
+   "path": "f4/frequency_cover/per_run/cat_r0122.npz",
+   "sha256": "9682b0033702c3add13774663f6565a763802b7e32ac333f08e1d1ebb52dfce5",
+   "url": ""
+  },
+  {
+   "bytes": 127668,
+   "path": "f4/frequency_cover/per_run/cat_r0124.npz",
+   "sha256": "cc9f5dc055ebcde69ab7a04068ccc12afe60bc4b18c886128f2fc7af57c613e0",
+   "url": ""
+  },
+  {
+   "bytes": 198407,
+   "path": "f4/frequency_cover/per_run/cat_r0126.npz",
+   "sha256": "ad35336f5b798c0c5c2ff8fb2b353e17e89ddae67745181eb94df9ba5b2bfff2",
+   "url": ""
+  },
+  {
+   "bytes": 126297,
+   "path": "f4/frequency_cover/per_run/cat_r0128.npz",
+   "sha256": "0ec6fff0969ff4eac15a40be16c37f1d8ca3d0b4d8717706b4f6aae631f2cf98",
+   "url": ""
+  },
+  {
+   "bytes": 147161,
+   "path": "f4/frequency_cover/per_run/cat_r0130.npz",
+   "sha256": "ee8d5138b6368c9d47297b93e708867323eb6cdd5d7af8776fc78b7c2faab093",
+   "url": ""
+  },
+  {
+   "bytes": 128103,
+   "path": "f4/frequency_cover/per_run/cat_r0131.npz",
+   "sha256": "a3d0a5bdded118171d7c82241eb2d4d844a2e2a83c677b85b42052375b373ed9",
+   "url": ""
+  },
+  {
+   "bytes": 158910,
+   "path": "f4/frequency_cover/per_run/cat_r0133.npz",
+   "sha256": "6c4683d2c95215b580464fed805e9048201f68c198826563cb1cd218b202fbbe",
+   "url": ""
+  },
+  {
+   "bytes": 128946,
+   "path": "f4/frequency_cover/per_run/cat_r0136.npz",
+   "sha256": "d7f5c94fe24b5aa58796e574986f6ac937e59b1c08a2617e111f6fb0dac8d578",
+   "url": ""
+  },
+  {
+   "bytes": 128090,
+   "path": "f4/frequency_cover/per_run/cat_r0138.npz",
+   "sha256": "322be9523cf3974ae950f5a2692323ddeb79728cc87d0288f93bb3918725e079",
+   "url": ""
+  },
+  {
+   "bytes": 145424,
+   "path": "f4/frequency_cover/per_run/cat_r0139.npz",
+   "sha256": "7f665406cf5c98a2ed27475dff9d4cffe43a7798e84265e968daf10813dd911b",
+   "url": ""
+  },
+  {
+   "bytes": 129850,
+   "path": "f4/frequency_cover/per_run/cat_r0142.npz",
+   "sha256": "ad2429c9ae063cae33998677b1d4b670f86c37f8b92f4ded21fee40eb8936319",
+   "url": ""
+  },
+  {
+   "bytes": 139043,
+   "path": "f4/frequency_cover/per_run/cat_r0144.npz",
+   "sha256": "4652b40a9b836c63d625280bf2b7c4cf9f69fed08c0ec596594fdc87b05e9567",
+   "url": ""
+  },
+  {
+   "bytes": 179029,
+   "path": "f4/frequency_cover/per_run/cat_r0146.npz",
+   "sha256": "7c08e632cb7496f890c89046c5eb122d6d3db3f1a56f0c65253ecfb3aadfeaf0",
+   "url": ""
+  },
+  {
+   "bytes": 128528,
+   "path": "f4/frequency_cover/per_run/cat_r0148.npz",
+   "sha256": "3f3b4e8c8b8aec4515030306c316c648aa9498357f1e2ab907e4566e24491df6",
+   "url": ""
+  },
+  {
+   "bytes": 126598,
+   "path": "f4/frequency_cover/per_run/cat_r0150.npz",
+   "sha256": "05f42be36d856616f60e70fbd0d082d3bc9b28f00b984849756db96146a4b057",
+   "url": ""
+  },
+  {
+   "bytes": 126765,
+   "path": "f4/frequency_cover/per_run/cat_r0154.npz",
+   "sha256": "af544eaf290ba8a1b2ca7db8c7fa17cda96dae79934da5b03b9db2d9fb1eb951",
+   "url": ""
+  },
+  {
+   "bytes": 126273,
+   "path": "f4/frequency_cover/per_run/cat_r0169.npz",
+   "sha256": "30bf958819d2df3587626616d6954eb4fd15a966e765edfd0beeeb5f4610351f",
+   "url": ""
+  },
+  {
+   "bytes": 148281,
+   "path": "f4/frequency_cover/per_run/cat_r0185.npz",
+   "sha256": "ba5057ac5b1eea1b968603d4db330ade9393a04058c5382b403be42825658d5d",
+   "url": ""
+  },
+  {
+   "bytes": 191300,
+   "path": "f4/frequency_cover/per_run/cat_r0200.npz",
+   "sha256": "332d681509f856c29b6c9c617586024fcce4ab9d5c5545a26d66a103d87d8bc7",
+   "url": ""
+  },
+  {
+   "bytes": 126193,
+   "path": "f4/frequency_cover/per_run/cat_r0207.npz",
+   "sha256": "b97f9dad0bc646d795c727c32fcc4e6b7788ddb19d150b9adc1017245129dd6f",
+   "url": ""
+  },
+  {
+   "bytes": 126262,
+   "path": "f4/frequency_cover/per_run/cat_r0222.npz",
+   "sha256": "0040f4eb9308485f5b3db307816eb0ef9354625fd5fa2537c6e6b3d2d563c856",
+   "url": ""
+  },
+  {
+   "bytes": 164934,
+   "path": "f4/frequency_cover/per_run/cat_r0240.npz",
+   "sha256": "0feeb725aebbeb6618e541ff2d8894b56a4c5b90db3e4840d237b918fcc95be8",
+   "url": ""
+  },
+  {
+   "bytes": 137735,
+   "path": "f4/frequency_cover/per_run/cat_r0250.npz",
+   "sha256": "a7fee03cdf3b486ac11ec401191f649c96422fef6bad20e37340a9f729ec4562",
+   "url": ""
+  },
+  {
+   "bytes": 173723,
+   "path": "f4/frequency_cover/per_run/cat_r0266.npz",
+   "sha256": "93582f340dbd52c90cf4a44552eeb7fcfd3b44572fcafae59f41902c207dd429",
+   "url": ""
+  },
+  {
+   "bytes": 125410,
+   "path": "f4/frequency_cover/per_run/cat_r0284.npz",
+   "sha256": "be532c7a5c812591105fe75e18aceaef8874be52f9e485ba24f5a1cc3f82a146",
+   "url": ""
+  },
+  {
+   "bytes": 125537,
+   "path": "f4/frequency_cover/per_run/cat_r0302.npz",
+   "sha256": "901a6c712d41bcfe42b8905623bfcf111b269ece7064deb0161fed76eebac08f",
+   "url": ""
+  },
+  {
+   "bytes": 125425,
+   "path": "f4/frequency_cover/per_run/cat_r0309.npz",
+   "sha256": "2dd4b303a277d4b3ced34394b81cb5b6f53db31d8a2f58778393bdaab09777a2",
+   "url": ""
+  },
+  {
+   "bytes": 141777,
+   "path": "f4/frequency_cover/per_run/cat_r0331.npz",
+   "sha256": "1d4a12db57eb0c543ad33875e9254397369218ef5a87331aae373f92492a9c8f",
+   "url": ""
+  },
+  {
+   "bytes": 136829,
+   "path": "f4/frequency_cover/per_run/cat_r0337.npz",
+   "sha256": "2be7d0886c1b39129b53b272e3e1196869636e1f07437b33548354c485d320b1",
+   "url": ""
+  },
+  {
+   "bytes": 139925,
+   "path": "f4/frequency_cover/per_run/cat_r0351.npz",
+   "sha256": "2e0b382eb9d12012256443d480c86048ce03d05878113e01a790eec8f47a043c",
+   "url": ""
+  },
+  {
+   "bytes": 125472,
+   "path": "f4/frequency_cover/per_run/cat_r0368.npz",
+   "sha256": "959ffa990c0b6eb0653b6f97d86a7504c975ac94bc479d88271c3b547d6e5bc6",
+   "url": ""
+  },
+  {
+   "bytes": 124788,
+   "path": "f4/frequency_cover/per_run/cat_r0384.npz",
+   "sha256": "92bc2f765158527de9804b5d795bbef70c158ff54a80bed09a5909539ad7cb59",
+   "url": ""
+  },
+  {
+   "bytes": 129102,
+   "path": "f4/frequency_cover/per_run/cat_r0396.npz",
+   "sha256": "414f1002e23ac413436e83cf0798ae698ef167a3fc45487f8fdc91c790914e23",
+   "url": ""
+  },
+  {
+   "bytes": 127629,
+   "path": "f4/frequency_cover/per_run/cat_r0412.npz",
+   "sha256": "2b9b1050db152fda3c1a03a39701eb03bcf897a1f998e8c2472f074c515fb5df",
+   "url": ""
+  },
+  {
+   "bytes": 126112,
+   "path": "f4/frequency_cover/per_run/cat_r0423.npz",
+   "sha256": "16d3d86e785a0a8311aa37e8b940fd689fd7f730f5441a70dd806ec421439c9f",
+   "url": ""
+  },
+  {
+   "bytes": 127366,
+   "path": "f4/frequency_cover/per_run/cat_r0443.npz",
+   "sha256": "52958f8b8eb0d76d8df7855820fce0dd5dd5084bcfd355f9aac874f8d9b1beb7",
+   "url": ""
+  },
+  {
+   "bytes": 125275,
+   "path": "f4/frequency_cover/per_run/cat_r0445.npz",
+   "sha256": "046ff047216c86d6c97491a35ce5bc44a9ab3261d9c0fe6ec446f7889b7f3ccb",
+   "url": ""
+  },
+  {
+   "bytes": 125055,
+   "path": "f4/frequency_cover/per_run/cat_r0467.npz",
+   "sha256": "ae32c632340772e42c6cc775781f5a1c7f4e635678db3daec18cad7e3c7945d9",
+   "url": ""
+  },
+  {
+   "bytes": 125698,
+   "path": "f4/frequency_cover/per_run/cat_r0481.npz",
+   "sha256": "2d3b3e70f35f185a7b836ea2df74f6d820668d82dd821fb9d01db685863ef892",
+   "url": ""
+  },
+  {
+   "bytes": 126488,
+   "path": "f4/frequency_cover/per_run/cat_r0496.npz",
+   "sha256": "bc257172cfcdd2e0f3bf439a5b8ff4f37c1a2b7d3ba8037a2e99940dcfa7b415",
+   "url": ""
+  },
+  {
+   "bytes": 128196,
+   "path": "f4/frequency_cover/per_run/cat_r0503.npz",
+   "sha256": "7fd83a573e316ae55d6bd6994e43043c97a46d0a02c39d4f89e77a036d58520a",
+   "url": ""
+  },
+  {
+   "bytes": 126153,
+   "path": "f4/frequency_cover/per_run/cat_r0516.npz",
+   "sha256": "8f9d9e86caa7123bc3c07d07acc0debd562f33cf6d05dd6e4bf12bd28bc47252",
+   "url": ""
+  },
+  {
+   "bytes": 125471,
+   "path": "f4/frequency_cover/per_run/cat_r0529.npz",
+   "sha256": "23250feb1abe37de480bce936625e60a0a08263247b8af2ff69b7350b35d86e9",
+   "url": ""
+  },
+  {
+   "bytes": 125370,
+   "path": "f4/frequency_cover/per_run/cat_r0546.npz",
+   "sha256": "5d61b53d027ebe1e3255d6b9b6b2dd0a47bc12ee365bcb757c8aec04152fd41d",
+   "url": ""
+  },
+  {
+   "bytes": 125932,
+   "path": "f4/frequency_cover/per_run/cat_r0560.npz",
+   "sha256": "ebf880b77537436b2e06c5bc22ec7ee65e8814e19c95ee202e10a54e197b155e",
+   "url": ""
+  },
+  {
+   "bytes": 125996,
+   "path": "f4/frequency_cover/per_run/cat_r0572.npz",
+   "sha256": "2ca10661638fa626f9b2a46506bb8a40fa8fcde6b05f064768384dde927f4596",
+   "url": ""
+  },
+  {
+   "bytes": 127863,
+   "path": "f4/frequency_cover/per_run/cat_r0586.npz",
+   "sha256": "e271919265902210855e55f189bfccc62bec85a0f6702f6854eb209e6e82bb7c",
+   "url": ""
+  },
+  {
+   "bytes": 127226,
+   "path": "f4/frequency_cover/per_run/cat_r0602.npz",
+   "sha256": "340733d1327e9b4bf7eb178b248d26d4ef3190e62b93bcedca49c83627c04b48",
+   "url": ""
+  },
+  {
+   "bytes": 125072,
+   "path": "f4/frequency_cover/per_run/cat_r0616.npz",
+   "sha256": "facc16280fa34a767045ed839665c01d984b56e7615c845ab77c3a8b220d6bfe",
+   "url": ""
+  },
+  {
+   "bytes": 124315,
+   "path": "f4/frequency_cover/per_run/cat_r0631.npz",
+   "sha256": "81abb370b8391358978f704e448d68ad8efc21e7a917338d72b6b10f7a3fbba7",
+   "url": ""
+  },
+  {
+   "bytes": 126021,
+   "path": "f4/frequency_cover/per_run/cat_r0653.npz",
+   "sha256": "f20f1bed7462e846de9963e172d0a3c7f1c35aa48fa264e36a594bcda0d8c678",
+   "url": ""
+  },
+  {
+   "bytes": 128288,
+   "path": "f4/frequency_cover/per_run/cat_r0667.npz",
+   "sha256": "25a57cc8f6f7b5986dff37ba9c5aa76f3e9522d4a63f32fd354f21dc88ed4682",
+   "url": ""
+  },
+  {
+   "bytes": 123548,
+   "path": "f4/frequency_cover/per_run/cat_r0672.npz",
+   "sha256": "d765c12de2a2b2559746ab15838009ba91050676ae95393a260f25d0a91d561c",
+   "url": ""
+  },
+  {
+   "bytes": 124152,
+   "path": "f4/frequency_cover/per_run/cat_r0685.npz",
+   "sha256": "bad047f13b23f0297f265822dc89e941fc92b0ff34d52143acded97d6199a7d8",
+   "url": ""
+  },
+  {
+   "bytes": 124361,
+   "path": "f4/frequency_cover/per_run/cat_r0709.npz",
+   "sha256": "ffbfc00c335ab6c8baa947ee9bb731210c90ebda03e5cdeb2256d9fcab895069",
+   "url": ""
+  },
+  {
+   "bytes": 123648,
+   "path": "f4/frequency_cover/per_run/cat_r0714.npz",
+   "sha256": "c55263fadde5a1163012e15eeb5b546e0bbc332e0fe304452dd8cf84cfbc084a",
+   "url": ""
+  },
+  {
+   "bytes": 128283,
+   "path": "f4/frequency_cover/per_run/cat_r0736.npz",
+   "sha256": "5a56e26faafb96b64fbd181fdcf972c5f3f6c94fe397e973f3211786b312d4b8",
+   "url": ""
+  },
+  {
+   "bytes": 123466,
+   "path": "f4/frequency_cover/per_run/cat_r0740.npz",
+   "sha256": "57d55809ec4432a9def26f3f073d64426fbf36fad88802d6f005389dab8c0b17",
+   "url": ""
+  },
+  {
+   "bytes": 122997,
+   "path": "f4/frequency_cover/per_run/cat_r0759.npz",
+   "sha256": "fab22accca3364797ed00aaf8c199d59ea66c050d344e62ef65a288fac60ace2",
+   "url": ""
+  },
+  {
+   "bytes": 123462,
+   "path": "f4/frequency_cover/per_run/cat_r0779.npz",
+   "sha256": "8ffc2c9ba6c7dc8eb1a411efa34f656b62ace0706fc0708c3c8a7ed6a47e68ae",
+   "url": ""
+  },
+  {
+   "bytes": 124391,
+   "path": "f4/frequency_cover/per_run/cat_r0791.npz",
+   "sha256": "1258a109acffd8664d15ded7f4bcc4f8b1f68450137f5c08a0076a4510afc4d1",
+   "url": ""
+  },
+  {
+   "bytes": 125743,
+   "path": "f4/frequency_cover/per_run/cat_r0808.npz",
+   "sha256": "ffaa2aed929b8033cab94eeeeb4e43b306645cc92c28fa282c30ba112a16645b",
+   "url": ""
+  },
+  {
+   "bytes": 125559,
+   "path": "f4/frequency_cover/per_run/cat_r0814.npz",
+   "sha256": "befa5102b97c0a04dfe1b039ea9b13fe6191193dec394d845da7c4a72adedbe5",
+   "url": ""
+  },
+  {
+   "bytes": 127045,
+   "path": "f4/frequency_cover/per_run/cat_r0826.npz",
+   "sha256": "b1e3f6ae4b37d7bb3b11d92496c31012c4261413c9bc5918f40fc309536874fd",
+   "url": ""
+  },
+  {
+   "bytes": 122071,
+   "path": "f4/frequency_cover/per_run/cat_r0850.npz",
+   "sha256": "8ec4a48629a4f8c35eeecfd52cd1675f12afdfe06c021b9e884d616d8b5b5e76",
+   "url": ""
+  },
+  {
+   "bytes": 125852,
+   "path": "f4/frequency_cover/per_run/cat_r0863.npz",
+   "sha256": "c349cde4c5ab13f0cb0528daa196a9b9c1e5453b3eea4c066e031906bd93b388",
+   "url": ""
+  },
+  {
+   "bytes": 124174,
+   "path": "f4/frequency_cover/per_run/cat_r0870.npz",
+   "sha256": "9da6f8686080218d3e220ffbff85f324138af204470633fda2c12c51001e49c8",
+   "url": ""
+  },
+  {
+   "bytes": 122962,
+   "path": "f4/frequency_cover/per_run/cat_r0889.npz",
+   "sha256": "9b530fef70311fedb03a99e2e3b998ec47a162f4f36be16ffa444df67c3fb822",
+   "url": ""
+  },
+  {
+   "bytes": 121921,
+   "path": "f4/frequency_cover/per_run/cat_r0906.npz",
+   "sha256": "5402a9d0c75027f4ea46f5e85b92fbbc1ed8f290b57d85b7ce8df7f68ab71ca2",
+   "url": ""
+  },
+  {
+   "bytes": 122389,
+   "path": "f4/frequency_cover/per_run/cat_r0908.npz",
+   "sha256": "7fb8c21c675fa4b62a50e9aef5a0568163e194f1b2ba23cb5c9bcd187249d8b0",
+   "url": ""
+  },
+  {
+   "bytes": 121398,
+   "path": "f4/frequency_cover/per_run/cat_r0930.npz",
+   "sha256": "ec956f326a2839c06187eaddc0f583c3edff284e21ce23ad60edd84485f94af5",
+   "url": ""
+  },
+  {
+   "bytes": 121255,
+   "path": "f4/frequency_cover/per_run/cat_r0935.npz",
+   "sha256": "8438fdecf26982067788e3272429dba1ac5b89c91f36db55be5ff4cdc9ef9a45",
+   "url": ""
+  },
+  {
+   "bytes": 121811,
+   "path": "f4/frequency_cover/per_run/cat_r0958.npz",
+   "sha256": "12417455a926b258c670978d744e46b33332bb6c0914fe6ee86852a15abf0531",
+   "url": ""
+  },
+  {
+   "bytes": 123126,
+   "path": "f4/frequency_cover/per_run/cat_r0965.npz",
+   "sha256": "3c8d647c23798abe02fda61687f49b9e06f0737369e1e7d92d06084f69fce6ec",
+   "url": ""
+  },
+  {
+   "bytes": 120521,
+   "path": "f4/frequency_cover/per_run/cat_r0980.npz",
+   "sha256": "1a21becb2393c6d54e9e9228a6d6374b9c679add49bc9d58276e49f85ed34188",
+   "url": ""
+  },
+  {
+   "bytes": 97898,
+   "path": "f4/frequency_cover/grid/depth_aep_0.5.tif",
+   "sha256": "925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c",
+   "url": ""
+  },
+  {
+   "bytes": 97898,
+   "path": "f4/frequency_cover/grid/depth_aep_0.2.tif",
+   "sha256": "925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c",
+   "url": ""
+  },
+  {
+   "bytes": 97898,
+   "path": "f4/frequency_cover/grid/depth_aep_0.1.tif",
+   "sha256": "925d9278bdb79303db7a3c3cb9e0e13e4c69274ce8cc553817c6b0413f738a6c",
+   "url": ""
+  },
+  {
+   "bytes": 138103,
+   "path": "f4/frequency_cover/grid/depth_aep_0.04.tif",
+   "sha256": "11f3d4d27e14c4f80777b8edeb1ed38669372387176005780e902f48d3fadf68",
+   "url": ""
+  },
+  {
+   "bytes": 202521,
+   "path": "f4/frequency_cover/grid/depth_aep_0.02.tif",
+   "sha256": "67a21ba50874f9dc2c86ce7d5038c7c7553b7528e38d297791bb1d31ae263b08",
+   "url": ""
+  },
+  {
+   "bytes": 256606,
+   "path": "f4/frequency_cover/grid/depth_aep_0.01.tif",
+   "sha256": "97be714624cd1bf650aa10991a903ffe5cb3ddffca8181ef7a407e091c47fb91",
+   "url": ""
+  },
+  {
+   "bytes": 304178,
+   "path": "f4/frequency_cover/grid/depth_aep_0.005.tif",
+   "sha256": "6ec87cfbc84d3874305511fefd1c68be46369d8ffc43dbf41b2cd04963443ff7",
+   "url": ""
+  },
+  {
+   "bytes": 358398,
+   "path": "f4/frequency_cover/grid/depth_aep_0.002.tif",
+   "sha256": "d0e4879d683c4c77c1305d9cf29a3aa368bf90caec9f3a6a9b2ccf5a370c2900",
+   "url": ""
+  },
+  {
+   "bytes": 7308548,
+   "path": "site/flood/data/exposures.csv",
+   "sha256": "899ae8cd0df45ad63fd1d47555f3f1727685fe7cfc53276f1b03498e3f0d5dfc",
+   "url": ""
+  },
+  {
+   "bytes": 70724,
+   "path": "src/flood_lab/curves/curves.yaml",
+   "sha256": "153eb5588480a836cc5278d0e07931c46e6855eb188ad2c712c2b2ba4af87c92",
+   "url": ""
+  },
+  {
+   "bytes": 51360,
+   "path": "site/flood/data/f6/annual_losses.csv",
+   "sha256": "2f7d9deab4a2af3848c013f5a818c13bc9d0be03fffc1492583f73628b1684bc",
+   "url": ""
+  },
+  {
+   "bytes": 2161395,
+   "path": "site/flood/data/f6/buildings.csv",
+   "sha256": "d6af26037c8eb30b76860fe27b561ba43c6cf42e4aaec556fd533d4d5efaac15",
+   "url": ""
+  },
+  {
+   "bytes": 36778,
+   "path": "site/flood/data/f6/hand_check_inputs.csv",
+   "sha256": "ace834b34c78e4efa7a6cfffbe9919b81005d9b1a6c14d8985cc44f550fd8005",
+   "url": ""
+  },
+  {
+   "bytes": 163373,
+   "path": "site/flood/data/f6/substation_event_losses.csv",
+   "sha256": "ea9e4bc970d4fe93fd4ad13c7220c7d36525e24e6b01abd96f1dd3630a311ead",
+   "url": ""
+  },
+  {
+   "bytes": 5695,
+   "path": "site/flood/data/f6/substations.csv",
+   "sha256": "78cf39b723af2d356c21b53cd85616bcdd4738ce877ed402115aecc32602e4bb",
+   "url": ""
+  },
+  {
+   "bytes": 62560,
+   "path": "site/flood/data/f6/metrics.json",
+   "sha256": "1d0b8adc57d0684ee3e3f6b32b0e63c9959f7044dabeb1a6aa2dc6ee4444d24a",
+   "url": ""
+  }
+ ],
+ "notes": [
+  "Occurrence and aggregate annual losses are the same here: one storm per synthetic year (RainyDay keeps each year's largest 3-hour storm).",
+  "1 in T: CRC's VaR at q = 1 - 1/T (lower quantile, the extension reports it) and the tools' convention (largest loss with P(L >= x) >= 1/T, as Oasis LMF, OpenQuake and the F4 depth frequency) are shown side by side (design-note question 7).",
+  "The main case reads depths below 0.05 m (catalogue.WET_M, the wet rule of the F4 frequency) as 0 before BD-1; read literally (0 m), BD-1 makes about 10,900 buildings wet in every run by sub-millimetre depths: shown as a sensitivity.",
+  "Substation values are placeholders [P] (MISO and Con Edison figures, V-1 to V-5); building values are NSI [S] or Hazus substitutes (A-8).",
+  "Bor 2026's set is for substations above 345 kV; it is applied to the 138 kV sites as the alternative FR2 names, outside its stated range."
+ ],
+ "numbers": {
+  "M_synthetic_years": 1000,
+  "N_catalogue_runs": 150,
+  "bootstrap_100y_var_interval_usd": {
+   "bor": [
+    1997610400.0655725,
+    2936834746.0767517
+   ],
+   "high": [
+    2011626262.3072984,
+    2984157311.8612394
+   ],
+   "low": [
+    1998952196.5726428,
+    2939334914.8311043
+   ],
+   "williams_min": [
+    2003403029.0043027,
+    2955293981.7056093
+   ]
+  },
+  "bootstrap_eal_interval_usd": {
+   "bor": [
+    72562328.72423421,
+    104809873.89392647
+   ],
+   "high": [
+    73549585.60268284,
+    106177055.42236602
+   ],
+   "low": [
+    72637101.21289168,
+    104915717.48866048
+   ],
+   "williams_min": [
+    72960123.33310731,
+    105347852.74605864
+   ]
+  },
+  "buildings_eal_usd": 88779473.40369564,
+  "buildings_in_sums": 16827,
+  "buildings_left_out": 488,
+  "dry_threshold_m": 0.05,
+  "highest_return_period_supported_y": 1000.0,
+  "portfolio_100y_cvar_crc_usd": {
+   "bor": 3074090118.366474,
+   "high": 3118844039.4792905,
+   "low": 3076302653.7381377,
+   "williams_min": 3091451967.096831
+  },
+  "portfolio_100y_tools_usd": {
+   "bor": 2376896634.992081,
+   "high": 2399918811.574667,
+   "low": 2378999614.1560407,
+   "williams_min": 2386389381.084733
+  },
+  "portfolio_100y_var_crc_usd": {
+   "bor": 2297442153.412317,
+   "high": 2322572401.050212,
+   "low": 2299674653.5748487,
+   "williams_min": 2307765451.521092
+  },
+  "portfolio_eal_usd": {
+   "bor": 88808384.00479904,
+   "high": 90050479.99065502,
+   "low": 88902633.15535805,
+   "williams_min": 89308793.60832733
+  },
+  "substations_eal_usd": {
+   "bor": 28910.60110338954,
+   "high": 1271006.5869593688,
+   "low": 123159.75166239521,
+   "williams_min": 529320.2046316824
+  }
+ },
+ "parameters": [
+  {
+   "name": "runs",
+   "source": "f4/selection.json (CH-26 runs_cover)",
+   "tag": "I",
+   "value": 150
+  },
+  {
+   "name": "synthetic_years_M",
+   "source": "RainyDay NYEARS, CH-19",
+   "tag": "P",
+   "value": 1000
+  },
+  {
+   "name": "dry_threshold_m",
+   "source": "catalogue.WET_M",
+   "tag": "P",
+   "value": 0.05
+  },
+  {
+   "name": "return_periods_y",
+   "source": "plan F6",
+   "tag": "P",
+   "value": [
+    10,
+    100,
+    500
+   ]
+  },
+  {
+   "name": "value_level_main",
+   "source": "brief; V-1",
+   "tag": "P",
+   "value": "mid"
+  },
+  {
+   "name": "c5_basis_main",
+   "source": "C-5, CH-30",
+   "tag": "P",
+   "value": "role"
+  },
+  {
+   "name": "bootstrap_resamples",
+   "source": "FR8",
+   "tag": "P",
+   "value": 1000
+  },
+  {
+   "name": "bootstrap_seed",
+   "source": "FR8",
+   "tag": "P",
+   "value": 20261128
+  },
+  {
+   "name": "bracket_samples",
+   "source": "FR6, RESAMPLED",
+   "tag": "P",
+   "value": 20000
+  },
+  {
+   "name": "bracket_seed",
+   "source": "FR6",
+   "tag": "P",
+   "value": 20261128
+  },
+  {
+   "name": "tail_completion",
+   "source": "FR5",
+   "tag": "P",
+   "value": "lower 0 m, upper = last knot held"
+  },
+  {
+   "name": "eal_tolerance",
+   "source": "plan F6 (proposed)",
+   "tag": "P",
+   "value": 0.05
+  }
+ ],
+ "passed": null,
+ "schema": "flood_lab/0.1",
+ "software": {
+  "crc-framework": "1.1.0",
+  "crc-sdk": "1.1.0",
+  "python": "3.12.11"
+ },
+ "stage": "F6",
+ "tables": {
+  "brackets": {
+   "bor": {
+    "components_left_out_all_zero": 10988,
+    "components_with_loss": 5843,
+    "independence": "resampled",
+    "levels": {
+     "10": {
+      "events": [
+       31350857.516363107,
+       884201531.7882636
+      ],
+      "full_dependence": [
+       67613.61200758361,
+       888079783.2312701
+      ],
+      "independence": [
+       130195122.07869793,
+       160040577.96202603
+      ],
+      "q": 0.9
+     },
+     "100": {
+      "events": [
+       2297442153.412317,
+       3074090118.366474
+      ],
+      "full_dependence": [
+       2423422275.262361,
+       3150794053.592703
+      ],
+      "independence": [
+       201342409.9806803,
+       227498615.72418466
+      ],
+      "q": 0.99
+     },
+     "500": {
+      "events": [
+       3211500509.9412355,
+       3859557254.074001
+      ],
+      "full_dependence": [
+       3486860414.4391346,
+       3980612478.3694744
+      ],
+      "independence": [
+       242715698.6971704,
+       268004839.36695534
+      ],
+      "q": 0.998
+     }
+    },
+    "samples": 20000,
+    "seed": 20261128
+   },
+   "high": {
+    "components_left_out_all_zero": 10987,
+    "components_with_loss": 5844,
+    "independence": "resampled",
+    "levels": {
+     "10": {
+      "events": [
+       31350857.516363107,
+       896549728.8811162
+      ],
+      "full_dependence": [
+       67613.61200758361,
+       900500743.0898298
+      ],
+      "independence": [
+       131973241.0517073,
+       161867008.8046314
+      ],
+      "q": 0.9
+     },
+     "100": {
+      "events": [
+       2322572401.050212,
+       3118844039.4792905
+      ],
+      "full_dependence": [
+       2458128646.8680363,
+       3197135533.831475
+      ],
+      "independence": [
+       204257423.33962682,
+       229636359.6220868
+      ],
+      "q": 0.99
+     },
+     "500": {
+      "events": [
+       3260247848.6013727,
+       3915836628.4388523
+      ],
+      "full_dependence": [
+       3537959162.1347957,
+       4036912480.379479
+      ],
+      "independence": [
+       244072617.42348278,
+       269227280.2220768
+      ],
+      "q": 0.998
+     }
+    },
+    "samples": 20000,
+    "seed": 20261128
+   },
+   "low": {
+    "components_left_out_all_zero": 10987,
+    "components_with_loss": 5844,
+    "independence": "resampled",
+    "levels": {
+     "10": {
+      "events": [
+       31350857.516363107,
+       885137022.2781854
+      ],
+      "full_dependence": [
+       67613.61200758361,
+       889022274.73686
+      ],
+      "independence": [
+       130331090.18133824,
+       160143600.3508272
+      ],
+      "q": 0.9
+     },
+     "100": {
+      "events": [
+       2299674653.5748487,
+       3076302653.7381377
+      ],
+      "full_dependence": [
+       2426147284.8903866,
+       3153082503.47107
+      ],
+      "independence": [
+       202187760.9008873,
+       227625333.18329197
+      ],
+      "q": 0.99
+     },
+     "500": {
+      "events": [
+       3213829949.5206327,
+       3861279102.636597
+      ],
+      "full_dependence": [
+       3488830445.47763,
+       3982336167.015324
+      ],
+      "independence": [
+       242715698.6971704,
+       268081654.1046317
+      ],
+      "q": 0.998
+     }
+    },
+    "samples": 20000,
+    "seed": 20261128
+   },
+   "williams_min": {
+    "components_left_out_all_zero": 10987,
+    "components_with_loss": 5844,
+    "independence": "resampled",
+    "levels": {
+     "10": {
+      "events": [
+       31350857.516363107,
+       889175754.5473031
+      ],
+      "full_dependence": [
+       67613.61200758361,
+       893083879.2665529
+      ],
+      "independence": [
+       130836866.57467939,
+       160659776.14336732
+      ],
+      "q": 0.9
+     },
+     "100": {
+      "events": [
+       2307765451.521092,
+       3091451967.096831
+      ],
+      "full_dependence": [
+       2437484880.74374,
+       3168770933.7530093
+      ],
+      "independence": [
+       202838988.88187173,
+       228252045.24874625
+      ],
+      "q": 0.99
+     },
+     "500": {
+      "events": [
+       3230363602.010888,
+       3880762128.679606
+      ],
+      "full_dependence": [
+       3506345591.3530583,
+       4001826066.8608603
+      ],
+      "independence": [
+       243812158.72788492,
+       268376943.02716613
+      ],
+      "q": 0.998
+     }
+    },
+    "samples": 20000,
+    "seed": 20261128
+   }
+  },
+  "failures": {
+   "basement_read_at_minus_4ft_rows": 93384,
+   "buildings": 17744,
+   "by_reason": {
+    "BD rule failed (BD-3 unknown basement, BD-4 above 24 ft or BD-5 no height) when wet": 7,
+    "no footprint of the hazard's set (F3/F4 select footprints by another rule)": 7,
+    "no structure curve (A-12) and wet": 421,
+    "wall band has no readable pixel in the runs (F4 'buildings_not_read')": 53
+   },
+   "crc_failure_rows_buildings": 0,
+   "crc_failure_rows_substations": {
+    "bor": 0,
+    "high": 0,
+    "low": 0,
+    "williams_min": 0
+   },
+   "dry_literal_by_reason": {
+    "BD rule failed (BD-3 unknown basement, BD-4 above 24 ft or BD-5 no height) when wet": 10,
+    "no footprint of the hazard's set (F3/F4 select footprints by another rule)": 7,
+    "no structure curve (A-12) and wet": 704,
+    "wall band has no readable pixel in the runs (F4 'buildings_not_read')": 53
+   },
+   "event_rows": {
+    "failed": 17057,
+    "no_loss": 2405710,
+    "read": 238833
+   },
+   "footprints_of_hazard_set_not_assets": 13,
+   "substations": {
+    "with_value_and_curve": 4,
+    "without": [
+     "S-1540230931",
+     "S-861227475"
+    ]
+   },
+   "value_of_failed_buildings": 2426871647.5347276
+  },
+  "hand_check": {
+   "ordinary_building": "B-3000013",
+   "substation": "S-383102724",
+   "substitute_value_and_minus_4ft_building": "B-3000650"
+  },
+  "routes": {
+   "buildings": {
+    "grid": {
+     "assets_compared": 169,
+     "assets_not_compared": 16658,
+     "eal_event_table_same_assets": 2664234.098965255,
+     "eal_grid": 410756.82839296473,
+     "largest_asset_difference_usd": 542119.9055188246,
+     "relative_difference": -0.8458255494318251,
+     "within_5_percent": false
+    },
+    "point": {
+     "assets_compared": 16827,
+     "assets_not_compared": 0,
+     "eal_event_table_same_assets": 88779473.40369564,
+     "eal_point": 88779474.93370932,
+     "largest_asset_difference_usd": 0.07642068434506655,
+     "relative_difference": 1.7233867489851304e-08,
+     "within_5_percent": true
+    }
+   },
+   "buildings_route_failures": {
+    "grid": {
+     "no_covering_support": 16658
+    },
+    "point": {}
+   },
+   "substations": {
+    "bor": {
+     "grid": {
+      "assets_compared": 2,
+      "assets_not_compared": 2,
+      "eal_event_table_same_assets": 18555.269521793434,
+      "eal_grid": 0.0,
+      "largest_asset_difference_usd": 18463.602375184557,
+      "relative_difference": -1.0,
+      "within_5_percent": false
+     },
+     "point": {
+      "assets_compared": 4,
+      "assets_not_compared": 0,
+      "eal_event_table_same_assets": 28910.601103389545,
+      "eal_point": 28910.60302778257,
+      "largest_asset_difference_usd": 0.0010461938836670015,
+      "relative_difference": 6.65635770998e-08,
+      "within_5_percent": true
+     }
+    },
+    "high": {
+     "grid": {
+      "assets_compared": 2,
+      "assets_not_compared": 2,
+      "eal_event_table_same_assets": 1031791.0085772369,
+      "eal_grid": 0.0,
+      "largest_asset_difference_usd": 846706.7030751731,
+      "relative_difference": -1.0,
+      "within_5_percent": false
+     },
+     "point": {
+      "assets_compared": 4,
+      "assets_not_compared": 0,
+      "eal_event_table_same_assets": 1271006.5869593688,
+      "eal_point": 1271006.6173842389,
+      "largest_asset_difference_usd": 0.015147248050197959,
+      "relative_difference": 2.393761794559748e-08,
+      "within_5_percent": true
+     }
+    },
+    "low": {
+     "grid": {
+      "assets_compared": 2,
+      "assets_not_compared": 2,
+      "eal_event_table_same_assets": 99645.64225693366,
+      "eal_grid": 0.0,
+      "largest_asset_difference_usd": 81464.31172822331,
+      "relative_difference": -1.0,
+      "within_5_percent": false
+     },
+     "point": {
+      "assets_compared": 4,
+      "assets_not_compared": 0,
+      "eal_event_table_same_assets": 123159.75166239521,
+      "eal_point": 123159.75462183141,
+      "largest_asset_difference_usd": 0.0014573672669939697,
+      "relative_difference": 2.4029247856007925e-08,
+      "within_5_percent": true
+     }
+    },
+    "williams_min": {
+     "grid": {
+      "assets_compared": 2,
+      "assets_not_compared": 2,
+      "eal_event_table_same_assets": 426864.2020211094,
+      "eal_grid": 0.0,
+      "largest_asset_difference_usd": 347621.520324118,
+      "relative_difference": -1.0,
+      "within_5_percent": false
+     },
+     "point": {
+      "assets_compared": 4,
+      "assets_not_compared": 0,
+      "eal_event_table_same_assets": 529320.2046316824,
+      "eal_point": 529320.2173947957,
+      "largest_asset_difference_usd": 0.006218811497092247,
+      "relative_difference": 2.41122731643875e-08,
+      "within_5_percent": true
+     }
+    }
+   }
+  },
+  "sensitivities": {
+   "c5_hazus_kv": {
+    "bor": {
+     "cvar_100_crc": 3074090118.366474,
+     "eal": 88808384.00479904,
+     "one_in_100_tools": 2376896634.992081,
+     "var_100_crc": 2297442153.412317
+    },
+    "buildings_in_sums": 16827,
+    "high": {
+     "cvar_100_crc": 3119157592.456162,
+     "eal": 90049619.834796,
+     "one_in_100_tools": 2399859502.3776245,
+     "var_100_crc": 2322515181.1141977
+    },
+    "low": {
+     "cvar_100_crc": 3076302653.7381377,
+     "eal": 88902633.15535805,
+     "one_in_100_tools": 2378999614.1560407,
+     "var_100_crc": 2299674653.5748487
+    },
+    "williams_min": {
+     "cvar_100_crc": 3091872198.8131337,
+     "eal": 89320070.87965272,
+     "one_in_100_tools": 2386594440.971691,
+     "var_100_crc": 2307989932.6283493
+    }
+   },
+   "dry_threshold_0_literal_bd1": {
+    "bor": {
+     "cvar_100_crc": 3438295761.6956344,
+     "eal": 1240744791.6774025,
+     "one_in_100_tools": 2799506130.9575367,
+     "var_100_crc": 2747980868.2960954
+    },
+    "buildings_in_sums": 16824,
+    "high": {
+     "cvar_100_crc": 3484449690.1582127,
+     "eal": 1242167495.680505,
+     "one_in_100_tools": 2823903314.7544804,
+     "var_100_crc": 2784413766.6618505
+    },
+    "low": {
+     "cvar_100_crc": 3440645824.7353992,
+     "eal": 1240856693.144004,
+     "one_in_100_tools": 2801744181.9379725,
+     "var_100_crc": 2750866215.7286043
+    },
+    "williams_min": {
+     "cvar_100_crc": 3456257014.7703505,
+     "eal": 1241321747.3770502,
+     "one_in_100_tools": 2809587577.743761,
+     "var_100_crc": 2762775661.3271866
+    }
+   },
+   "ff4_alt_heights": {
+    "bor": {
+     "cvar_100_crc": 3252373707.7917676,
+     "eal": 95769307.6282002,
+     "one_in_100_tools": 2550513889.6196504,
+     "var_100_crc": 2461768230.9922433
+    },
+    "buildings_in_sums": 16827,
+    "high": {
+     "cvar_100_crc": 3297127628.904584,
+     "eal": 97011403.61405618,
+     "one_in_100_tools": 2573536066.202236,
+     "var_100_crc": 2486898478.6301384
+    },
+    "low": {
+     "cvar_100_crc": 3254586243.1634316,
+     "eal": 95863556.77875921,
+     "one_in_100_tools": 2552616868.78361,
+     "var_100_crc": 2464000731.154775
+    },
+    "williams_min": {
+     "cvar_100_crc": 3269735556.5221243,
+     "eal": 96269717.2317285,
+     "one_in_100_tools": 2560006635.712302,
+     "var_100_crc": 2472091529.1010184
+    }
+   },
+   "main": {
+    "bor": {
+     "cvar_100_crc": 3074090118.366474,
+     "eal": 88808384.00479904,
+     "one_in_100_tools": 2376896634.992081,
+     "var_100_crc": 2297442153.412317
+    },
+    "buildings_in_sums": 16827,
+    "high": {
+     "cvar_100_crc": 3118844039.4792905,
+     "eal": 90050479.99065502,
+     "one_in_100_tools": 2399918811.574667,
+     "var_100_crc": 2322572401.050212
+    },
+    "low": {
+     "cvar_100_crc": 3076302653.7381377,
+     "eal": 88902633.15535805,
+     "one_in_100_tools": 2378999614.1560407,
+     "var_100_crc": 2299674653.5748487
+    },
+    "williams_min": {
+     "cvar_100_crc": 3091451967.096831,
+     "eal": 89308793.60832733,
+     "one_in_100_tools": 2386389381.084733,
+     "var_100_crc": 2307765451.521092
+    }
+   },
+   "value_high": {
+    "bor": {
+     "cvar_100_crc": 3088567918.5628667,
+     "eal": 89015883.07151812,
+     "one_in_100_tools": 2379436403.293346,
+     "var_100_crc": 2300379044.8779416
+    },
+    "buildings_in_sums": 16827,
+    "high": {
+     "cvar_100_crc": 3369500165.3946004,
+     "eal": 96760017.91037282,
+     "one_in_100_tools": 2522744833.4124994,
+     "var_100_crc": 2481866726.789639
+    },
+    "low": {
+     "cvar_100_crc": 3102478651.2638073,
+     "eal": 89603448.58766893,
+     "one_in_100_tools": 2392543463.980057,
+     "var_100_crc": 2314305419.855716
+    },
+    "williams_min": {
+     "cvar_100_crc": 3197632490.1914682,
+     "eal": 92137343.72256853,
+     "one_in_100_tools": 2438564580.737932,
+     "var_100_crc": 2364706687.6346326
+    }
+   },
+   "value_low": {
+    "bor": {
+     "cvar_100_crc": 3071759720.357777,
+     "eal": 88774705.38054684,
+     "one_in_100_tools": 2376471185.4640923,
+     "var_100_crc": 2296951900.2197995
+    },
+    "buildings_in_sums": 16827,
+    "high": {
+     "cvar_100_crc": 3078894445.5288396,
+     "eal": 88974057.4915277,
+     "one_in_100_tools": 2380171945.9134936,
+     "var_100_crc": 2300990229.6274576
+    },
+    "low": {
+     "cvar_100_crc": 3072111887.7505527,
+     "eal": 88789833.37366936,
+     "one_in_100_tools": 2376808818.837733,
+     "var_100_crc": 2297310023.311025
+    },
+    "williams_min": {
+     "cvar_100_crc": 3074525554.334125,
+     "eal": 88854980.42873263,
+     "one_in_100_tools": 2377996167.902613,
+     "var_100_crc": 2298609647.51129
+    }
+   },
+   "without_lot_shared_with_nsi": {
+    "bor": {
+     "cvar_100_crc": 3025604981.839393,
+     "eal": 87535927.39019434,
+     "one_in_100_tools": 2339644881.707315,
+     "var_100_crc": 2261597101.9522824
+    },
+    "buildings_in_sums": 16110,
+    "high": {
+     "cvar_100_crc": 3070358902.95221,
+     "eal": 88778023.37605032,
+     "one_in_100_tools": 2362667058.289901,
+     "var_100_crc": 2286727349.5901775
+    },
+    "low": {
+     "cvar_100_crc": 3027817517.211057,
+     "eal": 87630176.54075335,
+     "one_in_100_tools": 2341747860.8712745,
+     "var_100_crc": 2263829602.1148143
+    },
+    "williams_min": {
+     "cvar_100_crc": 3042966830.56975,
+     "eal": 88036336.99372263,
+     "one_in_100_tools": 2349137627.799967,
+     "var_100_crc": 2271920400.0610576
+    }
+   },
+   "without_substitute_values": {
+    "bor": {
+     "cvar_100_crc": 2543875530.698048,
+     "eal": 71474058.91486225,
+     "one_in_100_tools": 1956472935.2384772,
+     "var_100_crc": 1878861787.4070642
+    },
+    "buildings_in_sums": 12294,
+    "high": {
+     "cvar_100_crc": 2588629451.8108644,
+     "eal": 72716154.90071823,
+     "one_in_100_tools": 1979495111.8210626,
+     "var_100_crc": 1903992035.0449593
+    },
+    "low": {
+     "cvar_100_crc": 2546088066.0697126,
+     "eal": 71568308.06542125,
+     "one_in_100_tools": 1958575914.4024365,
+     "var_100_crc": 1881094287.5695963
+    },
+    "williams_min": {
+     "cvar_100_crc": 2561237379.428405,
+     "eal": 71974468.51839055,
+     "one_in_100_tools": 1965965681.3311288,
+     "var_100_crc": 1889185085.5158396
+    }
+   }
+  },
+  "substations": [
+   {
+    "LocNumber": "S-250386730",
+    "curve_id": "nirandjan_F2",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 7.61192196121e-06,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.0,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.00374034000196,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.0,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.0570000000298,
+    "ead_grid": NaN,
+    "ead_point": 7.61192196121e-06,
+    "eal_event_table": 474.797904499,
+    "eal_grid": NaN,
+    "eal_point": 474.798025245,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "low",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 0.0,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 233305.866209,
+    "name": "Water Street Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.0,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.00374034000196,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-250386730",
+    "curve_id": "williams_substation_max",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 7.74880199648e-05,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.0,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.0380760000199,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.0,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.0570000000298,
+    "ead_grid": NaN,
+    "ead_point": 7.74880199648e-05,
+    "eal_event_table": 4833.35873523,
+    "eal_grid": NaN,
+    "eal_point": 4833.3599644,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "high",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 0.0,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 2375012.47527,
+    "name": "Water Street Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.0,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.0380760000199,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-250386730",
+    "curve_id": "williams_substation_min",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 3.31760085478e-05,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.0,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.0163020000085,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.0,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.0570000000298,
+    "ead_grid": NaN,
+    "ead_point": 3.31760085478e-05,
+    "eal_event_table": 2069.37215311,
+    "eal_grid": NaN,
+    "eal_point": 2069.37267937,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "williams_min",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 0.0,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 1016846.65858,
+    "name": "Water Street Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.0,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.0163020000085,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-250386730",
+    "curve_id": "bor_hv345_anchored",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 0.0,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.0,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.0,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.0,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.0570000000298,
+    "ead_grid": NaN,
+    "ead_point": 0.0,
+    "eal_event_table": 0.0,
+    "eal_grid": NaN,
+    "eal_point": 0.0,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "bor",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 0.0,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 0.0,
+    "name": "Water Street Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.0,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.0,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-339711332",
+    "curve_id": "nirandjan_F2",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.000794101333103,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.0208661592647,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.0280187390926,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.317999988794,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.426999986172,
+    "ead_grid": 0.0,
+    "ead_point": 0.000794101333103,
+    "eal_event_table": 81464.3117282,
+    "eal_grid": 0.0,
+    "eal_point": 81464.3131856,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "low",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 2140592.46907,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 2874352.73227,
+    "name": "Farragut Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.0208661592647,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.0280187390926,
+    "value_mid_usd_2026": 102586798.17
+   },
+   {
+    "LocNumber": "S-339711332",
+    "curve_id": "williams_grid_exit_point_max",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.00825356413619,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.216875992358,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.291213990569,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.317999988794,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.426999986172,
+    "ead_grid": 0.0,
+    "ead_point": 0.00825356413619,
+    "eal_event_table": 846706.703075,
+    "eal_grid": 0.0,
+    "eal_point": 846706.718222,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "high",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 22248613.6559,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 29874710.8748,
+    "name": "Farragut Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.216875992358,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.291213990569,
+    "value_mid_usd_2026": 102586798.17
+   },
+   {
+    "LocNumber": "S-339711332",
+    "curve_id": "williams_grid_exit_point_min",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.00338856005591,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.0890399968624,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.119559996128,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.317999988794,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.426999986172,
+    "ead_grid": 0.0,
+    "ead_point": 0.00338856005591,
+    "eal_event_table": 347621.520324,
+    "eal_grid": 0.0,
+    "eal_point": 347621.526543,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "williams_min",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 9134328.18718,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 12265277.192,
+    "name": "Farragut Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.0890399968624,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.119559996128,
+    "value_mid_usd_2026": 102586798.17
+   },
+   {
+    "LocNumber": "S-339711332",
+    "curve_id": "bor_hv345_anchored",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.000179980306928,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.00678179900157,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.0200901979451,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.317999988794,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.426999986172,
+    "ead_grid": 0.0,
+    "ead_point": 0.000179980306928,
+    "eal_event_table": 18463.6023752,
+    "eal_grid": 0.0,
+    "eal_point": 18463.6034214,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "bor",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 695723.045404,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 2060989.08179,
+    "name": "Farragut Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.00678179900157,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.0200901979451,
+    "value_mid_usd_2026": 102586798.17
+   },
+   {
+    "LocNumber": "S-383102724",
+    "curve_id": "nirandjan_F2",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 0.000369364318534,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.0108925995855,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.0330048613768,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.165999993682,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.503000020981,
+    "ead_grid": NaN,
+    "ead_point": 0.000369364318534,
+    "eal_event_table": 23039.311501,
+    "eal_grid": NaN,
+    "eal_point": 23039.3125323,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "low",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 679432.185374,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 2058697.2758,
+    "name": "Hudson Avenue Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.0108925995855,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.0330048613768,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383102724",
+    "curve_id": "williams_substation_max",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 0.00375759617775,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.11088799578,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.334900006294,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.165999993682,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.503000020981,
+    "ead_grid": NaN,
+    "ead_point": 0.00375759617775,
+    "eal_event_table": 234382.219647,
+    "eal_grid": NaN,
+    "eal_point": 234382.230133,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "high",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 6916702.7313,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 20889581.1667,
+    "name": "Hudson Avenue Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.11088799578,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.334900006294,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383102724",
+    "curve_id": "williams_substation_min",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 0.00160939007864,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.047475998193,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.14364200449,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.165999993682,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.503000020981,
+    "ead_grid": NaN,
+    "ead_point": 0.00160939007864,
+    "eal_event_table": 100386.630457,
+    "eal_grid": NaN,
+    "eal_point": 100386.63495,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "williams_min",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 2961342.78615,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 8959752.92727,
+    "name": "Hudson Avenue Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.047475998193,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.14364200449,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383102724",
+    "curve_id": "bor_hv345_anchored",
+    "damage_mean_pushforward_grid": NaN,
+    "damage_mean_pushforward_point": 0.000166015817959,
+    "damage_q100_pushforward_grid": NaN,
+    "damage_q100_pushforward_point": 0.000149599958301,
+    "damage_q10_pushforward_grid": NaN,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": NaN,
+    "damage_q500_pushforward_point": 0.0326859038248,
+    "depth_100y_grid": NaN,
+    "depth_100y_point": 0.165999993682,
+    "depth_10y_grid": NaN,
+    "depth_10y_point": 0,
+    "depth_500y_grid": NaN,
+    "depth_500y_point": 0.503000020981,
+    "ead_grid": NaN,
+    "ead_point": 0.000166015817959,
+    "eal_event_table": 10355.3315816,
+    "eal_grid": NaN,
+    "eal_point": 10355.3324545,
+    "failure_100y_grid": "no_covering_support",
+    "failure_10y_grid": "no_covering_support",
+    "failure_500y_grid": "no_covering_support",
+    "family": "bor",
+    "grid_failure": "no_covering_support",
+    "loss_100y_grid": NaN,
+    "loss_100y_point": 9331.3837346,
+    "loss_10y_grid": NaN,
+    "loss_10y_point": 0,
+    "loss_500y_grid": NaN,
+    "loss_500y_point": 2038802.11443,
+    "name": "Hudson Avenue Substation",
+    "ratio_100y_grid": NaN,
+    "ratio_100y_point": 0.000149599958301,
+    "ratio_10y_grid": NaN,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": NaN,
+    "ratio_500y_point": 0.0326859038248,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383110539",
+    "curve_id": "nirandjan_F2",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.00029148156572,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.00997419967937,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.0110237998514,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.151999995112,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.167999997735,
+    "ead_grid": 0.0,
+    "ead_point": 0.00029148156572,
+    "eal_event_table": 18181.3305287,
+    "eal_grid": 0.0,
+    "eal_point": 18181.3308787,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "low",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 622146.461209,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 687615.877675,
+    "name": "Plymouth Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.00997419967937,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.0110237998514,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383110539",
+    "curve_id": "williams_substation_max",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.00296725605823,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.101535996735,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.112223998487,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.151999995112,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.167999997735,
+    "ead_grid": 0.0,
+    "ead_point": 0.00296725605823,
+    "eal_event_table": 185084.305502,
+    "eal_grid": 0.0,
+    "eal_point": 185084.309065,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "high",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 6333366.39377,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 7000036.6712,
+    "name": "Plymouth Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.101535996735,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.112223998487,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383110539",
+    "curve_id": "williams_substation_min",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 0.00127041202493,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 0.0434719986022,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.0480479993522,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.151999995112,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.167999997735,
+    "ead_grid": 0.0,
+    "ead_point": 0.00127041202493,
+    "eal_event_table": 79242.681697,
+    "eal_grid": 0.0,
+    "eal_point": 79242.6832223,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "williams_min",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 2711591.00093,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 2997021.68857,
+    "name": "Plymouth Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 0.0434719986022,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.0480479993522,
+    "value_mid_usd_2026": 62375577.1098
+   },
+   {
+    "LocNumber": "S-383110539",
+    "curve_id": "bor_hv345_anchored",
+    "damage_mean_pushforward_grid": 0.0,
+    "damage_mean_pushforward_point": 1.46960005986e-06,
+    "damage_q100_pushforward_grid": 0.0,
+    "damage_q100_pushforward_point": 7.39999780059e-05,
+    "damage_q10_pushforward_grid": 0.0,
+    "damage_q10_pushforward_point": 0,
+    "damage_q500_pushforward_grid": 0.0,
+    "damage_q500_pushforward_point": 0.000162799985051,
+    "depth_100y_grid": 0.0,
+    "depth_100y_point": 0.151999995112,
+    "depth_10y_grid": 0.0,
+    "depth_10y_point": 0,
+    "depth_500y_grid": 0.0,
+    "depth_500y_point": 0.167999997735,
+    "ead_grid": 0.0,
+    "ead_point": 1.46960005986e-06,
+    "eal_event_table": 91.6671466089,
+    "eal_grid": 0.0,
+    "eal_point": 91.6671518546,
+    "failure_100y_grid": NaN,
+    "failure_10y_grid": NaN,
+    "failure_500y_grid": NaN,
+    "family": "bor",
+    "grid_failure": NaN,
+    "loss_100y_grid": 0.0,
+    "loss_100y_point": 4615.79133423,
+    "loss_10y_grid": 0.0,
+    "loss_10y_point": 0,
+    "loss_500y_grid": 0.0,
+    "loss_500y_point": 10154.743021,
+    "name": "Plymouth Substation",
+    "ratio_100y_grid": 0.0,
+    "ratio_100y_point": 7.39999780059e-05,
+    "ratio_10y_grid": 0.0,
+    "ratio_10y_point": 0,
+    "ratio_500y_grid": 0.0,
+    "ratio_500y_point": 0.000162799985051,
+    "value_mid_usd_2026": 62375577.1098
+   }
+  ]
+ },
+ "title": "Curves, the event-loss table and risk: portfolio and substation figures from CRC"
+}

@@ -1,6 +1,6 @@
 # crc_event_loss: an event-loss table for Climate Risk Commons
 
-Design note, draft 2, 2026-11-27 (requirements FR9 to FR12, decision D17). For RiskThinking's
+Design note, draft 2, 2026-11-27, §7 corrected 2026-11-28 (requirements FR9 to FR12, decision D17). For RiskThinking's
 engineers, after Yuri's review; nothing in it has been sent or proposed upstream. The package is
 implemented in `src/crc_event_loss/` as described here, with the decisions P-1 to P-6 of
 `docs/research/event-loss-prior-art.md` (accepted by Yuri on 2026-11-27) and CH-28. Tests:
@@ -236,11 +236,31 @@ storm catalogue against #27's dependence by distance.
 
 ## 7. Use in the study
 
-`flood_lab` builds one event set from the F4 catalogue (one storm per synthetic year; the 150 run
-years weighted by stratum, each standing for the years of its stratum that were not run, which
-`YearWeights.stratified` expresses: a run in a stratum of N years with n runs has mass
-N / (n × 1,000)), one event-loss table per damage curve of the
-substation envelope and for the buildings, with depths from the runs and impacts from CRC, then
-`annual_losses` for occurrence and aggregate (equal here, one storm a year), `risk` and `brackets`.
+Corrected 2026-11-28 after F6 steps 4 and 5 (`src/flood_lab/risk/event_loss.py`, `metrics.py`;
+report `docs/flood/reports/F6-risk.md`). Where this differs from draft 2, what was built holds:
+
+- **Year weights are the catalogue's block weights, given directly.** `flood_lab` builds
+  `YearWeights(run ids, run weight / 1,000)`, not `YearWeights.stratified`. The F4 catalogue gives each
+  run the number of years of its block of ranks; in stratum T3 the last block takes the remainder (59
+  runs of 14 years and one of 24), so the masses within a stratum are not all N / (n × 1,000). The F4
+  depth frequency uses the same block weights.
+- One event set, one storm per synthetic year: event id = year id = the run label. Occurrence and
+  aggregate are equal, and are checked equal.
+- **Two measurements, several tables.** Building curves take depth above the first floor (an open
+  `Measurement`), substation curves depth above ground, so the buildings are one table and each of
+  the four substation curve families another. A portfolio is the sum of the buildings' `AnnualLosses`
+  and one family's: `flood_lab` adds the two through the public `AnnualLosses` constructor (totals
+  added, components side by side). The extension has no function for this; one (`combine`, refusing
+  different years or repeated components) is a candidate for the interface.
+- **Failures that are not CRC's.** The study's building rules (BD-3 unknown basement, BD-4, BD-5, no
+  curve, no readable wall depth) decide before CRC is called that no loss can be computed. Those
+  buildings are kept out of the table by `flood_lab` and listed with their reason; the table itself
+  had no CRC refusal (`impact_refused_values` 0). `FailurePolicy.EXCLUDE_COMPONENT` is passed so that
+  a refusal would leave its component out, named.
+- **Brackets on many components.** `RESAMPLED` with 20,000 draws over about 5,800 buildings with a
+  loss; components whose loss is 0 in every year are left out of the call (they add 0 under any
+  dependence). `EXACT_TWO_STATE` does not apply (components have many annual values).
+- **Bootstrap** (FR8) builds one `AnnualLosses` per resample with a single component.
+
 The flood-specific parts (depths at assets, curve choice, first-floor heights, values) stay in
 `flood_lab`.

@@ -23,6 +23,11 @@ sensitivity run or by Yuri.
 | 11 | Damage curves | Hail size to share of value lost |
 | 12 | Annual loss: events added, capped | Expected loss and its distribution |
 | 13 | Class breaks | Map colours and legends |
+| 15 | Flood event-loss table | Loss per storm and asset (flood lab F6) |
+| 16 | Flood annual losses and their figures | Expected annual loss, VaR, CVaR, 1 in T |
+| 17 | Flood bootstrap within strata | Sampling intervals on the flood figures |
+| 18 | Flood dependence brackets | Full dependence and independence beside the events |
+| 19 | Flood curve routes at an asset | Expected damage and loss at T from CRC's curves |
 
 ## 1. Annual maxima and neighbour pooling
 
@@ -316,6 +321,120 @@ storm's inner core, not its outer size.
 by the storm.
 
 **Code:** `site/shared/views/tracks.js` (`nearDistance`), `time.js`.
+
+## 15. Flood event-loss table
+
+**For:** the loss of every asset in every storm of the flood catalogue (requirements FR4), held in
+`crc_event_loss`'s `EventLossTable`.
+
+**Rule.** One event per catalogue run; each run is one synthetic year's largest storm, so event and year
+are the same id, with the year's mass = run weight / M (the F4 block weights: 30 runs of 1 year, 60 of 2,
+59 of 14 and one of 24, M = 1,000). For each building, the water depth at its walls d (F4, metres above
+ground) is first set to 0 when below the dry threshold (0.05 m, the catalogue's wet rule), then read by
+rules BD-1 to BD-5 (`docs/flood/loss-rules.md`):
+
+    d ≤ 0                         → no loss                      (BD-1)
+    a = d − first-floor height                                   (BD-2)
+    a < −4 ft: basement Y → a = −4 ft; N → no loss; unknown → failed   (BD-3)
+    a > 24 ft, or no height        → failed                      (BD-4, BD-5)
+    damage ratio = CRC Impact.evaluate(Hazus curve, a);  loss = ratio × value
+
+Substations: the lead depth (the depth exceeded on 25 m² of open ground) read on each of the four curve
+families (C-3, by role C-5), one table per family. A building with any failed (event, building) case, no
+curve while wet, no readable wall band or no footprint in the hazard's set is left out of every sum and
+named with its reason; CRC's own refusals (`ImpactError`) are kept as failure rows by the extension.
+
+**Parameters:** dry threshold 0.05 m **placeholder** (the F4 wet rule); value level mid (low and high as
+sensitivities, mid where they are not stated).
+
+**Weakness.** One depth per building per storm (the deepest readable pixel by its walls) and one storm per
+year (RainyDay's largest 3-hour storm); damage is deterministic given depth. The dry threshold matters: read
+literally (0 m), BD-1 makes about 10,900 buildings "wet" in every run by depths under 0.1 mm, and every
+basement building then loses its −4 ft basement value every year.
+
+**Code:** `src/flood_lab/risk/event_loss.py`; `src/crc_event_loss/`.
+
+## 16. Flood annual losses and their figures
+
+**For:** the portfolio's expected annual loss (EAL), VaR and CVaR at 1 in 10, 100 and 500 years, and the
+exceedance curve (FR5).
+
+**Rule.** The extension adds losses across assets within an event, then across the events of a year
+(aggregate) or takes the year's largest event (occurrence); with one storm per year the two are equal and
+are checked equal. The 150 annual totals with their masses become `Distribution.discrete` (CRC), which gives
+every figure: mean (EAL), `quantile(1 − 1/T)` (VaR, the smallest loss whose cumulative mass reaches q),
+CVaR at q (mean of the upper tail of mass 1 − q, the year at the cutoff taken in part), `exceedance`.
+Beside CRC's VaR, the tools' 1 in T is shown: the largest loss x with P(L ≥ x) ≥ 1/T (with M equal years
+the k-th largest has return period M/k, as Oasis LMF, OpenQuake and RainyDay rank).
+
+**Parameters:** return periods 10, 100, 500 years; the smallest year mass, 1/1,000, bounds the highest
+return period the catalogue supports (1,000 years; rule P-2 of the extension refuses levels beyond it).
+
+**Weakness.** 150 runs stand for 1,000 years; the tail above 1 in 30 rests on the 30 runs of stratum T1,
+each one year. CRC's and the tools' 1 in T differ by one rank where 1/T is a whole number of year masses.
+
+**Code:** `src/flood_lab/risk/metrics.py` (`figures`, `tools_level`); `crc_event_loss.annual_losses`.
+
+## 17. Flood bootstrap within strata
+
+**For:** sampling intervals on the portfolio EAL and the 1-in-100 figures (FR8).
+
+**Rule.** In each stratum (T1, T2, T3), draw as many runs as it has, with replacement; each drawn run keeps
+its block weight, rescaled so the stratum keeps the years it stands for. The resample's annual totals and
+masses become a CRC distribution and give EAL, VaR and CVaR at 99%; the interval is the 5% and 95% of the
+resamples (CRC's `Distribution.empirical(...).quantile`).
+
+**Parameters:** 1,000 resamples, seed 20261128 (both **placeholders**); interval 5–95%.
+
+**Weakness.** It measures how much the figures depend on which storms were run, not the error of the flood
+model, the curves or the values. Within T1 each run is its own year, so the 1-in-100 interval comes from
+the 30 largest-rainfall years.
+
+**Code:** `src/flood_lab/risk/metrics.py` (`bootstrap`).
+
+## 18. Flood dependence brackets
+
+**For:** where the event table's portfolio figures sit against two stated dependences (FR6, CH-28).
+
+**Rule.** `crc_event_loss.brackets`: full dependence adds the assets' own VaR and CVaR (each from CRC on the
+asset's annual losses); independence draws each asset's year independently by the year masses
+(`RESAMPLED`) and reads VaR and CVaR from CRC on the drawn totals. Assets whose loss is 0 in every year are
+left out (they add 0 under any dependence). The pass rule: the event table's CVaR at 99% at or below full
+dependence, which must hold; VaR is shown without a verdict.
+
+**Parameters:** 20,000 draws, seed 20261128 (**placeholders**).
+
+**Weakness.** The independence bracket carries sampling error; VaR has no bound from either bracket.
+
+**Code:** `src/flood_lab/risk/metrics.py` (`bracket_figures`).
+
+## 19. Flood curve routes at an asset
+
+**For:** expected annual damage, the damage distribution and the loss at 10, 100 and 500 years from CRC's
+per-asset depth curves (FR5, FH7), to compare with the event table.
+
+**Rule.** Point route: each asset's catalogue depths as an exact step function (`crc_load.asset_knots`,
+F4) through `Dataset.from_quantiles`. Grid route: the F4 rasters at eight probabilities through
+`Dataset.from_raster`, evaluated at the asset point (substation outline centroid, building footprint
+centroid). The curve is completed with depth 0 at non-exceedance 0 and the last knot held to 1
+(`TailCompletion`), then
+
+    expected damage   = Impact.expectation(completed curve)
+    damage law        = Impact.pushforward(completed curve)
+    loss at T         = ratio at the depth evaluate(...).return_periods([T]) gives × value
+
+For a building the impact is its own: the Hazus curve shifted by its first-floor height, written on depth
+above ground with the dry threshold and BD-1 to BD-5 as knots (a jump is two knots 1e-9 m apart; the domain
+ends at 24 ft above the floor, so a deeper depth is CRC's `out_of_domain`).
+
+**Parameters:** tail completion **placeholder**.
+
+**Weakness.** The point route reproduces the event table by construction (it is the same depths); the grid
+route uses a 5 m cell's depth at one point (for most buildings the centroid falls in a roofed cell, which
+the grid does not read), eight probabilities with linear interpolation between them, and the tail
+completion, so it differs.
+
+**Code:** `src/flood_lab/risk/metrics.py` (`building_impact`, `complete`, `evaluated`).
 
 ## What is averaged over what: a summary
 
