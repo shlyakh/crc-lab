@@ -162,7 +162,7 @@ def role_tier(kind: str | None) -> str | None:
 
 
 def tier_for(kv: float | None, kind: str | None, basis: str = "role") -> str | None:
-    """Williams tier of a substation on ``basis`` "role" (C-5, main case) or "hazus_kv" (sensitivity)."""
+    """Williams tier of a substation on ``basis``: "role" (C-5, main case) or "hazus_kv"."""
     if basis == "role":
         return role_tier(kind)
     if basis == "hazus_kv":
